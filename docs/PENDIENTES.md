@@ -128,13 +128,21 @@ visual.* No bloquea anotar, pero es previo a comparar y cuantificar.
 **C3 · Separar y renombrar `loadMetricCatalog`.** Conserva el nombre y parte del contrato de la
 pantalla retirada. Debe devolver solo `MetricCatalogForEditor` y el estado de migración.
 
-**C4 · Lo que la obra declara que no hay solo lo responde el editor.** Arreglado ahí y solo ahí,
+**C4 · El disparador de posiciones toma la caja por clase de rima.**
+`sincronizar_posiciones_esquema_rima_fijo` deriva las posiciones letra a letra, y de `-a-A` saca las
+clases `a` y `A` como si fueran dos rimas distintas. Pero **la caja dice el arte del verso**, no con
+quién rima: la lira escribe `aBabB` y son dos rimas, no cuatro. En la endecha real hubo que
+corregir la clase a mano, y **cualquier rima futura entre un verso de arte menor y otro de arte
+mayor caerá en lo mismo**. *Se arregla comparando en minúsculas dentro del disparador, pero antes
+hay que comprobar si alguna forma poblada depende de la conducta actual.*
+
+**C5 · Lo que la obra declara que no hay solo lo responde el editor.** Arreglado ahí y solo ahí,
 porque hoy es la única vía por la que nace una secuencia. **Si vuelven a crearse obras por otra vía**
 —un seeder, una importación—, hay que añadir el disparador `before insert`.
 
-**C5 · La pestaña de secuencias se quedó sin borrador local**, y falta decidir si vuelve.
+**C6 · La pestaña de secuencias se quedó sin borrador local**, y falta decidir si vuelve.
 
-**C6 · El desglose del autor se queda en dos niveles**, y **filtrar por rasgo o por esquema pide otro
+**C7 · El desglose del autor se queda en dos niveles**, y **filtrar por rasgo o por esquema pide otro
 selector**: hoy es «formas + subtipos anidados» en un control único que no aguanta lo que viene.
 
 ---

@@ -10,7 +10,7 @@ contesta sin que quede nada que elegir **no se guarda aquí**.
 
 ## Lo urgente: dónde puede haber una forma mal modelada
 
-*Puesto el 28 de agosto de 2026.* De todo lo abierto, estas cinco son las que **no son un matiz sino
+_Puesto el 28 de agosto de 2026._ De todo lo abierto, estas son las que **no son un matiz sino
 la sospecha de que una forma no está donde debe**: o fija lo que no fija, o reúne bajo una arquitectura
 lo que quizá sean dos, o tiene un nivel que no se sostiene. Son las que conviene resolver antes de que
 se anote mucho con ellas, porque cambiarlas después obliga a revisar lo anotado.
@@ -21,7 +21,7 @@ se anote mucho con ellas, porque cambiarlas después obliga a revisar lo anotado
    varias. ⇒ [Lira, sexteto-lira y septeto-lira](#lira-sexteto-lira-y-septeto-lira)
 2. **La endecha real reúne tres regímenes en una sola arquitectura**: asonante, consonante y sin
    rima. ¿Es una forma con tres realizaciones o son formas distintas que comparten medida?
-   ⇒ [Endecha real](#endecha-real) 3
+   ⇒ [Endecha real](#endecha-real) 4
 3. **El sexteto-lira: si su repertorio no tiene cierre y sus dos ejes son libres, ¿qué queda del
    nivel?** Es la pregunta más antigua de la lista y la que más estructura mueve.
    ⇒ [Sexteto-lira](#sexteto-lira) 1
@@ -29,12 +29,8 @@ se anote mucho con ellas, porque cambiarlas después obliga a revisar lo anotado
    categoría aparte. ⇒ [Canción petrarquista](#canción-petrarquista) 1
 5. **Qué repertorios de esquema están cerrados y cuáles son recortes del corpus.** Afecta al sexteto,
    al soneto y a la copla de arte mayor a la vez. ⇒ [Las que cruzan formas](#las-que-cruzan-formas)
-6. **La estrofa sáfica no está en el catálogo y dos fuentes la subordinan al cuarteto-lira**, junto
-   con la estrofa de Francisco de la Torre. *Añadido el 18 de septiembre de 2026, al auditar las
-   fuentes: no es un matiz de una forma existente sino una que falta.*
-   ⇒ [Cuarteto-lira](#cuarteto-lira) 1
 
-*Y una que no toca el nivel pero deja un hueco al anotar:* **el remate y el eslabón de la canción no
+_Y una que no toca el nivel pero deja un hueco al anotar:_ **el remate y el eslabón de la canción no
 declaran ni medida ni rima**, así que de un remate leído solo queda registrado cuántos versos tiene.
 ⇒ [Canción petrarquista](#canción-petrarquista) 5
 
@@ -59,15 +55,15 @@ Cada apunte cierra en cursiva con **qué cambiaría si se decide otra cosa**.
 Son las que no se ven leyendo una sola sección. Conviene decidirlas juntas, porque responderlas
 forma a forma produce criterios distintos para el mismo caso.
 
-| Cruce | Dónde | Estado |
-| --- | --- | --- |
-| **Qué es una variedad**, si el repertorio del sexteto-lira no tiene cierre y sus dos ejes resultan libres | [Sexteto-lira](#sexteto-lira) 1 | **abierto**: decidir si el nivel se conserva |
-| **Qué repertorios de esquema están cerrados** y cuáles son recortes del corpus | [Sexteto](#sexteto) 3 · [Soneto](#soneto) 1 · [Copla de arte mayor](#copla-de-arte-mayor) 1 · [Octava real](#octava-real) 2 | **abierto, y menos urgente desde el 25 de agosto de 2026**: con la salida abierta, un repertorio incompleto ya no pierde el dato —el editor declara lo que ve y el catálogo lo reconoce si ya lo tenía—. *El de las medidas se cerró el 22 de agosto: la medida no compromete la norma y se declara cuando una fuente la documenta —[criterios de nivel § 3.6](./criterios-de-nivel.md)—* |
-| **Qué elecciones dependen de otras**, que el modelo hoy no sabe expresar | [Copla real](#copla-real) 4 · [Novena](#novena) 2 · [Sexteto-lira](#sexteto-lira) 1 | **abierto** · ⇒ **B3** |
-| Cómo se representa una **norma abierta** sin enumerar cada realización | [Silva](#silva) 1 · [Seguidilla](#seguidilla) 1 · [Novena](#novena) 1 | **abierto en lo filológico; el aparato se cerró el 25 de agosto de 2026** con las reglas 2 y 3 de [criterios de nivel § 3.3](./criterios-de-nivel.md): donde hay unidad, lista y salida abierta, y lo escrito se normaliza y se casa con el catálogo. *Lo que sigue sin decidir es qué acota cada norma, no cómo se registra.* |
-| **Modelar lo que las fuentes describen aunque el corpus no lo traiga**, o no | [Sexteto](#sexteto) 5 · [Sextilla](#sextilla) 7 · [Copla real](#copla-real) 2 · [Endecha real](#endecha-real) 2 | **abierto** · |
-| **Los finales esdrújulos y agudos**, ¿en todas las formas o solo donde se documenten? | abajo | **abierto** · ⇒ **B2** |
-| **Cuántos versos admite quebrados la redondilla y la copla de arte menor.** Las dos documentan el quiebro **sin nombrar el verso**: Navarro Tomás registra la redondilla quebrada con ejemplos —«la cruzada `abab` en serie de siete unidades… y la abrazada `abba` entre las coplas sueltas»— y no dice dónde cae; Caparrós, de la copla de arte menor, «admite versos quebrados de cuatro sílabas» y tampoco. **Es silencio, no una regla enunciada**, así que ninguna da máximo. *La copla castellana salió de aquí el 29 de agosto de 2026: § 65 sí nombra el suyo, el sexto* | [Redondilla](#redondilla) · [Quintilla](#quintilla) | **abierto** · ⇒ regla 5 bis del [§ 3.6](./criterios-de-nivel.md) |
+| Cruce                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Dónde                                                                                                                       | Estado                                                                                                                                                                                                                                                                                                                                                                                    |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Qué es una variedad**, si el repertorio del sexteto-lira no tiene cierre y sus dos ejes resultan libres                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [Sexteto-lira](#sexteto-lira) 1                                                                                             | **abierto**: decidir si el nivel se conserva                                                                                                                                                                                                                                                                                                                                              |
+| **Qué repertorios de esquema están cerrados** y cuáles son recortes del corpus                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [Sexteto](#sexteto) 3 · [Soneto](#soneto) 1 · [Copla de arte mayor](#copla-de-arte-mayor) 1 · [Octava real](#octava-real) 2 | **abierto, y menos urgente desde el 25 de agosto de 2026**: con la salida abierta, un repertorio incompleto ya no pierde el dato —el editor declara lo que ve y el catálogo lo reconoce si ya lo tenía—. _El de las medidas se cerró el 22 de agosto: la medida no compromete la norma y se declara cuando una fuente la documenta —[criterios de nivel § 3.6](./criterios-de-nivel.md)—_ |
+| **Qué elecciones dependen de otras**, que el modelo hoy no sabe expresar                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | [Copla real](#copla-real) 4 · [Novena](#novena) 2 · [Sexteto-lira](#sexteto-lira) 1                                         | **abierto** · ⇒ **B3**                                                                                                                                                                                                                                                                                                                                                                    |
+| Cómo se representa una **norma abierta** sin enumerar cada realización                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | [Silva](#silva) 1 · [Seguidilla](#seguidilla) 1 · [Novena](#novena) 1                                                       | **abierto en lo filológico; el aparato se cerró el 25 de agosto de 2026** con las reglas 2 y 3 de [criterios de nivel § 3.3](./criterios-de-nivel.md): donde hay unidad, lista y salida abierta, y lo escrito se normaliza y se casa con el catálogo. _Lo que sigue sin decidir es qué acota cada norma, no cómo se registra._                                                            |
+| **Modelar lo que las fuentes describen aunque el corpus no lo traiga**, o no                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [Sexteto](#sexteto) 5 · [Sextilla](#sextilla) 6 · [Copla real](#copla-real) 2 · [Endecha real](#endecha-real) 1             | **abierto** ·                                                                                                                                                                                                                                                                                                                                                                             |
+| **Los finales esdrújulos y agudos**, ¿en todas las formas o solo donde se documenten?                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | abajo                                                                                                                       | **abierto** · ⇒ **B2**                                                                                                                                                                                                                                                                                                                                                                    |
+| **Cuántos versos admite quebrados la redondilla y la copla de arte menor.** Las dos documentan el quiebro **sin nombrar el verso**: Navarro Tomás registra la redondilla quebrada con ejemplos —«la cruzada `abab` en serie de siete unidades… y la abrazada `abba` entre las coplas sueltas»— y no dice dónde cae; Caparrós, de la copla de arte menor, «admite versos quebrados de cuatro sílabas» y tampoco. **Es silencio, no una regla enunciada**, así que ninguna da máximo. _La copla castellana salió de aquí el 29 de agosto de 2026: § 65 sí nombra el suyo, el sexto_ | [Redondilla](#redondilla) · [Quintilla](#quintilla)                                                                         | **abierto** · ⇒ regla 5 bis del [§ 3.6](./criterios-de-nivel.md)                                                                                                                                                                                                                                                                                                                          |
 
 ### Los finales esdrújulos y agudos
 
@@ -79,14 +75,14 @@ Contrastado de nuevo el 25 de agosto de 2026, al cerrar B2. **Seis arquitecturas
 `esdrujulo` y las seis lo preguntan ya**; el desajuste que quedaba era el del endecasílabo suelto,
 que lo declaraba y no lo preguntaba, y se cerró ese día.
 
-| Declara `esdrujulo` el catálogo | Tiene subtipo en el vocabulario legado |
-| --- | --- |
-| canción petrarquista · sin rima con pareado final | ✔ `cancion_sin_rima_de_esdrujulos` |
-| octava real | ✔ `octava_real_de_esdrujulos` |
-| sexteto-lira | ✔ `sexteto_lira_de_esdrujulos` |
-| terceto | ✔ `terceto_de_esdrujulos` |
-| endecasílabo suelto | ✔ `endecasilabo_suelto_de_esdrujulos` |
-| **soneto** | **—** |
+| Declara `esdrujulo` el catálogo                   | Tiene subtipo en el vocabulario legado |
+| ------------------------------------------------- | -------------------------------------- |
+| canción petrarquista · sin rima con pareado final | ✔ `cancion_sin_rima_de_esdrujulos`     |
+| octava real                                       | ✔ `octava_real_de_esdrujulos`          |
+| sexteto-lira                                      | ✔ `sexteto_lira_de_esdrujulos`         |
+| terceto                                           | ✔ `terceto_de_esdrujulos`              |
+| endecasílabo suelto                               | ✔ `endecasilabo_suelto_de_esdrujulos`  |
+| **soneto**                                        | **—**                                  |
 
 **Lo que queda del desajuste es una sola fila**: el soneto lo declara sin término legado que lo
 respalde. Las otras cinco se corresponden una a una con el vocabulario, y ninguno de los seis
@@ -96,11 +92,11 @@ Y el valor `agudo` lo llevan la octava aguda —donde es definitorio y no se pre
 propio esquema dice dónde cae—, el septeto y el sexteto alejandrino, mientras Jauralde dice que «la
 modalidad aguda se extendió a otras muchas variedades estróficas, **como la sextilla y la décima**».
 
-*La pregunta es si esto se declara **en todas o casi todas las formas** —porque cualquier estrofa
+_La pregunta es si esto se declara **en todas o casi todas las formas** —porque cualquier estrofa
 puede rimar en esdrújulos o en agudos, y entonces lo que el rasgo aporta es poder anotarlo cuando
 ocurre— o **solo donde una fuente o el corpus lo documenten**, y entonces hay que cerrar el
 desajuste en los dos sentidos. Ninguna de las seis monografías respalda hoy el rasgo en la octava
-real: lo que lo sostiene es el vocabulario legado.*
+real: lo que lo sostiene es el vocabulario legado._
 
 ## Demarcador
 
@@ -109,9 +105,9 @@ real: lo que lo sostiene es el vocabulario legado.*
    la **septilla**, la **oncena** y las tres **enlazadas** conviven con estrofas de su misma
    extensión. El antiguo `grado_especificacion` pretendía que el demarcador ofreciera la forma más
    específica, pero se retiró porque el motor nunca lo usó: hoy todas las hipótesis se puntúan al
-   mismo nivel. *Hace falta una regla explícita de prioridad o una salida final separada. No es una
+   mismo nivel. _Hace falta una regla explícita de prioridad o una salida final separada. No es una
    relación `subtipo_de` ni `compuesta_por`: esas describen la ontología de las formas, no el orden
-   en que el motor propone una clasificación.*
+   en que el motor propone una clasificación._
 
 ---
 
@@ -121,27 +117,27 @@ real: lo que lo sostiene es el vocabulario legado.*
 
 **Qué tiene hoy:** cinco arquitecturas —cuatro consonantes y la arromanzada, que entró el 22 de
 agosto de 2026— situadas en dos ejes. `densidad_de_rima` dice
-cuántos versos riman —*ninguna · esporádica · mayoritaria · total*— y `organizacion_en_pareados` qué
-figura dibujan los que riman —*ninguna · ocasionales · habituales · predominantes · regulares*—.
+cuántos versos riman —_ninguna · esporádica · mayoritaria · total_— y `organizacion_en_pareados` qué
+figura dibujan los que riman —_ninguna · ocasionales · habituales · predominantes · regulares_—.
 
 1. **¿Dos de las cuatro silvas se diferencian solo por un valor de rasgo?**
 
-   | | esquema de rima | densidad | pareados |
-   | --- | --- | --- | --- |
+   |                           | esquema de rima          | densidad            | pareados          |
+   | ------------------------- | ------------------------ | ------------------- | ----------------- |
    | Consonante de orden libre | `consonante-orden-libre` | mayoritaria · total | **predominantes** |
-   | Libre | `consonante-orden-libre` | mayoritaria · total | **ninguna** |
+   | Libre                     | `consonante-orden-libre` | mayoritaria · total | **ninguna**       |
 
    Comparten esquema, medida y densidad admitida: **lo único que las separa es el valor de un
-   rasgo**. Y un rasgo es una respuesta *dentro* de una norma, no una norma: si dos arquitecturas no
+   rasgo**. Y un rasgo es una respuesta _dentro_ de una norma, no una norma: si dos arquitecturas no
    se distinguen más que por él, una de las dos es un nombre y no una realización estructural.
 
    **Y la densidad tampoco las separa**, comprobado el 29 de agosto de 2026: las dos declaran
    `mayoritaria` y `total` como admitidas, así que las dos toleran versos sueltos y ninguna exige que
-   rime todo. *De los tres ejes —esquema, medida y densidad— no las distingue ninguno; solo el valor
-   de pareados, que es lo que el editor no puede ver hasta haberlos contado.*
+   rime todo. _De los tres ejes —esquema, medida y densidad— no las distingue ninguno; solo el valor
+   de pareados, que es lo que el editor no puede ver hasta haberlos contado._
 
-   *A favor de dejarlas:* las cuatro salen de los cuatro tipos de Morley y Bruerton, y el corpus
-   todavía no ha hablado. *A favor de fundirlas:* el editor tiene que elegir entre dos arquitecturas
+   _A favor de dejarlas:_ las cuatro salen de los cuatro tipos de Morley y Bruerton, y el corpus
+   todavía no ha hablado. _A favor de fundirlas:_ el editor tiene que elegir entre dos arquitecturas
    cuya diferencia no puede observar antes de haber contado los pareados, que es lo que el rasgo
    pregunta después. **Es la clase de caso que este modelo está hecho para resolver con datos**:
    cuando haya silvas anotadas, se mira si alguna cae en `predominantes` sin ser también otra cosa.
@@ -151,97 +147,97 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    cabecera. **No es ninguna de las cuatro que ya hay**: no es la `Consonante regular`, que son
    pareados; y no cabe en las abiertas porque `consonante-orden-libre` **no tiene posiciones**, de
    modo que no puede declarar que la rima caiga en los pares, ni en `Libre`, porque con los impares
-   sueltos la densidad no llega a `mayoritaria`. *Estructuralmente es la figura del romance —`[-a]…`—
+   sueltos la densidad no llega a `mayoritaria`. _Estructuralmente es la figura del romance —`[-a]…`—
    pero consonante y heterométrica, y por eso la pregunta de si la acerca al romance heroico no es
-   retórica: requeriría un esquema cíclico con posiciones, que ninguna silva tiene hoy.* Comprobado
+   retórica: requeriría un esquema cíclico con posiciones, que ninguna silva tiene hoy._ Comprobado
    dos veces que **tampoco estaba en el vocabulario legado**: no se perdió al migrar, no se declaró
    nunca.
 
-3. **¿La silva exige rima?** **Tres de las seis dicen que no**: el *Diccionario* «admite como silva
+3. **¿La silva exige rima?** **Tres de las seis dicen que no**: el _Diccionario_ «admite como silva
    también la combinación de endecasílabos y heptasílabos sin rima»; Caparrós presenta el verso
    suelto «como una clase de silva en la que ninguno de los versos de la serie lleva rima»; y
    Jauralde dice que la silva moderna «es normalmente de versos blancos» —aunque fija como
    característica que «pueda llevar versos sin rima», que es otra cosa—. El catálogo no, y la definición lo dice: «un pasaje de siete y once enteramente suelto no es una
    silva». La razón es de corpus y la respalda Navarro Tomás § 158: desde 1588 Lope intercalaba
    pareados en pasajes de 7 y 11 sueltos, así que en la comedia lo que separa la silva del pasaje
-   suelto es que rime. *Por decisión del IP la lectura del* Diccionario *se conserva en las
-   afirmaciones y no se codifica; conviene confirmar que el corte vale también en la heterométrica.*
+   suelto es que rime. _Por decisión del IP la lectura del_ Diccionario _se conserva en las
+   afirmaciones y no se codifica; conviene confirmar que el corte vale también en la heterométrica._
 
 4. **Tres arquitecturas declaran una sección cuyo único contenido es el periodo.** La regla es que
    las secciones describen el **interior** de una unidad, así que una parte se justifica cuando el
    periodo existe por algo más que la rima:
 
-   | Arquitectura | Sección | ¿El periodo es también métrico? |
-   | --- | --- | --- |
+   | Arquitectura               | Sección                                  | ¿El periodo es también métrico?                 |
+   | -------------------------- | ---------------------------------------- | ----------------------------------------------- |
    | Silva · Consonante regular | «Serie de pareados regulares» · 2 versos | **Sí**: `7-11-repetido` alterna las dos medidas |
-   | Terceto encadenado ×2 | «Cadena de tercetos» · 3 versos | No: `11-repetido` y `8-repetido` |
-   | Romance | *(ninguna, y es lo correcto)* | No: `8-repetido` |
+   | Terceto encadenado ×2      | «Cadena de tercetos» · 3 versos          | No: `11-repetido` y `8-repetido`                |
+   | Romance                    | _(ninguna, y es lo correcto)_            | No: `8-repetido`                                |
 
-   *La de la silva se sostiene sola. La del terceto encadenado se parece más al romance, pero su
-   ciclo `[ABA]…` con dos enlaces es bastante particular como para mirarlo aparte.*
+   _La de la silva se sostiene sola. La del terceto encadenado se parece más al romance, pero su
+   ciclo `[ABA]…` con dos enlaces es bastante particular como para mirarlo aparte._
 
 ## Endecasílabo suelto
 
-2. **La restricción a once sílabas es nuestra, y tres fuentes no la hacen.** El catálogo declara la
+1. **La restricción a once sílabas es nuestra, y tres fuentes no la hacen.** El catálogo declara la
    forma endecasilábica por definición; los libros describen otra cosa:
 
    | Caparrós 2014 | «la forma más frecuente es la serie de endecasílabos **solos o con algún heptasílabo**», y documenta el heptasílabo sin rima de Francisco de la Torre |
-   | *Diccionario* | «sus formas más frecuentes son las series de endecasílabos, **heptasílabos y pentasílabos, solos o combinados entre sí**» |
+   | _Diccionario_ | «sus formas más frecuentes son las series de endecasílabos, **heptasílabos y pentasílabos, solos o combinados entre sí**» |
    | Jauralde | la percepción de la serie descansa en «la igualdad **o proporcionalidad** silábica» |
 
-   *Los tres apuntes de esta forma —este, el de las* Nise *y el de si es una clase de silva— son la
-   misma pregunta vista por tres lados: si el endecasílabo suelto debe seguir siendo solo de once.*
+   _Los tres apuntes de esta forma —este, el de las_ Nise _y el de si es una clase de silva— son la
+   misma pregunta vista por tres lados: si el endecasílabo suelto debe seguir siendo solo de once._
 
-3. **La esquina de las *Nise*: heptasílabos mezclados y sin rima.** No es silva porque **nuestra**
+2. **La esquina de las _Nise_: heptasílabos mezclados y sin rima.** No es silva porque **nuestra**
    silva exige rima, y no es endecasílabo suelto porque **nuestro** endecasílabo suelto es solo de
    once. **En las fuentes no hay tal esquina**: para Caparrós la serie de endecasílabos «con algún
    heptasílabo» y sin rima es verso suelto sin más. Navarro Tomás lo documenta
-   **en el teatro**: Jerónimo Bermúdez compuso *Nise lastimosa* y *Nise laureada*, de 1577, en
-   endecasílabos sueltos, «donde además mezcló endecasílabos y heptasílabos sueltos». *Se anota por
+   **en el teatro**: Jerónimo Bermúdez compuso _Nise lastimosa_ y _Nise laureada_, de 1577, en
+   endecasílabos sueltos, «donde además mezcló endecasílabos y heptasílabos sueltos». _Se anota por
    si alguna de las dos entra en el corpus: entonces habrá que decidir si el endecasílabo suelto
-   gana una arquitectura heterométrica o si la frontera con la silva se redibuja.*
+   gana una arquitectura heterométrica o si la frontera con la silva se redibuja._
 
-4. **¿Es «una clase de silva», como dice Caparrós 2014?** El catálogo las tiene como formas
+3. **¿Es «una clase de silva», como dice Caparrós 2014?** El catálogo las tiene como formas
    distintas unidas por `contrasta_con`. **No es una fuente contra cinco, son tres las que borran esa
    frontera**: Caparrós presenta el verso suelto «como una clase de silva en la que ninguno de los
-   versos de la serie lleva rima»; el *Diccionario* «admite como silva también la combinación de
+   versos de la serie lleva rima»; el _Diccionario_ «admite como silva también la combinación de
    endecasílabos y heptasílabos **sin rima**»; y Jauralde dice que la silva moderna «es normalmente
-   de versos blancos». *No se han fusionado, y la razón es de corpus —ver la silva 3—; lo que cambia
-   es el tamaño de la divergencia.*
+   de versos blancos». _No se han fusionado, y la razón es de corpus —ver la silva 3—; lo que cambia
+   es el tamaño de la divergencia._
 
 ## Canción petrarquista
 
 1. **¿La canción sin rima debe seguir siendo arquitectura o tiene identidad de forma?** No es una
    aportación sin fuente: **Morley y Bruerton la registran como categoría propia** —«Canción sin
-   rima»— y la describen igual que el catálogo. *Que la fuente la liste aparte, junto a la canción,
-   es argumento para cualquiera de las dos respuestas; lo que ya no cabe es decidirlo sin ella.*
+   rima»— y la describen igual que el catálogo. _Que la fuente la liste aparte, junto a la canción,
+   es argumento para cualquiera de las dos respuestas; lo que ya no cabe es decidirlo sin ella._
 
 2. **El catálogo hace opcional el remate y cuatro fuentes lo meten en la definición.** Hoy la
    sección `remate` tiene `repeticiones_min = 0` en las dos arquitecturas consonantes y no existe en
    la canción sin rima. Pero las fuentes no lo presentan como frecuente sino como el cierre de la
    composición:
 
-   | *Diccionario* | «poema de un número indeterminado de estancias, tres como mínimo, **acabado en** un fragmento de estancia… llamado remate, envío o *commiato*» |
-   | Caparrós 2014 | «se compone de un número indeterminado de estancias, tres como mínimo… **y acaba en** un fragmento de estancia llamado remate, envío o *commiato*» |
-   | Jauralde | «un mínimo de tres estancias iguales **terminadas en** otra mucho más breve, el envío o *commiato*» |
-   | Quilis | «**sitúa al final** una estrofa más breve, la *tornata* o envío» |
+   | _Diccionario_ | «poema de un número indeterminado de estancias, tres como mínimo, **acabado en** un fragmento de estancia… llamado remate, envío o _commiato_» |
+   | Caparrós 2014 | «se compone de un número indeterminado de estancias, tres como mínimo… **y acaba en** un fragmento de estancia llamado remate, envío o _commiato_» |
+   | Jauralde | «un mínimo de tres estancias iguales **terminadas en** otra mucho más breve, el envío o _commiato_» |
+   | Quilis | «**sitúa al final** una estrofa más breve, la _tornata_ o envío» |
 
-   La quinta, Morley y Bruerton, no lo menciona. **Ninguna lo presenta como prescindible.** *Hasta el
+   La quinta, Morley y Bruerton, no lo menciona. **Ninguna lo presenta como prescindible.** _Hasta el
    16 de septiembre de 2026 este apunte decía que «ninguna lo declara imprescindible», que es leer al
    revés cuatro definiciones. Si se exige, las canciones sin remate pasan a incumplir la norma; antes
-   hay que decidir si la canción sin rima participa de ese cierre.*
+   hay que decidir si la canción sin rima participa de ese cierre._
 
 3. **El catálogo siguió a la única fuente que baja el suelo hasta cinco.** La estancia declara
    **5–20 versos**, que es el intervalo de Morley y Bruerton —«estrofas de cinco a veinte versos»—.
    Las otras tres lo ponen donde empieza la lira, y Jauralde dice además por qué:
 
    | Caparrós 2014 | «no menos de **nueve** ni más de veinte» |
-   | *Diccionario* | «no menos de **nueve** ni más de veinte, normalmente», y describe aparte la canción alirada como la de unidad **entre cuatro y ocho** |
+   | _Diccionario_ | «no menos de **nueve** ni más de veinte, normalmente», y describe aparte la canción alirada como la de unidad **entre cuatro y ocho** |
    | Jauralde | «normalmente **por encima de los ocho** versos, **para diferenciarla de las liras**» |
 
-   *Así que no es que las formas se rocen: una estancia de cinco a ocho versos es territorio de la
+   _Así que no es que las formas se rocen: una estancia de cinco a ocho versos es territorio de la
    lira, del sexteto-lira y del septeto-lira, y tres de las cuatro fuentes trazan ahí la frontera
-   mientras el catálogo sigue a la cuarta. Va con el punto 6.*
+   mientras el catálogo sigue a la cuarta. Va con el punto 6._
 
 4. **¿Las estancias de la canción sin rima repiten también la distribución posicional de 7 y 11?**
    El catálogo lo exige con `define_norma`. M&B la describen como «versos de siete y once sílabas,
@@ -250,17 +246,17 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 
 5. **Dos fuentes fijan la rima del eslabón y el catálogo no declara ninguna.** Caparrós: «un
    eslabón o llave **que rima con el último verso de la fronte** pero pertenece sintácticamente a la
-   sirima». Quilis: «un verso de unión llamado *volta* **que rima con el último verso del segundo
-   *piede***». Y del remate, el *Diccionario* y Caparrós dicen que es «**un fragmento de estancia**»
-   —de donde tomaría medidas y rimas—, y el *Diccionario* añade que «normalmente tiene el primer
-   verso suelto». *Hasta el 16 de septiembre de 2026 este apunte preguntaba qué documentan las
-   fuentes; documentan esto, y lo que queda por decidir es si se declara.* El catálogo no
+   sirima». Quilis: «un verso de unión llamado _volta_ **que rima con el último verso del segundo
+   _piede_**». Y del remate, el _Diccionario_ y Caparrós dicen que es «**un fragmento de estancia**»
+   —de donde tomaría medidas y rimas—, y el _Diccionario_ añade que «normalmente tiene el primer
+   verso suelto». _Hasta el 16 de septiembre de 2026 este apunte preguntaba qué documentan las
+   fuentes; documentan esto, y lo que queda por decidir es si se declara._ El catálogo no
    les atribuye ninguna de las dos. Contado sobre las **once secciones opcionales** que hay en cuatro
    formas, las del terceto encadenado declaran medida y rima y las del villancico y el zéjel declaran
    la medida; **las tres de la canción —dos remates y el eslabón— no declaran ninguna**, y el remate
-   de la regular admite de uno a trece versos. *Si las fuentes fijan algo, se declara y deja de estar
+   de la regular admite de uno a trece versos. _Si las fuentes fijan algo, se declara y deja de estar
    abierto; si no lo fijan, queda abierto de veras y habrá que registrarlo al anotar, como todo lo
-   que la norma no fija.*
+   que la norma no fija._
 
 6. **¿Dónde está la frontera entre estrofa alirada y canción?** Salió al auditar las fuentes el 17
    de septiembre de 2026, y es la misma frontera del punto 3 vista de cerca.
@@ -274,43 +270,43 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    **Qué dice cada fuente.** Ninguna de las seis usa el eslabón como criterio, y las dos que lo
    describen dicen expresamente que no lo es.
 
-   | fuente | qué establece |
-   | --- | --- |
-   | Morley y Bruerton 1968 | Ningún criterio. Su «Canción (Canzone)» son «versos de siete y once sílabas, agrupados en estrofas **de 5 a 20 versos**, con un tipo de rima fijo, idéntico en cada estrofa». Su ejemplo en endecasílabos, `ABCABCDD` de *Barlaán y Josafat*, tiene **ocho versos, pareado final y ningún eslabón**, y lo llaman canción |
-   | Quilis 1969, § 6.3.6 | Ningún criterio, y lo dice: «**No había ninguna norma relativa a la naturaleza de la rima, ni a su disposición**». **La extensión**: «en PETRARCA, **entre nueve y veinte**; en BOSCÁN, en la primera canción quince; en GARCILASO, trece» |
-   | Navarro Tomás 1972, § 161 | No enuncia ninguno. Su epígrafe «Estrofas aliradas» llega hasta las de **nueve versos**. Lo único que distingue es su notación: escribe la estancia con dos puntos —`abCabC: cdeeDfF`, la canción quinta de Herrera, § 157— y las aliradas sin ellos, la de nueve incluida |
-   | Domínguez Caparrós 2014, p. 214 | **La extensión**: la estancia tiene «no menos de nueve ni más de veinte, normalmente». Del eslabón dice que «**aunque no es obligatorio**, es frecuente» que la estancia se ajuste a fronte + eslabón + sirima |
-   | *Diccionario* 2016, s. v. «estancia» y «canción alirada» | Lo mismo, palabra por palabra. Y define la **canción alirada** como «**canción a la italiana** cuyas estrofas, cortas y simétricas, **prescinden de la ordenación rigurosa de la estancia**»: para él la alirada no se opone a la canción, **es una canción** |
-   | Jauralde Pou 2020 | **La extensión**: la estancia son versos de 7 y 11 «dispuestos de modo aleatorio, normalmente **por encima de los ocho versos** (para diferenciarla de las liras)» |
+   | fuente                                                   | qué establece                                                                                                                                                                                                                                                                                                            |
+   | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+   | Morley y Bruerton 1968                                   | Ningún criterio. Su «Canción (Canzone)» son «versos de siete y once sílabas, agrupados en estrofas **de 5 a 20 versos**, con un tipo de rima fijo, idéntico en cada estrofa». Su ejemplo en endecasílabos, `ABCABCDD` de _Barlaán y Josafat_, tiene **ocho versos, pareado final y ningún eslabón**, y lo llaman canción |
+   | Quilis 1969, § 6.3.6                                     | Ningún criterio, y lo dice: «**No había ninguna norma relativa a la naturaleza de la rima, ni a su disposición**». **La extensión**: «en PETRARCA, **entre nueve y veinte**; en BOSCÁN, en la primera canción quince; en GARCILASO, trece»                                                                               |
+   | Navarro Tomás 1972, § 161                                | No enuncia ninguno. Su epígrafe «Estrofas aliradas» llega hasta las de **nueve versos**. Lo único que distingue es su notación: escribe la estancia con dos puntos —`abCabC: cdeeDfF`, la canción quinta de Herrera, § 157— y las aliradas sin ellos, la de nueve incluida                                               |
+   | Domínguez Caparrós 2014, p. 214                          | **La extensión**: la estancia tiene «no menos de nueve ni más de veinte, normalmente». Del eslabón dice que «**aunque no es obligatorio**, es frecuente» que la estancia se ajuste a fronte + eslabón + sirima                                                                                                           |
+   | _Diccionario_ 2016, s. v. «estancia» y «canción alirada» | Lo mismo, palabra por palabra. Y define la **canción alirada** como «**canción a la italiana** cuyas estrofas, cortas y simétricas, **prescinden de la ordenación rigurosa de la estancia**»: para él la alirada no se opone a la canción, **es una canción**                                                            |
+   | Jauralde Pou 2020                                        | **La extensión**: la estancia son versos de 7 y 11 «dispuestos de modo aleatorio, normalmente **por encima de los ocho versos** (para diferenciarla de las liras)»                                                                                                                                                       |
 
-   *Hasta el 16 de septiembre de 2026 esta tabla daba a Quilis «normalmente entre seis y doce». Ese
+   _Hasta el 16 de septiembre de 2026 esta tabla daba a Quilis «normalmente entre seis y doce». Ese
    rango es el de la canción **provenzal**, la antecesora, en la misma frase donde da el de Petrarca:
    «en la provenzal, el mínimo eran seis; el máximo, ilimitado, aunque normalmente oscilaban entre
    seis y doce; en PETRARCA, entre nueve y veinte». Su afirmación verificada ya lo recogía bien; lo
    que no se había corregido era esta tabla. **Y cambia la cuenta**, porque Quilis pasa de parecer el
-   que más baja a ser uno más de los que ponen el suelo en nueve.*
+   que más baja a ser uno más de los que ponen el suelo en nueve._
 
    **Las cuatro que dan una extensión coinciden en el umbral: nueve versos.** Caparrós y
-   el *Diccionario*, «no menos de nueve»; Quilis, «en PETRARCA, entre nueve y veinte»; Jauralde, «por
+   el _Diccionario_, «no menos de nueve»; Quilis, «en PETRARCA, entre nueve y veinte»; Jauralde, «por
    encima de los ocho». **La única que baja de ahí es Morley y Bruerton**, con su «de 5 a 20», que es
    justo el intervalo que el catálogo declara.
 
    **El caso que lo destapó cae justo en ese umbral.** El § 161 de Navarro, dentro de su epígrafe de
    aliradas, describe dos estrofas de **nueve** versos como «una nueva reelaboración de este modelo»,
    siendo el modelo las de ocho que el catálogo ya recoge como octava-lira: `abCabCcdD`, de Figueroa
-   en su imitación de *Oh, navis*, y `AbCAbCcdD`, en la poesía 120 de Góngora. Por extensión son
+   en su imitación de _Oh, navis_, y `AbCAbCcdD`, en la poesía 120 de Góngora. Por extensión son
    estancias —nueve versos— y por clasificación de Navarro son aliradas. **Los dos criterios chocan
    exactamente ahí.**
 
-   *Y el choque no afecta solo a un caso: si el criterio pasa a ser la extensión, la **novena-lira**
+   _Y el choque no afecta solo a un caso: si el criterio pasa a ser la extensión, la **novena-lira**
    (9) y la **décima-lira** (10) quedan dentro de lo que tres fuentes llaman estancia, mientras que
-   la octava-lira (8) y las menores siguen a salvo por debajo del umbral.*
+   la octava-lira (8) y las menores siguen a salvo por debajo del umbral._
 
-   *Las preguntas, entonces: si el criterio del catálogo debe seguir siendo el eslabón, que ninguna
+   _Las preguntas, entonces: si el criterio del catálogo debe seguir siendo el eslabón, que ninguna
    fuente sostiene y dos niegan expresamente; si debe ser la extensión, que tres sitúan en nueve
    **aunque las tres con un «normalmente»**; o si debe ser mixto. Y en cualquier caso, la frase «la tradición y este catálogo la
    llaman alirada» no puede quedarse: el criterio es del proyecto y conviene que la definición lo
-   diga como tal.*
+   diga como tal._
 
    **Lo que dicen las seis, recomprobado el 21 de septiembre.** La primera versión de esta tabla
    sostenía que **ninguna fuente calla por olvido: cada una deja de enumerar aliradas en el punto en
@@ -319,14 +315,14 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    la sostiene— obligó a volver a los seis libros. **Tres de las seis filas estaban mal**, y el
    hallazgo sale bastante más débil de lo que se escribió.
 
-   | fuente | su serie alirada llega a | su canción o estancia | ¿encajan? |
-   | --- | --- | --- | --- |
-   | Morley y Bruerton 1968 | 6, y anota la de 5 | «estrofas de 5 a 20 versos» | **se solapan enteras**, y lo declaran: «todas las liras no son más que formas especializadas de la *canzone*» |
-   | Quilis 1969 | 6 — lira de 5 y sexteto-lira | mínimo 6 en la provenzal y **máximo «ilimitado»**; «en PETRARCA, entre nueve y veinte» | **se solapan, y sin techo** |
-   | Domínguez Caparrós 2014 | 7 — cuarteto, sexteto y septeto lira | «no menos de nueve ni más de veinte, **normalmente**» | dejan **hueco en el 8**, y la frontera es «normalmente» |
-   | *Diccionario* 2016 | 8 — «entre los cuatro y ocho versos» | «no menos de nueve ni más de veinte, **normalmente**» | encajan en el 8/9, **pero con «normalmente»** |
-   | Jauralde Pou 2020 | 8 — cuarteto, quinteto, sexteto, septeto y octeto-lira… | «**normalmente** por encima de los ocho versos (para diferenciarla de las liras)» | lo declara **y él mismo lo rompe**: ver abajo |
-   | Navarro Tomás 1972 | 9 — § 161 | — | — |
+   | fuente                  | su serie alirada llega a                                | su canción o estancia                                                                  | ¿encajan?                                                                                                     |
+   | ----------------------- | ------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+   | Morley y Bruerton 1968  | 6, y anota la de 5                                      | «estrofas de 5 a 20 versos»                                                            | **se solapan enteras**, y lo declaran: «todas las liras no son más que formas especializadas de la _canzone_» |
+   | Quilis 1969             | 6 — lira de 5 y sexteto-lira                            | mínimo 6 en la provenzal y **máximo «ilimitado»**; «en PETRARCA, entre nueve y veinte» | **se solapan, y sin techo**                                                                                   |
+   | Domínguez Caparrós 2014 | 7 — cuarteto, sexteto y septeto lira                    | «no menos de nueve ni más de veinte, **normalmente**»                                  | dejan **hueco en el 8**, y la frontera es «normalmente»                                                       |
+   | _Diccionario_ 2016      | 8 — «entre los cuatro y ocho versos»                    | «no menos de nueve ni más de veinte, **normalmente**»                                  | encajan en el 8/9, **pero con «normalmente»**                                                                 |
+   | Jauralde Pou 2020       | 8 — cuarteto, quinteto, sexteto, septeto y octeto-lira… | «**normalmente** por encima de los ocho versos (para diferenciarla de las liras)»      | lo declara **y él mismo lo rompe**: ver abajo                                                                 |
+   | Navarro Tomás 1972      | 9 — § 161                                               | —                                                                                      | —                                                                                                             |
 
    **Lo que se caía.** De Quilis se citaba que su canción tiene estrofas «normalmente entre seis y
    doce» versos. La cita es literal, pero ese rango es **el de la canción provenzal**, y la misma
@@ -341,61 +337,61 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    propia definición reserva a la estancia. De las dos fuentes que se presentaban como el apoyo
    fuerte del 8/9, una lo rompe y la otra lo condiciona con un «normalmente».
 
-   *De modo que **ninguna de las seis sostiene una frontera nítida**. Dos solapan las dos series del
+   _De modo que **ninguna de las seis sostiene una frontera nítida**. Dos solapan las dos series del
    todo; una deja hueco en el 8; una la pone en el 8/9 pero «normalmente»; una la declara y la
    contradice; y la sexta, Navarro, mete una alirada en el nueve. El argumento de que la tradición
-   reparte las dos series y solo nosotros dudamos **no se sostiene**.*
+   reparte las dos series y solo nosotros dudamos **no se sostiene**._
 
-   *Eso no debilita la pregunta: la refuerza. Si ninguna de las seis traza el corte, el proyecto
+   _Eso no debilita la pregunta: la refuerza. Si ninguna de las seis traza el corte, el proyecto
    necesita un criterio propio porque no hay ninguno que heredar, y lo que hay que decidir es cuál
-   —el eslabón, la extensión o una mezcla— sabiendo que se elige, no que se recoge.*
+   —el eslabón, la extensión o una mezcla— sabiendo que se elige, no que se recoge._
 
 7. **¿«Petrarquista» nombra la forma o solo la estancia de trece versos?** Ninguna fuente lo reserva
    para una extensión: las tres que usan el término lo aplican a la forma entera y lo glosan como
    sinónimo. Caparrós 2014: «La canción **petrarquista o italiana** está compuesta de estancias». El
-   *Diccionario* lo trae como **entrada de remisión** —«canción petrarquista. canción a la italiana»—,
+   _Diccionario_ lo trae como **entrada de remisión** —«canción petrarquista. canción a la italiana»—,
    siendo «canción a la italiana» la entrada real. Jauralde: «La canción petrarquista **o italiana o,
    sencillamente, canción**», y antes «con el término simple "canción" nos solemos referir a la
    canción petrarquista».
 
-   *De modo que bajar el apellido a la arquitectura de trece versos sería invención nuestra. Lo que
+   _De modo que bajar el apellido a la arquitectura de trece versos sería invención nuestra. Lo que
    sí tiene respaldo es al revés: «Canción» a secas es el epígrafe de Morley y Bruerton, el de Quilis
    y el de Navarro, y Jauralde lo autoriza. Si se renombra la forma «Canción», «canción
    petrarquista», «canción italiana» y «canción a la italiana» quedan como denominaciones suyas, y la
-   definición ya advierte de que el nombre corto no designa aquí la canción medieval del siglo XV.*
+   definición ya advierte de que el nombre corto no designa aquí la canción medieval del siglo XV._
 
 8. **«Regular de 13 versos» es nombre de Morley y Bruerton, y conviene que se sepa.** Ellos lo
    declaran: «El tipo más corriente en Lope, **llamado "regular" por nosotros**, tiene 13 versos como
-   sigue: `abCabC:cdeeDfF`». *La arquitectura lleva bien ese nombre; lo que no dice es de quién es.*
+   sigue: `abCabC:cdeeDfF`». _La arquitectura lleva bien ese nombre; lo que no dice es de quién es._
 
 ## Villancico
 
 1. **¿Se segmenta la mudanza de cuatro versos en dos miembros simétricos?** El catálogo conserva una
    sola sección de cuatro y lo explica en su nota. **No es que divirjamos de las fuentes: es que las
-   mismas fuentes dicen las dos cosas.** El *Diccionario* y Caparrós hablan de «dos mudanzas
+   mismas fuentes dicen las dos cosas.** El _Diccionario_ y Caparrós hablan de «dos mudanzas
    simétricas» y, en la misma entrada, de «la estabilidad de la **redondilla o cuarteta** central»;
    Navarro Tomás da «la mudanza **en redondilla**» y Quilis «identifica **la redondilla** como
-   mudanza característica». *Así que la pregunta no es a quién hacemos caso, sino cuál de las dos es
+   mudanza característica». _Así que la pregunta no es a quién hacemos caso, sino cuál de las dos es
    la unidad y cuál la descripción de su interior. Segmentarla daría dos secciones hermanas donde hoy
-   hay una, y afectaría a la ficha y al registrador.*
+   hay una, y afectaría a la ficha y al registrador._
 
 2. **¿Entran las mudanzas de seis versos?** Están formalizadas `abba`, `abab` y la asonantada
-   `-a-a`; Navarro Tomás documenta además mudanzas excepcionales de seis. *Hoy solo caben como
-   desviación.*
+   `-a-a`; Navarro Tomás documenta además mudanzas excepcionales de seis. _Hoy solo caben como
+   desviación._
 
 3. **¿Hasta dónde llega el estribillo?** Caparrós fija la cabeza en **dos a cuatro** y el
-   *Diccionario* igual; Navarro Tomás recoge estribillos «**de muy diversa extensión entre dos y
-   dieciséis versos**». *Hasta el 16 de septiembre de 2026 este apunte decía «de dos a siete»: la
+   _Diccionario_ igual; Navarro Tomás recoge estribillos «**de muy diversa extensión entre dos y
+   dieciséis versos**». _Hasta el 16 de septiembre de 2026 este apunte decía «de dos a siete»: la
    auditoría de fuentes corrigió la afirmación y nadie había vuelto aquí. La distancia que salva la
-   decisión del IP es cuatro veces mayor de lo que parecía.* *El IP decidió el 10 de agosto
+   decisión del IP es cuatro veces mayor de lo que parecía._ _El IP decidió el 10 de agosto
    quedarse en 2-4, de modo que uno de cinco a siete entra como desviación. Queda anotado porque es
    la misma disyuntiva que la vuelta —donde se optó por lo contrario, dejarla abierta— y conviene
-   revisarlas juntas si algún día se unifica el criterio.*
+   revisarlas juntas si algún día se unifica el criterio._
 
 4. **¿Se restringe la arquitectura de estribillo posterior?** Representa una familia funcional
    abierta, pero la fuente que la sustenta describe algo concreto: una cuarteta octosilábica seguida
-   de un estribillo en cuarteta hexasílaba. *Restringirla la haría verificable; dejarla abierta
-   permite registrar realizaciones que la fuente no describe.*
+   de un estribillo en cuarteta hexasílaba. _Restringirla la haría verificable; dejarla abierta
+   permite registrar realizaciones que la fuente no describe._
 
 5. **¿Debe el editor registrar por separado la rima del estribillo y la del enlace y la vuelta?**
    Hoy pregunta por la rima de la mudanza, pero no conserva las rimas concretas de las otras partes;
@@ -403,9 +399,9 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 
 6. **¿Son una sola arquitectura las dos del villancico?** Lo único que las separa es **dónde aparece
    el estribillo por primera vez**. Podría resolverse con una pregunta dentro de una sola
-   arquitectura. *No se hizo porque el demarcador distingue por arquitectura y perdería capacidad de
+   arquitectura. _No se hizo porque el demarcador distingue por arquitectura y perdería capacidad de
    identificar, y porque las fuentes presentan la cabeza inicial como el modelo y la otra como una
-   modalidad.*
+   modalidad._
 
 ## Zéjel
 
@@ -416,8 +412,8 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    parciales o totales**». El contraste, entonces, es más fuerte, no menos.
 
 2. **¿Se admite la mudanza de dos versos?** Hoy es de tres, y es lo definitorio de la forma. Navarro
-   Tomás «documenta además la variante con la mudanza reducida a dos versos, `aa:bba`». *Relajar la
-   mudanza toca el núcleo de la definición.*
+   Tomás «documenta además la variante con la mudanza reducida a dos versos, `aa:bba`». _Relajar la
+   mudanza toca el núcleo de la definición._
 
    **Cuidado con una inferencia nuestra:** hasta el 16 de septiembre de 2026 este apunte añadía
    «también en el Siglo de Oro». La afirmación verificada documenta la variante en una frase y, en
@@ -426,15 +422,14 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    hay que abrirlo antes de volver a escribirlo así.
 
 3. **¿Y el zéjel en arte mayor?** Hoy el esquema métrico ofrece 6 u 8 sílabas. Navarro Tomás
-   registra dos zéjeles en arte mayor en el *Cancionero de Baena*, y variantes que modifican
-   estribillo y vuelta —`aba:cccba`, `abba:cccaca`—. *Son medievales y cultas, no del corpus
-   dramático; se dejan fuera a la espera de que aparezcan.*
+   registra dos zéjeles en arte mayor en el _Cancionero de Baena_, y variantes que modifican
+   estribillo y vuelta —`aba:cccba`, `abba:cccaca`—. _Son medievales y cultas, no del corpus
+   dramático; se dejan fuera a la espera de que aparezcan._
 
 4. **¿El estribillo del zéjel vuelve siempre, como el del villancico?** El 29 de agosto de 2026
    se decidió que en el villancico **no puede faltar** —cuando la fuente antigua no lo copia es por
    ahorro de espacio, y las ediciones modernas lo restituyen—, y su sección pasó a obligatoria en las
-   dos arquitecturas. *La pregunta es si el criterio alcanza al zéjel, y hay razones para dudarlo:*
-
+   dos arquitecturas. _La pregunta es si el criterio alcanza al zéjel, y hay razones para dudarlo:_
    - **Ninguna de sus seis afirmaciones incluye la repetición en el esquema.** Las cuatro que lo
      describen dan `aa:bbba` y coinciden en cómo vuelve: Navarro Tomás, «un cuarto verso de vuelta
      que rima con el estribillo»; Quilis, «un verso de vuelta que rima con el estribillo». **Lo que
@@ -448,8 +443,8 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
      dejaría de haber pregunta. Y «solo en parte» apenas significa nada en un estribillo de uno o
      dos versos.
 
-   *El criterio del IP es sobre la ejecución y la transmisión, y en el villancico coincide con lo que
-   el esquema declara; en el zéjel iría contra lo que las fuentes escriben.* Hoy el zéjel es
+   _El criterio del IP es sobre la ejecución y la transmisión, y en el villancico coincide con lo que
+   el esquema declara; en el zéjel iría contra lo que las fuentes escriben._ Hoy el zéjel es
    coherente consigo mismo: sección `0-1` y una respuesta que permite decir que no.
 
 ---
@@ -460,20 +455,20 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 
 1. **Una tirada de pareados alirados, ¿es una silva?** **Dos fuentes lo dicen casi con esas
    palabras**: Morley y Bruerton describen la silva de consonantes `aAbBcCdD` y añaden que «se podría
-   llamar **pareados de 7 y 11**», y el *Diccionario* dice del pareado que «es la forma sobre la que
+   llamar **pareados de 7 y 11**», y el _Diccionario_ dice del pareado que «es la forma sobre la que
    se construyen otras: **la silva de consonantes**, el perqué, la aleluya…». El pareado alirado combina heptasílabo y
    endecasílabo y rima en consonante. Repetido, es exactamente lo que describe la silva consonante.
-   *Si son la misma cosa, el alirado no debería poder abarcar más de dos versos y hay que decirlo en
+   _Si son la misma cosa, el alirado no debería poder abarcar más de dos versos y hay que decirlo en
    el catálogo; si no lo son, hay que saber qué los distingue, porque el editor hoy deja registrar
-   una tirada de veinte versos como diez pareados alirados.* La pregunta general —**qué formas no
+   una tirada de veinte versos como diez pareados alirados._ La pregunta general —**qué formas no
    admiten repetirse dentro de una secuencia**— el modelo no la sabe expresar: la regla de longitud
    dice cuántos versos mide cada unidad y nada limita cuántas caben. ⇒ [incidencia F42 del formulario](./historico/editor-v2-recorrido-2026-08-a-09.md)
 
 ## Redondilla
 
 1. **¿Puede alternar `abba` y `abab` dentro de una misma tirada?** Hoy sí: el esquema se elige por
-   unidad. *Si no pudiera, serían dos arquitecturas más por medida y la redondilla se registraría
-   sin ninguna pregunta.* Se mantiene así porque es **la opción reversible**: corregirlo después es
+   unidad. _Si no pudiera, serían dos arquitecturas más por medida y la redondilla se registraría
+   sin ninguna pregunta._ Se mantiene así porque es **la opción reversible**: corregirlo después es
    reclasificar filas, mientras que haberlo tratado como arquitectura habría partido secuencias que
    no debían partirse.
 
@@ -481,38 +476,23 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 
 1. **Faltan quintillas con verso suelto, y aquí las fuentes se enfrentan.** Jauralde las registra
    —`abcab`, `abbca`, `abaca`, `abcaa` «y otras»— y las describe como **transgresión de las viejas
-   normas**; el *Diccionario* las **prohíbe expresamente** al fijar sus cuatro condiciones: cinco
+   normas**; el _Diccionario_ las **prohíbe expresamente** al fijar sus cuatro condiciones: cinco
    octosílabos o menores, dos clases de rima consonante, no más de dos versos seguidos con la misma
    y «ni pareado final **ni verso suelto**». El catálogo declara `versos_sueltos: ninguno`, que es la
-   lectura del *Diccionario*. *No es solo alcance del corpus, entonces: es que una fuente las
+   lectura del _Diccionario_. _No es solo alcance del corpus, entonces: es que una fuente las
    documenta como infracción y otra las excluye de la definición. Si el corpus las trae, recogerlas
-   contradice al* Diccionario *y no contradice a Jauralde, que ya las llama transgresión.*
+   contradice al_ Diccionario _y no contradice a Jauralde, que ya las llama transgresión._
 
-2. ~~**`min_alternancias: 2` no es la regla de las fuentes.**~~ **Resuelto el 25 de agosto de 2026**
-   (`20260825380000`). Las tres medidas declaran ya `max_consecutivos: 2`, que es la regla que
-   enuncian las fuentes —«no más de dos versos seguidos con la misma rima»—. El sucedáneo se mantuvo
-   dos meses por dos motivos que ese día desaparecieron los dos: el auditor no evaluaba ese tipo, y
-   declararlo habría hecho que protestara por `abbba`, que ahora salta por excepcional.
-
-   *Y no filtraba nada:* medidas las ocho disposiciones, las ocho pasaban `min_alternancias: 2`,
-   `abbba` incluida. Con la regla buena, la única que se separa es `abbba`, que es justo lo que la
-   tradición trata como aparición suelta.
-
-   **Cambia lo que la forma afirma, y conviene saberlo:** antes el criterio admitía las ocho
-   disposiciones y ahora admite siete. `abbba` sigue en el catálogo como excepcional, que es donde
-   le toca. La descripción del patrón se reescribió en consecuencia. *Con esto ninguna arquitectura
-   declara ya `min_alternancias`: era la única que lo usaba.*
-
-4. **Dónde cae el quiebro: lo documentado ya se declara; queda lo inferido.** El 29 de agosto de
+2. **Dónde cae el quiebro: lo documentado ya se declara; queda lo inferido.** El 29 de agosto de
    2026 se declararon las posiciones de las cuatro arquitecturas cuya nota nombra un verso **y tiene
    detrás una realización leída**: la quintilla en el primero —Navarro Tomás § 154, «la quintilla con
    verso inicial quebrado fue la estrofa más usada por Castillejo»—, la septilla en el quinto, la
    novena en orden 4+5 en el quinto —«el único caso que las fuentes documentan»— y la oncena en orden
-   5+6 en el octavo y el undécimo, por el *Claro escuro* de Juan de Mena.
+   5+6 en el octavo y el undécimo, por el _Claro escuro_ de Juan de Mena.
 
    **La oncena en orden 6-5 entró después, el mismo día**, en el tercer verso y el sexto. El reparo
    que la había dejado fuera —que la afirmación de fuente para ese orden recoge `ababba:babba` y
-   `abaaab:cdccd` *sin quebrados*— no valía: **un esquema de rima no declara medidas**, así que de
+   `abaaab:cdccd` _sin quebrados_— no valía: **un esquema de rima no declara medidas**, así que de
    una notación de rima no se concluye que los versos fueran plenos. Y la misma fuente afirma que
    «la estrofa de once con quebrados fue más corriente que la de octosílabos plenos». Lo que sitúa
    los quiebros es la estructura: **son los que cierran cada terceto de la sextilla**, y con este
@@ -521,30 +501,30 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    **Y la novena en orden 5+4 dejó de admitir quiebro**, el mismo día. Su nota decía que ninguna
    fuente documenta un ejemplo, y la posición salía de trasladar a este orden lo que sí se lee en el
    otro. Se le retiraron la declaración del rasgo, la pregunta y los dos roles de quiebro: la
-   arquitectura afirma ahora nueve octosílabos, que es lo documentado. *El orden 4+5 conserva el
-   suyo, porque allí hay una realización leída.* Si aparece un ejemplo, se repone: el razonamiento y
+   arquitectura afirma ahora nueve octosílabos, que es lo documentado. _El orden 4+5 conserva el
+   suyo, porque allí hay una realización leída._ Si aparece un ejemplo, se repone: el razonamiento y
    los dos textos que se retiraron están en el comentario de la migración.
 
    **Y la copla castellana se cerró también**, en el sexto verso. Su nota reunía dos pasajes que
    hablan de cosas distintas: **§ 65**, que trata esta forma, dice que «Santillana la usa… con el
-   sexto verso quebrado, en el *Diálogo de Bías contra Fortuna* y en los *Gozos de Nuestra Señora*»;
+   sexto verso quebrado, en el _Diálogo de Bías contra Fortuna_ y en los _Gozos de Nuestra Señora_»;
    **§ 5.4.7.4** explica de dónde sale un nombre —«cuando los octosílabos alternan con versos de
    cuatro sílabas se originan las coplas de pie quebrado»— y cita la misma obra. La alternancia no es
    una segunda realización de la castellana: es lo que afirma el rasgo desde que la copla de pie
    quebrado dejó de ser una forma, «porque no es una estrofa: es una propiedad de cualquier estrofa
    octosilábica».
 
-   *Y tres siguen preguntando en todos los versos con razón*, y conviene decir bien por qué: **no
-   porque su fuente lo autorice, sino porque calla**. El *Diccionario* dice de la copla real que sus
+   _Y tres siguen preguntando en todos los versos con razón_, y conviene decir bien por qué: **no
+   porque su fuente lo autorice, sino porque calla**. El _Diccionario_ dice de la copla real que sus
    quintillas «admiten algún verso quebrado tetrasílabo», sin posición; Navarro Tomás documenta la
    redondilla quebrada con dos ejemplos y no dice en qué verso cae; y Caparrós, de la copla de arte
-   menor, «admite versos quebrados de cuatro sílabas» **sin nombrar ninguno**. *Hasta el 16 de
+   menor, «admite versos quebrados de cuatro sílabas» **sin nombrar ninguno**. _Hasta el 16 de
    septiembre de 2026 las dos primeras llevaban comillas —«la tradición no fija en qué verso», «sin
    fijar en qué versos cae»— que no están en ningún libro: eran nuestras, puestas en boca de la
-   fuente. Es el mismo defecto que la auditoría retiró de las fichas.*
+   fuente. Es el mismo defecto que la auditoría retiró de las fichas._
    ⇒ [incidencia F44 del formulario](./historico/editor-v2-recorrido-2026-08-a-09.md)
 
-5. **Tipología 8 es numeración nuestra, y las fuentes no cuentan lo mismo.** Son **tres cuentas
+3. **Tipología 8 es numeración nuestra, y las fuentes no cuentan lo mismo.** Son **tres cuentas
    distintas**, no una:
 
    | Caparrós 2014 | **cinco.** Las deriva de las dos prohibiciones —ni tres seguidos con la misma rima ni pareado final— y concluye que las posibles son `ababa`, `abaab`, `abbab`, `aabab` y `aabba` |
@@ -554,83 +534,83 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 
    Así que `abbba` no lo **numera** nadie —M&B lo atribuyen a errata o a adaptación expresiva— pero
    **Jauralde sí lo cuenta entre las disposiciones**, que es más que una aparición suelta. Y la
-   cuenta de cinco de Caparrós coincide con la de Rengifo que dan M&B. *Decisión del IP el 19 de
+   cuenta de cinco de Caparrós coincide con la de Rengifo que dan M&B. _Decisión del IP el 19 de
    agosto: se conserva el número 8, a la espera de ver si el corpus lo confirma. Si no aparece más,
-   conviene renombrarlo para no atribuir a Navarro Tomás un octavo tipo que no dio.*
+   conviene renombrarlo para no atribuir a Navarro Tomás un octavo tipo que no dio._
 
 ## Sextilla
 
 1. **¿Es una arquitectura más la sextilla quebrada en segundo y quinto, o una desviación?** **Son
-   tres las fuentes que la traen**: el *Diccionario* ilustra su entrada con una estrofa de Lucas
+   tres las fuentes que la traen**: el _Diccionario_ ilustra su entrada con una estrofa de Lucas
    Fernández quebrada en **segundo y quinto**, Jauralde documenta las sextillas de Ricardo Gil en
    esas mismas posiciones, y Caparrós «documenta también una variante con los quebrados en segundo
    y quinto lugar». Desde el
    18 de agosto lo dice la descripción de la arquitectura, y el esquema declara además que el
-   quebrado puede medir cuatro **o cinco** sílabas. *Falta decidir qué hacer cuando el corpus traiga
-   una quebrada en otras posiciones.*
+   quebrado puede medir cuatro **o cinco** sílabas. _Falta decidir qué hacer cuando el corpus traiga
+   una quebrada en otras posiciones._
 
-3. **La copla manriqueña es de doce versos en el catálogo y ninguna de las seis fuentes la llama
+2. **La copla manriqueña es de doce versos en el catálogo y ninguna de las seis fuentes la llama
    así.** El catálogo la tiene como forma propia con una sola arquitectura, `doble_pie_quebrado`, de
    **doce versos**, mientras la quebrada de seis vive en la sextilla. Los libros no la parten así:
 
-   | fuente | qué cuenta |
-   | --- | --- |
-   | Caparrós 2014 | «la variante más conocida de **la sextilla**… estrofa de **seis versos**», que difiere de la común en que el tercero y el sexto son tetrasílabos |
-   | *Diccionario* | «**Cuenta también los seis**: la manriqueña es para él la estrofa de pie quebrado». Solo su entrada aparte, «copla mixta», contempla la agrupación de doce, dividida «en dos semiestrofas de distinta extensión **o en dos sextillas**» |
-   | Quilis 1969 | «la estrofa manriqueña como **sextilla de pie quebrado**, **sin epígrafe para la pareja de doce versos**» |
-   | Navarro Tomás | § 67: «la estrofa de doce versos fue concebida ordinariamente como **una pareja de sextillas**» |
-   | Jauralde | **la trata dentro de las estrofas de ocho versos**, y dice que «su forma más habitual es la de **doble sextilla con seis rimas**» |
-   | Morley y Bruerton | «No la separan»: la agrupación de doce cae dentro de sus coplas de pie quebrado «**sin nombre propio**» |
+   | fuente            | qué cuenta                                                                                                                                                                                                                              |
+   | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | Caparrós 2014     | «la variante más conocida de **la sextilla**… estrofa de **seis versos**», que difiere de la común en que el tercero y el sexto son tetrasílabos                                                                                        |
+   | _Diccionario_     | «**Cuenta también los seis**: la manriqueña es para él la estrofa de pie quebrado». Solo su entrada aparte, «copla mixta», contempla la agrupación de doce, dividida «en dos semiestrofas de distinta extensión **o en dos sextillas**» |
+   | Quilis 1969       | «la estrofa manriqueña como **sextilla de pie quebrado**, **sin epígrafe para la pareja de doce versos**»                                                                                                                               |
+   | Navarro Tomás     | § 67: «la estrofa de doce versos fue concebida ordinariamente como **una pareja de sextillas**»                                                                                                                                         |
+   | Jauralde          | **la trata dentro de las estrofas de ocho versos**, y dice que «su forma más habitual es la de **doble sextilla con seis rimas**»                                                                                                       |
+   | Morley y Bruerton | «No la separan»: la agrupación de doce cae dentro de sus coplas de pie quebrado «**sin nombre propio**»                                                                                                                                 |
 
    **Tres cuentan seis, dos describen el grupo de doce como pareja o doble de sextillas, y una no lo
-   separa. Ninguna da nombre propio a una estrofa de doce.** *Este contraste no se podía ver antes de
+   separa. Ninguna da nombre propio a una estrofa de doce.** _Este contraste no se podía ver antes de
    la auditoría: la afirmación de Jauralde decía «cuenta los doce» y se corrigió el 21 de septiembre
    de 2026 al comprobar que su epígrafe está clasificado entre las estrofas de ocho. Sin esa
-   corrección parecían dos fuentes a favor de los doce.*
+   corrección parecían dos fuentes a favor de los doce._
 
-   *Lo que hay que decidir es si la forma de doce se sostiene y con qué apoyo. Si se sostiene, es
+   _Lo que hay que decidir es si la forma de doce se sostiene y con qué apoyo. Si se sostiene, es
    decisión del proyecto y conviene que la definición lo diga, como se hizo con la frontera alirada.
    Si no, la manriqueña vuelve a ser una arquitectura de la sextilla y la pareja de doce se deriva
-   del rango, que es lo que el modelo hace con todas las demás.*
+   del rango, que es lo que el modelo hace con todas las demás._
 
-3bis. **Y un nivel más abajo, nada distingue dos sextillas consecutivas de una copla manriqueña.**
-   Los versos, las medidas y el tipo de rima son idénticos; lo único que cambia es si las rimas de la
-   segunda mitad dependen de la primera. Hoy **lo decide el editor al elegir forma**, no un criterio
-   observable. *Es la misma pregunta que la copla castellana frente a dos redondillas, y las dos
-   definiciones ya la admiten en voz alta.*
+2bis. **Y un nivel más abajo, nada distingue dos sextillas consecutivas de una copla manriqueña.**
+Los versos, las medidas y el tipo de rima son idénticos; lo único que cambia es si las rimas de la
+segunda mitad dependen de la primera. Hoy **lo decide el editor al elegir forma**, no un criterio
+observable. _Es la misma pregunta que la copla castellana frente a dos redondillas, y las dos
+definiciones ya la admiten en voz alta._
 
-4. **¿Debe registrarse el esquema exacto de las coplas manriqueñas no manriqueñas?** La forma de
+3. **¿Debe registrarse el esquema exacto de las coplas manriqueñas no manriqueñas?** La forma de
    doce tiene dos esquemas: el manriqueño `abcabc|defdef`, que se marca si es el observado, y uno de
-   distribución variable para todo lo demás, que **no guarda cuál fue**. *Si interesa compararlas
-   entre sí, esa información hoy se pierde.*
+   distribución variable para todo lo demás, que **no guarda cuál fue**. _Si interesa compararlas
+   entre sí, esa información hoy se pierde._
 
-5. **¿Se admiten las tres disposiciones que Navarro Tomás documenta para la hexasílaba?** Le
+4. **¿Se admiten las tres disposiciones que Navarro Tomás documenta para la hexasílaba?** Le
    documenta **rimas alternas** en Juan Ruiz (§ 30); la **aguda `aaé:bbé`** en Eugenio Gerardo Lobo
    (§ 245); y el **lay**, «breve canción amorosa de origen francoprovenzal en sextillas hexasílabas
    con insistentes rimas agudas», con `ááá:ááé` de don Álvaro de Luna.
 
    **Y del lay las dos fuentes que lo definen no dan el mismo esquema**: el de Navarro Tomás es
-   `ááá:ááé`, y el *Diccionario* lo describe con «dos rimas consonantes agudas, una en los versos
-   primero, segundo, cuarto y quinto y otra en el tercero y el sexto, **es decir `aabaab`**». *Si
-   alguna vez entra, hay que elegir cuál.* **No se registraron por
-   criterio cronológico**: Juan Ruiz es del XIV, Álvaro de Luna del XV y Lobo del XVIII. *Ojo a las
+   `ááá:ááé`, y el _Diccionario_ lo describe con «dos rimas consonantes agudas, una en los versos
+   primero, segundo, cuarto y quinto y otra en el tercero y el sexto, **es decir `aabaab`**». _Si
+   alguna vez entra, hay que elegir cuál._ **No se registraron por
+   criterio cronológico**: Juan Ruiz es del XIV, Álvaro de Luna del XV y Lobo del XVIII. _Ojo a las
    agudas: la rima aguda no es una clase de rima sino una cualidad del final, y el catálogo la lleva
    en `final_acentual`, así que declararlas obligaría a decidir cómo se escribe `aaé:bbé` sin
-   confundir las dos cosas.*
+   confundir las dos cosas._
 
-6. **¿Puede una sextilla dejar un verso suelto?** **Tres de las seis documentan que sí**, y en el
-   mismo poema: las sextillas del *Martín Fierro* dejan sin rima el primer verso. *Decisión del IP
-   el 18 de agosto: fuera por criterio cronológico —el* Martín Fierro *es de 1872—.* Es una decisión
+5. **¿Puede una sextilla dejar un verso suelto?** **Tres de las seis documentan que sí**, y en el
+   mismo poema: las sextillas del _Martín Fierro_ dejan sin rima el primer verso. _Decisión del IP
+   el 18 de agosto: fuera por criterio cronológico —el_ Martín Fierro _es de 1872—._ Es una decisión
    de **alcance del corpus**, no una norma. La distinción costó una rectificación: el primer intento
    lo escribió como `versos_sueltos: ninguno`, que es afirmar lo contrario de lo que dicen tres
    fuentes, y se retiró el mismo día.
 
    **Lo que dejó escrito, y vale para todo el catálogo:** para la sextilla **ninguna de las seis
    enuncia una regla** —Quilis cierra su lista con un «etc.»—, y **la enumeración de una fuente no
-   es una norma**: derivar de ella un mínimo convierte una muestra en ley. *`numero_clases`,
-   `min_alternancias` y `max_consecutivos` solo se declaran cuando una fuente enuncia la regla.*
+   es una norma**: derivar de ella un mínimo convierte una muestra en ley. _`numero_clases`,
+   `min_alternancias` y `max_consecutivos` solo se declaran cuando una fuente enuncia la regla._
 
-7. **Las cuatro disposiciones históricas de la copla manriqueña no se han creado.** Navarro Tomás
+6. **Las cuatro disposiciones históricas de la copla manriqueña no se han creado.** Navarro Tomás
    § 68 enumera con ejemplo y localizador la serie entera: `aab:aab-aab:aab`, `aab:aab-bba:bba`,
    `aab:aab-ccd:ccd` y `abc:abc-def:def`, «que alcanzó fama permanente con las coplas de Jorge
    Manrique». Hoy el catálogo declara solo la última. **No se han creado a propósito**: son
@@ -645,21 +625,21 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 1. **La variante con los quiebros en el segundo verso y el quinto.** La arquitectura declara los
    suyos en el **tercero y el sexto**, que es la disposición manriqueña, y el rasgo es ahí
    **definitorio**. Pero Navarro Tomás cita «las sextillas de Ricardo Gil, donde el tetrasílabo
-   quiebra el segundo verso y el quinto», y el *Diccionario* recoge también «una variante con los
-   quebrados en segundo y quinto lugar». *¿Es otra arquitectura de la misma forma, como los dos
-   órdenes de la oncena y la novena, o una desviación de esta?* Hoy solo se puede registrar como
+   quiebra el segundo verso y el quinto», y el _Diccionario_ recoge también «una variante con los
+   quebrados en segundo y quinto lugar». _¿Es otra arquitectura de la misma forma, como los dos
+   órdenes de la oncena y la novena, o una desviación de esta?_ Hoy solo se puede registrar como
    desviación, porque las posiciones son definitorias.
 
-   *Sus tres disposiciones de rima sí se completaron el 29 de agosto de 2026*: ofrecía solo `abcabc`
-   y el *Diccionario* nombra `aabaab`, `aabccb` y `abcabc`.
+   _Sus tres disposiciones de rima sí se completaron el 29 de agosto de 2026_: ofrecía solo `abcabc`
+   y el _Diccionario_ nombra `aabaab`, `aabccb` y `abcabc`.
 
 ## Sextina
 
 1. **Son las dos únicas formas del catálogo con tres tradiciones** —provenzal, italiana y española—.
    Es cierto en la historia: la inventó Arnaut Daniel, la fijaron Dante y Petrarca y entró en España
    en el XVI. Pero **ninguna otra forma declara más de una**, incluido el soneto, que llegó por el
-   mismo camino. *La duda es si «tradición» quiere decir aquí el origen remoto o la vía por la que
-   entra en la métrica española.*
+   mismo camino. _La duda es si «tradición» quiere decir aquí el origen remoto o la vía por la que
+   entra en la métrica española._
 
 **Añadido el 18 de septiembre de 2026, al cerrar la fase 4 de la auditoría de fuentes.**
 
@@ -667,164 +647,69 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 que cinco definen la sextina **como composición** y no dan entidad propia a la estrofa de seis que la
 forma:
 
-| fuente | qué hace |
-| --- | --- |
-| Quilis 1969, § 5.4.5.1 | **La aísla**: «llama sextina a la estrofa de seis endecasílabos que forma parte, junto con otras cinco y un terceto, de la composición» |
-| Morley y Bruerton 1968 | define «Sestina» como «una forma de *canzone* que consiste en seis estrofas de seis endecasílabos cada una» |
-| Navarro Tomás 1972 | «composición formada por seis estrofas de seis endecasílabos sueltos cada una» |
-| Domínguez Caparrós 2014 | «un poema de treinta y nueve endecasílabos, dividido en seis estrofas de seis versos y un remate de tres» |
-| *Diccionario* 2016 | igual, y **usa el nombre además para otra cosa**: su segundo sentido remite a «sexteto» |
-| Jauralde Pou 2020 | usa «sextina real» para el sexteto `ABABCC`, que es otra estrofa |
+| fuente                  | qué hace                                                                                                                                |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Quilis 1969, § 5.4.5.1  | **La aísla**: «llama sextina a la estrofa de seis endecasílabos que forma parte, junto con otras cinco y un terceto, de la composición» |
+| Morley y Bruerton 1968  | define «Sestina» como «una forma de _canzone_ que consiste en seis estrofas de seis endecasílabos cada una»                             |
+| Navarro Tomás 1972      | «composición formada por seis estrofas de seis endecasílabos sueltos cada una»                                                          |
+| Domínguez Caparrós 2014 | «un poema de treinta y nueve endecasílabos, dividido en seis estrofas de seis versos y un remate de tres»                               |
+| _Diccionario_ 2016      | igual, y **usa el nombre además para otra cosa**: su segundo sentido remite a «sexteto»                                                 |
+| Jauralde Pou 2020       | usa «sextina real» para el sexteto `ABABCC`, que es otra estrofa                                                                        |
 
 **La forma no se discute, y la razón es estructural antes que filológica**: la sextina se declara
 `compuesta_por` esta estrofa, de modo que sin ella la composición no estaría formada por nada. Es
 argumento de David, del día en que se cerraron los silencios.
 
-*Lo que queda para el IP es con qué apoyo se publica. Es el mismo caso que la derivación de la
+_Lo que queda para el IP es con qué apoyo se publica. Es el mismo caso que la derivación de la
 septilla desde la séptima endecasílaba, sostenida también por un solo testimonio, y allí la nota de
 la relación lo dice con su nombre: «es el único de los seis manuales que ordena la pareja». La
 pregunta es si la definición de la estrofa debe decir lo mismo —que solo Quilis la aísla— o si basta
-con que la sección de fuentes lo enseñe al ponerlas juntas.*
+con que la sección de fuentes lo enseñe al ponerlas juntas._
 
 ## Terceto
 
-*Sin cuestiones abiertas. El tercetillo entró el 22 de agosto de 2026 con sus dos medidas, su
-disposición monorrima y la asonancia que el* Diccionario *le admite; la septilla, que lo esperaba,
-ya lo referencia.*
+_Sin cuestiones abiertas. El tercetillo entró el 22 de agosto de 2026 con sus dos medidas, su
+disposición monorrima y la asonancia que el_ Diccionario _le admite; la septilla, que lo esperaba,
+ya lo referencia._
 
 ## Cuarteto-lira
 
-Las dos salieron al escribir sus afirmaciones de Jauralde y de Caparrós 2014, el 18 de septiembre de
-2026.
+Las dos salieron al escribir sus afirmaciones de Jauralde y de Caparrós 2014, el 18 de septiembre de 2026.
 
-1. **La estrofa sáfica no existe en el catálogo, y dos fuentes la ponen debajo de esta forma.**
-   Comprobado contra la base: no hay forma, arquitectura, denominación ni variedad que la mencione.
-
-   **Domínguez Caparrós 2014, pp. 190-191**, la subordina expresamente:
-
-   > Dos tipos de cuarteto lira son **la estrofa sáfica y la estrofa de Francisco de la Torre**. La
-   > estrofa sáfica es la combinación de tres endecasílabos —generalmente del tipo sáfico— y un
-   > pentasílabo con acento en la primera sílaba. No lleva rima, aunque a veces se puede encontrar
-   > con ella, o con rima interna del segundo verso con una palabra del tercero.
-
-   Y añade que **la estrofa de Francisco de la Torre** «es una variante de la sáfica, de la que se
-   diferencia solo por tener el cuarto verso heptasílabo», con ejemplo de su «Oda 4». Da como
-   prototipo de la sáfica los «Sáficos» de Esteban Manuel de Villegas, en la segunda parte de *Las
-   eróticas o amatorias*.
-
-   **Jauralde Pou 2020, apartado «Cuartetos mixtos»**, la sitúa en el mismo sitio y le da esquema.
-   Define el género —«las diversas organizaciones estróficas formadas por endecasílabos y uno o dos
-   versos quebrados, que suelen ser heptasílabos o pentasílabos»— como derivado de las clásicas: «la
-   llamada estrofa de la Torre, **la estrofa sáfica**, la alcaica». Y del cuarteto-lira dice que se
-   remonta «e incluso a la estrofa sáfica (`11A 11B 11B 5a`) o a un intento de imitación de la
-   estrofa alcaica (`11A 11B 7b 7a`)».
-
-   *Las preguntas: si la sáfica debe ser forma propia, arquitectura del cuarteto-lira o variedad
-   suya; y si la de Francisco de la Torre la acompaña, siendo su variante de cuarto verso
-   heptasílabo. El dato de las dos fuentes es concorde en lo esencial —tres endecasílabos y un
-   verso corto final, sin rima— y discorde en la medida de ese verso: pentasílabo en Caparrós,
-   pentasílabo también en el esquema de Jauralde, y heptasílabo en la variante de la Torre.*
-
-   *Nota sobre el alcance: la sáfica ya había asomado al corregir el localizador de la seguidilla
-   —el apartado anterior al suyo, en la p. 191 de Caparrós, es la variante de la Torre—, así que no
-   es un hallazgo de una sola lectura.*
-
-2. **Jauralde relaciona el cuarteto-lira con la endecha real, y el catálogo no declara esa
-   relación.** En el mismo apartado:
-
-   > Cuando sobre la misma estructura de cuatro versos impares lo que domina es el heptasílabo sobre
-   > el endecasílabo **se prefiere hablar de cuartetos de endecha**. […] Podríamos seguir denominando
-   > quintetos de endecha a los que ofrecen la estructura 7 7 7 7 11, y así sucesivamente.
-
-   *Es decir: para Jauralde, cuarteto-lira y cuarteto de endecha son la misma estructura y lo que las
-   separa es qué medida domina. El catálogo tiene la **endecha real** como serie y el **cuarteto-lira**
-   como estrofa, sin relación declarada entre ellas. La pregunta es si procede una —`relacionada_con`
-   o `contrasta_con`— y si el criterio de Jauralde, la proporción de medidas, debe registrarse en
-   alguna parte: hoy las dos declaran «proporción variable» y nada distingue una realización de siete
-   dominante de otra de once dominante.*
-
-   *Y de paso, la escala que él sugiere —cuartetos, quintetos «y así sucesivamente» de endecha—
-   toca la misma serie que el punto 1bis de [Lira, sexteto-lira y septeto-lira](#lira-sexteto-lira-y-septeto-lira).*
-
-   **La relación quedó declarada el 18 de septiembre de 2026** (migración `20260918160000`), sin
-   fundir las dos formas. Lo que sigue abierto es el punto siguiente.
-
-3. **Nada en la base distingue hoy una realización del cuarteto-lira con siete dominante de otra con
+1. **Nada en la base distingue hoy una realización del cuarteto-lira con siete dominante de otra con
    once dominante**, y sin eso el criterio de Jauralde no se puede aplicar al anotar aunque se
    acepte. Su arquitectura, «Heterométrico consonante», declara proporción variable **sin
    posiciones**: dice que mezcla siete y once, y no cuántos de cada uno ni en qué orden. Un editor
    que lea `7 7 7 11` y otro que lea `11 11 11 7` registran hoy lo mismo.
 
-   *Es el mismo hueco que la novena-lira, la décima-lira y la canción de estancias variables tienen
+   _Es el mismo hueco que la novena-lira, la décima-lira y la canción de estancias variables tienen
    con sus disposiciones, y que el catálogo tiene apuntado como pendiente de B1: falta dónde
    registrar la disposición observada cuando la norma no la fija. Si se resuelve ahí, este caso se
    resuelve con él; si no, el criterio de Jauralde queda como lectura que el catálogo no puede
-   guardar.*
+   guardar._
 
 ## Lira, sexteto-lira y septeto-lira
 
-1. ~~**Las formas aliradas se deciden aparte y en conjunto.**~~ **Resuelto en parte el 24 de agosto
-   de 2026.** Entraron el **cuarteto-lira** y la **octava-lira**, que son las que documenta el
-   *Diccionario* —la serie que acota «entre los cuatro y ocho versos»—, más la octava variedad del
-   sexteto-lira y el pareado alirado. La **novena-lira** y la **décima-lira** entraron con la
-   disposición abierta, para que sea el editor quien declare la que vea.
-
-   **Corrección del 17 de septiembre de 2026, al auditar las fuentes:** se dijo aquí que «no las
-   registra ninguna fuente», y era falso. Navarro Tomás describe dos estrofas de nueve versos dentro
-   de su § 161, «Estrofas aliradas»; el *Diccionario* dedica entrada propia a la «décima-estancia»,
-   p. 110; y Navarro documenta además una de diez en nota a su § 285. Las tres están recogidas ya en
-   las fichas de fuentes de las dos formas. *Lo que sí sigue en pie es que sus esquemas no se han
-   declarado como esquemas de rima: eso depende del punto siguiente.*
-
-1bis. **Cuando la cabeza se repite pero no hay eslabón, ¿es canción o es alirada?** Es la única
-   pregunta que queda de la serie, y se la hizo el IP antes que nadie. Lo que separa una estancia de
-   canción de una estrofa alirada es **la ordenación**: fronte partida en dos piedi idénticos,
-   eslabón —el verso que abre la sirima repitiendo la rima que cerró la fronte— y sirima con rimas
-   nuevas. Pero **el eslabón no sirve de prueba**, porque el propio IP escribe que la sirima «suele»
-   empezar con chiave: es habitual, no constitutivo. Y **la prueba de los dos piedi sola no basta**:
-   aplicada al patrón `aBaBcDcDeE` que la edición de *Elisa Dido* llama «décima-estancia», da
-   `aB` + `aB` de fronte y `cDcDeE` de sirima, es decir, **la declara canción** — que es lo que el
-   IP consideraba forzado.
-
-   | Cabeza repetida | Eslabón | Veredicto |
-   |---|---|---|
-   | sí | sí | canción, sin discusión |
-   | no | no | alirada, sin discusión |
-   | sí | no | **zona gris** |
-
-   No hay un tercer rasgo formal que rompa el empate; lo que queda son criterios de grado —el
-   *Diccionario* llama a las aliradas «cortas y simétricas» y las acota en cuatro a ocho versos—.
-   *La propuesta técnica es que la base registre los tres rasgos —esquema observado, si la cabeza se
-   repite, si hay eslabón— y que la asignación quede como lectura declarada y revisable. Pero dónde
-   cae la zona gris lo decide el IP.* De ello dependen también las **canciones de 8, 9 y 15 versos**,
-   que hoy no se distinguen de una octava-lira o una décima-lira porque su arquitectura no tiene
-   modelada ninguna ordenación.
-
-   **Lo que dice cada una de las seis fuentes sobre esta frontera está recogido en
-   [«Canción petrarquista» 6](#canción-petrarquista)**, con sus citas. En una línea: ninguna usa el
-   eslabón como criterio, dos niegan expresamente que sea obligatorio, y las tres que dan criterio
-   dan la extensión y la sitúan en nueve versos.
-
-1ter. **¿El septeto-lira debe quedar abierto como sus hermanas nuevas?** El IP decidió el 26 de
+1. **¿El septeto-lira debe quedar abierto como sus hermanas nuevas?** El IP decidió el 26 de
    agosto de 2026 dejar **abiertas de metro y de rima** las formas aliradas nuevas —cuarteto,
    septeto, octava, novena y décima-lira—, porque todavía no se sabe qué hay en el corpus y la base
    es donde se va a documentar. Pero contado contra la base, **el septeto no está así**: tiene el
    metro fijo en `7 11 7 11 7 7 11` y un único esquema de rima, `ababbcc`, marcado `habitual` —es
    decir, «suele ser este», luego hay otros— y **no pregunta nada**, de modo que quien encuentre uno
-   distinto no puede registrarlo. *Sus cuatro hermanas sí están abiertas.* ⇒ *cerrado el 27 de agosto de 2026*
+   distinto no puede registrarlo. _Sus cuatro hermanas sí están abiertas._ ⇒ _cerrado el 27 de agosto de 2026_
 
 2. **El sexteto simétrico `abC:abC` de san Juan de la Cruz no está.** Lo documenta Navarro Tomás en
-   la *Llama de amor viva*: seis versos de siete y once, pero **sin pareado final**, de modo que
-   ninguna de las siete variedades lo acoge y no cabe en la definición actual. *¿Es otra forma, una
-   variedad que obliga a ensanchar la definición, o queda fuera del corpus?* Va con el punto 1.
+   la _Llama de amor viva_: seis versos de siete y once, pero **sin pareado final**, de modo que
+   ninguna de las siete variedades lo acoge y no cabe en la definición actual. _¿Es otra forma, una
+   variedad que obliga a ensanchar la definición, o queda fuera del corpus?_ Va con el punto 1.
 
-**¿El septeto-lira es de medida fija o abierta?** *Salió el 27 de agosto de 2026.* Las otras cuatro
+**¿El septeto-lira es de medida fija o abierta?** _Salió el 27 de agosto de 2026._ Las otras cuatro
 aliradas —cuarteto, octava, novena y décima— declaran repertorio `7/11` **sin posiciones**, y desde
 ese día registran verso a verso lo que se lee. El septeto-lira, en cambio, **fija la medida**: `7 11 7
 11 7 7 11`. Pero su definición presenta esa disposición como «la realización que la documenta», que es
-lenguaje de una realización entre varias. *Si es abierta como sus hermanas, se le crea la misma
+lenguaje de una realización entre varias. _Si es abierta como sus hermanas, se le crea la misma
 pregunta y deja de fijar posiciones; si es fija, conviene que la definición no diga «la realización
-que la documenta».*
+que la documenta»._
 
 ## Sexteto-lira
 
@@ -838,13 +723,13 @@ que la documenta».*
    **Los dos ejes son libres.** Comprobado: las cinco secuencias de medidas y las tres disposiciones
    de rima son independientes, y nada impide combinarlas.
 
-   | Medidas | `ababcc` | `abbacc` | `aabbcc` |
-   | --- | :---: | :---: | :---: |
-   | `7-11-7-11-7-11` | **A1** | — | — |
-   | `11-7-7-11-7-11` | **A2** | — | **C1** |
-   | `7-7-7-11-7-11` | **A3** | — | — |
-   | `7-7-7-7-7-11` | — | **B1** | — |
-   | `11-7-7-11-11-11` | — | **B2** | **C2** |
+   | Medidas           | `ababcc` | `abbacc` | `aabbcc` |
+   | ----------------- | :------: | :------: | :------: |
+   | `7-11-7-11-7-11`  |  **A1**  |    —     |    —     |
+   | `11-7-7-11-7-11`  |  **A2**  |    —     |  **C1**  |
+   | `7-7-7-11-7-11`   |  **A3**  |    —     |    —     |
+   | `7-7-7-7-7-11`    |    —     |  **B1**  |    —     |
+   | `11-7-7-11-11-11` |    —     |  **B2**  |  **C2**  |
 
    **Ninguna de las seis prohíbe combinación alguna**, y dos terminan la enumeración en abierto: M&B
    citan tres «entre otras» y Navarro Tomás cuatro «y otras». **Tres que las fuentes nombran y el
@@ -853,41 +738,41 @@ que la documenta».*
 
    **Lo que está en juego.** Hoy es una pregunta con siete opciones. La alternativa son **dos
    preguntas cerradas** —¿qué secuencia de medidas? (5) y ¿qué disposición de rima? (3)—, que cubren
-   las quince. *Si los dos ejes son libres, la contraprueba de
-   [criterios de nivel](./criterios-de-nivel.md) dice que la variedad «no hace falta».*
+   las quince. _Si los dos ejes son libres, la contraprueba de
+   [criterios de nivel](./criterios-de-nivel.md) dice que la variedad «no hace falta»._
 
 ## Sexteto
 
 1. **¿Se admite el sexteto que combina arte mayor y menor?** Hoy no: el catálogo exige isosilabismo
    de arte mayor. Pero Caparrós 2014 lo incluye en la definición —«de arte mayor, o de arte mayor y
-   menor combinados entre sí»—, el *Diccionario* añade que a veces el término cubre el arte menor, y
-   Jauralde reserva un grupo a los «sextetos mixtos». *El catálogo lo separa a propósito: la
-   heterometría regular con endecasílabo es del sexteto-lira y el arte menor es de la sextilla.*
+   menor combinados entre sí»—, el _Diccionario_ añade que a veces el término cubre el arte menor, y
+   Jauralde reserva un grupo a los «sextetos mixtos». _El catálogo lo separa a propósito: la
+   heterometría regular con endecasílabo es del sexteto-lira y el arte menor es de la sextilla._
 
 2. **¿Las medidas 11, 12 y 14 son un repertorio cerrado?** Jauralde describe **con apartado y
    ejemplo propios** sextetos eneasilábicos, decasilábicos, endecasilábicos, dodecasilábicos y de
-   alejandrinos: dos más que el catálogo, el nueve y el diez. *Del pentadecasilábico, en cambio,
+   alejandrinos: dos más que el catálogo, el nueve y el diez. _Del pentadecasilábico, en cambio,
    «solo hay una mención de paso, en el capítulo del verso, a propósito de un ejemplo de Salvador
    Rueda», así que no pesa lo mismo; hasta el 16 de septiembre de 2026 este apunte lo listaba junto a
-   los otros dos. Las tres del catálogo son las del corpus, no las de la bibliografía.*
+   los otros dos. Las tres del catálogo son las del corpus, no las de la bibliografía._
 
 3. **¿La consonancia es exigible?** Hoy es definitoria en las tres arquitecturas. Navarro Tomás
    documenta en el modernismo el sexteto asonante `abcbDB` de Darío y tipos que dejan sueltos varios
-   versos. *En el corpus áureo la consonancia es la norma; conviene confirmar que ninguna secuencia
-   obligue a relajarla.*
+   versos. _En el corpus áureo la consonancia es la norma; conviene confirmar que ninguna secuencia
+   obligue a relajarla._
 
-4. **Sigue sin sitio la variedad de los *Nocturnos de San Pedro*.** Navarro Tomás describe una
+4. **Sigue sin sitio la variedad de los _Nocturnos de San Pedro_.** Navarro Tomás describe una
    combinación de endecha real y sexteto con un pie quebrado que repite en eco la rima del segundo
    heptasílabo. Se buscó expresamente al revisar el sexteto y **ninguna de las seis la formaliza como
-   sexteto autónomo**. *Queda como realización documentada sin hueco: o se le da forma propia, o se
-   registra como desviación de la endecha real, que es la forma con la que Navarro la combina.*
+   sexteto autónomo**. _Queda como realización documentada sin hueco: o se le da forma propia, o se
+   registra como desviación de la endecha real, que es la forma con la que Navarro la combina._
 
 5. **Se modeló para la alejandrina algo que en otras formas se dejó en las fuentes.** Se declaró el
    esquema `AABCCB` y el rasgo de finales agudos porque la descripción contaba en prosa una
    disposición que la ficha no podía dibujar. Pero el sexteto alejandrino **no está en el corpus**, y
-   en otras formas lo documentado y no anotado se quedó en la afirmación. *La inconsistencia es real:
+   en otras formas lo documentado y no anotado se quedó en la afirmación. _La inconsistencia es real:
    o el catálogo modela lo que las fuentes describen aunque el corpus no lo traiga —y entonces faltan
-   cosas en otras formas—, o modela solo lo anotable, y entonces esta declaración sobra.*
+   cosas en otras formas—, o modela solo lo anotable, y entonces esta declaración sobra._
 
 ## Octava aguda
 
@@ -897,100 +782,118 @@ seis fuentes que recorre la forma metro por metro.
 1. **Navarro la documenta en dos medidas que el catálogo no tiene.** Las seis arquitecturas de la
    ficha van del endecasílabo al pentasílabo, y él da testimonio por encima y por debajo:
 
-   | medida | dónde |
-   | --- | --- |
-   | **eneasílaba** | Su «Índice de estrofas» separa las dos ramas por ahí —«octava aguda» las **de nueve o más sílabas** y «octavilla aguda» las de ocho o menos—, y el § 342 documenta «la Avellaneda en cinco octavas agudas de *La cruz*», en eneasílabo dactílico. **El *Diccionario* corta igual**: «Combinación estrófica de ocho versos de nueve o más sílabas» |
-   | **trisílaba** | § 272: Sánchez Barbero, en la cantata *Lucha entre la ley y el derecho*, «en cuatro octavillas agudas cuyas semiestrofas terminan alternativamente en las palabras *amor*, *honor*» |
+   | medida         | dónde                                                                                                                                                                                                                                                                                                                                             |
+   | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | **eneasílaba** | Su «Índice de estrofas» separa las dos ramas por ahí —«octava aguda» las **de nueve o más sílabas** y «octavilla aguda» las de ocho o menos—, y el § 342 documenta «la Avellaneda en cinco octavas agudas de _La cruz_», en eneasílabo dactílico. **El _Diccionario_ corta igual**: «Combinación estrófica de ocho versos de nueve o más sílabas» |
+   | **trisílaba**  | § 272: Sánchez Barbero, en la cantata _Lucha entre la ley y el derecho_, «en cuatro octavillas agudas cuyas semiestrofas terminan alternativamente en las palabras _amor_, _honor_»                                                                                                                                                               |
 
-   *La eneasílaba además deja un hueco lógico: la ficha separa las dos ramas por el arte del verso y
+   _La eneasílaba además deja un hueco lógico: la ficha separa las dos ramas por el arte del verso y
    el corte cae hoy entre el decasílabo y el octosílabo, sin que ninguna arquitectura recoja el
-   nueve, que es donde la propia fuente pone la frontera.*
+   nueve, que es donde la propia fuente pone la frontera._
 
 2. **¿Y el esquema de semiestrofas monorrimas?** `aaaé:bbbé` está documentado dos veces —Nervo en
-   *La mal pagada canción*, § 381, y Díaz Mirón en *Ecce homo*, § 434, «a base de tres versos
+   _La mal pagada canción_, § 381, y Díaz Mirón en _Ecce homo_, § 434, «a base de tres versos
    monorrimos en cada semiestrofa»— y no figura entre los esquemas de rima de ninguna de las seis
-   arquitecturas. *Entraría como `admitida`, según la regla del 17 de septiembre, cuando se aborde
-   la tanda de esquemas.*
+   arquitecturas. _Entraría como `admitida`, según la regla del 17 de septiembre, cuando se aborde
+   la tanda de esquemas._
 
 3. **El nombre de italiana queda en discusión abierta dentro de la ficha.** Quilis la llama «octava
    italiana u octava aguda» y Caparrós dice que en arte menor se llama «octavilla aguda u octava
    italiana»; Navarro objeta en su índice que «el calificativo de italianas que suele darse a la
    octava y octavilla agudas no las distingue de la octava real, también de origen italiano».
-   *Las tres voces están recogidas tal como cada una lo dice, que es lo que la sección hace. Si
+   _Las tres voces están recogidas tal como cada una lo dice, que es lo que la sección hace. Si
    alguna vez se decide que una disparidad así merezca un párrafo que la resuma antes de las seis
    fuentes, este es el primer caso del catálogo que lo pediría. El segundo es el **verso aislado**,
-   donde las cuatro voces responden cosas distintas a la pregunta de si un verso solo es verso.*
+   donde las cuatro voces responden cosas distintas a la pregunta de si un verso solo es verso._
 
 ## Octava real
 
 1. **¿Una estrofa o dos?** Caparrós 2014 remite a la discusión de Lázaro Carreter sobre si la octava
-   real es una estrofa o la unión de dos, y el *Diccionario* observa que suele subdividirse en dos
-   grupos de cuatro versos según el contenido. *El catálogo ha tomado partido sin escribirlo: al no
+   real es una estrofa o la unión de dos, y el _Diccionario_ observa que suele subdividirse en dos
+   grupos de cuatro versos según el contenido. _El catálogo ha tomado partido sin escribirlo: al no
    declarar secciones afirma que es una unidad de ocho. Si se declararan, habría que decidir si el
-   corte es 6 + 2 —el pareado final— o 4 + 4.*
+   corte es 6 + 2 —el pareado final— o 4 + 4._
 
 2. **Un solo esquema catalogado, y la sospecha de que hay más.** La arquitectura declara
    `ABABABCC` como **habitual** y, aparte, una «Distribución variable» **excepcional** sin notación,
-   que es la salida abierta. *Las fuentes describen «tres clases de rima en ocho versos, con pareado
-   final» y dicen que el orden de los seis primeros varía: si esas variantes están documentadas una
-   a una, son esquemas que faltan; si no, el repertorio está bien y lo que hay es una norma abierta.*
+   que es la salida abierta. **Y las seis fuentes se parten en dos mitades.** Dos la definen sin
+   variantes: Morley y Bruerton, «ocho endecasílabos `ABABABCC`», y Caparrós 2014, igual. Dos dicen
+   que varía: el _Diccionario_, «es posible, aunque no frecuente, encontrar otra disposición de la
+   rima de los seis primeros versos», y Jauralde, que «recibió variaciones de todo tipo a lo largo
+   del tiempo, conservando casi siempre de manera fija el pareado final».
+
+   _Ninguna de las dos que admiten variación enumera las variantes: dicen que las hay. Así que no
+   son esquemas que falten sino una norma abierta que el catálogo ya declara con su «Distribución
+   variable». Lo que queda por decidir es si esa salida debe ser `excepcional`, como está, cuando
+   dos fuentes la dan por posible y otras dos ni la contemplan._
    ⇒ [Las que cruzan formas](#las-que-cruzan-formas)
 
 ## Copla de arte mayor
 
-1. **¿Los cuatro esquemas son ahora un repertorio cerrado?** Los cuatro actuales —`ABBA:ACCA`
-   habitual, `ABAB:BCCB` y `ABBA:ACAC` admitidas y `ABBA:CDDC` excepcional— enlazan los cuartetos,
-   que es lo que la norma exige, y una guarda impide declarar uno con más de tres clases. *La
-   pregunta es si faltan otros enlazados que las fuentes no destaquen.*
+1. **Faltan tres esquemas, y Navarro Tomás los nombra.** Los cuatro actuales —`ABBA:ACCA` habitual,
+   `ABAB:BCCB` y `ABBA:ACAC` admitidas y `ABBA:CDDC` excepcional— enlazan los cuartetos, que es lo
+   que la norma exige, y una guarda impide declarar uno con más de tres clases. La pregunta era si
+   faltaban otros que las fuentes no destacaran; **su afirmación verificada los da con nombre**:
+   además de `ABBA:ACCA` y `ABAB:BCCB`, «registra combinaciones de **solo dos rimas: `ABAB:ABAB`,
+   `ABBA:ABBA` y `ABAB:BAAB`**».
+
+   _Las tres tienen dos clases, así que pasan la guarda sin tocarla. Lo que hay que decidir es si
+   entran —y con qué modalidad, que por la regla del 17 de septiembre sería `admitida`— o si quedan
+   fuera por alcance, como cancioneriles que son. Hasta el 16 de septiembre de 2026 este apunte
+   preguntaba si faltaba alguno sin saber que la respuesta estaba escrita en la propia ficha._
 
 2. **¿Se admite la copla de cuatro rimas como desviación?** Navarro Tomás registra una,
-   `ABBA:CDDC`, en una carta de Tirso de Molina en *Quien calla otorga* —y anota que los propios
+   `ABBA:CDDC`, en una carta de Tirso de Molina en _Quien calla otorga_ —y anota que los propios
    personajes aluden al carácter antiguo de la estrofa—. Es exactamente lo que el catálogo retiró
-   como esquema normal. *Si el corpus trae una, habría que registrarla como desviación localizada.*
+   como esquema normal. _Si el corpus trae una, habría que registrarla como desviación localizada._
 
 3. **¿La arquitectura debe seguir llamándose dodecasilábica?** Hoy declara `12-repetido` en sus ocho
    posiciones. Jauralde advierte que, por la estructura rítmica del verso, **su número de sílabas
-   varía entre diez y dieciséis**. *Si el corpus trae un verso de trece o catorce, hoy sería una
-   desviación métrica y no una realización admitida.*
+   varía entre diez y dieciséis**. _Si el corpus trae un verso de trece o catorce, hoy sería una
+   desviación métrica y no una realización admitida._
 
 ## Soneto
 
 1. **¿Los cuatro esquemas de tercetos son un repertorio abierto o cerrado?** M&B dan los cuatro y
-   añaden «y otros». **Es abierto, y la fuente da la regla, no una lista**: el *Diccionario* dice
+   añaden «y otros». **Es abierto, y la fuente da la regla, no una lista**: el _Diccionario_ dice
    que los tercetos toman dos o tres clases distintas de las de los cuartetos y las reparten como
    sea «con tal de que no haya más de dos versos seguidos con la misma rima». Desde el 19 de agosto
-   esa regla está en la definición. *Codificarla son dos piezas: un esquema abierto de la sección
+   esa regla está en la definición. _Codificarla son dos piezas: un esquema abierto de la sección
    `terceto` con `max_consecutivos: 2` junto a los cuatro concretos, y la evaluación de ese tipo en
    el auditor. El grupo pasaría de cuatro opciones a cinco, y esa quinta es justo la salida que esta
-   duda pide.* ⇒ **B4**
+   duda pide._ ⇒ **B4**
 
 2. **¿Qué disposición de tercetos merece ser la habitual, si cada fuente elige una distinta?** Hoy
    el catálogo asciende `CDC DCD` a **habitual** y deja `CDE CDE`, `CDE DCE` y `CDC EDE` en
-   **admitida**. Al comprobar las modalidades del soneto —a raíz de la cautela con que Navarro fija
-   las de los cuartetos— resulta que **ninguna fuente respalda ese ascenso por encima de las otras**:
+   **admitida**. Y lo que pasa no es que nadie lo respalde, sino algo más incómodo: **cada fuente
+   eleva una distinta, y el catálogo eligió la de Quilis sin decirlo**:
 
-   | fuente | a cuál llama clásica o preferida |
-   | --- | --- |
-   | Quilis 1969 | `ABBA-ABBA-CDC-DCD`, «esquema clásico», y la da por favorita de Petrarca |
-   | Jauralde 2020 | `ABBA ABBA CDE DCE`, «forma clásica» |
-   | Navarro 1972 | `CDE CDE` es la preferida de Garcilaso y de Herrera, y su repertorio final da `CDE:CDE` y `CDC:DCD` juntas como las «preferentes» |
-   | Morley y Bruerton 1968 | las cuatro seguidas, sin jerarquía, advirtiendo que hay más |
-   | *Diccionario* 2016 | no lista ninguna: da la regla, que es el punto 1 |
+   | fuente                 | a cuál llama clásica o preferida                                                                                                  |
+   | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+   | Quilis 1969            | `ABBA-ABBA-CDC-DCD`, «esquema clásico», y la da por favorita de Petrarca                                                          |
+   | Jauralde 2020          | `ABBA ABBA CDE DCE`, «forma clásica»                                                                                              |
+   | Navarro 1972           | `CDE CDE` es la preferida de Garcilaso y de Herrera, y su repertorio final da `CDE:CDE` y `CDC:DCD` juntas como las «preferentes» |
+   | Morley y Bruerton 1968 | las cuatro seguidas, sin jerarquía, advirtiendo que hay más                                                                       |
+   | _Diccionario_ 2016     | no lista ninguna: da la regla, que es el punto 1                                                                                  |
+
+   _Hasta el 16 de septiembre de 2026 este apunte decía que «ninguna fuente respalda ese ascenso», y
+   su propia tabla lo desmiente dos líneas más abajo: Quilis llama a `CDC-DCD` «esquema clásico» y
+   favorita de Petrarca, que es exactamente la que el catálogo subió._
 
    Tres salidas: dejar las cuatro en `admitida`; subirlas las cuatro a `habitual`; o mantener una y
-   escribir en la ficha por qué. *No es un arreglo de auditoría: la modalidad decide lo que el editor
-   V2 ofrece al anotar y lo que el demarcador compila, así que cambiarla se nota en las dos puntas.*
+   escribir en la ficha **a quién se sigue y por qué**, que es lo que hoy falta. _No es un arreglo de auditoría: la modalidad decide lo que el editor
+   V2 ofrece al anotar y lo que el demarcador compila, así que cambiarla se nota en las dos puntas._
 
    **En los cuartetos no hay nada que decidir**, y conviene decirlo para que no se arrastre la duda:
    `ABBA ABBA` habitual y `ABAB ABAB` excepcional es exactamente lo que dicen las dos fuentes que se
-   pronuncian —Navarro, «uniformemente con raras excepciones»; el *Diccionario*, «lo normal», pero
+   pronuncian —Navarro, «uniformemente con raras excepciones»; el _Diccionario_, «lo normal», pero
    «posibles otras distribuciones, especialmente la que obedece al esquema ABAB ABAB»—.
 
 3. **¿Estrambote y sonetillo se incorporarán solo si aparecen en el corpus?** Quilis describe el
    estrambote como uno o varios tercetos añadidos, con la condición de que el verso que sigue al
    decimocuarto sea un **heptasílabo que rime con él** —`ABBA ABBA CDE CDE eFF`—, y lo ejemplifica
-   con el «Voto a Dios que me espanta esta grandeza» de Cervantes. *Es el más probable de los dos en
-   un corpus áureo, y hoy no cabe: un soneto de diecisiete versos no encaja en la arquitectura.*
+   con el «Voto a Dios que me espanta esta grandeza» de Cervantes. _Es el más probable de los dos en
+   un corpus áureo, y hoy no cabe: un soneto de diecisiete versos no encaja en la arquitectura._
 
 ---
 
@@ -1001,86 +904,91 @@ seis fuentes que recorre la forma metro por metro.
 1. **La frecuencia de una disposición reutilizada no es la de la posición que ocupa.** Las dos
    quintillas reutilizan la arquitectura de la quintilla, así que traen sus esquemas **con la
    frecuencia que tienen como quintilla suelta**: `aabba` sale «admitida» en la segunda mitad, donde
-   M&B dicen que en Lope es *siempre* esa. *El IP decidió el 20 de agosto decirlo en prosa y no
-   tocar el modelo por ahora.* ⇒ **B3**
+   M&B dicen que en Lope es _siempre_ esa. _El IP decidió el 20 de agosto decirlo en prosa y no
+   tocar el modelo por ahora._ ⇒ **B3**
 
 2. **La copla real de cuatro y seis versos.** Jauralde advierte que «la forma 4-6 precede a la 5-5,
    que solo se hace mayoritaria a finales del siglo XV»; Navarro Tomás describe el mismo proceso
    desde el modelo 4-4. El catálogo solo tiene 5+5.
 
 3. **¿Los quebrados pueden ocupar cualquiera de las diez posiciones?** Hoy la pregunta las ofrece
-   las diez. Ninguna fuente fija dónde caen. *Si se restringe, hay que decir a qué posiciones.*
+   las diez. Ninguna fuente fija dónde caen. _Si se restringe, hay que decir a qué posiciones._
 
 4. **¿Solo tetrasílabos, o también pentasílabos?** Las seis fuentes, al hablar de la copla real,
-   **solo nombran el tetrasílabo**. La arquitectura declara los dos como `quebrado`. *Si se decide
-   que solo vale el tetrasílabo, lo que se retira es esa fila y la pregunta se estrecha sola.*
+   **solo nombran el tetrasílabo**. La arquitectura declara los dos como `quebrado`. _Si se decide
+   que solo vale el tetrasílabo, lo que se retira es esa fila y la pregunta se estrecha sola._
 
 5. **¿Debe restringirse el par de quintillas?** Hoy las dos preguntas ofrecen los ocho esquemas con
-   total independencia. M&B, que describen a Lope, afirman que **las dos quintillas son de tipo
-   diferente**: la segunda siempre `AABBA` y la primera casi siempre `ABABA`. *No se ha restringido
+   total independencia. M&B, que describen a Lope, la llaman «**combinación fija de dos quintillas de
+   tipo diferente**»: la segunda siempre `AABBA` y la primera casi siempre `ABABA`, «**muy pocas
+   veces `ABBAB` o `ABAAB`**». _Esa cola importa: la propia fuente documenta las excepciones de la
+   primera, de modo que restringirla del todo iría más lejos que ella._ _No se ha restringido
    porque las otras cinco fuentes describen libertad y el catálogo cubre más que a Lope. Si se
-   restringe, pasa a ser una restricción entre dos preguntas, que el modelo hoy no sabe expresar.*
+   restringe, pasa a ser una restricción entre dos preguntas, que el modelo hoy no sabe expresar._
    ⇒ **B3**
 
-6. **Pedir datos al editor de *El caballero de Olmedo*.** Es de las poquísimas formas con uso real
+6. **Pedir datos al editor de _El caballero de Olmedo_.** Es de las poquísimas formas con uso real
    —tres secuencias, todas en esa obra— y las anotaciones vienen del vocabulario legado, sin decir
-   qué disposición tiene cada quintilla ni dónde caen los quiebros. *Al revisar la obra conviene
+   qué disposición tiene cada quintilla ni dónde caen los quiebros. _Al revisar la obra conviene
    pedírselo: es el único sitio donde el corpus puede contrastar lo que las fuentes dicen del
-   emparejamiento.*
+   emparejamiento._
 
 ## Novena
 
-1. **Separar la Novena general de la Copla novena.** Caparrós y el *Diccionario* llaman novena a
-   cualquier estrofa de nueve versos y niegan que comparta necesariamente otra norma, mientras
-   Navarro Tomás y Jauralde caracterizan la copla novena histórica como redondilla y quintilla. *Las
+1. **Separar la Novena general de la Copla novena.** Las seis se reparten **dos, dos y dos**:
+   Caparrós y el _Diccionario_ llaman novena a cualquier estrofa de nueve versos y niegan que
+   comparta necesariamente otra norma —el _Diccionario_ llega a decir que «parecería dudosa la
+   unidad de la novena como estrofa»—; Navarro Tomás y Jauralde caracterizan la copla novena
+   histórica como redondilla y quintilla; y **Quilis y Morley y Bruerton no registran las estrofas de
+   nueve versos**, el primero pasando «de las de ocho a las de diez sin epígrafe intermedio». _Las
    dos arquitecturas actuales pasarían a la Copla novena. Falta decidir cómo se registra la Novena
-   general sin que el demarcador clasifique por defecto cualquier pasaje de nueve versos*, que es el
+   general sin que el demarcador clasifique por defecto cualquier pasaje de nueve versos_, que es el
    mismo problema que hizo retirar la copla de pie quebrado.
 
 2. **¿Cómo se representan las realizaciones tempranas en que redondilla y quintilla comparten una o
-   dos clases de rima**, frente a las posteriores con rimas independientes? *Hoy las dos secciones
+   dos clases de rima**, frente a las posteriores con rimas independientes? _Hoy las dos secciones
    reutilizan repertorios independientes y no hay manera de declarar que comparten timbre. El editor
    trata cada respuesta como notación local y, al componer la novena, renumera la segunda parte con
    letras nuevas. Esto evita aparentar enlaces inexistentes, pero si el texto sí enlaza ambas partes
    obliga a falsear la anotación: hace falta modelar equivalencias de rima entre secciones o una
-   disposición global de la unidad.* **Es un bloqueo de registro, no solo de presentación.** ⇒ **B3**
+   disposición global de la unidad._ **Es un bloqueo de registro, no solo de presentación.** ⇒ **B3**
 
 3. **¿Las ocho variedades de quintilla valen todas para la Copla novena** o deben restringirse según
-   la documentación histórica? *Hoy se ofrecen las ocho, por reutilización.*
+   la documentación histórica? _Hoy se ofrecen las ocho, por reutilización._
 
 ## Décima
 
 1. **¿Entra la décima asonante?** Quedó fuera el 22 de agosto de 2026 al aplicar el criterio de qué
    compromete la norma: es un **régimen nuevo**, ninguna fuente lo registra con nombre ni
    definición, y Jauralde lo presenta como ensayo de Jorge Guillén «al rimarlas en asonante en vez
-   de en consonante, **que era lo tradicional**». *Si el IP prefiere admitirla, la décima pasaría a
-   declarar dos regímenes, como la silva desde ese mismo día.* Las cuatro medidas que faltaban
+   de en consonante, **que era lo tradicional**». _Si el IP prefiere admitirla, la décima pasaría a
+   declarar dos regímenes, como la silva desde ese mismo día._ Las cuatro medidas que faltaban
    —penta, hexa, hepta y endecasílaba— sí entraron: la hexasílaba la firma **Góngora**.
 
 2. **¿Debe poder intercalarse alguna otra forma, además de la décima aumentada?** El editor ya sabe
    anotar una aumentada entre décimas normales: desde el 26 de agosto de 2026 una arquitectura puede
    declararse `intercalable` y una unidad suelta puede adoptarla, sin registrarla como desviación,
-   porque no lo es. *Se abrió **solo para la décima**, por decisión del IP: si otras formas lo
+   porque no lo es. _Se abrió **solo para la décima**, por decisión del IP: si otras formas lo
    necesitan se abrirán cuando alguien lo pida, para no complicar el editor —ni exponer a error a
-   los editores— en las cuarenta que no lo necesitan.* La duda queda anotada por si el IP conoce ya
+   los editores— en las cuarenta que no lo necesitan._ La duda queda anotada por si el IP conoce ya
    algún caso: **una realización de otra forma que aparezca dentro de una tirada sin romperla**.
 
-   *Hay además un caso vecino que hoy no cabe y que el IP dejó explícitamente para el futuro:* que
+   _Hay además un caso vecino que hoy no cabe y que el IP dejó explícitamente para el futuro:_ que
    lo intercalado sea de **otra forma**, como un pareado cerrando una tirada alirada. Hoy el
    disparador exige que la arquitectura declarada sea de la misma forma que la secuencia.
 
 3. **¿El linaje debe limitarse a copla real, espinela y aumentada?** Es la única relación histórica
-   declarada. *Ampliarlo obligaría a decidir qué otras formas de diez versos entran.*
+   declarada. _Ampliarlo obligaría a decidir qué otras formas de diez versos entran._
 
-4. **¿«Décima aumentada» es el nombre adecuado para la arquitectura de doce versos?** *El nombre
+4. **¿«Décima aumentada» es el nombre adecuado para la arquitectura de doce versos?** _El nombre
    describe bien lo que es, pero llamar «décima» a una estrofa de doce puede leerse mal en la
-   ficha.*
+   ficha._
 
 5. **¿La definición debe seguir describiéndola como «dos redondillas abrazadas y dos versos de
    enlace»?** M&B la explican de otro modo: como combinación de **dos quintillas**, la 6.ª y la 5.ª,
-   aunque advierten que lo característico es la pausa tras el cuarto verso. *Son dos lecturas de la
+   aunque advierten que lo característico es la pausa tras el cuarto verso. _Son dos lecturas de la
    misma estrofa y la definición ya elige una; la duda es si conviene que la otra conste, porque es
-   la de la fuente del corpus dramático.*
+   la de la fuente del corpus dramático._
 
 ---
 
@@ -1088,78 +996,72 @@ seis fuentes que recorre la forma metro por metro.
 
 ## Seguidilla
 
-1. **La fluctuación histórica de la simple no tiene representación.** Cuatro de las seis fuentes la
-   documentan —M&B advierten que «el ritmo pesa más que el cómputo»—, pero el catálogo declara
-   `7-5-7-5` fijo. *Hoy una seguidilla de medidas fluctuantes solo cabe como desviación métrica
-   verso a verso.*
+1. **La fluctuación histórica de la simple no tiene representación.** La documentan **cinco de las
+   seis**, y solo Quilis calla: Navarro Tomás «documenta su antigua fluctuación», Jauralde
+   «subraya su fluctuación histórica», Caparrós 2014 «recoge fluctuación métrica», el _Diccionario_
+   la pone entre «las modificaciones más corrientes» y M&B advierten que «el ritmo pesa más que el
+   cómputo silábico estricto y que las medidas pueden variar ligeramente». Pero el catálogo declara
+   `7-5-7-5` fijo. _Hoy una seguidilla de medidas fluctuantes solo cabe como desviación métrica
+   verso a verso._
 
 2. **La seguidilla arromanzada comparte asonancia entre unidades y eso no se declara.** El
-   *Diccionario* y Jauralde documentan series en que una misma asonancia recorre varias estrofas.
-   *Es el mismo mecanismo que el romance ya resuelve con su ciclo, y que desde el 22 de agosto usan
-   las tres enlazadas.*
+   _Diccionario_ y Jauralde documentan series en que una misma asonancia recorre varias estrofas.
+   _Es el mismo mecanismo que el romance ya resuelve con su ciclo, y que desde el 22 de agosto usan
+   las tres enlazadas._
 
 3. **¿Las realizaciones consonantes recurrentes son opciones admitidas o desviaciones?** Caparrós
-   2014 recoge consonancia y rima de los impares como variantes atestiguadas. *Hoy la asonancia es
-   definitoria, así que una seguidilla consonante es desviación.*
+   2014 recoge consonancia y rima de los impares como variantes atestiguadas. _Hoy la asonancia es
+   definitoria, así que una seguidilla consonante es desviación._
 
 ## Romance
 
-*Sin cuestiones abiertas. Las dos medidas que faltaban —pentasílaba y tetrasílaba— entraron el 22
-de agosto de 2026, con el criterio de que la medida no compromete la norma.*
+_Sin cuestiones abiertas. Las dos medidas que faltaban —pentasílaba y tetrasílaba— entraron el 22
+de agosto de 2026, con el criterio de que la medida no compromete la norma._
 
 ## Endecha real
 
-1. **El disparador de posiciones toma la caja por clase de rima.**
-   `sincronizar_posiciones_esquema_rima_fijo` deriva las posiciones letra a letra, y de `-a-A` saca
-   las clases `a` y `A` como si fueran dos rimas distintas. Pero **la caja dice el arte del verso**,
-   no con quién rima: la lira escribe `aBabB` y son dos rimas, no cuatro. En la endecha real hubo
-   que corregir la clase a mano. **No es un problema de esta forma**: cualquier rima futura entre un
-   verso de arte menor y otro de arte mayor caerá en lo mismo. *Arreglarlo es comparar en minúsculas
-   dentro del disparador, pero antes hay que comprobar si alguna forma poblada depende de la
-   conducta actual.*
-
-2. **Las dos arquitecturas de sor Juana están fuera del teatro áureo.** La de cinco versos
+1. **Las dos arquitecturas de sor Juana están fuera del teatro áureo.** La de cinco versos
    (`7-7-7-7-11`, `abbaA`) y la hexasílaba (`6-6-6-11`) se declaran porque Navarro Tomás y Jauralde
    las documentan, pero los dos las atribuyen a sor Juana y a la poesía culta del XVII-XVIII, no al
    teatro. **Ninguna fuente dice que no aparezcan en teatro**; simplemente no lo tratan.
 
-3. **Faltan dos cosas que Navarro Tomás documenta y no tienen dónde ir.** Sor Juana hizo también el
-   último verso **decasílabo de dos adónicos**, y en los *Nocturnos de San Pedro* combina endecha
-   real y sexteto con un pie quebrado en eco. *Las dos están registradas como afirmación; la segunda
-   se buscó sitio en el sexteto y no lo tiene —ver [Sexteto](#sexteto) 4—.*
+2. **Faltan dos cosas que Navarro Tomás documenta y no tienen dónde ir.** Sor Juana hizo también el
+   último verso **decasílabo de dos adónicos**, y en los _Nocturnos de San Pedro_ combina endecha
+   real y sexteto con un pie quebrado en eco. _Las dos están registradas como afirmación; la segunda
+   se buscó sitio en el sexteto y no lo tiene —ver [Sexteto](#sexteto) 4—._
 
-4. **¿Es endecha real la que no rima?** Las fuentes se contradicen. Navarro Tomás § 207 dice que
-   Bermúdez y Cervantes la emplearon **en versos sueltos**, `abcD`, y el *Diccionario* lo admite.
+3. **¿Es endecha real la que no rima?** Las fuentes se contradicen. Navarro Tomás § 207 dice que
+   Bermúdez y Cervantes la emplearon **en versos sueltos**, `abcD`, y el _Diccionario_ lo admite.
    Jauralde § 3.6 dice lo contrario: el cuarteto se usó suelto, sí, pero «**se denominó endecha real
    cuando recibió rimas**», de modo que sin rima sería una cuarteta de heptasílabos. Es un
-   desacuerdo entre fuentes autorizadas, no un descuido. *Hoy la `suelta` está como `admitida`.
-   Según se resuelva, se queda, baja a `excepcional` o sale de la forma.* Su esquema es además un
-   ciclo `[----]…` con cero posiciones ⇒ *cerrado el 27 de agosto de 2026*
+   desacuerdo entre fuentes autorizadas, no un descuido. _Hoy la `suelta` está como `admitida`.
+   Según se resuelva, se queda, baja a `excepcional` o sale de la forma._ Su esquema es además un
+   ciclo `[----]…` con cero posiciones ⇒ **B8**
+
+4. **Una sola arquitectura reúne tres regímenes de rima.** La heptasilábica con endecasílabo final
+   admite disposiciones **asonantes** —abrazada, cruzada y la sostenida en los cuartos—, una
+   **consonante** —cruzada— y los **versos sueltos**. Es la única arquitectura activa del catálogo con
+   tres. _¿Es una forma que se realiza de tres maneras, o hay ahí más de una forma? De la respuesta
+   depende si la asonancia se puede preguntar siempre, como se pregunta hoy, o solo cuando la
+   disposición elegida sea asonante._
 
 ---
 
 # Los dos tramos sin forma
 
-1. **El quebrado no es versificación irregular, y conviene vigilarlo al anotar.** El *Diccionario*
+1. **El quebrado no es versificación irregular, y conviene vigilarlo al anotar.** El _Diccionario_
    lo advierte expresamente y Caparrós 2014 lo confirma al incluir la proporcionalidad en la
    definición de lo regular. Un pasaje 8-8-4 pertenece a la copla o a la sextilla de pie quebrado,
-   no a este tramo. La definición ya lo dice. *Merece comprobarse contra las anotaciones existentes
-   cuando se haga el informe de migración.*
+   no a este tramo. La definición ya lo dice. _Merece comprobarse contra las anotaciones existentes
+   cuando se haga el informe de migración._
 
 2. **Jauralde llama a esto de otra manera y no se ha seguido.** Prefiere «verso libre o liberado»
    para el conjunto que no busca ninguna proporción aparente, y reserva «irregular» para otro caso.
-   *El catálogo conserva «Versificación irregular» por ser el término de las otras fuentes y del
-   vocabulario legado; queda registrada la divergencia.*
+   _El catálogo conserva «Versificación irregular» por ser el término de las otras fuentes y del
+   vocabulario legado; queda registrada la divergencia._
 
 3. **Revisar las equivalencias de los tramos irregulares antes de migrarlos.** El vocabulario legado
    distingue tres —`irregular_arte_mayor`, `irregular_arte_menor` e `irregular_mixto`— y son de lo
    más anotado que hay: **nueve secuencias, 313 versos**. El catálogo nuevo tiene una sola entrada.
-   *Es posible que alguna se anotara como irregular solo porque quien la anotó no encontró la forma
-   precisa, y que con el catálogo nuevo y el demarcador sí aparezca.* ⇒ **A3**
-
-3. **Una sola arquitectura reúne tres regímenes de rima.** La heptasilábica con endecasílabo final
-   admite disposiciones **asonantes** —abrazada, cruzada y la sostenida en los cuartos—, una
-   **consonante** —cruzada— y los **versos sueltos**. Es la única arquitectura activa del catálogo con
-   tres. *¿Es una forma que se realiza de tres maneras, o hay ahí más de una forma? De la respuesta
-   depende si la asonancia se puede preguntar siempre, como se pregunta hoy, o solo cuando la
-   disposición elegida sea asonante.*
+   _Es posible que alguna se anotara como irregular solo porque quien la anotó no encontró la forma
+   precisa, y que con el catálogo nuevo y el demarcador sí aparezca._ ⇒ **A3**
