@@ -157,8 +157,11 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    dos veces que **tampoco estaba en el vocabulario legado**: no se perdió al migrar, no se declaró
    nunca.
 
-3. **¿La silva exige rima?** El *Diccionario* admite como silva la combinación de 7 y 11 sin rima.
-   El catálogo no, y la definición lo dice: «un pasaje de siete y once enteramente suelto no es una
+3. **¿La silva exige rima?** **Tres de las seis dicen que no**: el *Diccionario* «admite como silva
+   también la combinación de endecasílabos y heptasílabos sin rima»; Caparrós presenta el verso
+   suelto «como una clase de silva en la que ninguno de los versos de la serie lleva rima»; y
+   Jauralde dice que la silva moderna «es normalmente de versos blancos» —aunque fija como
+   característica que «pueda llevar versos sin rima», que es otra cosa—. El catálogo no, y la definición lo dice: «un pasaje de siete y once enteramente suelto no es una
    silva». La razón es de corpus y la respalda Navarro Tomás § 158: desde 1588 Lope intercalaba
    pareados en pasajes de 7 y 11 sueltos, así que en la comedia lo que separa la silva del pasaje
    suelto es que rime. *Por decisión del IP la lectura del* Diccionario *se conserva en las
@@ -179,20 +182,32 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 
 ## Endecasílabo suelto
 
-2. **¿Se admiten series sueltas de otras medidas?** Esta forma es endecasilábica por definición.
-   Caparrós documenta el heptasílabo sin rima de Francisco de la Torre y ocho octosílabos sueltos de
-   Hurtado de Mendoza; el *Diccionario* añade series de pentasílabos.
+2. **La restricción a once sílabas es nuestra, y tres fuentes no la hacen.** El catálogo declara la
+   forma endecasilábica por definición; los libros describen otra cosa:
 
-3. **La esquina de las *Nise*: heptasílabos mezclados y sin rima.** No es silva, porque la silva
-   exige rima, y no es endecasílabo suelto, porque este es solo de once. Navarro Tomás lo documenta
+   | Caparrós 2014 | «la forma más frecuente es la serie de endecasílabos **solos o con algún heptasílabo**», y documenta el heptasílabo sin rima de Francisco de la Torre |
+   | *Diccionario* | «sus formas más frecuentes son las series de endecasílabos, **heptasílabos y pentasílabos, solos o combinados entre sí**» |
+   | Jauralde | la percepción de la serie descansa en «la igualdad **o proporcionalidad** silábica» |
+
+   *Los tres apuntes de esta forma —este, el de las* Nise *y el de si es una clase de silva— son la
+   misma pregunta vista por tres lados: si el endecasílabo suelto debe seguir siendo solo de once.*
+
+3. **La esquina de las *Nise*: heptasílabos mezclados y sin rima.** No es silva porque **nuestra**
+   silva exige rima, y no es endecasílabo suelto porque **nuestro** endecasílabo suelto es solo de
+   once. **En las fuentes no hay tal esquina**: para Caparrós la serie de endecasílabos «con algún
+   heptasílabo» y sin rima es verso suelto sin más. Navarro Tomás lo documenta
    **en el teatro**: Jerónimo Bermúdez compuso *Nise lastimosa* y *Nise laureada*, de 1577, en
    endecasílabos sueltos, «donde además mezcló endecasílabos y heptasílabos sueltos». *Se anota por
    si alguna de las dos entra en el corpus: entonces habrá que decidir si el endecasílabo suelto
    gana una arquitectura heterométrica o si la frontera con la silva se redibuja.*
 
 4. **¿Es «una clase de silva», como dice Caparrós 2014?** El catálogo las tiene como formas
-   distintas unidas por `contrasta_con`. Ninguna otra fuente las identifica. *No se han fusionado;
-   queda registrado que una de las seis las clasifica juntas.*
+   distintas unidas por `contrasta_con`. **No es una fuente contra cinco, son tres las que borran esa
+   frontera**: Caparrós presenta el verso suelto «como una clase de silva en la que ninguno de los
+   versos de la serie lleva rima»; el *Diccionario* «admite como silva también la combinación de
+   endecasílabos y heptasílabos **sin rima**»; y Jauralde dice que la silva moderna «es normalmente
+   de versos blancos». *No se han fusionado, y la razón es de corpus —ver la silva 3—; lo que cambia
+   es el tamaño de la divergencia.*
 
 ## Canción petrarquista
 
@@ -201,24 +216,45 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    rima»— y la describen igual que el catálogo. *Que la fuente la liste aparte, junto a la canción,
    es argumento para cualquiera de las dos respuestas; lo que ya no cabe es decidirlo sin ella.*
 
-2. **¿Debe exigirse siempre remate o envío?** Hoy la sección `remate` es opcional en las dos
-   arquitecturas consonantes y no existe en la canción sin rima. Las cinco fuentes que describen la
-   composición lo dan como lo normal pero ninguna lo declara imprescindible. *Si se exige, las
-   canciones sin remate pasarían a incumplir la norma; antes habría que decidir si la canción sin
-   rima participa de ese cierre.*
+2. **El catálogo hace opcional el remate y cuatro fuentes lo meten en la definición.** Hoy la
+   sección `remate` tiene `repeticiones_min = 0` en las dos arquitecturas consonantes y no existe en
+   la canción sin rima. Pero las fuentes no lo presentan como frecuente sino como el cierre de la
+   composición:
 
-3. **El tramo bajo del intervalo solapa con la lira.** Jauralde sitúa la estancia «normalmente por
-   encima de los ocho versos (para diferenciarla de las liras)», y el *Diccionario* describe la
-   canción alirada como la variante cuya unidad oscila entre cuatro y ocho. Es decir, una estancia
-   de 5 a 8 versos es territorio de la lira, del sexteto-lira y, desde el 21 de agosto, del
-   septeto-lira. *No se ha tocado el intervalo, que es el de M&B, pero ahí las formas se rozan.*
+   | *Diccionario* | «poema de un número indeterminado de estancias, tres como mínimo, **acabado en** un fragmento de estancia… llamado remate, envío o *commiato*» |
+   | Caparrós 2014 | «se compone de un número indeterminado de estancias, tres como mínimo… **y acaba en** un fragmento de estancia llamado remate, envío o *commiato*» |
+   | Jauralde | «un mínimo de tres estancias iguales **terminadas en** otra mucho más breve, el envío o *commiato*» |
+   | Quilis | «**sitúa al final** una estrofa más breve, la *tornata* o envío» |
+
+   La quinta, Morley y Bruerton, no lo menciona. **Ninguna lo presenta como prescindible.** *Hasta el
+   16 de septiembre de 2026 este apunte decía que «ninguna lo declara imprescindible», que es leer al
+   revés cuatro definiciones. Si se exige, las canciones sin remate pasan a incumplir la norma; antes
+   hay que decidir si la canción sin rima participa de ese cierre.*
+
+3. **El catálogo siguió a la única fuente que baja el suelo hasta cinco.** La estancia declara
+   **5–20 versos**, que es el intervalo de Morley y Bruerton —«estrofas de cinco a veinte versos»—.
+   Las otras tres lo ponen donde empieza la lira, y Jauralde dice además por qué:
+
+   | Caparrós 2014 | «no menos de **nueve** ni más de veinte» |
+   | *Diccionario* | «no menos de **nueve** ni más de veinte, normalmente», y describe aparte la canción alirada como la de unidad **entre cuatro y ocho** |
+   | Jauralde | «normalmente **por encima de los ocho** versos, **para diferenciarla de las liras**» |
+
+   *Así que no es que las formas se rocen: una estancia de cinco a ocho versos es territorio de la
+   lira, del sexteto-lira y del septeto-lira, y tres de las cuatro fuentes trazan ahí la frontera
+   mientras el catálogo sigue a la cuarta. Va con el punto 6.*
 
 4. **¿Las estancias de la canción sin rima repiten también la distribución posicional de 7 y 11?**
    El catálogo lo exige con `define_norma`. M&B la describen como «versos de siete y once sílabas,
    agrupados en estrofas sin rima, excepto un pareado final», pero no añaden que el orden métrico
    sea idéntico entre estrofas, como sí hacen al definir la canción consonante.
 
-5. **¿Qué documentan las fuentes sobre la medida y la rima del remate y del eslabón?** El catálogo no
+5. **Dos fuentes fijan la rima del eslabón y el catálogo no declara ninguna.** Caparrós: «un
+   eslabón o llave **que rima con el último verso de la fronte** pero pertenece sintácticamente a la
+   sirima». Quilis: «un verso de unión llamado *volta* **que rima con el último verso del segundo
+   *piede***». Y del remate, el *Diccionario* y Caparrós dicen que es «**un fragmento de estancia**»
+   —de donde tomaría medidas y rimas—, y el *Diccionario* añade que «normalmente tiene el primer
+   verso suelto». *Hasta el 16 de septiembre de 2026 este apunte preguntaba qué documentan las
+   fuentes; documentan esto, y lo que queda por decidir es si se declara.* El catálogo no
    les atribuye ninguna de las dos. Contado sobre las **once secciones opcionales** que hay en cuatro
    formas, las del terceto encadenado declaran medida y rima y las del villancico y el zéjel declaran
    la medida; **las tres de la canción —dos remates y el eslabón— no declaran ninguna**, y el remate
@@ -325,17 +361,24 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 
 ## Villancico
 
-1. **¿Se segmenta la mudanza de cuatro versos en dos miembros simétricos?** Las fuentes la describen
-   como **dos mudanzas simétricas**; el catálogo conserva una sola sección de cuatro y lo explica en
-   su nota. *Segmentarla daría dos secciones hermanas donde hoy hay una, y afectaría a la ficha y al
-   registrador.*
+1. **¿Se segmenta la mudanza de cuatro versos en dos miembros simétricos?** El catálogo conserva una
+   sola sección de cuatro y lo explica en su nota. **No es que divirjamos de las fuentes: es que las
+   mismas fuentes dicen las dos cosas.** El *Diccionario* y Caparrós hablan de «dos mudanzas
+   simétricas» y, en la misma entrada, de «la estabilidad de la **redondilla o cuarteta** central»;
+   Navarro Tomás da «la mudanza **en redondilla**» y Quilis «identifica **la redondilla** como
+   mudanza característica». *Así que la pregunta no es a quién hacemos caso, sino cuál de las dos es
+   la unidad y cuál la descripción de su interior. Segmentarla daría dos secciones hermanas donde hoy
+   hay una, y afectaría a la ficha y al registrador.*
 
 2. **¿Entran las mudanzas de seis versos?** Están formalizadas `abba`, `abab` y la asonantada
    `-a-a`; Navarro Tomás documenta además mudanzas excepcionales de seis. *Hoy solo caben como
    desviación.*
 
-3. **¿Hasta dónde llega el estribillo: cuatro versos o siete?** Caparrós fija la cabeza en **dos a
-   cuatro**; Navarro Tomás recoge estribillos de **dos a siete**. *El IP decidió el 10 de agosto
+3. **¿Hasta dónde llega el estribillo?** Caparrós fija la cabeza en **dos a cuatro** y el
+   *Diccionario* igual; Navarro Tomás recoge estribillos «**de muy diversa extensión entre dos y
+   dieciséis versos**». *Hasta el 16 de septiembre de 2026 este apunte decía «de dos a siete»: la
+   auditoría de fuentes corrigió la afirmación y nadie había vuelto aquí. La distancia que salva la
+   decisión del IP es cuatro veces mayor de lo que parecía.* *El IP decidió el 10 de agosto
    quedarse en 2-4, de modo que uno de cinco a siete entra como desviación. Queda anotado porque es
    la misma disyuntiva que la vuelta —donde se optó por lo contrario, dejarla abierta— y conviene
    revisarlas juntas si algún día se unifica el criterio.*
@@ -359,11 +402,19 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 
 1. **¿Una repetición parcial del estribillo es posibilidad admitida o desviación?** Hoy la represa
    es total o no aparece. Ninguna de las cinco fuentes que tratan el zéjel describe repetición
-   parcial —sí lo hace Jauralde para el villancico—.
+   parcial. **Para el villancico la describen dos**: Jauralde, «repetición total o parcial de la
+   cabeza», y Navarro Tomás, «ampliación o supresión del enlace y la vuelta, y **repeticiones
+   parciales o totales**». El contraste, entonces, es más fuerte, no menos.
 
 2. **¿Se admite la mudanza de dos versos?** Hoy es de tres, y es lo definitorio de la forma. Navarro
-   Tomás documenta la variante `aa:bba` **también en el Siglo de Oro**. *Relajar la mudanza toca el
-   núcleo de la definición.*
+   Tomás «documenta además la variante con la mudanza reducida a dos versos, `aa:bba`». *Relajar la
+   mudanza toca el núcleo de la definición.*
+
+   **Cuidado con una inferencia nuestra:** hasta el 16 de septiembre de 2026 este apunte añadía
+   «también en el Siglo de Oro». La afirmación verificada documenta la variante en una frase y, en
+   otra distinta, dice que «en el Siglo de Oro la tradición persistía principalmente en la lírica
+   devota y en las canciones del teatro». **Unir las dos es nuestro.** Puede que el § 211 lo diga;
+   hay que abrirlo antes de volver a escribirlo así.
 
 3. **¿Y el zéjel en arte mayor?** Hoy el esquema métrico ofrece 6 u 8 sílabas. Navarro Tomás
    registra dos zéjeles en arte mayor en el *Cancionero de Baena*, y variantes que modifican
@@ -398,7 +449,10 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 
 ## Pareado
 
-1. **Una tirada de pareados alirados, ¿es una silva?** El pareado alirado combina heptasílabo y
+1. **Una tirada de pareados alirados, ¿es una silva?** **Dos fuentes lo dicen casi con esas
+   palabras**: Morley y Bruerton describen la silva de consonantes `aAbBcCdD` y añaden que «se podría
+   llamar **pareados de 7 y 11**», y el *Diccionario* dice del pareado que «es la forma sobre la que
+   se construyen otras: **la silva de consonantes**, el perqué, la aleluya…». El pareado alirado combina heptasílabo y
    endecasílabo y rima en consonante. Repetido, es exactamente lo que describe la silva consonante.
    *Si son la misma cosa, el alirado no debería poder abarcar más de dos versos y hay que decirlo en
    el catálogo; si no lo son, hay que saber qué los distingue, porque el editor hoy deja registrar
