@@ -864,9 +864,12 @@ que la documenta».*
    Jauralde reserva un grupo a los «sextetos mixtos». *El catálogo lo separa a propósito: la
    heterometría regular con endecasílabo es del sexteto-lira y el arte menor es de la sextilla.*
 
-2. **¿Las medidas 11, 12 y 14 son un repertorio cerrado?** Jauralde describe además sextetos
-   eneasilábicos, decasilábicos y pentadecasilábicos. *Las tres del catálogo son las del corpus, no
-   las de la bibliografía.*
+2. **¿Las medidas 11, 12 y 14 son un repertorio cerrado?** Jauralde describe **con apartado y
+   ejemplo propios** sextetos eneasilábicos, decasilábicos, endecasilábicos, dodecasilábicos y de
+   alejandrinos: dos más que el catálogo, el nueve y el diez. *Del pentadecasilábico, en cambio,
+   «solo hay una mención de paso, en el capítulo del verso, a propósito de un ejemplo de Salvador
+   Rueda», así que no pesa lo mismo; hasta el 16 de septiembre de 2026 este apunte lo listaba junto a
+   los otros dos. Las tres del catálogo son las del corpus, no las de la bibliografía.*
 
 3. **¿La consonancia es exigible?** Hoy es definitoria en las tres arquitecturas. Navarro Tomás
    documenta en el modernismo el sexteto asonante `abcbDB` de Darío y tipos que dejan sueltos varios
@@ -896,7 +899,7 @@ seis fuentes que recorre la forma metro por metro.
 
    | medida | dónde |
    | --- | --- |
-   | **eneasílaba** | Su «Índice de estrofas» define la rama mayor como «conjunto de ocho versos **de nueve o más sílabas**», y el § 342 documenta «la Avellaneda en cinco octavas agudas de *La cruz*», en eneasílabo dactílico |
+   | **eneasílaba** | Su «Índice de estrofas» separa las dos ramas por ahí —«octava aguda» las **de nueve o más sílabas** y «octavilla aguda» las de ocho o menos—, y el § 342 documenta «la Avellaneda en cinco octavas agudas de *La cruz*», en eneasílabo dactílico. **El *Diccionario* corta igual**: «Combinación estrófica de ocho versos de nueve o más sílabas» |
    | **trisílaba** | § 272: Sánchez Barbero, en la cantata *Lucha entre la ley y el derecho*, «en cuatro octavillas agudas cuyas semiestrofas terminan alternativamente en las palabras *amor*, *honor*» |
 
    *La eneasílaba además deja un hueco lógico: la ficha separa las dos ramas por el arte del verso y
