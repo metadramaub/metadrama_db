@@ -4,8 +4,9 @@ Fecha: 30 de julio de 2026 · **Documento superado**
 
 Explicaba el modelo forma por forma cuando todavía no existía un documento de ontología.
 Su función la cumplen ahora [la implementación métrica](../implementacion-metrica.md), con sus cinco
-arquetipos diagramados, y las fichas de [revisiones-formas](../revisiones-formas/), que
-documentan cada forma en detalle.
+arquetipos diagramados, y el catálogo publicado en
+[`/formas`](https://versologia.metadrama.org/formas), que se genera del dato. Las fichas `.md` de
+`revisiones-formas/` se retiraron.
 
 Usa la terminología anterior —configuración, patrón, familia— y describe tablas que ya no
 existen. Se conserva por los ejemplos de secuencia y de interacción del editor.

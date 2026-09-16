@@ -389,4 +389,4 @@ que es cuando se puede mover un campo sin que nadie guarde a mitad.
   no escribir dos veces la misma función.
 
 **Sin abrir:** la **revisión de los vocabularios generales**, inventariada en
-[revisión de vocabularios](../revision-de-vocabularios.md).
+[revisión de vocabularios](../../revision-de-vocabularios.md).
