@@ -1,17 +1,12 @@
 # Cuestiones para el IP
 
-Estado: **vigente** · podado el 22 de agosto de 2026
-
 Este archivo reúne **lo que sigue sin decidir y necesita criterio filológico**, forma por forma. No
 describe el catálogo: eso se lee en `/formas`, que se genera del dato y no puede quedarse viejo.
 
-> **Purga del 22 de agosto de 2026.** El archivo se había llenado de preguntas ya respondidas —unas
-> por el IP, otras por las migraciones de la revisión de la prosa entre el 14 y el 22 de agosto— y
-> costaba distinguir lo vivo de lo cerrado. Se recorrió entero contra la base y **se borró todo lo
-> resuelto**: las dieciocho preguntas tachadas, las de la octavilla y la octava aguda, las del
-> pareado, la de si la doble sextilla merecía nivel propio, la del criterio de cuándo la medida hace
-> forma aparte, la de la densidad de la sextilla y la del grupo `tipologia` del sexteto-lira. Lo que
-> queda está comprobado abierto.
+**Solo entra aquí lo que las fuentes no resuelven**, en alguna de sus tres maneras: porque callan,
+porque se contradicen entre sí, o porque documentan algo y lo que falta por decidir es si el
+proyecto lo sigue. Lo que ya está en el catálogo, lo que es deuda técnica y lo que una fuente
+contesta sin que quede nada que elegir **no se guarda aquí**.
 
 ## Lo urgente: dónde puede haber una forma mal modelada
 
@@ -54,7 +49,7 @@ Hay **dos inventarios y no dicen lo mismo**:
   hasta dónde llega su repertorio, si una realización documentada entra o se queda fuera.
 
 Muchas preguntas tienen las dos caras. Cuando la tienen, **el apunte lleva su código** —`⇒ A3`,
-`⇒ C1`— y ahí se lee el lado técnico. Ninguna pregunta de este archivo impide anotar hoy, y
+`⇒ B3`— y ahí se lee el lado técnico. Ninguna pregunta de este archivo impide anotar hoy, y
 `npm run audit:metrica` no señala ningún defecto.
 
 Cada apunte cierra en cursiva con **qué cambiaría si se decide otra cosa**.
@@ -68,10 +63,10 @@ forma a forma produce criterios distintos para el mismo caso.
 | --- | --- | --- |
 | **Qué es una variedad**, si el repertorio del sexteto-lira no tiene cierre y sus dos ejes resultan libres | [Sexteto-lira](#sexteto-lira) 1 | **abierto**: decidir si el nivel se conserva |
 | **Qué repertorios de esquema están cerrados** y cuáles son recortes del corpus | [Sexteto](#sexteto) 3 · [Soneto](#soneto) 1 · [Copla de arte mayor](#copla-de-arte-mayor) 1 · [Octava real](#octava-real) 2 | **abierto, y menos urgente desde el 25 de agosto de 2026**: con la salida abierta, un repertorio incompleto ya no pierde el dato —el editor declara lo que ve y el catálogo lo reconoce si ya lo tenía—. *El de las medidas se cerró el 22 de agosto: la medida no compromete la norma y se declara cuando una fuente la documenta —[criterios de nivel § 3.6](./criterios-de-nivel.md)—* |
-| **Qué elecciones dependen de otras**, que el modelo hoy no sabe expresar | [Copla real](#copla-real) 4 · [Novena](#novena) 2 · [Sexteto-lira](#sexteto-lira) 1 | **abierto** · ⇒ **C1** |
+| **Qué elecciones dependen de otras**, que el modelo hoy no sabe expresar | [Copla real](#copla-real) 4 · [Novena](#novena) 2 · [Sexteto-lira](#sexteto-lira) 1 | **abierto** · ⇒ **B3** |
 | Cómo se representa una **norma abierta** sin enumerar cada realización | [Silva](#silva) 1 · [Seguidilla](#seguidilla) 1 · [Novena](#novena) 1 | **abierto en lo filológico; el aparato se cerró el 25 de agosto de 2026** con las reglas 2 y 3 de [criterios de nivel § 3.3](./criterios-de-nivel.md): donde hay unidad, lista y salida abierta, y lo escrito se normaliza y se casa con el catálogo. *Lo que sigue sin decidir es qué acota cada norma, no cómo se registra.* |
-| **Modelar lo que las fuentes describen aunque el corpus no lo traiga**, o no | [Sexteto](#sexteto) 5 · [Sextilla](#sextilla) 7 · [Copla real](#copla-real) 2 · [Endecha real](#endecha-real) 2 | **abierto** · ⇒ **C11** |
-| **Los finales esdrújulos y agudos**, ¿en todas las formas o solo donde se documenten? | abajo | **abierto** · ⇒ **C16** |
+| **Modelar lo que las fuentes describen aunque el corpus no lo traiga**, o no | [Sexteto](#sexteto) 5 · [Sextilla](#sextilla) 7 · [Copla real](#copla-real) 2 · [Endecha real](#endecha-real) 2 | **abierto** · |
+| **Los finales esdrújulos y agudos**, ¿en todas las formas o solo donde se documenten? | abajo | **abierto** · ⇒ **B2** |
 | **Cuántos versos admite quebrados la redondilla y la copla de arte menor.** Las dos documentan el quiebro **sin fijar el verso** —«sin fijar en qué versos cae», «admite versos quebrados de cuatro sílabas»—, así que ninguna da máximo. *La copla castellana salió de aquí el 29 de agosto de 2026: § 65 sí nombra el suyo, el sexto* | [Redondilla](#redondilla) · [Quintilla](#quintilla) | **abierto** · ⇒ regla 5 bis del [§ 3.6](./criterios-de-nivel.md) |
 
 ### Los finales esdrújulos y agudos
@@ -193,7 +188,7 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    **en el teatro**: Jerónimo Bermúdez compuso *Nise lastimosa* y *Nise laureada*, de 1577, en
    endecasílabos sueltos, «donde además mezcló endecasílabos y heptasílabos sueltos». *Se anota por
    si alguna de las dos entra en el corpus: entonces habrá que decidir si el endecasílabo suelto
-   gana una arquitectura heterométrica o si la frontera con la silva se redibuja.* ⇒ **C15**
+   gana una arquitectura heterométrica o si la frontera con la silva se redibuja.*
 
 4. **¿Es «una clase de silva», como dice Caparrós 2014?** El catálogo las tiene como formas
    distintas unidas por `contrasta_con`. Ninguna otra fuente las identifica. *No se han fusionado;
@@ -358,7 +353,7 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    el estribillo por primera vez**. Podría resolverse con una pregunta dentro de una sola
    arquitectura. *No se hizo porque el demarcador distingue por arquitectura y perdería capacidad de
    identificar, y porque las fuentes presentan la cabeza inicial como el modelo y la otra como una
-   modalidad.* ⇒ **C10**
+   modalidad.*
 
 ## Zéjel
 
@@ -374,10 +369,6 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    registra dos zéjeles en arte mayor en el *Cancionero de Baena*, y variantes que modifican
    estribillo y vuelta —`aba:cccba`, `abba:cccaca`—. *Son medievales y cultas, no del corpus
    dramático; se dejan fuera a la espera de que aparezcan.*
-
----
-
-# Estrofas de arte menor
 
 4. **¿El estribillo del zéjel vuelve siempre, como el del villancico?** El 29 de agosto de 2026
    se decidió que en el villancico **no puede faltar** —cuando la fuente antigua no lo copia es por
@@ -401,6 +392,10 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    el esquema declara; en el zéjel iría contra lo que las fuentes escriben.* Hoy el zéjel es
    coherente consigo mismo: sección `0-1` y una respuesta que permite decir que no.
 
+---
+
+# Estrofas de arte menor
+
 ## Pareado
 
 1. **Una tirada de pareados alirados, ¿es una silva?** El pareado alirado combina heptasílabo y
@@ -409,7 +404,7 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    el catálogo; si no lo son, hay que saber qué los distingue, porque el editor hoy deja registrar
    una tirada de veinte versos como diez pareados alirados.* La pregunta general —**qué formas no
    admiten repetirse dentro de una secuencia**— el modelo no la sabe expresar: la regla de longitud
-   dice cuántos versos mide cada unidad y nada limita cuántas caben. ⇒ **F42**
+   dice cuántos versos mide cada unidad y nada limita cuántas caben. ⇒ [incidencia F42 del formulario](./historico/editor-v2-recorrido-2026-08-a-09.md)
 
 ## Redondilla
 
@@ -475,7 +470,7 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    *Y dos siguen preguntando en todos los versos con razón*, porque su fuente lo dice: la copla real
    —«la tradición no fija en qué verso»—, la redondilla —«sin fijar en qué versos cae»— y la copla de
    arte menor, cuya fuente dice «admite versos quebrados de cuatro sílabas» **sin nombrar ninguno**.
-   ⇒ **F44**
+   ⇒ [incidencia F44 del formulario](./historico/editor-v2-recorrido-2026-08-a-09.md)
 
 5. **Tipología 8 es numeración nuestra.** Navarro Tomás numera **siete** y M&B dan las mismas siete.
    `abbba` no lo numera nadie: lo registran como aparición suelta, que M&B atribuyen a errata o a
@@ -528,7 +523,7 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    § 68 enumera con ejemplo y localizador la serie entera: `aab:aab-aab:aab`, `aab:aab-bba:bba`,
    `aab:aab-ccd:ccd` y `abc:abc-def:def`, «que alcanzó fama permanente con las coplas de Jorge
    Manrique». Hoy el catálogo declara solo la última. **No se han creado a propósito**: son
-   cancioneriles del siglo XV y no del corpus dramático. ⇒ **C11**
+   cancioneriles del siglo XV y no del corpus dramático.
 
 ---
 
@@ -553,7 +548,7 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    Es cierto en la historia: la inventó Arnaut Daniel, la fijaron Dante y Petrarca y entró en España
    en el XVI. Pero **ninguna otra forma declara más de una**, incluido el soneto, que llegó por el
    mismo camino. *La duda es si «tradición» quiere decir aquí el origen remoto o la vía por la que
-   entra en la métrica española.* ⇒ **C13**
+   entra en la métrica española.*
 
 **Añadido el 18 de septiembre de 2026, al cerrar la fase 4 de la auditoría de fuentes.**
 
@@ -705,7 +700,7 @@ Las dos salieron al escribir sus afirmaciones de Jauralde y de Caparrós 2014, e
    es donde se va a documentar. Pero contado contra la base, **el septeto no está así**: tiene el
    metro fijo en `7 11 7 11 7 7 11` y un único esquema de rima, `ababbcc`, marcado `habitual` —es
    decir, «suele ser este», luego hay otros— y **no pregunta nada**, de modo que quien encuentre uno
-   distinto no puede registrarlo. *Sus cuatro hermanas sí están abiertas.* ⇒ **B8**
+   distinto no puede registrarlo. *Sus cuatro hermanas sí están abiertas.* ⇒ *cerrado el 27 de agosto de 2026*
 
 2. **El sexteto simétrico `abC:abC` de san Juan de la Cruz no está.** Lo documenta Navarro Tomás en
    la *Llama de amor viva*: seis versos de siete y once, pero **sin pareado final**, de modo que
@@ -778,7 +773,7 @@ que la documenta».*
    disposición que la ficha no podía dibujar. Pero el sexteto alejandrino **no está en el corpus**, y
    en otras formas lo documentado y no anotado se quedó en la afirmación. *La inconsistencia es real:
    o el catálogo modela lo que las fuentes describen aunque el corpus no lo traiga —y entonces faltan
-   cosas en otras formas—, o modela solo lo anotable, y entonces esta declaración sobra.* ⇒ **C11**
+   cosas en otras formas—, o modela solo lo anotable, y entonces esta declaración sobra.*
 
 ## Octava aguda
 
@@ -853,7 +848,7 @@ seis fuentes que recorre la forma metro por metro.
    esa regla está en la definición. *Codificarla son dos piezas: un esquema abierto de la sección
    `terceto` con `max_consecutivos: 2` junto a los cuatro concretos, y la evaluación de ese tipo en
    el auditor. El grupo pasaría de cuatro opciones a cinco, y esa quinta es justo la salida que esta
-   duda pide.* ⇒ **C3**
+   duda pide.* ⇒ **B4**
 
 2. **¿Qué disposición de tercetos merece ser la habitual, si cada fuente elige una distinta?** Hoy
    el catálogo asciende `CDC DCD` a **habitual** y deja `CDE CDE`, `CDE DCE` y `CDC EDE` en
@@ -893,11 +888,11 @@ seis fuentes que recorre la forma metro por metro.
    quintillas reutilizan la arquitectura de la quintilla, así que traen sus esquemas **con la
    frecuencia que tienen como quintilla suelta**: `aabba` sale «admitida» en la segunda mitad, donde
    M&B dicen que en Lope es *siempre* esa. *El IP decidió el 20 de agosto decirlo en prosa y no
-   tocar el modelo por ahora.* ⇒ **C1**
+   tocar el modelo por ahora.* ⇒ **B3**
 
 2. **La copla real de cuatro y seis versos.** Jauralde advierte que «la forma 4-6 precede a la 5-5,
    que solo se hace mayoritaria a finales del siglo XV»; Navarro Tomás describe el mismo proceso
-   desde el modelo 4-4. El catálogo solo tiene 5+5. ⇒ **C11**
+   desde el modelo 4-4. El catálogo solo tiene 5+5.
 
 3. **¿Los quebrados pueden ocupar cualquiera de las diez posiciones?** Hoy la pregunta las ofrece
    las diez. Ninguna fuente fija dónde caen. *Si se restringe, hay que decir a qué posiciones.*
@@ -911,7 +906,7 @@ seis fuentes que recorre la forma metro por metro.
    diferente**: la segunda siempre `AABBA` y la primera casi siempre `ABABA`. *No se ha restringido
    porque las otras cinco fuentes describen libertad y el catálogo cubre más que a Lope. Si se
    restringe, pasa a ser una restricción entre dos preguntas, que el modelo hoy no sabe expresar.*
-   ⇒ **C1**
+   ⇒ **B3**
 
 6. **Pedir datos al editor de *El caballero de Olmedo*.** Es de las poquísimas formas con uso real
    —tres secuencias, todas en esa obra— y las anotaciones vienen del vocabulario legado, sin decir
@@ -934,7 +929,7 @@ seis fuentes que recorre la forma metro por metro.
    trata cada respuesta como notación local y, al componer la novena, renumera la segunda parte con
    letras nuevas. Esto evita aparentar enlaces inexistentes, pero si el texto sí enlaza ambas partes
    obliga a falsear la anotación: hace falta modelar equivalencias de rima entre secciones o una
-   disposición global de la unidad.* **Es un bloqueo de registro, no solo de presentación.** ⇒ **C1**
+   disposición global de la unidad.* **Es un bloqueo de registro, no solo de presentación.** ⇒ **B3**
 
 3. **¿Las ocho variedades de quintilla valen todas para la Copla novena** o deben restringirse según
    la documentación histórica? *Hoy se ofrecen las ocho, por reutilización.*
@@ -1012,7 +1007,7 @@ de agosto de 2026, con el criterio de que la medida no compromete la norma.*
 2. **Las dos arquitecturas de sor Juana están fuera del teatro áureo.** La de cinco versos
    (`7-7-7-7-11`, `abbaA`) y la hexasílaba (`6-6-6-11`) se declaran porque Navarro Tomás y Jauralde
    las documentan, pero los dos las atribuyen a sor Juana y a la poesía culta del XVII-XVIII, no al
-   teatro. **Ninguna fuente dice que no aparezcan en teatro**; simplemente no lo tratan. ⇒ **C11**
+   teatro. **Ninguna fuente dice que no aparezcan en teatro**; simplemente no lo tratan.
 
 3. **Faltan dos cosas que Navarro Tomás documenta y no tienen dónde ir.** Sor Juana hizo también el
    último verso **decasílabo de dos adónicos**, y en los *Nocturnos de San Pedro* combina endecha
@@ -1025,7 +1020,7 @@ de agosto de 2026, con el criterio de que la medida no compromete la norma.*
    cuando recibió rimas**», de modo que sin rima sería una cuarteta de heptasílabos. Es un
    desacuerdo entre fuentes autorizadas, no un descuido. *Hoy la `suelta` está como `admitida`.
    Según se resuelva, se queda, baja a `excepcional` o sale de la forma.* Su esquema es además un
-   ciclo `[----]…` con cero posiciones ⇒ **C2**
+   ciclo `[----]…` con cero posiciones ⇒ *cerrado el 27 de agosto de 2026*
 
 ---
 
@@ -1046,7 +1041,7 @@ de agosto de 2026, con el criterio de que la medida no compromete la norma.*
    distingue tres —`irregular_arte_mayor`, `irregular_arte_menor` e `irregular_mixto`— y son de lo
    más anotado que hay: **nueve secuencias, 313 versos**. El catálogo nuevo tiene una sola entrada.
    *Es posible que alguna se anotara como irregular solo porque quien la anotó no encontró la forma
-   precisa, y que con el catálogo nuevo y el demarcador sí aparezca.* ⇒ **A4**
+   precisa, y que con el catálogo nuevo y el demarcador sí aparezca.* ⇒ **A3**
 
 3. **Una sola arquitectura reúne tres regímenes de rima.** La heptasilábica con endecasílabo final
    admite disposiciones **asonantes** —abrazada, cruzada y la sostenida en los cuartos—, una
