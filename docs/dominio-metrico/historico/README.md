@@ -20,7 +20,6 @@ decisiones sin tomar. Está en [cuestiones para el IP](../cuestiones-para-el-ip.
 | --- | --- |
 | [revision-del-catalogo-2026-07-a-08.md](./revision-del-catalogo-2026-07-a-08.md) | El diario del contraste de las 28 fichas con las seis monografías, y sobre todo **qué cambió en el modelo por el camino**, cambio a cambio. Es la trazabilidad de esa fase |
 | [decisiones-de-modelo-por-forma-2026-08.md](./decisiones-de-modelo-por-forma-2026-08.md) | Andamiaje que se escribió para vaciarse: los porqués de cada forma antes de mudarse al catálogo. Lo vigente se lee en `/formas` |
-| [poda-de-la-prosa.md](./poda-de-la-prosa.md) | La propuesta frase a frase de qué prosa dejó de aportar cuando la ficha empezó a dibujar la estructura. Cerrada en 0 de 191. Regenerable con `npm run poda:informe` |
 
 ### El editor V2 y el registro
 

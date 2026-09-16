@@ -40,7 +40,7 @@ quedan se consultan en la base y con los informes de más abajo.
 | [Las fuentes del catálogo](./fuentes-del-catalogo.md) | Las seis monografías, por qué solo seis, dónde están los ficheros y cómo se cita cada una. **De lectura obligada antes de añadir o corregir una afirmación** |
 | [Cómo se cambia el catálogo](./como-se-cambia-el-catalogo.md) | El método: por migración y nunca desde el dashboard. Auditar la forma entera contra la base, presentar las decisiones juntas, una sola migración con guardas que ejecuten lo que tocan, verificar la ficha. Con las reglas que costó aprender: cómo se retira algo, por qué una afirmación no se reutiliza entre formas y por qué que el auditor calle no prueba nada |
 | [Dónde vive la prosa del catálogo](./donde-vive-la-prosa.md) | Los ocho criterios de redacción y qué se escribe en cada campo: definición, descripción, nota, afirmación |
-| [Contratos del registrador](./contratos-registrador-formas-revisadas.md) | Qué deriva y qué pregunta el editor en cada forma. Lo lee `npm run audit:metrica` |
+| [Contratos del registrador](./contratos-del-registrador.md) | Qué tiene que cumplir el editor al anotar, sea cual sea la forma: de dónde salen las preguntas, el recorrido mínimo y qué cuenta como desviación. **Lo de cada forma en concreto lo genera `npm run audit:editor`** |
 | [Cuestiones para el IP](./cuestiones-para-el-ip.md) | **Lo que sigue sin decidir y necesita criterio filológico**, forma por forma: qué admite cada una, hasta dónde llega su repertorio, si una realización documentada entra o se queda fuera |
 
 ## Lo que se comprueba solo

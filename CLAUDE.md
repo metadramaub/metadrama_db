@@ -24,7 +24,6 @@ npm run db:types       # regenera src/lib/types/database.types.ts
 npm run audit:metrica  # audita el catálogo métrico contra los criterios de nivel (D1–D16)
 npm run audit:editor   # audita qué le pide el editor V2 a cada forma
 npm run audit:anotaciones  # comprueba que lo anotado sigue encajando con el catálogo
-npm run poda:informe   # regenera la propuesta de poda de la prosa del catálogo
 npm run migracion:informe  # regenera docs/dominio-metrico/migracion/, un informe por obra
 npm run equivalencias:informe  # regenera el estado de las equivalencias con el vocabulario legado
 npm run snapshot:obras # foto fija, un JSON por obra, de todo lo anotado hoy (a backups/)

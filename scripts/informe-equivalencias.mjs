@@ -113,7 +113,19 @@ function leerTerminos() {
 	`);
 }
 
-/** Reparto de las secuencias reales por vía de resolución. */
+/**
+ * Reparto por vía de resolución de **las secuencias que hay que migrar**.
+ *
+ * La vista propone destino para las 717 secuencias de la base, tengan o no vocabulario legado.
+ * Este informe trata de otra cosa: de las que lo tienen y por tanto hay que migrar. Las demás
+ * —454 el 16 de septiembre de 2026, y 453 de ellas ya anotadas con el editor V2— entran por la vía
+ * `sin_tipo`, que significa «esta secuencia nunca declaró forma en el vocabulario viejo».
+ *
+ * **La equivalencia solo va en un sentido**: del término legado al catálogo nuevo. Una secuencia
+ * que solo tiene V2 no necesita equivalencia ninguna. Contarlas aquí hacía dos daños: enterraba la
+ * cifra que importa —263 se convertían en 717— y hacía que el informe escribiera solo una frase
+ * falsa, la de que 455 secuencias «son tramos sin forma, que no la tienen por diseño».
+ */
 function leerVias() {
 	return query(`
 		select via,
@@ -121,9 +133,23 @@ function leerVias() {
 			count(*) filter (where arquitectura_propuesta is null) as sin_arquitectura,
 			count(*) filter (where longitud_compatible = false) as longitud_incompatible
 		from propuesta_metrica_secuencia
+		where via <> 'sin_tipo'
 		group by 1
 		order by n desc
 	`);
+}
+
+/** Las que quedan fuera, para poder decir cuántas son y por qué no cuentan. */
+function leerFueraDeAlcance() {
+	const filas = query(`
+		select count(*) as n,
+			count(*) filter (where exists (
+				select 1 from anotaciones_metricas a where a.secuencia_id = p.secuencia_id
+			)) as con_anotacion_nueva
+		from propuesta_metrica_secuencia p
+		where via = 'sin_tipo'
+	`);
+	return filas[0] ?? { n: 0, con_anotacion_nueva: 0 };
 }
 
 /** Destinos reclamados por más de un término: el mapa no puede expresarlo. */
@@ -146,6 +172,7 @@ function leerConflictos() {
 function construirInforme() {
 	const terminos = leerTerminos();
 	const vias = leerVias();
+	const fuera = leerFueraDeAlcance();
 	const conflictos = leerConflictos();
 
 	const conDestino = terminos.filter((t) => t.destino);
@@ -171,10 +198,18 @@ function construirInforme() {
 	w();
 	w(`- **${terminos.length} términos** en \`vocabularios.categoria = 'estrofa_tipo'\`.`);
 	w(`- **${conDestino.length} declaran su destino** en el catálogo nuevo; **${sinDestino.length} no**.`);
-	w(`- **${totalSecuencias} secuencias reales**, todas con forma propuesta.`);
-	if (sinArquitectura > 0) {
+	w(
+		`- **${totalSecuencias} secuencias con vocabulario legado**, todas con forma propuesta. Son las que hay que migrar.`
+	);
+	if (Number(fuera.n) > 0) {
 		w(
-			`- ${sinArquitectura} no proponen arquitectura: son tramos sin forma, que no la tienen por diseño.`
+			`- Otras **${fuera.n} no lo tienen** y quedan fuera de este informe: ${fuera.con_anotacion_nueva} ya están anotadas con el editor V2 y el resto no declara forma ninguna. La equivalencia va solo del término viejo al catálogo nuevo, así que a estas no les hace falta.`
+		);
+	}
+	if (sinArquitectura > 0) {
+		const una = Number(sinArquitectura) === 1;
+		w(
+			`- De las que hay que migrar, ${sinArquitectura} ${una ? 'no propone' : 'no proponen'} arquitectura: ${una ? 'es un tramo sin forma, que no la tiene' : 'son tramos sin forma, que no la tienen'} por diseño.`
 		);
 	}
 	if (longitud > 0) {
@@ -192,8 +227,7 @@ function construirInforme() {
 		directa: 'El término declara su destino, o lo declara algo que cuelga de él',
 		rasgo: 'El término se disolvió en un rasgo y la forma la da su ascendiente',
 		ascendencia: 'El término no declara destino; lo hereda de un ascendiente',
-		sin_destino: 'No hay destino ni por ascendencia',
-		sin_tipo: 'La secuencia no declara forma ninguna'
+		sin_destino: 'No hay destino ni por ascendencia'
 	};
 	for (const v of vias) {
 		w(`| \`${v.via}\` | ${v.n} | ${SENTIDO[v.via] ?? '—'} |`);

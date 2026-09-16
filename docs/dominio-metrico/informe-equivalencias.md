@@ -5,23 +5,24 @@
 > por qué faltan y las decisiones del IP viven en
 > [equivalencias-pendientes.md](./equivalencias-pendientes.md), que sí es prosa propia.
 
-Generado el 2026-08-26.
+Generado el 2026-09-16.
 
 ## Resumen
 
 - **123 términos** en `vocabularios.categoria = 'estrofa_tipo'`.
-- **96 declaran su destino** en el catálogo nuevo; **27 no**.
-- **263 secuencias reales**, todas con forma propuesta.
-- 9 no proponen arquitectura: son tramos sin forma, que no la tienen por diseño.
+- **99 declaran su destino** en el catálogo nuevo; **24 no**.
+- **263 secuencias con vocabulario legado**, todas con forma propuesta. Son las que hay que migrar.
+- Otras **454 no lo tienen** y quedan fuera de este informe: 453 ya están anotadas con el editor V2 y el resto no declara forma ninguna. La equivalencia va solo del término viejo al catálogo nuevo, así que a estas no les hace falta.
+- De las que hay que migrar, 1 no propone arquitectura: es un tramo sin forma, que no la tiene por diseño.
 - **21 tienen la longitud incompatible** con la arquitectura propuesta. No es un fallo de la equivalencia: es la anotación de la obra, y se revisa en [migracion/](./migracion/).
 
 ### Cómo se resuelve cada secuencia
 
 | Vía | Secuencias | Qué significa |
 | --- | ---: | --- |
-| `directa` | 145 | El término declara su destino, o lo declara algo que cuelga de él |
+| `directa` | 153 | El término declara su destino, o lo declara algo que cuelga de él |
 | `rasgo` | 71 | El término se disolvió en un rasgo y la forma la da su ascendiente |
-| `ascendencia` | 47 | El término no declara destino; lo hereda de un ascendiente |
+| `ascendencia` | 39 | El término no declara destino; lo hereda de un ascendiente |
 
 ## Términos sin destino declarado
 
@@ -33,10 +34,7 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 | --- | --- | ---: | ---: |
 | `endecasilabo_suelto_puro` | `endecasilabo_suelto` | **26** | 26 |
 | `octava_real_regular` | `octava_real` | **12** | 12 |
-| `irregular_mixto` | `irregular` | **6** | 9 |
 | `copla_real_de_pie_quebrado` | `copla_real` | **1** | 3 |
-| `irregular_arte_mayor` | `irregular` | **1** | 9 |
-| `irregular_arte_menor` | `irregular` | **1** | 9 |
 | `cancion_de_15_versos` | `cancion_petrarquista` | 0 | 3 |
 | `cancion_de_8_versos` | `cancion_petrarquista` | 0 | 3 |
 | `cancion_de_9_versos` | `cancion_petrarquista` | 0 | 3 |
@@ -64,7 +62,7 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 | Término legado | Destino en el catálogo | Propias | Familia |
 | --- | --- | ---: | ---: |
 | `redondilla` | forma · Redondilla | **37** | 63 |
-| `redondilla_regular` | arquitectura · Redondilla · Octosilábica | **26** | 63 |
+| `redondilla_regular` | arquitectura · Redondilla · Octosílaba | **26** | 63 |
 | `romance_e-o` | valor de rasgo · e-o | **20** | 71 |
 | `decima_espinela` | arquitectura · Décima · Espinela | **18** | 18 |
 | `quintilla` | forma · Quintilla | **18** | 18 |
@@ -74,18 +72,21 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 | `romance_a-o` | valor de rasgo · a-o | **7** | 71 |
 | `soneto_regular_ABBAABBACDCDCD` | esquema de rima · Tercetos de rima cruzada | **7** | 9 |
 | `terceto_encadenado` | forma · Terceto encadenado | **7** | 7 |
+| `irregular_mixto` | arquitectura · Versificación irregular · Mixta | **6** | 9 |
 | `romance_a-a` | valor de rasgo · a-a | **6** | 71 |
 | `romance_e-e` | valor de rasgo · e-e | **5** | 71 |
 | `cancion_regular_abCabCcdeeDfF` | arquitectura · Canción petrarquista · Regular de 13 versos | **3** | 3 |
 | `romance_i-o` | valor de rasgo · i-o | **3** | 71 |
 | `romance_o-o` | valor de rasgo · o-o | **3** | 71 |
 | `seguidilla` | forma · Seguidilla | **3** | 3 |
-| `copla_real_sin_quebrado` | arquitectura · Copla real · Octosilábica consonante | **2** | 3 |
+| `copla_real_sin_quebrado` | arquitectura · Copla real · Octosílaba consonante | **2** | 3 |
 | `pareado_endecasilabo` | forma · Pareado | **2** | 2 |
 | `romance_o-a` | valor de rasgo · o-a | **2** | 71 |
 | `romance_o-e` | valor de rasgo · o-e | **2** | 71 |
 | `sexteto_lira_a1_aBaBcC` | variedad · A1 · aBaBcC | **2** | 5 |
 | `irregular` | forma · Versificación irregular | **1** | 9 |
+| `irregular_arte_mayor` | arquitectura · Versificación irregular · De arte mayor | **1** | 9 |
+| `irregular_arte_menor` | arquitectura · Versificación irregular · De arte menor | **1** | 9 |
 | `octava_lira` | forma · Octava-lira | **1** | 1 |
 | `romance_a` | valor de rasgo · a | **1** | 71 |
 | `romance_i-a` | valor de rasgo · i-a | **1** | 71 |
@@ -93,7 +94,7 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 | `romance_o` | valor de rasgo · o | **1** | 71 |
 | `romance_u-e` | valor de rasgo · u-e | **1** | 71 |
 | `romance_u-o` | valor de rasgo · u-o | **1** | 71 |
-| `romancillo_heptasilabo` | arquitectura · Romance · Heptasilábica | **1** | 1 |
+| `romancillo_heptasilabo` | arquitectura · Romance · Heptasílabo | **1** | 1 |
 | `sexteto_lira_a2_AbaBcC` | variedad · A2 · AbaBcC | **1** | 5 |
 | `sexteto_lira_a3_abaBcC` | variedad · A3 · abaBcC | **1** | 5 |
 | `sexteto_lira_a4_aBaBCC` | variedad · A4 · aBaBCC | **1** | 5 |
@@ -111,7 +112,7 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 | `decima_lira` | forma · Décima-lira | 0 | 0 |
 | `doble_sextilla_alternativa` | arquitectura · Copla manriqueña · De pie quebrado | 0 | 0 |
 | `endecasilabo_suelto` | forma · Endecasílabo suelto | 0 | 26 |
-| `endecasilabo_suelto_puro_sin_distico_final` | arquitectura · Endecasílabo suelto · Endecasilábica | 0 | 26 |
+| `endecasilabo_suelto_puro_sin_distico_final` | arquitectura · Endecasílabo suelto · Endecasílabo | 0 | 26 |
 | `lira` | forma · Lira | 0 | 0 |
 | `novena` | forma · Novena | 0 | 0 |
 | `novena_canonica` | arquitectura · Novena · Redondilla + quintilla | 0 | 0 |
@@ -128,14 +129,14 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 | `quintilla_7_ababb` | esquema de rima · Tipología 7 | 0 | 18 |
 | `quintilla_8_abbba` | esquema de rima · Tipología 8 | 0 | 18 |
 | `redondilla_doble_abbaacca` | arquitectura · Redondilla · Doble enlazada | 0 | 63 |
-| `redondilla_heptasilaba` | arquitectura · Redondilla · Heptasilábica | 0 | 63 |
-| `redondilla_hexasilaba` | arquitectura · Redondilla · Hexasilábica | 0 | 63 |
+| `redondilla_heptasilaba` | arquitectura · Redondilla · Heptasílaba | 0 | 63 |
+| `redondilla_hexasilaba` | arquitectura · Redondilla · Hexasílaba | 0 | 63 |
 | `romance` | forma · Romance | 0 | 71 |
 | `romance_e` | valor de rasgo · e | 0 | 71 |
-| `romance_heroico` | arquitectura · Romance · Endecasilábica | 0 | 0 |
+| `romance_heroico` | arquitectura · Romance · Endecasílabo | 0 | 0 |
 | `romance_i` | valor de rasgo · i | 0 | 71 |
 | `romance_u-a` | valor de rasgo · u-a | 0 | 71 |
-| `romancillo_hexasilabo` | arquitectura · Romance · Hexasilábica | 0 | 1 |
+| `romancillo_hexasilabo` | arquitectura · Romance · Hexasílabo | 0 | 1 |
 | `sexta_rima` | denominación · Sexta rima | 0 | 0 |
 | `sexteto` | forma · Sexteto | 0 | 0 |
 | `sexteto_lira` | forma · Sexteto-lira | 0 | 5 |
@@ -145,15 +146,15 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 | `sexteto_lira_c2_AabBCC` | variedad · C2 · AabBCC | 0 | 5 |
 | `sextilla` | forma · Sextilla | 0 | 0 |
 | `sextilla_de_pie_quebrado` | arquitectura · Sextilla · De pie quebrado | 0 | 0 |
-| `sextilla_sin_quebrado` | arquitectura · Sextilla · Octosilábica | 0 | 0 |
+| `sextilla_sin_quebrado` | arquitectura · Sextilla · Octosílaba | 0 | 0 |
 | `sextina` | forma · Sextina | 0 | 0 |
 | `silva` | forma · Silva | 0 | 12 |
-| `silva_de_endecasilabos` | arquitectura · Silva · Endecasilábica | 0 | 12 |
+| `silva_de_endecasilabos` | arquitectura · Silva · Endecasílaba | 0 | 12 |
 | `silva_libre` | arquitectura · Silva · Libre | 0 | 12 |
 | `soneto` | forma · Soneto | 0 | 9 |
 | `soneto_con_tercetos_de_rima_nuclear_ABBAABBACDCEDE` | esquema de rima · Tercetos de rima nuclear | 0 | 9 |
 | `terceto` | forma · Terceto | 0 | 7 |
-| `terceto_octosilabo` | arquitectura · Terceto encadenado · Octosilábica consonante | 0 | 0 |
+| `terceto_octosilabo` | arquitectura · Terceto encadenado · Octosílabo consonante | 0 | 0 |
 | `terceto_sin_encadenar_1_AXABYB` | esquema de rima · Verso central suelto | 0 | 7 |
 | `terceto_sin_encadenar_2_XAAYBB` | esquema de rima · Primer verso suelto | 0 | 7 |
 | `verso suelto` | forma · Verso aislado | 0 | 0 |
