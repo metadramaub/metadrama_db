@@ -267,36 +267,48 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    la octava-lira (8) y las menores siguen a salvo por debajo del umbral.*
 
    *Las preguntas, entonces: si el criterio del catálogo debe seguir siendo el eslabón, que ninguna
-   fuente sostiene y dos niegan expresamente; si debe ser la extensión, que tres sostienen y sitúan
-   en nueve; o si debe ser mixto. Y en cualquier caso, la frase «la tradición y este catálogo la
+   fuente sostiene y dos niegan expresamente; si debe ser la extensión, que tres sitúan en nueve
+   **aunque las tres con un «normalmente»**; o si debe ser mixto. Y en cualquier caso, la frase «la tradición y este catálogo la
    llaman alirada» no puede quedarse: el criterio es del proyecto y conviene que la definición lo
    diga como tal.*
 
-   **Lo confirman los silencios, y por otro camino.** Al justificar, en la fase 4, por qué tal
-   fuente no registra tal estrofa alirada, resultó que **ninguna calla por olvido: cada una deja de
-   enumerar aliradas en el punto en que empieza a llamarlas canción**. Morley y Bruerton lo dicen
-   con todas las letras —«**todas las liras no son más que formas especializadas de la
-   *canzone***»—, y Jauralde también, al definir la estancia como estrofa de 7 y 11 «normalmente
-   **por encima de los ocho versos (para diferenciarla de las liras)**».
+   **Lo que dicen las seis, recomprobado el 21 de septiembre.** La primera versión de esta tabla
+   sostenía que **ninguna fuente calla por olvido: cada una deja de enumerar aliradas en el punto en
+   que empieza a llamarlas canción**, y que dos de ellas ponían la juntura en el mismo sitio, el 8/9.
+   La pasada D —que parte cada afirmación en cláusulas y exige para cada una el fragmento literal que
+   la sostiene— obligó a volver a los seis libros. **Tres de las seis filas estaban mal**, y el
+   hallazgo sale bastante más débil de lo que se escribió.
 
-   | fuente | su serie alirada llega a | su canción o estancia empieza en |
-   | --- | --- | --- |
-   | Morley y Bruerton 1968 | 6, y anota la de 5 | 5 — «estrofas de 5 a 20 versos»: **se solapan enteras** |
-   | Quilis 1969 | 6 — §§ 5.4.4.3 «Lira» y 5.4.5.2 «Sexteto-lira» | «normalmente oscilaban entre seis y doce»: **se solapan** |
-   | Domínguez Caparrós 2014 | 7 — cuarteto, sexteto y septeto lira | 9 — «no menos de nueve ni más de veinte» |
-   | *Diccionario* 2016 | 8 — «entre los cuatro y ocho versos» | 9 — «no menos de nueve»: **encajan sin hueco** |
-   | Jauralde Pou 2020 | 8 — cuarteto, quinteto, sexteto, septeto y octeto-lira | 9 — «por encima de los ocho»: **encajan, y lo declara** |
-   | Navarro Tomás 1972 | 9 — § 161 | — |
+   | fuente | su serie alirada llega a | su canción o estancia | ¿encajan? |
+   | --- | --- | --- | --- |
+   | Morley y Bruerton 1968 | 6, y anota la de 5 | «estrofas de 5 a 20 versos» | **se solapan enteras**, y lo declaran: «todas las liras no son más que formas especializadas de la *canzone*» |
+   | Quilis 1969 | 6 — lira de 5 y sexteto-lira | mínimo 6 en la provenzal y **máximo «ilimitado»**; «en PETRARCA, entre nueve y veinte» | **se solapan, y sin techo** |
+   | Domínguez Caparrós 2014 | 7 — cuarteto, sexteto y septeto lira | «no menos de nueve ni más de veinte, **normalmente**» | dejan **hueco en el 8**, y la frontera es «normalmente» |
+   | *Diccionario* 2016 | 8 — «entre los cuatro y ocho versos» | «no menos de nueve ni más de veinte, **normalmente**» | encajan en el 8/9, **pero con «normalmente»** |
+   | Jauralde Pou 2020 | 8 — cuarteto, quinteto, sexteto, septeto y octeto-lira… | «**normalmente** por encima de los ocho versos (para diferenciarla de las liras)» | lo declara **y él mismo lo rompe**: ver abajo |
+   | Navarro Tomás 1972 | 9 — § 161 | — | — |
 
-   *Dos fuentes reparten las dos series sin hueco ni solapamiento, y las dos ponen la juntura en el
-   **8/9**. Otras dos las solapan del todo, de modo que para ellas la pregunta no se plantea: una
-   estrofa alirada **es** una canción. Y Navarro, que llega a nueve, es el único que mete una
-   alirada en el tramo que las dos primeras ya reservan a la estancia — que es exactamente el caso
-   que abre este punto.*
+   **Lo que se caía.** De Quilis se citaba que su canción tiene estrofas «normalmente entre seis y
+   doce» versos. La cita es literal, pero ese rango es **el de la canción provenzal**, y la misma
+   frase declara que el máximo es **«ilimitado»** y da nueve a veinte en Petrarca, quince en Boscán y
+   trece en Garcilaso. Y de Jauralde se citaba la definición de la estancia como si trazara una
+   frontera limpia, cuando unas líneas antes escribe:
 
-   *Si el criterio pasara a ser la extensión con el corte en 8/9, las seis fuentes quedarían
-   conformes salvo Navarro, y las dos que hoy solapan no lo contradirían: no dicen dónde acaba la
-   alirada, dicen que toda alirada es canción.*
+   > «No es difícil encontrar, sobre todo durante el periodo romántico, **extensiones de la lira que
+   > alcanzan y aun superan la octava**, en combinaciones variadas.»
+
+   Es decir: **sigue llamando lira a combinaciones de nueve versos o más**, justo en el tramo que su
+   propia definición reserva a la estancia. De las dos fuentes que se presentaban como el apoyo
+   fuerte del 8/9, una lo rompe y la otra lo condiciona con un «normalmente».
+
+   *De modo que **ninguna de las seis sostiene una frontera nítida**. Dos solapan las dos series del
+   todo; una deja hueco en el 8; una la pone en el 8/9 pero «normalmente»; una la declara y la
+   contradice; y la sexta, Navarro, mete una alirada en el nueve. El argumento de que la tradición
+   reparte las dos series y solo nosotros dudamos **no se sostiene**.*
+
+   *Eso no debilita la pregunta: la refuerza. Si ninguna de las seis traza el corte, el proyecto
+   necesita un criterio propio porque no hay ninguno que heredar, y lo que hay que decidir es cuál
+   —el eslabón, la extensión o una mezcla— sabiendo que se elige, no que se recoge.*
 
 7. **¿«Petrarquista» nombra la forma o solo la estancia de trece versos?** Ninguna fuente lo reserva
    para una extensión: las tres que usan el término lo aplican a la forma entera y lo glosan como
