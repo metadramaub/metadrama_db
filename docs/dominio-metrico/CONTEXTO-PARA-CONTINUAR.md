@@ -1,17 +1,27 @@
 # Contexto para continuar el trabajo métrico
 
-Actualizado: 12 de septiembre de 2026
+Actualizado: 16 de septiembre de 2026
 
 Este es el documento que debe leer primero un nuevo chat. Resume el estado operativo, dice qué
 queda por hacer y enlaza la documentación detallada.
 
-> **La revisión del catálogo está terminada, y con ella la de su prosa.** Las formas activas de
-> entonces —26— y los dos tramos sin forma se contrastaron con las seis monografías hasta el 8 de
-> agosto de 2026; las seis lecturas transversales se cerraron el 10; y la prosa de esas 28 fichas
-> quedó revisada forma por forma el **21 de agosto**. Ese mismo día entraron seis formas nuevas,
-> escritas ya con el criterio de la revisión. El diario de ese proceso está
-> [archivado](./historico/revision-del-catalogo-2026-07-a-08.md). Lo que sigue **sin decidir**, forma
-> por forma, está en [cuestiones para el IP](./cuestiones-para-el-ip.md), podado el 22 de agosto.
+> **El catálogo se revisó en agosto y se auditó contra sus fuentes en septiembre.** La revisión
+> contrastó las formas de entonces con las seis monografías y dejó la prosa escrita forma por forma
+> el **21 de agosto**; su diario está [archivado](./historico/revision-del-catalogo-2026-07-a-08.md).
+>
+> **La auditoría de septiembre miró otra cosa**: si cada afirmación de «Lo que dicen las fuentes»
+> dice lo que su libro dice. Cuatro pasadas de lectura y cuatro comprobaciones mecánicas sobre las
+> **267** afirmaciones, **57 migraciones de corrección** y una forma nueva, la estrofa sáfica. Método:
+> [el plan](./plan-auditoria-fuentes.md); estado: [ESTADO.md](./auditoria-fuentes/ESTADO.md).
+>
+> **Eso deja una deuda anotada y no saldada**: la prosa de las fichas se escribió en agosto
+> apoyándose en unas afirmaciones que la auditoría ha corregido después en más de cien puntos.
+> Nadie ha vuelto a leerla con las fuentes ya firmes. Lo que sí está inventariado es dónde los
+> **datos** del catálogo se apartan de las fuentes:
+> [divergencias](./divergencias-con-las-fuentes.md).
+>
+> Lo que sigue **sin decidir**, forma por forma, está en
+> [cuestiones para el IP](./cuestiones-para-el-ip.md).
 >
 > **La zona pública pasó a artefactos JSON el 12 de septiembre de 2026.** Los cinco pasos del
 > [plan pactado](#el-plan-pactado-en-cinco-pasos) están cerrados: solo la vista previa se calcula en
@@ -1232,9 +1242,10 @@ pública por artefactos están en producción; la infraestructura de comparació
    `npm run equivalencias:informe`. **Hasta que se haga, esas obras no tienen perfil.**
 
 **Nada de lo que sigue impide anotar hoy salvo A6 si aparece una rima compartida entre partes**;
-ese caso debe detenerse porque el modelo actual lo falsearía. El catálogo está limpio:
-`npm run audit:metrica` y `npm run audit:editor` dan cero defectos, y las pruebas, `npm run check` y
-`npm run lint` pasan.
+ese caso debe detenerse porque el modelo actual lo falsearía. **Los once defectos que `npm run
+audit:metrica` y el que `npm run audit:editor` señalan están todos en los dos tramos sin forma**
+—`verso_aislado` e `irregular`— y son estructurales: un verso suelto no declara esquema de rima ni
+extensión de unidad porque no los tiene. Ninguna forma propiamente dicha incumple un criterio.
 
 **Lo cerrado no se cuenta dos veces.** Estos asuntos están resueltos y su detalle vive en los
 commits, en las migraciones y en el [histórico](./historico/); se listan solo para que quien busque
