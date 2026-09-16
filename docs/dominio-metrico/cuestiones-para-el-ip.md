@@ -479,10 +479,14 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 
 ## Quintilla
 
-1. **Faltan quintillas con verso suelto, y quedan fuera por alcance.** Jauralde registra `abcab`,
-   `abbca` y `abaca`, que él mismo describe como transgresión de las viejas normas. El catálogo
-   declara `versos_sueltos: ninguno`. *Es una decisión de alcance del corpus, no una norma: si el
-   corpus las trae, se recogen y se relaja la restricción, sin que eso desmienta nada.*
+1. **Faltan quintillas con verso suelto, y aquí las fuentes se enfrentan.** Jauralde las registra
+   —`abcab`, `abbca`, `abaca`, `abcaa` «y otras»— y las describe como **transgresión de las viejas
+   normas**; el *Diccionario* las **prohíbe expresamente** al fijar sus cuatro condiciones: cinco
+   octosílabos o menores, dos clases de rima consonante, no más de dos versos seguidos con la misma
+   y «ni pareado final **ni verso suelto**». El catálogo declara `versos_sueltos: ninguno`, que es la
+   lectura del *Diccionario*. *No es solo alcance del corpus, entonces: es que una fuente las
+   documenta como infracción y otra las excluye de la definición. Si el corpus las trae, recogerlas
+   contradice al* Diccionario *y no contradice a Jauralde, que ya las llama transgresión.*
 
 2. ~~**`min_alternancias: 2` no es la regla de las fuentes.**~~ **Resuelto el 25 de agosto de 2026**
    (`20260825380000`). Las tres medidas declaran ya `max_consecutivos: 2`, que es la regla que
@@ -540,26 +544,60 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    fuente. Es el mismo defecto que la auditoría retiró de las fichas.*
    ⇒ [incidencia F44 del formulario](./historico/editor-v2-recorrido-2026-08-a-09.md)
 
-5. **Tipología 8 es numeración nuestra.** Navarro Tomás numera **siete** y M&B dan las mismas siete.
-   `abbba` no lo numera nadie: lo registran como aparición suelta, que M&B atribuyen a errata o a
-   adaptación expresiva. *Decisión del IP el 19 de agosto: se conserva el número 8, a la espera de
-   ver si el corpus lo confirma. Si no aparece más, conviene renombrarlo para no atribuir a Navarro
-   Tomás un octavo tipo que no dio.*
+5. **Tipología 8 es numeración nuestra, y las fuentes no cuentan lo mismo.** Son **tres cuentas
+   distintas**, no una:
+
+   | Caparrós 2014 | **cinco.** Las deriva de las dos prohibiciones —ni tres seguidos con la misma rima ni pareado final— y concluye que las posibles son `ababa`, `abaab`, `abbab`, `aabab` y `aabba` |
+   | Navarro Tomás | **siete**, numeradas: 1 `ababa`, 2 `abbab`, 3 `abaab`, 4 `aabab`, 5 `aabba`, 6 `abbaa`, 7 `ababb` |
+   | Morley y Bruerton | **siete**, y añaden que Rengifo (1592) recoge solo las cinco primeras, omitiendo las dos que acaban en pareado |
+   | Jauralde | recoge `abbba` **entre las disposiciones** de la quintilla octosilábica, y la llama «escasa» frente a «la mayoritaria `ababa`» |
+
+   Así que `abbba` no lo **numera** nadie —M&B lo atribuyen a errata o a adaptación expresiva— pero
+   **Jauralde sí lo cuenta entre las disposiciones**, que es más que una aparición suelta. Y la
+   cuenta de cinco de Caparrós coincide con la de Rengifo que dan M&B. *Decisión del IP el 19 de
+   agosto: se conserva el número 8, a la espera de ver si el corpus lo confirma. Si no aparece más,
+   conviene renombrarlo para no atribuir a Navarro Tomás un octavo tipo que no dio.*
 
 ## Sextilla
 
-1. **¿Es una arquitectura más la sextilla quebrada en segundo y quinto, o una desviación?** El
-   *Diccionario* ilustra su entrada con una estrofa de Lucas Fernández quebrada en **segundo y
-   quinto**, y Jauralde documenta las sextillas de Ricardo Gil en esas mismas posiciones. Desde el
+1. **¿Es una arquitectura más la sextilla quebrada en segundo y quinto, o una desviación?** **Son
+   tres las fuentes que la traen**: el *Diccionario* ilustra su entrada con una estrofa de Lucas
+   Fernández quebrada en **segundo y quinto**, Jauralde documenta las sextillas de Ricardo Gil en
+   esas mismas posiciones, y Caparrós «documenta también una variante con los quebrados en segundo
+   y quinto lugar». Desde el
    18 de agosto lo dice la descripción de la arquitectura, y el esquema declara además que el
    quebrado puede medir cuatro **o cinco** sílabas. *Falta decidir qué hacer cuando el corpus traiga
    una quebrada en otras posiciones.*
 
-3. **¿Nada distingue dos sextillas consecutivas de una copla manriqueña?** Los versos, las medidas y
-   el tipo de rima son idénticos; lo único que cambia es si las rimas de la segunda mitad dependen
-   de la primera. Hoy **lo decide el editor al elegir forma**, no un criterio observable. *Es la
-   misma pregunta que la copla castellana frente a dos redondillas, y las dos definiciones ya la
-   admiten en voz alta.*
+3. **La copla manriqueña es de doce versos en el catálogo y ninguna de las seis fuentes la llama
+   así.** El catálogo la tiene como forma propia con una sola arquitectura, `doble_pie_quebrado`, de
+   **doce versos**, mientras la quebrada de seis vive en la sextilla. Los libros no la parten así:
+
+   | fuente | qué cuenta |
+   | --- | --- |
+   | Caparrós 2014 | «la variante más conocida de **la sextilla**… estrofa de **seis versos**», que difiere de la común en que el tercero y el sexto son tetrasílabos |
+   | *Diccionario* | «**Cuenta también los seis**: la manriqueña es para él la estrofa de pie quebrado». Solo su entrada aparte, «copla mixta», contempla la agrupación de doce, dividida «en dos semiestrofas de distinta extensión **o en dos sextillas**» |
+   | Quilis 1969 | «la estrofa manriqueña como **sextilla de pie quebrado**, **sin epígrafe para la pareja de doce versos**» |
+   | Navarro Tomás | § 67: «la estrofa de doce versos fue concebida ordinariamente como **una pareja de sextillas**» |
+   | Jauralde | **la trata dentro de las estrofas de ocho versos**, y dice que «su forma más habitual es la de **doble sextilla con seis rimas**» |
+   | Morley y Bruerton | «No la separan»: la agrupación de doce cae dentro de sus coplas de pie quebrado «**sin nombre propio**» |
+
+   **Tres cuentan seis, dos describen el grupo de doce como pareja o doble de sextillas, y una no lo
+   separa. Ninguna da nombre propio a una estrofa de doce.** *Este contraste no se podía ver antes de
+   la auditoría: la afirmación de Jauralde decía «cuenta los doce» y se corrigió el 21 de septiembre
+   de 2026 al comprobar que su epígrafe está clasificado entre las estrofas de ocho. Sin esa
+   corrección parecían dos fuentes a favor de los doce.*
+
+   *Lo que hay que decidir es si la forma de doce se sostiene y con qué apoyo. Si se sostiene, es
+   decisión del proyecto y conviene que la definición lo diga, como se hizo con la frontera alirada.
+   Si no, la manriqueña vuelve a ser una arquitectura de la sextilla y la pareja de doce se deriva
+   del rango, que es lo que el modelo hace con todas las demás.*
+
+3bis. **Y un nivel más abajo, nada distingue dos sextillas consecutivas de una copla manriqueña.**
+   Los versos, las medidas y el tipo de rima son idénticos; lo único que cambia es si las rimas de la
+   segunda mitad dependen de la primera. Hoy **lo decide el editor al elegir forma**, no un criterio
+   observable. *Es la misma pregunta que la copla castellana frente a dos redondillas, y las dos
+   definiciones ya la admiten en voz alta.*
 
 4. **¿Debe registrarse el esquema exacto de las coplas manriqueñas no manriqueñas?** La forma de
    doce tiene dos esquemas: el manriqueño `abcabc|defdef`, que se marca si es el observado, y uno de
@@ -569,7 +607,12 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
 5. **¿Se admiten las tres disposiciones que Navarro Tomás documenta para la hexasílaba?** Le
    documenta **rimas alternas** en Juan Ruiz (§ 30); la **aguda `aaé:bbé`** en Eugenio Gerardo Lobo
    (§ 245); y el **lay**, «breve canción amorosa de origen francoprovenzal en sextillas hexasílabas
-   con insistentes rimas agudas», con `ááá:ááé` de don Álvaro de Luna. **No se registraron por
+   con insistentes rimas agudas», con `ááá:ááé` de don Álvaro de Luna.
+
+   **Y del lay las dos fuentes que lo definen no dan el mismo esquema**: el de Navarro Tomás es
+   `ááá:ááé`, y el *Diccionario* lo describe con «dos rimas consonantes agudas, una en los versos
+   primero, segundo, cuarto y quinto y otra en el tercero y el sexto, **es decir `aabaab`**». *Si
+   alguna vez entra, hay que elegir cuál.* **No se registraron por
    criterio cronológico**: Juan Ruiz es del XIV, Álvaro de Luna del XV y Lobo del XVIII. *Ojo a las
    agudas: la rima aguda no es una clase de rima sino una cualidad del final, y el catálogo la lleva
    en `final_acentual`, así que declararlas obligaría a decidir cómo se escribe `aaé:bbé` sin
