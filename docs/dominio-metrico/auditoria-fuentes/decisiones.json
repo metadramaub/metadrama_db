@@ -269,7 +269,7 @@
   "cubo": "limpio",
   "defectos": [],
   "estado": "corregido",
-  "nota": "Migración 20260914120000. Colgaba de la forma hablando solo de una arquitectura suya; pasa a colgar de ella. No se tocó la prosa."
+  "nota": "Migración 20260914120000. Colgaba de la forma hablando solo de una arquitectura suya; pasa a colgar de ella. No se tocó la prosa. 21-IX-2026 · pasada D, familia de la extensión: tres calificativos, no dos: faltaba «delicadas». Migración 20260921140000."
  },
  {
   "id": "b9107b9b",
@@ -427,7 +427,7 @@
   "cubo": "limpio",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": "20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
+  "nota": "20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000. 21-IX-2026 · pasada D, familia de la extensión: recobrada la salvedad que pone en duda la unidad de la novena como estrofa. Migración 20260921140000."
  },
  {
   "id": "095ef92a",
@@ -674,7 +674,7 @@
   "cubo": "material",
   "defectos": [],
   "estado": "corregido",
-  "nota": "Migración 20260915150000. Solo la página: «romance heroico» está en la 369, no en la 368. El contenido es correcto: el heptasílabo está documentado en la entrada «endecha», que el localizador ya declaraba, y la pasada C lo dio por no encontrado buscando solo dentro de «romancillo»."
+  "nota": "Migración 20260915150000. Solo la página: «romance heroico» está en la 369, no en la 368. El contenido es correcto: el heptasílabo está documentado en la entrada «endecha», que el localizador ya declaraba, y la pasada C lo dio por no encontrado buscando solo dentro de «romancillo». 21-IX-2026 · pasada D, familia de la extensión: «por igual el hexasílabo y el heptasílabo» lo desmienten el sentido 2 de «romancillo» y la entrada «endecha». Migración 20260921140000."
  },
  {
   "id": "755cf2c2",
@@ -718,7 +718,7 @@
   "cubo": "confirmacion",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
+  "nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto. 21-IX-2026 · pasada D, familia de la extensión: la asonancia común es de los versos pares, no de la estrofa entera. Migración 20260921140000."
  },
  {
   "id": "8c5f0a5b",
@@ -1301,7 +1301,7 @@
   "cubo": "limpio",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": "20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
+  "nota": "20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000. 21-IX-2026 · pasada D, familia de la extensión: la vuelta iguala en extensión a la cabeza, según el sentido 2 de «vuelta», cuya página faltaba en el localizador (p. 498, no 497 como propuso la C). Migración 20260921140000."
  },
  {
   "id": "5e28fc29",
@@ -1814,7 +1814,7 @@
   "cubo": "material",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": "20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000."
+  "nota": "20-IX-2026: localizador afinado con la pasada C sobre el núcleo de la lectura dirigida. Migración 20260921100000. 21-IX-2026 · pasada D, familia de la extensión: faltaba el cuarto nombre, «pie», y sobraba «la estrofa llegó a dar nombre al verso», que era el comentario de la migración 20260805230000 colado dentro de la cita. Migración 20260921140000."
  },
  {
   "id": "e6c8f474",
@@ -2332,7 +2332,7 @@
    "cita literal inexacta (medio)"
   ],
   "estado": "corregido",
-  "nota": "Migración 20260914200000. Localizador → «Apartados «Estrofas de ocho versos» y «Madrigal»», resuelto con la pasada C y comprobado por mí en el volcado, encabezados 53780 y 61003."
+  "nota": "Migración 20260914200000. Localizador → «Apartados «Estrofas de ocho versos» y «Madrigal»», resuelto con la pasada C y comprobado por mí en el volcado, encabezados 53780 y 61003. 21-IX-2026 · pasada D, familia de la extensión: las dos citas se cortaban antes de los esquemas concretos y de «una décima, etc.». Migración 20260921140000."
  },
  {
   "id": "9e2b7557",
@@ -2501,7 +2501,7 @@
   "cubo": "confirmacion",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
+  "nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto. 21-IX-2026 · pasada D, familia de la extensión: son dos recursos, «igualdad o proporcionalidad silábica», y la ficha recogía uno. Migración 20260921140000."
  },
  {
   "id": "e0a9f688",
@@ -2690,7 +2690,7 @@
    "localizador falso (medio)"
   ],
   "estado": "corregido",
-  "nota": "Migración 20260914220000. → «Estrofas de once versos», comprobado como línea de encabezado. «Oncena» no es un epígrafe."
+  "nota": "Migración 20260914220000. → «Estrofas de once versos», comprobado como línea de encabezado. «Oncena» no es un epígrafe. 21-IX-2026 · pasada D, familia de la extensión: «llega hasta Cervantes» cerraba un epígrafe que sigue hasta 2000. Segundo «final prestado». Migración 20260921140000."
  },
  {
   "id": "880f3d66",
@@ -2714,7 +2714,7 @@
    "localizador falso (medio)"
   ],
   "estado": "corregido",
-  "nota": "Migración 20260914220000. → «Estrofas de pareados», comprobado como línea de encabezado. «Estrofas de dos versos» no existe en el libro."
+  "nota": "Migración 20260914220000. → «Estrofas de pareados», comprobado como línea de encabezado. «Estrofas de dos versos» no existe en el libro. 21-IX-2026 · pasada D, familia de la extensión: «ha sido y es»: la fuente afirma también la vigencia actual. Migración 20260921140000."
  },
  {
   "id": "a5faa793",
@@ -2736,7 +2736,7 @@
   "cubo": "confirmacion",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
+  "nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto. 21-IX-2026 · pasada D, familia de la extensión: faltaba una cuarta combinación, «abcaa», y el «etc.» que deja la lista abierta. Migración 20260921140000."
  },
  {
   "id": "35a26a3d",
@@ -2916,7 +2916,7 @@
   "cubo": "confirmacion",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto."
+  "nota": "Pasada C, 19 de septiembre de 2026: la localización ciega confirma el localizador. Migraciones 20260919170000 y 20260919180000 donde ganó página o declaró reparto. 21-IX-2026 · pasada D, familia de la extensión: son dos grupos, «poetas actuales y del siglo XX», y la ficha dejaba uno. Migración 20260921140000."
  },
  {
   "id": "8d77881a",
@@ -2938,7 +2938,7 @@
   "cubo": "limpio",
   "defectos": [],
   "estado": "no requiere revisión",
-  "nota": ""
+  "nota": "21-IX-2026 · pasada D, familia de la extensión: el dato es de septillas y septetos en general, no del septeto-lira, y eran dos grupos. Migración 20260921140000."
  },
  {
   "id": "90ca3952",
@@ -3011,7 +3011,7 @@
    "anclaje equivocado (medio)"
   ],
   "estado": "corregido",
-  "nota": "Migración 20260917120000. Se añade «Pentadecasílabos»: los sextetos de esa medida están en el capítulo del verso, no en el de las estrofas de seis."
+  "nota": "Migración 20260917120000. Se añade «Pentadecasílabos»: los sextetos de esa medida están en el capítulo del verso, no en el de las estrofas de seis. 21-IX-2026 · pasada D, familia de la extensión: cinco tipos tienen apartado propio y el pentadecasilábico es una mención de paso en otro capítulo. Migración 20260921140000."
  },
  {
   "id": "4751f45b",
@@ -4172,7 +4172,7 @@
   "cubo": "observacion",
   "defectos": [],
   "estado": "corregido",
-  "nota": "Recobrada la reserva «aunque en realidad difiera bastante del modelo tradicional», y corregido el localizador: el caso de Tirso está en el § 199, no en el § 57. Migraciones 20260920120000 y 20260920140000."
+  "nota": "Recobrada la reserva «aunque en realidad difiera bastante del modelo tradicional», y corregido el localizador: el caso de Tirso está en el § 199, no en el § 57. Migraciones 20260920120000 y 20260920140000. 21-IX-2026 · pasada D, familia de la extensión: el § 57 sigue con tres combinaciones de dos rimas que la ficha ignoraba. Migración 20260921140000."
  },
  {
   "id": "266ebff2",
