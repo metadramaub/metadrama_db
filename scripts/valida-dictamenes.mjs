@@ -15,7 +15,7 @@
  *
  * Lo que este script NO hace: decir si el dictamen acierta. Solo si sus pruebas existen.
  *
- * **Vale para las dos pasadas.** La A guarda `dictamenes` y la B guarda `lecturas`, con otros
+ * **Vale para las tres pasadas que transcriben.** La A guarda `dictamenes` y la B guarda `lecturas`, con otros
  * nombres para lo mismo, pero la prueba es idéntica: una transcripción que dice venir de un libro
  * tiene que estar en ese libro. Y en la B importa más todavía, porque de sus transcripciones
  * cuelgan el cotejo de las dos pasadas y la lectura de esquemas: si una fuera inventada, lo
@@ -27,6 +27,7 @@
  */
 
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { inflateRawSync } from 'node:zlib';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { query } from './lib/consulta.mjs';
@@ -112,6 +113,63 @@ function proporcionHallada(transcripcion, fuente) {
 }
 
 /**
+ * El texto contra el que se valida, que **para Jauralde Pou no puede ser el volcado**.
+ *
+ * A sus verificadores se les pide leer el epub, porque el `.txt` aplana la jerarquía de
+ * encabezados y vuelca las versalitas separando la inicial: «S EXTILLAS TETRASILÁBICAS». Quien
+ * transcribe un epígrafe lo copia del epub, bien, y el validador no lo encontraba en el volcado y
+ * lo daba por inventado. **Pedir una fuente y comprobar contra otra es el error de este script, no
+ * del dictamen.** Así que aquí se abre el mismo epub: es un zip de XHTML y se lee sin convertir nada.
+ */
+function textoDeLaFuente(anio, ruta) {
+	if (anio !== 2020) return readFileSync(ruta, 'utf-8');
+	const epub = readdirSync(BIBLIOTECA).find((f) => f.endsWith('.epub'));
+	if (!epub) return readFileSync(ruta, 'utf-8');
+	return xhtmlDeUnZip(readFileSync(join(BIBLIOTECA, epub)))
+		.map((s) => s.replace(/<[^>]+>/g, ' '))
+		.join('\n');
+}
+
+/**
+ * Los XHTML de un zip, sin dependencias.
+ *
+ * Un epub es un zip y basta con recorrer su directorio central: por cada entrada, el método de
+ * compresión —almacenado o *deflate*— y dónde empiezan sus datos. `zlib` hace el resto. Se lee así
+ * y no con una librería para no sumar una dependencia al proyecto por un solo validador.
+ */
+function xhtmlDeUnZip(buffer) {
+	const FIN = buffer.lastIndexOf(Buffer.from([0x50, 0x4b, 0x05, 0x06]));
+	if (FIN < 0) return [];
+	let puntero = buffer.readUInt32LE(FIN + 16);
+	const cuantas = buffer.readUInt16LE(FIN + 10);
+	const salida = [];
+	for (let i = 0; i < cuantas; i += 1) {
+		if (buffer.readUInt32LE(puntero) !== 0x02014b50) break;
+		const metodo = buffer.readUInt16LE(puntero + 10);
+		const comprimido = buffer.readUInt32LE(puntero + 20);
+		const largoNombre = buffer.readUInt16LE(puntero + 28);
+		const largoExtra = buffer.readUInt16LE(puntero + 30);
+		const largoComentario = buffer.readUInt16LE(puntero + 32);
+		const desplazamiento = buffer.readUInt32LE(puntero + 42);
+		const nombre = buffer.toString('utf-8', puntero + 46, puntero + 46 + largoNombre);
+		if (/\.x?html$/i.test(nombre)) {
+			// En la cabecera local los largos de nombre y extra pueden no ser los del directorio.
+			const inicio =
+				desplazamiento +
+				30 +
+				buffer.readUInt16LE(desplazamiento + 26) +
+				buffer.readUInt16LE(desplazamiento + 28);
+			const datos = buffer.subarray(inicio, inicio + comprimido);
+			salida.push(
+				(metodo === 0 ? datos : inflateRawSync(datos)).toString('utf-8')
+			);
+		}
+		puntero += 46 + largoNombre + largoExtra + largoComentario;
+	}
+	return salida;
+}
+
+/**
  * Las entradas de un fichero, venga de la pasada que venga.
  *
  * La A escribe `dictamenes` y **declara** su `naturaleza` —«cita» o «silencio»—, porque a su
@@ -121,10 +179,23 @@ function proporcionHallada(transcripcion, fuente) {
  */
 function entradas(datos) {
 	if (datos.dictamenes) return datos.dictamenes;
-	return (datos.lecturas ?? []).map((l) => ({
-		...l,
-		naturaleza: l.no_trata_esta_forma === true ? 'silencio' : 'cita'
-	}));
+	return (datos.lecturas ?? []).map((l) => {
+		// **La D también escribe `lecturas`, pero no transcribe una vez por afirmación sino una vez
+		// por cláusula.** Sus fragmentos se juntan aquí en un solo texto para que la prueba sea la
+		// misma: lo que dice venir del libro tiene que estar en el libro, se haya troceado o no.
+		if (Array.isArray(l.clausulas)) {
+			const fragmentos = l.clausulas
+				.map((c) => String(c.fragmento ?? '').trim())
+				.filter(Boolean);
+			return {
+				...l,
+				naturaleza: fragmentos.length ? 'cita' : 'silencio',
+				texto_original: fragmentos.join(' … '),
+				pruebas: fragmentos.map((f, i) => [`cláusula ${i + 1}`, f])
+			};
+		}
+		return { ...l, naturaleza: l.no_trata_esta_forma === true ? 'silencio' : 'cita' };
+	});
 }
 
 function main() {
@@ -165,7 +236,7 @@ function main() {
 			console.log(`\n${fichero}: no sé contra qué fichero validarlo`);
 			continue;
 		}
-		if (!fuentes.has(anio)) fuentes.set(anio, normalizar(readFileSync(ruta, 'utf-8')));
+		if (!fuentes.has(anio)) fuentes.set(anio, normalizar(textoDeLaFuente(anio, ruta)));
 		const fuente = fuentes.get(anio);
 
 		// Un fichero puede estar escribiéndose ahora mismo —los lotes se despachan en paralelo—,
@@ -198,7 +269,13 @@ function main() {
 				);
 			}
 			const esSilencio = naturaleza === 'silencio';
-			const entrecomillados = esSilencio
+			// **Un dictamen puede traer sus pruebas ya separadas**, y entonces se comprueban una a
+			// una. Es lo que hace falta con la pasada D, que transcribe un fragmento por cláusula:
+			// pegarlos en un solo texto inventaba tiras a caballo entre dos fragmentos que no
+			// existen en ningún libro, y hundía por debajo del umbral transcripciones correctas.
+			const entrecomillados = Array.isArray(d.pruebas)
+				? d.pruebas
+				: esSilencio
 				? [...String(d.texto_original ?? '').matchAll(/[«"]([^»"]{12,})[»"]/g)].map((m, i) => [
 						`cita ${i + 1} dentro del silencio`,
 						m[1]
