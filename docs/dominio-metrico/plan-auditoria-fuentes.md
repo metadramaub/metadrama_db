@@ -1,7 +1,7 @@
 # Plan de auditoría de las afirmaciones de las fuentes
 
 Escrito el 11 de septiembre de 2026. **Qué queda por hacer y en qué orden está en
-[ESTADO.md](./auditoria-fuentes/ESTADO.md)**, que se actualiza al cerrar cada cosa; este documento
+[PENDIENTES](../PENDIENTES.md), bloque E**; este documento
 describe el método y no se reescribe cada semana.
 
 Se ejecuta por fases y cada una tiene criterio de salida: se puede parar entre dos sin dejar nada a
@@ -350,7 +350,9 @@ mirado»—.
 | 4 | Exhaustividad, 43 formas | matriz forma × fuente completa, con cada hueco justificado |
 | 5 | Informe, correcciones propuestas y muestra humana | informe firmado y repetible por un tercero |
 
-**En qué fase estamos y qué falta de ella: [ESTADO.md](./auditoria-fuentes/ESTADO.md).**
+**La auditoría terminó el 16 de septiembre de 2026.** Qué se hizo y qué enseñó, en el
+[registro](./historico/auditoria-de-fuentes-2026-09.md); lo que dejó abierto, en
+[PENDIENTES](../PENDIENTES.md), bloque E.
 
 La fase 1 existía para decidir si merecía la pena seguir. Se siguió.
 

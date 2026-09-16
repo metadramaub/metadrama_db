@@ -11,7 +11,7 @@
 >
 > **Sus cifras y sus «pendiente» son del día en que se escribieron.**
 
-[Informe automático de la precomputación](../mapa-precomputacion.md).
+[Informe automático de la precomputación](../../mapa-precomputacion.md).
 
 ## Doce obras de prueba, y por qué hicieron falta
 
@@ -69,7 +69,7 @@ Nace de una decisión del proyecto tomada el 8 de septiembre y completada el 12:
 base en vivo solo para las obras en vista previa; si está publicada, todo lo que la hace visible
 está precomputado.** El motivo es doble —velocidad y no depender de una cuenta gratuita de
 Supabase—. La API estable ya no es una fila creciente de `obras_resumen`, sino un conjunto de
-[artefactos JSON con contrato y clave propios](../arquitectura-artefactos-publicos.md).
+[artefactos JSON con contrato y clave propios](../../arquitectura-artefactos-publicos.md).
 
 1. **Una sola función productora.** Una función construye el JSON de la ficha y el recompute
    **guarda ese mismo JSON** como artefacto. Así, la vista previa y el documento materializado son

@@ -180,16 +180,20 @@ obra delante, cualquier lista sería arbitraria.
 
 ## E · Lo que dejó la auditoría de fuentes
 
-La auditoría está terminada: 267 afirmaciones resueltas y 57 migraciones. Su relato está en
-[ESTADO.md](./dominio-metrico/auditoria-fuentes/ESTADO.md) y el método en
-[el plan](./dominio-metrico/plan-auditoria-fuentes.md).
+La auditoría está terminada: 267 afirmaciones resueltas y 57 migraciones. Qué se hizo y qué enseñó
+está en el [registro](./dominio-metrico/historico/auditoria-de-fuentes-2026-09.md); el método, por
+si hay que repetirlo, en [el plan](./dominio-metrico/plan-auditoria-fuentes.md).
 
 **E1 · Fase 5: informe y muestra humana.** El cierre: que un tercero pueda repetir la auditoría sin
 fiarse de nosotros.
 
-**E2 · Los 75 esquemas que las fuentes dan y el catálogo no tiene.** Forma por forma y con el libro
-abierto: el volcado de Navarro lee la `c` como `e` y algunas cadenas son varias estrofas seguidas.
-**La lista mecánica no es una lista de trabajo.**
+**E2 · Los 75 esquemas que las fuentes dan y el catálogo no tiene**, 60 de ellos de Navarro
+Tomás, en 23 fichas. Forma por forma y con el libro abierto: el volcado de Navarro lee la `c` como
+`e` y algunas cadenas son varias estrofas seguidas. **La lista mecánica no es una lista de
+trabajo.** *Cuando se aborde, entran como esquemas de la arquitectura con modalidad `admitida`,
+nunca `definitoria`* —decidido el 17 de septiembre—: la distribución sigue siendo variable y lo que
+se documenta es solo lo ya encontrado. Si entran, **la canción petrarquista dejará de tener una
+sola arquitectura regular**.
 
 **E3 · Las 23 afirmaciones que matizan sobre formas con esquema definitorio.** Lo único del inventario
 de divergencias que apunta a desacuerdo real, no a silencio.
@@ -204,7 +208,15 @@ cuándo la ficha ablanda a la fuente, y el cotejo de los epígrafes de Jauralde 
 **E6 · Dos propuestas sin redactar:** `cfb377cd` (septeto-lira de Navarro) y la afirmación del cubo
 limpio que quedó sin decidir.
 
-**E7 · La prosa de las fichas no se ha releído con las fuentes ya firmes.** Se escribió en agosto
+**E7 · Cuatro cabos de consistencia**, ninguno de auditoría. `40c2c354` habla de Morley y Bruerton
+en singular —«La caracteriza»—, y sus dos hermanas ya se arreglaron. El *Diccionario* se cita de dos
+maneras: ocho fichas con «s. v.» frente a 53 con «Entrada», y quince sin página. `22c63f36` enumera
+«series arromanzadas» entre los tipos con nombre de la seguidilla, y en el § 498 aparece como
+ejemplo suelto de García Lorca, no como categoría. Y queda la idea de **un párrafo de cabecera en
+«Lo que dicen las fuentes» para cuando las seis disientan mucho**: no hace falta todavía, porque el
+caso que la sugirió se resolvió documentando cada voz por separado.
+
+**E8 · La prosa de las fichas no se ha releído con las fuentes ya firmes.** Se escribió en agosto
 apoyándose en unas afirmaciones que la auditoría corrigió después en más de cien puntos.
 
 ---
