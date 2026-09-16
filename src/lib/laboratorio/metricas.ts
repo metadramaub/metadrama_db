@@ -86,7 +86,7 @@ const enunciation = (
 });
 
 const PRESENCE_CAUTION =
-	'Presencia anotada por secuencia: no cuantifica los casos ni los versos afectados dentro de ella.';
+	'La anotación registra presencia, no cuántos casos hay dentro de cada secuencia.';
 
 export const LABORATORY_METRICS: LaboratoryMetric[] = [
 	metric('total_versos', {
@@ -132,7 +132,7 @@ export const LABORATORY_METRICS: LaboratoryMetric[] = [
 	metric('densidad_transiciones', {
 		group: 'Repertorio',
 		label: 'Densidad de secuencias',
-		description: 'Cuántas secuencias métricas hay por cada cien versos.',
+		description: 'Frecuencia con que la obra se articula en nuevas secuencias métricas.',
 		measurement: 'evento',
 		unit: 'por_cien_versos',
 		denominator: '100 versos de la obra'
@@ -311,14 +311,14 @@ export function getLaboratoryMetricHelp(metric: LaboratoryMetric): LaboratoryMet
 		return {
 			unitLabel: 'Porcentaje de secuencias',
 			explanation:
-				'Cada secuencia respondida cuenta una vez, con independencia de su longitud. El porcentaje no representa versos de la obra.'
+				'Cada secuencia respondida cuenta una vez, con independencia de su longitud.'
 		};
 	}
 	if (metric.measurement === 'categoria_secuencia') {
 		return {
 			unitLabel: 'Porcentaje de secuencias',
 			explanation:
-				'Cada secuencia respondida cuenta una vez si la intervención es exclusiva o compartida. El porcentaje expresa presencia por secuencia, no versos ni cantidad de parlamento.'
+				'Cada secuencia respondida cuenta una vez. El porcentaje no estima versos ni cantidad de parlamento.'
 		};
 	}
 	if (metric.measurement === 'indice') {
