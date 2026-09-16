@@ -22,17 +22,17 @@
  * inventado se propagaría a las dos.
  *
  * Uso:
- *   node scripts/valida-dictamenes.mjs
- *   node scripts/valida-dictamenes.mjs --carpeta docs/dominio-metrico/auditoria-fuentes/dictamenes-b
+ *   node scripts/auditoria-fuentes/valida-dictamenes.mjs
+ *   node scripts/auditoria-fuentes/valida-dictamenes.mjs --carpeta docs/dominio-metrico/auditoria-fuentes/dictamenes-b
  */
 
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { inflateRawSync } from 'node:zlib';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { query } from './lib/consulta.mjs';
+import { query } from '../lib/consulta.mjs';
 
-const RAIZ = fileURLToPath(new URL('..', import.meta.url));
+const RAIZ = fileURLToPath(new URL('../..', import.meta.url));
 const BIBLIOTECA = join(RAIZ, 'docs', 'dominio-metrico', 'bibliografía');
 const CARPETA_POR_DEFECTO = join(
 	RAIZ,

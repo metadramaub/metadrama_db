@@ -1,6 +1,6 @@
 # Divergencias del catálogo con sus fuentes
 
-Generado por `node scripts/divergencias-con-las-fuentes.mjs`. **No se edita a mano.**
+Generado por `node scripts/auditoria-fuentes/divergencias-con-las-fuentes.mjs`. **No se edita a mano.**
 
 **Esto no es una lista de errores.** La definición y el uso de cada forma son del proyecto:
 se apoyan en las fuentes y pueden apartarse de ellas. Lo que este informe busca es que ningún

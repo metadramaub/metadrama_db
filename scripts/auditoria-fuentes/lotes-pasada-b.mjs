@@ -12,16 +12,16 @@
  * existen todavía.
  *
  * Uso:
- *   node scripts/lotes-pasada-b.mjs           # dice qué falta, sin escribir
- *   node scripts/lotes-pasada-b.mjs --escribe # escribe los lotes que falten
+ *   node scripts/auditoria-fuentes/lotes-pasada-b.mjs           # dice qué falta, sin escribir
+ *   node scripts/auditoria-fuentes/lotes-pasada-b.mjs --escribe # escribe los lotes que falten
  */
 
 import { readFileSync, readdirSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { query } from './lib/consulta.mjs';
+import { query } from '../lib/consulta.mjs';
 
-const RAIZ = fileURLToPath(new URL('..', import.meta.url));
+const RAIZ = fileURLToPath(new URL('../..', import.meta.url));
 const BASE = join(RAIZ, 'docs', 'dominio-metrico', 'auditoria-fuentes');
 const B = join(BASE, 'dictamenes-b');
 const LOTES_B = join(BASE, 'lotes-b');

@@ -16,15 +16,15 @@
  * hasta que se fue a recapitular a mano.
  *
  * Uso:
- *   node scripts/estado-auditoria-fuentes.mjs
+ *   node scripts/auditoria-fuentes/estado-auditoria-fuentes.mjs
  */
 
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { query } from './lib/consulta.mjs';
+import { query } from '../lib/consulta.mjs';
 
-const RAIZ = fileURLToPath(new URL('..', import.meta.url));
+const RAIZ = fileURLToPath(new URL('../..', import.meta.url));
 const BASE = join(RAIZ, 'docs', 'dominio-metrico', 'auditoria-fuentes');
 
 /** Las dos pasadas, con dónde viven sus lotes, sus resultados y cómo se llama la lista dentro. */

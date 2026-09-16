@@ -62,6 +62,7 @@ Ninguno se edita a mano. `npm run audit:metrica` necesita Docker, porque vuelca 
 | [Plan de migración de las anotaciones](./plan-migracion-anotaciones.md) | El marco: condiciones previas, fases y criterios de aceptación. No iniciado |
 | [Cómo se migra una obra](./como-se-migra-una-obra.md) | El procedimiento obra por obra, escrito para poder explicárselo a quien la anotó |
 | [Equivalencias pendientes](./equivalencias-pendientes.md) | **Por qué** algunos términos legados no declaran todavía su destino, y qué decidió el IP sobre cada uno. Hay que cerrarlo antes del backfill |
+| [Auditoría profunda contra las fuentes](../../scripts/auditoria-fuentes/) | Los catorce comandos que comprueban que cada afirmación diga lo que su libro dice. Cinco se pasan de vez en cuando; los demás solo dentro de una pasada de lectura. **Necesitan la bibliografía local** |
 | [Plan de auditoría de las fuentes](./plan-auditoria-fuentes.md) | El método, por si hay que repetirlo: taxonomía de defectos, pasadas ciegas y errores sembrados para medir al auditor. **La auditoría terminó**; qué enseñó, en el [registro](./historico/auditoria-de-fuentes-2026-09.md) |
 | [Demarcador métrico](./demarcador-metrico.md) | Contrato conceptual, matemática y decisiones de producto. Se actualiza cuando cambia el motor, no cuando cambia una forma |
 

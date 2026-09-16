@@ -21,14 +21,14 @@
  * estar tratada bajo un nombre que el catálogo no recoge, o nombrada de paso sin ser tratada. Lo
  * que decide sigue siendo abrir el libro.
  *
- *   node scripts/matriz-exhaustividad.mjs
+ *   node scripts/auditoria-fuentes/matriz-exhaustividad.mjs
  */
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { query } from './lib/consulta.mjs';
+import { query } from '../lib/consulta.mjs';
 
-const RAIZ = fileURLToPath(new URL('..', import.meta.url));
+const RAIZ = fileURLToPath(new URL('../..', import.meta.url));
 
 /** Los volcados, por año de la fuente. Morley y Bruerton es una copia a mano, no un volcado. */
 const VOLCADOS = {
@@ -186,7 +186,7 @@ const dondeSale = (c) => c.porNombre.map((p) => `«${p.nombre}» ×${p.veces}`).
 const L = [];
 L.push('# Matriz de exhaustividad · forma × fuente');
 L.push('');
-L.push('Generado por `node scripts/matriz-exhaustividad.mjs`. **No juzga nada**: dice cuántas');
+L.push('Generado por `node scripts/auditoria-fuentes/matriz-exhaustividad.mjs`. **No juzga nada**: dice cuántas');
 L.push('afirmaciones tiene cada celda y cuántas veces nombra esa fuente a esa forma. El recuento de');
 L.push('menciones cuenta cadenas, así que es una pista para saber dónde mirar, no un veredicto.');
 L.push('');

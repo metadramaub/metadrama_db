@@ -26,15 +26,15 @@
  * `valida-dictamenes.mjs`, que sirve igual para esta carpeta.
  *
  * Uso:
- *   node scripts/valida-pasada-d.mjs
+ *   node scripts/auditoria-fuentes/valida-pasada-d.mjs
  */
 
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { query } from './lib/consulta.mjs';
+import { query } from '../lib/consulta.mjs';
 
-const RAIZ = fileURLToPath(new URL('..', import.meta.url));
+const RAIZ = fileURLToPath(new URL('../..', import.meta.url));
 const CARPETA = join(RAIZ, 'docs', 'dominio-metrico', 'auditoria-fuentes', 'dictamenes-d');
 
 /** Cobertura mínima del resumen por el conjunto de cláusulas, en palabras. */

@@ -1,6 +1,6 @@
 # Señal de endurecimiento · la cautela que la fuente tiene y la ficha no
 
-Generado por `node scripts/senal-endurecimiento.mjs`. Para cada ficha se buscan en el pasaje
+Generado por `node scripts/auditoria-fuentes/senal-endurecimiento.mjs`. Para cada ficha se buscan en el pasaje
 las **oraciones que ella resume** —las que comparten con el resumen una tirada de seis
 palabras— y se mira si matizan donde el resumen no matiza.
 **Son candidatos, no veredictos**: lo que decide es abrir el libro.
