@@ -1023,7 +1023,7 @@ obligaría a renombrar todos los esquemas de rima del catálogo a cambio de nada
 - [criterios-de-nivel.md](../criterios-de-nivel.md) — **de lectura obligada** antes de decidir si
   algo es arquitectura, esquema, variedad o rasgo. Es lo que resuelve las dudas de fondo.
 - [donde-vive-la-prosa.md](../donde-vive-la-prosa.md) — los ocho criterios de redacción.
-- [contratos-registrador-formas-revisadas.md](../contratos-registrador-formas-revisadas.md) —
+- [contratos-del-registrador.md](../contratos-del-registrador.md) —
   qué deriva y qué pregunta el editor en cada forma revisada.
 - [revisiones-formas/cuestiones-para-el-ip.md](../cuestiones-para-el-ip.md) —
   lo que sigue sin decidir. Se poda a medida que se resuelve.

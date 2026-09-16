@@ -14,8 +14,7 @@
  *   node scripts/audit-catalogo-metrico.mjs --markdown docs/.../informe.md
  */
 
-import { readFileSync, writeFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { writeFileSync } from 'node:fs';
 import { dumpLinkedDatabase, readDump } from './lib/volcado.mjs';
 import { query } from './lib/consulta.mjs';
 // La cuenta de clases, rachas y sueltos es la misma que valida lo que el editor escribe. Vive
@@ -182,6 +181,21 @@ function formaDeConfiguracion(model, configuracionId) {
 	return model.formaPorId.get(configuracion.forma_id) ?? null;
 }
 
+/**
+ * Un tramo sin forma declara justamente que no hay norma: es su definición, no una carencia.
+ *
+ * **D10 comprueba lo contrario** —que no declare norma—, y por eso los criterios que exigen
+ * contenido normativo, extensión de unidad o disposición de rima no le aplican. Hasta el 16 de
+ * septiembre de 2026 no lo sabían y le levantaban once defectos por ser lo que es: cuatro en D1,
+ * cuatro en D2b y uno en D4, D12 y D17. Los tres últimos solo alcanzaban al verso aislado, porque
+ * la versificación irregular se libraba de rebote por ser `serie`.
+ *
+ * Lo que sí se le exige está en D19: que pregunte lo que se observa, y abierto.
+ */
+function esTramoSinForma(model, configuracionId) {
+	return formaDeConfiguracion(model, configuracionId)?.tipo_registro === 'sin_forma';
+}
+
 function etiqueta(model, configuracionId) {
 	const configuracion = model.configuracionPorId.get(configuracionId);
 	const forma = formaDeConfiguracion(model, configuracionId);
@@ -232,9 +246,11 @@ const DEFECTOS = [
 	{
 		id: 'D1',
 		titulo: 'Configuración sin contenido normativo',
-		criterio: 'Una configuración debe declarar al menos un patrón, una sección o una variedad.',
+		criterio:
+			'Una configuración debe declarar al menos un patrón, una sección o una variedad. No alcanza a los tramos sin forma, cuya arquitectura existe para colgar preguntas y no para declarar norma: lo suyo lo miran D10 y D19.',
 		detectar(model) {
 			return model.configuraciones
+				.filter((configuracion) => !esTramoSinForma(model, configuracion.arquitectura_id))
 				.filter(
 					(configuracion) =>
 						listOf(model.patronesMetricosPorConfiguracion, configuracion.arquitectura_id).length ===
@@ -278,11 +294,12 @@ const DEFECTOS = [
 		id: 'D2b',
 		titulo: 'Configuración sin ninguna declaración de rima ni de repetición',
 		criterio:
-			'Toda configuración debe declarar cómo se comporta la rima: un patrón propio, una sección que lo aporte o lo reutilice, o un patrón de repetición que ocupe su lugar.',
+			'Toda configuración debe declarar cómo se comporta la rima: un patrón propio, una sección que lo aporte o lo reutilice, o un patrón de repetición que ocupe su lugar. Salvo los tramos sin forma, que no declaran ninguna: la rima que se vea en ellos se escribe al anotar.',
 		detectar(model) {
 			return model.configuraciones
 				.filter((configuracion) => {
 					const id = configuracion.arquitectura_id;
+					if (esTramoSinForma(model, id)) return false;
 					if (listOf(model.patronesRimaPorConfiguracion, id).length > 0) return false;
 					if (listOf(model.repeticionesPorConfiguracion, id).length > 0) return false;
 					return !listOf(model.seccionesPorConfiguracion, id).some(
@@ -316,10 +333,12 @@ const DEFECTOS = [
 		id: 'D4',
 		titulo: 'La extensión de la unidad no se declara ni se puede derivar',
 		criterio:
-			'Una arquitectura declara cuántos versos tiene su unidad, y entonces sus secciones no pueden sumar otra cosa; o la deja sin declarar, y entonces tiene que haber secciones de las que derivarla. Lo que no puede es no decirlo por ninguna de las dos vías.',
+			'Una arquitectura declara cuántos versos tiene su unidad, y entonces sus secciones no pueden sumar otra cosa; o la deja sin declarar, y entonces tiene que haber secciones de las que derivarla. Lo que no puede es no decirlo por ninguna de las dos vías. Quedan fuera las series y los tramos sin forma, que no tienen unidad.',
 		detectar(model) {
 			const hallazgos = [];
 			for (const configuracion of model.configuraciones) {
+				// Un tramo sin forma no tiene unidad que medir: el pasaje dura lo que dura.
+				if (esTramoSinForma(model, configuracion.arquitectura_id)) continue;
 				const derivada = extensionDerivada(model, configuracion.arquitectura_id);
 				if (configuracion.unidad_versos_min === null) {
 					// La unidad sin declarar es legítima cuando la extensión varía con el pasaje,
@@ -529,14 +548,17 @@ const DEFECTOS = [
 		id: 'D12',
 		titulo: 'Pregunta estructural con alcance de secuencia',
 		criterio:
-			'Lo que es constante en toda la secuencia y afecta a la estructura es arquitectura, no pregunta. El alcance de secuencia se reserva a los rasgos. En las series no aplica: la secuencia contiene una sola unidad.',
+			'Lo que es constante en toda la secuencia y afecta a la estructura es arquitectura, no pregunta. El alcance de secuencia se reserva a los rasgos. En las series no aplica: la secuencia contiene una sola unidad. Tampoco en los tramos sin forma, donde no hay unidad ninguna y el alcance de secuencia es el único que cabe.',
 		detectar(model) {
 			const estructurales = new Set(['metro', 'rima', 'combinacion', 'estructura', 'repeticion']);
 			return model.grupos
 				.filter((grupo) => {
 					if (grupo.alcance !== 'secuencia' || !estructurales.has(grupo.dimension)) return false;
 					const forma = formaDeConfiguracion(model, grupo.arquitectura_id);
-					return Boolean(forma) && forma.nivel_estructural !== 'serie';
+					if (!forma || forma.nivel_estructural === 'serie') return false;
+					// En un tramo sin forma el alcance de secuencia es el único posible: no hay
+					// unidad debajo a la que referir la respuesta.
+					return forma.tipo_registro !== 'sin_forma';
 				})
 				.map((grupo) => ({
 					sujeto: etiqueta(model, grupo.arquitectura_id),
@@ -732,7 +754,7 @@ const DEFECTOS = [
 		id: 'D17',
 		titulo: 'Una unidad cuya rima no está fija y nadie pregunta',
 		criterio:
-			'Regla 1 de criterios de nivel § 3.3: donde hay unidad y la norma no fija una sola disposición, el editor tiene que poder decir cuál leyó. Se cumple de cuatro maneras y basta una: la arquitectura pregunta su rima; la resuelve una variedad, que empareja esquema métrico y de rima; toda su rima vive en secciones que reutilizan otras arquitecturas y la heredan; o la norma la fija con un único esquema **definitorio**. Un único esquema marcado «habitual» o «admitida» no exime: decir que suele ser ese es decir que hay otros. Las series quedan fuera porque no tienen unidad: su rima se describe por rasgos del pasaje.',
+			'Regla 1 de criterios de nivel § 3.3: donde hay unidad y la norma no fija una sola disposición, el editor tiene que poder decir cuál leyó. Se cumple de cuatro maneras y basta una: la arquitectura pregunta su rima; la resuelve una variedad, que empareja esquema métrico y de rima; toda su rima vive en secciones que reutilizan otras arquitecturas y la heredan; o la norma la fija con un único esquema **definitorio**. Un único esquema marcado «habitual» o «admitida» no exime: decir que suele ser ese es decir que hay otros. Las series y los tramos sin forma quedan fuera porque no tienen unidad: su rima se describe por rasgos del pasaje o se escribe al anotar.',
 		detectar(model) {
 			const conPregunta = new Set(
 				model.grupos
@@ -758,6 +780,8 @@ const DEFECTOS = [
 				const forma = model.formaPorId.get(configuracion.forma_id);
 				if (!forma || forma.activo === false) continue;
 				if (forma.nivel_estructural === 'serie') continue;
+				// Un tramo sin forma no fija disposición ni medida porque no reconoce norma.
+				if (forma.tipo_registro === 'sin_forma') continue;
 				if (conPregunta.has(configuracion.arquitectura_id)) continue;
 				if (conVariedad.has(configuracion.arquitectura_id)) continue;
 				if (reutilizadoras.has(configuracion.arquitectura_id)) continue;
@@ -786,7 +810,7 @@ const DEFECTOS = [
 		id: 'D18',
 		titulo: 'Una unidad cuya medida no está fija y nadie pregunta',
 		criterio:
-			'El mismo principio que D17, en la otra dimensión: donde la norma admite varias medidas y no dice cuál va en cada verso, el editor tiene que poder decir cuál leyó. Exime que la arquitectura pregunte su metro, que lo resuelva una variedad —que empareja esquema métrico y de rima—, o que su estructura reutilice otras arquitecturas. Las series quedan fuera porque no tienen unidad. Una arquitectura cuyo esquema métrico fija cada posición no entra: ahí la medida no varía, y lo que se salga de ella es una desviación.',
+			'El mismo principio que D17, en la otra dimensión: donde la norma admite varias medidas y no dice cuál va en cada verso, el editor tiene que poder decir cuál leyó. Exime que la arquitectura pregunte su metro, que lo resuelva una variedad —que empareja esquema métrico y de rima—, o que su estructura reutilice otras arquitecturas. Las series y los tramos sin forma quedan fuera porque no tienen unidad. Una arquitectura cuyo esquema métrico fija cada posición no entra: ahí la medida no varía, y lo que se salga de ella es una desviación.',
 		detectar(model) {
 			const conPregunta = new Set(
 				model.grupos
@@ -809,6 +833,8 @@ const DEFECTOS = [
 				const forma = model.formaPorId.get(configuracion.forma_id);
 				if (!forma || forma.activo === false) continue;
 				if (forma.nivel_estructural === 'serie') continue;
+				// Un tramo sin forma no fija disposición ni medida porque no reconoce norma.
+				if (forma.tipo_registro === 'sin_forma') continue;
 				if (conPregunta.has(configuracion.arquitectura_id)) continue;
 				if (conVariedad.has(configuracion.arquitectura_id)) continue;
 				if (reutilizadoras.has(configuracion.arquitectura_id)) continue;
@@ -837,6 +863,43 @@ const DEFECTOS = [
 				});
 			}
 			return faltan;
+		}
+	},
+	{
+		id: 'D19',
+		titulo: 'Un tramo sin forma que no registra lo que se ve',
+		criterio:
+			'El envés de D10. Un tramo sin forma no declara norma —eso lo comprueba D10— pero **tiene que registrar la observación**: cada una de sus arquitecturas pregunta al menos una cosa, y la pregunta es de respuesta escrita. Una lista cerrada de opciones sería declarar norma por la puerta de atrás, ofreciendo un repertorio donde se dijo que no se reconoce ninguno. Sin este criterio, eximir a los tramos de D1, D2b, D4, D12, D17 y D18 los dejaría sin auditar por ningún lado.',
+		detectar(model) {
+			// Los controles que dejan escribir la respuesta en vez de elegirla. Son los únicos que
+			// caben aquí: el editor anota la medida verso a verso o el esquema que lea, sin que el
+			// catálogo le proponga nada.
+			const ESCRITOS = new Set(['esquema_rima', 'serie_medidas', 'opciones_y_esquema']);
+			const hallazgos = [];
+			for (const forma of model.formas) {
+				if (forma.tipo_registro !== 'sin_forma' || forma.activo === false) continue;
+				for (const configuracion of listOf(model.configuracionesPorForma, forma.forma_id)) {
+					const preguntas = model.grupos.filter(
+						(grupo) =>
+							grupo.arquitectura_id === configuracion.arquitectura_id && grupo.activo !== false
+					);
+					if (preguntas.length === 0) {
+						hallazgos.push({
+							sujeto: forma.slug + ' · ' + configuracion.slug,
+							detalle: 'no pregunta nada: de un pasaje así no quedaría más que su rango'
+						});
+						continue;
+					}
+					for (const pregunta of preguntas) {
+						if (ESCRITOS.has(pregunta.tipo_control)) continue;
+						hallazgos.push({
+							sujeto: forma.slug + ' · ' + configuracion.slug,
+							detalle: `«${pregunta.slug}» ofrece un repertorio cerrado (${pregunta.tipo_control}) donde no hay norma que repartir`
+						});
+					}
+				}
+			}
+			return hallazgos;
 		}
 	}
 ];
@@ -1019,28 +1082,6 @@ function matrizAmbitoRima(model) {
 }
 
 // --------------------------------------------------------------------------
-// Bloque 3 · Cobertura del contrato del registrador
-// --------------------------------------------------------------------------
-
-function coberturaContrato(model, contratoPath) {
-	let texto;
-	try {
-		texto = readFileSync(contratoPath, 'utf-8').toLowerCase();
-	} catch {
-		return null;
-	}
-	return model.formas
-		.filter((forma) => forma.tipo_registro === 'forma')
-		.filter((forma) => {
-			const nombre = String(forma.nombre).toLowerCase();
-			const slug = String(forma.slug).replace(/_/g, ' ');
-			return !texto.includes(nombre) && !texto.includes(slug);
-		})
-		.map((forma) => forma.slug)
-		.sort();
-}
-
-// --------------------------------------------------------------------------
 // Informe
 // --------------------------------------------------------------------------
 
@@ -1167,24 +1208,12 @@ function construirInforme(model) {
 	}
 	escribir();
 
-	const sinContrato = coberturaContrato(
-		model,
-		fileURLToPath(
-			new URL('../docs/dominio-metrico/contratos-registrador-formas-revisadas.md', import.meta.url)
-		)
-	);
-	escribir('## 3 · Cobertura del contrato del registrador');
-	escribir();
-	if (sinContrato === null) {
-		escribir('No se encontró el documento de contratos.');
-	} else if (sinContrato.length === 0) {
-		escribir('Todas las formas aparecen en el contrato del registrador.');
-	} else {
-		escribir(
-			`Formas sin contrato editorial declarado (${sinContrato.length}): ${sinContrato.join(', ')}.`
-		);
-	}
-	escribir();
+	// **Aquí hubo una sección 3, «Cobertura del contrato del registrador», retirada el 16 de
+	// septiembre de 2026.** Buscaba el nombre de cada forma como subcadena dentro de un documento
+	// de prosa: «tener contrato» significaba aparecer escrita en él. Como la tabla se llevaba a
+	// mano, el auditor acabó denunciando dieciséis formas sin contrato cuando lo que faltaban eran
+	// dieciséis filas. Lo que de verdad le pide el editor a cada forma lo mide
+	// `npm run audit:editor` leyendo la base, así que no queda hueco que cubrir.
 
 	escribir('---');
 	escribir();

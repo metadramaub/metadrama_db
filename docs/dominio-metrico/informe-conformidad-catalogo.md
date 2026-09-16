@@ -1,6 +1,6 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-09-14 20:14
+Generado: 2026-09-16 19:48
 
 Inventario: 42 formas y 2 tramos sin forma · 97 configuraciones · 98 patrones métricos · 169 patrones de rima · 85 secciones · 137 grupos de elección · 962 opciones · 7 rasgos.
 
@@ -8,16 +8,11 @@ Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque
 
 ## 1 · Defectos
 
-### D1 · Configuración sin contenido normativo — 4
+### D1 · Configuración sin contenido normativo — 0
 
-> Una configuración debe declarar al menos un patrón, una sección o una variedad.
+> Una configuración debe declarar al menos un patrón, una sección o una variedad. No alcanza a los tramos sin forma, cuya arquitectura existe para colgar preguntas y no para declarar norma: lo suyo lo miran D10 y D19.
 
-| Sujeto | Detalle |
-| --- | --- |
-| verso_aislado · cualquier_medida | principal=true · demarcable=false |
-| irregular · mixta | principal=false · demarcable=false |
-| irregular · arte_mayor | principal=false · demarcable=false |
-| irregular · arte_menor | principal=false · demarcable=false |
+Sin incidencias.
 
 ### D2 · Patrón de rima sin contenido alguno — 0
 
@@ -25,16 +20,11 @@ Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque
 
 Sin incidencias.
 
-### D2b · Configuración sin ninguna declaración de rima ni de repetición — 4
+### D2b · Configuración sin ninguna declaración de rima ni de repetición — 0
 
-> Toda configuración debe declarar cómo se comporta la rima: un patrón propio, una sección que lo aporte o lo reutilice, o un patrón de repetición que ocupe su lugar.
+> Toda configuración debe declarar cómo se comporta la rima: un patrón propio, una sección que lo aporte o lo reutilice, o un patrón de repetición que ocupe su lugar. Salvo los tramos sin forma, que no declaran ninguna: la rima que se vea en ellos se escribe al anotar.
 
-| Sujeto | Detalle |
-| --- | --- |
-| verso_aislado · cualquier_medida | 0 sección(es), sin patrón de rima accesible |
-| irregular · mixta | 0 sección(es), sin patrón de rima accesible |
-| irregular · arte_mayor | 0 sección(es), sin patrón de rima accesible |
-| irregular · arte_menor | 0 sección(es), sin patrón de rima accesible |
+Sin incidencias.
 
 ### D3 · Patrón métrico sin posiciones ni opciones — 0
 
@@ -42,13 +32,11 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D4 · La extensión de la unidad no se declara ni se puede derivar — 1
+### D4 · La extensión de la unidad no se declara ni se puede derivar — 0
 
-> Una arquitectura declara cuántos versos tiene su unidad, y entonces sus secciones no pueden sumar otra cosa; o la deja sin declarar, y entonces tiene que haber secciones de las que derivarla. Lo que no puede es no decirlo por ninguna de las dos vías.
+> Una arquitectura declara cuántos versos tiene su unidad, y entonces sus secciones no pueden sumar otra cosa; o la deja sin declarar, y entonces tiene que haber secciones de las que derivarla. Lo que no puede es no decirlo por ninguna de las dos vías. Quedan fuera las series y los tramos sin forma, que no tienen unidad.
 
-| Sujeto | Detalle |
-| --- | --- |
-| verso_aislado · cualquier_medida | no declara unidad y no tiene secciones de las que derivarla |
+Sin incidencias.
 
 ### D5 · La opción distingue menos posiciones que el patrón al que apunta — 0
 
@@ -92,13 +80,11 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D12 · Pregunta estructural con alcance de secuencia — 1
+### D12 · Pregunta estructural con alcance de secuencia — 0
 
-> Lo que es constante en toda la secuencia y afecta a la estructura es arquitectura, no pregunta. El alcance de secuencia se reserva a los rasgos. En las series no aplica: la secuencia contiene una sola unidad.
+> Lo que es constante en toda la secuencia y afecta a la estructura es arquitectura, no pregunta. El alcance de secuencia se reserva a los rasgos. En las series no aplica: la secuencia contiene una sola unidad. Tampoco en los tramos sin forma, donde no hay unidad ninguna y el alcance de secuencia es el único que cabe.
 
-| Sujeto | Detalle |
-| --- | --- |
-| verso_aislado · cualquier_medida | medida_de_cada_verso · dimensión metro · 0 opciones |
+Sin incidencias.
 
 ### D13 · Un esquema concreto contradice el criterio de su esquema abierto — 0
 
@@ -124,17 +110,21 @@ Sin incidencias.
 
 Sin incidencias.
 
-### D17 · Una unidad cuya rima no está fija y nadie pregunta — 1
+### D17 · Una unidad cuya rima no está fija y nadie pregunta — 0
 
-> Regla 1 de criterios de nivel § 3.3: donde hay unidad y la norma no fija una sola disposición, el editor tiene que poder decir cuál leyó. Se cumple de cuatro maneras y basta una: la arquitectura pregunta su rima; la resuelve una variedad, que empareja esquema métrico y de rima; toda su rima vive en secciones que reutilizan otras arquitecturas y la heredan; o la norma la fija con un único esquema **definitorio**. Un único esquema marcado «habitual» o «admitida» no exime: decir que suele ser ese es decir que hay otros. Las series quedan fuera porque no tienen unidad: su rima se describe por rasgos del pasaje.
+> Regla 1 de criterios de nivel § 3.3: donde hay unidad y la norma no fija una sola disposición, el editor tiene que poder decir cuál leyó. Se cumple de cuatro maneras y basta una: la arquitectura pregunta su rima; la resuelve una variedad, que empareja esquema métrico y de rima; toda su rima vive en secciones que reutilizan otras arquitecturas y la heredan; o la norma la fija con un único esquema **definitorio**. Un único esquema marcado «habitual» o «admitida» no exime: decir que suele ser ese es decir que hay otros. Las series y los tramos sin forma quedan fuera porque no tienen unidad: su rima se describe por rasgos del pasaje o se escribe al anotar.
 
-| Sujeto | Detalle |
-| --- | --- |
-| verso_aislado · cualquier_medida | no declara ninguna disposición ni pregunta cuál se observa |
+Sin incidencias.
 
 ### D18 · Una unidad cuya medida no está fija y nadie pregunta — 0
 
-> El mismo principio que D17, en la otra dimensión: donde la norma admite varias medidas y no dice cuál va en cada verso, el editor tiene que poder decir cuál leyó. Exime que la arquitectura pregunte su metro, que lo resuelva una variedad —que empareja esquema métrico y de rima—, o que su estructura reutilice otras arquitecturas. Las series quedan fuera porque no tienen unidad. Una arquitectura cuyo esquema métrico fija cada posición no entra: ahí la medida no varía, y lo que se salga de ella es una desviación.
+> El mismo principio que D17, en la otra dimensión: donde la norma admite varias medidas y no dice cuál va en cada verso, el editor tiene que poder decir cuál leyó. Exime que la arquitectura pregunte su metro, que lo resuelva una variedad —que empareja esquema métrico y de rima—, o que su estructura reutilice otras arquitecturas. Las series y los tramos sin forma quedan fuera porque no tienen unidad. Una arquitectura cuyo esquema métrico fija cada posición no entra: ahí la medida no varía, y lo que se salga de ella es una desviación.
+
+Sin incidencias.
+
+### D19 · Un tramo sin forma que no registra lo que se ve — 0
+
+> El envés de D10. Un tramo sin forma no declara norma —eso lo comprueba D10— pero **tiene que registrar la observación**: cada una de sus arquitecturas pregunta al menos una cosa, y la pregunta es de respuesta escrita. Una lista cerrada de opciones sería declarar norma por la puerta de atrás, ofreciendo un repertorio donde se dijo que no se reconoce ninguno. Sin este criterio, eximir a los tramos de D1, D2b, D4, D12, D17 y D18 los dejaría sin auditar por ningún lado.
 
 Sin incidencias.
 
@@ -255,11 +245,7 @@ Coincidencia literal no implica error: puede tratarse de la misma disposición s
 | a-a | seguidilla, terceto×2 |
 | aa | cancion_petrarquista, pareado×3 |
 
-## 3 · Cobertura del contrato del registrador
-
-Formas sin contrato editorial declarado (16): copla_castellana, copla_de_arte_menor, copla_manriquena, cuarteto_lira, decima_lira, estrofa_safica, novena_lira, octava_aguda, octava_lira, oncena, redondilla_enlazada, septeto, septeto_lira, septilla, septilla_enlazada, sextilla_enlazada.
-
 ---
 
-Total de defectos detectados: 11.
+Total de defectos detectados: 0.
 

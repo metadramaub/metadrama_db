@@ -25,6 +25,12 @@ funcionó: un inventario de frases sueltas no deja ver la forma entera, y sus re
 en cuanto se tocaba algo. Los tres documentos se retiraron el 18 de agosto de 2026; sus decisiones
 ya aplicadas están en las migraciones y en el historial de `git`.
 
+**Hubo un generador de podas y se retiró el 16 de septiembre de 2026.** Recorría la prosa
+señalando cada frase que repitiera un dato ya estructurado, y llegó a proponer 191 cortes: **se
+aceptaron cero**. No estaba desfasado, es que su criterio no era el del proyecto, y mantenerlo solo
+servía para volver a rechazar lo mismo. Si alguna vez hace falta otra vez, se escribe con el
+criterio de abajo y limitado a las notas.
+
 **Definiciones y descripciones no se podan: se mejoran, y a menudo alargándolas.** Pueden repetir
 en prosa lo que la figura dibuja, porque su función es que una forma se lea de corrido; las de la
 seguidilla son el modelo. La regla de no escribir lo derivado se aplica con severidad a las
