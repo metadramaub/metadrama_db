@@ -2,8 +2,12 @@
  * Dónde el catálogo se aparta de sus fuentes **en los datos**, no en la prosa.
  *
  * La auditoría de fuentes comprobó una cosa: que cada afirmación diga lo que su libro dice. Esto
- * mira la otra, que nadie había mirado: **si lo que el catálogo declara —esquemas, modalidades,
- * denominaciones— tiene respaldo en las seis voces que la ficha publica**.
+ * mira la otra, que nadie había mirado: **si alguna de las seis voces de una ficha contradice lo que
+ * el catálogo declara** en sus esquemas, sus modalidades o sus denominaciones.
+ *
+ * **Contradice, no calla.** Que una fuente no diga algo no es un desacuerdo: muchos datos del
+ * catálogo salen del corpus analizado y no de un libro, y el proyecto encuentra cosas que las
+ * fuentes no tienen ni tendrán. Lo que hay que localizar es dónde una fuente dice **otra cosa**.
  *
  * No es lo mismo que un error. La definición y el uso son del proyecto, se apoyan en las fuentes y
  * **pueden disentir de ellas**; lo que no vale es disentir sin saberlo. Este informe no corrige
@@ -16,8 +20,14 @@
  *
  * ## Las cuatro preguntas
  *
- * 1. **Esquemas de rima que el catálogo declara y ninguna fuente de esa forma enuncia.** Interesa
- *    sobre todo con modalidad `definitoria`: un esquema que define una forma y que nadie sostiene.
+ * 1. **Esquemas de rima cuya notación no cita ninguna ficha de esa forma.** Es lo más débil del
+ *    informe y conviene leerlo con cuidado: mide si la **cadena** aparece en el texto de nuestras
+ *    afirmaciones, no si las fuentes respaldan el esquema. Una ausencia puede ser tres cosas y solo
+ *    la tercera es interesante: que la fuente lo describa **en prosa** —Quilis deletrea la décima
+ *    como «dos redondillas de rima abrazada, abba y cddc, unidas por dos versos de enlace»—, que
+ *    nuestra notación se escriba de otro modo, o que el esquema **venga del corpus y no de un
+ *    libro**. Eso último es legítimo y esperable: el proyecto encuentra cosas que las fuentes no
+ *    tienen. **El silencio de una fuente no es una divergencia.**
  * 2. **Esquemas que las fuentes dan y el catálogo no tiene.** Es la comprobación mecánica nº 2 vista
  *    desde aquí, y **su lista no es una lista de trabajo**: el volcado de Navarro lee la `c` como
  *    `e` —`abe:abe` por `abc:abc`— y algunas cadenas son varias estrofas seguidas. Cada candidato
@@ -100,7 +110,7 @@ const denominaciones = query(
 	order by fm.nombre, d.nombre`
 );
 
-// ─────────────────────────────────────────────────────────── 1 · esquemas sin respaldo
+// ───────────────────────────────────────────── 1 · esquemas cuya notación no cita ninguna ficha
 
 const ORDEN = { definitoria: 0, habitual: 1, admitida: 2, excepcional: 3 };
 const sinRespaldo = esquemas
@@ -136,21 +146,32 @@ L.push('**Esto no es una lista de errores.** La definición y el uso de cada for
 L.push('se apoyan en las fuentes y pueden apartarse de ellas. Lo que este informe busca es que ningún');
 L.push('desacuerdo quede **sin saberse**. Cada caso lo decide el IP: desviación deliberada o descuido.');
 L.push('');
+L.push('**Y contradecir no es callar.** Que una fuente no diga algo no significa nada: muchos datos del');
+L.push('catálogo salen del corpus analizado y no de un libro, y el proyecto encuentra cosas que las');
+L.push('fuentes no tienen. Lo que importa es dónde una fuente dice **otra cosa** —la sección 4—, no');
+L.push('dónde se limita a no decirla.');
+L.push('');
 L.push('Mira **los datos** —esquemas, modalidades, denominaciones—, no la prosa: la definición y la');
 L.push('descripción no repiten lo que los datos enseñan, sino lo que no cabe en ellos.');
 L.push('');
 L.push(
-	`| | cuántos |\n| --- | --- |\n| Esquemas de rima que ninguna fuente enuncia | **${sinRespaldo.length}** de ${esquemas.length} |\n| — de ellos, \`definitoria\` | **${sinRespaldo.filter((e) => e.modalidad === 'definitoria').length}** |\n| Denominaciones sin eco en sus fuentes | ${sinEco.length} de ${denominaciones.length} |\n| Denominaciones sin fuente declarada | ${sinFuente.length} |\n| Afirmaciones que matizan en formas con esquema definitorio | ${matizadas.length} |`
+	`| | cuántos |\n| --- | --- |\n| Esquemas cuya notación no cita ninguna ficha | **${sinRespaldo.length}** de ${esquemas.length} |\n| — de ellos, \`definitoria\` | **${sinRespaldo.filter((e) => e.modalidad === 'definitoria').length}** |\n| Denominaciones sin eco en sus fuentes | ${sinEco.length} de ${denominaciones.length} |\n| Denominaciones sin fuente declarada | ${sinFuente.length} |\n| Afirmaciones que matizan en formas con esquema definitorio | ${matizadas.length} |`
 );
 L.push('');
 L.push('---');
 L.push('');
-L.push('## 1 · Esquemas que el catálogo declara y ninguna de sus seis voces enuncia');
+L.push('## 1 · Esquemas cuya notación no cita ninguna ficha de su forma');
 L.push('');
-L.push('El orden es por modalidad: primero lo que **define** una forma, que es donde un desacuerdo');
-L.push('pesa más. Una ausencia aquí puede ser tres cosas: que la notación se escriba distinto —nuestros');
-L.push('corchetes, las mayúsculas—, que el esquema venga de la práctica del corpus y no de un libro, o');
-L.push('que nadie lo sostenga. Solo lo tercero es un problema, y distinguirlo exige abrir la fuente.');
+L.push('**Esta sección no lista divergencias.** Mide si la cadena aparece en el texto de nuestras');
+L.push('afirmaciones, y una ausencia casi siempre significa otra cosa: que la fuente lo describe en');
+L.push('prosa —Quilis deletrea la décima como «dos redondillas de rima abrazada, abba y cddc, unidas');
+L.push('por dos versos de enlace», que es `abba:accddc` sin escribirlo—, que nuestra notación usa sus');
+L.push('propias convenciones —el guion del verso suelto, el corchete del eslabón que se repite—, o que');
+L.push('**el esquema viene del corpus y no de un libro**, que es legítimo y esperable.');
+L.push('');
+L.push('**El silencio de una fuente no es un desacuerdo.** Lo que importa para el IP es lo');
+L.push('**contradicho**, que es la sección 4. Esta queda como aviso de dónde mirar si alguna vez');
+L.push('conviene, no como lista de trabajo.');
 L.push('');
 L.push('| forma | arquitectura | notación | modalidad |');
 L.push('| --- | --- | --- | --- |');
@@ -199,7 +220,7 @@ L.push('');
 
 writeFileSync(SALIDA, L.join('\n'), 'utf-8');
 console.log(
-	`${sinRespaldo.length} esquemas sin respaldo (${sinRespaldo.filter((e) => e.modalidad === 'definitoria').length} definitorios) · ` +
+	`${sinRespaldo.length} esquemas sin notación citada (${sinRespaldo.filter((e) => e.modalidad === 'definitoria').length} definitorios) · ` +
 		`${sinEco.length} denominaciones sin eco y ${sinFuente.length} sin fuente · ${matizadas.length} afirmaciones que matizan`
 );
 console.log('Informe en docs/dominio-metrico/divergencias-con-las-fuentes.md');

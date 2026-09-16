@@ -6,12 +6,17 @@ Generado por `node scripts/divergencias-con-las-fuentes.mjs`. **No se edita a ma
 se apoyan en las fuentes y pueden apartarse de ellas. Lo que este informe busca es que ningún
 desacuerdo quede **sin saberse**. Cada caso lo decide el IP: desviación deliberada o descuido.
 
+**Y contradecir no es callar.** Que una fuente no diga algo no significa nada: muchos datos del
+catálogo salen del corpus analizado y no de un libro, y el proyecto encuentra cosas que las
+fuentes no tienen. Lo que importa es dónde una fuente dice **otra cosa** —la sección 4—, no
+dónde se limita a no decirla.
+
 Mira **los datos** —esquemas, modalidades, denominaciones—, no la prosa: la definición y la
 descripción no repiten lo que los datos enseñan, sino lo que no cabe en ellos.
 
 | | cuántos |
 | --- | --- |
-| Esquemas de rima que ninguna fuente enuncia | **16** de 147 |
+| Esquemas cuya notación no cita ninguna ficha | **16** de 147 |
 | — de ellos, `definitoria` | **10** |
 | Denominaciones sin eco en sus fuentes | 10 de 65 |
 | Denominaciones sin fuente declarada | 9 |
@@ -19,12 +24,18 @@ descripción no repiten lo que los datos enseñan, sino lo que no cabe en ellos.
 
 ---
 
-## 1 · Esquemas que el catálogo declara y ninguna de sus seis voces enuncia
+## 1 · Esquemas cuya notación no cita ninguna ficha de su forma
 
-El orden es por modalidad: primero lo que **define** una forma, que es donde un desacuerdo
-pesa más. Una ausencia aquí puede ser tres cosas: que la notación se escriba distinto —nuestros
-corchetes, las mayúsculas—, que el esquema venga de la práctica del corpus y no de un libro, o
-que nadie lo sostenga. Solo lo tercero es un problema, y distinguirlo exige abrir la fuente.
+**Esta sección no lista divergencias.** Mide si la cadena aparece en el texto de nuestras
+afirmaciones, y una ausencia casi siempre significa otra cosa: que la fuente lo describe en
+prosa —Quilis deletrea la décima como «dos redondillas de rima abrazada, abba y cddc, unidas
+por dos versos de enlace», que es `abba:accddc` sin escribirlo—, que nuestra notación usa sus
+propias convenciones —el guion del verso suelto, el corchete del eslabón que se repite—, o que
+**el esquema viene del corpus y no de un libro**, que es legítimo y esperable.
+
+**El silencio de una fuente no es un desacuerdo.** Lo que importa para el IP es lo
+**contradicho**, que es la sección 4. Esta queda como aviso de dónde mirar si alguna vez
+conviene, no como lista de trabajo.
 
 | forma | arquitectura | notación | modalidad |
 | --- | --- | --- | --- |
