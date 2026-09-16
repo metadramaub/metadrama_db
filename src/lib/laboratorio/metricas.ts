@@ -33,6 +33,16 @@ export type LaboratoryMetricHelp = {
 	explanation: string;
 };
 
+export type LaboratoryValueSummary = {
+	n: number;
+	missing: number;
+	minimum: number | null;
+	q1: number | null;
+	median: number | null;
+	q3: number | null;
+	maximum: number | null;
+};
+
 const metric = (
 	id: keyof CorpusComparisonWork['metricas'],
 	definition: Omit<LaboratoryMetric, 'id' | 'read'>
@@ -142,14 +152,6 @@ export const LABORATORY_METRICS: LaboratoryMetric[] = [
 		measurement: 'proporcion_versos',
 		unit: 'porcentaje',
 		denominator: 'Versos con tradición identificada'
-	}),
-	metric('proporcion_sin_forma', {
-		group: 'Repertorio',
-		label: 'Sin forma anotada',
-		description: 'Parte de la obra cuya forma todavía no está determinada.',
-		measurement: 'proporcion_versos',
-		unit: 'porcentaje',
-		denominator: 'Versos de la obra'
 	}),
 	{
 		id: 'cambios_cuadro_total',
@@ -281,6 +283,22 @@ export function formatLaboratoryValue(value: number | null, metric: LaboratoryMe
 	return value.toLocaleString('es', { maximumFractionDigits: 2 });
 }
 
+export function formatLaboratoryDifference(value: number | null, metric: LaboratoryMetric): string {
+	if (value === null || !Number.isFinite(value)) return '—';
+	const sign = value > 0 ? '+' : value < 0 ? '−' : '';
+	const magnitude = Math.abs(value);
+	if (metric.unit === 'porcentaje') {
+		return `${sign}${(magnitude * 100).toLocaleString('es', { maximumFractionDigits: 2 })} pp`;
+	}
+	if (metric.unit === 'por_cien_versos') {
+		return `${sign}${magnitude.toLocaleString('es', { maximumFractionDigits: 2 })} /100 vv.`;
+	}
+	if (metric.unit === 'versos') {
+		return `${sign}${magnitude.toLocaleString('es', { maximumFractionDigits: 2 })} vv.`;
+	}
+	return `${sign}${magnitude.toLocaleString('es', { maximumFractionDigits: 2 })}`;
+}
+
 export function getLaboratoryMetricHelp(metric: LaboratoryMetric): LaboratoryMetricHelp {
 	if (metric.measurement === 'proporcion_versos') {
 		return {
@@ -365,7 +383,7 @@ export function quantile(sorted: number[], proportion: number): number | null {
 	return sorted[lower] + (sorted[upper] - sorted[lower]) * (position - lower);
 }
 
-export function summarizeLaboratoryValues(values: Array<number | null>) {
+export function summarizeLaboratoryValues(values: Array<number | null>): LaboratoryValueSummary {
 	const sorted = values
 		.filter((value): value is number => value !== null && Number.isFinite(value))
 		.sort((a, b) => a - b);
