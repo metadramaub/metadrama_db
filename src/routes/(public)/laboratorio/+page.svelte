@@ -1,6 +1,9 @@
 <script lang="ts">
 	import LaboratoryDistributionChart from '$lib/components/laboratorio/LaboratoryDistributionChart.svelte';
 	import LaboratoryFocusedWorkSummary from '$lib/components/laboratorio/LaboratoryFocusedWorkSummary.svelte';
+	import LaboratoryGroupComparisonChart from '$lib/components/laboratorio/LaboratoryGroupComparisonChart.svelte';
+	import LaboratoryGroupFilter from '$lib/components/laboratorio/LaboratoryGroupFilter.svelte';
+	import LaboratoryGroupSummary from '$lib/components/laboratorio/LaboratoryGroupSummary.svelte';
 	import LaboratoryMetricHeader from '$lib/components/laboratorio/LaboratoryMetricHeader.svelte';
 	import LaboratoryMetricNav from '$lib/components/laboratorio/LaboratoryMetricNav.svelte';
 	import LaboratoryReadingKey from '$lib/components/laboratorio/LaboratoryReadingKey.svelte';
@@ -12,6 +15,7 @@
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import Tabs from '$lib/components/ui/tabs.svelte';
 	import {
+		formatLaboratoryDifference,
 		formatLaboratoryFraction,
 		formatLaboratoryValue,
 		LABORATORY_METRICS,
@@ -25,6 +29,7 @@
 
 	let { data } = $props<{ data: PageData }>();
 
+	type LaboratorySpace = 'explorar' | 'comparar';
 	type ExplorationView = 'medidas' | 'formas' | 'transiciones';
 	type FormRow = {
 		id: string;
@@ -47,40 +52,28 @@
 
 	const corpus = $derived(data.corpus);
 	const allWorks = $derived<CorpusComparisonWork[]>(corpus?.obras ?? []);
+	const GROUP_A_COLOR = '#3f6f78';
+	const GROUP_B_COLOR = '#765f7d';
 
+	let activeSpace = $state<LaboratorySpace>('explorar');
 	let activeView = $state<ExplorationView>('medidas');
 	let selectedMetricId = $state('numero_efectivo_formas');
 	let selectedAuthors = $state<string[]>([]);
 	let dateFrom = $state('');
 	let dateTo = $state('');
 	let situatedWorkId = $state('');
+	let groupAAuthors = $state<string[]>([]);
+	let groupADateFrom = $state('');
+	let groupADateTo = $state('');
+	let groupBAuthors = $state<string[]>([]);
+	let groupBDateFrom = $state('');
+	let groupBDateTo = $state('');
 
-	const authorItems = $derived.by(() =>
-		[...new Set(allWorks.flatMap((work) => work.autores))]
-			.map((author) => ({
-				id: author,
-				label: author,
-				description: `${allWorks.filter((work) => work.autores.includes(author)).length} obras`
-			}))
-			.sort((a, b) => a.label.localeCompare(b.label, 'es'))
-	);
-
-	const sampleWorks = $derived.by(() => {
-		const from = parseYear(dateFrom);
-		const to = parseYear(dateTo);
-		return allWorks.filter((work) => {
-			if (selectedAuthors.length > 0 && !work.autores.some((author) => selectedAuthors.includes(author))) {
-				return false;
-			}
-			if (from === null && to === null) return true;
-			const start = work.fecha_inicio_trad ?? work.fecha_inicio_metadrama;
-			const end = work.fecha_fin_trad ?? work.fecha_fin_metadrama ?? start;
-			if (start === null && end === null) return false;
-			if (from !== null && (end ?? start ?? -Infinity) < from) return false;
-			if (to !== null && (start ?? end ?? Infinity) > to) return false;
-			return true;
-		});
-	});
+	const authorItems = $derived(buildAuthorItems(allWorks));
+	const sampleWorks = $derived(filterWorks(allWorks, selectedAuthors, dateFrom, dateTo));
+	const sampleAuthorItems = $derived(buildAuthorItems(sampleWorks));
+	const groupAWorks = $derived(filterWorks(sampleWorks, groupAAuthors, groupADateFrom, groupADateTo));
+	const groupBWorks = $derived(filterWorks(sampleWorks, groupBAuthors, groupBDateFrom, groupBDateTo));
 
 	const selectedMetric = $derived(
 		LABORATORY_METRICS.find((metric) => metric.id === selectedMetricId) ?? LABORATORY_METRICS[0]
@@ -107,6 +100,50 @@
 				(b.reading.value ?? -Infinity) - (a.reading.value ?? -Infinity) ||
 				a.work.titulo.localeCompare(b.work.titulo, 'es')
 		)
+	);
+	const groupAMetricRows = $derived.by(() =>
+		groupAWorks.map((work) => ({ work, reading: selectedMetric.read(work) }))
+	);
+	const groupBMetricRows = $derived.by(() =>
+		groupBWorks.map((work) => ({ work, reading: selectedMetric.read(work) }))
+	);
+	const groupASummary = $derived(
+		summarizeLaboratoryValues(groupAMetricRows.map((row) => row.reading.value))
+	);
+	const groupBSummary = $derived(
+		summarizeLaboratoryValues(groupBMetricRows.map((row) => row.reading.value))
+	);
+	const groupAChartRows = $derived(
+		groupAMetricRows
+			.filter((row) => row.reading.value !== null)
+			.map((row) => ({
+				id: row.work.obra_id,
+				title: row.work.titulo,
+				authors: row.work.autores.join(', ') || 'Autoría sin identificar',
+				value: row.reading.value as number
+			}))
+	);
+	const groupBChartRows = $derived(
+		groupBMetricRows
+			.filter((row) => row.reading.value !== null)
+			.map((row) => ({
+				id: row.work.obra_id,
+				title: row.work.titulo,
+				authors: row.work.autores.join(', ') || 'Autoría sin identificar',
+				value: row.reading.value as number
+			}))
+	);
+	const groupMedianDifference = $derived(
+		groupASummary.median !== null && groupBSummary.median !== null
+			? groupASummary.median - groupBSummary.median
+			: null
+	);
+	const groupOverlapCount = $derived.by(() => {
+		const groupBIds = new Set(groupBWorks.map((work) => work.obra_id));
+		return groupAWorks.filter((work) => groupBIds.has(work.obra_id)).length;
+	});
+	const groupsAreEqual = $derived(
+		groupAWorks.length === groupBWorks.length && groupOverlapCount === groupAWorks.length
 	);
 	const situatedWork = $derived(
 		sampleWorks.find((work) => work.obra_id === situatedWorkId) ?? null
@@ -204,6 +241,18 @@
 		dateTo = '';
 	}
 
+	function resetGroupA() {
+		groupAAuthors = [];
+		groupADateFrom = '';
+		groupADateTo = '';
+	}
+
+	function resetGroupB() {
+		groupBAuthors = [];
+		groupBDateFrom = '';
+		groupBDateTo = '';
+	}
+
 	function selectMetric(id: string) {
 		selectedMetricId = id;
 	}
@@ -224,6 +273,36 @@
 		if (start === end || end === null) return String(start);
 		if (start === null) return String(end);
 		return `${start}–${end}`;
+	}
+
+	function buildAuthorItems(works: CorpusComparisonWork[]) {
+		return [...new Set(works.flatMap((work) => work.autores))]
+			.map((author) => ({
+				id: author,
+				label: author,
+				description: `${works.filter((work) => work.autores.includes(author)).length} obras`
+			}))
+			.sort((a, b) => a.label.localeCompare(b.label, 'es'));
+	}
+
+	function filterWorks(
+		works: CorpusComparisonWork[],
+		authors: string[],
+		fromValue: string,
+		toValue: string
+	): CorpusComparisonWork[] {
+		const from = parseYear(fromValue);
+		const to = parseYear(toValue);
+		return works.filter((work) => {
+			if (authors.length > 0 && !work.autores.some((author) => authors.includes(author))) return false;
+			if (from === null && to === null) return true;
+			const start = work.fecha_inicio_trad ?? work.fecha_inicio_metadrama;
+			const end = work.fecha_fin_trad ?? work.fecha_fin_metadrama ?? start;
+			if (start === null && end === null) return false;
+			if (from !== null && (end ?? start ?? -Infinity) < from) return false;
+			if (to !== null && (start ?? end ?? Infinity) > to) return false;
+			return true;
+		});
 	}
 
 	function buildFormRows(works: CorpusComparisonWork[]): FormRow[] {
@@ -311,7 +390,7 @@
 		eyebrow="HERRAMIENTA DE INVESTIGACIÓN"
 		title="Laboratorio"
 		badge="Corpus de prueba"
-		description="Construye una muestra y examina cómo se distribuyen las medidas, las formas y las relaciones métricas. Los resultados describen el corpus disponible: todavía no son conclusiones sobre el teatro español."
+		description=""
 	/>
 
 	{#if !corpus}
@@ -340,7 +419,7 @@
 				{selectedAuthors}
 				{dateFrom}
 				{dateTo}
-				metricCoverage={activeView === 'medidas' ? metricSummary.n : undefined}
+				metricCoverage={activeSpace === 'comparar' || activeView === 'medidas' ? metricSummary.n : undefined}
 				onAuthorsChange={(ids) => (selectedAuthors = ids)}
 				onDateFromChange={(value) => (dateFrom = value)}
 				onDateToChange={(value) => (dateTo = value)}
@@ -349,13 +428,26 @@
 
 			<div class="border-b border-[color:var(--border)]">
 				<div class="flex flex-wrap gap-x-7 gap-y-2" aria-label="Espacios del laboratorio">
-					<span class="border-b-2 border-[color:var(--primary)] pb-3 text-sm font-semibold">Explorar</span>
-					<span class="pb-3 text-sm text-[color:var(--muted-foreground)]">Comparar grupos</span>
+					<button
+						type="button"
+						class={`border-b-2 pb-3 text-sm transition-colors ${activeSpace === 'explorar' ? 'border-[color:var(--primary)] font-semibold' : 'border-transparent text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)]'}`}
+						onclick={() => (activeSpace = 'explorar')}
+					>
+						Explorar
+					</button>
+					<button
+						type="button"
+						class={`border-b-2 pb-3 text-sm transition-colors ${activeSpace === 'comparar' ? 'border-[color:var(--primary)] font-semibold' : 'border-transparent text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)]'}`}
+						onclick={() => (activeSpace = 'comparar')}
+					>
+						Comparar grupos
+					</button>
 					<span class="pb-3 text-sm text-[color:var(--muted-foreground)]">Afinidades</span>
 				</div>
 			</div>
 
-			<div class="space-y-6">
+			{#if activeSpace === 'explorar'}
+				<div class="space-y-6">
 				<div class="space-y-4">
 					<MetricAnalysisHeading
 						title="Explorar la muestra"
@@ -584,7 +676,129 @@
 						</div>
 					</section>
 				{/if}
-			</div>
+				</div>
+			{:else}
+				<div class="space-y-6">
+					<div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+						<MetricAnalysisHeading
+							title="Comparar grupos"
+							description="Define dos subconjuntos dentro de la muestra activa y compara una medida sin ocultar las obras que forman cada distribución."
+						/>
+						<label class="block w-full text-sm sm:max-w-sm">
+							<span class="font-medium">Obra de referencia <span class="font-normal text-[color:var(--muted-foreground)]">(opcional)</span></span>
+							<CheckDropdown
+								class="mt-1"
+								multiple={false}
+								items={situatedWorkItems}
+								selectedIds={situatedWork ? [situatedWork.obra_id] : []}
+								placeholder="Ninguna obra destacada"
+								search={true}
+								portal={true}
+								allowSingleClear={true}
+								onChange={(ids) => (situatedWorkId = ids[0] ?? '')}
+							/>
+						</label>
+					</div>
+
+					<div class="grid gap-4 lg:grid-cols-2">
+						<LaboratoryGroupFilter
+							label="Grupo A"
+							color={GROUP_A_COLOR}
+							worksCount={groupAWorks.length}
+							authorItems={sampleAuthorItems}
+							selectedAuthors={groupAAuthors}
+							dateFrom={groupADateFrom}
+							dateTo={groupADateTo}
+							onAuthorsChange={(ids) => (groupAAuthors = ids)}
+							onDateFromChange={(value) => (groupADateFrom = value)}
+							onDateToChange={(value) => (groupADateTo = value)}
+							onReset={resetGroupA}
+						/>
+						<LaboratoryGroupFilter
+							label="Grupo B"
+							color={GROUP_B_COLOR}
+							worksCount={groupBWorks.length}
+							authorItems={sampleAuthorItems}
+							selectedAuthors={groupBAuthors}
+							dateFrom={groupBDateFrom}
+							dateTo={groupBDateTo}
+							onAuthorsChange={(ids) => (groupBAuthors = ids)}
+							onDateFromChange={(value) => (groupBDateFrom = value)}
+							onDateToChange={(value) => (groupBDateTo = value)}
+							onReset={resetGroupB}
+						/>
+					</div>
+
+					{#if sampleWorks.length === 0}
+						<div class="border-y border-[color:var(--border)] py-10 text-center text-sm text-[color:var(--muted-foreground)]">
+							Ninguna obra coincide con la muestra. Amplía o restablece los filtros generales.
+						</div>
+					{:else}
+						{#if groupsAreEqual}
+							<p class="flex items-start gap-2 border-l-2 border-[color:var(--warning)] bg-white px-4 py-3 text-sm leading-6">
+								<Info class="mt-1 h-3.5 w-3.5 shrink-0 text-[color:var(--warning)]" aria-hidden="true" />
+								Los dos grupos contienen las mismas obras. Añade algún filtro para producir una comparación distinta.
+							</p>
+						{:else if groupOverlapCount > 0}
+							<p class="flex items-start gap-2 border-l-2 border-[color:var(--primary)] bg-white px-4 py-3 text-sm leading-6">
+								<Info class="mt-1 h-3.5 w-3.5 shrink-0 text-[color:var(--primary)]" aria-hidden="true" />
+								{groupOverlapCount} {groupOverlapCount === 1 ? 'obra pertenece' : 'obras pertenecen'} a ambos grupos. Se muestra en las dos distribuciones y los grupos no deben leerse como muestras independientes.
+							</p>
+						{/if}
+
+						<div class="grid items-start gap-6 lg:grid-cols-[15rem_minmax(0,1fr)]">
+							<LaboratoryMetricNav selectedId={selectedMetric.id} onSelect={selectMetric} />
+
+							<section class="min-w-0 border border-[color:var(--border)] bg-white" aria-labelledby="comparison-metric-title">
+								<LaboratoryMetricHeader metric={selectedMetric} titleId="comparison-metric-title" />
+								<div class="px-5 py-4">
+									<div class="grid gap-4 sm:grid-cols-2">
+										<LaboratoryGroupSummary
+											label="Grupo A"
+											color={GROUP_A_COLOR}
+											worksCount={groupAWorks.length}
+											summary={groupASummary}
+											metric={selectedMetric}
+										/>
+										<LaboratoryGroupSummary
+											label="Grupo B"
+											color={GROUP_B_COLOR}
+											worksCount={groupBWorks.length}
+											summary={groupBSummary}
+											metric={selectedMetric}
+										/>
+									</div>
+
+									<div class="mt-4 flex flex-col gap-1 border-y border-[color:var(--border)] py-3 sm:flex-row sm:items-baseline sm:justify-between">
+										<div>
+											<p class="text-xs text-[color:var(--muted-foreground)]">Diferencia de medianas</p>
+											<p class="font-semibold">Grupo A − Grupo B</p>
+										</div>
+										<p class="text-xl font-semibold tabular-nums">{formatLaboratoryDifference(groupMedianDifference, selectedMetric)}</p>
+									</div>
+
+									{#if groupAChartRows.length > 0 || groupBChartRows.length > 0}
+										<LaboratoryGroupComparisonChart
+											metric={selectedMetric}
+											groupA={{ label: 'Grupo A', color: GROUP_A_COLOR, rows: groupAChartRows, summary: groupASummary }}
+											groupB={{ label: 'Grupo B', color: GROUP_B_COLOR, rows: groupBChartRows, summary: groupBSummary }}
+											focusedId={situatedWork?.obra_id ?? null}
+											formatValue={(value) => formatLaboratoryValue(value, selectedMetric)}
+										/>
+									{:else}
+										<p class="py-8 text-center text-sm text-[color:var(--muted-foreground)]">Ninguno de los dos grupos tiene datos para esta medida.</p>
+									{/if}
+
+									<p class="mt-4 flex items-start gap-2 border-t border-[color:var(--border)] pt-4 text-xs leading-5 text-[color:var(--muted-foreground)]">
+										<Info class="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+										La comparación es descriptiva. No calcula significación estadística ni corrige el posible solapamiento entre grupos. En porcentajes, la diferencia se expresa en puntos porcentuales.
+									</p>
+								</div>
+							</section>
+						</div>
+					{/if}
+				</div>
+			{/if}
 
 			<p class="flex items-start gap-2 border-t border-[color:var(--border)] pt-4 text-xs leading-5 text-[color:var(--muted-foreground)]">
 				<Info class="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />

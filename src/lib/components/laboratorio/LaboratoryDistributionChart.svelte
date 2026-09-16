@@ -1,5 +1,10 @@
 <script lang="ts">
 	import EChart from '$lib/components/charts/EChart.svelte';
+	import LaboratoryPercentageScaleNote from '$lib/components/laboratorio/LaboratoryPercentageScaleNote.svelte';
+	import {
+		formatLaboratoryAxisTick,
+		getLaboratoryAxisScale
+	} from '$lib/laboratorio/chart-scale';
 	import type { LaboratoryMetric } from '$lib/laboratorio/metricas';
 	import type { EChartsOption } from 'echarts';
 
@@ -20,10 +25,13 @@
 			.replaceAll('>', '&gt;')
 			.replaceAll('"', '&quot;');
 
-	const axisValue = (value: number) => {
-		if (props.metric.unit === 'porcentaje') return `${Math.round(value * 100)} %`;
-		return value.toLocaleString('es', { maximumFractionDigits: 1 });
-	};
+	const axisScale = $derived(
+		getLaboratoryAxisScale(
+			props.metric,
+			props.rows.map((row) => row.value)
+		)
+	);
+	const axisValue = (value: number) => formatLaboratoryAxisTick(value, props.metric, axisScale);
 
 	const option = $derived.by((): EChartsOption => {
 		const data = props.rows.map((row, index) => ({
@@ -55,8 +63,8 @@
 			},
 			xAxis: {
 				type: 'value',
-				min: props.metric.unit === 'porcentaje' ? 0 : undefined,
-				max: props.metric.unit === 'porcentaje' ? 1 : undefined,
+				min: axisScale.minimum,
+				max: axisScale.maximum,
 				axisLabel: { color: '#535353', formatter: axisValue },
 				axisLine: { lineStyle: { color: '#a3a3a3' } },
 				splitLine: { lineStyle: { color: '#e6e6e6' } }
@@ -97,6 +105,8 @@
 	height="15rem"
 	ariaLabel={`Distribución de ${props.metric.label.toLocaleLowerCase('es')} entre las obras de la muestra`}
 />
+
+<LaboratoryPercentageScaleNote scale={axisScale} />
 
 <div class="mt-1 flex items-center justify-end gap-4 text-[11px] text-[color:var(--muted-foreground)]">
 	<span class="inline-flex items-center gap-1.5"><span class="h-2.5 w-5 bg-[rgba(203,164,74,0.16)]"></span>Rango central</span>

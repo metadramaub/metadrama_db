@@ -351,9 +351,11 @@ laboratorio → selección editorial → ficha están en
 La V2 conserva una fila compacta por obra con sus valores, además de `n`, media, cuartiles, mediana,
 mínimo y máximo para las medidas escalares. Incluye diversidad efectiva, densidad de transiciones,
 longitud media de secuencia, número de formas, jornadas y secuencias, proporción italiana,
-proporción sin forma anotada y articulación entre cambios de cuadro y de secuencia. La fila permite
-que el laboratorio ensaye filtros y gráficos nuevos; los agregados evitan recalcular la distribución
-en cada vista.
+proporción sin forma anotada y articulación entre cambios de cuadro y de secuencia. La proporción sin
+forma se conserva únicamente como control de integridad de datos heredados: el editor exige una forma
+para guardar una secuencia y el laboratorio no la ofrece como medida analítica. La fila permite que el
+laboratorio ensaye filtros y gráficos nuevos; los agregados evitan recalcular la distribución en cada
+vista.
 
 ### 4.2 Formas y transiciones
 
@@ -421,13 +423,40 @@ porcentaje puede representar versos, secuencias respondidas u otros casos cubier
 usa el símbolo `%` sin explicar también numerador y denominador. Los fenómenos anotados como presencia
 por secuencia nunca se convierten en intensidad ni extensión interna.
 
+Los ejes porcentuales empiezan siempre en cero. Si el máximo observado es bajo, usan un techo redondo
+de `0,5`, `1`, `2`, `5`, `10`, `20` o `50 %` en lugar de prolongarse automáticamente hasta `100 %`.
+Ese zoom se declara como **escala ampliada**, muestra el máximo observado y recuerda que el denominador
+sigue siendo el `100 %`; nunca se aplica una escala automática silenciosa basada exactamente en el
+máximo de la muestra.
+
 La obra señalada forma parte del referente y la posición se recalcula al cambiar los filtros. El
 orden no implica valoración y no se traduce automáticamente en «típica» o «rara». La selección es
 estado compartido entre las tres familias, no una segunda implementación de sus gráficos. Con un
 corpus de prueba, estas posiciones sirven para verificar el método y la interfaz, no para formular
 conclusiones históricas.
 
-### 5.2 Perfil comparativo futuro
+### 5.2 Comparar dos grupos por una medida
+
+La vista **Comparar grupos** enfrenta dos subconjuntos de la muestra activa sin duplicar el catálogo
+ni la lógica de las medidas de **Explorar**. Cada grupo se delimita de forma independiente por autoría
+y datación; dejar sus filtros vacíos equivale a usar toda la muestra activa.
+
+Para la medida elegida se muestran todas las obras con dato, la mediana, el rango central `q1–q3`, el
+tamaño de cada grupo y la cobertura (`obras con dato / obras del grupo`). La diferencia se calcula como
+`mediana A − mediana B` y conserva la unidad original; en porcentajes se expresa en puntos porcentuales,
+no como variación relativa.
+
+El gráfico usa el eje horizontal para el valor y dos franjas categóricas para separar A y B: la altura
+no ordena las obras ni codifica una segunda magnitud. Las obras con exactamente el mismo valor se agrupan
+en un punto mayor y se enumeran en su detalle. Los dos grupos usan colores de igual jerarquía, distintos
+del color de acento de la interfaz.
+
+La comparación es descriptiva. No aplica pruebas de significación ni presupone que los grupos sean
+independientes. Si una obra pertenece a ambos, la interfaz declara el solapamiento; si ambos filtros
+producen la misma selección, advierte de que no se están comparando grupos distintos. La obra de
+referencia opcional se limita a señalar su punto cuando está presente en uno de los grupos.
+
+### 5.3 Perfil comparativo futuro
 
 Si la selección de obra llega a justificar una lectura simultánea de varias medidas, se construirá un
 perfil comparativo como componente propio y vista secundaria. No será una suma de desviaciones ni un
@@ -435,12 +464,12 @@ perfil comparativo como componente propio y vista secundaria. No será una suma 
 distribuciones comparables con la obra señalada. La ficha pública recibirá solo una selección
 editorial de esas comparaciones, no el perfil investigador completo.
 
-### 5.3 Siguientes espacios
+### 5.4 Siguientes espacios
 
-**Comparar grupos** y **Afinidades** siguen pendientes. Comparar grupos deberá declarar tamaños,
-cobertura y unidad antes de enfrentar periodos, autorías o géneros. Afinidades no tendrá un score
-global opaco: separará al menos composición del repertorio y orden secuencial, y explicará qué rasgos
-acercan o separan las obras.
+La comparación A/B está activa para medidas escalares. Queda por decidir, a partir de su uso, si el
+mismo patrón aporta una lectura clara para repertorios de formas y transiciones. **Afinidades** sigue
+pendiente y no tendrá un score global opaco: separará al menos composición del repertorio y orden
+secuencial, y explicará qué rasgos acercan o separan las obras.
 
 El módulo [`src/lib/laboratorio/distancias.ts`](../src/lib/laboratorio/distancias.ts) conserva el
 prototipo anterior de Jensen–Shannon y Levenshtein como antecedente técnico, pero ya no describe la

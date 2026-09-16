@@ -42,8 +42,9 @@ permisos y visualización; no permiten presentar resultados como hallazgos sobre
 - una fila por obra con identidad mínima, datación, género, autores, visibilidad, medidas escalares,
   perfil de formas, articulación dramática, enunciación, fenómenos y transiciones;
 - media, cuartiles, mediana, extremos y tamaño de muestra para diversidad, densidad, longitud media
-  de secuencia, número de formas y jornadas, tradición italiana, falta de forma anotada y relación
-  entre cambios de cuadro y cambios de secuencia;
+  de secuencia, número de formas y jornadas, tradición italiana y relación entre cambios de cuadro y
+  cambios de secuencia; la falta de forma anotada queda solo como control de integridad y no como
+  medida del laboratorio;
 - por forma: prevalencia entre obras, peso proporcional —incluidos los ceros—, número de secuencias
   y longitud media cuando la forma está presente;
 - por transición: prevalencia, ocurrencias totales y distribución de ocurrencias por obra con ceros;
@@ -57,11 +58,15 @@ pregunta concreta justifican y con qué unidad deben contarse.
 
 ## Qué ensayar en el laboratorio
 
-**Estado a 13 de septiembre de 2026:** ya están activas la exploración de medidas, formas y
-transiciones y la selección opcional de una obra de referencia dentro de esas mismas vistas. Se evitó
-una pestaña separada para no duplicar gráficos y mantenimiento. Comparar grupos y afinidades son los
-siguientes espacios de trabajo; un perfil comparativo multimedida solo se separará si llega a tener
-una función investigadora propia.
+**Estado a 16 de septiembre de 2026:** ya están activas la exploración de medidas, formas y
+transiciones, la selección opcional de una obra de referencia dentro de esas mismas vistas y la
+comparación A/B de una medida. Esta última permite delimitar cada grupo por autoría y datación, muestra
+todas las obras con dato, `n`, cobertura, mediana y `q1–q3`, y expresa `A − B` en la unidad de la medida
+—puntos porcentuales para porcentajes—. Declara los solapamientos y no aplica pruebas de significación.
+Se evitó una pestaña separada para situar la obra y no duplicar gráficos y mantenimiento. Queda por
+ensayar si comparar grupos aporta lecturas claras para formas y transiciones; afinidades es el siguiente
+espacio mayor de trabajo. Un perfil comparativo multimedida solo se separará si llega a tener una
+función investigadora propia.
 
 - distribuciones y puntos por obra para cada medida, mostrando siempre `n` y cobertura;
 - selección opcional de una obra, compartida por las vistas exploratorias, para ver qué rasgos
