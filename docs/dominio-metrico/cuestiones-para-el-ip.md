@@ -67,7 +67,7 @@ forma a forma produce criterios distintos para el mismo caso.
 | Cómo se representa una **norma abierta** sin enumerar cada realización | [Silva](#silva) 1 · [Seguidilla](#seguidilla) 1 · [Novena](#novena) 1 | **abierto en lo filológico; el aparato se cerró el 25 de agosto de 2026** con las reglas 2 y 3 de [criterios de nivel § 3.3](./criterios-de-nivel.md): donde hay unidad, lista y salida abierta, y lo escrito se normaliza y se casa con el catálogo. *Lo que sigue sin decidir es qué acota cada norma, no cómo se registra.* |
 | **Modelar lo que las fuentes describen aunque el corpus no lo traiga**, o no | [Sexteto](#sexteto) 5 · [Sextilla](#sextilla) 7 · [Copla real](#copla-real) 2 · [Endecha real](#endecha-real) 2 | **abierto** · |
 | **Los finales esdrújulos y agudos**, ¿en todas las formas o solo donde se documenten? | abajo | **abierto** · ⇒ **B2** |
-| **Cuántos versos admite quebrados la redondilla y la copla de arte menor.** Las dos documentan el quiebro **sin fijar el verso** —«sin fijar en qué versos cae», «admite versos quebrados de cuatro sílabas»—, así que ninguna da máximo. *La copla castellana salió de aquí el 29 de agosto de 2026: § 65 sí nombra el suyo, el sexto* | [Redondilla](#redondilla) · [Quintilla](#quintilla) | **abierto** · ⇒ regla 5 bis del [§ 3.6](./criterios-de-nivel.md) |
+| **Cuántos versos admite quebrados la redondilla y la copla de arte menor.** Las dos documentan el quiebro **sin nombrar el verso**: Navarro Tomás registra la redondilla quebrada con ejemplos —«la cruzada `abab` en serie de siete unidades… y la abrazada `abba` entre las coplas sueltas»— y no dice dónde cae; Caparrós, de la copla de arte menor, «admite versos quebrados de cuatro sílabas» y tampoco. **Es silencio, no una regla enunciada**, así que ninguna da máximo. *La copla castellana salió de aquí el 29 de agosto de 2026: § 65 sí nombra el suyo, el sexto* | [Redondilla](#redondilla) · [Quintilla](#quintilla) | **abierto** · ⇒ regla 5 bis del [§ 3.6](./criterios-de-nivel.md) |
 
 ### Los finales esdrújulos y agudos
 
@@ -277,14 +277,23 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    | fuente | qué establece |
    | --- | --- |
    | Morley y Bruerton 1968 | Ningún criterio. Su «Canción (Canzone)» son «versos de siete y once sílabas, agrupados en estrofas **de 5 a 20 versos**, con un tipo de rima fijo, idéntico en cada estrofa». Su ejemplo en endecasílabos, `ABCABCDD` de *Barlaán y Josafat*, tiene **ocho versos, pareado final y ningún eslabón**, y lo llaman canción |
-   | Quilis 1969, § 6.3.6 | Ningún criterio, y lo dice: «**No había ninguna norma relativa a la naturaleza de la rima, ni a su disposición**». La estrofa oscila «normalmente entre seis y doce» |
+   | Quilis 1969, § 6.3.6 | Ningún criterio, y lo dice: «**No había ninguna norma relativa a la naturaleza de la rima, ni a su disposición**». **La extensión**: «en PETRARCA, **entre nueve y veinte**; en BOSCÁN, en la primera canción quince; en GARCILASO, trece» |
    | Navarro Tomás 1972, § 161 | No enuncia ninguno. Su epígrafe «Estrofas aliradas» llega hasta las de **nueve versos**. Lo único que distingue es su notación: escribe la estancia con dos puntos —`abCabC: cdeeDfF`, la canción quinta de Herrera, § 157— y las aliradas sin ellos, la de nueve incluida |
    | Domínguez Caparrós 2014, p. 214 | **La extensión**: la estancia tiene «no menos de nueve ni más de veinte, normalmente». Del eslabón dice que «**aunque no es obligatorio**, es frecuente» que la estancia se ajuste a fronte + eslabón + sirima |
    | *Diccionario* 2016, s. v. «estancia» y «canción alirada» | Lo mismo, palabra por palabra. Y define la **canción alirada** como «**canción a la italiana** cuyas estrofas, cortas y simétricas, **prescinden de la ordenación rigurosa de la estancia**»: para él la alirada no se opone a la canción, **es una canción** |
    | Jauralde Pou 2020 | **La extensión**: la estancia son versos de 7 y 11 «dispuestos de modo aleatorio, normalmente **por encima de los ocho versos** (para diferenciarla de las liras)» |
 
-   **Las tres que dan un criterio dan el mismo, y coinciden en el umbral: nueve versos.** Caparrós y
-   el *Diccionario*, «no menos de nueve»; Jauralde, «por encima de los ocho».
+   *Hasta el 16 de septiembre de 2026 esta tabla daba a Quilis «normalmente entre seis y doce». Ese
+   rango es el de la canción **provenzal**, la antecesora, en la misma frase donde da el de Petrarca:
+   «en la provenzal, el mínimo eran seis; el máximo, ilimitado, aunque normalmente oscilaban entre
+   seis y doce; en PETRARCA, entre nueve y veinte». Su afirmación verificada ya lo recogía bien; lo
+   que no se había corregido era esta tabla. **Y cambia la cuenta**, porque Quilis pasa de parecer el
+   que más baja a ser uno más de los que ponen el suelo en nueve.*
+
+   **Las cuatro que dan una extensión coinciden en el umbral: nueve versos.** Caparrós y
+   el *Diccionario*, «no menos de nueve»; Quilis, «en PETRARCA, entre nueve y veinte»; Jauralde, «por
+   encima de los ocho». **La única que baja de ahí es Morley y Bruerton**, con su «de 5 a 20», que es
+   justo el intervalo que el catálogo declara.
 
    **El caso que lo destapó cae justo en ese umbral.** El § 161 de Navarro, dentro de su epígrafe de
    aliradas, describe dos estrofas de **nueve** versos como «una nueva reelaboración de este modelo»,
@@ -521,9 +530,14 @@ figura dibujan los que riman —*ninguna · ocasionales · habituales · predomi
    quebrado dejó de ser una forma, «porque no es una estrofa: es una propiedad de cualquier estrofa
    octosilábica».
 
-   *Y dos siguen preguntando en todos los versos con razón*, porque su fuente lo dice: la copla real
-   —«la tradición no fija en qué verso»—, la redondilla —«sin fijar en qué versos cae»— y la copla de
-   arte menor, cuya fuente dice «admite versos quebrados de cuatro sílabas» **sin nombrar ninguno**.
+   *Y tres siguen preguntando en todos los versos con razón*, y conviene decir bien por qué: **no
+   porque su fuente lo autorice, sino porque calla**. El *Diccionario* dice de la copla real que sus
+   quintillas «admiten algún verso quebrado tetrasílabo», sin posición; Navarro Tomás documenta la
+   redondilla quebrada con dos ejemplos y no dice en qué verso cae; y Caparrós, de la copla de arte
+   menor, «admite versos quebrados de cuatro sílabas» **sin nombrar ninguno**. *Hasta el 16 de
+   septiembre de 2026 las dos primeras llevaban comillas —«la tradición no fija en qué verso», «sin
+   fijar en qué versos cae»— que no están en ningún libro: eran nuestras, puestas en boca de la
+   fuente. Es el mismo defecto que la auditoría retiró de las fichas.*
    ⇒ [incidencia F44 del formulario](./historico/editor-v2-recorrido-2026-08-a-09.md)
 
 5. **Tipología 8 es numeración nuestra.** Navarro Tomás numera **siete** y M&B dan las mismas siete.
