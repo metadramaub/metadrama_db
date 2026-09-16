@@ -19,15 +19,15 @@
  * - **¿Se acusó de más?** Un defecto mal visto es una corrección que empeora el catálogo.
  *
  * Uso:
- *   node scripts/muestra-humana.mjs
- *   node scripts/muestra-humana.mjs --semilla 2026-09-13 --cuantas 18
+ *   node scripts/auditoria-fuentes/muestra-humana.mjs
+ *   node scripts/auditoria-fuentes/muestra-humana.mjs --semilla 2026-09-13 --cuantas 18
  */
 
 import { readFileSync, readdirSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const RAIZ = fileURLToPath(new URL('..', import.meta.url));
+const RAIZ = fileURLToPath(new URL('../..', import.meta.url));
 const BASE = join(RAIZ, 'docs', 'dominio-metrico', 'auditoria-fuentes');
 const A = join(BASE, 'dictamenes');
 const B = join(BASE, 'dictamenes-b');

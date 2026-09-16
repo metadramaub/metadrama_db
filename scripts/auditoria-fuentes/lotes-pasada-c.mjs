@@ -19,17 +19,17 @@
  * por defecto: se manda una tercera lectura y después se comprueba en el PDF.
  *
  * Uso:
- *   node scripts/lotes-pasada-c.mjs               # dice qué falta, sin escribir
- *   node scripts/lotes-pasada-c.mjs --escribe
- *   node scripts/lotes-pasada-c.mjs --ids 008e03ef,28847825 --escribe
+ *   node scripts/auditoria-fuentes/lotes-pasada-c.mjs               # dice qué falta, sin escribir
+ *   node scripts/auditoria-fuentes/lotes-pasada-c.mjs --escribe
+ *   node scripts/auditoria-fuentes/lotes-pasada-c.mjs --ids 008e03ef,28847825 --escribe
  */
 
 import { readFileSync, readdirSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { query } from './lib/consulta.mjs';
+import { query } from '../lib/consulta.mjs';
 
-const RAIZ = fileURLToPath(new URL('..', import.meta.url));
+const RAIZ = fileURLToPath(new URL('../..', import.meta.url));
 const BASE = join(RAIZ, 'docs', 'dominio-metrico', 'auditoria-fuentes');
 const DECISIONES = join(BASE, 'decisiones.json');
 const C = join(BASE, 'dictamenes-c');

@@ -20,16 +20,16 @@
  * comprobaron uno a uno y leen seguido.
  *
  * Uso:
- *   node scripts/audit-fuentes.mjs
- *   node scripts/audit-fuentes.mjs --salida docs/dominio-metrico/auditoria-fuentes
+ *   node scripts/auditoria-fuentes/audit-fuentes.mjs
+ *   node scripts/auditoria-fuentes/audit-fuentes.mjs --salida docs/dominio-metrico/auditoria-fuentes
  */
 
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { query } from './lib/consulta.mjs';
+import { query } from '../lib/consulta.mjs';
 
-const RAIZ = fileURLToPath(new URL('..', import.meta.url));
+const RAIZ = fileURLToPath(new URL('../..', import.meta.url));
 const BIBLIOTECA = join(RAIZ, 'docs', 'dominio-metrico', 'bibliografía');
 const SALIDA_POR_DEFECTO = join(RAIZ, 'docs', 'dominio-metrico', 'auditoria-fuentes');
 

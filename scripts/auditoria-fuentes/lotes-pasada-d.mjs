@@ -24,16 +24,16 @@
  * extracto recortado.
  *
  * Uso:
- *   node scripts/lotes-pasada-d.mjs               # dice qué saldría, sin escribir
- *   node scripts/lotes-pasada-d.mjs --escribe
+ *   node scripts/auditoria-fuentes/lotes-pasada-d.mjs               # dice qué saldría, sin escribir
+ *   node scripts/auditoria-fuentes/lotes-pasada-d.mjs --escribe
  */
 
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { query } from './lib/consulta.mjs';
+import { query } from '../lib/consulta.mjs';
 
-const RAIZ = fileURLToPath(new URL('..', import.meta.url));
+const RAIZ = fileURLToPath(new URL('../..', import.meta.url));
 const BASE = join(RAIZ, 'docs', 'dominio-metrico', 'auditoria-fuentes');
 const LOTES_D = join(BASE, 'lotes-d');
 const DICTAMENES_D = join(BASE, 'dictamenes-d');

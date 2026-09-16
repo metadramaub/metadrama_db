@@ -1,6 +1,6 @@
 # Matriz de exhaustividad · forma × fuente
 
-Generado por `node scripts/matriz-exhaustividad.mjs`. **No juzga nada**: dice cuántas
+Generado por `node scripts/auditoria-fuentes/matriz-exhaustividad.mjs`. **No juzga nada**: dice cuántas
 afirmaciones tiene cada celda y cuántas veces nombra esa fuente a esa forma. El recuento de
 menciones cuenta cadenas, así que es una pista para saber dónde mirar, no un veredicto.
 

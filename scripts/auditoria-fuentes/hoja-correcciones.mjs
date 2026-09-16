@@ -32,15 +32,15 @@
  * Lo que sí se guarda es `decisiones.json`, que solo tiene identificadores, veredictos y señales.
  *
  * Uso:
- *   node scripts/hoja-correcciones.mjs
+ *   node scripts/auditoria-fuentes/hoja-correcciones.mjs
  */
 
 import { readFileSync, readdirSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { query } from './lib/consulta.mjs';
+import { query } from '../lib/consulta.mjs';
 
-const RAIZ = fileURLToPath(new URL('..', import.meta.url));
+const RAIZ = fileURLToPath(new URL('../..', import.meta.url));
 const BASE = join(RAIZ, 'docs', 'dominio-metrico', 'auditoria-fuentes');
 const DICTAMENES = join(BASE, 'dictamenes');
 const DICTAMENES_B = join(BASE, 'dictamenes-b');

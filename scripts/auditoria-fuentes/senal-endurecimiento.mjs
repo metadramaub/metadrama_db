@@ -29,7 +29,7 @@
  * hay a qué anclarse y el defecto, si lo hay, tiene que encontrarlo una lectura. Lo que decide, como
  * siempre, es abrir el libro.
  *
- *   node scripts/senal-endurecimiento.mjs [--cubos]
+ *   node scripts/auditoria-fuentes/senal-endurecimiento.mjs [--cubos]
  *
  * **Mira todas las afirmaciones del catálogo.** Durante la auditoría miraba por defecto solo las de
  * los cubos «confirmación» y «limpio», que era donde el defecto podía haberse quedado escondido; se
@@ -40,9 +40,9 @@
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { query } from './lib/consulta.mjs';
+import { query } from '../lib/consulta.mjs';
 
-const RAIZ = fileURLToPath(new URL('..', import.meta.url));
+const RAIZ = fileURLToPath(new URL('../..', import.meta.url));
 const BASE = RAIZ + 'docs/dominio-metrico/auditoria-fuentes/';
 const ANIOS = [1968, 1969, 1972, 2014, 2016, 2020];
 
@@ -205,7 +205,7 @@ señalados.sort((x, y) => y.enFuente.length - x.enFuente.length || x.sobre.local
 const L = [];
 L.push('# Señal de endurecimiento · la cautela que la fuente tiene y la ficha no');
 L.push('');
-L.push('Generado por `node scripts/senal-endurecimiento.mjs`. Para cada ficha se buscan en el pasaje');
+L.push('Generado por `node scripts/auditoria-fuentes/senal-endurecimiento.mjs`. Para cada ficha se buscan en el pasaje');
 L.push('las **oraciones que ella resume** —las que comparten con el resumen una tirada de seis');
 L.push('palabras— y se mira si matizan donde el resumen no matiza.');
 L.push('**Son candidatos, no veredictos**: lo que decide es abrir el libro.');

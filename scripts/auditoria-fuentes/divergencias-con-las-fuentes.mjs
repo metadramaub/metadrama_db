@@ -45,15 +45,15 @@
  * mano el día que toque.
  *
  * Uso:
- *   node scripts/divergencias-con-las-fuentes.mjs
+ *   node scripts/auditoria-fuentes/divergencias-con-las-fuentes.mjs
  */
 
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { query } from './lib/consulta.mjs';
+import { query } from '../lib/consulta.mjs';
 
-const RAIZ = fileURLToPath(new URL('..', import.meta.url));
+const RAIZ = fileURLToPath(new URL('../..', import.meta.url));
 const SALIDA = join(RAIZ, 'docs', 'dominio-metrico', 'divergencias-con-las-fuentes.md');
 
 /** Las marcas con que una fuente deja abierto lo que el catálogo cierra. */
@@ -140,7 +140,7 @@ for (const a of afirmaciones) {
 const L = [];
 L.push('# Divergencias del catálogo con sus fuentes');
 L.push('');
-L.push('Generado por `node scripts/divergencias-con-las-fuentes.mjs`. **No se edita a mano.**');
+L.push('Generado por `node scripts/auditoria-fuentes/divergencias-con-las-fuentes.mjs`. **No se edita a mano.**');
 L.push('');
 L.push('**Esto no es una lista de errores.** La definición y el uso de cada forma son del proyecto:');
 L.push('se apoyan en las fuentes y pueden apartarse de ellas. Lo que este informe busca es que ningún');
