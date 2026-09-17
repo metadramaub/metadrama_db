@@ -113,97 +113,84 @@ real: lo que lo sostiene es el vocabulario legado._
 
 # Series y composiciones largas
 
-## Silva
+## Silva y endecasílabo suelto
 
-**Qué tiene hoy:** cinco arquitecturas —cuatro consonantes y la arromanzada, que entró el 22 de
-agosto de 2026— situadas en dos ejes. `densidad_de_rima` dice
-cuántos versos riman —_ninguna · esporádica · mayoritaria · total_— y `organizacion_en_pareados` qué
-figura dibujan los que riman —_ninguna · ocasionales · habituales · predominantes · regulares_—.
+Van juntas porque comparten frontera, y **tres de los apuntes que tenían por separado eran la misma
+pregunta**.
 
-1. **¿Dos de las cuatro silvas se diferencian solo por un valor de rasgo?**
+| arquitectura | medida | densidad de rima | pareados |
+| --- | --- | --- | --- |
+| silva · Consonante de orden libre | 7 y 11, sin orden | mayoritaria o total | **predominantes** · definitoria |
+| silva · Libre | 7 y 11, sin orden | mayoritaria o total | **ninguna** · definitoria |
+| silva · Consonante regular | ciclo 7 + 11 | **total** · definitoria | **regulares** · definitoria |
+| silva · Endecasílaba | 11 | **mayoritaria** · definitoria | habituales o predominantes |
+| silva · Arromanzada | 7 y 11, sin orden | _(vocales de la asonancia)_ | — |
+| endecasílabo suelto · Endecasílabo | 11 | **ninguna** · habitual; esporádica admitida | ninguna u ocasionales |
 
-   |                           | esquema de rima          | densidad            | pareados          |
-   | ------------------------- | ------------------------ | ------------------- | ----------------- |
-   | Consonante de orden libre | `consonante-orden-libre` | mayoritaria · total | **predominantes** |
-   | Libre                     | `consonante-orden-libre` | mayoritaria · total | **ninguna**       |
+**La frontera, en el dato:** la densidad. La silva endecasilábica exige `mayoritaria`; el suelto va
+de `ninguna` a `esporádica`. Y la medida: el suelto es solo de once.
 
-   Comparten esquema, medida y densidad admitida: **lo único que las separa es el valor de un
-   rasgo**. Y un rasgo es una respuesta _dentro_ de una norma, no una norma: si dos arquitecturas no
-   se distinguen más que por él, una de las dos es un nombre y no una realización estructural.
+### 1 · ¿Dónde acaba la silva y empieza el verso suelto? · **chocan**
 
-   **Y la densidad tampoco las separa**, comprobado el 29 de agosto de 2026: las dos declaran
-   `mayoritaria` y `total` como admitidas, así que las dos toleran versos sueltos y ninguna exige que
-   rime todo. _De los tres ejes —esquema, medida y densidad— no las distingue ninguno; solo el valor
-   de pareados, que es lo que el editor no puede ver hasta haberlos contado._
+**Hoy** · la silva exige rima, y su definición lo dice: «un pasaje de siete y once enteramente
+suelto no es una silva». El endecasílabo suelto es endecasilábico por definición.
 
-   _A favor de dejarlas:_ las cuatro salen de los cuatro tipos de Morley y Bruerton, y el corpus
-   todavía no ha hablado. _A favor de fundirlas:_ el editor tiene que elegir entre dos arquitecturas
-   cuya diferencia no puede observar antes de haber contado los pareados, que es lo que el rasgo
-   pregunta después. **Es la clase de caso que este modelo está hecho para resolver con datos**:
-   cuando haya silvas anotadas, se mira si alguna cae en `predominantes` sin ser también otra cosa.
+**Las fuentes** borran esa frontera por los dos lados. Que un pasaje sin rima **sea silva**: el
+_Diccionario_ «admite como silva también la combinación de endecasílabos y heptasílabos **sin
+rima**»; Caparrós presenta el verso suelto «como **una clase de silva** en la que ninguno de los
+versos de la serie lleva rima»; Jauralde, que la silva moderna «es normalmente de versos blancos».
+Que el suelto **no sea solo de once**: Caparrós, «la serie de endecasílabos **solos o con algún
+heptasílabo**»; el _Diccionario_, «series de endecasílabos, **heptasílabos y pentasílabos, solos o
+combinados entre sí**»; Jauralde funda la serie en «la igualdad **o proporcionalidad** silábica».
 
-2. **¿Se recoge la silva 4.ª de Morley y Bruerton** —7 y 11 mezclados, **todas las rimas en los
-   pares**—? **Es consonante**, como las otras tres, y cabría como quinta arquitectura sin tocar la
-   cabecera. **No es ninguna de las cuatro que ya hay**: no es la `Consonante regular`, que son
-   pareados; y no cabe en las abiertas porque `consonante-orden-libre` **no tiene posiciones**, de
-   modo que no puede declarar que la rima caiga en los pares, ni en `Libre`, porque con los impares
-   sueltos la densidad no llega a `mayoritaria`. _Estructuralmente es la figura del romance —`[-a]…`—
-   pero consonante y heterométrica, y por eso la pregunta de si la acerca al romance heroico no es
-   retórica: requeriría un esquema cíclico con posiciones, que ninguna silva tiene hoy._ Comprobado
-   dos veces que **tampoco estaba en el vocabulario legado**: no se perdió al migrar, no se declaró
-   nunca.
+**A favor del corte actual**, y es de peso: Navarro Tomás § 158 data la silva teatral justamente en
+la rima —desde 1588 Lope intercala pareados en pasajes de siete y once **sueltos**—, así que en la
+comedia lo que separa una cosa de la otra es que rime.
 
-3. **¿La silva exige rima?** **Tres de las seis dicen que no**: el _Diccionario_ «admite como silva
-   también la combinación de endecasílabos y heptasílabos sin rima»; Caparrós presenta el verso
-   suelto «como una clase de silva en la que ninguno de los versos de la serie lleva rima»; y
-   Jauralde dice que la silva moderna «es normalmente de versos blancos» —aunque fija como
-   característica que «pueda llevar versos sin rima», que es otra cosa—. El catálogo no, y la definición lo dice: «un pasaje de siete y once enteramente suelto no es una
-   silva». La razón es de corpus y la respalda Navarro Tomás § 158: desde 1588 Lope intercalaba
-   pareados en pasajes de 7 y 11 sueltos, así que en la comedia lo que separa la silva del pasaje
-   suelto es que rime. _Por decisión del IP la lectura del_ Diccionario _se conserva en las
-   afirmaciones y no se codifica; conviene confirmar que el corte vale también en la heterométrica._
+**Decidir** · tres cosas encadenadas: si el suelto admite otras medidas; si la silva exige rima; y,
+según las dos anteriores, dónde cae un pasaje de siete y once sin rima.
 
-4. **Tres arquitecturas declaran una sección cuyo único contenido es el periodo.** La regla es que
-   las secciones describen el **interior** de una unidad, así que una parte se justifica cuando el
-   periodo existe por algo más que la rima:
+**Lo que hoy no tiene sitio** · los endecasílabos y heptasílabos sueltos de las dos _Nise_ de
+Jerónimo Bermúdez, 1577, que Navarro documenta **en el teatro**. No es silva porque la nuestra exige
+rima, ni suelto porque el nuestro es de once. Para Caparrós es verso suelto sin más discusión.
 
-   | Arquitectura               | Sección                                  | ¿El periodo es también métrico?                 |
-   | -------------------------- | ---------------------------------------- | ----------------------------------------------- |
-   | Silva · Consonante regular | «Serie de pareados regulares» · 2 versos | **Sí**: `7-11-repetido` alterna las dos medidas |
-   | Terceto encadenado ×2      | «Cadena de tercetos» · 3 versos          | No: `11-repetido` y `8-repetido`                |
-   | Romance                    | _(ninguna, y es lo correcto)_            | No: `8-repetido`                                |
+**Si cambia** · el endecasílabo suelto gana una arquitectura heterométrica, o la silva admite
+densidad `ninguna`, o las dos. Y la definición de la silva deja de poder decir lo que dice.
 
-   _La de la silva se sostiene sola. La del terceto encadenado se parece más al romance, pero su
-   ciclo `[ABA]…` con dos enlaces es bastante particular como para mirarlo aparte._
+### 2 · ¿Entra la cuarta silva de Morley y Bruerton? · **seguir**
 
-## Endecasílabo suelto
+**Hoy** · no está. Las cuatro consonantes salen de los cuatro tipos de M&B; falta el cuarto.
 
-1. **La restricción a once sílabas es nuestra, y tres fuentes no la hacen.** El catálogo declara la
-   forma endecasilábica por definición; los libros describen otra cosa:
+**Las fuentes** · M&B: «un cuarto tipo de siete y once mezclados con **todas las rimas en los
+pares**». Es consonante, como las otras tres.
 
-   | Caparrós 2014 | «la forma más frecuente es la serie de endecasílabos **solos o con algún heptasílabo**», y documenta el heptasílabo sin rima de Francisco de la Torre |
-   | _Diccionario_ | «sus formas más frecuentes son las series de endecasílabos, **heptasílabos y pentasílabos, solos o combinados entre sí**» |
-   | Jauralde | la percepción de la serie descansa en «la igualdad **o proporcionalidad** silábica» |
+**Por qué no cabe en ninguna** · no es la Consonante regular, que son pareados; ni las abiertas,
+porque su esquema no tiene posiciones y no puede declarar que la rima caiga en los pares; ni la
+Libre, porque con los impares sueltos la densidad no llega a `mayoritaria`.
 
-   _Los tres apuntes de esta forma —este, el de las_ Nise _y el de si es una clase de silva— son la
-   misma pregunta vista por tres lados: si el endecasílabo suelto debe seguir siendo solo de once._
+**Decidir** · si entra como sexta arquitectura. **Sería la gemela consonante de la Arromanzada**,
+que ya dibuja esa figura —`[-a]…`— en asonante, así que no es una estructura inédita.
 
-2. **La esquina de las _Nise_: heptasílabos mezclados y sin rima.** No es silva porque **nuestra**
-   silva exige rima, y no es endecasílabo suelto porque **nuestro** endecasílabo suelto es solo de
-   once. **En las fuentes no hay tal esquina**: para Caparrós la serie de endecasílabos «con algún
-   heptasílabo» y sin rima es verso suelto sin más. Navarro Tomás lo documenta
-   **en el teatro**: Jerónimo Bermúdez compuso _Nise lastimosa_ y _Nise laureada_, de 1577, en
-   endecasílabos sueltos, «donde además mezcló endecasílabos y heptasílabos sueltos». _Se anota por
-   si alguna de las dos entra en el corpus: entonces habrá que decidir si el endecasílabo suelto
-   gana una arquitectura heterométrica o si la frontera con la silva se redibuja._
+**Si cambia** · una arquitectura más, sin tocar la cabecera de la forma. Comprobado dos veces que
+tampoco estaba en el vocabulario legado: no se perdió al migrar, no se declaró nunca.
 
-3. **¿Es «una clase de silva», como dice Caparrós 2014?** El catálogo las tiene como formas
-   distintas unidas por `contrasta_con`. **No es una fuente contra cinco, son tres las que borran esa
-   frontera**: Caparrós presenta el verso suelto «como una clase de silva en la que ninguno de los
-   versos de la serie lleva rima»; el _Diccionario_ «admite como silva también la combinación de
-   endecasílabos y heptasílabos **sin rima**»; y Jauralde dice que la silva moderna «es normalmente
-   de versos blancos». _No se han fusionado, y la razón es de corpus —ver la silva 3—; lo que cambia
-   es el tamaño de la divergencia._
+### 3 · ¿Se distinguen dos silvas solo por un valor de rasgo? · **callan**
+
+**Hoy** · «Consonante de orden libre» y «Libre» comparten esquema de rima, medida y densidad
+admitida. Lo único que las separa es `organizacion_en_pareados`, y en las dos ese valor está
+declarado **definitoria**: `predominantes` en una, `ninguna` en la otra.
+
+**Las fuentes** · ninguna dice que sean arquitecturas distintas; las cuatro consonantes salen de
+los cuatro tipos que M&B enumeran, y el corpus todavía no ha hablado.
+
+**Decidir** · si un valor de rasgo `definitoria` basta para separar dos arquitecturas. El modelo
+dice que sí —esa modalidad existe para eso—; el argumento en contra es de uso: el editor tiene que
+elegir entre dos que **no puede distinguir hasta haber contado los pareados**, que es justo lo que
+el rasgo le pregunta después.
+
+**Si cambia** · una de las dos deja de ser arquitectura. **Es la clase de caso que este modelo está
+hecho para resolver con datos**: cuando haya silvas anotadas se mira si alguna cae en
+`predominantes` sin ser también otra cosa.
 
 ## Canción petrarquista
 
@@ -249,8 +236,7 @@ figura dibujan los que riman —_ninguna · ocasionales · habituales · predomi
    sirima». Quilis: «un verso de unión llamado _volta_ **que rima con el último verso del segundo
    _piede_**». Y del remate, el _Diccionario_ y Caparrós dicen que es «**un fragmento de estancia**»
    —de donde tomaría medidas y rimas—, y el _Diccionario_ añade que «normalmente tiene el primer
-   verso suelto». _Hasta el 16 de septiembre de 2026 este apunte preguntaba qué documentan las
-   fuentes; documentan esto, y lo que queda por decidir es si se declara._ El catálogo no
+   verso suelto». El catálogo no
    les atribuye ninguna de las dos. Contado sobre las **once secciones opcionales** que hay en cuatro
    formas, las del terceto encadenado declaran medida y rima y las del villancico y el zéjel declaran
    la medida; **las tres de la canción —dos remates y el eslabón— no declaran ninguna**, y el remate
@@ -278,13 +264,6 @@ figura dibujan los que riman —_ninguna · ocasionales · habituales · predomi
    | Domínguez Caparrós 2014, p. 214                          | **La extensión**: la estancia tiene «no menos de nueve ni más de veinte, normalmente». Del eslabón dice que «**aunque no es obligatorio**, es frecuente» que la estancia se ajuste a fronte + eslabón + sirima                                                                                                           |
    | _Diccionario_ 2016, s. v. «estancia» y «canción alirada» | Lo mismo, palabra por palabra. Y define la **canción alirada** como «**canción a la italiana** cuyas estrofas, cortas y simétricas, **prescinden de la ordenación rigurosa de la estancia**»: para él la alirada no se opone a la canción, **es una canción**                                                            |
    | Jauralde Pou 2020                                        | **La extensión**: la estancia son versos de 7 y 11 «dispuestos de modo aleatorio, normalmente **por encima de los ocho versos** (para diferenciarla de las liras)»                                                                                                                                                       |
-
-   _Hasta el 16 de septiembre de 2026 esta tabla daba a Quilis «normalmente entre seis y doce». Ese
-   rango es el de la canción **provenzal**, la antecesora, en la misma frase donde da el de Petrarca:
-   «en la provenzal, el mínimo eran seis; el máximo, ilimitado, aunque normalmente oscilaban entre
-   seis y doce; en PETRARCA, entre nueve y veinte». Su afirmación verificada ya lo recogía bien; lo
-   que no se había corregido era esta tabla. **Y cambia la cuenta**, porque Quilis pasa de parecer el
-   que más baja a ser uno más de los que ponen el suelo en nueve._
 
    **Las cuatro que dan una extensión coinciden en el umbral: nueve versos.** Caparrós y
    el _Diccionario_, «no menos de nueve»; Quilis, «en PETRARCA, entre nueve y veinte»; Jauralde, «por
@@ -364,112 +343,150 @@ figura dibujan los que riman —_ninguna · ocasionales · habituales · predomi
    declaran: «El tipo más corriente en Lope, **llamado "regular" por nosotros**, tiene 13 versos como
    sigue: `abCabC:cdeeDfF`». _La arquitectura lleva bien ese nombre; lo que no dice es de quién es._
 
-## Villancico
+## Villancico y zéjel
 
-1. **¿Se segmenta la mudanza de cuatro versos en dos miembros simétricos?** El catálogo conserva una
-   sola sección de cuatro y lo explica en su nota. **No es que divirjamos de las fuentes: es que las
-   mismas fuentes dicen las dos cosas.** El _Diccionario_ y Caparrós hablan de «dos mudanzas
-   simétricas» y, en la misma entrada, de «la estabilidad de la **redondilla o cuarteta** central»;
-   Navarro Tomás da «la mudanza **en redondilla**» y Quilis «identifica **la redondilla** como
-   mudanza característica». _Así que la pregunta no es a quién hacemos caso, sino cuál de las dos es
-   la unidad y cuál la descripción de su interior. Segmentarla daría dos secciones hermanas donde hoy
-   hay una, y afectaría a la ficha y al registrador._
+Las fuentes las separan **por la forma de la mudanza y de la vuelta** —redondilla en el villancico,
+trístico monorrimo en el zéjel—, y varias avisan de que los dos moldes se confunden con facilidad.
 
-2. **¿Entran las mudanzas de seis versos?** Están formalizadas `abba`, `abab` y la asonantada
-   `-a-a`; Navarro Tomás documenta además mudanzas excepcionales de seis. _Hoy solo caben como
-   desviación._
+| | cabeza | mudanza | enlace | vuelta | repetición |
+| --- | --- | --- | --- | --- | --- |
+| villancico · Estribillo inicial | 1–4 | 4 versos | 0–1, de 1 a 3 | 0–1, de 1 a 3 | pregunta de represa |
+| villancico · Estribillo tras la primera copla | 1–4 | 4 versos | 0–1 | 0–1 | pregunta de represa |
+| zéjel · Estribillo y coplas monorrimas | 1–2 | 3 versos | — | 1 verso | represa `0-1` |
 
-3. **¿Hasta dónde llega el estribillo?** Caparrós fija la cabeza en **dos a cuatro** y el
-   _Diccionario_ igual; Navarro Tomás recoge estribillos «**de muy diversa extensión entre dos y
-   dieciséis versos**». _Hasta el 16 de septiembre de 2026 este apunte decía «de dos a siete»: la
-   auditoría de fuentes corrigió la afirmación y nadie había vuelto aquí. La distancia que salva la
-   decisión del IP es cuatro veces mayor de lo que parecía._ _El IP decidió el 10 de agosto
-   quedarse en 2-4, de modo que uno de cinco a siete entra como desviación. Queda anotado porque es
-   la misma disyuntiva que la vuelta —donde se optó por lo contrario, dejarla abierta— y conviene
-   revisarlas juntas si algún día se unifica el criterio._
+**Solo se pregunta la rima de la mudanza.** De las demás partes se pregunta la medida, no la rima.
 
-4. **La arquitectura de estribillo posterior se quedó sin la fuente que la sostenía.** Lo que el
-   catálogo le atribuía —«como modalidad moderna general, una cuarteta octosilábica seguida por un
-   estribillo en cuarteta hexasílaba»— **resultó falso y se retiró el 13 de septiembre de 2026**
-   (`20260913120000`): la pasada A comprobó que Navarro Tomás no lo dice en ninguno de los seis §§
-   citados y que lo que sí dice lo contradice —en la _Gacela_ de Lorca «el estribillo es una cuarteta
-   **heptasílaba**» y **va delante**, y el otro ejemplo moderno lo llama «ejemplo aislado de esta
-   antigua forma de canción en el presente período»—.
+### 1 · ¿La mudanza son dos miembros simétricos o una redondilla? · **chocan**
 
-   **La arquitectura, en cambio, sigue activa**, y es anterior: nació el 29 de julio de 2026, antes
-   de que se escribiera esa afirmación. Así que no la creó la lectura falsa, pero **tampoco la
-   sostiene ninguna otra**: buscado en los seis libros, las cinco fuentes que describen la forma
-   ponen el estribillo al principio, y el _Diccionario_ usa esa palabra —«un estribillo **inicial**
-   —llamado cabeza, villancico, letra o tema—»—. Ni cabeza pospuesta ni villancico que empiece por
-   la copla aparecen en ninguno.
+**Hoy** · una sola sección de cuatro versos, y la nota lo explica.
 
-   _La pregunta, entonces, no es si restringirla sino si se queda. Si el corpus la trae, es hallazgo
-   nuestro y la ficha debería decirlo así; si no la trae nadie, sobra. Va con el punto 6, que
-   pregunta si las dos arquitecturas son una sola: ese punto dice hoy que «las fuentes presentan la
-   cabeza inicial como el modelo y la otra como una modalidad», y esa «otra» era justamente la
-   modalidad retirada._
+**Las fuentes** · las mismas dicen las dos cosas. El _Diccionario_ y Caparrós hablan de «dos
+mudanzas simétricas» y, en la misma entrada, de «la estabilidad de la **redondilla o cuarteta**
+central»; Navarro Tomás da «la mudanza **en redondilla**» y Quilis «identifica **la redondilla**
+como mudanza característica».
 
-5. **¿Debe el editor registrar por separado la rima del estribillo y la del enlace y la vuelta?**
-   Hoy pregunta por la rima de la mudanza, pero no conserva las rimas concretas de las otras partes;
-   sin esos datos no podrá reconstruirse después cómo enlazan las secciones en cada realización.
+**Decidir** · cuál de las dos es la unidad y cuál la descripción de su interior. No es a quién hacer
+caso: es qué nivel tiene cada cosa.
 
-6. **¿Son una sola arquitectura las dos del villancico?** Lo único que las separa es **dónde aparece
-   el estribillo por primera vez**. Podría resolverse con una pregunta dentro de una sola
-   arquitectura. _No se hizo porque el demarcador distingue por arquitectura y perdería capacidad de
-   identificar, y porque las fuentes presentan la cabeza inicial como el modelo y la otra como una
-   modalidad._
+**Si cambia** · dos secciones hermanas donde hoy hay una, y toca la ficha y el registrador.
 
-## Zéjel
+### 2 · ¿Hasta dónde llega el estribillo? · **chocan**
 
-1. **¿Una repetición parcial del estribillo es posibilidad admitida o desviación?** Hoy la represa
-   es total o no aparece. Ninguna de las cinco fuentes que tratan el zéjel describe repetición
-   parcial. **Para el villancico la describen dos**: Jauralde, «repetición total o parcial de la
-   cabeza», y Navarro Tomás, «ampliación o supresión del enlace y la vuelta, y **repeticiones
-   parciales o totales**». El contraste, entonces, es más fuerte, no menos.
+**Hoy** · de uno a cuatro versos. _El IP decidió el 10 de agosto quedarse en 2–4, de modo que uno de
+cinco o más entra como desviación._
 
-2. **¿Se admite la mudanza de dos versos?** Hoy es de tres, y es lo definitorio de la forma. Navarro
-   Tomás «documenta además la variante con la mudanza reducida a dos versos, `aa:bba`». _Relajar la
-   mudanza toca el núcleo de la definición._
+**Las fuentes** · Caparrós fija la cabeza en «dos, tres o cuatro versos» y el _Diccionario_ igual.
+**Navarro Tomás recoge estribillos «de muy diversa extensión entre dos y dieciséis versos»**, y
+Quilis «advierte variación en la extensión del estribillo».
 
-   **Comprobado en el libro el 16 de septiembre de 2026**, y la variante está fechada: el § 211 es el
-   del Siglo de Oro, y dice que «además de la forma regular… aparece también **entre las canciones de
-   la Noche Buena, de Gómez de Tejada, la variante con las mudanzas reducidas a dos versos**, ya
-   registrada en los períodos anteriores, `aa:bba`», con su texto: «Que si voy y no vengo, vengo…».
+**Decidir** · si el corte sigue en cuatro sabiendo que la distancia con la fuente más amplia es de
+doce versos, no de tres. _Es la misma disyuntiva que la vuelta, donde se optó por lo contrario,
+dejarla abierta; conviene revisarlas juntas._
 
-   **Y la nota de ese mismo párrafo trae una tercera reducción que el catálogo no tiene**: `a:bba`,
-   «con mudanza de dos versos **y uno de estribillo**», en la letrilla satírica de Trillo y Figueroa
-   «Que la casada hermosa…». _Si se relaja la mudanza, esta pregunta si se relaja también el
-   estribillo, que hoy es de uno o dos versos y ahí queda en uno._
+### 3 · ¿Entran las mudanzas de seis versos? · **seguir**
 
-   _Un aviso sobre el volcado: el cuerpo del § imprime la forma regular como `aa:bbab` y su propia
-   nota como `aa:bbba`. Las dos no pueden ser; la del catálogo y la de las otras fuentes es
-   `aa:bbba`._
+**Hoy** · la mudanza es de cuatro. Están formalizadas `abba`, `abab` y la asonantada `-a-a`.
 
-3. **¿Y el zéjel en arte mayor?** Hoy el esquema métrico ofrece 6 u 8 sílabas. Navarro Tomás
-   registra dos zéjeles en arte mayor en el _Cancionero de Baena_, y variantes que modifican
-   estribillo y vuelta —`aba:cccba`, `abba:cccaca`—. _Son medievales y cultas, no del corpus
-   dramático; se dejan fuera a la espera de que aparezcan._
+**Las fuentes** · Navarro Tomás registra «mudanzas **excepcionales de seis**», y junto a `abba`
+también `abab` y la forma asonantada `abcb`, que el catálogo ya tiene.
 
-4. **¿El estribillo del zéjel vuelve siempre, como el del villancico?** El 29 de agosto de 2026
-   se decidió que en el villancico **no puede faltar** —cuando la fuente antigua no lo copia es por
-   ahorro de espacio, y las ediciones modernas lo restituyen—, y su sección pasó a obligatoria en las
-   dos arquitecturas. _La pregunta es si el criterio alcanza al zéjel, y hay razones para dudarlo:_
-   - **Ninguna de sus seis afirmaciones incluye la repetición en el esquema.** Las cuatro que lo
-     describen dan `aa:bbba` y coinciden en cómo vuelve: Navarro Tomás, «un cuarto verso de vuelta
-     que rima con el estribillo»; Quilis, «un verso de vuelta que rima con el estribillo». **Lo que
-     vuelve es la rima**, por el verso de vuelta, y el esquema se cierra ahí. En el villancico, en
-     cambio, la repetición es una parte declarada.
-   - Las fuentes separan las dos formas precisamente por eso: se distinguen «por la forma de la
-     mudanza **y de la vuelta**».
-   - Y hay una consecuencia práctica. Las dos respuestas del zéjel son de **presencia** —«No, no
-     vuelve a aparecer» y «Sí, se repite entero»—, no de extensión como en el villancico. Con la
-     sección obligatoria habría que retirar la negativa y quedaría **una sola opción**, es decir,
-     dejaría de haber pregunta. Y «solo en parte» apenas significa nada en un estribillo de uno o
-     dos versos.
+**Decidir** · si la de seis entra como excepcional o se queda como desviación, que es donde está.
 
-   _El criterio del IP es sobre la ejecución y la transmisión, y en el villancico coincide con lo que
-   el esquema declara; en el zéjel iría contra lo que las fuentes escriben._ Hoy el zéjel es
-   coherente consigo mismo: sección `0-1` y una respuesta que permite decir que no.
+### 4 · La arquitectura de estribillo posterior se quedó sin fuente · **callan**
+
+**Hoy** · dos arquitecturas, y **lo único que las separa es dónde aparece el estribillo por primera
+vez**.
+
+**Lo que la sostenía era falso y se retiró** el 13 de septiembre de 2026 (`20260913120000`): la
+ficha atribuía a Navarro Tomás, «como modalidad moderna general», una cuarteta octosilábica seguida
+de un estribillo en cuarteta hexasílaba. No lo dice en ninguno de los seis §§ citados, y lo que sí
+dice lo contradice —en la _Gacela_ de Lorca «el estribillo es una cuarteta **heptasílaba**» y **va
+delante**, y el otro ejemplo moderno es «ejemplo aislado de esta antigua forma de canción en el
+presente período»—.
+
+**Las fuentes** · buscado en los seis libros: **las cinco que describen la forma ponen el estribillo
+al principio**, y el _Diccionario_ usa esa palabra —«un estribillo **inicial** —llamado cabeza,
+villancico, letra o tema—»—. Ni cabeza pospuesta ni villancico que empiece por la copla aparecen en
+ninguno.
+
+**Decidir** · si la arquitectura se queda. Es anterior a la afirmación falsa —nació el 29 de julio
+de 2026—, así que no la creó aquella lectura, pero ninguna otra la sostiene. Si el corpus la trae,
+es hallazgo nuestro y la ficha debería decirlo así; si no la trae nadie, sobra.
+
+**Si se retira** · desaparece con ella la duda de si son una arquitectura o dos. _Si se conserva, la
+razón de tenerlas separadas es que el demarcador distingue por arquitectura y perdería capacidad de
+identificar._
+
+### 5 · La rima del estribillo, el enlace y la vuelta no se registra · **callan**
+
+**Hoy** · el editor responde la rima de la mudanza y la **medida** de las demás partes. Las rimas
+concretas del estribillo, el enlace y la vuelta no se guardan.
+
+**Las fuentes** · sí precisan cómo enlazan: el _Diccionario_, que los versos de la vuelta «**o al
+menos el último**» riman con la cabeza; Caparrós, que el primero enlaza con la rima final de la
+mudanza.
+
+**Decidir** · si se pregunta. Sin ese dato **no podrá reconstruirse después cómo enlazan las
+secciones en cada realización**, que es justamente lo que las fuentes usan para distinguir el
+villancico del zéjel.
+
+### 6 · ¿Una repetición parcial del estribillo es posibilidad admitida o desviación? · **callan**
+
+**Hoy** · en el zéjel la represa es total o no aparece.
+
+**Las fuentes** · **ninguna de las cinco que tratan el zéjel describe repetición parcial**. Para el
+villancico la describen dos: Jauralde, «repetición total o parcial de la cabeza», y Navarro Tomás,
+«ampliación o supresión del enlace y la vuelta, y **repeticiones parciales o totales**».
+
+**Decidir** · si el silencio de las cinco basta para no ofrecerla en el zéjel.
+
+### 7 · ¿Se admite la mudanza de dos versos? · **seguir**
+
+**Hoy** · la mudanza del zéjel es de tres, y es lo definitorio de la forma.
+
+**Las fuentes** · Navarro Tomás, § 211, el del Siglo de Oro: «además de la forma regular… aparece
+también **entre las canciones de la Noche Buena, de Gómez de Tejada, la variante con las mudanzas
+reducidas a dos versos**, ya registrada en los períodos anteriores, `aa:bba`». Y la nota de ese
+mismo párrafo trae **una tercera reducción**: `a:bba`, «con mudanza de dos versos **y uno de
+estribillo**», en una letrilla de Trillo y Figueroa.
+
+**Decidir** · si entra `aa:bba`, y con ella si se relaja también el estribillo, que hoy es de uno o
+dos versos y en `a:bba` queda en uno.
+
+**Si cambia** · toca el núcleo de la definición.
+
+### 8 · ¿Y el zéjel en arte mayor? · **seguir**
+
+**Hoy** · el esquema métrico ofrece seis u ocho sílabas.
+
+**Las fuentes** · Navarro Tomás «registra zéjeles en arte mayor y variantes que modifican estribillo
+y vuelta, como `aba:cccba` y `abba:cccaca`».
+
+**Decidir** · nada, por ahora: son medievales y cultas, no del corpus dramático. _Queda anotado a la
+espera de que aparezcan._
+
+### 9 · ¿El estribillo del zéjel vuelve siempre, como el del villancico? · **seguir**
+
+**Hoy** · sección `0-1` y una respuesta que permite decir que no vuelve. _El 29 de agosto de 2026 se
+decidió que en el villancico **no puede faltar** —cuando la fuente antigua no lo copia es por ahorro
+de espacio— y su sección pasó a obligatoria en las dos arquitecturas._
+
+**Las fuentes**, y aquí hay razones para no extender el criterio:
+
+- **Ninguna de las seis afirmaciones del zéjel incluye la repetición en el esquema.** Las cuatro que
+  lo describen dan `aa:bbba` y coinciden en cómo vuelve: Navarro Tomás, «un cuarto verso de vuelta
+  que rima con el estribillo»; Quilis, «un verso de vuelta que rima con el estribillo». **Lo que
+  vuelve es la rima**, y el esquema se cierra ahí. En el villancico la repetición es una parte
+  declarada.
+- Las fuentes separan las dos formas precisamente por eso: «por la forma de la mudanza **y de la
+  vuelta**».
+- Y las dos respuestas del zéjel son de **presencia** —«no vuelve a aparecer», «se repite entero»—,
+  no de extensión. Con la sección obligatoria habría que retirar la negativa y quedaría una sola
+  opción: dejaría de haber pregunta.
+
+**Decidir** · si el criterio de ejecución y transmisión que gobierna el villancico alcanza al zéjel.
+_En el villancico coincide con lo que el esquema declara; en el zéjel iría contra lo que las fuentes
+escriben._
 
 ---
 
@@ -777,8 +794,8 @@ que la documenta»._
    ejemplo propios** sextetos eneasilábicos, decasilábicos, endecasilábicos, dodecasilábicos y de
    alejandrinos: dos más que el catálogo, el nueve y el diez. _Del pentadecasilábico, en cambio,
    «solo hay una mención de paso, en el capítulo del verso, a propósito de un ejemplo de Salvador
-   Rueda», así que no pesa lo mismo; hasta el 16 de septiembre de 2026 este apunte lo listaba junto a
-   los otros dos. Las tres del catálogo son las del corpus, no las de la bibliografía._
+   Rueda», así que no pesa lo mismo. Las tres del catálogo son las del corpus, no las de la
+   bibliografía._
 
 3. **¿La consonancia es exigible?** Hoy es definitoria en las tres arquitecturas. Navarro Tomás
    documenta en el modernismo el sexteto asonante `abcbDB` de Darío y tipos que dejan sueltos varios
@@ -863,10 +880,7 @@ seis fuentes que recorre la forma metro por metro.
 
    _Las tres tienen dos clases, así que pasan la guarda sin tocarla. Lo que hay que decidir es si
    entran —y con qué modalidad, que por la regla del 17 de septiembre sería `admitida`— o si quedan
-   fuera por alcance, como cancioneriles que son. Hasta el 16 de septiembre de 2026 este apunte
-   preguntaba si faltaba alguno sin saber que la respuesta estaba escrita en la propia ficha._
-
-2. **¿Se admite la copla de cuatro rimas como desviación?** Navarro Tomás registra una,
+   fuera por alcance, como cancioneriles que son. 2. **¿Se admite la copla de cuatro rimas como desviación?** Navarro Tomás registra una,
    `ABBA:CDDC`, en una carta de Tirso de Molina en _Quien calla otorga_ —y anota que los propios
    personajes aluden al carácter antiguo de la estrofa—. Es exactamente lo que el catálogo retiró
    como esquema normal. _Si el corpus trae una, habría que registrarla como desviación localizada._
@@ -908,10 +922,6 @@ seis fuentes que recorre la forma metro por metro.
    _Lo que las fuentes dibujan no es una preferida sino **dos que predominan**, `CDC:DCD` y
    `CDE:CDE`, con las otras dos por debajo. La modalidad del catálogo no recoge esa forma: hoy una
    está arriba y tres abajo._
-
-   _Hasta el 16 de septiembre de 2026 este apunte decía que «ninguna fuente respalda ese ascenso», y
-   su propia tabla lo desmiente dos líneas más abajo: Quilis llama a `CDC-DCD` «esquema clásico» y
-   favorita de Petrarca, que es exactamente la que el catálogo subió._
 
    Tres salidas: dejar las cuatro en `admitida`; subirlas las cuatro a `habitual`; o mantener una y
    escribir en la ficha **a quién se sigue y por qué**, que es lo que hoy falta. _No es un arreglo de auditoría: la modalidad decide lo que el editor
