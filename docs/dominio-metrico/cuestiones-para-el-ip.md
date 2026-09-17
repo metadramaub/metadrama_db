@@ -733,74 +733,97 @@ _Sin cuestiones abiertas. El tercetillo entró el 22 de agosto de 2026 con sus d
 disposición monorrima y la asonancia que el_ Diccionario _le admite; la septilla, que lo esperaba,
 ya lo referencia._
 
-## Cuarteto-lira
+## La serie alirada
 
-Las dos salieron al escribir sus afirmaciones de Jauralde y de Caparrós 2014, el 18 de septiembre de 2026.
+Seis formas —cuarteto, sexteto, septeto, octava, novena y décima-lira— más la lira, que es la
+estrofa canónica de cinco. **No están declaradas con el mismo criterio**, y esa es la raíz de casi
+todo lo que sigue:
 
-1. **Nada en la base distingue hoy una realización del cuarteto-lira con siete dominante de otra con
-   once dominante**, y sin eso el criterio de Jauralde no se puede aplicar al anotar aunque se
-   acepte. Su arquitectura, «Heterométrico consonante», declara proporción variable **sin
-   posiciones**: dice que mezcla siete y once, y no cuántos de cada uno ni en qué orden. Un editor
-   que lea `7 7 7 11` y otro que lea `11 11 11 7` registran hoy lo mismo.
+| | medida | rima | qué pregunta |
+| --- | --- | --- | --- |
+| Lira | 5 posiciones fijas | `aBabB` definitoria | **nada**: todo se deriva |
+| Cuarteto, octava, novena y décima-lira | repertorio 7/11 **abierto** | esquemas admitidos, o ninguno | metro y rima, verso a verso |
+| **Sexteto-lira** | fija, pero **dentro de ocho variedades** | tres disposiciones | la variedad, y el metro |
+| **Septeto-lira** | **7 11 7 11 7 7 11, fija y sin alternativa** | `ababbcc` **habitual** | una sola cosa |
 
-   _Es el mismo hueco que la novena-lira, la décima-lira y la canción de estancias variables tienen
-   con sus disposiciones, y que el catálogo tiene apuntado como pendiente de B1: falta dónde
-   registrar la disposición observada cuando la norma no la fija. Si se resuelve ahí, este caso se
-   resuelve con él; si no, el criterio de Jauralde queda como lectura que el catálogo no puede
-   guardar._
+_El IP decidió el 26 de agosto de 2026 dejar abiertas de metro y de rima las aliradas nuevas, porque
+todavía no se sabe qué hay en el corpus y la base es donde se va a documentar._
 
-## Lira, sexteto-lira y septeto-lira
+### 1 · El septeto-lira no quedó abierto como sus hermanas · **seguir**
 
-1. **¿El septeto-lira debe quedar abierto como sus hermanas nuevas?** El IP decidió el 26 de
-   agosto de 2026 dejar **abiertas de metro y de rima** las formas aliradas nuevas —cuarteto,
-   septeto, octava, novena y décima-lira—, porque todavía no se sabe qué hay en el corpus y la base
-   es donde se va a documentar. Pero contado contra la base, **el septeto no está así**: tiene el
-   metro fijo en `7 11 7 11 7 7 11` y un único esquema de rima, `ababbcc`, marcado `habitual` —es
-   decir, «suele ser este», luego hay otros— y **no pregunta nada**, de modo que quien encuentre uno
-   distinto no puede registrarlo. _Sus cuatro hermanas sí están abiertas._ ⇒ _cerrado el 27 de agosto de 2026_
+**Hoy** · fija la medida verso a verso y declara un único esquema de rima, `ababbcc`, marcado
+**habitual** —es decir, «suele ser este», luego hay otros— y **no pregunta la rima**. Quien encuentre
+uno distinto no puede registrarlo.
 
-2. **El sexteto simétrico `abC:abC` de san Juan de la Cruz no está.** Lo documenta Navarro Tomás en
-   la _Llama de amor viva_: seis versos de siete y once, pero **sin pareado final**, de modo que
-   ninguna de las siete variedades lo acoge y no cabe en la definición actual. _¿Es otra forma, una
-   variedad que obliga a ensanchar la definición, o queda fuera del corpus?_ Va con el punto 1.
+**Las fuentes** · su propia definición presenta esa disposición como «**la realización que la
+documenta**», que es lenguaje de una realización entre varias, no de una norma.
 
-**¿El septeto-lira es de medida fija o abierta?** _Salió el 27 de agosto de 2026._ Las otras cuatro
-aliradas —cuarteto, octava, novena y décima— declaran repertorio `7/11` **sin posiciones**, y desde
-ese día registran verso a verso lo que se lee. El septeto-lira, en cambio, **fija la medida**: `7 11 7
-11 7 7 11`. Pero su definición presenta esa disposición como «la realización que la documenta», que es
-lenguaje de una realización entre varias. _Si es abierta como sus hermanas, se le crea la misma
-pregunta y deja de fijar posiciones; si es fija, conviene que la definición no diga «la realización
-que la documenta»._
+**Decidir** · si se abre como sus cuatro hermanas. Si se abre, se le crea la misma pregunta y deja
+de fijar posiciones; si se deja fija, **la definición no puede seguir diciendo «la realización que la
+documenta»**, porque eso describe lo contrario de lo que el dato declara.
 
-## Sexteto-lira
+### 2 · El sexteto simétrico `abC:abC` de san Juan de la Cruz no está · **seguir**
 
-1. **¿Por qué esas ocho combinaciones y no otras?**
+**Hoy** · el sexteto-lira tiene ocho variedades y tres disposiciones de rima —`ababcc` habitual,
+`abbacc` y `aabbcc` admitidas—, **todas con pareado final**.
 
-   **De dónde salen.** No de una restricción documentada, sino del vocabulario legado: eran siete
-   subtipos escritos uno a uno y la matriz de importación los mandó a `variedad`. Que fueran siete de
-   quince era el resultado de tener siete filas —**y el 24 de agosto de 2026 entró una octava,
-   `A4 · aBaBCC`**, lo que confirma que la lista no cerraba nada: crecía al leer—.
+**Las fuentes** · Navarro Tomás lo documenta en la _Llama de amor viva_: seis versos de siete y
+once, pero **sin pareado final**. Ninguna de las ocho variedades lo acoge y no cabe en la definición
+actual.
 
-   **Los dos ejes son libres.** Comprobado: las cinco secuencias de medidas y las tres disposiciones
-   de rima son independientes, y nada impide combinarlas.
+**Decidir** · si es otra forma, una variedad que obliga a ensanchar la definición, o queda fuera del
+corpus. **Va con la 3**, porque el pareado final es justamente lo que las ocho comparten.
 
-   | Medidas           | `ababcc` | `abbacc` | `aabbcc` |
-   | ----------------- | :------: | :------: | :------: |
-   | `7-11-7-11-7-11`  |  **A1**  |    —     |    —     |
-   | `11-7-7-11-7-11`  |  **A2**  |    —     |  **C1**  |
-   | `7-7-7-11-7-11`   |  **A3**  |    —     |    —     |
-   | `7-7-7-7-7-11`    |    —     |  **B1**  |    —     |
-   | `11-7-7-11-11-11` |    —     |  **B2**  |  **C2**  |
+### 3 · ¿Por qué esas ocho combinaciones del sexteto-lira y no otras? · **callan**
 
-   **Ninguna de las seis prohíbe combinación alguna**, y dos terminan la enumeración en abierto: M&B
-   citan tres «entre otras» y Navarro Tomás cuatro «y otras». **Tres que las fuentes nombran y el
-   catálogo no tiene:** `AbbAcC` cabría sin añadir nada —es una de las ocho casillas vacías—;
-   `AbAbcC` y `aBaBCC` exigen un esquema métrico nuevo.
+**De dónde salen** · no de una restricción documentada, sino del vocabulario legado: eran siete
+subtipos escritos uno a uno, y la matriz de importación los mandó a `variedad`. Que fueran siete de
+quince era el resultado de tener siete filas — **y el 24 de agosto de 2026 entró una octava,
+`A4 · aBaBCC`**, lo que confirma que la lista no cerraba nada: crecía al leer.
 
-   **Lo que está en juego.** Hoy es una pregunta con siete opciones. La alternativa son **dos
-   preguntas cerradas** —¿qué secuencia de medidas? (5) y ¿qué disposición de rima? (3)—, que cubren
-   las quince. _Si los dos ejes son libres, la contraprueba de
-   [criterios de nivel](./criterios-de-nivel.md) dice que la variedad «no hace falta»._
+**Los dos ejes son libres.** Comprobado: las cinco secuencias de medidas y las tres disposiciones de
+rima son independientes, y nada impide combinarlas.
+
+| Medidas | `ababcc` | `abbacc` | `aabbcc` |
+| --- | :-: | :-: | :-: |
+| `7-11-7-11-7-11` | **A1** | — | — |
+| `11-7-7-11-7-11` | **A2** | — | **C1** |
+| `7-7-7-11-7-11` | **A3** | — | — |
+| `7-7-7-7-7-11` | — | **B1** | — |
+| `11-7-7-11-11-11` | — | **B2** | **C2** |
+
+**Las fuentes** · **ninguna de las seis prohíbe combinación alguna**, y dos terminan la enumeración
+en abierto: Morley y Bruerton citan tres «entre otras» y Navarro Tomás cuatro «y otras». **Tres que
+las fuentes nombran y el catálogo no tiene**: `AbbAcC` cabría sin añadir nada —es una de las ocho
+casillas vacías—; `AbAbcC` y `aBaBCC` exigen un esquema métrico nuevo.
+
+**Decidir** · qué queda del nivel de variedad si los dos ejes son libres. Hoy es una pregunta con
+ocho opciones; la alternativa son **dos preguntas cerradas** —¿qué secuencia de medidas? (5) y ¿qué
+disposición de rima? (3)—, que cubren las quince. _Si los dos ejes son libres, la contraprueba de_
+[criterios de nivel](./criterios-de-nivel.md) _dice que la variedad «no hace falta»._
+
+**Es la pregunta más antigua de la lista y la que más estructura mueve.**
+
+### 4 · Nada distingue un cuarteto-lira de siete dominante de otro de once · **callan**
+
+**Hoy** · «Heterométrico consonante» declara proporción variable **sin posiciones**: dice que mezcla
+siete y once, y no cuántos de cada uno ni en qué orden. Un editor que lea `7 7 7 11` y otro que lea
+`11 11 11 7` **registran hoy lo mismo**.
+
+**Las fuentes** · Jauralde separa el cuarteto-lira del cuarteto de endecha **por ahí**: «cuando sobre
+la misma estructura de cuatro versos impares lo que domina es el heptasílabo sobre el endecasílabo
+**se prefiere hablar de cuartetos de endecha**». La relación entre las dos formas quedó declarada el
+18 de septiembre de 2026, sin fundirlas.
+
+**Decidir** · si el criterio de la proporción se registra en alguna parte. Sin eso **no se puede
+aplicar al anotar aunque se acepte**, y lo que Jauralde propone queda como lectura que el catálogo no
+sabe guardar.
+
+**Es el mismo hueco** que tienen la novena-lira, la décima-lira y la canción de estancias variables
+con sus disposiciones ⇒ **B1**. _Si se resuelve ahí, este caso se resuelve con él._
+
+**Y de paso**, la escala que Jauralde sugiere —cuartetos, quintetos «y así sucesivamente» de
+endecha— toca esta misma serie.
 
 ## Sexteto
 
