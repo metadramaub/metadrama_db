@@ -969,133 +969,229 @@ posible y otras dos ni la contemplan.
 
 ## Copla de arte mayor
 
-1. **Faltan tres esquemas, y Navarro Tomás los nombra.** Los cuatro actuales —`ABBA:ACCA` habitual,
-   `ABAB:BCCB` y `ABBA:ACAC` admitidas y `ABBA:CDDC` excepcional— enlazan los cuartetos, que es lo
-   que la norma exige, y una guarda impide declarar uno con más de tres clases. La pregunta era si
-   faltaban otros que las fuentes no destacaran; **su afirmación verificada los da con nombre**:
-   además de `ABBA:ACCA` y `ABAB:BCCB`, «registra combinaciones de **solo dos rimas: `ABAB:ABAB`,
-   `ABBA:ABBA` y `ABAB:BAAB`**».
+| arquitectura | medida | esquemas |
+| --- | --- | --- |
+| Dodecasilábica compuesta | 12 en las ocho posiciones | `ABBA:ACCA` habitual · `ABAB:BCCB` y `ABBA:ACAC` admitidas · `ABBA:CDDC` excepcional |
 
-   _Las tres tienen dos clases, así que pasan la guarda sin tocarla. Lo que hay que decidir es si
-   entran —y con qué modalidad, que por la regla del 17 de septiembre sería `admitida`— o si quedan
-   fuera por alcance, como cancioneriles que son. 2. **¿Se admite la copla de cuatro rimas como desviación?** Navarro Tomás registra una,
-   `ABBA:CDDC`, en una carta de Tirso de Molina en _Quien calla otorga_ —y anota que los propios
-   personajes aluden al carácter antiguo de la estrofa—. Es exactamente lo que el catálogo retiró
-   como esquema normal. _Si el corpus trae una, habría que registrarla como desviación localizada._
+Los cuatro **enlazan los cuartetos**, que es lo que la norma exige, y una guarda impide declarar uno
+con más de tres clases.
 
-3. **¿La arquitectura debe seguir llamándose dodecasilábica?** Hoy declara `12-repetido` en sus ocho
-   posiciones. Jauralde advierte que, por la estructura rítmica del verso, **su número de sílabas
-   varía entre diez y dieciséis**. _Si el corpus trae un verso de trece o catorce, hoy sería una
-   desviación métrica y no una realización admitida._
+### 1 · Faltan tres esquemas, y Navarro Tomás los nombra · **seguir**
+
+**Hoy** · cuatro. La pregunta que había era si faltaban otros que las fuentes no destacaran.
+
+**Las fuentes** · su afirmación verificada los da con nombre. Además de `ABBA:ACCA` y, «en nivel
+inmediato», `ABAB:BCCB`, Navarro «registra combinaciones de **solo dos rimas: `ABAB:ABAB`,
+`ABBA:ABBA` y `ABAB:BAAB`**».
+
+**Decidir** · si entran —con modalidad `admitida`, por la regla del 17 de septiembre— o quedan fuera
+por alcance, como cancioneriles que son. **Las tres tienen dos clases, así que pasan la guarda sin
+tocarla.**
+
+### 2 · ¿Se admite la copla de cuatro rimas como desviación? · **seguir**
+
+**Hoy** · `ABBA:CDDC` está como **excepcional**, que es la de cuatro rimas: no enlaza los cuartetos.
+
+**Las fuentes** · Navarro Tomás registra una, **como caso singular**: una carta de Tirso de Molina
+en _Quien calla otorga_, y anota que los propios personajes aluden al carácter antiguo de la
+estrofa.
+
+**Decidir** · si al aparecer en el corpus se registra como realización excepcional, que es lo que
+hoy permite el catálogo, o como desviación localizada.
+
+### 3 · ¿Debe seguir llamándose dodecasilábica? · **seguir**
+
+**Hoy** · declara `12` en sus ocho posiciones.
+
+**Las fuentes** · Jauralde advierte que, por la estructura rítmica del verso —«óoo ó en cada
+hemistiquio, con una o dos sílabas antes y después»—, **su número de sílabas varía entre diez y
+dieciséis**.
+
+**Decidir** · si la medida se abre. Hoy un verso de trece o catorce sería una **desviación métrica**
+y no una realización admitida.
 
 ## Soneto
 
-1. **¿Los cuatro esquemas de tercetos son un repertorio abierto o cerrado?** M&B dan los cuatro y
-   añaden «y otros». **Es abierto, y la fuente da la regla, no una lista**: el _Diccionario_ dice
-   que los tercetos toman dos o tres clases distintas de las de los cuartetos y las reparten como
-   sea «con tal de que no haya más de dos versos seguidos con la misma rima». Desde el 19 de agosto
-   esa regla está en la definición. _Codificarla son dos piezas: un esquema abierto de la sección
-   `terceto` con `max_consecutivos: 2` junto a los cuatro concretos, y la evaluación de ese tipo en
-   el auditor. El grupo pasaría de cuatro opciones a cinco, y esa quinta es justo la salida que esta
-   duda pide._ ⇒ **B4**
+| | versos | esquemas |
+| --- | --- | --- |
+| Cuartetos | 4 + 4 | `ABBA ABBA` **habitual** · `ABAB ABAB` **excepcional** |
+| Tercetos | 3 + 3 | `CDC DCD` **habitual** · `CDE CDE`, `CDE DCE` y `CDC EDE` **admitidas** |
 
-2. **¿Qué disposición de tercetos merece ser la habitual, si cada fuente elige una distinta?** Hoy
-   el catálogo asciende `CDC DCD` a **habitual** y deja `CDE CDE`, `CDE DCE` y `CDC EDE` en
-   **admitida**. Y lo que pasa no es que nadie lo respalde, sino algo más incómodo: **cada fuente
-   eleva una distinta, y el catálogo eligió la de Quilis sin decirlo**:
+### 1 · ¿Qué disposición de tercetos merece ser la habitual? · **chocan**
 
-   | fuente                 | a cuál llama clásica o preferida                                                                                                                                                                                                                                                   |
-   | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-   | Quilis 1969            | `ABBA-ABBA-CDC-DCD`, «esquema clásico», y la da por favorita de Petrarca                                                                                                                                                                                                           |
-   | Jauralde 2020          | `ABBA ABBA CDE DCE`, «forma clásica»                                                                                                                                                                                                                                               |
-   | Navarro 1972           | **Las dos, y lo dice dos veces.** Su glosario: «los tercetos han usado **preferentemente** las combinaciones `CDE:CDE` y `CDC:DCD`». Y al tratar los sonetos de Santillana: «las dos combinaciones que **en general han predominado**; en 27 casos, `CDC:DCD`, y en 14, `CDE:CDE`» |
-   | Morley y Bruerton 1968 | las cuatro seguidas, sin jerarquía, advirtiendo que hay más                                                                                                                                                                                                                        |
-   | _Diccionario_ 2016     | no lista ninguna: da la regla, que es el punto 1                                                                                                                                                                                                                                   |
+**Hoy** · `CDC DCD` arriba y las otras tres abajo.
 
-   **Y Navarro reparte por autores**, comprobado en el libro el 16 de septiembre de 2026, § 107:
-   Garcilaso usó «en primer lugar, `CDE:CDE`; en segundo, `CDE:DCE`; en tercero, `CDC:DCD`»;
-   «Gutierre de Cetina mostró mayor predilección por `CDC:DCD`, y **Herrera, como Garcilaso, por
-   `CDE:CDE`**»; y las más frecuentes en Boscán son «`CDC:DCD`, `CDE:CDE` y `CDE:DCE`».
+**Las fuentes** · no es que nadie respalde ese ascenso: **cada una eleva una distinta**.
 
-   _Lo que las fuentes dibujan no es una preferida sino **dos que predominan**, `CDC:DCD` y
-   `CDE:CDE`, con las otras dos por debajo. La modalidad del catálogo no recoge esa forma: hoy una
-   está arriba y tres abajo._
+| Quilis 1969 | `ABBA-ABBA-CDC-DCD`, «esquema clásico», y la da por favorita de Petrarca |
+| Jauralde 2020 | `ABBA ABBA CDE DCE`, «forma clásica» |
+| Navarro Tomás | **Las dos, y lo dice dos veces.** Su glosario: «los tercetos han usado **preferentemente** las combinaciones `CDE:CDE` y `CDC:DCD`». Y al tratar a Santillana: «las dos combinaciones que **en general han predominado**; en 27 casos, `CDC:DCD`, y en 14, `CDE:CDE`» |
+| Morley y Bruerton | las cuatro seguidas, sin jerarquía, advirtiendo que hay más |
+| _Diccionario_ | no lista ninguna: da la regla, que es el punto 2 |
 
-   Tres salidas: dejar las cuatro en `admitida`; subirlas las cuatro a `habitual`; o mantener una y
-   escribir en la ficha **a quién se sigue y por qué**, que es lo que hoy falta. _No es un arreglo de auditoría: la modalidad decide lo que el editor
-   V2 ofrece al anotar y lo que el demarcador compila, así que cambiarla se nota en las dos puntas._
+**Y Navarro reparte por autores**, § 107: Garcilaso usó «en primer lugar, `CDE:CDE`; en segundo,
+`CDE:DCE`; en tercero, `CDC:DCD`»; «Gutierre de Cetina mostró mayor predilección por `CDC:DCD`, y
+**Herrera, como Garcilaso, por `CDE:CDE`**»; las más frecuentes en Boscán son «`CDC:DCD`, `CDE:CDE` y
+`CDE:DCE`».
 
-   **En los cuartetos no hay nada que decidir**, y conviene decirlo para que no se arrastre la duda:
-   `ABBA ABBA` habitual y `ABAB ABAB` excepcional es exactamente lo que dicen las dos fuentes que se
-   pronuncian —Navarro, «uniformemente con raras excepciones»; el _Diccionario_, «lo normal», pero
-   «posibles otras distribuciones, especialmente la que obedece al esquema ABAB ABAB»—.
+**Decidir** · lo que las fuentes dibujan no es una preferida sino **dos que predominan**, `CDC:DCD` y
+`CDE:CDE`, con las otras dos por debajo. La modalidad del catálogo no recoge esa forma: hoy una está
+arriba y tres abajo. Tres salidas: dejar las cuatro en `admitida`; subir las dos a `habitual`; o
+mantener una y escribir en la ficha **a quién se sigue y por qué**, que es lo que hoy falta.
 
-3. **¿Estrambote y sonetillo se incorporarán solo si aparecen en el corpus?** Quilis describe el
-   estrambote como uno o varios tercetos añadidos, con la condición de que el verso que sigue al
-   decimocuarto sea un **heptasílabo que rime con él** —`ABBA ABBA CDE CDE eFF`—, y lo ejemplifica
-   con el «Voto a Dios que me espanta esta grandeza» de Cervantes. _Es el más probable de los dos en
-   un corpus áureo, y hoy no cabe: un soneto de diecisiete versos no encaja en la arquitectura._
+**Si cambia** · no es un arreglo de auditoría: la modalidad decide lo que el editor V2 ofrece al
+anotar y lo que el demarcador compila, así que se nota en las dos puntas.
+
+**En los cuartetos no hay nada que decidir**, y conviene decirlo para que no se arrastre la duda:
+`ABBA ABBA` habitual y `ABAB ABAB` excepcional es exactamente lo que dicen las dos fuentes que se
+pronuncian —Navarro, «uniformemente con raras excepciones»; el _Diccionario_, «lo normal», pero
+«posibles otras distribuciones, **especialmente** la que obedece al esquema `ABAB ABAB`»—.
+
+### 2 · El repertorio de tercetos es abierto, y falta codificarlo · **seguir**
+
+**Hoy** · cuatro esquemas concretos y ninguna salida abierta.
+
+**Las fuentes** · Morley y Bruerton dan los cuatro **y añaden «y otros»**. Y el _Diccionario_ **da la
+regla en vez de la lista**: los tercetos toman dos o tres clases distintas de las de los cuartetos y
+las reparten como sea «con tal de que no haya más de dos versos seguidos con la misma rima». _Desde
+el 19 de agosto esa regla está en la definición._
+
+**Decidir** · nada filológico: está contestado. **Lo que falta es codificarlo** —un esquema abierto
+de la sección `terceto` con `max_consecutivos: 2` junto a los cuatro concretos, y la evaluación de
+ese tipo en el auditor— ⇒ **B4**.
+
+### 3 · ¿Estrambote y sonetillo entran solo si aparecen en el corpus? · **seguir**
+
+**Hoy** · no caben: un soneto de diecisiete versos no encaja en la arquitectura.
+
+**Las fuentes** · Quilis describe el estrambote como uno o varios tercetos añadidos, con la
+condición de que el verso que sigue al decimocuarto sea un **heptasílabo que rime con él** —`ABBA
+ABBA CDE CDE eFF`—, y lo ejemplifica con el «Voto a Dios que me espanta esta grandeza» de Cervantes.
+
+**Decidir** · **el estrambote es el más probable de los dos en un corpus áureo.** Si se espera a que
+aparezca, hay que saber que aparecerá sin sitio donde caer.
 
 ---
 
 # Estrofas compuestas de arte menor
 
-## Copla real
+## Copla real y novena
 
-1. **La frecuencia de una disposición reutilizada no es la de la posición que ocupa.** Las dos
-   quintillas reutilizan la arquitectura de la quintilla, así que traen sus esquemas **con la
-   frecuencia que tienen como quintilla suelta**: `aabba` sale «admitida» en la segunda mitad, donde
-   M&B dicen que en Lope es _siempre_ esa. _El IP decidió el 20 de agosto decirlo en prosa y no
-   tocar el modelo por ahora._ ⇒ **B3**
+Las dos se forman reuniendo estrofas menores, y **por eso comparten un problema de raíz**: lo que se
+declara de una parte reutilizada no es lo que esa parte vale en la posición que ocupa.
 
-2. **La copla real de cuatro y seis versos.** Jauralde advierte que «la forma 4-6 precede a la 5-5,
-   que solo se hace mayoritaria a finales del siglo XV»; Navarro Tomás describe el mismo proceso
-   desde el modelo 4-4. El catálogo solo tiene 5+5.
+| forma · arquitectura | versos | secciones | medidas |
+| --- | --- | --- | --- |
+| copla real · Octosilábica consonante | 10 | dos quintillas de 5 | 8, con quebrado de 4 o 5 |
+| novena · Redondilla + quintilla | 9 | redondilla (4) + quintilla (5) | 8, con quebrado de 4 o 5 |
+| novena · Quintilla + redondilla | 9 | quintilla (5) + redondilla (4) | 8 |
 
-3. **¿Los quebrados pueden ocupar cualquiera de las diez posiciones?** Hoy la pregunta las ofrece
-   las diez. Ninguna fuente fija dónde caen. _Si se restringe, hay que decir a qué posiciones._
+### 1 · La frecuencia de una disposición reutilizada no es la de su posición · **callan**
 
-4. **¿Solo tetrasílabos, o también pentasílabos?** Las seis fuentes, al hablar de la copla real,
-   **solo nombran el tetrasílabo**. La arquitectura declara los dos como `quebrado`. _Si se decide
-   que solo vale el tetrasílabo, lo que se retira es esa fila y la pregunta se estrecha sola._
+**Hoy** · las dos quintillas reutilizan la arquitectura de la quintilla, así que traen sus ocho
+esquemas **con la frecuencia que tienen como quintilla suelta**: `aabba` sale «admitida» en la
+segunda mitad.
 
-5. **¿Debe restringirse el par de quintillas?** Hoy las dos preguntas ofrecen los ocho esquemas con
-   total independencia. M&B, que describen a Lope, la llaman «**combinación fija de dos quintillas de
-   tipo diferente**»: la segunda siempre `AABBA` y la primera casi siempre `ABABA`, «**muy pocas
-   veces `ABBAB` o `ABAAB`**». _Esa cola importa: la propia fuente documenta las excepciones de la
-   primera, de modo que restringirla del todo iría más lejos que ella._ _No se ha restringido
-   porque las otras cinco fuentes describen libertad y el catálogo cubre más que a Lope. Si se
-   restringe, pasa a ser una restricción entre dos preguntas, que el modelo hoy no sabe expresar._
-   ⇒ **B3**
+**Las fuentes** · Morley y Bruerton, que describen a Lope, dicen que ahí **es siempre esa**.
 
-6. **Pedir datos al editor de _El caballero de Olmedo_.** Es de las poquísimas formas con uso real
-   —tres secuencias, todas en esa obra— y las anotaciones vienen del vocabulario legado, sin decir
-   qué disposición tiene cada quintilla ni dónde caen los quiebros. _Al revisar la obra conviene
-   pedírselo: es el único sitio donde el corpus puede contrastar lo que las fuentes dicen del
-   emparejamiento._
+**Decidir** · nada nuevo: _el IP decidió el 20 de agosto decirlo en prosa y no tocar el modelo por
+ahora._ ⇒ **B3**
 
-## Novena
+**Alcanza a las 18 reutilizaciones del catálogo**, no solo a esta.
 
-1. **Separar la Novena general de la Copla novena.** Las seis se reparten **dos, dos y dos**:
-   Caparrós y el _Diccionario_ llaman novena a cualquier estrofa de nueve versos y niegan que
-   comparta necesariamente otra norma —el _Diccionario_ llega a decir que «parecería dudosa la
-   unidad de la novena como estrofa»—; Navarro Tomás y Jauralde caracterizan la copla novena
-   histórica como redondilla y quintilla; y **Quilis y Morley y Bruerton no registran las estrofas de
-   nueve versos**, el primero pasando «de las de ocho a las de diez sin epígrafe intermedio». _Las
-   dos arquitecturas actuales pasarían a la Copla novena. Falta decidir cómo se registra la Novena
-   general sin que el demarcador clasifique por defecto cualquier pasaje de nueve versos_, que es el
-   mismo problema que hizo retirar la copla de pie quebrado.
+### 2 · ¿Debe restringirse el par de quintillas? · **chocan**
 
-2. **¿Cómo se representan las realizaciones tempranas en que redondilla y quintilla comparten una o
-   dos clases de rima**, frente a las posteriores con rimas independientes? _Hoy las dos secciones
-   reutilizan repertorios independientes y no hay manera de declarar que comparten timbre. El editor
-   trata cada respuesta como notación local y, al componer la novena, renumera la segunda parte con
-   letras nuevas. Esto evita aparentar enlaces inexistentes, pero si el texto sí enlaza ambas partes
-   obliga a falsear la anotación: hace falta modelar equivalencias de rima entre secciones o una
-   disposición global de la unidad._ **Es un bloqueo de registro, no solo de presentación.** ⇒ **B3**
+**Hoy** · las dos preguntas ofrecen los ocho esquemas con total independencia.
 
-3. **¿Las ocho variedades de quintilla valen todas para la Copla novena** o deben restringirse según
-   la documentación histórica? _Hoy se ofrecen las ocho, por reutilización._
+**Las fuentes** · Morley y Bruerton la llaman «**combinación fija de dos quintillas de tipo
+diferente**»: la segunda siempre `AABBA` y la primera casi siempre `ABABA`, «**muy pocas veces
+`ABBAB` o `ABAAB`**». Las otras cinco describen libertad: Caparrós, «las dos semiestrofas pueden
+tener o no el mismo esquema»; el _Diccionario_ igual; Jauralde, «las semiestrofas no son
+necesariamente iguales».
+
+**Decidir** · **la cola de M&B importa**: su propia fuente documenta las excepciones de la primera,
+de modo que restringirla del todo iría más lejos que ella. Y el catálogo cubre más que a Lope.
+
+**Si cambia** · pasa a ser una restricción **entre dos preguntas**, que el modelo hoy no sabe
+expresar ⇒ **B3**.
+
+### 3 · La copla real de cuatro y seis versos · **seguir**
+
+**Hoy** · solo 5+5.
+
+**Las fuentes** · Jauralde advierte que «la forma **4-6** precede a la 5-5, que solo se hace
+mayoritaria a finales del siglo XV»; Navarro Tomás describe el mismo proceso **desde el modelo 4-4**,
+«en el que el papel de la redondilla sirvió de base para el triunfo de la quintilla».
+
+**Decidir** · si entran. Son dos modelos distintos —4-6 y 4-4—, los dos anteriores al que el
+catálogo declara, y los dos medievales.
+
+### 4 · ¿Los quebrados pueden ocupar cualquiera de las diez posiciones? · **callan**
+
+**Hoy** · la pregunta las ofrece las diez.
+
+**Las fuentes** · el _Diccionario_ dice que las quintillas «admiten algún verso quebrado
+tetrasílabo», **sin decir dónde**. Ninguna otra lo sitúa.
+
+**Decidir** · si se restringe, a qué posiciones. _Es silencio, no permiso._
+
+### 5 · ¿Solo tetrasílabos, o también pentasílabos? · **callan**
+
+**Hoy** · la arquitectura declara los dos como `quebrado`.
+
+**Las fuentes** · las que hablan del quebrado de la copla real **solo nombran el tetrasílabo**.
+
+**Decidir** · si se retira el pentasílabo. _Si se retira, lo que se quita es esa fila y la pregunta
+se estrecha sola._
+
+### 6 · Pedir datos al editor de _El caballero de Olmedo_ · **callan**
+
+**Hoy** · es de las poquísimas formas con uso real —**tres secuencias, todas en esa obra**— y las
+anotaciones vienen del vocabulario legado, sin decir qué disposición tiene cada quintilla ni dónde
+caen los quiebros.
+
+**Decidir** · nada filológico. _Al revisar la obra conviene pedírselo: es el único sitio donde el
+corpus puede contrastar lo que las fuentes dicen del emparejamiento._
+
+### 7 · Separar la Novena general de la Copla novena · **chocan**
+
+**Hoy** · dos arquitecturas, las dos con redondilla y quintilla en uno u otro orden.
+
+**Las fuentes se reparten dos, dos y dos:**
+
+| Caparrós 2014 y _Diccionario_ | llaman novena a **cualquier estrofa de nueve versos** y niegan que comparta otra norma; el _Diccionario_ llega a decir que «parecería dudosa la unidad de la novena como estrofa» |
+| Navarro Tomás y Jauralde | caracterizan **la copla novena histórica** como redondilla y quintilla; Jauralde la documenta «abundante en los cancioneros del siglo XV» aunque «minoritaria frente a sus hermanas» |
+| Quilis y Morley y Bruerton | **no registran las estrofas de nueve versos**; el primero pasa «de las de ocho a las de diez sin epígrafe intermedio» |
+
+**Decidir** · si se separan las dos. _Las dos arquitecturas actuales pasarían a la Copla novena._
+**Lo difícil es la otra**: cómo se registra la Novena general sin que el demarcador clasifique por
+defecto cualquier pasaje de nueve versos, que es el mismo problema que hizo retirar la copla de pie
+quebrado.
+
+### 8 · Las realizaciones tempranas comparten rima entre las dos partes · **callan**
+
+**Hoy** · las dos secciones reutilizan repertorios independientes y **no hay manera de declarar que
+comparten timbre**. El editor trata cada respuesta como notación local y, al componer la novena,
+renumera la segunda parte con letras nuevas.
+
+**Las fuentes** · Navarro Tomás documenta antes de 1450 «dos o tres rimas que enlazan ambas partes»
+y, más tarde, «cuatro rimas independientes».
+
+**Decidir** · cómo se representan las tempranas. Evitar enlaces inventados está bien, pero **si el
+texto sí enlaza las dos partes obliga a falsear la anotación**. Hace falta modelar equivalencias de
+rima entre secciones o una disposición global de la unidad.
+
+**Es un bloqueo de registro, no solo de presentación** ⇒ **A5**.
+
+### 9 · ¿Las ocho variedades de quintilla valen todas para la Copla novena? · **seguir**
+
+**Hoy** · sí, todas.
+
+**Las fuentes** · Navarro Tomás dice que en la novena cancioneril «la redondilla suele ser `abba` y
+**la quintilla admite sus distintas variantes**».
+
+**Decidir** · si se restringen según lo documentado, o se dejan las ocho porque la fuente dice
+justamente que admite las suyas.
 
 ## Décima
 
