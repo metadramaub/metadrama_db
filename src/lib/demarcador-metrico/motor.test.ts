@@ -73,6 +73,7 @@ function hipotesis(
 const catalogo: CatalogoDemarcador = {
 	formas: [],
 	relaciones: [],
+	textos: {},
 	advertencias: [],
 	hipotesis: [
 		hipotesis('romance', 'Romance', 'Octosilábica', [
@@ -135,6 +136,7 @@ describe('motor ontológico del demarcador', () => {
 		const catalogoMedidas: CatalogoDemarcador = {
 			formas: [],
 			relaciones: [],
+			textos: {},
 			advertencias: [],
 			hipotesis: [
 				hipotesis('menor-7', 'Menor de siete', 'Heptasilábica', [
@@ -252,6 +254,7 @@ describe('motor ontológico del demarcador', () => {
 		const catalogoDiverso: CatalogoDemarcador = {
 			formas: [],
 			relaciones: [],
+			textos: {},
 			advertencias: [],
 			hipotesis: [
 				hipotesis('cuatro', 'Forma de cuatro', 'Octosilábica', [
@@ -330,6 +333,7 @@ describe('motor ontológico del demarcador', () => {
 		const catalogoEmpatado: CatalogoDemarcador = {
 			formas: [],
 			relaciones: [],
+			textos: {},
 			advertencias: [],
 			hipotesis: [
 				hipotesis('a', 'Primera', 'Octosilábica', evidencias),
@@ -410,6 +414,7 @@ describe('motor ontológico del demarcador', () => {
 		const catalogoBooleano: CatalogoDemarcador = {
 			formas: [],
 			relaciones: [],
+			textos: {},
 			advertencias: [],
 			hipotesis: catalogo.hipotesis.map((item) => ({
 				...item,
@@ -426,6 +431,7 @@ describe('motor ontológico del demarcador', () => {
 		const catalogoLongitudes: CatalogoDemarcador = {
 			formas: [],
 			relaciones: [],
+			textos: {},
 			advertencias: [],
 			hipotesis: [
 				hipotesis(
@@ -506,6 +512,7 @@ describe('motor ontológico del demarcador', () => {
 		const catalogoPasaje: CatalogoDemarcador = {
 			formas: [],
 			relaciones: [],
+			textos: {},
 			advertencias: [],
 			hipotesis: [
 				hipotesis(

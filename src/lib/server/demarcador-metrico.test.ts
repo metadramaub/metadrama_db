@@ -386,10 +386,11 @@ describe('proyección del catálogo para el demarcador', () => {
 			Array.from({ length: 14 }, () => '11')
 		);
 		expect(soneto?.evidencias).toContainEqual(
-			expect.objectContaining({
-				dimension: 'estructura:agrupacion:14',
-				pregunta: '¿Se distinguen grupos regulares de 14 versos dentro del pasaje?'
-			})
+			expect.objectContaining({ dimension: 'estructura:agrupacion:14' })
+		);
+		// El enunciado ya no viaja con cada evidencia: vive una vez, indexado por dimensión.
+		expect(catalogo.textos['estructura:agrupacion:14']?.pregunta).toBe(
+			'¿Se distinguen grupos regulares de 14 versos dentro del pasaje?'
 		);
 	});
 
@@ -410,8 +411,9 @@ describe('proyección del catálogo para el demarcador', () => {
 		// Y lo pregunta como lo que es: admitido, no exigido. Con esa modalidad un «no» apenas
 		// penaliza, que es lo que corresponde a una serie que puede terminar sin cierre.
 		expect(cierre?.modalidad).toBe('admitida');
-		expect(cierre?.pregunta).toContain('termina el pasaje en un remate de 1 verso');
-		expect(cierre?.ayuda).toContain('no la descarta');
+		const enunciado = catalogo.textos[cierre!.dimension];
+		expect(enunciado?.pregunta).toContain('termina el pasaje en un remate de 1 verso');
+		expect(enunciado?.ayuda).toContain('no la descarta');
 	});
 
 	it('lleva los desplazamientos de la regla de longitud hasta la evidencia', async () => {

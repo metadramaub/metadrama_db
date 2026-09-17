@@ -7,6 +7,7 @@ import type {
 	NivelEstructural,
 	ObservabilidadEvidencia,
 	RelacionEntreFormas,
+	TextoDimension,
 	ValorEvidencia
 } from '$lib/demarcador-metrico/modelo';
 import { construirRejilla } from '$lib/metrica/rejilla';
@@ -44,7 +45,15 @@ function valor(clave: string, etiqueta: string): ValorEvidencia {
 	return { clave, etiqueta };
 }
 
-function agregarEvidencia(lista: EvidenciaNormativa[], evidencia: EvidenciaNormativa): void {
+/**
+ * La evidencia **mientras se compila**, con su enunciado pegado.
+ *
+ * Se separa al ensamblar el catálogo: la pregunta y la ayuda son de la dimensión y viajan una sola
+ * vez. Mantenerlas juntas aquí dentro evita tocar los quince sitios que construyen evidencias.
+ */
+type EvidenciaEnObra = EvidenciaNormativa & { pregunta: string; ayuda: string };
+
+function agregarEvidencia(lista: EvidenciaEnObra[], evidencia: EvidenciaEnObra): void {
 	const existente = lista.find((item) => item.dimension === evidencia.dimension);
 	if (!existente) {
 		lista.push(evidencia);
@@ -65,9 +74,9 @@ function agregarEvidencia(lista: EvidenciaNormativa[], evidencia: EvidenciaNorma
 }
 
 function evidenciaBase(
-	override: Partial<EvidenciaNormativa> &
-		Pick<EvidenciaNormativa, 'dimension' | 'familiaCognitiva' | 'etiqueta' | 'pregunta'>
-): EvidenciaNormativa {
+	override: Partial<EvidenciaEnObra> &
+		Pick<EvidenciaEnObra, 'dimension' | 'familiaCognitiva' | 'etiqueta' | 'pregunta'>
+): EvidenciaEnObra {
 	return {
 		dimension: override.dimension,
 		familiaCognitiva: override.familiaCognitiva,
@@ -445,7 +454,7 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			architecture.unidad_versos_min === architecture.unidad_versos_max
 				? Number(architecture.unidad_versos_min)
 				: null;
-		const evidencias: EvidenciaNormativa[] = [];
+		const evidencias: EvidenciaEnObra[] = [];
 		const metres = (metresByArchitecture.get(architecture.arquitectura_id) ?? []).sort(
 			(a, b) => a.silabas - b.silabas
 		);
@@ -1031,5 +1040,67 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			nota: fila.nota?.trim() || null
 		}));
 
-	return { formas, hipotesis, relaciones, advertencias };
+	/**
+	 * **La prosa se saca de las evidencias y se guarda una vez por dimensión.**
+	 *
+	 * Si dos arquitecturas declararan la misma dimensión con enunciados distintos, quedarse con el
+	 * último sería perder uno en silencio, así que se avisa. Hoy no ocurre; el aviso está para el
+	 * día en que alguien escriba una pregunta a medida sin darse cuenta de que la comparte.
+	 */
+	const textos: Record<string, TextoDimension> = {};
+	for (const item of hipotesis) {
+		for (const evidencia of item.evidencias as EvidenciaEnObra[]) {
+			const previo = textos[evidencia.dimension];
+			if (previo && previo.pregunta !== evidencia.pregunta) {
+				advertencias.push(
+					`La dimensión «${evidencia.dimension}» se enuncia de dos maneras distintas; se conserva la primera.`
+				);
+				continue;
+			}
+			if (!previo) textos[evidencia.dimension] = { pregunta: evidencia.pregunta, ayuda: evidencia.ayuda };
+		}
+	}
+	for (const item of hipotesis) {
+		item.evidencias = item.evidencias.map((evidencia) => {
+			const { pregunta: _pregunta, ayuda: _ayuda, ...resto } = evidencia as EvidenciaEnObra;
+			return resto;
+		});
+	}
+
+	return { formas, hipotesis, relaciones, textos, advertencias };
+}
+
+/**
+ * **El catálogo compilado, guardado en memoria del servidor.**
+ *
+ * Se llamaba a la RPC y se recompilaban las novecientas evidencias **en cada carga de la página**,
+ * y el catálogo solo cambia cuando lo cambia una migración. Mismo patrón que
+ * `vocabulario-publico.ts`, y con su mismo TTL corto a propósito: un artefacto commiteado envejece
+ * sin avisar —por eso se retiró el versionado del demarcador en agosto de 2026— y un minuto de
+ * memoria no envejece nada que no se arregle solo.
+ *
+ * **Envuelve al compilador en vez de vivir dentro** para no llevarse por delante el aislamiento de
+ * sus pruebas: una caché de módulo haría que la primera prueba llenara la caché y las demás
+ * leyeran su catálogo, pasando sin comprobar nada.
+ *
+ * Es global porque el catálogo es el mismo para todo el que puede verlo. **Quién puede verlo lo
+ * decide la ruta antes de llamar aquí**, y la función SQL sigue siendo la puerta de atrás.
+ */
+const TTL_CATALOGO_MS = 60_000;
+let cacheCatalogo: { valor: CatalogoDemarcador; expiraEn: number } | null = null;
+
+export function invalidarCatalogoDemarcador(): void {
+	cacheCatalogo = null;
+}
+
+export async function obtenerCatalogoDemarcador(client: unknown): Promise<CatalogoDemarcador> {
+	const ahora = Date.now();
+	if (cacheCatalogo && cacheCatalogo.expiraEn > ahora) return cacheCatalogo.valor;
+	const catalogo = await cargarCatalogoDemarcador(client);
+	// Un catálogo vacío no se guarda: significa que quien preguntó no tenía permiso, no que no haya
+	// catálogo, y servírselo al siguiente sería saltarse la puerta por el otro lado.
+	if (catalogo.hipotesis.length > 0) {
+		cacheCatalogo = { valor: catalogo, expiraEn: ahora + TTL_CATALOGO_MS };
+	}
+	return catalogo;
 }

@@ -95,6 +95,7 @@ const consonante = evidencia(
 const catalogo: CatalogoDemarcador = {
 	formas: [],
 	relaciones: [],
+	textos: {},
 	advertencias: [],
 	hipotesis: [
 		hipotesis(

@@ -13,6 +13,7 @@ import type {
 	ObservabilidadEvidencia,
 	PreguntaDemarcador,
 	RespuestaDemarcador,
+	TextoDimension,
 	ValorEvidencia,
 	VeredictoHipotesis
 } from './modelo';
@@ -312,7 +313,9 @@ function preguntasPosibles(
 	hipotesis: HipotesisMetrica[],
 	respuestas: RespuestaDemarcador[],
 	modo: ModoDemarcador,
-	formaObjetivoId: string | null
+	formaObjetivoId: string | null,
+	/** Enunciado de cada dimensión: vive una vez en el catálogo, no en cada evidencia. */
+	textos: Record<string, TextoDimension> = {}
 ): PreguntaDemarcador[] {
 	const respondidas = new Set(respuestas.map((respuesta) => respuesta.dimension));
 	const familiasDesconocidas = new Set(
@@ -530,12 +533,12 @@ function preguntasPosibles(
 					? '¿Qué medidas aparecen en el pasaje?'
 					: dimension === 'metro:exacto'
 						? '¿Cuántas sílabas tiene normalmente cada verso?'
-						: modelo.pregunta,
+						: (textos[dimension]?.pregunta ?? dimension),
 			ayuda:
 				dimension === 'metro:exacto' &&
 				(uniformidadMetroRespondida === 'varias_medidas' || grupoMetroRespondido === 'mixto')
 					? 'Elige las medidas que has contado; no necesitas decidir por qué se combinan ni qué nombre recibe esa combinación.'
-					: modelo.ayuda,
+					: (textos[dimension]?.ayuda ?? ''),
 			tipo: modelo.tipo,
 			opciones:
 				dimension === 'metro:grupo' || dimension === 'metro:uniformidad'
@@ -812,9 +815,21 @@ export function elegirPregunta(
 	// de las cuarenta y tres no tienen ninguna relación declarada, y la afinidad estructural puede no
 	// alcanzar a ninguna—, y entonces no hay nada que separar y el recorrido se quedaría mudo. Vale
 	// más una pregunta general que ninguna.
-	let preguntas = preguntasPosibles(candidatas, respuestas, modoEfectivo, objetivoEfectivo);
+	let preguntas = preguntasPosibles(
+		candidatas,
+		respuestas,
+		modoEfectivo,
+		objetivoEfectivo,
+		catalogo.textos ?? {}
+	);
 	if (preguntas.length === 0 && candidatas !== campoAbierto) {
-		preguntas = preguntasPosibles(campoAbierto, respuestas, modoEfectivo, objetivoEfectivo);
+		preguntas = preguntasPosibles(
+			campoAbierto,
+			respuestas,
+			modoEfectivo,
+			objetivoEfectivo,
+			catalogo.textos
+		);
 	}
 	if (respuestas.length === 0 && modoEfectivo === 'guiado') {
 		return (
