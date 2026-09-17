@@ -222,23 +222,34 @@ function partesDe(forma, versos) {
 }
 
 /**
- * Un ciclo de villancico: copla —mudanza, y a veces enlace y vuelta— más su estribillo.
+ * El villancico: una cabeza que abre, y ciclos de copla —mudanza, y a veces enlace y vuelta— con la
+ * represa del estribillo al final de cada uno.
  *
- * La mudanza mide cuatro versos fijos y el estribillo de uno a cuatro, así que un ciclo mide entre
- * 7 y 14 contando el enlace y la vuelta, que son opcionales y llegan a tres cada uno. Primero se
- * decide **cuántos ciclos caben** y luego se reparte el pasaje entre ellos: ir cerrando ciclos de
- * corrido dejaba siempre un rabo de tres o cuatro versos que no era ciclo ni era nada.
+ * **La cabeza va fuera de los ciclos**, porque precede a todos. Mide de dos a cuatro versos, y es
+ * obligatoria: el estribillo del villancico no puede faltar, decidido el 29 de agosto de 2026.
+ * *Hasta el 17 de septiembre esta función construía la otra arquitectura, la de estribillo tras la
+ * primera copla, con una sección llamada `estribillo` dentro de cada ciclo. Esa arquitectura se
+ * retiró por no tener fuente, y la que queda no tiene ninguna sección con ese nombre.*
+ *
+ * La mudanza mide cuatro versos fijos y la represa de uno a cuatro, así que un ciclo mide entre 7 y
+ * 14 contando el enlace y la vuelta, que son opcionales y llegan a tres cada uno. Primero se decide
+ * **cuántos ciclos caben** en lo que queda tras la cabeza y luego se reparte el pasaje entre ellos:
+ * ir cerrando ciclos de corrido dejaba siempre un rabo de tres o cuatro versos que no era ciclo ni
+ * era nada.
  */
 function ciclosDeVillancico(versos) {
-	const cuantos = Math.ceil(versos / 14);
-	if (cuantos * 7 > versos) return null;
-	const base = Math.floor(versos / cuantos);
-	const sobra = versos - base * cuantos;
+	const cabeza = Math.min(4, versos - 7);
+	if (cabeza < 2) return null;
+	const cuerpo = versos - cabeza;
+	const cuantos = Math.ceil(cuerpo / 14);
+	if (cuantos * 7 > cuerpo) return null;
+	const base = Math.floor(cuerpo / cuantos);
+	const sobra = cuerpo - base * cuantos;
 
-	return Array.from({ length: cuantos }, (_, i) => {
+	const ciclos = Array.from({ length: cuantos }, (_, i) => {
 		const largo = base + (i < sobra ? 1 : 0);
-		const estribillo = Math.min(4, largo - 4);
-		const resto = largo - 4 - estribillo;
+		const represa = Math.min(4, largo - 4);
+		const resto = largo - 4 - represa;
 		const enlace = Math.min(3, resto);
 		const vuelta = resto - enlace;
 		const copla = [{ seccion: 'mudanza', versos: 4 }];
@@ -248,10 +259,11 @@ function ciclosDeVillancico(versos) {
 			seccion: 'ciclo_copla',
 			partes: [
 				{ seccion: 'copla', partes: copla },
-				{ seccion: 'estribillo', versos: estribillo }
+				{ seccion: 'represa', versos: represa }
 			]
 		};
 	});
+	return [{ seccion: 'cabeza', versos: cabeza }, ...ciclos];
 }
 
 /**

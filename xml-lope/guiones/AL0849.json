@@ -41,24 +41,18 @@
 			"jornada": 1,
 			"numero": 1,
 			"v_ini": 1,
-			"v_fin": 255
+			"v_fin": 306
 		},
 		{
 			"jornada": 1,
 			"numero": 2,
-			"v_ini": 256,
-			"v_fin": 419
+			"v_ini": 307,
+			"v_fin": 452
 		},
 		{
 			"jornada": 1,
 			"numero": 3,
-			"v_ini": 420,
-			"v_fin": 896
-		},
-		{
-			"jornada": 1,
-			"numero": 4,
-			"v_ini": 897,
+			"v_ini": 453,
 			"v_fin": 1015
 		},
 		{
@@ -811,7 +805,9 @@
 			"forma": "octava_real",
 			"arquitectura": "endecasilabica_consonante",
 			"unidades": 4,
-			"secuencia": {},
+			"secuencia": {
+				"Final acentual": "Esdrújulo"
+			},
 			"unidad": {
 				"Esquema de rima": {
 					"dominante": "ABABABCC",
@@ -833,7 +829,7 @@
 				"Esquema de rima": {
 					"dominante": "Tipología 2 · abbab",
 					"excepciones": {
-						"Tipología 1 · ababa": 4
+						"Tipología 1 · ababa": 8
 					}
 				}
 			}
@@ -852,7 +848,7 @@
 				"Esquema de rima": {
 					"dominante": "Cruzada · abab",
 					"excepciones": {
-						"Abrazada · abba": 2
+						"Abrazada · abba": 5
 					}
 				}
 			}
@@ -988,7 +984,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 9
+						"Cruzada · abab": 6
 					}
 				}
 			}
@@ -1003,7 +999,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 42,
 			"secuencia": {
-				"Vocales de la asonancia": "e-a"
+				"Vocales de la asonancia": "o-o"
 			},
 			"unidad": {}
 		},
@@ -1019,9 +1015,9 @@
 			"secuencia": {},
 			"unidad": {
 				"Esquema de rima": {
-					"dominante": "Cruzada · abab",
+					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Abrazada · abba": 10
+						"Cruzada · abab": 6
 					}
 				}
 			}
@@ -1037,8 +1033,8 @@
 			"unidades": 64,
 			"secuencia": {
 				"Organización en pareados": "Ocasionales",
-				"Encadenamiento interior": "Encadenamiento interior",
-				"Densidad de rima": "Esporádica"
+				"Dístico final": "Dístico final",
+				"Densidad de rima": "Ninguna"
 			},
 			"unidad": {}
 		},
@@ -1054,9 +1050,9 @@
 			"secuencia": {},
 			"unidad": {
 				"Esquema de rima": {
-					"dominante": "Abrazada · abba",
+					"dominante": "Cruzada · abab",
 					"excepciones": {
-						"Cruzada · abab": 6
+						"Abrazada · abba": 5
 					}
 				}
 			}

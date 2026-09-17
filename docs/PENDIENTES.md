@@ -248,9 +248,9 @@ caballero de Olmedo* los datos de sus tres coplas reales —qué disposición ti
 dónde caen los quiebros—, que es el único sitio donde el corpus puede contrastar lo que las fuentes
 dicen del emparejamiento. Comprobar contra lo anotado que **ningún pasaje con quebrado esté
 registrado como versificación irregular**, que es el error fácil al anotar y que la definición ya
-excluye. Y **volver a anotar el villancico de *Lo fingido y lo cierto (prueba)***, cuya anotación se
-borró al retirar la arquitectura sin cabeza: se rehace desde el editor o regenerando las obras de
-prueba, que ya tienen el guion corregido.
+excluye. *Esa secuencia de* Lo fingido y lo cierto (prueba) *quedó anotada como **silva**, y el guion la
+vuelve a construir como villancico: al regenerar las pruebas volverá a serlo, que es lo que
+interesa, porque es la única secuencia que ejercita secciones dentro de secciones.*
 
 **E9 · Cuatro cabos de consistencia**, ninguno de auditoría. `40c2c354` habla de Morley y Bruerton
 en singular —«La caracteriza»—, y sus dos hermanas ya se arreglaron. El *Diccionario* se cita de dos
