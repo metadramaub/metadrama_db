@@ -119,16 +119,27 @@ lo derivado —880 filas entre tres vistas— y medirlo con la caché puesta. *C
 la RLS de `catalogo_metrico_estado`, la llave de la caché dejará de bastar: habrá que añadirle la
 visibilidad.*
 
-**C2 · Nadie proyecta una anotación a notación verso a verso**, y es lo que pide la estilometría. El
+**C2 · Seis respuestas del pareado no se pueden resolver, y una caché lo ocultaba.** Las dos
+medidas del pareado se preguntan **por posición**, y el editor guarda `posicion_unidad` 1 y 2; la
+opción que el catálogo ofrece —«Octosílabo»— no la lleva. `anotacion_elecciones_resueltas` empareja
+por posición, así que esas respuestas no resuelven a ninguna opción y `audit:anotaciones` las da por
+**fuera del repertorio**. El dato no se pierde: lo que no se puede es leer a qué opción contestan.
+Son seis, del 8 de septiembre, en *El padrino burlado* y *La monja de Ávila*. **Estuvieron ocultas
+hasta el 17 de septiembre de 2026**, cuando una migración subió la revisión, invalidó la caché y
+obligó a derivar las opciones otra vez: hasta entonces el informe firmaba «todo lo anotado encaja».
+*Va con C1: mientras lo derivado se cachee por revisión, un informe puede estar leyendo un catálogo
+que ya no existe.*
+
+**C3 · Nadie proyecta una anotación a notación verso a verso**, y es lo que pide la estilometría. El
 editor ya la escribe, pero **vive en la pantalla**: no es un módulo puro, no recorre las desviaciones
 ni la arquitectura intercalada. Hace falta una **proyección precomputada y regenerable**, con el
 nombre y la notación exacta a la vez. *No puede construirse sobre `rejilla.ts`, que es un recurso
 visual.* No bloquea anotar, pero es previo a comparar y cuantificar.
 
-**C3 · Separar y renombrar `loadMetricCatalog`.** Conserva el nombre y parte del contrato de la
+**C4 · Separar y renombrar `loadMetricCatalog`.** Conserva el nombre y parte del contrato de la
 pantalla retirada. Debe devolver solo `MetricCatalogForEditor` y el estado de migración.
 
-**C4 · El disparador de posiciones toma la caja por clase de rima.**
+**C5 · El disparador de posiciones toma la caja por clase de rima.**
 `sincronizar_posiciones_esquema_rima_fijo` deriva las posiciones letra a letra, y de `-a-A` saca las
 clases `a` y `A` como si fueran dos rimas distintas. Pero **la caja dice el arte del verso**, no con
 quién rima: la lira escribe `aBabB` y son dos rimas, no cuatro. En la endecha real hubo que
@@ -136,11 +147,11 @@ corregir la clase a mano, y **cualquier rima futura entre un verso de arte menor
 mayor caerá en lo mismo**. *Se arregla comparando en minúsculas dentro del disparador, pero antes
 hay que comprobar si alguna forma poblada depende de la conducta actual.*
 
-**C5 · Lo que la obra declara que no hay solo lo responde el editor.** Arreglado ahí y solo ahí,
+**C6 · Lo que la obra declara que no hay solo lo responde el editor.** Arreglado ahí y solo ahí,
 porque hoy es la única vía por la que nace una secuencia. **Si vuelven a crearse obras por otra vía**
 —un seeder, una importación—, hay que añadir el disparador `before insert`.
 
-**C6 · La pestaña de secuencias se quedó sin borrador local**, y falta decidir si vuelve.
+**C7 · La pestaña de secuencias se quedó sin borrador local**, y falta decidir si vuelve.
 
 **C7bis · Dos rasgos quedan fuera del demarcador y quizá deban entrar los últimos.** `final_acentual`
 y `encadenamiento_interior` están marcados `demarcable = false`. El encadenamiento es
@@ -175,7 +186,7 @@ recorrido no avanza— y presentar las dos lecturas de una misma extensión como
 de 14» frente a «dos septetos de 7», que no compiten por lo mismo. *El veredicto de tres salidas ya
 está en el motor y solo se pinta al detenerse el recorrido.*
 
-**C7 · El desglose del autor se queda en dos niveles**, y **filtrar por rasgo o por esquema pide otro
+**C8 · El desglose del autor se queda en dos niveles**, y **filtrar por rasgo o por esquema pide otro
 selector**: hoy es «formas + subtipos anidados» en un control único que no aguanta lo que viene.
 
 ---
