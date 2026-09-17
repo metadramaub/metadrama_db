@@ -294,8 +294,8 @@ dicen expresamente que no lo es.
 | Morley y Bruerton | Ningún criterio. Su «Canción (Canzone)» son «versos de siete y once sílabas, agrupados en estrofas **de 5 a 20 versos**, con un tipo de rima fijo». Su ejemplo `ABCABCDD` de _Barlaán y Josafat_ tiene **ocho versos, pareado final y ningún eslabón**, y lo llaman canción |
 | Quilis | Ninguno, y lo dice: «**No había ninguna norma relativa a la naturaleza de la rima, ni a su disposición**». La extensión, «en PETRARCA, entre nueve y veinte» |
 | Navarro Tomás § 161 | No enuncia ninguno. Su epígrafe «Estrofas aliradas» llega hasta las de **nueve versos**. Lo único que distingue es su notación: escribe la estancia con dos puntos —`abCabC: cdeeDfF`— y las aliradas sin ellos, la de nueve incluida |
-| Caparrós 2014 | **La extensión**: «no menos de nueve ni más de veinte, normalmente». Del eslabón, que «**aunque no es obligatorio**, es frecuente» |
-| _Diccionario_ | Lo mismo, palabra por palabra. Y define la **canción alirada** como «canción a la italiana cuyas estrofas, cortas y simétricas, **prescinden de la ordenación rigurosa de la estancia**»: para él la alirada **es una canción** |
+| Caparrós 2014 | **La extensión**: la estancia tiene «no menos de nueve ni más de veinte». Del esquema de fronte, eslabón y sirima dice que es «frecuente, **aunque no obligatorio**» |
+| _Diccionario_ | La misma extensión, «normalmente», y del eslabón que «**aunque no es obligatorio**, es frecuente» que la estancia se ajuste a él. Y define la **canción alirada** como «canción a la italiana cuyas estrofas, cortas y simétricas, **prescinden de la ordenación rigurosa de la estancia**»: para él la alirada **es una canción** |
 | Jauralde | **La extensión**: «dispuestos de modo aleatorio, normalmente **por encima de los ocho versos** (para diferenciarla de las liras)» |
 
 **Las cuatro que dan una extensión coinciden en el umbral: nueve versos.** La única que baja de ahí
@@ -591,9 +591,9 @@ sextilla.
 
 **Las fuentes no la parten ahí:**
 
-| Caparrós 2014 | «la variante más conocida de **la sextilla**… estrofa de **seis versos**», que difiere de la común en que el tercero y el sexto son tetrasílabos |
+| Quilis 1969 | «la variante más conocida de **la sextilla**», y la describe «como estrofa de **seis versos**» que difiere de la común en que el tercero y el sexto son tetrasílabos |
 | _Diccionario_ | «**Cuenta también los seis**: la manriqueña es para él la estrofa de pie quebrado». Solo su entrada aparte, «copla mixta», contempla la agrupación de doce, dividida «en dos semiestrofas de distinta extensión **o en dos sextillas**» |
-| Quilis | «la estrofa manriqueña como **sextilla de pie quebrado**, **sin epígrafe para la pareja de doce versos**» |
+| Caparrós 2014 | «la estrofa manriqueña como **sextilla de pie quebrado**, **sin epígrafe para la pareja de doce versos**» |
 | Navarro Tomás | § 67: «la estrofa de doce versos fue concebida ordinariamente como **una pareja de sextillas**» |
 | Jauralde | **la trata dentro de las estrofas de ocho versos**, y dice que «su forma más habitual es la de **doble sextilla con seis rimas**» |
 | Morley y Bruerton | «No la separan»: la agrupación de doce cae dentro de sus coplas de pie quebrado «**sin nombre propio**» |
