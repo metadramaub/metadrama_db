@@ -419,6 +419,18 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 	const traitValueById = new Map(
 		((traitValuesResponse.data ?? []) as Row[]).map((item) => [item.valor_id, item])
 	);
+	/**
+	 * Cuántos valores admite cada rasgo, para saber cuáles son **de presencia**.
+	 *
+	 * Un rasgo de catálogo con un solo valor posible es un booleano disfrazado: su contenido entero
+	 * es estar presente. El dístico final y el encadenamiento interior tienen un único valor,
+	 * «Presente», y lo que dice una arquitectura al declararlos es justamente eso.
+	 */
+	const valoresPorRasgo = new Map<string, number>();
+	for (const item of (traitValuesResponse.data ?? []) as Row[]) {
+		const clave = String(item.rasgo_id);
+		valoresPorRasgo.set(clave, (valoresPorRasgo.get(clave) ?? 0) + 1);
+	}
 	const traitsByArchitecture = new Map<string, Row[]>();
 	for (const item of (architectureTraitsResponse.data ?? []) as Row[]) {
 		if (!traitById.has(item.rasgo_id)) continue;
@@ -830,7 +842,23 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			const traitValue = traitValueById.get(item.valor_id);
 			const rawValue = traitValue?.slug ?? 'si';
 			const rawLabel = traitValue?.nombre ?? 'Sí';
-			const boolean = trait.tipo_valor === 'booleano';
+			/**
+			 * **Un rasgo de presencia se pregunta como presencia**, lo declare la arquitectura
+			 * apuntando a su único valor o dejándolo sin apuntar.
+			 *
+			 * Las dos maneras conviven en el catálogo —la octava real nombra «Presente» y el
+			 * endecasílabo suelto lo deja en blanco— y, al fundirse las dos evidencias en una sola
+			 * dimensión, la pregunta ofrecía «Presente» y «Sí» como si fueran respuestas distintas.
+			 * Peor aún: al no ser booleana, el motor no añadía el «No», así que un pasaje que **no**
+			 * termina en pareado no se podía decir, y el rasgo no podía contradecir a nadie.
+			 *
+			 * Tratarlos como booleanos unifica las dos escrituras, da el «No» y los deja como el pie
+			 * quebrado, que siempre funcionó. El valor «Presente» del catálogo no se toca: lo usan
+			 * cinco anotaciones.
+			 */
+			const boolean =
+				trait.tipo_valor === 'booleano' ||
+				(valoresPorRasgo.get(String(trait.rasgo_id)) ?? 0) <= 1;
 			visualTraits.push({
 				nombre: trait.nombre,
 				valor: boolean ? 'Sí' : String(rawLabel),
