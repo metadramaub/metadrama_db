@@ -491,187 +491,208 @@ escriben._
 
 # Estrofas de arte menor
 
-## Pareado
+## Pareado, redondilla y quintilla
 
-1. **Una tirada de pareados alirados, ¿es una silva?** **Dos fuentes lo dicen casi con esas
-   palabras**: Morley y Bruerton describen la silva de consonantes `aAbBcCdD` y añaden que «se podría
-   llamar **pareados de 7 y 11**», y el _Diccionario_ dice del pareado que «es la forma sobre la que
-   se construyen otras: **la silva de consonantes**, el perqué, la aleluya…». El pareado alirado combina heptasílabo y
-   endecasílabo y rima en consonante. Repetido, es exactamente lo que describe la silva consonante.
-   _Si son la misma cosa, el alirado no debería poder abarcar más de dos versos y hay que decirlo en
-   el catálogo; si no lo son, hay que saber qué los distingue, porque el editor hoy deja registrar
-   una tirada de veinte versos como diez pareados alirados._ La pregunta general —**qué formas no
-   admiten repetirse dentro de una secuencia**— el modelo no la sabe expresar: la regla de longitud
-   dice cuántos versos mide cada unidad y nada limita cuántas caben. ⇒ [incidencia F42 del formulario](./historico/editor-v2-recorrido-2026-08-a-09.md)
+| forma | arquitecturas | medidas | esquemas |
+| --- | --- | --- | --- |
+| Pareado | Cualquier medida · Alirado | 4 a 14 · 7 y 11 | `aa` |
+| Redondilla | Octosilábica · Heptasilábica · Hexasilábica | 8 _(admite 4 y 5 quebrados)_ · 7 · 6 | `abba` y `abab`, las dos admitidas |
+| Quintilla | Octosilábica consonante · Heptasilábica · Hexasilábica | 8 _(4 y 5 quebrados)_ · 7 · 6 | ocho, con `ababa` habitual y cuatro excepcionales |
 
-## Redondilla
+### 1 · Una tirada de pareados alirados, ¿es una silva? · **seguir**
 
-1. **¿Puede alternar `abba` y `abab` dentro de una misma tirada?** Hoy sí: el esquema se elige por
-   unidad. _Si no pudiera, serían dos arquitecturas más por medida y la redondilla se registraría
-   sin ninguna pregunta._ Se mantiene así porque es **la opción reversible**: corregirlo después es
-   reclasificar filas, mientras que haberlo tratado como arquitectura habría partido secuencias que
-   no debían partirse.
+**Hoy** · el pareado alirado es arquitectura del pareado, y la silva Consonante regular es un ciclo
+de 7 + 11 con pareados regulares. Son dos formas.
 
-## Quintilla
+**Las fuentes** · las dos que se pronuncian las acercan hasta casi juntarlas. Morley y Bruerton, de
+la silva de consonantes `aAbBcCdD`: «**se podría llamar pareados de 7 y 11**». El _Diccionario_, del
+pareado: «es la forma sobre la que se construyen otras: **la silva de consonantes**, el perqué, la
+aleluya, las canciones de coro».
 
-1. **Faltan quintillas con verso suelto, y aquí las fuentes se enfrentan.** Jauralde las registra
-   —`abcab`, `abbca`, `abaca`, `abcaa` «y otras»— y las describe como **transgresión de las viejas
-   normas**; el _Diccionario_ las **prohíbe expresamente** al fijar sus cuatro condiciones: cinco
-   octosílabos o menores, dos clases de rima consonante, no más de dos versos seguidos con la misma
-   y «ni pareado final **ni verso suelto**». El catálogo declara `versos_sueltos: ninguno`, que es la
-   lectura del _Diccionario_. _No es solo alcance del corpus, entonces: es que una fuente las
-   documenta como infracción y otra las excluye de la definición. Si el corpus las trae, recogerlas
-   contradice al_ Diccionario _y no contradice a Jauralde, que ya las llama transgresión._
+**Decidir** · si una tirada de pareados alirados se anota como pareado o como silva regular. Hoy lo
+elige el editor sin criterio escrito, y las dos respuestas tienen fuente.
 
-2. **Dónde cae el quiebro: lo documentado ya se declara; queda lo inferido.** El 29 de agosto de
-   2026 se declararon las posiciones de las cuatro arquitecturas cuya nota nombra un verso **y tiene
-   detrás una realización leída**: la quintilla en el primero —Navarro Tomás § 154, «la quintilla con
-   verso inicial quebrado fue la estrofa más usada por Castillejo»—, la septilla en el quinto, la
-   novena en orden 4+5 en el quinto —«el único caso que las fuentes documentan»— y la oncena en orden
-   5+6 en el octavo y el undécimo, por el _Claro escuro_ de Juan de Mena.
+### 2 · ¿Es `abab` una redondilla, o es otra cosa? · **chocan**
 
-   **La oncena en orden 6-5 entró después, el mismo día**, en el tercer verso y el sexto. El reparo
-   que la había dejado fuera —que la afirmación de fuente para ese orden recoge `ababba:babba` y
-   `abaaab:cdccd` _sin quebrados_— no valía: **un esquema de rima no declara medidas**, así que de
-   una notación de rima no se concluye que los versos fueran plenos. Y la misma fuente afirma que
-   «la estrofa de once con quebrados fue más corriente que la de octosílabos plenos». Lo que sitúa
-   los quiebros es la estructura: **son los que cierran cada terceto de la sextilla**, y con este
-   orden la sextilla va delante.
+**Hoy** · las tres arquitecturas admiten `abba` y `abab` por igual, y una tirada puede alternarlas.
 
-   **Y la novena en orden 5+4 dejó de admitir quiebro**, el mismo día. Su nota decía que ninguna
-   fuente documenta un ejemplo, y la posición salía de trasladar a este orden lo que sí se lee en el
-   otro. Se le retiraron la declaración del rasgo, la pregunta y los dos roles de quiebro: la
-   arquitectura afirma ahora nueve octosílabos, que es lo documentado. _El orden 4+5 conserva el
-   suyo, porque allí hay una realización leída._ Si aparece un ejemplo, se repone: el razonamiento y
-   los dos textos que se retiraron están en el comentario de la migración.
+**Las fuentes no se ponen de acuerdo en si son la misma estrofa**:
 
-   **Y la copla castellana se cerró también**, en el sexto verso. Su nota reunía dos pasajes que
-   hablan de cosas distintas: **§ 65**, que trata esta forma, dice que «Santillana la usa… con el
-   sexto verso quebrado, en el _Diálogo de Bías contra Fortuna_ y en los _Gozos de Nuestra Señora_»;
-   **§ 5.4.7.4** explica de dónde sale un nombre —«cuando los octosílabos alternan con versos de
-   cuatro sílabas se originan las coplas de pie quebrado»— y cita la misma obra. La alternancia no es
-   una segunda realización de la castellana: es lo que afirma el rasgo desde que la copla de pie
-   quebrado dejó de ser una forma, «porque no es una estrofa: es una propiedad de cualquier estrofa
-   octosilábica».
+| Morley y Bruerton | La definen como «cuatro octosílabos `ABBA`». **Su definición no recoge la cruzada** |
+| _Diccionario_ | **Reserva «cuarteta»** para la cruzada en octosílabos o menores, y la separa de la redondilla |
+| Navarro Tomás | La cruzada es la antigua y la abrazada su modificación; y advierte que Rengifo aplicó «redondilla» **a la vez a las formas `abab` y `abba`** |
+| Quilis | Trata la cuarteta «**como variante de la redondilla** y no como estrofa independiente» |
+| Caparrós 2014 | Registra tres medidas sin separar disposiciones |
 
-   _Y tres siguen preguntando en todos los versos con razón_, y conviene decir bien por qué: **no
-   porque su fuente lo autorice, sino porque calla**. El _Diccionario_ dice de la copla real que sus
-   quintillas «admiten algún verso quebrado tetrasílabo», sin posición; Navarro Tomás documenta la
-   redondilla quebrada con dos ejemplos y no dice en qué verso cae; y Caparrós, de la copla de arte
-   menor, «admite versos quebrados de cuatro sílabas» **sin nombrar ninguno**. _Hasta el 16 de
-   septiembre de 2026 las dos primeras llevaban comillas —«la tradición no fija en qué verso», «sin
-   fijar en qué versos cae»— que no están en ningún libro: eran nuestras, puestas en boca de la
-   fuente. Es el mismo defecto que la auditoría retiró de las fichas._
-   ⇒ [incidencia F44 del formulario](./historico/editor-v2-recorrido-2026-08-a-09.md)
+**Decidir** · si la cruzada es una disposición de la redondilla —como está— o una forma vecina con
+nombre propio. Y, dentro de la respuesta actual, si una misma tirada puede alternar las dos.
 
-3. **Tipología 8 es numeración nuestra, y las fuentes no cuentan lo mismo.** Son **tres cuentas
-   distintas**, no una:
+**Si cambia** · afecta a la copla castellana y a la copla real, que reutilizan estas arquitecturas.
 
-   | Caparrós 2014 | **cinco.** Las deriva de las dos prohibiciones —ni tres seguidos con la misma rima ni pareado final— y concluye que las posibles son `ababa`, `abaab`, `abbab`, `aabab` y `aabba` |
-   | Navarro Tomás | **siete**, numeradas: 1 `ababa`, 2 `abbab`, 3 `abaab`, 4 `aabab`, 5 `aabba`, 6 `abbaa`, 7 `ababb` |
-   | Morley y Bruerton | **siete**, y añaden que Rengifo (1592) recoge solo las cinco primeras, omitiendo las dos que acaban en pareado |
-   | Jauralde | recoge `abbba` **entre las disposiciones** de la quintilla octosilábica, y la llama «escasa» frente a «la mayoritaria `ababa`» |
+### 3 · Faltan quintillas con verso suelto, y aquí las fuentes se enfrentan · **chocan**
 
-   Así que `abbba` no lo **numera** nadie —M&B lo atribuyen a errata o a adaptación expresiva— pero
-   **Jauralde sí lo cuenta entre las disposiciones**, que es más que una aparición suelta. Y la
-   cuenta de cinco de Caparrós coincide con la de Rengifo que dan M&B. _Decisión del IP el 19 de
-   agosto: se conserva el número 8, a la espera de ver si el corpus lo confirma. Si no aparece más,
-   conviene renombrarlo para no atribuir a Navarro Tomás un octavo tipo que no dio._
+**Hoy** · `versos_sueltos: ninguno`. Las ocho disposiciones tienen las cinco rimas.
 
-## Sextilla
+**Las fuentes** · Jauralde **las registra**: `abcab`, `abbca`, `abaca`, `abcaa` «y otras», que
+describe como **transgresión de las viejas normas**. El _Diccionario_ **las excluye de la
+definición**, entre sus cuatro condiciones: cinco octosílabos o menores, dos clases de rima
+consonante, no más de dos versos seguidos con la misma y «ni pareado final **ni verso suelto**».
 
-1. **¿Es una arquitectura más la sextilla quebrada en segundo y quinto, o una desviación?** **Son
-   tres las fuentes que la traen**: el _Diccionario_ ilustra su entrada con una estrofa de Lucas
-   Fernández quebrada en **segundo y quinto**, Jauralde documenta las sextillas de Ricardo Gil en
-   esas mismas posiciones, y Caparrós «documenta también una variante con los quebrados en segundo
-   y quinto lugar». Desde el
-   18 de agosto lo dice la descripción de la arquitectura, y el esquema declara además que el
-   quebrado puede medir cuatro **o cinco** sílabas. _Falta decidir qué hacer cuando el corpus traiga
-   una quebrada en otras posiciones._
+**Decidir** · si entran. No es solo alcance del corpus: recogerlas contradice al _Diccionario_ y no
+contradice a Jauralde, que ya las llama transgresión.
 
-2. **La copla manriqueña es de doce versos en el catálogo y ninguna de las seis fuentes la llama
-   así.** El catálogo la tiene como forma propia con una sola arquitectura, `doble_pie_quebrado`, de
-   **doce versos**, mientras la quebrada de seis vive en la sextilla. Los libros no la parten así:
+### 4 · Las fuentes no dan una cuenta de disposiciones, sino tres · **chocan**
 
-   | fuente            | qué cuenta                                                                                                                                                                                                                              |
-   | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-   | Caparrós 2014     | «la variante más conocida de **la sextilla**… estrofa de **seis versos**», que difiere de la común en que el tercero y el sexto son tetrasílabos                                                                                        |
-   | _Diccionario_     | «**Cuenta también los seis**: la manriqueña es para él la estrofa de pie quebrado». Solo su entrada aparte, «copla mixta», contempla la agrupación de doce, dividida «en dos semiestrofas de distinta extensión **o en dos sextillas**» |
-   | Quilis 1969       | «la estrofa manriqueña como **sextilla de pie quebrado**, **sin epígrafe para la pareja de doce versos**»                                                                                                                               |
-   | Navarro Tomás     | § 67: «la estrofa de doce versos fue concebida ordinariamente como **una pareja de sextillas**»                                                                                                                                         |
-   | Jauralde          | **la trata dentro de las estrofas de ocho versos**, y dice que «su forma más habitual es la de **doble sextilla con seis rimas**»                                                                                                       |
-   | Morley y Bruerton | «No la separan»: la agrupación de doce cae dentro de sus coplas de pie quebrado «**sin nombre propio**»                                                                                                                                 |
+**Hoy** · ocho, con `ababa` habitual, tres admitidas y cuatro excepcionales. **La octava es
+numeración nuestra.**
 
-   **Tres cuentan seis, dos describen el grupo de doce como pareja o doble de sextillas, y una no lo
-   separa. Ninguna da nombre propio a una estrofa de doce.** _Este contraste no se podía ver antes de
-   la auditoría: la afirmación de Jauralde decía «cuenta los doce» y se corrigió el 21 de septiembre
-   de 2026 al comprobar que su epígrafe está clasificado entre las estrofas de ocho. Sin esa
-   corrección parecían dos fuentes a favor de los doce._
+| Caparrós 2014 | **cinco.** Las deriva de las dos prohibiciones —ni tres seguidos con la misma rima ni pareado final— y concluye que las posibles son `ababa`, `abaab`, `abbab`, `aabab` y `aabba` |
+| Navarro Tomás | **siete**, numeradas: 1 `ababa`, 2 `abbab`, 3 `abaab`, 4 `aabab`, 5 `aabba`, 6 `abbaa`, 7 `ababb` |
+| Morley y Bruerton | **siete**, y añaden que Rengifo (1592) recoge solo las cinco primeras, omitiendo las dos que acaban en pareado. Del tipo `ABBBA` dicen que «**puede deberse** a un error de imprenta o a una adaptación especial» |
+| Jauralde | recoge `abbba` **entre las disposiciones** de la quintilla octosilábica, y la llama «escasa» frente a «la mayoritaria `ababa`» |
 
-   _Lo que hay que decidir es si la forma de doce se sostiene y con qué apoyo. Si se sostiene, es
-   decisión del proyecto y conviene que la definición lo diga, como se hizo con la frontera alirada.
-   Si no, la manriqueña vuelve a ser una arquitectura de la sextilla y la pareja de doce se deriva
-   del rango, que es lo que el modelo hace con todas las demás._
+**Decidir** · `abbba` no lo **numera** nadie, pero **Jauralde sí lo cuenta entre las disposiciones**,
+que es más que la aparición suelta. _Decisión del IP el 19 de agosto: se conserva el número 8 a la
+espera de que el corpus lo confirme. Si no aparece más, conviene renombrarlo para no atribuir a
+Navarro Tomás un octavo tipo que no dio._
 
-2bis. **Y un nivel más abajo, nada distingue dos sextillas consecutivas de una copla manriqueña.**
-Los versos, las medidas y el tipo de rima son idénticos; lo único que cambia es si las rimas de la
-segunda mitad dependen de la primera. Hoy **lo decide el editor al elegir forma**, no un criterio
-observable. _Es la misma pregunta que la copla castellana frente a dos redondillas, y las dos
-definiciones ya la admiten en voz alta._
+### 5 · Tres formas preguntan el quiebro en todos sus versos porque su fuente calla · **callan**
 
-3. **¿Debe registrarse el esquema exacto de las coplas manriqueñas no manriqueñas?** La forma de
-   doce tiene dos esquemas: el manriqueño `abcabc|defdef`, que se marca si es el observado, y uno de
-   distribución variable para todo lo demás, que **no guarda cuál fue**. _Si interesa compararlas
-   entre sí, esa información hoy se pierde._
+**Hoy** · la copla real, la redondilla y la copla de arte menor ofrecen el quiebro en cualquier
+posición. Las demás lo declaran donde su fuente lo nombra: la quintilla en el primero —Navarro
+Tomás, «la quintilla con verso inicial quebrado fue la estrofa más usada por Castillejo»—, la
+septilla en el quinto, la novena en orden 4+5 en el quinto y la oncena en orden 5+6 en el octavo y
+el undécimo.
 
-4. **¿Se admiten las tres disposiciones que Navarro Tomás documenta para la hexasílaba?** Le
-   documenta **rimas alternas** en Juan Ruiz (§ 30); la **aguda `aaé:bbé`** en Eugenio Gerardo Lobo
-   (§ 245); y el **lay**, «breve canción amorosa de origen francoprovenzal en sextillas hexasílabas
-   con insistentes rimas agudas», con `ááá:ááé` de don Álvaro de Luna.
+**Las fuentes** · las tres primeras documentan el quiebro **sin nombrar el verso**. El
+_Diccionario_, que las quintillas de la copla real «admiten algún verso quebrado tetrasílabo»;
+Navarro Tomás registra la redondilla quebrada con dos ejemplos y no dice dónde cae; Caparrós, de la
+copla de arte menor, «admite versos quebrados de cuatro sílabas» **sin nombrar ninguno**.
 
-   **Y del lay las dos fuentes que lo definen no dan el mismo esquema**: el de Navarro Tomás es
-   `ááá:ááé`, y el _Diccionario_ lo describe con «dos rimas consonantes agudas, una en los versos
-   primero, segundo, cuarto y quinto y otra en el tercero y el sexto, **es decir `aabaab`**». _Si
-   alguna vez entra, hay que elegir cuál._ **No se registraron por
-   criterio cronológico**: Juan Ruiz es del XIV, Álvaro de Luna del XV y Lobo del XVIII. _Ojo a las
-   agudas: la rima aguda no es una clase de rima sino una cualidad del final, y el catálogo la lleva
-   en `final_acentual`, así que declararlas obligaría a decidir cómo se escribe `aaé:bbé` sin
-   confundir las dos cosas._
+**Decidir** · si el silencio basta para ofrecer las diez posiciones, o si se restringe por otra vía.
+_Es silencio, no una regla enunciada, y de una enumeración no se saca un mínimo._
 
-5. **¿Puede una sextilla dejar un verso suelto?** **Tres de las seis documentan que sí**, y en el
-   mismo poema: las sextillas del _Martín Fierro_ dejan sin rima el primer verso. _Decisión del IP
-   el 18 de agosto: fuera por criterio cronológico —el_ Martín Fierro _es de 1872—._ Es una decisión
-   de **alcance del corpus**, no una norma. La distinción costó una rectificación: el primer intento
-   lo escribió como `versos_sueltos: ninguno`, que es afirmar lo contrario de lo que dicen tres
-   fuentes, y se retiró el mismo día.
+**Cuidado con esto** · ninguna de esas tres fuentes dice «no fija en qué verso»: eso es nuestra
+lectura de su silencio, y conviene que la ficha no lo escriba entre comillas.
 
-   **Lo que dejó escrito, y vale para todo el catálogo:** para la sextilla **ninguna de las seis
-   enuncia una regla** —Quilis cierra su lista con un «etc.»—, y **la enumeración de una fuente no
-   es una norma**: derivar de ella un mínimo convierte una muestra en ley. _`numero_clases`,
-   `min_alternancias` y `max_consecutivos` solo se declaran cuando una fuente enuncia la regla._
+## Sextilla y copla manriqueña
 
-6. **Las cuatro disposiciones históricas de la copla manriqueña no se han creado.** Navarro Tomás
-   § 68 enumera con ejemplo y localizador la serie entera: `aab:aab-aab:aab`, `aab:aab-bba:bba`,
-   `aab:aab-ccd:ccd` y `abc:abc-def:def`, «que alcanzó fama permanente con las coplas de Jorge
-   Manrique». Hoy el catálogo declara solo la última. **No se han creado a propósito**: son
-   cancioneriles del siglo XV y no del corpus dramático.
+| forma · arquitectura | versos | medidas | esquemas |
+| --- | --- | --- | --- |
+| sextilla · Octosilábica | 6 | 8 | `aabaab` `aabccb` `ababab` `abcabc`, admitidas |
+| sextilla · De pie quebrado | 6 | 8 con quebrado de 4 o 5 | `abcabc` habitual; `aabaab` y `aabccb` admitidas |
+| sextilla · Hepta, hexa, penta y tetrasilábica | 6 | 7 · 6 · 5 · 4 | solo disposición variable |
+| **copla manriqueña** · Doble pie quebrado | **12** | 8 con quebrado de 4 o 5 | `abcabc\|defdef` habitual |
 
----
+### 1 · La copla manriqueña es de doce versos y ninguna fuente la llama así · **chocan**
 
-# Estrofas de arte mayor e italianas
+**Hoy** · forma propia, una sola arquitectura, **doce versos**. La quebrada de seis vive en la
+sextilla.
 
-## Sextilla de pie quebrado
+**Las fuentes no la parten ahí:**
 
-1. **La variante con los quiebros en el segundo verso y el quinto.** La arquitectura declara los
-   suyos en el **tercero y el sexto**, que es la disposición manriqueña, y el rasgo es ahí
-   **definitorio**. Pero Navarro Tomás cita «las sextillas de Ricardo Gil, donde el tetrasílabo
-   quiebra el segundo verso y el quinto», y el _Diccionario_ recoge también «una variante con los
-   quebrados en segundo y quinto lugar». _¿Es otra arquitectura de la misma forma, como los dos
-   órdenes de la oncena y la novena, o una desviación de esta?_ Hoy solo se puede registrar como
-   desviación, porque las posiciones son definitorias.
+| Caparrós 2014 | «la variante más conocida de **la sextilla**… estrofa de **seis versos**», que difiere de la común en que el tercero y el sexto son tetrasílabos |
+| _Diccionario_ | «**Cuenta también los seis**: la manriqueña es para él la estrofa de pie quebrado». Solo su entrada aparte, «copla mixta», contempla la agrupación de doce, dividida «en dos semiestrofas de distinta extensión **o en dos sextillas**» |
+| Quilis | «la estrofa manriqueña como **sextilla de pie quebrado**, **sin epígrafe para la pareja de doce versos**» |
+| Navarro Tomás | § 67: «la estrofa de doce versos fue concebida ordinariamente como **una pareja de sextillas**» |
+| Jauralde | **la trata dentro de las estrofas de ocho versos**, y dice que «su forma más habitual es la de **doble sextilla con seis rimas**» |
+| Morley y Bruerton | «No la separan»: la agrupación de doce cae dentro de sus coplas de pie quebrado «**sin nombre propio**» |
 
-   _Sus tres disposiciones de rima sí se completaron el 29 de agosto de 2026_: ofrecía solo `abcabc`
-   y el _Diccionario_ nombra `aabaab`, `aabccb` y `abcabc`.
+**Tres cuentan seis, dos describen el grupo de doce como pareja o doble de sextillas, y una no lo
+separa. Ninguna da nombre propio a una estrofa de doce.**
+
+**Decidir** · si la forma de doce se sostiene, y con qué apoyo. Si se sostiene, es decisión del
+proyecto y conviene que la definición lo diga, como se hizo con la frontera alirada. Si no, la
+manriqueña vuelve a ser una arquitectura de la sextilla y la pareja de doce se deriva del rango, que
+es lo que el modelo hace con todas las demás.
+
+_Este contraste no se podía ver antes de la auditoría: la afirmación de Jauralde decía «cuenta los
+doce» hasta que el 21 de septiembre se comprobó que su epígrafe está entre las estrofas de ocho._
+
+### 2 · Nada distingue dos sextillas seguidas de una copla manriqueña · **callan**
+
+**Hoy** · los versos, las medidas y el tipo de rima son idénticos; **lo único que cambia es si las
+rimas de la segunda mitad dependen de la primera**, y eso lo decide el editor al elegir forma, no un
+criterio observable.
+
+**Las fuentes** · ninguna da un criterio para distinguirlas al leer, porque para cinco de ellas la
+pareja de doce ni siquiera es una forma.
+
+**Decidir** · qué observa el editor para elegir. _Es la misma pregunta que la copla castellana frente
+a dos redondillas, y las dos definiciones ya la admiten en voz alta._
+
+### 3 · ¿Es una arquitectura más la quebrada en segundo y quinto? · **seguir**
+
+**Hoy** · la arquitectura de pie quebrado declara los suyos en el **tercero y el sexto**, la
+disposición manriqueña, **y el rasgo es ahí definitorio**. Una quebrada en otras posiciones solo
+cabe como desviación.
+
+**Las fuentes** · son **tres** las que traen la variante: el _Diccionario_ ilustra su entrada con
+una estrofa de Lucas Fernández quebrada en **segundo y quinto**; Jauralde documenta «las sextillas
+de Ricardo Gil, donde el tetrasílabo quiebra el segundo verso y el quinto»; y Caparrós «documenta
+también una variante con los quebrados en segundo y quinto lugar».
+
+**Decidir** · si es otra arquitectura de la misma forma —como los dos órdenes de la oncena y la
+novena— o una desviación. Y qué hacer cuando el corpus traiga una quebrada en posiciones distintas
+de esas dos.
+
+### 4 · ¿Se admiten las tres disposiciones hexasílabas de Navarro Tomás? · **seguir**
+
+**Hoy** · la hexasilábica solo declara disposición variable.
+
+**Las fuentes** · Navarro Tomás documenta tres concretas: **rimas alternas** en Juan Ruiz, § 30; la
+**aguda `aaé:bbé`** en Eugenio Gerardo Lobo, § 245; y el **lay**, «breve canción amorosa de origen
+francoprovenzal en sextillas hexasílabas con insistentes rimas agudas», con `ááá:ááé` de don Álvaro
+de Luna.
+
+**Y del lay las dos fuentes que lo definen no coinciden**: el esquema de Navarro es `ááá:ááé`, y el
+_Diccionario_ lo describe con «dos rimas consonantes agudas, una en los versos primero, segundo,
+cuarto y quinto y otra en el tercero y el sexto, **es decir `aabaab`**».
+
+**Decidir** · si entran, sabiendo que **quedaron fuera por criterio cronológico** —Juan Ruiz es del
+XIV, Álvaro de Luna del XV y Lobo del XVIII—. Y si entra el lay, cuál de los dos esquemas.
+
+**Ojo con las agudas** · la rima aguda no es una clase de rima sino una cualidad del final, y el
+catálogo la lleva en `final_acentual`. Declararlas obliga a decidir cómo se escribe `aaé:bbé` sin
+confundir las dos cosas.
+
+### 5 · ¿Puede una sextilla dejar un verso suelto? · **seguir**
+
+**Hoy** · no.
+
+**Las fuentes** · **tres de las seis documentan que sí**, y en el mismo poema: las sextillas del
+_Martín Fierro_ dejan sin rima el primer verso, y Caparrós escribe su esquema `- a a b b a`.
+
+**Decidir** · nada nuevo: _el IP lo dejó fuera el 18 de agosto por criterio cronológico —el_ Martín
+Fierro _es de 1872—._ Es una decisión de **alcance del corpus**, no una norma.
+
+**Lo que dejó escrito, y vale para todo el catálogo** · para la sextilla **ninguna de las seis
+enuncia una regla** —Quilis cierra su lista con un «etc.»—, y **la enumeración de una fuente no es
+una norma**: derivar de ella un mínimo convierte una muestra en ley. `numero_clases`,
+`min_alternancias` y `max_consecutivos` solo se declaran cuando una fuente enuncia la regla.
+
+### 6 · Las cuatro disposiciones históricas de la copla manriqueña no están · **seguir**
+
+**Hoy** · el catálogo declara solo la última, `abcabc|defdef`.
+
+**Las fuentes** · Navarro Tomás § 68 enumera la serie entera con ejemplo y localizador:
+`aab:aab-aab:aab` en el _Cancionero de Baena_; `aab:aab-bba:bba` en Villasandino, donde el orden se
+invierte en la segunda; `aab:aab-ccd:ccd`, con rimas distintas en cada semiestrofa por Juan de Mena;
+y `abc:abc-def:def`, «que alcanzó fama permanente con las coplas de Jorge Manrique».
+
+**Decidir** · **no se han creado a propósito**, por ser cancioneriles del siglo XV y no del corpus
+dramático. Queda confirmar que ese criterio sigue valiendo, y si la respuesta depende de la 1: si la
+forma de doce se retira, la pregunta cambia de sitio.
+
+### 7 · ¿Debe registrarse el esquema de las manriqueñas no manriqueñas? · **callan**
+
+**Hoy** · la forma de doce tiene dos esquemas: el manriqueño, que se marca si es el observado, y uno
+de distribución variable para todo lo demás, que **no guarda cuál fue**.
+
+**Las fuentes** · ninguna se pronuncia sobre qué registrar; es cuestión de qué queremos poder
+comparar después.
+
+**Decidir** · si interesa comparar unas con otras. Hoy esa información se pierde.
 
 ## Sextina
 
