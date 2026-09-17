@@ -60,13 +60,14 @@ pregunta concreta justifican y con qué unidad deben contarse.
 
 **Estado a 16 de septiembre de 2026:** ya están activas la exploración de medidas, formas y
 transiciones, la selección opcional de una obra de referencia dentro de esas mismas vistas y la
-comparación A/B de una medida. Esta última permite delimitar cada grupo por autoría y datación, muestra
-todas las obras con dato, `n`, cobertura, mediana y `q1–q3`, y expresa `A − B` en la unidad de la medida
-—puntos porcentuales para porcentajes—. Declara los solapamientos y no aplica pruebas de significación.
-Se evitó una pestaña separada para situar la obra y no duplicar gráficos y mantenimiento. Queda por
-ensayar si comparar grupos aporta lecturas claras para formas y transiciones; afinidades es el siguiente
-espacio mayor de trabajo. Un perfil comparativo multimedida solo se separará si llega a tener una
-función investigadora propia.
+comparación A/B de medidas, formas y transiciones. Cada grupo se delimita por autoría y datación. Las
+medidas muestran todas las obras con dato, `n`, cobertura, mediana y `q1–q3`, y expresan `A − B` en la
+unidad correspondiente. Formas y transiciones separan difusión en el grupo de peso o frecuencia entre
+las obras que contienen el rasgo, sin comparar totales brutos. Las filas permiten inspeccionar las obras
+que sostienen cada valor. Se declaran los solapamientos y no se aplican pruebas de significación.
+Se evitó una pestaña separada para situar la obra y no duplicar gráficos y mantenimiento. Afinidades es
+el siguiente espacio mayor de trabajo. Un perfil comparativo multimedida solo se separará si llega a
+tener una función investigadora propia.
 
 - distribuciones y puntos por obra para cada medida, mostrando siempre `n` y cobertura;
 - selección opcional de una obra, compartida por las vistas exploratorias, para ver qué rasgos
