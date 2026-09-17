@@ -112,6 +112,22 @@ function grupoMetro(silabas: number[]): ValorEvidencia {
 	return valor('arte_mayor', 'Arte mayor');
 }
 
+/**
+ * Los grupos de arte que **cubre** un repertorio de medidas, cada uno por separado.
+ *
+ * Distinto de `grupoMetro`, que resume un conjunto en un solo valor y llama «mixto» a lo que cruza
+ * el ocho. Un conjunto uniforme no mezcla: admite una medida cualquiera de su repertorio, así que
+ * es compatible con arte menor **o** con arte mayor según cuál se realice, y declarar los dos es lo
+ * único que no miente.
+ */
+function gruposCubiertos(silabas: number[]): ValorEvidencia[] {
+	const unicas = [...new Set(silabas)];
+	const valores: ValorEvidencia[] = [];
+	if (unicas.some((medida) => medida <= 8)) valores.push(valor('arte_menor', 'Arte menor'));
+	if (unicas.some((medida) => medida > 8)) valores.push(valor('arte_mayor', 'Arte mayor'));
+	return valores;
+}
+
 function silabasUnicas(metros: Row[]): number[] {
 	return [...new Set(metros.map((metro) => Number(metro.silabas)))].sort((a, b) => a - b);
 }
@@ -471,6 +487,25 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			(a, b) => a.silabas - b.silabas
 		);
 		let metricDescription: string | null = null;
+		/**
+		 * **«Admite cualquiera de estas medidas» no es «las mezcla».**
+		 *
+		 * El catálogo ya lo distingue con dos campos que el demarcador no leía: un esquema de
+		 * `tipo_secuencia = 'conjunto'` enumera el repertorio admitido, y `medida_uniforme` dice si
+		 * dentro de la unidad todos los versos comparten una de ellas. El pareado «de cualquier
+		 * medida» es un conjunto uniforme —sus dos versos miden igual, sea lo que sea—; la silva, un
+		 * conjunto no uniforme, porque alterna siete y once de verdad.
+		 *
+		 * Sin leerlo, las ocho medidas del pareado se resumían en «mixto» y **responder «arte mayor»
+		 * lo contradecía**, con peso de definitoria: una sucesión de pareados endecasílabos quedaba
+		 * descartada en la primera pregunta y ya no volvía.
+		 */
+		const conjuntoUniforme = ((metricPatternsResponse.data ?? []) as Row[]).some(
+			(pattern) =>
+				pattern.arquitectura_id === architecture.arquitectura_id &&
+				pattern.tipo_secuencia === 'conjunto' &&
+				pattern.medida_uniforme === true
+		);
 		if (metres.length > 0) {
 			const dominantMetres = dominantMetresByArchitecture.get(architecture.arquitectura_id) ?? [];
 			const brokenMetres = brokenMetresByArchitecture.get(architecture.arquitectura_id) ?? [];
@@ -487,7 +522,7 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 					pregunta: '¿Los versos son de arte menor, de arte mayor o mixtos?',
 					ayuda:
 						'Arte menor comprende hasta ocho sílabas y arte mayor, nueve o más. Elige «Mixto» cuando se combinan ambos.',
-					valores: [grupoMetro(syllables)],
+					valores: conjuntoUniforme ? gruposCubiertos(syllables) : [grupoMetro(syllables)],
 					observabilidad: 'directa',
 					coste: 0.12,
 					orden: 1,
@@ -495,10 +530,11 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 				})
 			);
 			const uniformityValues: ValorEvidencia[] = [];
-			if (syllables.length === 1) {
+			if (syllables.length === 1 || conjuntoUniforme) {
 				uniformityValues.push(valor('misma_medida', 'Sí, predomina una medida'));
 			}
-			if (allSyllables.length > 1) {
+			// Un conjunto uniforme no admite «varias medidas»: eso es justo lo que no hace.
+			if (allSyllables.length > 1 && !conjuntoUniforme) {
 				uniformityValues.push(valor('varias_medidas', 'No, aparecen varias medidas'));
 			}
 			agregarEvidencia(
@@ -517,7 +553,12 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 					fuente: 'esquema'
 				})
 			);
-			const exactValues = [valorMedidas(syllables)];
+			// En un conjunto uniforme cada medida es una alternativa por sí sola. Resumidas en una
+			// clave —«4+5+6+7+8+11+12+14», etiquetada «Otra combinación o medida variable»— no había
+			// manera de que «11 sílabas» encajara con un pareado endecasílabo.
+			const exactValues = conjuntoUniforme
+				? syllables.map((medida) => valorMedidas([medida]))
+				: [valorMedidas(syllables)];
 			if (dominantMetres.length > 0 && brokenSyllables.length > 0) {
 				for (const broken of brokenSyllables) {
 					exactValues.push(

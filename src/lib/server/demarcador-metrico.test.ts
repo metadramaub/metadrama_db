@@ -505,3 +505,63 @@ describe('rasgos de presencia', () => {
 		expect(catalogo.textos['rasgo:distico_final']?.pregunta).toBe('¿Se observa dístico final?');
 	});
 });
+
+describe('un conjunto uniforme admite cualquiera de sus medidas, no las mezcla', () => {
+	/**
+	 * El pareado «de cualquier medida» enumera ocho medidas —de tetrasílabo a alejandrino— y las
+	 * admite **una cada vez**: sus dos versos miden igual, y lo que no se sabe es cuál. Resumirlas en
+	 * «mixto» hacía que responder «arte mayor» lo contradijera con peso de definitoria, así que una
+	 * sucesión de pareados endecasílabos quedaba descartada en la primera pregunta.
+	 */
+	const conConjuntoUniforme = {
+		...payload,
+		metricPatterns: [
+			{
+				esquema_metrico_id: 'pareado-conjunto',
+				arquitectura_id: 'romance-8',
+				tipo_secuencia: 'conjunto',
+				medida_uniforme: true,
+				seccion_id: null
+			}
+		],
+		metricPositions: [],
+		metricOptions: [
+			{ esquema_metrico_id: 'pareado-conjunto', metro_id: 'm8', orden: 1, rol: null },
+			{ esquema_metrico_id: 'pareado-conjunto', metro_id: 'm11', orden: 2, rol: null }
+		],
+		metres: [
+			{ metro_id: 'm8', nombre: 'Octosílabo', silabas: 8 },
+			{ metro_id: 'm11', nombre: 'Endecasílabo', silabas: 11 }
+		]
+	};
+	const cliente = {
+		rpc: async () => ({ data: conConjuntoUniforme, error: null }),
+		from: (table: string) => ({
+			select: async () => ({
+				data: table === 'arquitecturas_reglas_longitud' ? lengthRules : structuralLevels,
+				error: null
+			})
+		})
+	};
+
+	it('declara los dos grupos de arte en vez de llamarse mixto', async () => {
+		const catalogo = await cargarCatalogoDemarcador(cliente);
+		const hipotesis = catalogo.hipotesis.find((item) => item.arquitecturaId === 'romance-8');
+		const grupo = hipotesis?.evidencias.find((e) => e.dimension === 'metro:grupo');
+		expect(grupo?.valores.map((v) => v.clave).sort()).toEqual(['arte_mayor', 'arte_menor']);
+	});
+
+	it('dice que sigue una misma medida, y no que aparecen varias', async () => {
+		const catalogo = await cargarCatalogoDemarcador(cliente);
+		const hipotesis = catalogo.hipotesis.find((item) => item.arquitecturaId === 'romance-8');
+		const uniformidad = hipotesis?.evidencias.find((e) => e.dimension === 'metro:uniformidad');
+		expect(uniformidad?.valores.map((v) => v.clave)).toEqual(['misma_medida']);
+	});
+
+	it('ofrece cada medida por separado, no una combinación de todas', async () => {
+		const catalogo = await cargarCatalogoDemarcador(cliente);
+		const hipotesis = catalogo.hipotesis.find((item) => item.arquitecturaId === 'romance-8');
+		const exacto = hipotesis?.evidencias.find((e) => e.dimension === 'metro:exacto');
+		expect(exacto?.valores.map((v) => v.clave).sort()).toEqual(['11', '8']);
+	});
+});
