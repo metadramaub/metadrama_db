@@ -194,154 +194,153 @@ hecho para resolver con datos**: cuando haya silvas anotadas se mira si alguna c
 
 ## Canción petrarquista
 
-1. **¿La canción sin rima debe seguir siendo arquitectura o tiene identidad de forma?** No es una
-   aportación sin fuente: **Morley y Bruerton la registran como categoría propia** —«Canción sin
-   rima»— y la describen igual que el catálogo. _Que la fuente la liste aparte, junto a la canción,
-   es argumento para cualquiera de las dos respuestas; lo que ya no cabe es decidirlo sin ella._
+| arquitectura | estancia | remate | eslabón |
+| --- | --- | --- | --- |
+| Regular de 13 versos _(principal)_ | 13 versos, mín. 3 | `0-1`, de 1 a 13 versos | 1 verso, `0-1` |
+| Estancias consonantes variables | 5–20 versos, mín. 3 | `0-1`, de 1 a 20 versos | 1 verso, `0-1` |
+| Sin rima, con pareado final | cuerpo 3–18 + pareado | — | — |
 
-2. **El catálogo hace opcional el remate y cuatro fuentes lo meten en la definición.** Hoy la
-   sección `remate` tiene `repeticiones_min = 0` en las dos arquitecturas consonantes y no existe en
-   la canción sin rima. Pero las fuentes no lo presentan como frecuente sino como el cierre de la
-   composición:
+**Ni el remate ni el eslabón declaran medida ni rima.** De las once secciones opcionales del
+catálogo, las del terceto encadenado declaran las dos y las del villancico y el zéjel la medida;
+**las tres de la canción no declaran ninguna**.
 
-   | _Diccionario_ | «poema de un número indeterminado de estancias, tres como mínimo, **acabado en** un fragmento de estancia… llamado remate, envío o _commiato_» |
-   | Caparrós 2014 | «se compone de un número indeterminado de estancias, tres como mínimo… **y acaba en** un fragmento de estancia llamado remate, envío o _commiato_» |
-   | Jauralde | «un mínimo de tres estancias iguales **terminadas en** otra mucho más breve, el envío o _commiato_» |
-   | Quilis | «**sitúa al final** una estrofa más breve, la _tornata_ o envío» |
+### 1 · ¿La canción sin rima es arquitectura o forma propia? · **seguir**
 
-   La quinta, Morley y Bruerton, no lo menciona. **Ninguna lo presenta como prescindible.** _Hasta el
-   16 de septiembre de 2026 este apunte decía que «ninguna lo declara imprescindible», que es leer al
-   revés cuatro definiciones. Si se exige, las canciones sin remate pasan a incumplir la norma; antes
-   hay que decidir si la canción sin rima participa de ese cierre._
+**Hoy** · arquitectura de la canción petrarquista, no principal.
 
-3. **El catálogo siguió a la única fuente que baja el suelo hasta cinco.** La estancia declara
-   **5–20 versos**, que es el intervalo de Morley y Bruerton —«estrofas de cinco a veinte versos»—.
-   Las otras tres lo ponen donde empieza la lira, y Jauralde dice además por qué:
+**Las fuentes** · solo Morley y Bruerton la registran, y la registran **aparte**: «Canción sin
+rima», epígrafe propio, y **remiten a un estudio suyo sobre las estrofas sin rima en las comedias de
+Lope**, Coimbra 1934. Las otras cinco no la mencionan.
 
-   | Caparrós 2014 | «no menos de **nueve** ni más de veinte» |
-   | _Diccionario_ | «no menos de **nueve** ni más de veinte, normalmente», y describe aparte la canción alirada como la de unidad **entre cuatro y ocho** |
-   | Jauralde | «normalmente **por encima de los ocho** versos, **para diferenciarla de las liras**» |
+**Decidir** · que la única fuente que la trata le dé entrada propia es argumento para las dos
+respuestas. Lo que ya no cabe es decidirlo sin ella.
 
-   _Así que no es que las formas se rocen: una estancia de cinco a ocho versos es territorio de la
-   lira, del sexteto-lira y del septeto-lira, y tres de las cuatro fuentes trazan ahí la frontera
-   mientras el catálogo sigue a la cuarta. Va con el punto 6._
+### 2 · El catálogo hace opcional el remate y cuatro fuentes lo meten en la definición · **seguir**
 
-4. **¿Las estancias de la canción sin rima repiten también la distribución posicional de 7 y 11?**
-   El catálogo lo exige con `define_norma`. M&B la describen como «versos de siete y once sílabas,
-   agrupados en estrofas sin rima, excepto un pareado final», pero no añaden que el orden métrico
-   sea idéntico entre estrofas, como sí hacen al definir la canción consonante.
+**Hoy** · `repeticiones_min = 0` en las dos arquitecturas consonantes; en la canción sin rima no
+existe.
 
-5. **Dos fuentes fijan la rima del eslabón y el catálogo no declara ninguna.** Caparrós: «un
-   eslabón o llave **que rima con el último verso de la fronte** pero pertenece sintácticamente a la
-   sirima». Quilis: «un verso de unión llamado _volta_ **que rima con el último verso del segundo
-   _piede_**». Y del remate, el _Diccionario_ y Caparrós dicen que es «**un fragmento de estancia**»
-   —de donde tomaría medidas y rimas—, y el _Diccionario_ añade que «normalmente tiene el primer
-   verso suelto». El catálogo no
-   les atribuye ninguna de las dos. Contado sobre las **once secciones opcionales** que hay en cuatro
-   formas, las del terceto encadenado declaran medida y rima y las del villancico y el zéjel declaran
-   la medida; **las tres de la canción —dos remates y el eslabón— no declaran ninguna**, y el remate
-   de la regular admite de uno a trece versos. _Si las fuentes fijan algo, se declara y deja de estar
-   abierto; si no lo fijan, queda abierto de veras y habrá que registrarlo al anotar, como todo lo
-   que la norma no fija._
+**Las fuentes** · ninguna lo presenta como prescindible; cuatro lo incluyen al definir la
+composición.
 
-6. **¿Dónde está la frontera entre estrofa alirada y canción?** Salió al auditar las fuentes el 17
-   de septiembre de 2026, y es la misma frontera del punto 3 vista de cerca.
+| _Diccionario_ | «poema de un número indeterminado de estancias, tres como mínimo, **acabado en** un fragmento de estancia… llamado remate, envío o _commiato_» |
+| Caparrós 2014 | «se compone de un número indeterminado de estancias… **y acaba en** un fragmento de estancia llamado remate, envío o _commiato_» |
+| Jauralde | «un mínimo de tres estancias iguales **terminadas en** otra mucho más breve, el envío o _commiato_» |
+| Quilis | «**sitúa al final** una estrofa más breve, la _tornata_ o envío» |
 
-   **Lo que hace hoy el catálogo.** La pone en el **eslabón**, y lo modela como sección propia: la
-   estancia regular es `abCabC:cdeeDfF`, repartida en fronte (6) + eslabón (1) + sirima (6). La
-   definición de la canción dice que «cuando una estrofa de siete y once repite la cabeza pero no
-   trae eslabón, **la tradición** y este catálogo la llaman alirada y no canción». Se eligió porque
-   el proyecto necesita un criterio que no admita ambigüedad al anotar.
+La quinta, Morley y Bruerton, no lo menciona.
 
-   **Qué dice cada fuente.** Ninguna de las seis usa el eslabón como criterio, y las dos que lo
-   describen dicen expresamente que no lo es.
+**Decidir** · si se exige. **Si se exige, hay que decidir antes si la canción sin rima participa de
+ese cierre**, porque hoy ni siquiera tiene la sección.
 
-   | fuente                                                   | qué establece                                                                                                                                                                                                                                                                                                            |
-   | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-   | Morley y Bruerton 1968                                   | Ningún criterio. Su «Canción (Canzone)» son «versos de siete y once sílabas, agrupados en estrofas **de 5 a 20 versos**, con un tipo de rima fijo, idéntico en cada estrofa». Su ejemplo en endecasílabos, `ABCABCDD` de _Barlaán y Josafat_, tiene **ocho versos, pareado final y ningún eslabón**, y lo llaman canción |
-   | Quilis 1969, § 6.3.6                                     | Ningún criterio, y lo dice: «**No había ninguna norma relativa a la naturaleza de la rima, ni a su disposición**». **La extensión**: «en PETRARCA, **entre nueve y veinte**; en BOSCÁN, en la primera canción quince; en GARCILASO, trece»                                                                               |
-   | Navarro Tomás 1972, § 161                                | No enuncia ninguno. Su epígrafe «Estrofas aliradas» llega hasta las de **nueve versos**. Lo único que distingue es su notación: escribe la estancia con dos puntos —`abCabC: cdeeDfF`, la canción quinta de Herrera, § 157— y las aliradas sin ellos, la de nueve incluida                                               |
-   | Domínguez Caparrós 2014, p. 214                          | **La extensión**: la estancia tiene «no menos de nueve ni más de veinte, normalmente». Del eslabón dice que «**aunque no es obligatorio**, es frecuente» que la estancia se ajuste a fronte + eslabón + sirima                                                                                                           |
-   | _Diccionario_ 2016, s. v. «estancia» y «canción alirada» | Lo mismo, palabra por palabra. Y define la **canción alirada** como «**canción a la italiana** cuyas estrofas, cortas y simétricas, **prescinden de la ordenación rigurosa de la estancia**»: para él la alirada no se opone a la canción, **es una canción**                                                            |
-   | Jauralde Pou 2020                                        | **La extensión**: la estancia son versos de 7 y 11 «dispuestos de modo aleatorio, normalmente **por encima de los ocho versos** (para diferenciarla de las liras)»                                                                                                                                                       |
+**Si cambia** · las canciones sin remate pasan a incumplir la norma.
 
-   **Las cuatro que dan una extensión coinciden en el umbral: nueve versos.** Caparrós y
-   el _Diccionario_, «no menos de nueve»; Quilis, «en PETRARCA, entre nueve y veinte»; Jauralde, «por
-   encima de los ocho». **La única que baja de ahí es Morley y Bruerton**, con su «de 5 a 20», que es
-   justo el intervalo que el catálogo declara.
+### 3 · El catálogo siguió a la única fuente que baja el suelo a cinco versos · **chocan**
 
-   **El caso que lo destapó cae justo en ese umbral.** El § 161 de Navarro, dentro de su epígrafe de
-   aliradas, describe dos estrofas de **nueve** versos como «una nueva reelaboración de este modelo»,
-   siendo el modelo las de ocho que el catálogo ya recoge como octava-lira: `abCabCcdD`, de Figueroa
-   en su imitación de _Oh, navis_, y `AbCAbCcdD`, en la poesía 120 de Góngora. Por extensión son
-   estancias —nueve versos— y por clasificación de Navarro son aliradas. **Los dos criterios chocan
-   exactamente ahí.**
+**Hoy** · la estancia variable declara **5–20 versos**, que es el intervalo de Morley y Bruerton:
+«estrofas de cinco a veinte versos».
 
-   _Y el choque no afecta solo a un caso: si el criterio pasa a ser la extensión, la **novena-lira**
-   (9) y la **décima-lira** (10) quedan dentro de lo que tres fuentes llaman estancia, mientras que
-   la octava-lira (8) y las menores siguen a salvo por debajo del umbral._
+**Las fuentes** · las otras cuatro ponen el suelo donde empieza la lira, y una dice para qué.
 
-   _Las preguntas, entonces: si el criterio del catálogo debe seguir siendo el eslabón, que ninguna
-   fuente sostiene y dos niegan expresamente; si debe ser la extensión, que tres sitúan en nueve
-   **aunque las tres con un «normalmente»**; o si debe ser mixto. Y en cualquier caso, la frase «la tradición y este catálogo la
-   llaman alirada» no puede quedarse: el criterio es del proyecto y conviene que la definición lo
-   diga como tal._
+| Caparrós 2014 | «no menos de **nueve** ni más de veinte» |
+| _Diccionario_ | «no menos de **nueve** ni más de veinte, normalmente». Y describe aparte la canción alirada como la de unidad **entre cuatro y ocho** |
+| Quilis | «en PETRARCA, **entre nueve y veinte**; en BOSCÁN, quince; en GARCILASO, trece» |
+| Jauralde | «normalmente **por encima de los ocho** versos, **para diferenciarla de las liras**» |
 
-   **Lo que dicen las seis, recomprobado el 21 de septiembre.** La primera versión de esta tabla
-   sostenía que **ninguna fuente calla por olvido: cada una deja de enumerar aliradas en el punto en
-   que empieza a llamarlas canción**, y que dos de ellas ponían la juntura en el mismo sitio, el 8/9.
-   La pasada D —que parte cada afirmación en cláusulas y exige para cada una el fragmento literal que
-   la sostiene— obligó a volver a los seis libros. **Tres de las seis filas estaban mal**, y el
-   hallazgo sale bastante más débil de lo que se escribió.
+**Decidir** · si el suelo se sube a nueve. Una estancia de cinco a ocho versos es hoy territorio
+compartido con la lira, el sexteto-lira y el septeto-lira.
 
-   | fuente                  | su serie alirada llega a                                | su canción o estancia                                                                  | ¿encajan?                                                                                                     |
-   | ----------------------- | ------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-   | Morley y Bruerton 1968  | 6, y anota la de 5                                      | «estrofas de 5 a 20 versos»                                                            | **se solapan enteras**, y lo declaran: «todas las liras no son más que formas especializadas de la _canzone_» |
-   | Quilis 1969             | 6 — lira de 5 y sexteto-lira                            | mínimo 6 en la provenzal y **máximo «ilimitado»**; «en PETRARCA, entre nueve y veinte» | **se solapan, y sin techo**                                                                                   |
-   | Domínguez Caparrós 2014 | 7 — cuarteto, sexteto y septeto lira                    | «no menos de nueve ni más de veinte, **normalmente**»                                  | dejan **hueco en el 8**, y la frontera es «normalmente»                                                       |
-   | _Diccionario_ 2016      | 8 — «entre los cuatro y ocho versos»                    | «no menos de nueve ni más de veinte, **normalmente**»                                  | encajan en el 8/9, **pero con «normalmente»**                                                                 |
-   | Jauralde Pou 2020       | 8 — cuarteto, quinteto, sexteto, septeto y octeto-lira… | «**normalmente** por encima de los ocho versos (para diferenciarla de las liras)»      | lo declara **y él mismo lo rompe**: ver abajo                                                                 |
-   | Navarro Tomás 1972      | 9 — § 161                                               | —                                                                                      | —                                                                                                             |
+**Va con la 6**, que es esta misma frontera vista de cerca.
 
-   **Lo que se caía.** De Quilis se citaba que su canción tiene estrofas «normalmente entre seis y
-   doce» versos. La cita es literal, pero ese rango es **el de la canción provenzal**, y la misma
-   frase declara que el máximo es **«ilimitado»** y da nueve a veinte en Petrarca, quince en Boscán y
-   trece en Garcilaso. Y de Jauralde se citaba la definición de la estancia como si trazara una
-   frontera limpia, cuando unas líneas antes escribe:
+### 4 · ¿Las estancias de la canción sin rima repiten la distribución posicional? · **seguir**
 
-   > «No es difícil encontrar, sobre todo durante el periodo romántico, **extensiones de la lira que
-   > alcanzan y aun superan la octava**, en combinaciones variadas.»
+**Hoy** · sí: `medida_estancia` lleva `define_norma`, de modo que lo que se lea en la primera fija
+la norma para las demás.
 
-   Es decir: **sigue llamando lira a combinaciones de nueve versos o más**, justo en el tramo que su
-   propia definición reserva a la estancia. De las dos fuentes que se presentaban como el apoyo
-   fuerte del 8/9, una lo rompe y la otra lo condiciona con un «normalmente».
+**Las fuentes** · Morley y Bruerton, su única fuente, la describen como «versos de siete y once
+sílabas en estrofas sin rima, excepto un pareado final», **sin añadir que el orden métrico se repita
+entre estrofas**, como sí hacen al definir la canción con rima —«un tipo de rima fijo e idéntico en
+cada estrofa»—.
 
-   _De modo que **ninguna de las seis sostiene una frontera nítida**. Dos solapan las dos series del
-   todo; una deja hueco en el 8; una la pone en el 8/9 pero «normalmente»; una la declara y la
-   contradice; y la sexta, Navarro, mete una alirada en el nueve. El argumento de que la tradición
-   reparte las dos series y solo nosotros dudamos **no se sostiene**._
+**Decidir** · si el catálogo puede ser más estricto que su única fuente.
 
-   _Eso no debilita la pregunta: la refuerza. Si ninguna de las seis traza el corte, el proyecto
-   necesita un criterio propio porque no hay ninguno que heredar, y lo que hay que decidir es cuál
-   —el eslabón, la extensión o una mezcla— sabiendo que se elige, no que se recoge._
+### 5 · Dos fuentes fijan la rima del eslabón y el catálogo no declara ninguna · **seguir**
 
-7. **¿«Petrarquista» nombra la forma o solo la estancia de trece versos?** Ninguna fuente lo reserva
-   para una extensión: las tres que usan el término lo aplican a la forma entera y lo glosan como
-   sinónimo. Caparrós 2014: «La canción **petrarquista o italiana** está compuesta de estancias». El
-   _Diccionario_ lo trae como **entrada de remisión** —«canción petrarquista. canción a la italiana»—,
-   siendo «canción a la italiana» la entrada real. Jauralde: «La canción petrarquista **o italiana o,
-   sencillamente, canción**», y antes «con el término simple "canción" nos solemos referir a la
-   canción petrarquista».
+**Hoy** · el eslabón no declara ni medida ni rima; el remate tampoco, y admite de uno a trece versos
+en la regular.
 
-   _De modo que bajar el apellido a la arquitectura de trece versos sería invención nuestra. Lo que
-   sí tiene respaldo es al revés: «Canción» a secas es el epígrafe de Morley y Bruerton, el de Quilis
-   y el de Navarro, y Jauralde lo autoriza. Si se renombra la forma «Canción», «canción
-   petrarquista», «canción italiana» y «canción a la italiana» quedan como denominaciones suyas, y la
-   definición ya advierte de que el nombre corto no designa aquí la canción medieval del siglo XV._
+**Las fuentes** · Caparrós, «un eslabón o llave **que rima con el último verso de la fronte** pero
+pertenece sintácticamente a la sirima»; Quilis, «un verso de unión llamado _volta_ **que rima con el
+último verso del segundo _piede_**». Del remate, el _Diccionario_ y Caparrós dicen que es «**un
+fragmento de estancia**» —de donde tomaría medidas y rimas— y el primero añade que «normalmente
+tiene el primer verso suelto».
 
-8. **«Regular de 13 versos» es nombre de Morley y Bruerton, y conviene que se sepa.** Ellos lo
-   declaran: «El tipo más corriente en Lope, **llamado "regular" por nosotros**, tiene 13 versos como
-   sigue: `abCabC:cdeeDfF`». _La arquitectura lleva bien ese nombre; lo que no dice es de quién es._
+**Decidir** · si se declara lo que las fuentes fijan. De un remate leído hoy solo queda registrado
+cuántos versos tiene.
+
+**La cara técnica** ya está apuntada: falta dónde registrar la disposición observada cuando la norma
+no la fija ⇒ **A4**.
+
+### 6 · ¿Dónde está la frontera entre estrofa alirada y canción? · **callan**
+
+**Hoy** · la frontera es el **eslabón**, y se modela como sección propia: la estancia regular es
+`abCabC:cdeeDfF`, repartida en fronte (6) + eslabón (1) + sirima (6). La definición de la canción
+dice que «cuando una estrofa de siete y once no trae eslabón, **la tradición** y este catálogo la
+llaman alirada y no canción».
+
+**Las fuentes** · **ninguna de las seis usa el eslabón como criterio**, y las dos que lo describen
+dicen expresamente que no lo es.
+
+| Morley y Bruerton | Ningún criterio. Su «Canción (Canzone)» son «versos de siete y once sílabas, agrupados en estrofas **de 5 a 20 versos**, con un tipo de rima fijo». Su ejemplo `ABCABCDD` de _Barlaán y Josafat_ tiene **ocho versos, pareado final y ningún eslabón**, y lo llaman canción |
+| Quilis | Ninguno, y lo dice: «**No había ninguna norma relativa a la naturaleza de la rima, ni a su disposición**». La extensión, «en PETRARCA, entre nueve y veinte» |
+| Navarro Tomás § 161 | No enuncia ninguno. Su epígrafe «Estrofas aliradas» llega hasta las de **nueve versos**. Lo único que distingue es su notación: escribe la estancia con dos puntos —`abCabC: cdeeDfF`— y las aliradas sin ellos, la de nueve incluida |
+| Caparrós 2014 | **La extensión**: «no menos de nueve ni más de veinte, normalmente». Del eslabón, que «**aunque no es obligatorio**, es frecuente» |
+| _Diccionario_ | Lo mismo, palabra por palabra. Y define la **canción alirada** como «canción a la italiana cuyas estrofas, cortas y simétricas, **prescinden de la ordenación rigurosa de la estancia**»: para él la alirada **es una canción** |
+| Jauralde | **La extensión**: «dispuestos de modo aleatorio, normalmente **por encima de los ocho versos** (para diferenciarla de las liras)» |
+
+**Las cuatro que dan una extensión coinciden en el umbral: nueve versos.** La única que baja de ahí
+es Morley y Bruerton, con su «de 5 a 20», que es justo el intervalo que el catálogo declara.
+
+**El caso que lo destapó cae en ese umbral.** El § 161 de Navarro, dentro de su epígrafe de
+aliradas, describe dos estrofas de **nueve** versos como «una nueva reelaboración de este modelo»,
+siendo «este modelo» las dos aliradas de ocho que acaba de describir: `abCabCcdD` de Figueroa y
+`AbCAbCcdD` de Góngora. **El mismo string admite dos lecturas**: canción —fronte `abCabC` + eslabón
+`c` + sirima `dD`— o alirada —la octava-lira con un verso más antes de su pareado final—.
+
+**Aplicar nuestra regla al pie de la letra no se sostiene**, por dos razones. Que una rima se repita
+no informa de nada: la fronte repite `abC` por definición y la sirima `cdeeDfF` repite la `e`. Y lo
+que sigue al verso 7 es `dD`, un pareado final de dos versos —la marca de las aliradas, que la
+octava-lira declara como «una condición que no falla»—, no una sirima de seis.
+
+**Decidir** · tres cosas. Si la regla del eslabón necesita además una **extensión mínima de sirima**
+para separar canción de alirada, o basta el verso que repite. Si la frase «**la tradición** y este
+catálogo la llaman alirada» puede sostenerse, cuando la tradición que se invoca clasifica al revés
+el caso de nueve versos. Y si «petrarquista» nombra propiamente la estancia de trece, en cuyo caso
+la forma debería llamarse «Canción» a secas.
+
+**Se decida como se decida, hay algo que cambia igual**: la definición de la novena-lira dice hoy
+que «ninguna de las fuentes del catálogo la describe **ni le da nombre**», y Navarro describe una
+estrofa alirada de nueve versos bajo ese epígrafe.
+
+### 7 · ¿«Petrarquista» nombra la forma o solo la estancia de trece? · **seguir**
+
+**Hoy** · la forma se llama «Canción petrarquista». Están registradas como denominaciones suyas
+«Canción», «Canción a la italiana» y «Canción extensa», las tres con fuente.
+
+**Las fuentes** · ninguna reserva el término para una extensión; las tres que lo usan lo aplican a
+la forma entera y lo glosan como sinónimo. Caparrós, «La canción **petrarquista o italiana** está
+compuesta de estancias». El _Diccionario_ lo trae como **entrada de remisión** —«canción
+petrarquista. canción a la italiana»—. Jauralde, «La canción petrarquista **o italiana o,
+sencillamente, canción**», y antes, «con el término simple "canción" nos solemos referir a la
+canción petrarquista».
+
+**Decidir** · bajar el apellido a la arquitectura de trece versos sería invención nuestra. Lo que sí
+tiene respaldo es al revés: «Canción» a secas es el epígrafe de Morley y Bruerton, el de Quilis y el
+de Navarro, y Jauralde lo autoriza.
+
+**Si cambia** · la forma pasa a «Canción» y «canción petrarquista», «canción italiana» y «canción a
+la italiana» quedan como denominaciones suyas. La definición ya advierte de que el nombre corto no
+designa aquí la canción medieval del siglo XV.
 
 ## Villancico y zéjel
 
