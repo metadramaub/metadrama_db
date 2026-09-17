@@ -15,8 +15,6 @@ export type EvidenciaNormativa = {
 	dimension: string;
 	familiaCognitiva: 'metro' | 'extension' | 'rima' | 'estructura' | 'repeticion' | 'rasgo';
 	etiqueta: string;
-	pregunta: string;
-	ayuda: string;
 	tipo: TipoEvidencia;
 	valores: ValorEvidencia[];
 	minimo: number | null;
@@ -111,6 +109,19 @@ export type FormaDemarcable = {
  * versos sin rima; en la silva endecasílaba predominan los rimados»—, así que sirve para dos cosas:
  * para saber contra quién hay que contrastar, y para explicárselo a quien pregunta.
  */
+/**
+ * El enunciado de una dimensión, guardado **una vez** y no una por arquitectura.
+ *
+ * La pregunta y su ayuda son de la dimensión, no de quien la declara: «¿cuántos versos abarca el
+ * pasaje?» es la misma la pida el soneto o la silva. Repetidas en cada evidencia viajaban unas
+ * novecientas veces —ciento sesenta kilobytes de prosa duplicada en cada carga— para unas veinte
+ * dimensiones reales.
+ */
+export type TextoDimension = {
+	pregunta: string;
+	ayuda: string;
+};
+
 export type RelacionEntreFormas = {
 	origenId: string;
 	destinoId: string;
@@ -122,6 +133,8 @@ export type CatalogoDemarcador = {
 	formas: FormaDemarcable[];
 	hipotesis: HipotesisMetrica[];
 	relaciones: RelacionEntreFormas[];
+	/** Enunciado de cada dimensión, indexado por su clave. */
+	textos: Record<string, TextoDimension>;
 	advertencias: string[];
 };
 
