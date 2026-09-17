@@ -444,3 +444,64 @@ describe('proyección del catálogo para el demarcador', () => {
 		expect(celdas[2].medida?.alternativas).toEqual(['11', '10', '12']);
 	});
 });
+
+describe('rasgos de presencia', () => {
+	/**
+	 * **Un rasgo de catálogo con un solo valor es un booleano disfrazado.**
+	 *
+	 * El catálogo admite dos maneras de declararlo —apuntando a su único valor o dejándolo en
+	 * blanco— y las dos conviven de verdad: la octava real nombra «Presente» y el endecasílabo
+	 * suelto no. Al fundirse en una dimensión, la pregunta ofrecía «Presente» y «Sí» como si fueran
+	 * respuestas distintas, y al no ser booleana tampoco había «No», así que el rasgo no podía
+	 * contradecir a nadie.
+	 */
+	const conRasgoDePresencia = {
+		...payload,
+		traits: [
+			{
+				rasgo_id: 'distico',
+				slug: 'distico_final',
+				nombre: 'Dístico final',
+				descripcion: 'La unidad concluye con dos versos rimados entre sí.',
+				tipo_valor: 'catalogo',
+				observabilidad: 'directa',
+				demarcable: true,
+				activo: true
+			}
+		],
+		traitValues: [
+			{ valor_id: 'distico-presente', rasgo_id: 'distico', slug: 'presente', nombre: 'Presente' }
+		],
+		architectureTraits: [
+			// Una lo nombra…
+			{ arquitectura_id: 'romance-8', rasgo_id: 'distico', valor_id: 'distico-presente', modalidad: 'habitual' },
+			// …y la otra lo deja en blanco, que es la otra manera de decir lo mismo.
+			{ arquitectura_id: 'cadena-11', rasgo_id: 'distico', valor_id: null, modalidad: 'habitual' }
+		]
+	};
+	const clienteConRasgo = {
+		rpc: async () => ({ data: conRasgoDePresencia, error: null }),
+		from: (table: string) => ({
+			select: async () => ({
+				data: table === 'arquitecturas_reglas_longitud' ? lengthRules : structuralLevels,
+				error: null
+			})
+		})
+	};
+
+	it('lo declare como lo declare, predice la misma clave y se pregunta como presencia', async () => {
+		const catalogo = await cargarCatalogoDemarcador(clienteConRasgo);
+		const evidencias = catalogo.hipotesis
+			.map((item) => item.evidencias.find((e) => e.dimension === 'rasgo:distico_final'))
+			.filter((e): e is NonNullable<typeof e> => Boolean(e));
+
+		expect(evidencias).toHaveLength(2);
+		// Ni «presente» por un lado y «si» por el otro: una sola clave para un solo hecho.
+		for (const evidencia of evidencias) {
+			expect(evidencia.tipo).toBe('booleano');
+			expect(evidencia.valores.map((v) => v.clave)).toEqual(['si']);
+		}
+		// Y el enunciado deja de ser la plantilla «¿Qué valor presenta...?»
+		expect(catalogo.textos['rasgo:distico_final']?.pregunta).toBe('¿Se observa dístico final?');
+	});
+});
