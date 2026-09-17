@@ -825,92 +825,147 @@ con sus disposiciones ⇒ **B1**. _Si se resuelve ahí, este caso se resuelve co
 **Y de paso**, la escala que Jauralde sugiere —cuartetos, quintetos «y así sucesivamente» de
 endecha— toca esta misma serie.
 
-## Sexteto
+## Sexteto, octava aguda y octava real
 
-1. **¿Se admite el sexteto que combina arte mayor y menor?** Hoy no: el catálogo exige isosilabismo
-   de arte mayor. Pero Caparrós 2014 lo incluye en la definición —«de arte mayor, o de arte mayor y
-   menor combinados entre sí»—, el _Diccionario_ añade que a veces el término cubre el arte menor, y
-   Jauralde reserva un grupo a los «sextetos mixtos». _El catálogo lo separa a propósito: la
-   heterometría regular con endecasílabo es del sexteto-lira y el arte menor es de la sextilla._
+| forma · arquitectura | medida | rima |
+| --- | --- | --- |
+| sexteto · Endecasilábica | 11 | `ABABCC` habitual, más disposición abierta |
+| sexteto · Alejandrina | 14 | `AABCCB` habitual, más disposición abierta |
+| sexteto · Dodecasilábica | 12 | solo disposición abierta |
+| octava aguda · seis arquitecturas | 11 · 10 · 8 · 7 · 6 · 5 | `---a---a` en todas |
+| octava real · Endecasilábica consonante | 11 | `ABABABCC` habitual; «Distribución variable» **excepcional** |
 
-2. **¿Las medidas 11, 12 y 14 son un repertorio cerrado?** Jauralde describe **con apartado y
-   ejemplo propios** sextetos eneasilábicos, decasilábicos, endecasilábicos, dodecasilábicos y de
-   alejandrinos: dos más que el catálogo, el nueve y el diez. _Del pentadecasilábico, en cambio,
-   «solo hay una mención de paso, en el capítulo del verso, a propósito de un ejemplo de Salvador
-   Rueda», así que no pesa lo mismo. Las tres del catálogo son las del corpus, no las de la
-   bibliografía._
+### 1 · ¿Se admite el sexteto que combina arte mayor y menor? · **chocan**
 
-3. **¿La consonancia es exigible?** Hoy es definitoria en las tres arquitecturas. Navarro Tomás
-   documenta en el modernismo el sexteto asonante `abcbDB` de Darío y tipos que dejan sueltos varios
-   versos. _En el corpus áureo la consonancia es la norma; conviene confirmar que ninguna secuencia
-   obligue a relajarla._
+**Hoy** · no: el catálogo exige isosilabismo de arte mayor.
 
-4. **Sigue sin sitio la variedad de los _Nocturnos de San Pedro_.** Navarro Tomás describe una
-   combinación de endecha real y sexteto con un pie quebrado que repite en eco la rima del segundo
-   heptasílabo. Se buscó expresamente al revisar el sexteto y **ninguna de las seis la formaliza como
-   sexteto autónomo**. _Queda como realización documentada sin hueco: o se le da forma propia, o se
-   registra como desviación de la endecha real, que es la forma con la que Navarro la combina._
+**Las fuentes** · tres lo admiten. Caparrós 2014 lo mete en la definición —«de arte mayor, **o de
+arte mayor y menor combinados entre sí**»—; el _Diccionario_ «advierte que a veces el término se
+aplica también a la estrofa compuesta en versos de arte menor»; y Jauralde «aparta como grupo propio
+los **sextetos mixtos**».
 
-5. **Se modeló para la alejandrina algo que en otras formas se dejó en las fuentes.** Se declaró el
-   esquema `AABCCB` y el rasgo de finales agudos porque la descripción contaba en prosa una
-   disposición que la ficha no podía dibujar. Pero el sexteto alejandrino **no está en el corpus**, y
-   en otras formas lo documentado y no anotado se quedó en la afirmación. _La inconsistencia es real:
-   o el catálogo modela lo que las fuentes describen aunque el corpus no lo traiga —y entonces faltan
-   cosas en otras formas—, o modela solo lo anotable, y entonces esta declaración sobra._
+**Decidir** · _el catálogo lo separa a propósito: la heterometría regular con endecasílabo es del
+sexteto-lira y el arte menor es de la sextilla._ La pregunta es si ese reparto se mantiene sabiendo
+que tres fuentes no lo hacen.
 
-## Octava aguda
+### 2 · ¿Las medidas 11, 12 y 14 son un repertorio cerrado? · **seguir**
 
-Salió al escribir la afirmación de Navarro Tomás, el 18 de septiembre de 2026, y es la única de las
-seis fuentes que recorre la forma metro por metro.
+**Hoy** · tres arquitecturas: endecasílaba, dodecasílaba y alejandrina.
 
-1. **Navarro la documenta en dos medidas que el catálogo no tiene.** Las seis arquitecturas de la
-   ficha van del endecasílabo al pentasílabo, y él da testimonio por encima y por debajo:
+**Las fuentes** · Jauralde describe **con apartado y ejemplo propios** sextetos eneasilábicos,
+decasilábicos, endecasilábicos, dodecasilábicos y de alejandrinos: **dos más que el catálogo, el
+nueve y el diez**. Del pentadecasilábico, en cambio, «solo hay una mención de paso, en el capítulo
+del verso, a propósito de un ejemplo de Salvador Rueda», así que no pesa lo mismo.
 
-   | medida         | dónde                                                                                                                                                                                                                                                                                                                                             |
-   | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-   | **eneasílaba** | Su «Índice de estrofas» separa las dos ramas por ahí —«octava aguda» las **de nueve o más sílabas** y «octavilla aguda» las de ocho o menos—, y el § 342 documenta «la Avellaneda en cinco octavas agudas de _La cruz_», en eneasílabo dactílico. **El _Diccionario_ corta igual**: «Combinación estrófica de ocho versos de nueve o más sílabas» |
-   | **trisílaba**  | § 272: Sánchez Barbero, en la cantata _Lucha entre la ley y el derecho_, «en cuatro octavillas agudas cuyas semiestrofas terminan alternativamente en las palabras _amor_, _honor_»                                                                                                                                                               |
+**Decidir** · si entran el nueve y el diez. _Las tres del catálogo son las del corpus, no las de la
+bibliografía._
 
-   _La eneasílaba además deja un hueco lógico: la ficha separa las dos ramas por el arte del verso y
-   el corte cae hoy entre el decasílabo y el octosílabo, sin que ninguna arquitectura recoja el
-   nueve, que es donde la propia fuente pone la frontera._
+### 3 · ¿La consonancia es exigible? · **seguir**
 
-2. **¿Y el esquema de semiestrofas monorrimas?** `aaaé:bbbé` está documentado dos veces —Nervo en
-   _La mal pagada canción_, § 381, y Díaz Mirón en _Ecce homo_, § 434, «a base de tres versos
-   monorrimos en cada semiestrofa»— y no figura entre los esquemas de rima de ninguna de las seis
-   arquitecturas. _Entraría como `admitida`, según la regla del 17 de septiembre, cuando se aborde
-   la tanda de esquemas._
+**Hoy** · definitoria en las tres arquitecturas.
 
-3. **El nombre de italiana queda en discusión abierta dentro de la ficha.** Quilis la llama «octava
-   italiana u octava aguda» y Caparrós dice que en arte menor se llama «octavilla aguda u octava
-   italiana»; Navarro objeta en su índice que «el calificativo de italianas que suele darse a la
-   octava y octavilla agudas no las distingue de la octava real, también de origen italiano».
-   _Las tres voces están recogidas tal como cada una lo dice, que es lo que la sección hace. Si
-   alguna vez se decide que una disparidad así merezca un párrafo que la resuma antes de las seis
-   fuentes, este es el primer caso del catálogo que lo pediría. El segundo es el **verso aislado**,
-   donde las cuatro voces responden cosas distintas a la pregunta de si un verso solo es verso._
+**Las fuentes** · Navarro Tomás documenta en el modernismo **la estrofa asonante** de heptasílabos y
+endecasílabos `abcbDB` de Darío, y tipos simétricos que dejan sueltos varios versos, `AAB:CCB` y
+`AaB:CcB`.
 
-## Octava real
+**Decidir** · si la asonante entra, sabiendo que es modernista y no del corpus dramático.
 
-1. **¿Una estrofa o dos?** Caparrós 2014 remite a la discusión de Lázaro Carreter sobre si la octava
-   real es una estrofa o la unión de dos, y el _Diccionario_ observa que suele subdividirse en dos
-   grupos de cuatro versos según el contenido. _El catálogo ha tomado partido sin escribirlo: al no
-   declarar secciones afirma que es una unidad de ocho. Si se declararan, habría que decidir si el
-   corte es 6 + 2 —el pareado final— o 4 + 4._
+### 4 · Sigue sin sitio la variedad de los _Nocturnos de San Pedro_ · **seguir**
 
-2. **Un solo esquema catalogado, y la sospecha de que hay más.** La arquitectura declara
-   `ABABABCC` como **habitual** y, aparte, una «Distribución variable» **excepcional** sin notación,
-   que es la salida abierta. **Y las seis fuentes se parten en dos mitades.** Dos la definen sin
-   variantes: Morley y Bruerton, «ocho endecasílabos `ABABABCC`», y Caparrós 2014, igual. Dos dicen
-   que varía: el _Diccionario_, «es posible, aunque no frecuente, encontrar otra disposición de la
-   rima de los seis primeros versos», y Jauralde, que «recibió variaciones de todo tipo a lo largo
-   del tiempo, conservando casi siempre de manera fija el pareado final».
+**Hoy** · no cabe en ninguna forma.
 
-   _Ninguna de las dos que admiten variación enumera las variantes: dicen que las hay. Así que no
-   son esquemas que falten sino una norma abierta que el catálogo ya declara con su «Distribución
-   variable». Lo que queda por decidir es si esa salida debe ser `excepcional`, como está, cuando
-   dos fuentes la dan por posible y otras dos ni la contemplan._
-   ⇒ [Las que cruzan formas](#las-que-cruzan-formas)
+**Las fuentes** · Navarro Tomás describe una combinación de endecha real y sexteto con **un pie
+quebrado que repite en eco la rima del segundo heptasílabo**. Se buscó expresamente al revisar el
+sexteto y **ninguna de las seis la formaliza como sexteto autónomo**.
+
+**Decidir** · o se le da forma propia, o se registra como desviación de la endecha real, que es la
+forma con la que Navarro la combina.
+
+### 5 · Se modeló para la alejandrina lo que en otras formas se dejó en las fuentes · **callan**
+
+**Hoy** · la alejandrina declara `AABCCB` y el rasgo de finales agudos, **y el sexteto alejandrino
+no está en el corpus**. Se declaró porque la descripción contaba en prosa una disposición que la
+ficha no podía dibujar.
+
+**Las fuentes** · Quilis «recoge el sexteto de alejandrinos que tiene agudos y rimados entre sí los
+versos tercero y sexto».
+
+**Decidir** · **la inconsistencia es real y es de criterio general**: o el catálogo modela lo que las
+fuentes describen aunque el corpus no lo traiga —y entonces faltan cosas en otras formas—, o modela
+solo lo anotable, y entonces esta declaración sobra. _Afecta también a la sextilla, a la copla real y
+a la endecha real._
+
+### 6 · Navarro documenta la octava aguda en dos medidas que no están · **seguir**
+
+**Hoy** · seis arquitecturas, del endecasílabo al pentasílabo.
+
+**Las fuentes** · Navarro Tomás es **la única de las seis que recorre la forma metro por metro**, y
+da testimonio por encima y por debajo:
+
+| **eneasílaba** | Su «Índice de estrofas» separa las dos ramas por ahí —«octava aguda» las **de nueve o más sílabas** y «octavilla aguda» las de ocho o menos—, y el § 342 documenta «la Avellaneda en cinco octavas agudas de _La cruz_», en eneasílabo dactílico. **El _Diccionario_ corta igual**: «Combinación estrófica de ocho versos de nueve o más sílabas» |
+| **trisílaba** | § 272: Sánchez Barbero, en la cantata _Lucha entre la ley y el derecho_, «en cuatro octavillas agudas cuyas semiestrofas terminan alternativamente en las palabras _amor_, _honor_» |
+
+**Decidir** · si entran. **La eneasílaba deja además un hueco lógico**: la ficha separa las dos ramas
+por el arte del verso, y el corte cae hoy entre el decasílabo y el octosílabo, sin que ninguna
+arquitectura recoja el nueve, que es donde las dos fuentes ponen la frontera.
+
+### 7 · Faltan los esquemas que Navarro enumera · **seguir**
+
+**Hoy** · las seis arquitecturas declaran `---a---a`: riman el cuarto y el octavo, los demás sueltos.
+
+**Las fuentes** · Navarro Tomás **recoge las variedades una a una**. En la endecasílaba, las que
+enlazan las semiestrofas por la rima, `ABBÉ:ACCÉ` y `ABBÉ:CBBÉ`, y la de heptasílabos agudos en
+cuarto y octavo, `ABBé:CDDé`, «hecha famosa por Pastor Díaz en _La mariposa negra_». En la
+octavilla, la de versos primero y quinto sueltos —«que había de convertirse en el **esquema más
+corriente**»—, la de todos rimados `abbé:accé`, la alterna `abaé:cdcé` y **la de semiestrofas
+monorrimas `aaaé:bbbé`**, que Nervo y Díaz Mirón documentan aparte.
+
+**Decidir** · cuáles entran. _Entrarían como `admitida`, según la regla del 17 de septiembre._ Y una
+cosa más: a la endecasílaba, «cultivada especialmente por Salvador Bermúdez de Castro, se le llamó
+también **bermudina**», que no está entre sus denominaciones.
+
+### 8 · El nombre de italiana, en discusión dentro de la ficha · **chocan**
+
+**Hoy** · la ficha recoge las tres voces tal como cada una lo dice.
+
+**Las fuentes** · **Quilis** la llama «octava italiana u octava aguda»; **Caparrós 2014** dice que
+cuando va en arte menor «se llama octavilla aguda u octava italiana»; el _Diccionario_ «registra
+octava italiana y octavilla italiana como otros nombres»; y **Navarro objeta**: «el calificativo de
+italianas que suele darse a la octava y octavilla agudas **no las distingue de la octava real,
+también de origen italiano**».
+
+**Decidir** · nada del dato: las voces están recogidas, que es lo que la sección hace. _Si alguna vez
+se decide que una disparidad así merezca un párrafo que la resuma antes de las seis fuentes, este es
+el primer caso del catálogo que lo pediría. El segundo es el **verso aislado**, donde las cuatro
+voces responden cosas distintas a si un verso solo es verso._
+
+### 9 · La octava real, ¿una estrofa o dos? · **seguir**
+
+**Hoy** · el catálogo ha tomado partido sin escribirlo: **al no declarar secciones afirma que es una
+unidad de ocho**.
+
+**Las fuentes** · Caparrós 2014 remite a la discusión de Lázaro Carreter sobre si es una estrofa o
+la unión de dos, y el _Diccionario_ observa que «la estrofa **suele subdividirse en dos grupos de
+cuatro versos** según su contenido».
+
+**Decidir** · si se declaran secciones. Y si se declaran, **dónde corta**: 6 + 2, por el pareado
+final, o 4 + 4, por el contenido.
+
+### 10 · Un solo esquema catalogado, y la sospecha de que hay más · **chocan**
+
+**Hoy** · `ABABABCC` habitual y, aparte, una «Distribución variable» **excepcional** sin notación,
+que es la salida abierta.
+
+**Las fuentes se parten en dos mitades.** Dos la definen sin variantes: Morley y Bruerton, «ocho
+endecasílabos `ABABABCC`», y Caparrós 2014 igual. Dos dicen que varía: el _Diccionario_, «es
+posible, **aunque no frecuente**, encontrar otra disposición de la rima de los seis primeros
+versos», y Jauralde, que «recibió variaciones de todo tipo a lo largo del tiempo, conservando casi
+siempre de manera fija el pareado final».
+
+**Decidir** · **ninguna de las dos que admiten variación enumera las variantes**: dicen que las hay.
+Así que no son esquemas que falten sino una norma abierta que el catálogo ya declara. Lo que queda
+por decidir es si esa salida debe ser `excepcional`, como está, cuando dos fuentes la dan por
+posible y otras dos ni la contemplan.
 
 ## Copla de arte mayor
 
