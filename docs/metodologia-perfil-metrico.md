@@ -438,7 +438,8 @@ conclusiones históricas.
 
 La vista **Comparar grupos** enfrenta dos subconjuntos de la muestra activa sin duplicar el catálogo
 ni la lógica de las medidas de **Explorar**. Cada grupo se delimita de forma independiente por autoría
-y datación; dejar sus filtros vacíos equivale a usar toda la muestra activa.
+y datación; dejar sus filtros vacíos equivale a usar toda la muestra activa. Los mismos filtros sirven
+para comparar medidas, formas y transiciones.
 
 Para la medida elegida se muestran todas las obras con dato, la mediana, el rango central `q1–q3`, el
 tamaño de cada grupo y la cobertura (`obras con dato / obras del grupo`). La diferencia se calcula como
@@ -450,10 +451,17 @@ no ordena las obras ni codifica una segunda magnitud. Las obras con exactamente 
 en un punto mayor y se enumeran en su detalle. Los dos grupos usan colores de igual jerarquía, distintos
 del color de acento de la interfaz.
 
+En **Formas** y **Transiciones** se compara la unión de los rasgos presentes en ambos grupos. La difusión
+usa como denominador todas las obras del grupo y, por tanto, una ausencia aporta cero. El peso mediano de
+una forma y la frecuencia mediana de una transición se calculan solo entre las obras que contienen el
+rasgo; si ninguna lo contiene, no se inventa un cero. Los totales brutos no se comparan porque dependen
+del tamaño del grupo. Las filas se ordenan por contraste y pueden desplegar las obras que sostienen cada
+valor.
+
 La comparación es descriptiva. No aplica pruebas de significación ni presupone que los grupos sean
 independientes. Si una obra pertenece a ambos, la interfaz declara el solapamiento; si ambos filtros
 producen la misma selección, advierte de que no se están comparando grupos distintos. La obra de
-referencia opcional se limita a señalar su punto cuando está presente en uno de los grupos.
+referencia opcional señala su punto o los rasgos en los que está presente.
 
 ### 5.3 Perfil comparativo futuro
 

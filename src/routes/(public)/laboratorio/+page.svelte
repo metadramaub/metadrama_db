@@ -1,5 +1,6 @@
 <script lang="ts">
 	import LaboratoryDistributionChart from '$lib/components/laboratorio/LaboratoryDistributionChart.svelte';
+	import LaboratoryFeatureGroupComparison from '$lib/components/laboratorio/LaboratoryFeatureGroupComparison.svelte';
 	import LaboratoryFocusedWorkSummary from '$lib/components/laboratorio/LaboratoryFocusedWorkSummary.svelte';
 	import LaboratoryGroupComparisonChart from '$lib/components/laboratorio/LaboratoryGroupComparisonChart.svelte';
 	import LaboratoryGroupFilter from '$lib/components/laboratorio/LaboratoryGroupFilter.svelte';
@@ -14,6 +15,10 @@
 	import PublicPageHeader from '$lib/components/public/PublicPageHeader.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import Tabs from '$lib/components/ui/tabs.svelte';
+	import {
+		buildFormGroupComparisons,
+		buildTransitionGroupComparisons
+	} from '$lib/laboratorio/group-features';
 	import {
 		formatLaboratoryDifference,
 		formatLaboratoryFraction,
@@ -31,6 +36,8 @@
 
 	type LaboratorySpace = 'explorar' | 'comparar';
 	type ExplorationView = 'medidas' | 'formas' | 'transiciones';
+	type ComparisonView = 'medidas' | 'formas' | 'transiciones';
+	type FeatureComparisonMode = 'diffusion' | 'typical';
 	type FormRow = {
 		id: string;
 		label: string;
@@ -57,6 +64,9 @@
 
 	let activeSpace = $state<LaboratorySpace>('explorar');
 	let activeView = $state<ExplorationView>('medidas');
+	let comparisonView = $state<ComparisonView>('medidas');
+	let formComparisonMode = $state<FeatureComparisonMode>('diffusion');
+	let transitionComparisonMode = $state<FeatureComparisonMode>('diffusion');
 	let selectedMetricId = $state('numero_efectivo_formas');
 	let selectedAuthors = $state<string[]>([]);
 	let dateFrom = $state('');
@@ -74,6 +84,10 @@
 	const sampleAuthorItems = $derived(buildAuthorItems(sampleWorks));
 	const groupAWorks = $derived(filterWorks(sampleWorks, groupAAuthors, groupADateFrom, groupADateTo));
 	const groupBWorks = $derived(filterWorks(sampleWorks, groupBAuthors, groupBDateFrom, groupBDateTo));
+	const formGroupComparisonRows = $derived(buildFormGroupComparisons(groupAWorks, groupBWorks));
+	const transitionGroupComparisonRows = $derived(
+		buildTransitionGroupComparisons(groupAWorks, groupBWorks)
+	);
 
 	const selectedMetric = $derived(
 		LABORATORY_METRICS.find((metric) => metric.id === selectedMetricId) ?? LABORATORY_METRICS[0]
@@ -419,7 +433,7 @@
 				{selectedAuthors}
 				{dateFrom}
 				{dateTo}
-				metricCoverage={activeSpace === 'comparar' || activeView === 'medidas' ? metricSummary.n : undefined}
+				metricCoverage={(activeSpace === 'explorar' && activeView === 'medidas') || (activeSpace === 'comparar' && comparisonView === 'medidas') ? metricSummary.n : undefined}
 				onAuthorsChange={(ids) => (selectedAuthors = ids)}
 				onDateFromChange={(value) => (dateFrom = value)}
 				onDateToChange={(value) => (dateTo = value)}
@@ -451,7 +465,7 @@
 				<div class="space-y-4">
 					<MetricAnalysisHeading
 						title="Explorar la muestra"
-						description="Elige qué observar y, si quieres, señala una obra para situarla dentro de la misma muestra."
+						description=""
 					/>
 					<div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
 						<label class="block w-full text-sm sm:max-w-sm">
@@ -680,7 +694,7 @@
 					<div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 						<MetricAnalysisHeading
 							title="Comparar grupos"
-							description="Define dos subconjuntos dentro de la muestra activa y compara una medida sin ocultar las obras que forman cada distribución."
+							description=""
 						/>
 						<label class="block w-full text-sm sm:max-w-sm">
 							<span class="font-medium">Obra de referencia <span class="font-normal text-[color:var(--muted-foreground)]">(opcional)</span></span>
@@ -697,6 +711,16 @@
 							/>
 						</label>
 					</div>
+
+					<Tabs
+						tabs={[
+							{ id: 'medidas', label: 'Medidas' },
+							{ id: 'formas', label: 'Formas' },
+							{ id: 'transiciones', label: 'Transiciones' }
+						]}
+						active={comparisonView}
+						onChange={(id) => (comparisonView = id as ComparisonView)}
+					/>
 
 					<div class="grid gap-4 lg:grid-cols-2">
 						<LaboratoryGroupFilter
@@ -744,57 +768,71 @@
 							</p>
 						{/if}
 
-						<div class="grid items-start gap-6 lg:grid-cols-[15rem_minmax(0,1fr)]">
-							<LaboratoryMetricNav selectedId={selectedMetric.id} onSelect={selectMetric} />
+						{#if comparisonView === 'medidas'}
+							<div class="grid items-start gap-6 lg:grid-cols-[15rem_minmax(0,1fr)]">
+								<LaboratoryMetricNav selectedId={selectedMetric.id} onSelect={selectMetric} />
 
-							<section class="min-w-0 border border-[color:var(--border)] bg-white" aria-labelledby="comparison-metric-title">
-								<LaboratoryMetricHeader metric={selectedMetric} titleId="comparison-metric-title" />
-								<div class="px-5 py-4">
-									<div class="grid gap-4 sm:grid-cols-2">
-										<LaboratoryGroupSummary
-											label="Grupo A"
-											color={GROUP_A_COLOR}
-											worksCount={groupAWorks.length}
-											summary={groupASummary}
-											metric={selectedMetric}
-										/>
-										<LaboratoryGroupSummary
-											label="Grupo B"
-											color={GROUP_B_COLOR}
-											worksCount={groupBWorks.length}
-											summary={groupBSummary}
-											metric={selectedMetric}
-										/>
-									</div>
-
-									<div class="mt-4 flex flex-col gap-1 border-y border-[color:var(--border)] py-3 sm:flex-row sm:items-baseline sm:justify-between">
-										<div>
-											<p class="text-xs text-[color:var(--muted-foreground)]">
-												Diferencia de medianas{#if selectedMetric.unit === 'porcentaje'} (puntos porcentuales){/if}
-											</p>
-											<p class="font-semibold">Grupo A − Grupo B</p>
+								<section class="min-w-0 border border-[color:var(--border)] bg-white" aria-labelledby="comparison-metric-title">
+									<LaboratoryMetricHeader metric={selectedMetric} titleId="comparison-metric-title" />
+									<div class="px-5 py-4">
+										<div class="grid gap-4 sm:grid-cols-2">
+											<LaboratoryGroupSummary label="Grupo A" color={GROUP_A_COLOR} worksCount={groupAWorks.length} summary={groupASummary} metric={selectedMetric} />
+											<LaboratoryGroupSummary label="Grupo B" color={GROUP_B_COLOR} worksCount={groupBWorks.length} summary={groupBSummary} metric={selectedMetric} />
 										</div>
-										<p class="text-xl font-semibold tabular-nums">{formatLaboratoryDifference(groupMedianDifference, selectedMetric)}</p>
+
+										<div class="mt-4 flex flex-col gap-1 border-y border-[color:var(--border)] py-3 sm:flex-row sm:items-baseline sm:justify-between">
+											<div>
+												<p class="text-xs text-[color:var(--muted-foreground)]">Diferencia de medianas{#if selectedMetric.unit === 'porcentaje'} (puntos porcentuales){/if}</p>
+												<p class="font-semibold">Grupo A − Grupo B</p>
+											</div>
+											<p class="text-xl font-semibold tabular-nums">{formatLaboratoryDifference(groupMedianDifference, selectedMetric)}</p>
+										</div>
+
+										{#if groupAChartRows.length > 0 || groupBChartRows.length > 0}
+											<LaboratoryGroupComparisonChart
+												metric={selectedMetric}
+												groupA={{ label: 'Grupo A', color: GROUP_A_COLOR, rows: groupAChartRows, summary: groupASummary }}
+												groupB={{ label: 'Grupo B', color: GROUP_B_COLOR, rows: groupBChartRows, summary: groupBSummary }}
+												focusedId={situatedWork?.obra_id ?? null}
+												formatValue={(value) => formatLaboratoryValue(value, selectedMetric)}
+											/>
+										{:else}
+											<p class="py-8 text-center text-sm text-[color:var(--muted-foreground)]">Ninguno de los dos grupos tiene datos para esta medida.</p>
+										{/if}
+
+										<p class="mt-4 border-t border-[color:var(--border)] pt-4 text-xs leading-5 text-[color:var(--muted-foreground)]">Comparación descriptiva de la muestra activa; no evalúa la significación estadística de la diferencia.</p>
 									</div>
-
-									{#if groupAChartRows.length > 0 || groupBChartRows.length > 0}
-										<LaboratoryGroupComparisonChart
-											metric={selectedMetric}
-											groupA={{ label: 'Grupo A', color: GROUP_A_COLOR, rows: groupAChartRows, summary: groupASummary }}
-											groupB={{ label: 'Grupo B', color: GROUP_B_COLOR, rows: groupBChartRows, summary: groupBSummary }}
-											focusedId={situatedWork?.obra_id ?? null}
-											formatValue={(value) => formatLaboratoryValue(value, selectedMetric)}
-										/>
-									{:else}
-										<p class="py-8 text-center text-sm text-[color:var(--muted-foreground)]">Ninguno de los dos grupos tiene datos para esta medida.</p>
-									{/if}
-
-									<p class="mt-4 border-t border-[color:var(--border)] pt-4 text-xs leading-5 text-[color:var(--muted-foreground)]">
-										Comparación descriptiva de la muestra activa; no evalúa la significación estadística de la diferencia.
-									</p>
-								</div>
-							</section>
-						</div>
+								</section>
+							</div>
+						{:else if comparisonView === 'formas'}
+							<LaboratoryFeatureGroupComparison
+								kind="formas"
+								rows={formGroupComparisonRows}
+								mode={formComparisonMode}
+								onModeChange={(mode) => (formComparisonMode = mode)}
+								typicalLabel="Peso mediano"
+								typicalBase="% de versos, solo entre obras que usan la forma"
+								typicalUnit="porcentaje"
+								groupAColor={GROUP_A_COLOR}
+								groupBColor={GROUP_B_COLOR}
+								{colorByForma}
+								focusedWorkId={situatedWork?.obra_id ?? null}
+							/>
+						{:else}
+							<LaboratoryFeatureGroupComparison
+								kind="transiciones"
+								rows={transitionGroupComparisonRows}
+								mode={transitionComparisonMode}
+								onModeChange={(mode) => (transitionComparisonMode = mode)}
+								typicalLabel="Frecuencia mediana"
+								typicalBase="Apariciones, solo entre obras que contienen la transición"
+								typicalUnit="numero"
+								groupAColor={GROUP_A_COLOR}
+								groupBColor={GROUP_B_COLOR}
+								{colorByForma}
+								focusedWorkId={situatedWork?.obra_id ?? null}
+							/>
+						{/if}
 					{/if}
 				</div>
 			{/if}

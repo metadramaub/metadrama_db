@@ -4,8 +4,22 @@ Generado por `npm run audit:anotaciones`. Una respuesta no guarda a qué pregunt
 contesta: dice qué afirma, y la pregunta se deriva al leerla. Este informe busca dónde
 esa derivación ya no llega, que es como se pierde un dato sin que nadie lo note.
 
-**453 anotaciones** —453 dentro de una obra, repartidas por 15—, con 5854 respuestas y 8 desviaciones.
+**454 anotaciones** —454 dentro de una obra, repartidas por 16—, con 5855 respuestas y 8 desviaciones.
 
-**Todo lo anotado encaja con el catálogo de hoy.** Ninguna respuesta se ha quedado
-sin pregunta, ninguna elección fuera de su repertorio y ninguna anotación
-incompleta por una pregunta que llegó después.
+## Resumen
+
+| qué pasa | cuántas | qué significa |
+|---|---|---|
+| respuesta fuera del repertorio | 6 | lo anotado ya no se puede leer entero |
+
+## Respuesta fuera del repertorio
+
+| obra | versos | forma · arquitectura | qué | lo anotó | última vez |
+|---|---|---|---|---|---|
+| El padrino burlado (prueba) | 235–236 | Pareado · De cualquier medida | Medida de los versos | David Merino Recalde | 2026-09-08 |
+| El padrino burlado (prueba) | 235–236 | Pareado · De cualquier medida | Medida de los versos | David Merino Recalde | 2026-09-08 |
+| El padrino burlado (prueba) | 1244–1245 | Pareado · De cualquier medida | Medida de los versos | David Merino Recalde | 2026-09-08 |
+| El padrino burlado (prueba) | 1244–1245 | Pareado · De cualquier medida | Medida de los versos | David Merino Recalde | 2026-09-08 |
+| La monja de Ávila (prueba) | 2683–2684 | Pareado · De cualquier medida | Medida de los versos | David Merino Recalde | 2026-09-08 |
+| La monja de Ávila (prueba) | 2683–2684 | Pareado · De cualquier medida | Medida de los versos | David Merino Recalde | 2026-09-08 |
+
