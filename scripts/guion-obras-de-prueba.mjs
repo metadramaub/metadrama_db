@@ -76,7 +76,7 @@ const EXTRAS = {
 		villancico: {
 			ocurrencia: 1,
 			forma_sustituida: 'copla_de_arte_menor',
-			arquitectura: 'estribillo_tras_primera_copla',
+			arquitectura: 'estribillo_inicial',
 			versos: 34
 		},
 		caracterizaciones: [
