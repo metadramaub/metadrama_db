@@ -307,7 +307,7 @@
 			"versos": 34,
 			"forma_fuente": "copla_estructura_abierta",
 			"forma": "villancico",
-			"arquitectura": "estribillo_tras_primera_copla",
+			"arquitectura": "estribillo_inicial",
 			"unidades": 1,
 			"secuencia": {},
 			"unidad": {

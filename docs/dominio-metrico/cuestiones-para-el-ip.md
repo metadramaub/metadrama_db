@@ -8,7 +8,7 @@ porque se contradicen entre sí, o porque documentan algo y lo que falta por dec
 proyecto lo sigue. Lo que ya está en el catálogo, lo que es deuda técnica y lo que una fuente
 contesta sin que quede nada que elegir **no se guarda aquí**.
 
-## Las 79 preguntas, de un vistazo
+## Las 71 preguntas, de un vistazo
 
 **callan** · ninguna fuente lo resuelve · **chocan** · las fuentes se contradicen · **seguir** ·
 lo documentan y falta decidir si el catálogo las sigue. **▲** marca las que conviene resolver
@@ -29,12 +29,11 @@ antes de que se anote mucho con ellas, porque cambiarlas después obliga a revis
 |       | Villancico y zéjel                  | chocan | [¿La mudanza son dos miembros simétricos o una redondilla?](#1-la-mudanza-son-dos-miembros-simétricos-o-una-redondilla-chocan)                                             |
 |       | ·                                   | chocan | [¿Hasta dónde llega el estribillo?](#2-hasta-dónde-llega-el-estribillo-chocan)                                                                                             |
 |       | ·                                   | seguir | [¿Entran las mudanzas de seis versos?](#3-entran-las-mudanzas-de-seis-versos-seguir)                                                                                       |
-| **▲** | ·                                   | callan | [La arquitectura de estribillo posterior se quedó sin fuente](#4-la-arquitectura-de-estribillo-posterior-se-quedó-sin-fuente-callan)                                       |
-|       | ·                                   | callan | [La rima del estribillo, el enlace y la vuelta no se registra](#5-la-rima-del-estribillo-el-enlace-y-la-vuelta-no-se-registra-callan)                                      |
-|       | ·                                   | callan | [¿Una repetición parcial del estribillo es posibilidad admitida o desviación?](#6-una-repetición-parcial-del-estribillo-es-posibilidad-admitida-o-desviación-callan)       |
-|       | ·                                   | seguir | [¿Se admite la mudanza de dos versos?](#7-se-admite-la-mudanza-de-dos-versos-seguir)                                                                                       |
-|       | ·                                   | seguir | [¿Y el zéjel en arte mayor?](#8-y-el-zéjel-en-arte-mayor-seguir)                                                                                                           |
-|       | ·                                   | seguir | [¿El estribillo del zéjel vuelve siempre, como el del villancico?](#9-el-estribillo-del-zéjel-vuelve-siempre-como-el-del-villancico-seguir)                                |
+|       | ·                                   | callan | [La rima del estribillo, el enlace y la vuelta no se registra](#4-la-rima-del-estribillo-el-enlace-y-la-vuelta-no-se-registra-callan)                                      |
+|       | ·                                   | callan | [¿Una repetición parcial del estribillo es posibilidad admitida o desviación?](#5-una-repetición-parcial-del-estribillo-es-posibilidad-admitida-o-desviación-callan)       |
+|       | ·                                   | seguir | [¿Se admite la mudanza de dos versos?](#6-se-admite-la-mudanza-de-dos-versos-seguir)                                                                                       |
+|       | ·                                   | seguir | [¿Y el zéjel en arte mayor?](#7-y-el-zéjel-en-arte-mayor-seguir)                                                                                                           |
+|       | ·                                   | seguir | [¿El estribillo del zéjel vuelve siempre, como el del villancico?](#8-el-estribillo-del-zéjel-vuelve-siempre-como-el-del-villancico-seguir)                                |
 |       | Pareado, redondilla y quintilla     | seguir | [Una tirada de pareados alirados, ¿es una silva?](#1-una-tirada-de-pareados-alirados-es-una-silva-seguir)                                                                  |
 |       | ·                                   | chocan | [¿Es `abab` una redondilla, o es otra cosa?](#2-es-abab-una-redondilla-o-es-otra-cosa-chocan)                                                                              |
 |       | ·                                   | chocan | [Faltan quintillas con verso suelto, y aquí las fuentes se enfrentan](#3-faltan-quintillas-con-verso-suelto-y-aquí-las-fuentes-se-enfrentan-chocan)                        |
@@ -44,9 +43,8 @@ antes de que se anote mucho con ellas, porque cambiarlas después obliga a revis
 |       | ·                                   | callan | [Nada distingue dos sextillas seguidas de una copla manriqueña](#2-nada-distingue-dos-sextillas-seguidas-de-una-copla-manriqueña-callan)                                   |
 |       | ·                                   | seguir | [¿Es una arquitectura más la quebrada en segundo y quinto?](#3-es-una-arquitectura-más-la-quebrada-en-segundo-y-quinto-seguir)                                             |
 |       | ·                                   | seguir | [¿Se admiten las tres disposiciones hexasílabas de Navarro Tomás?](#4-se-admiten-las-tres-disposiciones-hexasílabas-de-navarro-tomás-seguir)                               |
-|       | ·                                   | seguir | [¿Puede una sextilla dejar un verso suelto?](#5-puede-una-sextilla-dejar-un-verso-suelto-seguir)                                                                           |
-|       | ·                                   | seguir | [Las cuatro disposiciones históricas de la copla manriqueña no están](#6-las-cuatro-disposiciones-históricas-de-la-copla-manriqueña-no-están-seguir)                       |
-|       | ·                                   | callan | [¿Debe registrarse el esquema de las manriqueñas no manriqueñas?](#7-debe-registrarse-el-esquema-de-las-manriqueñas-no-manriqueñas-callan)                                 |
+|       | ·                                   | seguir | [Las cuatro disposiciones históricas de la copla manriqueña no están](#5-las-cuatro-disposiciones-históricas-de-la-copla-manriqueña-no-están-seguir)                       |
+|       | ·                                   | callan | [¿Debe registrarse el esquema de las manriqueñas no manriqueñas?](#6-debe-registrarse-el-esquema-de-las-manriqueñas-no-manriqueñas-callan)                                 |
 |       | Sextina                             | callan | [La estrofa se apoya en una sola de las seis fuentes](#1-la-estrofa-se-apoya-en-una-sola-de-las-seis-fuentes-callan)                                                       |
 |       | ·                                   | callan | [Es una de las dos únicas formas con tres tradiciones](#2-es-una-de-las-dos-únicas-formas-con-tres-tradiciones-callan)                                                     |
 | **▲** | La serie alirada                    | seguir | [El septeto-lira no quedó abierto como sus hermanas](#1-el-septeto-lira-no-quedó-abierto-como-sus-hermanas-seguir)                                                         |
@@ -67,17 +65,14 @@ antes de que se anote mucho con ellas, porque cambiarlas después obliga a revis
 |       | ·                                   | seguir | [¿Se admite la copla de cuatro rimas como desviación?](#2-se-admite-la-copla-de-cuatro-rimas-como-desviación-seguir)                                                       |
 |       | ·                                   | seguir | [¿Debe seguir llamándose dodecasilábica?](#3-debe-seguir-llamándose-dodecasilábica-seguir)                                                                                 |
 |       | Soneto                              | chocan | [¿Qué disposición de tercetos merece ser la habitual?](#1-qué-disposición-de-tercetos-merece-ser-la-habitual-chocan)                                                       |
-|       | ·                                   | seguir | [El repertorio de tercetos es abierto, y falta codificarlo](#2-el-repertorio-de-tercetos-es-abierto-y-falta-codificarlo-seguir)                                            |
-|       | ·                                   | seguir | [¿Estrambote y sonetillo entran solo si aparecen en el corpus?](#3-estrambote-y-sonetillo-entran-solo-si-aparecen-en-el-corpus-seguir)                                     |
-|       | Copla real y novena                 | callan | [La frecuencia de una disposición reutilizada no es la de su posición](#1-la-frecuencia-de-una-disposición-reutilizada-no-es-la-de-su-posición-callan)                     |
-|       | ·                                   | chocan | [¿Debe restringirse el par de quintillas?](#2-debe-restringirse-el-par-de-quintillas-chocan)                                                                               |
-|       | ·                                   | seguir | [La copla real de cuatro y seis versos](#3-la-copla-real-de-cuatro-y-seis-versos-seguir)                                                                                   |
-|       | ·                                   | callan | [¿Los quebrados pueden ocupar cualquiera de las diez posiciones?](#4-los-quebrados-pueden-ocupar-cualquiera-de-las-diez-posiciones-callan)                                 |
-|       | ·                                   | callan | [¿Solo tetrasílabos, o también pentasílabos?](#5-solo-tetrasílabos-o-también-pentasílabos-callan)                                                                          |
-|       | ·                                   | callan | [Pedir datos al editor de _El caballero de Olmedo_](#6-pedir-datos-al-editor-de-_el-caballero-de-olmedo_-callan)                                                           |
-|       | ·                                   | chocan | [Separar la Novena general de la Copla novena](#7-separar-la-novena-general-de-la-copla-novena-chocan)                                                                     |
-|       | ·                                   | callan | [Las realizaciones tempranas comparten rima entre las dos partes](#8-las-realizaciones-tempranas-comparten-rima-entre-las-dos-partes-callan)                               |
-|       | ·                                   | seguir | [¿Las ocho variedades de quintilla valen todas para la Copla novena?](#9-las-ocho-variedades-de-quintilla-valen-todas-para-la-copla-novena-seguir)                         |
+|       | ·                                   | seguir | [¿Estrambote y sonetillo entran solo si aparecen en el corpus?](#2-estrambote-y-sonetillo-entran-solo-si-aparecen-en-el-corpus-seguir)                                     |
+|       | Copla real y novena                 | chocan | [¿Debe restringirse el par de quintillas?](#1-debe-restringirse-el-par-de-quintillas-chocan)                                                                               |
+|       | ·                                   | seguir | [La copla real de cuatro y seis versos](#2-la-copla-real-de-cuatro-y-seis-versos-seguir)                                                                                   |
+|       | ·                                   | callan | [¿Los quebrados pueden ocupar cualquiera de las diez posiciones?](#3-los-quebrados-pueden-ocupar-cualquiera-de-las-diez-posiciones-callan)                                 |
+|       | ·                                   | callan | [¿Solo tetrasílabos, o también pentasílabos?](#4-solo-tetrasílabos-o-también-pentasílabos-callan)                                                                          |
+|       | ·                                   | chocan | [Separar la Novena general de la Copla novena](#5-separar-la-novena-general-de-la-copla-novena-chocan)                                                                     |
+|       | ·                                   | callan | [Las realizaciones tempranas comparten rima entre las dos partes](#6-las-realizaciones-tempranas-comparten-rima-entre-las-dos-partes-callan)                               |
+|       | ·                                   | seguir | [¿Las ocho variedades de quintilla valen todas para la Copla novena?](#7-las-ocho-variedades-de-quintilla-valen-todas-para-la-copla-novena-seguir)                         |
 |       | Décima                              | chocan | [¿Cómo se describe la espinela, por redondillas o por quintillas?](#1-cómo-se-describe-la-espinela-por-redondillas-o-por-quintillas-chocan)                                |
 |       | ·                                   | seguir | [¿Entra la décima asonante?](#2-entra-la-décima-asonante-seguir)                                                                                                           |
 |       | ·                                   | callan | [¿Debe poder intercalarse alguna otra forma?](#3-debe-poder-intercalarse-alguna-otra-forma-callan)                                                                         |
@@ -90,10 +85,7 @@ antes de que se anote mucho con ellas, porque cambiarlas después obliga a revis
 |       | ·                                   | chocan | [¿Es endecha real la que no rima?](#2-es-endecha-real-la-que-no-rima-chocan)                                                                                               |
 |       | ·                                   | seguir | [Las dos arquitecturas de sor Juana están fuera del teatro áureo](#3-las-dos-arquitecturas-de-sor-juana-están-fuera-del-teatro-áureo-seguir)                               |
 |       | ·                                   | seguir | [Faltan dos cosas que Navarro Tomás documenta y no tienen dónde ir](#4-faltan-dos-cosas-que-navarro-tomás-documenta-y-no-tienen-dónde-ir-seguir)                           |
-|       | Los dos tramos sin forma            | chocan | [Jauralde llama a esto de otra manera](#1-jauralde-llama-a-esto-de-otra-manera-chocan)                                                                                     |
-|       | ·                                   | seguir | [El quebrado no es versificación irregular](#2-el-quebrado-no-es-versificación-irregular-seguir)                                                                           |
-|       | ·                                   | callan | [Las equivalencias de los tres tramos legados, una a una](#3-las-equivalencias-de-los-tres-tramos-legados-una-a-una-callan)                                                |
-|       | ·                                   | chocan | [¿Un verso solo es un verso?](#4-un-verso-solo-es-un-verso-chocan)                                                                                                         |
+|       | Los dos tramos sin forma            | chocan | [¿Un verso solo es un verso?](#1-un-verso-solo-es-un-verso-chocan)                                                                                                         |
 |       | El demarcador                       | callan | [Las formas generales no tienen prioridad residual](#1-las-formas-generales-no-tienen-prioridad-residual-callan)                                                           |
 
 # Series y composiciones largas
@@ -376,32 +368,7 @@ también `abab` y la forma asonantada `abcb`, que el catálogo ya tiene.
 
 **Decidir** · si la de seis entra como excepcional o se queda como desviación, que es donde está.
 
-### 4 · La arquitectura de estribillo posterior se quedó sin fuente · **callan**
-
-**Hoy** · dos arquitecturas, y **lo único que las separa es dónde aparece el estribillo por primera
-vez**.
-
-**Lo que la sostenía era falso y se retiró** el 13 de septiembre de 2026 (`20260913120000`): la
-ficha atribuía a Navarro Tomás, «como modalidad moderna general», una cuarteta octosilábica seguida
-de un estribillo en cuarteta hexasílaba. No lo dice en ninguno de los seis §§ citados, y lo que sí
-dice lo contradice —en la _Gacela_ de Lorca «el estribillo es una cuarteta **heptasílaba**» y **va
-delante**, y el otro ejemplo moderno es «ejemplo aislado de esta antigua forma de canción en el
-presente período»—.
-
-**Las fuentes** · buscado en los seis libros: **las cinco que describen la forma ponen el estribillo
-al principio**, y el _Diccionario_ usa esa palabra —«un estribillo **inicial** —llamado cabeza,
-villancico, letra o tema—»—. Ni cabeza pospuesta ni villancico que empiece por la copla aparecen en
-ninguno.
-
-**Decidir** · si la arquitectura se queda. Es anterior a la afirmación falsa —nació el 29 de julio
-de 2026—, así que no la creó aquella lectura, pero ninguna otra la sostiene. Si el corpus la trae,
-es hallazgo nuestro y la ficha debería decirlo así; si no la trae nadie, sobra.
-
-**Si se retira** · desaparece con ella la duda de si son una arquitectura o dos. _Si se conserva, la
-razón de tenerlas separadas es que el demarcador distingue por arquitectura y perdería capacidad de
-identificar._
-
-### 5 · La rima del estribillo, el enlace y la vuelta no se registra · **callan**
+### 4 · La rima del estribillo, el enlace y la vuelta no se registra · **callan**
 
 **Hoy** · el editor responde la rima de la mudanza y la **medida** de las demás partes. Las rimas
 concretas del estribillo, el enlace y la vuelta no se guardan.
@@ -414,7 +381,7 @@ mudanza.
 secciones en cada realización**, que es justamente lo que las fuentes usan para distinguir el
 villancico del zéjel.
 
-### 6 · ¿Una repetición parcial del estribillo es posibilidad admitida o desviación? · **callan**
+### 5 · ¿Una repetición parcial del estribillo es posibilidad admitida o desviación? · **callan**
 
 **Hoy** · en el zéjel la represa es total o no aparece.
 
@@ -424,7 +391,7 @@ villancico la describen dos: Jauralde, «repetición total o parcial de la cabez
 
 **Decidir** · si el silencio de las cinco basta para no ofrecerla en el zéjel.
 
-### 7 · ¿Se admite la mudanza de dos versos? · **seguir**
+### 6 · ¿Se admite la mudanza de dos versos? · **seguir**
 
 **Hoy** · la mudanza del zéjel es de tres, y es lo definitorio de la forma.
 
@@ -439,7 +406,7 @@ dos versos y en `a:bba` queda en uno.
 
 **Si cambia** · toca el núcleo de la definición.
 
-### 8 · ¿Y el zéjel en arte mayor? · **seguir**
+### 7 · ¿Y el zéjel en arte mayor? · **seguir**
 
 **Hoy** · el esquema métrico ofrece seis u ocho sílabas.
 
@@ -449,7 +416,7 @@ y vuelta, como `aba:cccba` y `abba:cccaca`».
 **Decidir** · nada, por ahora: son medievales y cultas, no del corpus dramático. _Queda anotado a la
 espera de que aparezcan._
 
-### 9 · ¿El estribillo del zéjel vuelve siempre, como el del villancico? · **seguir**
+### 8 · ¿El estribillo del zéjel vuelve siempre, como el del villancico? · **seguir**
 
 **Hoy** · sección `0-1` y una respuesta que permite decir que no vuelve. _El 29 de agosto de 2026 se
 decidió que en el villancico **no puede faltar** —cuando la fuente antigua no lo copia es por ahorro
@@ -641,22 +608,7 @@ XIV, Álvaro de Luna del XV y Lobo del XVIII—. Y si entra el lay, cuál de los
 catálogo la lleva en `final_acentual`. Declararlas obliga a decidir cómo se escribe `aaé:bbé` sin
 confundir las dos cosas.
 
-### 5 · ¿Puede una sextilla dejar un verso suelto? · **seguir**
-
-**Hoy** · no.
-
-**Las fuentes** · **tres de las seis documentan que sí**, y en el mismo poema: las sextillas del
-_Martín Fierro_ dejan sin rima el primer verso, y Caparrós escribe su esquema `- a a b b a`.
-
-**Decidir** · nada nuevo: _el IP lo dejó fuera el 18 de agosto por criterio cronológico —el_ Martín
-Fierro _es de 1872—._ Es una decisión de **alcance del corpus**, no una norma.
-
-**Lo que dejó escrito, y vale para todo el catálogo** · para la sextilla **ninguna de las seis
-enuncia una regla** —Quilis cierra su lista con un «etc.»—, y **la enumeración de una fuente no es
-una norma**: derivar de ella un mínimo convierte una muestra en ley. `numero_clases`,
-`min_alternancias` y `max_consecutivos` solo se declaran cuando una fuente enuncia la regla.
-
-### 6 · Las cuatro disposiciones históricas de la copla manriqueña no están · **seguir**
+### 5 · Las cuatro disposiciones históricas de la copla manriqueña no están · **seguir**
 
 **Hoy** · el catálogo declara solo la última, `abcabc|defdef`.
 
@@ -669,7 +621,7 @@ y `abc:abc-def:def`, «que alcanzó fama permanente con las coplas de Jorge Manr
 dramático. Queda confirmar que ese criterio sigue valiendo, y si la respuesta depende de la 1: si la
 forma de doce se retira, la pregunta cambia de sitio.
 
-### 7 · ¿Debe registrarse el esquema de las manriqueñas no manriqueñas? · **callan**
+### 6 · ¿Debe registrarse el esquema de las manriqueñas no manriqueñas? · **callan**
 
 **Hoy** · la forma de doce tiene dos esquemas: el manriqueño, que se marca si es el observado, y uno
 de distribución variable para todo lo demás, que **no guarda cuál fue**.
@@ -1039,20 +991,7 @@ anotar y lo que el demarcador compila, así que se nota en las dos puntas.
 pronuncian —Navarro, «uniformemente con raras excepciones»; el _Diccionario_, «lo normal», pero
 «posibles otras distribuciones, **especialmente** la que obedece al esquema `ABAB ABAB`»—.
 
-### 2 · El repertorio de tercetos es abierto, y falta codificarlo · **seguir**
-
-**Hoy** · cuatro esquemas concretos y ninguna salida abierta.
-
-**Las fuentes** · Morley y Bruerton dan los cuatro **y añaden «y otros»**. Y el _Diccionario_ **da la
-regla en vez de la lista**: los tercetos toman dos o tres clases distintas de las de los cuartetos y
-las reparten como sea «con tal de que no haya más de dos versos seguidos con la misma rima». _Desde
-el 19 de agosto esa regla está en la definición._
-
-**Decidir** · nada filológico: está contestado. **Lo que falta es codificarlo** —un esquema abierto
-de la sección `terceto` con `max_consecutivos: 2` junto a los cuatro concretos, y la evaluación de
-ese tipo en el auditor— ⇒ **B4**.
-
-### 3 · ¿Estrambote y sonetillo entran solo si aparecen en el corpus? · **seguir**
+### 2 · ¿Estrambote y sonetillo entran solo si aparecen en el corpus? · **seguir**
 
 **Hoy** · no caben: un soneto de diecisiete versos no encaja en la arquitectura.
 
@@ -1078,20 +1017,7 @@ declara de una parte reutilizada no es lo que esa parte vale en la posición que
 | novena · Redondilla + quintilla      | 9      | redondilla (4) + quintilla (5) | 8, con quebrado de 4 o 5 |
 | novena · Quintilla + redondilla      | 9      | quintilla (5) + redondilla (4) | 8                        |
 
-### 1 · La frecuencia de una disposición reutilizada no es la de su posición · **callan**
-
-**Hoy** · las dos quintillas reutilizan la arquitectura de la quintilla, así que traen sus ocho
-esquemas **con la frecuencia que tienen como quintilla suelta**: `aabba` sale «admitida» en la
-segunda mitad.
-
-**Las fuentes** · Morley y Bruerton, que describen a Lope, dicen que ahí **es siempre esa**.
-
-**Decidir** · nada nuevo: _el IP decidió el 20 de agosto decirlo en prosa y no tocar el modelo por
-ahora._ ⇒ **B3**
-
-**Alcanza a las 18 reutilizaciones del catálogo**, no solo a esta.
-
-### 2 · ¿Debe restringirse el par de quintillas? · **chocan**
+### 1 · ¿Debe restringirse el par de quintillas? · **chocan**
 
 **Hoy** · las dos preguntas ofrecen los ocho esquemas con total independencia.
 
@@ -1107,7 +1033,7 @@ de modo que restringirla del todo iría más lejos que ella. Y el catálogo cubr
 **Si cambia** · pasa a ser una restricción **entre dos preguntas**, que el modelo hoy no sabe
 expresar ⇒ **B3**.
 
-### 3 · La copla real de cuatro y seis versos · **seguir**
+### 2 · La copla real de cuatro y seis versos · **seguir**
 
 **Hoy** · solo 5+5.
 
@@ -1118,7 +1044,7 @@ mayoritaria a finales del siglo XV»; Navarro Tomás describe el mismo proceso *
 **Decidir** · si entran. Son dos modelos distintos —4-6 y 4-4—, los dos anteriores al que el
 catálogo declara, y los dos medievales.
 
-### 4 · ¿Los quebrados pueden ocupar cualquiera de las diez posiciones? · **callan**
+### 3 · ¿Los quebrados pueden ocupar cualquiera de las diez posiciones? · **callan**
 
 **Hoy** · la pregunta las ofrece las diez.
 
@@ -1127,7 +1053,7 @@ tetrasílabo», **sin decir dónde**. Ninguna otra lo sitúa.
 
 **Decidir** · si se restringe, a qué posiciones. _Es silencio, no permiso._
 
-### 5 · ¿Solo tetrasílabos, o también pentasílabos? · **callan**
+### 4 · ¿Solo tetrasílabos, o también pentasílabos? · **callan**
 
 **Hoy** · la arquitectura declara los dos como `quebrado`.
 
@@ -1136,16 +1062,7 @@ tetrasílabo», **sin decir dónde**. Ninguna otra lo sitúa.
 **Decidir** · si se retira el pentasílabo. _Si se retira, lo que se quita es esa fila y la pregunta
 se estrecha sola._
 
-### 6 · Pedir datos al editor de _El caballero de Olmedo_ · **callan**
-
-**Hoy** · es de las poquísimas formas con uso real —**tres secuencias, todas en esa obra**— y las
-anotaciones vienen del vocabulario legado, sin decir qué disposición tiene cada quintilla ni dónde
-caen los quiebros.
-
-**Decidir** · nada filológico. _Al revisar la obra conviene pedírselo: es el único sitio donde el
-corpus puede contrastar lo que las fuentes dicen del emparejamiento._
-
-### 7 · Separar la Novena general de la Copla novena · **chocan**
+### 5 · Separar la Novena general de la Copla novena · **chocan**
 
 **Hoy** · dos arquitecturas, las dos con redondilla y quintilla en uno u otro orden.
 
@@ -1160,7 +1077,7 @@ corpus puede contrastar lo que las fuentes dicen del emparejamiento._
 defecto cualquier pasaje de nueve versos, que es el mismo problema que hizo retirar la copla de pie
 quebrado.
 
-### 8 · Las realizaciones tempranas comparten rima entre las dos partes · **callan**
+### 6 · Las realizaciones tempranas comparten rima entre las dos partes · **callan**
 
 **Hoy** · las dos secciones reutilizan repertorios independientes y **no hay manera de declarar que
 comparten timbre**. El editor trata cada respuesta como notación local y, al componer la novena,
@@ -1175,7 +1092,7 @@ rima entre secciones o una disposición global de la unidad.
 
 **Es un bloqueo de registro, no solo de presentación** ⇒ **A5**.
 
-### 9 · ¿Las ocho variedades de quintilla valen todas para la Copla novena? · **seguir**
+### 7 · ¿Las ocho variedades de quintilla valen todas para la Copla novena? · **seguir**
 
 **Hoy** · sí, todas.
 
@@ -1362,40 +1279,7 @@ Versificación irregular y verso aislado **no declaran norma**: es lo que los de
 registran es lo que se ve —la medida verso a verso y el esquema de rima que haya—, y lo registran
 escrito, no elegido de una lista.
 
-### 1 · Jauralde llama a esto de otra manera · **chocan**
-
-**Hoy** · «Versificación irregular».
-
-**Las fuentes** · Jauralde **prefiere «verso libre o liberado»** para el conjunto que no busca
-ninguna proporción aparente, y reserva «irregular» para otro caso. Las demás usan «irregular».
-
-**Decidir** · nada, por ahora. _El catálogo conserva el término de las otras fuentes y del
-vocabulario legado; queda registrada la divergencia._ Si alguna vez se renombra, hay que saber que
-la divergencia es con una sola fuente.
-
-### 2 · El quebrado no es versificación irregular · **seguir**
-
-**Hoy** · la definición ya lo dice. Un pasaje `8-8-4` pertenece a la copla o a la sextilla de pie
-quebrado, no a este tramo.
-
-**Las fuentes** · el _Diccionario_ lo advierte expresamente, y Caparrós 2014 lo confirma al incluir
-**la proporcionalidad** en la definición de lo regular.
-
-**Decidir** · nada filológico: está resuelto y coincide con las fuentes. _Lo que merece hacerse es
-comprobarlo **contra las anotaciones existentes** cuando se haga el informe de migración, porque es
-el error fácil al anotar._
-
-### 3 · Las equivalencias de los tres tramos legados, una a una · **callan**
-
-**Hoy** · el vocabulario legado distingue tres —`irregular_arte_mayor`, `irregular_arte_menor` e
-`irregular_mixto`— y el catálogo nuevo tiene **una sola entrada**. Son de lo más anotado que hay:
-**nueve secuencias, 313 versos**.
-
-**Decidir** · nada filológico. _Es posible que alguna se anotara como irregular solo porque quien la
-anotó no encontró la forma precisa, y que con el catálogo nuevo y el demarcador sí aparezca._ ⇒
-**A3**
-
-### 4 · ¿Un verso solo es un verso? · **chocan**
+### 1 · ¿Un verso solo es un verso? · **chocan**
 
 **Hoy** · el verso aislado es un tramo sin forma, y se registra delimitándolo y guardando su medida.
 

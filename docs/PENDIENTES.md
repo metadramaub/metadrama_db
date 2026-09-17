@@ -243,7 +243,16 @@ cuándo la ficha ablanda a la fuente, y el cotejo de los epígrafes de Jauralde 
 **E7 · Dos propuestas sin redactar:** `cfb377cd` (septeto-lira de Navarro) y la afirmación del cubo
 limpio que quedó sin decidir.
 
-**E8 · Cuatro cabos de consistencia**, ninguno de auditoría. `40c2c354` habla de Morley y Bruerton
+**E8 · Tres comprobaciones que salieron de cuestiones para el IP.** Pedirle al editor de *El
+caballero de Olmedo* los datos de sus tres coplas reales —qué disposición tiene cada quintilla y
+dónde caen los quiebros—, que es el único sitio donde el corpus puede contrastar lo que las fuentes
+dicen del emparejamiento. Comprobar contra lo anotado que **ningún pasaje con quebrado esté
+registrado como versificación irregular**, que es el error fácil al anotar y que la definición ya
+excluye. Y **volver a anotar el villancico de *Lo fingido y lo cierto (prueba)***, cuya anotación se
+borró al retirar la arquitectura sin cabeza: se rehace desde el editor o regenerando las obras de
+prueba, que ya tienen el guion corregido.
+
+**E9 · Cuatro cabos de consistencia**, ninguno de auditoría. `40c2c354` habla de Morley y Bruerton
 en singular —«La caracteriza»—, y sus dos hermanas ya se arreglaron. El *Diccionario* se cita de dos
 maneras: ocho fichas con «s. v.» frente a 53 con «Entrada», y quince sin página. `22c63f36` enumera
 «series arromanzadas» entre los tipos con nombre de la seguidilla, y en el § 498 aparece como
@@ -251,7 +260,7 @@ ejemplo suelto de García Lorca, no como categoría. Y queda la idea de **un pá
 «Lo que dicen las fuentes» para cuando las seis disientan mucho**: no hace falta todavía, porque el
 caso que la sugirió se resolvió documentando cada voz por separado.
 
-**E9 · La prosa de las fichas no se ha releído con las fuentes ya firmes.** Se escribió en agosto
+**E10 · La prosa de las fichas no se ha releído con las fuentes ya firmes.** Se escribió en agosto
 apoyándose en unas afirmaciones que la auditoría corrigió después en más de cien puntos.
 
 ---
