@@ -142,6 +142,30 @@ porque hoy es la única vía por la que nace una secuencia. **Si vuelven a crear
 
 **C6 · La pestaña de secuencias se quedó sin borrador local**, y falta decidir si vuelve.
 
+**C8 · El demarcador manda 821 kB de catálogo en cada carga.** La caché de un minuto y la prosa
+deduplicada —17 de septiembre de 2026— quitaron la recompilación y unos 165 kB de preguntas
+repetidas. Queda el bloque gordo: **la presentación de las 90 arquitecturas viaja entera por
+adelantado** —rejilla verso a verso, esquemas visuales y rasgos— y solo hace falta al abrir «Ver
+detalles» de una tarjeta. *Decidido dejarlo mientras la base no se sature: traerlo todo de golpe
+evita viajes durante el recorrido.* Antes de moverlo hay que medir cuánto pesa exactamente.
+
+**C9 · La puntuación del demarcador premia coincidir sin medir cuánto se juega cada forma.** Suma
+acuerdos, y cada acierto vale lo mismo para quien admite una sola realización que para quien admite
+infinitas: «catorce versos» es casi una prueba para el soneto —su única extensión— y no dice nada
+del septeto, al que le valen 7, 14, 21… Las dos se llevan el mismo punto, y por eso un contraste
+puede acumular siete respuestas sin que ninguna separe nada. Su corolario: **«no declara» nunca
+penaliza**, así que una forma vaga no se equivoca nunca. Hace falta **ponderar cada coincidencia por
+la especificidad de la norma**. Es lo único que puede separar dos formas que encajan las dos, y sin
+ello lo demás es maquillaje.
+
+**C10 · La pantalla de comprobación sigue hablando el idioma de la identificación.** Durante el
+recorrido dice «candidatas según tus respuestas» y lista «coincide / difiere», cuando la pregunta es
+si el pasaje es o no esa forma. Con `discrepanciasEntre` ya calculado se puede marcar cada acierto
+como **lo que la sostiene** o **lo que no la distingue de X** —que es la explicación de por qué el
+recorrido no avanza— y presentar las dos lecturas de una misma extensión como lo que son: «un soneto
+de 14» frente a «dos septetos de 7», que no compiten por lo mismo. *El veredicto de tres salidas ya
+está en el motor y solo se pinta al detenerse el recorrido.*
+
 **C7 · El desglose del autor se queda en dos niveles**, y **filtrar por rasgo o por esquema pide otro
 selector**: hoy es «formas + subtipos anidados» en un control único que no aguanta lo que viene.
 
