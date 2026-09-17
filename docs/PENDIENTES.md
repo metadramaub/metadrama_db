@@ -142,6 +142,15 @@ porque hoy es la única vía por la que nace una secuencia. **Si vuelven a crear
 
 **C6 · La pestaña de secuencias se quedó sin borrador local**, y falta decidir si vuelve.
 
+**C7bis · Dos rasgos quedan fuera del demarcador y quizá deban entrar los últimos.** `final_acentual`
+y `encadenamiento_interior` están marcados `demarcable = false`. El encadenamiento es
+`observabilidad: especializada` —ver que la rima final enlaza con una posición interior del
+siguiente verso es lectura atenta— y su única declaración es `admitida`, así que ni entrando
+descartaría nada. `final_acentual`, en cambio, es el único rasgo `directa` excluido: o la exclusión
+sobra o lo que está mal es su observabilidad. *Idea a explorar, no decisión tomada*: ofrecerlos **al
+final del recorrido**, cuando ya no quede ninguna pregunta fácil que separe, avisando de que son
+difíciles de responder. Hoy el motor no tiene ese escalón.
+
 **C8 · El demarcador manda 821 kB de catálogo en cada carga.** La caché de un minuto y la prosa
 deduplicada —17 de septiembre de 2026— quitaron la recompilación y unos 165 kB de preguntas
 repetidas. Queda el bloque gordo: **la presentación de las 90 arquitecturas viaja entera por
