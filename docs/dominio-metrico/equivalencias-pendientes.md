@@ -204,11 +204,11 @@ apuntar todos al mismo valor de rasgo.
 | `irregular_arte_mayor` | 0 | 1 | Fundir con Versificación irregular; el arte se conserva o se deriva como observación |
 | `irregular_arte_menor` | 0 | 1 | Ídem |
 | `irregular_mixto` | 0 | 1 | Ídem |
-| `cancion_de_8_versos` | 0 | 0 | Extensión observada de la estancia; no identidad propia |
-| `cancion_de_9_versos` | 0 | 0 | Ídem |
-| `cancion_de_15_versos` | 0 | 0 | Ídem |
-| `cancion_endecasilaba` | 0 | 0 | Realización con 11 sílabas en todas las posiciones |
-| `romancillo` | 0 | 1 | Retirar como entidad ambigua: exige saber si es hexasílabo o heptasílabo. Las arquitecturas Hexasílabo y Heptasílabo del romance ya reclaman `romancillo_hexasilabo` y `romancillo_heptasilabo` |
+| `cancion_de_8_versos` | 0 | 0 | Desde el 17 de septiembre de 2026 la canción empieza en nueve versos: una estrofa de ocho de siete y once es **octava-lira**. Sin uso, así que no hay nada que migrar |
+| `cancion_de_9_versos` | 0 | 0 | Extensión observada de la estancia de **Canción**; no identidad propia. A los nueve versos compite con la novena-lira, y lo decide si se lee fronte y sirima |
+| `cancion_de_15_versos` | 0 | 0 | Extensión observada de la estancia de **Canción**, y su techo |
+| `cancion_endecasilaba` | 0 | 0 | El IP lo da por esquema de **octava real**: es el `ABCABCDD` de *Barlaán y Josafat* que Morley y Bruerton llaman «canción toda en endecasílabos». Pendiente de que ese esquema entre en la octava real (PENDIENTES E2) |
+| `romancillo` | 0 | 1 | Desde el 18 de septiembre de 2026 es la forma **Romancillo**, con cuatro arquitecturas por medida; `romancillo_hexasilabo` y `romancillo_heptasilabo` siguen reclamados por dos de ellas |
 
 Queda por decidir si una disolución deliberada debe dejar constancia en algún sitio. Hoy no
 la deja, y por eso aparecen en esta lista.

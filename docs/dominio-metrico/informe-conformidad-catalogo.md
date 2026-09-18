@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-09-16 19:48
+Generado: 2026-09-18 08:46
 
-Inventario: 42 formas y 2 tramos sin forma · 97 configuraciones · 98 patrones métricos · 169 patrones de rima · 85 secciones · 137 grupos de elección · 962 opciones · 7 rasgos.
+Inventario: 46 formas y 2 tramos sin forma · 96 configuraciones · 98 patrones métricos · 166 patrones de rima · 80 secciones · 135 grupos de elección · 1039 opciones · 7 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -134,7 +134,9 @@ Sin incidencias.
 
 | Forma | Nivel | Cfg | Prot. | Medida vive en | Rima vive en | Grupos | Alcance |
 | --- | --- | ---: | :-: | --- | --- | ---: | --- |
-| cancion_petrarquista | composicion | 3 | sí | conjunto, eleccion, posiciones | esquema libre, patrón único, varios patrones sin pregunta | 4 | secuencia, unidad |
+| cancion | composicion | 1 | sí | conjunto, eleccion | esquema libre | 4 | unidad |
+| cancion_petrarquista | composicion | 1 | sí | conjunto, eleccion, posiciones | esquema libre | 2 | unidad |
+| cancion_sin_rima | composicion | 1 | sí | conjunto, eleccion | varios patrones sin pregunta | 3 | secuencia, unidad |
 | copla_castellana | estrofa | 1 | sí | conjunto, eleccion, posiciones | elección | 2 | unidad |
 | copla_de_arte_mayor | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
 | copla_de_arte_menor | estrofa | 1 | sí | conjunto, eleccion, posiciones | elección | 2 | unidad |
@@ -158,7 +160,9 @@ Sin incidencias.
 | quintilla | estrofa | 3 | sí | configuracion, conjunto, eleccion, posiciones | elección | 4 | unidad |
 | redondilla | estrofa | 3 | sí | configuracion, conjunto, eleccion, posiciones | elección | 4 | unidad |
 | redondilla_enlazada | serie | 1 | sí | posiciones | patrón único | 0 | — |
-| romance | serie | 6 | sí | configuracion, posiciones | patrón único | 6 | secuencia |
+| romance | serie | 1 | sí | posiciones | patrón único | 1 | secuencia |
+| romance_heroico | serie | 1 | sí | posiciones | patrón único | 1 | secuencia |
+| romancillo | serie | 4 | sí | configuracion, posiciones | patrón único | 4 | secuencia |
 | seguidilla | estrofa | 7 | sí | configuracion, eleccion, posiciones | patrón único | 8 | secuencia, unidad |
 | septeto | estrofa | 2 | sí | posiciones | esquema libre, patrón único | 3 | secuencia, unidad |
 | septeto_lira | estrofa | 1 | sí | posiciones | elección | 1 | unidad |
@@ -174,17 +178,17 @@ Sin incidencias.
 | soneto | composicion | 1 | sí | posiciones | elección | 3 | secuencia, unidad |
 | terceto | estrofa | 3 | sí | configuracion, posiciones | elección | 6 | secuencia, unidad |
 | terceto_encadenado | serie | 2 | sí | configuracion, posiciones | patrón único | 0 | — |
-| villancico | composicion | 2 | sí | conjunto, eleccion | elección | 14 | realizacion, secuencia, unidad |
+| villancico | composicion | 1 | sí | conjunto, eleccion | elección | 7 | realizacion, secuencia, unidad |
 | zejel | composicion | 1 | sí | conjunto, eleccion | patrón único | 4 | realizacion, unidad |
 
 ### 2.2 · Reparto de la medida
 
 | Vía | Formas |
 | --- | --- |
-| configuracion (15) | decima, endecha_real, estrofa_safica, novena, octava_aguda, pareado, quintilla, redondilla, romance, seguidilla, sexteto, sextilla, silva, terceto, terceto_encadenado |
-| conjunto (19) | cancion_petrarquista, copla_castellana, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto_lira, decima_lira, novena, novena_lira, octava_lira, oncena, pareado, quintilla, redondilla, septilla, sextilla, silva, villancico, zejel |
-| eleccion (19) | cancion_petrarquista, copla_castellana, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto_lira, decima_lira, novena, novena_lira, octava_lira, oncena, pareado, quintilla, redondilla, seguidilla, septilla, sextilla, villancico, zejel |
-| posiciones (35) | cancion_petrarquista, copla_castellana, copla_de_arte_mayor, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto, decima, endecasilabo_suelto, endecha_real, estrofa_safica, lira, novena, octava_aguda, octava_real, oncena, quintilla, redondilla, redondilla_enlazada, romance, seguidilla, septeto, septeto_lira, septilla, septilla_enlazada, sexteto, sexteto_lira, sextilla, sextilla_enlazada, sextina, sextina_estrofa, silva, soneto, terceto, terceto_encadenado |
+| configuracion (15) | decima, endecha_real, estrofa_safica, novena, octava_aguda, pareado, quintilla, redondilla, romancillo, seguidilla, sexteto, sextilla, silva, terceto, terceto_encadenado |
+| conjunto (21) | cancion, cancion_petrarquista, cancion_sin_rima, copla_castellana, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto_lira, decima_lira, novena, novena_lira, octava_lira, oncena, pareado, quintilla, redondilla, septilla, sextilla, silva, villancico, zejel |
+| eleccion (21) | cancion, cancion_petrarquista, cancion_sin_rima, copla_castellana, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto_lira, decima_lira, novena, novena_lira, octava_lira, oncena, pareado, quintilla, redondilla, seguidilla, septilla, sextilla, villancico, zejel |
+| posiciones (37) | cancion_petrarquista, copla_castellana, copla_de_arte_mayor, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto, decima, endecasilabo_suelto, endecha_real, estrofa_safica, lira, novena, octava_aguda, octava_real, oncena, quintilla, redondilla, redondilla_enlazada, romance, romance_heroico, romancillo, seguidilla, septeto, septeto_lira, septilla, septilla_enlazada, sexteto, sexteto_lira, sextilla, sextilla_enlazada, sextina, sextina_estrofa, silva, soneto, terceto, terceto_encadenado |
 
 ### 2.3 · Alcance de las preguntas por dimensión
 
@@ -192,17 +196,17 @@ Sin incidencias.
 | --- | --- |
 | combinacion · unidad | sexteto_lira |
 | metro · secuencia | irregular, verso_aislado |
-| metro · unidad | cancion_petrarquista, copla_castellana, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto_lira, decima_lira, novena, novena_lira, octava_lira, oncena, pareado, quintilla, redondilla, seguidilla, septilla, sextilla, villancico, zejel |
-| rasgo · secuencia | cancion_petrarquista, endecasilabo_suelto, endecha_real, octava_aguda, octava_real, pareado, romance, seguidilla, septeto, sexteto, sexteto_lira, silva, soneto, terceto, villancico |
+| metro · unidad | cancion, cancion_petrarquista, cancion_sin_rima, copla_castellana, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto_lira, decima_lira, novena, novena_lira, octava_lira, oncena, pareado, quintilla, redondilla, seguidilla, septilla, sextilla, villancico, zejel |
+| rasgo · secuencia | cancion_sin_rima, endecasilabo_suelto, endecha_real, octava_aguda, octava_real, pareado, romance, romance_heroico, romancillo, seguidilla, septeto, sexteto, sexteto_lira, silva, soneto, terceto, villancico |
 | repeticion · realizacion | villancico, zejel |
 | rima · secuencia | endecha_real, irregular |
-| rima · unidad | cancion_petrarquista, copla_castellana, copla_de_arte_mayor, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto, cuarteto_lira, decima_lira, estrofa_safica, novena, novena_lira, octava_aguda, octava_lira, octava_real, pareado, quintilla, redondilla, septeto, septeto_lira, septilla, sexteto, sextilla, soneto, terceto, villancico |
+| rima · unidad | cancion, cancion_petrarquista, copla_castellana, copla_de_arte_mayor, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto, cuarteto_lira, decima_lira, estrofa_safica, novena, novena_lira, octava_aguda, octava_lira, octava_real, pareado, quintilla, redondilla, septeto, septeto_lira, septilla, sexteto, sextilla, soneto, terceto, villancico |
 
 ### 2.4 · Ámbito declarado en los patrones de rima
 
 | Ámbito | Total | Formas |
 | --- | ---: | --- |
-| undefined | 169 | cancion_petrarquista×4, copla_castellana×4, copla_de_arte_mayor×4, copla_de_arte_menor×3, copla_manriquena×2, cuarteto×2, cuarteto_lira×2, decima×6, decima_lira×1, endecasilabo_suelto×1, endecha_real×7, estrofa_safica×3, lira×1, novena_lira×1, octava_aguda×12, octava_lira×2, octava_real×2, pareado×3, quintilla×27, redondilla×6, redondilla_enlazada×1, romance×6, seguidilla×7, septeto×2, septeto_lira×1, septilla×5, septilla_enlazada×1, sexteto×5, sexteto_lira×3, sextilla×13, sextilla_enlazada×1, sextina_estrofa×1, silva×5, soneto×6, terceto×10, terceto_encadenado×2, villancico×6, zejel×1 |
+| undefined | 166 | cancion×1, cancion_petrarquista×1, cancion_sin_rima×2, copla_castellana×4, copla_de_arte_mayor×4, copla_de_arte_menor×3, copla_manriquena×2, cuarteto×2, cuarteto_lira×2, decima×6, decima_lira×1, endecasilabo_suelto×1, endecha_real×7, estrofa_safica×3, lira×1, novena_lira×1, octava_aguda×12, octava_lira×2, octava_real×2, pareado×3, quintilla×27, redondilla×6, redondilla_enlazada×1, romance×1, romance_heroico×1, romancillo×4, seguidilla×7, septeto×2, septeto_lira×1, septilla×5, septilla_enlazada×1, sexteto×5, sexteto_lira×3, sextilla×13, sextilla_enlazada×1, sextina_estrofa×1, silva×5, soneto×6, terceto×10, terceto_encadenado×2, villancico×3, zejel×1 |
 
 ### 2.5 · Cómo se resuelve la rima que la norma no fija
 
@@ -213,7 +217,7 @@ Sin incidencias.
 | sextilla · hexasilabica | 1 | control abierto de esquema |
 | sextilla · pentasilabica | 1 | control abierto de esquema |
 | sextilla · tetrasilabica | 1 | control abierto de esquema |
-| cancion_petrarquista · estancias_consonantes_variables | 1 | control abierto de esquema + restricciones cualitativas (1) |
+| cancion · estancias_consonantes_variables | 1 | control abierto de esquema + restricciones cualitativas (1) |
 | septeto · endecasilabica | 1 | control abierto de esquema + restricciones cualitativas (1) |
 | novena_lira · heterometrica_consonante | 1 | patrón vacío, sin sustituto |
 | octava_real · endecasilabica_consonante | 1 | patrón vacío, sin sustituto |
@@ -222,7 +226,7 @@ Sin incidencias.
 | sexteto · endecasilabica | 1 | patrón vacío, sin sustituto |
 | sextilla · octosilabica | 1 | patrón vacío, sin sustituto |
 | sextilla · pie_quebrado | 1 | patrón vacío, sin sustituto |
-| cancion_petrarquista · sin_rima_con_pareado_final | 1 | restricciones cualitativas (1) |
+| cancion_sin_rima · sin_rima_con_pareado_final | 1 | restricciones cualitativas (1) |
 | copla_manriquena · doble_pie_quebrado | 1 | restricciones cualitativas (1) |
 | endecasilabo_suelto · endecasilabica | 1 | restricciones cualitativas (1) |
 | quintilla · heptasilabica | 1 | restricciones cualitativas (1) |
@@ -238,12 +242,12 @@ Coincidencia literal no implica error: puede tratarse de la misma disposición s
 
 | Esquema | Formas |
 | --- | --- |
-| abab | cuarteto_lira, redondilla×3, villancico×2 |
-| abba | cuarteto_lira, redondilla×3, villancico×2 |
-| -a-a | seguidilla×3, villancico×2 |
-| [-a]… | romance×5, silva |
+| [-a]… | romance, romancillo×4, silva |
+| abab | cuarteto_lira, redondilla×3, villancico |
+| abba | cuarteto_lira, redondilla×3, villancico |
+| -a-a | seguidilla×3, villancico |
 | a-a | seguidilla, terceto×2 |
-| aa | cancion_petrarquista, pareado×3 |
+| aa | cancion_sin_rima, pareado×3 |
 
 ---
 
