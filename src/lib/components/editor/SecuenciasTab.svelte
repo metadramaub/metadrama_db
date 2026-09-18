@@ -40,11 +40,13 @@
 		MetricSequenceEditorState
 	} from '$lib/components/metrica/editor-v2/sequence-draft';
 	import { contarUnidades, type SeccionContable, type UnidadContable } from '$lib/metrica/contar-unidades';
+	import { metricLengthCycles } from '$lib/metrica/metric-length';
 	import type {
 		MetricCatalogConfiguration,
 		MetricCatalogDomainRow,
 		MetricCatalogForEditor,
-		MetricCatalogForm
+		MetricCatalogForm,
+		MetricLengthRule
 	} from '$lib/metrica/catalogo';
 	import CaracterizacionesDeLaSecuencia from './secuencias/CaracterizacionesDeLaSecuencia.svelte';
 	import DeDondeVieneLaSecuencia from './secuencias/DeDondeVieneLaSecuencia.svelte';
@@ -478,7 +480,8 @@
 		formaNombre: string | null;
 		formaSlug: string | null;
 		arquitecturaNombre: string | null;
-		unidades: number;
+		/** Lo que se dice de las unidades, ya escrito: «13 unidades», «1 tirada», «60 versos». Nulo sin anotación. */
+		unidades: string | null;
 		desviaciones: number;
 		tieneSinopsis: boolean;
 		comentarios: number;
@@ -520,11 +523,57 @@
 			formaNombre: forma?.nombre ?? (formaId ? 'Forma registrada' : null),
 			formaSlug: forma?.slug ?? null,
 			arquitecturaNombre: arquitectura?.nombre ?? null,
-			unidades: contarUnidades(unidadesAnotadas, seccionesDelCatalogo),
+			unidades: formaId
+				? describirUnidades(
+						contarUnidades(unidadesAnotadas, seccionesDelCatalogo),
+						arquitecturaId,
+						secuencia.v_ini,
+						secuencia.v_fin
+					)
+				: null,
 			desviaciones: enSesion ? enSesion.desviaciones.length : filasDe(props.anotacionMetrica?.desviaciones).length,
 			tieneSinopsis: Boolean((secuencia.sinopsis ?? '').trim()),
 			comentarios: comentariosPorSecuencia.get(secuencia.secuencia_id) ?? 0
 		};
+	}
+
+	/**
+	 * **Las series no estróficas no materializan unidades**, y decían «Sin unidades» estando
+	 * anotadas. El romance, el romancillo o el endecasílabo suelto no se dividen en estrofas, así que
+	 * la anotación no guarda ninguna realización; lo que se sabe de ellas lo dice la regla de
+	 * longitud de su arquitectura, que es la misma que usa el editor para decir cuántas veces cabe
+	 * en el pasaje lo que la dibuja.
+	 *
+	 * - Con realizaciones, son las que cuenta `contarUnidades`.
+	 * - Una serie continua —origen `ciclo_rima` o `ciclo_metrico`: romance, romancillo— es **una
+	 *   tirada**: decir que un romance de 76 versos son 38 ciclos de rima es cierto, pero nadie lo
+	 *   cuenta así.
+	 * - Una cadena de secciones repetibles —el terceto encadenado— son tantas unidades como veces
+	 *   cabe el módulo: cada terceto, sin contar el remate.
+	 * - Sin regla, como el endecasílabo suelto, lo único que hay son versos, y se dice cuántos.
+	 */
+	function describirUnidades(
+		contadas: number,
+		arquitecturaId: string | null,
+		vIni: number,
+		vFin: number
+	): string {
+		if (contadas > 0) return `${contadas} ${contadas === 1 ? 'unidad' : 'unidades'}`;
+		const regla = arquitecturaId
+			? (props.catalogoMetrico?.lengthRules.find(
+					(item: MetricLengthRule) => item.arquitectura_id === arquitecturaId
+				) ?? null)
+			: null;
+		if (regla?.origen === 'ciclo_rima' || regla?.origen === 'ciclo_metrico') return '1 tirada';
+		if (regla?.origen === 'secciones_repetibles') {
+			const veces = metricLengthCycles(regla, vIni, vFin)?.veces ?? 0;
+			if (veces > 0) return `${veces} ${veces === 1 ? 'unidad' : 'unidades'}`;
+		}
+		if (!regla) {
+			const versos = vFin - vIni + 1;
+			return `${versos} ${versos === 1 ? 'verso' : 'versos'}`;
+		}
+		return 'Sin unidades';
 	}
 
 	const seccionesDelCatalogo = $derived.by((): SeccionContable[] =>
@@ -1566,9 +1615,9 @@
 									<td class="px-3 py-2">
 										<div class="flex items-center gap-3">
 											<span
-												class={`whitespace-nowrap text-xs tabular-nums ${resumen.unidades > 0 ? 'text-[color:var(--foreground)]' : 'italic text-[color:var(--muted-foreground)]'}`}
+												class={`whitespace-nowrap text-xs tabular-nums ${resumen.unidades && resumen.unidades !== 'Sin unidades' ? 'text-[color:var(--foreground)]' : 'italic text-[color:var(--muted-foreground)]'}`}
 											>
-												{resumen.unidades > 0 ? `${resumen.unidades} ${resumen.unidades === 1 ? 'unidad' : 'unidades'}` : 'Sin unidades'}
+												{resumen.unidades ?? 'Sin anotar'}
 											</span>
 											<span
 												class={`inline-flex items-center gap-0.5 tabular-nums ${resumen.desviaciones > 0 ? 'text-amber-700' : 'text-[color:var(--muted-foreground)] opacity-30'}`}
