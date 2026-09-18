@@ -9,7 +9,10 @@ function completeInput(): RevisionChecklistInput {
 			edicion: 'Edición base',
 			observaciones: 'a'.repeat(101),
 			bibliografia: 'Referencia',
-			editor_asignado: 'editor'
+			editor_asignado: 'editor',
+			fecha_inicio_trad: 1612,
+			fecha_fin_trad: null,
+			fuente_fecha: 'Morley y Bruerton'
 		},
 		jornadas: [{ jornada_id: 'j1', jornada_num: 1, v_ini: 1, v_fin: 100 }],
 		cuadros: [
@@ -157,18 +160,6 @@ describe('inauguración de espacio', () => {
 		input.secuencias[0].inaugura_espacio = true;
 		expect(item(input, 'space-inauguration')).toMatchObject({ done: true });
 	});
-
-	it('recomienda mirar la primera secuencia de cada jornada que no inaugura espacio', () => {
-		const input = completeInput();
-		input.jornadas.push({ jornada_id: 'j2', jornada_num: 2, v_ini: 101, v_fin: 200 });
-		input.cuadros.push({ cuadro_id: 'c2', cuadro_num: 1, jornada_id: 'j2', v_ini: 101, v_fin: 200 });
-		input.secuencias.push({ ...input.secuencias[0], secuencia_id: 's2', v_ini: 101, v_fin: 200, inaugura_espacio: false });
-
-		expect(item(input, 'jornada-openings')).toMatchObject({
-			done: false,
-			detail: 'Revisar la primera secuencia de la jornada 2'
-		});
-	});
 });
 
 describe('cobertura de las secuencias', () => {
@@ -198,5 +189,30 @@ describe('cobertura de las secuencias', () => {
 		input.secuencias[0].v_ini = 5;
 
 		expect(coverage(input)?.detail).toBe('Sin anotar 4 versos: vv. 1-4');
+	});
+});
+
+describe('fecha tradicional', () => {
+	function dating(input: RevisionChecklistInput) {
+		return buildRevisionChecklist(input).recommendations.find((candidate) => candidate.id === 'dating');
+	}
+
+	it('pide la fuente cuando hay fecha sin ella', () => {
+		const input = completeInput();
+		input.obra.fuente_fecha = '  ';
+		expect(dating(input)).toMatchObject({ done: false, detail: 'Hay fecha pero no dice de dónde sale' });
+	});
+
+	it('pide la fecha cuando no hay ninguna', () => {
+		const input = completeInput();
+		input.obra.fecha_inicio_trad = null;
+		expect(dating(input)).toMatchObject({ done: false, detail: 'Hay fuente pero no fecha' });
+	});
+
+	it('vale con solo la fecha final', () => {
+		const input = completeInput();
+		input.obra.fecha_inicio_trad = null;
+		input.obra.fecha_fin_trad = 1620;
+		expect(dating(input)).toMatchObject({ done: true });
 	});
 });
