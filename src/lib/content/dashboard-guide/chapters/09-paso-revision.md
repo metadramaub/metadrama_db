@@ -10,11 +10,13 @@ Las **comprobaciones necesarias** revisan:
 
 - que estén completos el título, el género y la edición base;
 - que exista una estructura, que cada jornada tenga cuadros y que no haya numeraciones duplicadas;
-- que existan secuencias y que no conserven campos en `Pendiente`;
+- que existan secuencias, que cada una tenga forma anotada y que no conserven caracterizaciones sin responder;
 - que los rangos sean coherentes;
+- que las secuencias cubran la obra entera, del primer verso de la estructura al último, sin huecos entre ellas;
+- que la inauguración de espacio esté revisada: la primera secuencia de la obra la inaugura siempre, y si ninguna secuencia lo hace es que esa caracterización no se ha mirado;
 - que exista al menos una propuesta de autoría documentada. Una autoría disputada también es válida si sus propuestas están correctamente registradas.
 
-Las **recomendaciones editoriales** recuerdan revisar las sinopsis de las secuencias, las observaciones, la bibliografía y la asignación del responsable de edición. Orientan la revisión, pero no bloquean el cambio de estado.
+Las **recomendaciones editoriales** recuerdan revisar las sinopsis de las secuencias, que la primera secuencia de cada jornada inaugure espacio, las observaciones, la bibliografía y la asignación del responsable de edición. Orientan la revisión, pero no bloquean el cambio de estado.
 
 Si una comprobación está pendiente, el botón **Revisar** abre directamente la pestaña donde puede corregirse.
 
