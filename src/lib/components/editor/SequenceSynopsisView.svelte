@@ -166,7 +166,10 @@
 						Secuencia {item.card.index}
 					</span>
 					<span class="font-medium text-[color:var(--muted-foreground)]">vv. {item.card.vIni}-{item.card.vFin}</span>
-					<span class="font-medium">{item.card.estrofaLabel}</span>
+					<span class="font-medium">{item.card.formaLabel}</span>
+					{#if item.card.arquitecturaLabel}
+						<span class="text-[color:var(--muted-foreground)]">· {item.card.arquitecturaLabel}</span>
+					{/if}
 					{#if item.card.nVersos !== null}
 						<span class="text-xs text-[color:var(--muted-foreground)]">{item.card.nVersos} versos</span>
 					{/if}
