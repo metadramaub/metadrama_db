@@ -1,4 +1,4 @@
-# Canción, liras y romance · lo que se partió el 17 y el 18 de septiembre de 2026
+# Canción, liras, romance y endecasílabo · lo que se partió el 17 y el 18 de septiembre de 2026
 
 **Documento histórico: nada de esto describe el estado actual.** Es el plan con el que se partió la
 canción petrarquista en tres formas y se fijó la frontera con las estrofas aliradas, con el
@@ -493,3 +493,25 @@ dos heptasílabas (*Adonis y Venus*, *El burlador de Sevilla*) pasaron al romanc
 afirmaciones se escribieron de nuevo para cada forma con lo que cada fuente dice de ella; la de
 Jauralde que estaba en el romance hablaba del romancillo y se fue con él. El romancillo lleva color
 propio en el código de barras; el heroico, el del romance.
+
+---
+
+## El endecasílabo encadenado deja de ser un rasgo del suelto
+
+Migración `20260922210000`, el 18 de septiembre. El suelto llevaba un rasgo opcional,
+`encadenamiento_interior`, para el endecasílabo en que la rima final de cada verso vuelve en el
+interior del siguiente. No es un suelto con algo más: es una serie en la que todo rima, aunque no
+entre finales de verso. Se leyeron en su página las cuatro fuentes que lo registran —Navarro §§ 114
+y 166 (pp. 209 y 258), Morley y Bruerton «Rima interna en sueltos» (pp. 173-174), Caparrós 2014
+(p. 120), *Diccionario* «rima interna» y «encadenamiento» (pp. 336-337 y 137)— y se comprobó que
+Quilis y Jauralde no lo registran (la «rima encadenada» de Quilis es la cruzada `abab`). Navarro
+habla de endecasílabos, no de cualquier encadenamiento, y separa este procedimiento del
+*leixa-prende*; Morley y Bruerton lo cuentan dentro de los sueltos, pero en varias comedias el
+pasaje entero va encadenado, que es lo que aquí hace forma.
+
+La forma nueva lleva el rasgo como **definitorio** —y por tanto sin pregunta—, el esquema de rima
+abierto con una restricción que dice dónde cae la rima, y solo las preguntas de dístico final y
+esdrújulo: sin densidad de rima, que se lee como rima de finales. Las seis anotaciones que marcaban
+el encadenamiento —dos fuera de las obras de prueba, *Adonis y Venus* y *Prueba*— pasaron a la
+forma nueva perdiendo las respuestas que ya no se preguntan. El suelto perdió el rasgo, su pregunta
+y la frase de la definición que lo mencionaba.

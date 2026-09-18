@@ -17,7 +17,8 @@ Generado el 2026-09-18 desde la base enlazada.
 | Cuarteto | endecasilabica | 0 | 1 | 1 | 0 |
 | Cuarteto-lira | heterometrica_consonante | 0 | 2 | 2 | 0 |
 | Décima-lira | heterometrica_consonante | 0 | 2 | 2 | 0 |
-| Endecasílabo suelto | endecasilabica | 5 | 0 | 0 | 0 |
+| Endecasílabo encadenado | endecasilabica | 2 | 0 | 0 | 0 |
+| Endecasílabo suelto | endecasilabica | 4 | 0 | 0 | 0 |
 | Endecha real | heptasilabica_con_endecasilabo | 2 | 0 | 0 | 0 |
 | Endecha real | heptasilabica_con_endecasilabo_de_cinco | 1 | 0 | 0 | 0 |
 | Endecha real | hexasilabica_con_endecasilabo | 1 | 0 | 0 | 0 |
@@ -114,7 +115,7 @@ Generado el 2026-09-18 desde la base enlazada.
 
 Sin incidencias.
 
-### E1b · Sí/no de una sola opción — 12
+### E1b · Sí/no de una sola opción — 13
 
 > Se cuentan aparte porque en pantalla no deben verse como una lista de una opción sino como una casilla. Son legítimas; lo que no vale es pintarlas como si hubiera algo que elegir.
 
@@ -122,8 +123,9 @@ Sin incidencias.
 | --- | --- |
 | Canción sin rima · sin_rima_con_pareado_final | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
 | Copla manriqueña · doble_pie_quebrado | esquema_rima · rima · 1 opciones · alcance unidad |
+| Endecasílabo encadenado · endecasilabica | distico_final · rasgo · 1 opciones · alcance secuencia |
+| Endecasílabo encadenado · endecasilabica | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
 | Endecasílabo suelto · endecasilabica | distico_final · rasgo · 1 opciones · alcance secuencia |
-| Endecasílabo suelto · endecasilabica | encadenamiento_interior · rasgo · 1 opciones · alcance secuencia |
 | Endecasílabo suelto · endecasilabica | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
 | Octava real · endecasilabica_consonante | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
 | Septeto · compuesta | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
