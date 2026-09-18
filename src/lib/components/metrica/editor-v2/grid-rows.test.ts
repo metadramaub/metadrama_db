@@ -839,8 +839,8 @@ describe('canción petrarquista · la primera estancia declara el patrón', () =
 		);
 		expect(pintar(rows).slice(0, 3)).toEqual([
 			'Estancia modelo · vv. 1–6 · medida_estancia, esquema_rima_estancia · Declara el patrón que repiten las demás estancias',
-			'Estancia 2 · vv. 7–12 · medida_estancia, esquema_rima_estancia · Repite extensión, medidas y rima de la estancia modelo',
-			'Estancia 3 · vv. 13–18 · medida_estancia, esquema_rima_estancia · Repite extensión, medidas y rima de la estancia modelo'
+			'Estancia 2 · vv. 7–12 · medida_estancia, esquema_rima_estancia · Hereda el patrón de la estancia modelo; si el testimonio no lo cumple, registra una desviación',
+			'Estancia 3 · vv. 13–18 · medida_estancia, esquema_rima_estancia · Hereda el patrón de la estancia modelo; si el testimonio no lo cumple, registra una desviación'
 		]);
 		expect(
 			usaRespuestasPorPartes(

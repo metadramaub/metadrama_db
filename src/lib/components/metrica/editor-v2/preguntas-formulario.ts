@@ -111,6 +111,35 @@ function prefijoDeParte(row: GridRow): string | null {
 	return section ? sectionLabel(section) : null;
 }
 
+/**
+ * Si la pregunta se responde verso a verso en su propia fila, con la medida y la rima juntas.
+ *
+ * Es el remate de la canción: pregunta la medida de cada verso y una rima escrita, y la fila las
+ * pinta en una sola rejilla, como la de la estancia modelo. Subirlas además aquí las pintaba dos
+ * veces, con dos controles distintos para la misma respuesta.
+ */
+function seRespondeVersoAVerso(
+	row: GridRow,
+	pregunta: PreguntaEnFila,
+	context: GridRowContext
+): boolean {
+	if (row.kind !== 'realizacion') return false;
+	const grupos = row.preguntas.map((candidata) => candidata.group);
+	const medidaPorVerso = grupos.some(
+		(group) => String(group.dimension) === 'metro' && esPosicional(group, context.options)
+	);
+	const rimaEscrita = grupos.some(
+		(group) =>
+			String(group.dimension) === 'rima' && String(group.tipo_control ?? '') === 'esquema_rima'
+	);
+	if (!medidaPorVerso || !rimaEscrita) return false;
+	const dimension = String(pregunta.group.dimension);
+	return (
+		(dimension === 'metro' && esPosicional(pregunta.group, context.options)) ||
+		(dimension === 'rima' && String(pregunta.group.tipo_control ?? '') === 'esquema_rima')
+	);
+}
+
 /** Si la fila pertenece a una sección cuya primera realización declara el patrón de las demás. */
 function seccionDeclaraPatron(row: GridRow): boolean {
 	if (row.kind === 'acciones') return false;
@@ -191,7 +220,7 @@ export function preguntasDelFormulario(context: GridRowContext): PreguntaFormula
 		 * es. Se queda donde se entiende.
 		 */
 		if (seccionDeclaraPatron(row)) continue;
-		recoger(row, row.preguntas);
+		recoger(row, row.preguntas.filter((pregunta) => !seRespondeVersoAVerso(row, pregunta, context)));
 	}
 
 	return [...familias.values()].map((familia) => ({

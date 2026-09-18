@@ -40,6 +40,7 @@ import {
 	type MetricUnitDraft,
 	type MetricUnitPlan
 } from './editor-model';
+import { cuelgaDeUnReparto, seReparteVersoAVerso } from './reparto-estancia';
 
 export type GridRowContext = {
 	sections: MetricCatalogDomainRow[];
@@ -663,7 +664,7 @@ function walk(
 					nota: section?.primera_realizacion_define_patron
 						? index === 0
 							? 'Declara el patrón que repiten las demás estancias'
-							: 'Repite extensión, medidas y rima de la estancia modelo'
+							: 'Hereda el patrón de la estancia modelo; si el testimonio no lo cumple, registra una desviación'
 						: notaFor(context, section, unit),
 					lengthEditable,
 					equivalentes: context.units.filter(
@@ -673,6 +674,9 @@ function walk(
 				});
 			}
 
+			// Las partes de una estancia repartida verso a verso no pintan filas: se responden en
+			// la propia estancia, verso por verso, y aquí solo estorbarían con sus «N.º de versos».
+			if (seReparteVersoAVerso(context.sections, section)) continue;
 			for (const child of partesDe(unit)) {
 				walk(context, child, unit.realizacion_id, transparente ? depth : depth + 1, out);
 			}
@@ -802,6 +806,8 @@ export function seccionesOpcionalesUniformes(context: GridRowContext): MetricCat
 	return context.sections.filter((section) => {
 		if (sectionMinimum(section) !== 0 || sectionMaximum(section) !== 1) return false;
 		if (controladas.has(sectionId(section))) return false;
+		// La fronte y la sirima de la canción no se preguntan con un Sí/No: las pone el reparto.
+		if (cuelgaDeUnReparto(context.sections, section)) return false;
 		return parentInstancesOf(context, section).length >= 1;
 	});
 }

@@ -599,6 +599,32 @@ export function reflowMetricUnits(
 		unit.orden = nextOrder;
 		nextOrder += 1;
 
+		// **Una unidad que fija el patrón manda sobre sus partes.** La estancia de la canción mide
+		// lo que el editor dice, y sus partes —opcionales y repartidas verso a verso— se colocan
+		// dentro de ella; si midiera la suma de sus partes, decir «sí» a la fronte la encogería al
+		// mínimo de dos piedi. Aquí solo se desplaza el bloque entero cuando la estancia cambia de
+		// sitio, conservando cada parte en su verso relativo.
+		if (section?.primera_realizacion_define_patron === true && children.length > 0) {
+			const delta = start - unit.v_ini;
+			const length = unitLength(unit);
+			unit.v_ini = start;
+			unit.v_fin = start + length - 1;
+			const shift = (parentId: string) => {
+				for (const child of sortInstances(
+					[...updated.values()].filter((candidate) => candidate.realizacion_padre_id === parentId)
+				)) {
+					visited.add(child.realizacion_id);
+					child.orden = nextOrder;
+					nextOrder += 1;
+					child.v_ini += delta;
+					child.v_fin += delta;
+					shift(child.realizacion_id);
+				}
+			};
+			shift(unit.realizacion_id);
+			return unit.v_fin + 1;
+		}
+
 		if (children.length > 0) {
 			let cursor = start;
 			for (const child of children) cursor = flowUnit(child.realizacion_id, cursor);
