@@ -206,6 +206,59 @@
 		sin_eventos_sobrenaturales: props.loQueNoHay?.eventosSobrenaturales ?? false
 	});
 
+	/** Qué guarda cada secuencia de esa característica, reducido a callar, no o sí. */
+	function estadoDeclarado(clave: ClaveDeclaracion, secuencia: EditorSecuenciaRow): EstadoDeCaracterizacion {
+		if (clave === 'sin_figuras_donaire') return estadoDeIntervencion(secuencia.intervencion_figuras_donaire);
+		if (clave === 'sin_personajes_sobrenaturales') {
+			return estadoDeIntervencion(secuencia.intervencion_personajes_sobrenaturales);
+		}
+		return estadoBooleano(secuencia.evento_sobrenatural);
+	}
+
+	function cuantasEstan(clave: ClaveDeclaracion, estado: EstadoDeCaracterizacion) {
+		return secuencias.filter((secuencia) => estadoDeclarado(clave, secuencia) === estado).length;
+	}
+
+	/**
+	 * **Cambiar la marca con secuencias anotadas se confirma antes**, porque no hace lo que parece.
+	 * Marcarla responde «no» por las secuencias que callan, y eso queda escrito en cada una.
+	 * Desmarcarla **no lo deshace**: nadie desmarca salvo que se haya equivocado y resulte que sí
+	 * hay, y entonces lo que ya se respondió sigue valiendo; solo se vuelve a preguntar de ahí en
+	 * adelante, y quien quiera cambiar una secuencia vuelve sobre ella. Sin secuencias no hay nada
+	 * que avisar y se guarda directamente.
+	 */
+	let declaracionPendiente = $state<{ clave: ClaveDeclaracion; valor: boolean } | null>(null);
+
+	function pedirDeclarar(clave: ClaveDeclaracion, valor: boolean) {
+		if (secuencias.length === 0) {
+			void declarar(clave, valor);
+			return;
+		}
+		declaracionPendiente = { clave, valor };
+	}
+
+	function textoDeAviso(pendiente: { clave: ClaveDeclaracion; valor: boolean }): string {
+		const etiqueta = DECLARACIONES.find((d) => d.clave === pendiente.clave)?.etiqueta.toLocaleLowerCase('es') ?? '';
+		if (pendiente.valor) {
+			const callan = cuantasEstan(pendiente.clave, 'pendiente');
+			const parte =
+				callan === 0
+					? 'Todas las secuencias tienen ya respuesta, así que ninguna cambia.'
+					: callan === 1
+						? 'Se responderá «no» en la secuencia que aún no lo tiene respondido.'
+						: `Se responderá «no» en las ${callan} secuencias que aún no lo tienen respondido.`;
+			return `Vas a marcar que en esta obra no hay ${etiqueta}. ${parte} Las que ya tienen respuesta no cambian, y la pregunta deja de hacerse al anotar.`;
+		}
+		const dicenNo = cuantasEstan(pendiente.clave, 'no');
+		const parte =
+			dicenNo === 0
+				? 'Ninguna secuencia tiene respuesta guardada.'
+				: dicenNo === 1
+					? 'La secuencia que ya dice «no» seguirá diciéndolo.'
+					: `Las ${dicenNo} secuencias que ya dicen «no» seguirán diciéndolo.`;
+		return `Vas a quitar la marca de que no hay ${etiqueta}. ${parte} La pregunta vuelve a hacerse al anotar; si en alguna de esas secuencias sí hay, tendrás que volver sobre ella y cambiarlo a mano.`;
+	}
+
 	async function declarar(clave: ClaveDeclaracion, valor: boolean) {
 		if (props.readOnly || guardandoDeclaracion) return;
 		guardandoDeclaracion = clave;
@@ -221,12 +274,14 @@
 			// antes; se enseña tal cual y no se toca nada en pantalla.
 			const body = await response.json().catch(() => ({}));
 			pushToast('error', body.message ?? 'No se pudo guardar lo que la obra no tiene');
+			declaracionPendiente = null;
 			return;
 		}
 
 		const payload = await response.json();
 		patchCurrentObra(payload.obra);
 		if (valor) responderPorLasSecuencias(clave);
+		declaracionPendiente = null;
 		pushToast('success', 'Guardado');
 	}
 
@@ -1342,7 +1397,12 @@
 								type="checkbox"
 								checked={declaracionesActuales[declaracion.clave]}
 								disabled={props.readOnly || guardandoDeclaracion !== null || declarantes > 0}
-								onchange={(event) => declarar(declaracion.clave, event.currentTarget.checked)}
+								onchange={(event) => {
+									const valor = event.currentTarget.checked;
+									// La casilla vuelve a como estaba: se mueve cuando la base lo confirma.
+									event.currentTarget.checked = declaracionesActuales[declaracion.clave];
+									pedirDeclarar(declaracion.clave, valor);
+								}}
 							/>
 							{declaracion.casilla}
 						</label>
@@ -1744,6 +1804,37 @@
 			</div>
 		</div>
 	{/if}
+	{/if}
+
+	{#if declaracionPendiente}
+		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+			<div class="card w-full max-w-md p-5">
+				<h3 class="text-lg font-semibold">
+					{declaracionPendiente.valor ? 'Marcar que no hay' : 'Volver a preguntarlo'}
+				</h3>
+				<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">{textoDeAviso(declaracionPendiente)}</p>
+				<div class="mt-4 flex justify-end gap-2">
+					<Button
+						variant="secondary"
+						onclick={() => (declaracionPendiente = null)}
+						disabled={guardandoDeclaracion !== null}
+					>
+						Cancelar
+					</Button>
+					<Button
+						variant="primary"
+						loading={guardandoDeclaracion !== null}
+						loadingLabel="Guardando…"
+						onclick={() => {
+							if (!declaracionPendiente) return;
+							void declarar(declaracionPendiente.clave, declaracionPendiente.valor);
+						}}
+					>
+						{declaracionPendiente.valor ? 'Marcar' : 'Quitar la marca'}
+					</Button>
+				</div>
+			</div>
+		</div>
 	{/if}
 
 	{#if deleteTargetId}
