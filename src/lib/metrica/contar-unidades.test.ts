@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { contarUnidades, type SeccionContable, type UnidadContable } from './contar-unidades';
+import { contarUnidades, tieneRemate, type SeccionContable, type UnidadContable } from './contar-unidades';
 
 const secciones: SeccionContable[] = [
 	{ seccion_id: 'cabeza', seccion_padre_id: null, repeticiones_max: 1 },
@@ -10,7 +10,9 @@ const secciones: SeccionContable[] = [
 	{ seccion_id: 'vuelta', seccion_padre_id: 'copla', repeticiones_max: 1 },
 	{ seccion_id: 'estribillo', seccion_padre_id: 'ciclo', repeticiones_max: 1 },
 	{ seccion_id: 'cuartetos', seccion_padre_id: null, repeticiones_max: 2 },
-	{ seccion_id: 'tercetos', seccion_padre_id: null, repeticiones_max: 2 }
+	{ seccion_id: 'tercetos', seccion_padre_id: null, repeticiones_max: 2 },
+	{ seccion_id: 'estancia', seccion_padre_id: null, repeticiones_max: null },
+	{ seccion_id: 'envio', seccion_padre_id: null, repeticiones_max: 1, tipo_seccion: 'remate' }
 ];
 
 function unidad(padre: string | null, seccion: string | null): UnidadContable {
@@ -50,5 +52,12 @@ describe('contarUnidades', () => {
 	it('una estrofa sola es una unidad', () => {
 		expect(contarUnidades([unidad(null, null)], secciones)).toBe(1);
 		expect(contarUnidades([], secciones)).toBe(0);
+	});
+
+	it('dice si hay remate sin contarlo como unidad', () => {
+		const unidades = [unidad(null, null), unidad('raiz', 'estancia'), unidad('raiz', 'estancia'), unidad('raiz', 'envio')];
+		expect(contarUnidades(unidades, secciones)).toBe(2);
+		expect(tieneRemate(unidades, secciones)).toBe(true);
+		expect(tieneRemate(unidades.slice(0, 3), secciones)).toBe(false);
 	});
 });

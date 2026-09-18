@@ -27,7 +27,24 @@ export type SeccionContable = {
 	seccion_id: string;
 	seccion_padre_id: string | null;
 	repeticiones_max: number | null;
+	/** El tipo del catálogo; `remate` es el que interesa aquí. */
+	tipo_seccion?: string | null;
 };
+
+/**
+ * Si entre lo anotado hay un remate: el envío de la canción, el verso final del terceto
+ * encadenado cuando se anota por secciones. No es una unidad más y no se cuenta como tal, pero
+ * decir «5 unidades» de una canción con envío se queda corto: se añade «+ remate».
+ */
+export function tieneRemate(
+	unidades: readonly UnidadContable[],
+	secciones: readonly SeccionContable[]
+): boolean {
+	const remates = new Set(
+		secciones.filter((seccion) => seccion.tipo_seccion === 'remate').map((seccion) => seccion.seccion_id)
+	);
+	return unidades.some((unidad) => unidad.seccion_id !== null && remates.has(unidad.seccion_id));
+}
 
 export function contarUnidades(
 	unidades: readonly UnidadContable[],

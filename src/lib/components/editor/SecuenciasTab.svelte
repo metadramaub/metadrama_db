@@ -39,7 +39,7 @@
 		MetricSequenceDraft,
 		MetricSequenceEditorState
 	} from '$lib/components/metrica/editor-v2/sequence-draft';
-	import { contarUnidades, type SeccionContable, type UnidadContable } from '$lib/metrica/contar-unidades';
+	import { contarUnidades, tieneRemate, type SeccionContable, type UnidadContable } from '$lib/metrica/contar-unidades';
 	import { metricLengthCycles } from '$lib/metrica/metric-length';
 	import type {
 		MetricCatalogConfiguration,
@@ -482,6 +482,8 @@
 		arquitecturaNombre: string | null;
 		/** Lo que se dice de las unidades, ya escrito: «13 unidades», «1 tirada», «60 versos». Nulo sin anotación. */
 		unidades: string | null;
+		/** Si además hay remate: se dice debajo, para no alargar la fila. */
+		remate: boolean;
 		desviaciones: number;
 		tieneSinopsis: boolean;
 		comentarios: number;
@@ -518,19 +520,23 @@
 					seccion_id: fila.seccion_id ? String(fila.seccion_id) : null
 				}));
 
+		const descripcion = formaId
+			? describirUnidades(
+					contarUnidades(unidadesAnotadas, seccionesDelCatalogo),
+					tieneRemate(unidadesAnotadas, seccionesDelCatalogo),
+					arquitecturaId,
+					secuencia.v_ini,
+					secuencia.v_fin
+				)
+			: null;
+
 		return {
 			formaId,
 			formaNombre: forma?.nombre ?? (formaId ? 'Forma registrada' : null),
 			formaSlug: forma?.slug ?? null,
 			arquitecturaNombre: arquitectura?.nombre ?? null,
-			unidades: formaId
-				? describirUnidades(
-						contarUnidades(unidadesAnotadas, seccionesDelCatalogo),
-						arquitecturaId,
-						secuencia.v_ini,
-						secuencia.v_fin
-					)
-				: null,
+			unidades: descripcion?.texto ?? null,
+			remate: descripcion?.remate ?? false,
 			desviaciones: enSesion ? enSesion.desviaciones.length : filasDe(props.anotacionMetrica?.desviaciones).length,
 			tieneSinopsis: Boolean((secuencia.sinopsis ?? '').trim()),
 			comentarios: comentariosPorSecuencia.get(secuencia.secuencia_id) ?? 0
@@ -551,36 +557,46 @@
 	 * - Una cadena de secciones repetibles —el terceto encadenado— son tantas unidades como veces
 	 *   cabe el módulo: cada terceto, sin contar el remate.
 	 * - Sin regla, como el endecasílabo suelto, lo único que hay son versos, y se dice cuántos.
+	 *
+	 * El remate —el envío de la canción, el verso que cierra la cadena de tercetos— no es una
+	 * unidad y no se cuenta, pero se dice aparte: «12 unidades» y, debajo, «+ remate».
 	 */
 	function describirUnidades(
 		contadas: number,
+		conRemate: boolean,
 		arquitecturaId: string | null,
 		vIni: number,
 		vFin: number
-	): string {
-		if (contadas > 0) return `${contadas} ${contadas === 1 ? 'unidad' : 'unidades'}`;
+	): { texto: string; remate: boolean } {
+		const unidades = (n: number) => `${n} ${n === 1 ? 'unidad' : 'unidades'}`;
+		if (contadas > 0) return { texto: unidades(contadas), remate: conRemate };
 		const regla = arquitecturaId
 			? (props.catalogoMetrico?.lengthRules.find(
 					(item: MetricLengthRule) => item.arquitectura_id === arquitecturaId
 				) ?? null)
 			: null;
-		if (regla?.origen === 'ciclo_rima' || regla?.origen === 'ciclo_metrico') return '1 tirada';
+		if (regla?.origen === 'ciclo_rima' || regla?.origen === 'ciclo_metrico') {
+			return { texto: '1 tirada', remate: false };
+		}
 		if (regla?.origen === 'secciones_repetibles') {
-			const veces = metricLengthCycles(regla, vIni, vFin)?.veces ?? 0;
-			if (veces > 0) return `${veces} ${veces === 1 ? 'unidad' : 'unidades'}`;
+			const ciclos = metricLengthCycles(regla, vIni, vFin);
+			if (ciclos && ciclos.veces > 0) {
+				return { texto: unidades(ciclos.veces), remate: ciclos.sobrantes > 0 };
+			}
 		}
 		if (!regla) {
 			const versos = vFin - vIni + 1;
-			return `${versos} ${versos === 1 ? 'verso' : 'versos'}`;
+			return { texto: `${versos} ${versos === 1 ? 'verso' : 'versos'}`, remate: false };
 		}
-		return 'Sin unidades';
+		return { texto: 'Sin unidades', remate: false };
 	}
 
 	const seccionesDelCatalogo = $derived.by((): SeccionContable[] =>
 		(props.catalogoMetrico?.domain.sections ?? []).map((fila: MetricCatalogDomainRow) => ({
 			seccion_id: String(fila.seccion_id),
 			seccion_padre_id: fila.seccion_padre_id ? String(fila.seccion_padre_id) : null,
-			repeticiones_max: fila.repeticiones_max === null || fila.repeticiones_max === undefined ? null : Number(fila.repeticiones_max)
+			repeticiones_max: fila.repeticiones_max === null || fila.repeticiones_max === undefined ? null : Number(fila.repeticiones_max),
+			tipo_seccion: fila.tipo_seccion ? String(fila.tipo_seccion) : null
 		}))
 	);
 
@@ -1618,6 +1634,9 @@
 												class={`whitespace-nowrap text-xs tabular-nums ${resumen.unidades && resumen.unidades !== 'Sin unidades' ? 'text-[color:var(--foreground)]' : 'italic text-[color:var(--muted-foreground)]'}`}
 											>
 												{resumen.unidades ?? 'Sin anotar'}
+												{#if resumen.remate}
+													<span class="block text-[color:var(--muted-foreground)]">+ remate</span>
+												{/if}
 											</span>
 											<span
 												class={`inline-flex items-center gap-0.5 tabular-nums ${resumen.desviaciones > 0 ? 'text-amber-700' : 'text-[color:var(--muted-foreground)] opacity-30'}`}
