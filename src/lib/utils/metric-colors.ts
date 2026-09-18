@@ -59,6 +59,7 @@ const FORMA_COLOR_BY_SLUG: Record<string, string> = {
 	// Frecuentes.
 	octava_real: '#22c9de', // cian claro
 	endecasilabo_suelto: '#1773a6', // cian-azul oscuro
+	endecasilabo_encadenado: '#3a97c9', // el suelto, un tono más claro: comparten serie y medida
 	terceto: '#5a8fe6', // azul claro
 	soneto: '#13427a', // azul muy oscuro
 	silva: '#5a4fd4', // índigo medio

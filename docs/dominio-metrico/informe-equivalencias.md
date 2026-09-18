@@ -10,9 +10,9 @@ Generado el 2026-09-18.
 ## Resumen
 
 - **123 términos** en `vocabularios.categoria = 'estrofa_tipo'`.
-- **100 declaran su destino** en el catálogo nuevo; **23 no**.
+- **101 declaran su destino** en el catálogo nuevo; **22 no**.
 - **263 secuencias con vocabulario legado**, todas con forma propuesta. Son las que hay que migrar.
-- Otras **469 no lo tienen** y quedan fuera de este informe: 457 ya están anotadas con el editor V2 y el resto no declara forma ninguna. La equivalencia va solo del término viejo al catálogo nuevo, así que a estas no les hace falta.
+- Otras **498 no lo tienen** y quedan fuera de este informe: 478 ya están anotadas con el editor V2 y el resto no declara forma ninguna. La equivalencia va solo del término viejo al catálogo nuevo, así que a estas no les hace falta.
 - De las que hay que migrar, 1 no propone arquitectura: es un tramo sin forma, que no la tiene por diseño.
 - **21 tienen la longitud incompatible** con la arquitectura propuesta. No es un fallo de la equivalencia: es la anotación de la obra, y se revisa en [migracion/](./migracion/).
 
@@ -47,7 +47,6 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 | `endecasilabo_suelto_con_pareados` | `endecasilabo_suelto` | 0 | 26 |
 | `endecasilabo_suelto_con_pareados_y_sin_distico_final` | `endecasilabo_suelto` | 0 | 26 |
 | `endecasilabo_suelto_de_esdrujulos` | `endecasilabo_suelto` | 0 | 26 |
-| `endecasilabo_suelto_encadenado` | `endecasilabo_suelto` | 0 | 26 |
 | `octava_real_de_esdrujulos` | `octava_real` | 0 | 12 |
 | `pareado_hexasilabo` | `pareado_de_arte_menor` | 0 | 0 |
 | `pareado_octosilabo` | `pareado_de_arte_menor` | 0 | 0 |
@@ -111,6 +110,7 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 | `decima_lira` | forma · Décima-lira | 0 | 0 |
 | `doble_sextilla_alternativa` | arquitectura · Copla manriqueña · De pie quebrado | 0 | 0 |
 | `endecasilabo_suelto` | forma · Endecasílabo suelto | 0 | 26 |
+| `endecasilabo_suelto_encadenado` | forma · Endecasílabo encadenado | 0 | 26 |
 | `endecasilabo_suelto_puro_sin_distico_final` | arquitectura · Endecasílabo suelto · Endecasílabo | 0 | 26 |
 | `lira` | forma · Lira | 0 | 0 |
 | `novena` | forma · Novena | 0 | 0 |

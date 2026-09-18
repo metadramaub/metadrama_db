@@ -166,8 +166,9 @@ porque hoy es la única vía por la que nace una secuencia. **Si vuelven a crear
 **C7bis · Dos rasgos quedan fuera del demarcador y quizá deban entrar los últimos.** `final_acentual`
 y `encadenamiento_interior` están marcados `demarcable = false`. El encadenamiento es
 `observabilidad: especializada` —ver que la rima final enlaza con una posición interior del
-siguiente verso es lectura atenta— y su única declaración es `admitida`, así que ni entrando
-descartaría nada. `final_acentual`, en cambio, es el único rasgo `directa` excluido: o la exclusión
+siguiente verso es lectura atenta—; desde el 18 de septiembre de 2026 es **definitorio** del
+endecasílabo encadenado, forma propia, y ya no está en el suelto: si entrara en el demarcador,
+separaría las dos series de endecasílabos. `final_acentual`, en cambio, es el único rasgo `directa` excluido: o la exclusión
 sobra o lo que está mal es su observabilidad. *Idea a explorar, no decisión tomada*: ofrecerlos **al
 final del recorrido**, cuando ya no quede ninguna pregunta fácil que separe, avisando de que son
 difíciles de responder. Hoy el motor no tiene ese escalón.
