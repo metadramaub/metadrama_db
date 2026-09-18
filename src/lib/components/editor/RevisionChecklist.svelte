@@ -14,8 +14,12 @@
 	const requiredDoneCount = $derived(
 		props.required.filter((item: RevisionChecklistItem) => item.done).length
 	);
+	// Las opcionales no entran en el total: vacías no son nada que revisar.
+	const countedRecommendations = $derived(
+		props.recommendations.filter((item: RevisionChecklistItem) => !item.optional)
+	);
 	const recommendationDoneCount = $derived(
-		props.recommendations.filter((item: RevisionChecklistItem) => item.done).length
+		countedRecommendations.filter((item: RevisionChecklistItem) => item.done).length
 	);
 </script>
 
@@ -69,7 +73,7 @@
 	>
 		<h3 class="text-base font-semibold">Recomendaciones editoriales</h3>
 		<span class="text-xs text-[color:var(--muted-foreground)]">
-			{recommendationDoneCount}/{props.recommendations.length} completadas
+			{recommendationDoneCount}/{countedRecommendations.length} completadas
 		</span>
 	</div>
 
@@ -84,7 +88,7 @@
 							? 'font-medium text-[color:var(--success)]'
 							: 'font-medium text-[color:var(--muted-foreground)]'}
 					>
-						{item.done ? '[OK]' : '[REVISAR]'} {item.label}
+						{item.done ? '[OK]' : item.optional ? '[OPCIONAL]' : '[REVISAR]'} {item.label}
 					</span>
 					{#if item.detail}
 						<p class="mt-0.5 text-xs text-[color:var(--muted-foreground)]">
@@ -92,7 +96,7 @@
 						</p>
 					{/if}
 				</div>
-				{#if !item.done && item.targetTab && props.onNavigate}
+				{#if !item.done && !item.optional && item.targetTab && props.onNavigate}
 					<Button
 						variant="ghost"
 						class="shrink-0 !px-2 !py-1 text-xs"

@@ -7,7 +7,7 @@ function completeInput(): RevisionChecklistInput {
 			titulo: 'La obra',
 			genero_id: 'genero',
 			edicion: 'Edición base',
-			observaciones: 'a'.repeat(101),
+			observaciones: 'Observaciones',
 			bibliografia: 'Referencia',
 			editor_asignado: 'editor',
 			fecha_inicio_trad: 1612,
@@ -138,7 +138,7 @@ describe('inauguración de espacio', () => {
 		input.secuencias[0].inaugura_espacio = false;
 
 		expect(item(input, 'space-inauguration')).toMatchObject({ done: false });
-		expect(item(input, 'space-inauguration')?.detail).toMatch(/Ninguna secuencia/);
+		expect(item(input, 'space-inauguration')?.detail).toBe('Ninguna secuencia inaugura espacio, ni siquiera la que abre la obra');
 	});
 
 	it('exige que la primera secuencia de la obra lo haga aunque otras lo hagan', () => {
@@ -158,7 +158,10 @@ describe('inauguración de espacio', () => {
 		// Sin responder cuenta como campo pendiente, no como inauguración fallida.
 		expect(item(input, 'space-inauguration')).toMatchObject({ done: false });
 		input.secuencias[0].inaugura_espacio = true;
-		expect(item(input, 'space-inauguration')).toMatchObject({ done: true });
+		expect(item(input, 'space-inauguration')).toMatchObject({
+			done: true,
+			detail: 'La primera secuencia de la primera jornada inaugura espacio'
+		});
 	});
 });
 
