@@ -53,41 +53,53 @@
 			"jornada": 2,
 			"numero": 1,
 			"v_ini": 867,
-			"v_fin": 1426
+			"v_fin": 1298
 		},
 		{
 			"jornada": 2,
 			"numero": 2,
-			"v_ini": 1427,
-			"v_fin": 1556
+			"v_ini": 1299,
+			"v_fin": 1518
 		},
 		{
 			"jornada": 2,
 			"numero": 3,
-			"v_ini": 1557,
+			"v_ini": 1519,
+			"v_fin": 1577
+		},
+		{
+			"jornada": 2,
+			"numero": 4,
+			"v_ini": 1578,
 			"v_fin": 1814
 		},
 		{
 			"jornada": 3,
 			"numero": 1,
 			"v_ini": 1815,
-			"v_fin": 1997
+			"v_fin": 1952
 		},
 		{
 			"jornada": 3,
 			"numero": 2,
-			"v_ini": 1998,
-			"v_fin": 2278
+			"v_ini": 1953,
+			"v_fin": 2212
 		},
 		{
 			"jornada": 3,
 			"numero": 3,
-			"v_ini": 2279,
-			"v_fin": 2504
+			"v_ini": 2213,
+			"v_fin": 2328
 		},
 		{
 			"jornada": 3,
 			"numero": 4,
+			"v_ini": 2329,
+			"v_fin": 2504
+		},
+		{
+			"jornada": 3,
+			"numero": 5,
 			"v_ini": 2505,
 			"v_fin": 2774
 		}
@@ -665,7 +677,9 @@
 			"forma": "octava_real",
 			"arquitectura": "endecasilabica_consonante",
 			"unidades": 8,
-			"secuencia": {},
+			"secuencia": {
+				"Final acentual": "Esdrújulo"
+			},
 			"unidad": {
 				"Esquema de rima": {
 					"dominante": "ABABABCC",
@@ -695,7 +709,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 80,
 			"secuencia": {
-				"Vocales de la asonancia": "e-a"
+				"Vocales de la asonancia": "e"
 			},
 			"unidad": {}
 		}

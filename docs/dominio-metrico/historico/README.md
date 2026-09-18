@@ -30,6 +30,7 @@ decisiones sin tomar. Está en [cuestiones para el IP](../cuestiones-para-el-ip.
 | [que-guarda-el-registro-2026-08-01.md](./que-guarda-el-registro-2026-08-01.md) | Tres secuencias inventadas, fila a fila. **Su método vale; sus nombres de tabla ya no existen** |
 | [informe-editor-v2-2026-08-10.md](./informe-editor-v2-2026-08-10.md) | Qué le pedía el editor a cada forma el 10 de agosto. Se regenera al día con `node scripts/audit-editor-v2.mjs` |
 | [catalogo-publico-2026-08-12.md](./catalogo-publico-2026-08-12.md) | El razonamiento del día en que se rehízo la ficha pública dimensión a dimensión |
+| [cancion-y-liras-2026-09-17.md](./cancion-y-liras-2026-09-17.md) | El plan con el que la canción petrarquista se partió en tres formas y se fijó la frontera con las estrofas aliradas en nueve versos, cada decisión con su fuente; con lo que salió al anotar la primera canción y el reparto del romance en tres formas |
 
 ### El vocabulario legado y su reclasificación
 
