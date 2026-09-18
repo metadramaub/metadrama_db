@@ -5,10 +5,6 @@ import type { Tables } from '$lib/types/database.types';
 type SecuenciaRow = Tables<'secuencias_metricas'>;
 type JornadaRow = Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>;
 type CuadroRow = Pick<Tables<'cuadros'>, 'cuadro_id' | 'cuadro_num' | 'jornada_id' | 'v_ini' | 'v_fin'>;
-type EstrofaOption = Pick<
-	Tables<'vocabularios'>,
-	'termino_id' | 'termino' | 'termino_padre_id' | 'tipo_forma'
->;
 
 function createSecuencia(overrides: Partial<SecuenciaRow> = {}): SecuenciaRow {
 	return {
@@ -45,17 +41,12 @@ const cuadrosBase: CuadroRow[] = [
 	{ cuadro_id: 'c4', cuadro_num: 2, jornada_id: 'j2', v_ini: 151, v_fin: 200 }
 ];
 
-const estrofasBase: EstrofaOption[] = [
-	{ termino_id: 'estrofa-1', termino: 'redondilla', termino_padre_id: null, tipo_forma: 'forma_espanola' }
-];
-
 describe('sequence-synopsis', () => {
 	it('agrupa una secuencia dentro de un solo cuadro y crea su divisor externo', () => {
 		const groups = buildSequenceSynopsisGroups({
 			secuencias: [createSecuencia({ v_ini: 10, v_fin: 20, n_versos: 11 })],
 			jornadas: jornadasBase,
-			cuadros: cuadrosBase,
-			estrofaOptions: estrofasBase
+			cuadros: cuadrosBase
 		});
 
 		expect(groups).toHaveLength(1);
@@ -85,8 +76,7 @@ describe('sequence-synopsis', () => {
 				createSecuencia({ secuencia_id: 'seq-2', v_ini: 60, v_fin: 70 })
 			],
 			jornadas: jornadasBase,
-			cuadros: cuadrosBase,
-			estrofaOptions: estrofasBase
+			cuadros: cuadrosBase
 		});
 
 		expect(groups[0]?.items.map((item) => item.type)).toEqual(['card', 'card']);
@@ -99,8 +89,7 @@ describe('sequence-synopsis', () => {
 		const groups = buildSequenceSynopsisGroups({
 			secuencias: [createSecuencia({ v_ini: 40, v_fin: 80, n_versos: 41 })],
 			jornadas: jornadasBase,
-			cuadros: cuadrosBase,
-			estrofaOptions: estrofasBase
+			cuadros: cuadrosBase
 		});
 
 		expect(groups[0]?.cards[0]?.spansMultipleCuadros).toBe(true);
@@ -126,8 +115,7 @@ describe('sequence-synopsis', () => {
 				createSecuencia({ secuencia_id: 'seq-2', v_ini: 81, v_fin: 90 })
 			],
 			jornadas: jornadasBase,
-			cuadros: cuadrosBase,
-			estrofaOptions: estrofasBase
+			cuadros: cuadrosBase
 		});
 
 		expect(groups[0]?.items.map((item) => item.type)).toEqual(['card', 'card']);
@@ -142,15 +130,14 @@ describe('sequence-synopsis', () => {
 		const groups = buildSequenceSynopsisGroups({
 			secuencias: [createSecuencia({ sinopsis: '   ' })],
 			jornadas: jornadasBase,
-			cuadros: cuadrosBase,
-			estrofaOptions: estrofasBase
+			cuadros: cuadrosBase
 		});
 
 		expect(groups[0]?.cards[0]?.hasSynopsis).toBe(false);
 		expect(groups[0]?.cards[0]?.sinopsis).toBe('   ');
 	});
 
-	it('usa el término de estrofa de una secuencia pública mínima sin vocabulario externo', () => {
+	it('nombra la tarjeta por la forma y añade la arquitectura solo cuando dice algo más', () => {
 		const groups = buildSequenceSynopsisGroups({
 			secuencias: [
 				{
@@ -158,18 +145,35 @@ describe('sequence-synopsis', () => {
 					v_ini: 12,
 					v_fin: 24,
 					n_versos: 13,
-					estrofa_tipo_id: null,
-					estrofa_tipo_term: 'Quintilla',
+					forma_nombre: 'Quintilla',
+					forma_slug: 'quintilla',
+					arquitectura_nombre: 'Quintilla ababa',
 					sinopsis: 'Sinopsis pública'
-				}
+				},
+				{
+					secuencia_id: 'seq-igual',
+					v_ini: 25,
+					v_fin: 40,
+					forma_nombre: 'Romance',
+					arquitectura_nombre: 'romance',
+					sinopsis: null
+				},
+				{ secuencia_id: 'seq-sin-forma', v_ini: 41, v_fin: 50, sinopsis: null }
 			],
 			jornadas: jornadasBase,
 			cuadros: cuadrosBase
 		});
 
-		expect(groups[0]?.cards[0]?.estrofaLabel).toBe('Quintilla');
-		expect(groups[0]?.cards[0]?.sinopsis).toBe('Sinopsis pública');
-		expect(groups[0]?.cards[0]?.nVersos).toBe(13);
+		const [conArquitectura, repetida, sinForma] = groups[0]?.cards ?? [];
+		expect(conArquitectura?.formaLabel).toBe('Quintilla');
+		expect(conArquitectura?.arquitecturaLabel).toBe('Quintilla ababa');
+		expect(conArquitectura?.formaColorKey).toBe('quintilla');
+		expect(conArquitectura?.sinopsis).toBe('Sinopsis pública');
+		expect(conArquitectura?.nVersos).toBe(13);
+		expect(repetida?.formaLabel).toBe('Romance');
+		expect(repetida?.arquitecturaLabel).toBeNull();
+		expect(sinForma?.formaLabel).toBe('Sin forma');
+		expect(sinForma?.formaColorKey).toBeNull();
 	});
 
 	it('envia a fallback las secuencias sin jornada o sin cuadro', () => {
@@ -179,8 +183,7 @@ describe('sequence-synopsis', () => {
 				createSecuencia({ secuencia_id: 'seq-no-cuadro', v_ini: 10, v_fin: 20 })
 			],
 			jornadas: jornadasBase,
-			cuadros: cuadrosBase.filter((cuadro) => cuadro.cuadro_id !== 'c1'),
-			estrofaOptions: estrofasBase
+			cuadros: cuadrosBase.filter((cuadro) => cuadro.cuadro_id !== 'c1')
 		});
 
 		expect(groups).toHaveLength(2);

@@ -3,7 +3,16 @@
 	import { onDestroy, untrack } from 'svelte';
 	import ChevronLeft from 'lucide-svelte/icons/chevron-left';
 	import ChevronRight from 'lucide-svelte/icons/chevron-right';
+	import Ghost from 'lucide-svelte/icons/ghost';
 	import Eye from 'lucide-svelte/icons/eye';
+	import FileText from 'lucide-svelte/icons/file-text';
+	import Laugh from 'lucide-svelte/icons/laugh';
+	import MapPin from 'lucide-svelte/icons/map-pin';
+	import MessageSquare from 'lucide-svelte/icons/message-square';
+	import MessagesSquare from 'lucide-svelte/icons/messages-square';
+	import MoonStar from 'lucide-svelte/icons/moon-star';
+	import TriangleAlert from 'lucide-svelte/icons/triangle-alert';
+	import Venus from 'lucide-svelte/icons/venus';
 	import Pencil from 'lucide-svelte/icons/pencil';
 	import Trash2 from 'lucide-svelte/icons/trash-2';
 	import type { Tables } from '$lib/types/database.types';
@@ -29,7 +38,12 @@
 		MetricSequenceDraft,
 		MetricSequenceEditorState
 	} from '$lib/components/metrica/editor-v2/sequence-draft';
-	import type { MetricCatalogDomainRow, MetricCatalogForEditor } from '$lib/metrica/catalogo';
+	import type {
+		MetricCatalogConfiguration,
+		MetricCatalogDomainRow,
+		MetricCatalogForEditor,
+		MetricCatalogForm
+	} from '$lib/metrica/catalogo';
 	import CaracterizacionesDeLaSecuencia from './secuencias/CaracterizacionesDeLaSecuencia.svelte';
 	import DeDondeVieneLaSecuencia from './secuencias/DeDondeVieneLaSecuencia.svelte';
 	import type { PropuestaDeSecuencia } from './secuencias/DeDondeVieneLaSecuencia.svelte';
@@ -393,15 +407,77 @@
 		return formaEnSesion ?? (anotacionGuardada?.forma_id ? String(anotacionGuardada.forma_id) : null);
 	}
 
-	function formaDeSecuencia(secuencia: EditorSecuenciaRow): string {
-		const formaId = formaIdDeSecuencia(secuencia);
-		if (formaId) {
-			return (
-				props.catalogoMetrico?.forms.find((forma) => forma.forma_id === formaId)?.nombre ??
-				'Forma registrada'
-			);
-		}
-		return 'Pendiente';
+	/**
+	 * Lo que se sabe de una secuencia sin abrirla: es lo que la tabla enseña y lo que la sinopsis
+	 * completa pone en cada encabezado.
+	 *
+	 * **La forma y la arquitectura salen de la anotación V2**, por la misma vía que la columna de
+	 * siempre: el borrador de esta sesión si lo hay, si no la anotación guardada, y el nombre lo pone
+	 * el catálogo. `estrofa_tipo_id` no se mira: desde el 7 de septiembre de 2026 no nombra nada. El
+	 * resto son cuentas —unidades, desviaciones, comentarios— y si la sinopsis está escrita.
+	 */
+	type ResumenDeSecuencia = {
+		formaId: string | null;
+		formaNombre: string | null;
+		formaSlug: string | null;
+		arquitecturaNombre: string | null;
+		unidades: number;
+		desviaciones: number;
+		tieneSinopsis: boolean;
+		comentarios: number;
+	};
+
+	function resumirSecuencia(secuencia: EditorSecuenciaRow): ResumenDeSecuencia {
+		const enSesion = borradoresMetricosEnSesion.get(secuencia.secuencia_id) ?? null;
+		const guardada = enSesion
+			? null
+			: ((props.anotacionMetrica?.secuencias ?? []).find(
+					(fila: MetricCatalogDomainRow) => String(fila.secuencia_id) === secuencia.secuencia_id
+				) ?? null);
+		const formaId = enSesion?.forma_id || (guardada?.forma_id ? String(guardada.forma_id) : null);
+		const arquitecturaId =
+			enSesion?.arquitectura_id || (guardada?.arquitectura_id ? String(guardada.arquitectura_id) : null);
+		const forma = formaId
+			? (props.catalogoMetrico?.forms.find((item: MetricCatalogForm) => item.forma_id === formaId) ?? null)
+			: null;
+		const arquitectura = arquitecturaId
+			? (props.catalogoMetrico?.configurations.find(
+					(item: MetricCatalogConfiguration) => item.arquitectura_id === arquitecturaId
+				) ??
+				null)
+			: null;
+		const anotacionId = guardada?.anotacion_id ? String(guardada.anotacion_id) : null;
+		const filasDe = (filas: MetricCatalogDomainRow[] | undefined) =>
+			anotacionId ? (filas ?? []).filter((fila) => String(fila.anotacion_id) === anotacionId).length : 0;
+
+		return {
+			formaId,
+			formaNombre: forma?.nombre ?? (formaId ? 'Forma registrada' : null),
+			formaSlug: forma?.slug ?? null,
+			arquitecturaNombre: arquitectura?.nombre ?? null,
+			unidades: enSesion ? enSesion.unidades.length : filasDe(props.anotacionMetrica?.unidades),
+			desviaciones: enSesion ? enSesion.desviaciones.length : filasDe(props.anotacionMetrica?.desviaciones),
+			tieneSinopsis: Boolean((secuencia.sinopsis ?? '').trim()),
+			comentarios: comentariosPorSecuencia.get(secuencia.secuencia_id) ?? 0
+		};
+	}
+
+	const resumenPorSecuencia = $derived.by(
+		() => new Map(secuencias.map((secuencia) => [secuencia.secuencia_id, resumirSecuencia(secuencia)]))
+	);
+
+	function resumenDe(secuencia: EditorSecuenciaRow): ResumenDeSecuencia {
+		return resumenPorSecuencia.get(secuencia.secuencia_id) ?? resumirSecuencia(secuencia);
+	}
+
+	/** Las intervenciones se encienden si las hay; el título dice si son exclusivas o compartidas. */
+	function intervencionEncendida(valor: string | null | undefined): boolean {
+		return Boolean(valor) && valor !== 'sin_intervencion';
+	}
+
+	function tituloDeIntervencion(que: string, valor: string | null | undefined): string {
+		if (!intervencionEncendida(valor)) return `Sin ${que}`;
+		return `${que[0].toUpperCase()}${que.slice(1)}: ${valor === 'exclusiva' ? 'intervención exclusiva' : 'intervención compartida'}`;
 	}
 
 	function sortSecuencias(items: EditorSecuenciaRow[]) {
@@ -466,12 +542,27 @@
 		}
 		return grouped;
 	});
+	// **La sinopsis nombra la forma por la anotación V2, como la columna «Forma».** Las filas de
+	// `secuencias` solo traen `estrofa_tipo_id`, que el editor nuevo no toca: pasadas a secas, los
+	// encabezados decían «Sin estrofa» en el dashboard mientras la ficha pública, que ya recibe la
+	// forma resuelta, los pintaba bien.
 	const sequenceSynopsisGroups = $derived.by(() =>
 		buildSequenceSynopsisGroups({
-			secuencias,
+			secuencias: secuencias.map((secuencia) => {
+				const resumen = resumenDe(secuencia);
+				return {
+					secuencia_id: secuencia.secuencia_id,
+					v_ini: secuencia.v_ini,
+					v_fin: secuencia.v_fin,
+					n_versos: secuencia.n_versos,
+					sinopsis: secuencia.sinopsis,
+					forma_nombre: resumen.formaNombre,
+					forma_slug: resumen.formaSlug,
+					arquitectura_nombre: resumen.arquitecturaNombre
+				};
+			}),
 			jornadas: jornadasSorted,
-			cuadros: cuadrosSorted,
-			estrofaOptions: props.estrofaOptions
+			cuadros: cuadrosSorted
 		})
 	);
 	const sequenceSynopsisMissingCount = $derived.by(
@@ -1327,22 +1418,24 @@
 					<thead class="bg-[color:var(--muted)]">
 						<tr>
 							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">#</th>
-							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">V_ini</th>
-							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">V_fin</th>
-							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">N_versos</th>
+							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">Versos</th>
 							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">Forma</th>
+							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">Anotación</th>
+							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2">Caracterizaciones</th>
+							<th class="sticky top-0 z-10 bg-[color:var(--muted)] px-3 py-2"><span class="sr-only">Sinopsis y comentarios</span></th>
 							<th class="sticky top-0 z-10 w-28 bg-[color:var(--muted)] px-3 py-2"><span class="sr-only">Acciones</span></th>
 						</tr>
 					</thead>
 					<tbody>
 						{#if filteredSecuencias.length === 0}
 							<tr>
-								<td class="px-3 py-4 text-[color:var(--muted-foreground)]" colspan={6}>
+								<td class="px-3 py-4 text-[color:var(--muted-foreground)]" colspan={7}>
 									Sin secuencias para este filtro.
 								</td>
 							</tr>
 						{:else}
 							{#each filteredSecuencias as secuencia, idx}
+								{@const resumen = resumenDe(secuencia)}
 								<tr
 									class={`border-t ${
 										sequenceOverlapIds.has(secuencia.secuencia_id)
@@ -1350,16 +1443,113 @@
 											: 'border-[color:var(--border)]'
 									}`}
 								>
-									<td class="px-3 py-2">{idx + 1}</td>
-									<td class="px-3 py-2">{secuencia.v_ini}</td>
-									<td class="px-3 py-2">{secuencia.v_fin}</td>
-									<td class="px-3 py-2">{secuencia.n_versos}</td>
-									<td class="px-3 py-2">{formaDeSecuencia(secuencia)}</td>
+									<td class="px-3 py-2 tabular-nums">{idx + 1}</td>
+									<td class="px-3 py-2 tabular-nums">
+										<span class="whitespace-nowrap">{secuencia.v_ini}–{secuencia.v_fin}</span>
+										<span class="block text-xs text-[color:var(--muted-foreground)]">{secuencia.n_versos} vv.</span>
+									</td>
+									<td class="px-3 py-2">
+										<!-- La forma nombra el pasaje y la arquitectura lo precisa: dos quintillas de distinto
+										     esquema son la misma forma, y solo con ella no se distinguían en la lista. -->
+										<span class={resumen.formaNombre ? 'font-medium' : 'italic text-[color:var(--muted-foreground)]'}>
+											{resumen.formaNombre ?? 'Pendiente'}
+										</span>
+										{#if resumen.arquitecturaNombre && resumen.arquitecturaNombre !== resumen.formaNombre}
+											<span class="block text-xs text-[color:var(--muted-foreground)]">{resumen.arquitecturaNombre}</span>
+										{/if}
+									</td>
+									<!-- **Iconos encendidos o apagados**, para leer de un vistazo qué hay dentro sin abrir la
+									     secuencia. El apagado se queda dibujado y tenue, no desaparece: así la columna se lee
+									     igual en todas las filas y lo que falta se ve como hueco, no como ausencia. Las
+									     unidades van en texto: un icono de capas no decía nada.
+									     Las observaciones métricas no se enseñan: cuelgan de las desviaciones. -->
+									<td class="px-3 py-2">
+										<div class="flex items-center gap-3">
+											<span
+												class={`whitespace-nowrap text-xs tabular-nums ${resumen.unidades > 0 ? 'text-[color:var(--foreground)]' : 'italic text-[color:var(--muted-foreground)]'}`}
+											>
+												{resumen.unidades > 0 ? `${resumen.unidades} ${resumen.unidades === 1 ? 'unidad' : 'unidades'}` : 'Sin unidades'}
+											</span>
+											<span
+												class={`inline-flex items-center gap-0.5 tabular-nums ${resumen.desviaciones > 0 ? 'text-amber-700' : 'text-[color:var(--muted-foreground)] opacity-30'}`}
+												title={resumen.desviaciones > 0 ? `${resumen.desviaciones} desviaciones de la norma` : 'Sin desviaciones'}
+												aria-label={resumen.desviaciones > 0 ? `${resumen.desviaciones} desviaciones de la norma` : 'Sin desviaciones'}
+											>
+												<TriangleAlert size={15} aria-hidden="true" />
+												{#if resumen.desviaciones > 0}<span class="text-xs">{resumen.desviaciones}</span>{/if}
+											</span>
+										</div>
+									</td>
+									<td class="px-3 py-2">
+										<div class="flex items-center gap-2">
+											<span
+												class={secuencia.inaugura_espacio ? 'text-[color:var(--foreground)]' : 'text-[color:var(--muted-foreground)] opacity-30'}
+												title={secuencia.inaugura_espacio ? 'Inaugura espacio' : 'No inaugura espacio'}
+												aria-label={secuencia.inaugura_espacio ? 'Inaugura espacio' : 'No inaugura espacio'}
+											>
+												<MapPin size={15} aria-hidden="true" />
+											</span>
+											<span
+												class={secuencia.versos_partidos ? 'text-[color:var(--foreground)]' : 'text-[color:var(--muted-foreground)] opacity-30'}
+												title={secuencia.versos_partidos ? 'Con versos partidos' : 'Sin versos partidos'}
+												aria-label={secuencia.versos_partidos ? 'Con versos partidos' : 'Sin versos partidos'}
+											>
+												<MessagesSquare size={15} aria-hidden="true" />
+											</span>
+											<span
+												class={intervencionEncendida(secuencia.intervencion_personajes_femeninos) ? 'text-[color:var(--foreground)]' : 'text-[color:var(--muted-foreground)] opacity-30'}
+												title={tituloDeIntervencion('personajes femeninos', secuencia.intervencion_personajes_femeninos)}
+												aria-label={tituloDeIntervencion('personajes femeninos', secuencia.intervencion_personajes_femeninos)}
+											>
+												<Venus size={15} aria-hidden="true" />
+											</span>
+											<span
+												class={intervencionEncendida(secuencia.intervencion_figuras_donaire) ? 'text-[color:var(--foreground)]' : 'text-[color:var(--muted-foreground)] opacity-30'}
+												title={tituloDeIntervencion('figura del donaire', secuencia.intervencion_figuras_donaire)}
+												aria-label={tituloDeIntervencion('figura del donaire', secuencia.intervencion_figuras_donaire)}
+											>
+												<Laugh size={15} aria-hidden="true" />
+											</span>
+											<span
+												class={intervencionEncendida(secuencia.intervencion_personajes_sobrenaturales) ? 'text-[color:var(--foreground)]' : 'text-[color:var(--muted-foreground)] opacity-30'}
+												title={tituloDeIntervencion('personajes sobrenaturales', secuencia.intervencion_personajes_sobrenaturales)}
+												aria-label={tituloDeIntervencion('personajes sobrenaturales', secuencia.intervencion_personajes_sobrenaturales)}
+											>
+												<Ghost size={15} aria-hidden="true" />
+											</span>
+											<span
+												class={secuencia.evento_sobrenatural ? 'text-[color:var(--foreground)]' : 'text-[color:var(--muted-foreground)] opacity-30'}
+												title={secuencia.evento_sobrenatural ? 'Con evento sobrenatural' : 'Sin evento sobrenatural'}
+												aria-label={secuencia.evento_sobrenatural ? 'Con evento sobrenatural' : 'Sin evento sobrenatural'}
+											>
+												<MoonStar size={15} aria-hidden="true" />
+											</span>
+										</div>
+									</td>
+									<td class="px-3 py-2">
+										<div class="flex items-center justify-end gap-2">
+											<span
+												class={resumen.tieneSinopsis ? 'text-[color:var(--foreground)]' : 'text-[color:var(--muted-foreground)] opacity-30'}
+												title={resumen.tieneSinopsis ? 'Sinopsis escrita' : 'Sin sinopsis'}
+												aria-label={resumen.tieneSinopsis ? 'Sinopsis escrita' : 'Sin sinopsis'}
+											>
+												<FileText size={15} aria-hidden="true" />
+											</span>
+											<span
+												class={`inline-flex items-center gap-0.5 tabular-nums ${resumen.comentarios > 0 ? 'text-[color:var(--primary)]' : 'text-[color:var(--muted-foreground)] opacity-30'}`}
+												title={resumen.comentarios > 0 ? `${resumen.comentarios} comentarios internos` : 'Sin comentarios'}
+												aria-label={resumen.comentarios > 0 ? `${resumen.comentarios} comentarios internos` : 'Sin comentarios'}
+											>
+												<MessageSquare size={15} aria-hidden="true" />
+												{#if resumen.comentarios > 0}<span class="text-xs">{resumen.comentarios}</span>{/if}
+											</span>
+										</div>
+									</td>
 									<td class="px-3 py-2">
 										<div class="flex items-center justify-end gap-1">
 											<button
 												type="button"
-												class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--success)] disabled:opacity-40"
+												class="rounded p-1 text-[color:var(--success)] transition-colors hover:bg-[color:var(--success)] hover:text-white disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-[color:var(--success)]"
 												aria-label={props.readOnly ? 'Ver secuencia' : 'Editar secuencia'}
 												onclick={() => requestOpenEdit(secuencia)}
 												disabled={props.readOnly && !props.canComment}
@@ -1368,7 +1558,7 @@
 											</button>
 											<button
 												type="button"
-												class="p-1 text-[color:var(--muted-foreground)] hover:text-[color:var(--danger)] disabled:opacity-40"
+												class="rounded p-1 text-[color:var(--danger)] transition-colors hover:bg-[color:var(--danger)] hover:text-white disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-[color:var(--danger)]"
 												aria-label="Eliminar secuencia"
 												onclick={() => openDelete(secuencia.secuencia_id)}
 												disabled={props.readOnly}

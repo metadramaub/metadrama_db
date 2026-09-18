@@ -9,31 +9,25 @@ import { bandaDeCuadros, type TramoDeBanda } from '$lib/metrica/banda-de-cuadros
 
 type JornadaRow = Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>;
 type CuadroRow = Pick<Tables<'cuadros'>, 'cuadro_id' | 'cuadro_num' | 'jornada_id' | 'v_ini' | 'v_fin'>;
-type EstrofaOption = Pick<
-	Tables<'vocabularios'>,
-	'termino_id' | 'termino' | 'termino_padre_id' | 'tipo_forma'
->;
 
+/**
+ * Lo que la sinopsis necesita saber de una secuencia. **Solo habla el catálogo nuevo**: la ficha
+ * pública lo trae ya resuelto en su artefacto y el dashboard lo resuelve desde la anotación V2
+ * antes de llamar aquí. El vocabulario legado —`estrofa_tipo_id`, sus términos— dejó de nombrar
+ * pasajes el 7 de septiembre de 2026 y ya no se mira.
+ */
 export type SequenceSynopsisSequenceLike = {
 	secuencia_id: string;
 	v_ini: number;
 	v_fin: number;
 	n_versos?: number | null;
-	/** Contrato público actual. */
+	forma_nombre?: string | null;
+	/** Slug de la forma (clave estable de color, la misma que barcode y pie). */
+	forma_slug?: string | null;
+	/** 'forma_espanola' | 'forma_italiana': la gama para el color de reserva. */
+	tipo_forma?: string | null;
 	arquitectura_id?: string | null;
 	arquitectura_nombre?: string | null;
-	forma_nombre?: string | null;
-	forma_slug?: string | null;
-	tipo_forma?: string | null;
-	/** Contrato del editor y del corpus legado. */
-	estrofa_tipo_id?: string | null;
-	estrofa_tipo_term?: string | null;
-	/** Etiqueta de la forma raíz, que es la que nombra el pasaje. */
-	estrofa_forma_term?: string | null;
-	/** Slug de la forma raíz (clave estable de color). */
-	estrofa_forma_slug?: string | null;
-	/** tipo_forma de la forma raíz (gama cálida/fría para el fallback de color). */
-	estrofa_tipo_forma?: string | null;
 	sinopsis: string | null;
 };
 
@@ -46,10 +40,17 @@ export type SequenceSynopsisCard = {
 	vIni: number;
 	vFin: number;
 	nVersos: number | null;
-	estrofaLabel: string;
-	/** Slug de la forma raíz para colorear (clave de colorByForma). */
+	/** La forma, que es lo que nombra el pasaje; «Sin forma» si no está anotada. */
+	formaLabel: string;
+	/**
+	 * La arquitectura, cuando se conoce y dice algo más que la forma. Una quintilla «ababa» y una
+	 * «abaab» son la misma forma y no la misma arquitectura, y solo con la forma el encabezado se
+	 * quedaba corto. Nula si coincide con la forma, para no repetir la palabra.
+	 */
+	arquitecturaLabel: string | null;
+	/** Slug de la forma para colorear (clave de colorByForma). */
 	formaColorKey: string | null;
-	/** tipo_forma de la forma raíz (gama, para el fallback de color). */
+	/** tipo_forma de la forma (gama, para el fallback de color). */
 	formaTipoForma: string | null;
 	sinopsis: string | null;
 	hasSynopsis: boolean;
@@ -88,7 +89,6 @@ type BuildSequenceSynopsisGroupsArgs = {
 	secuencias: SequenceSynopsisSequenceLike[];
 	jornadas: JornadaRow[];
 	cuadros: CuadroRow[];
-	estrofaOptions?: EstrofaOption[];
 };
 
 function buildItems(cards: SequenceSynopsisCard[], groupKey: string): SequenceSynopsisGroupItem[] {
@@ -105,8 +105,6 @@ export function buildSequenceSynopsisGroups(args: BuildSequenceSynopsisGroupsArg
 		jornadas: args.jornadas,
 		cuadros: args.cuadros
 	});
-	const estrofaById = new Map((args.estrofaOptions ?? []).map((option) => [option.termino_id, option.termino]));
-	const estrofaOptionById = new Map((args.estrofaOptions ?? []).map((option) => [option.termino_id, option]));
 	// Los cuadros con su rango, numerados de corrido: la banda no sabe de jornadas.
 	const rangosDeCuadro = [...(args.cuadros ?? [])]
 		.filter((cuadro) => cuadro.v_ini !== null && cuadro.v_fin !== null)
@@ -121,7 +119,7 @@ export function buildSequenceSynopsisGroups(args: BuildSequenceSynopsisGroupsArg
 	const fallbackCards: SequenceSynopsisCard[] = [];
 
 	for (const item of resolved) {
-		const card = mapResolvedSequenceToCard(item, estrofaById, estrofaOptionById, rangosDeCuadro);
+		const card = mapResolvedSequenceToCard(item, rangosDeCuadro);
 		if (!item.jornada.jornadaId) {
 			fallbackCards.push(card);
 			continue;
@@ -174,26 +172,17 @@ export function buildSequenceSynopsisGroups(args: BuildSequenceSynopsisGroupsArg
 
 function mapResolvedSequenceToCard(
 	item: ResolvedSequenceStructure<SequenceSynopsisSequenceLike>,
-	estrofaById: Map<string, string>,
-	estrofaOptionById: Map<string, EstrofaOption>,
 	rangosDeCuadro: { numero: number; v_ini: number; v_fin: number }[]
 ): SequenceSynopsisCard {
 	// **La forma nombra el pasaje; la arquitectura es el detalle.** Decía «Octosilábica consonante»
-	// donde tenía que decir «Quintilla», que es el mismo fallo que tenía el código de barras. El
-	// encadenado conserva los dos escalones de antes porque en el dashboard las secuencias no
-	// siempre traen la forma resuelta.
-	const estrofaLabel =
-		item.sequence.forma_nombre ??
-		item.sequence.estrofa_forma_term ??
-		item.sequence.arquitectura_nombre ??
-		item.sequence.estrofa_tipo_term ??
-		estrofaById.get(item.sequence.estrofa_tipo_id ?? '') ??
-		'Sin estrofa';
-
-	// Forma raíz: si la secuencia ya trae el slug/gama (p.ej. payload público), se
-	// usa; si no, se deriva del estrofa_tipo_id subiendo al término padre (la raíz)
-	// con el catálogo de estrofas.
-	const forma = resolveFormaRaiz(item.sequence, estrofaOptionById);
+	// donde tenía que decir «Quintilla», que es el mismo fallo que tenía el código de barras. Ahora
+	// van las dos, y la arquitectura solo si añade algo a la forma.
+	const formaLabel = item.sequence.forma_nombre?.trim() || 'Sin forma';
+	const arquitectura = item.sequence.arquitectura_nombre?.trim() || null;
+	const arquitecturaLabel =
+		arquitectura && arquitectura.toLocaleLowerCase('es') !== formaLabel.toLocaleLowerCase('es')
+			? arquitectura
+			: null;
 
 	return {
 		secuenciaId: item.sequence.secuencia_id,
@@ -201,9 +190,10 @@ function mapResolvedSequenceToCard(
 		vIni: item.vIni,
 		vFin: item.vFin,
 		nVersos: item.sequence.n_versos ?? null,
-		estrofaLabel,
-		formaColorKey: forma.slug,
-		formaTipoForma: forma.tipoForma,
+		formaLabel,
+		arquitecturaLabel,
+		formaColorKey: item.sequence.forma_slug ?? null,
+		formaTipoForma: item.sequence.tipo_forma ?? null,
 		sinopsis: item.sequence.sinopsis,
 		hasSynopsis: Boolean(item.sequence.sinopsis?.trim()),
 		banda: bandaDeCuadros(item.vIni, item.vFin, rangosDeCuadro),
@@ -212,30 +202,4 @@ function mapResolvedSequenceToCard(
 		spansMultipleCuadros: item.spansMultipleCuadros,
 		tramos: item.tramos
 	};
-}
-
-/**
- * Forma raíz (slug + tipo_forma) de una secuencia. Prefiere los valores que ya
- * trae la secuencia; si faltan, sube del estrofa_tipo_id a su término padre (la
- * forma raíz) usando el catálogo de estrofas.
- */
-function resolveFormaRaiz(
-	sequence: SequenceSynopsisSequenceLike,
-	estrofaOptionById: Map<string, EstrofaOption>
-): { slug: string | null; tipoForma: string | null } {
-	if (sequence.forma_slug) {
-		return { slug: sequence.forma_slug, tipoForma: sequence.tipo_forma ?? null };
-	}
-	if (sequence.estrofa_forma_slug) {
-		return {
-			slug: sequence.estrofa_forma_slug,
-			tipoForma: sequence.estrofa_tipo_forma ?? null
-		};
-	}
-
-	const tipo = sequence.estrofa_tipo_id ? estrofaOptionById.get(sequence.estrofa_tipo_id) : undefined;
-	if (!tipo) return { slug: null, tipoForma: sequence.estrofa_tipo_forma ?? null };
-
-	const raiz = tipo.termino_padre_id ? (estrofaOptionById.get(tipo.termino_padre_id) ?? tipo) : tipo;
-	return { slug: raiz.termino, tipoForma: raiz.tipo_forma ?? null };
 }
