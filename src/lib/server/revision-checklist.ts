@@ -19,7 +19,6 @@ type SecuenciaChecklistRow = Pick<
 	| 'secuencia_id'
 	| 'v_ini'
 	| 'v_fin'
-	| 'estrofa_tipo_id'
 	| 'inaugura_espacio'
 	| 'versos_partidos'
 	| 'intervencion_personajes_femeninos'
@@ -41,7 +40,7 @@ export async function loadObraRevisionChecklist(
 		supabase
 			.from('secuencias_metricas')
 			.select(
-				'secuencia_id,v_ini,v_fin,estrofa_tipo_id,inaugura_espacio,versos_partidos,intervencion_personajes_femeninos,intervencion_figuras_donaire,intervencion_personajes_sobrenaturales,evento_sobrenatural,sinopsis'
+				'secuencia_id,v_ini,v_fin,inaugura_espacio,versos_partidos,intervencion_personajes_femeninos,intervencion_figuras_donaire,intervencion_personajes_sobrenaturales,evento_sobrenatural,sinopsis'
 			)
 			.eq('obra_id', obra.obra_id)
 	]);
@@ -67,8 +66,8 @@ export async function loadObraRevisionChecklist(
 		return { summary: null, errorMessage: cuadrosResult.error.message };
 	}
 
-	// Cuáles de estas secuencias están anotadas con el catálogo nuevo. Su forma no vive en
-	// `estrofa_tipo_id` sino en `anotaciones_metricas`, y para la checklist cuenta igual.
+	// Cuáles de estas secuencias tienen forma, que es estar anotadas con el catálogo: la forma vive
+	// en `anotaciones_metricas`, y `estrofa_tipo_id` ya no cuenta.
 	const secuencias = (secuenciasResult.data ?? []) as SecuenciaChecklistRow[];
 	const idsDeSecuencias = secuencias.map((fila) => fila.secuencia_id);
 	const anotadasResult = idsDeSecuencias.length
