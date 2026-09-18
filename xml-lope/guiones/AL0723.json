@@ -41,36 +41,48 @@
 			"jornada": 1,
 			"numero": 1,
 			"v_ini": 1,
-			"v_fin": 68
+			"v_fin": 135
 		},
 		{
 			"jornada": 1,
 			"numero": 2,
-			"v_ini": 69,
-			"v_fin": 299
+			"v_ini": 136,
+			"v_fin": 220
 		},
 		{
 			"jornada": 1,
 			"numero": 3,
-			"v_ini": 300,
+			"v_ini": 221,
 			"v_fin": 951
 		},
 		{
 			"jornada": 2,
 			"numero": 1,
 			"v_ini": 952,
-			"v_fin": 1095
+			"v_fin": 979
 		},
 		{
 			"jornada": 2,
 			"numero": 2,
-			"v_ini": 1096,
-			"v_fin": 1589
+			"v_ini": 980,
+			"v_fin": 1106
 		},
 		{
 			"jornada": 2,
 			"numero": 3,
-			"v_ini": 1590,
+			"v_ini": 1107,
+			"v_fin": 1147
+		},
+		{
+			"jornada": 2,
+			"numero": 4,
+			"v_ini": 1148,
+			"v_fin": 1687
+		},
+		{
+			"jornada": 2,
+			"numero": 5,
+			"v_ini": 1688,
 			"v_fin": 1868
 		},
 		{
@@ -83,12 +95,12 @@
 			"jornada": 3,
 			"numero": 2,
 			"v_ini": 2096,
-			"v_fin": 2573
+			"v_fin": 2664
 		},
 		{
 			"jornada": 3,
 			"numero": 3,
-			"v_ini": 2574,
+			"v_ini": 2665,
 			"v_fin": 2675
 		},
 		{
@@ -180,7 +192,7 @@
 			"v_fin": 979,
 			"versos": 28,
 			"forma_fuente": "cancion_canzone",
-			"forma": "cancion_petrarquista",
+			"forma": "cancion",
 			"arquitectura": "estancias_consonantes_variables",
 			"unidades": 28,
 			"partes": [
@@ -261,24 +273,38 @@
 					"por_posicion": {
 						"1": "Verso 1 · Heptasílabo",
 						"2": "Verso 2 · Endecasílabo",
-						"3": "Verso 3 · Endecasílabo",
-						"4": "Verso 4 · Heptasílabo",
-						"5": "Verso 5 · Endecasílabo",
-						"6": "Verso 6 · Heptasílabo",
-						"7": "Verso 7 · Endecasílabo",
-						"8": "Verso 8 · Heptasílabo",
-						"9": "Verso 9 · Endecasílabo",
+						"3": "Verso 3 · Heptasílabo",
+						"4": "Verso 4 · Endecasílabo",
+						"5": "Verso 5 · Heptasílabo",
+						"6": "Verso 6 · Endecasílabo",
+						"7": "Verso 7 · Heptasílabo",
+						"8": "Verso 8 · Endecasílabo",
+						"9": "Verso 9 · Heptasílabo",
 						"10": "Verso 10 · Endecasílabo",
 						"11": "Verso 11 · Heptasílabo",
 						"12": "Verso 12 · Endecasílabo",
 						"13": "Verso 13 · Heptasílabo",
 						"14": "Verso 14 · Endecasílabo",
-						"15": "Verso 15 · Heptasílabo",
-						"16": "Verso 16 · Endecasílabo",
-						"17": "Verso 17 · Heptasílabo",
-						"18": "Verso 18 · Endecasílabo",
-						"19": "Verso 19 · Heptasílabo",
-						"20": "Verso 20 · Heptasílabo"
+						"15": "Verso 15 · Heptasílabo"
+					}
+				},
+				"Remate o envío · Medida de cada verso": {
+					"por_posicion": {
+						"1": "Verso 1 · Heptasílabo",
+						"2": "Verso 2 · Endecasílabo",
+						"3": "Verso 3 · Heptasílabo",
+						"4": "Verso 4 · Endecasílabo",
+						"5": "Verso 5 · Heptasílabo",
+						"6": "Verso 6 · Endecasílabo",
+						"7": "Verso 7 · Heptasílabo",
+						"8": "Verso 8 · Endecasílabo",
+						"9": "Verso 9 · Heptasílabo",
+						"10": "Verso 10 · Endecasílabo",
+						"11": "Verso 11 · Heptasílabo",
+						"12": "Verso 12 · Endecasílabo",
+						"13": "Verso 13 · Heptasílabo",
+						"14": "Verso 14 · Endecasílabo",
+						"15": "Verso 15 · Heptasílabo"
 					}
 				}
 			}
@@ -550,9 +576,9 @@
 			"unidades": 1,
 			"secuencia": {},
 			"unidad": {
-				"Medida de cada verso": {
-					"misma_en_todas": "Octosílabo",
-					"posiciones": 2
+				"Medida de los versos": {
+					"dominante": "Pentasílabo",
+					"excepciones": {}
 				},
 				"Esquema de rima": {
 					"dominante": "aa · Asonante",
@@ -574,7 +600,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 3
+						"Cruzada · abab": 2
 					}
 				}
 			}

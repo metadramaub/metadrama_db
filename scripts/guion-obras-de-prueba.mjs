@@ -137,7 +137,7 @@ const MAPA = {
 	romance_tirada: ['romance', 'octosilabica'],
 	// **Romancillo y endecha son lo mismo, y no son la endecha real.** El romancillo hexasílabo es
 	// romance de seis sílabas; la endecha real mezcla heptasílabos con un endecasílabo final.
-	romancillo_o_endecha: ['romance', 'hexasilabica'],
+	romancillo_o_endecha: ['romancillo', 'hexasilabica'],
 	quintilla: ['quintilla', 'octosilabica_consonante'],
 	decima: ['decima', 'espinela'],
 	octava_real: ['octava_real', 'endecasilabica_consonante'],
@@ -149,11 +149,12 @@ const MAPA = {
 	// **El «terceto» de la comedia es terceto encadenado.** Se ve en los propios largos: 39, 55, 58
 	// y 160 versos, que son cadenas de tercetos con —o sin— el serventesio de cierre.
 	terceto: ['terceto_encadenado', 'endecasilabica_consonante'],
-	// Lo normal es que sean la canción regular y ARTELOPE las haya llamado de dos maneras. Pero por
-	// debajo de quince versos no cabe una canción —tres estancias de cinco es el mínimo—, así que un
-	// pasaje más corto es un fragmento y va a tramo irregular: ver `cancionPorLargo`.
-	cancion: ['cancion_petrarquista', 'estancias_consonantes_variables'],
-	cancion_canzone: ['cancion_petrarquista', 'estancias_consonantes_variables'],
+	// Lo normal es que sean la canción regular y ARTELOPE las haya llamado de dos maneras. Aquí se
+	// generan como canción de estancia inventada, que es la forma general; la petrarquista es solo
+	// la regular de trece, y la sin rima, otra forma. Por debajo de veintisiete versos no cabe una
+	// canción —tres estancias de nueve es el mínimo—, así que el pasaje crece: ver `MINIMO`.
+	cancion: ['cancion', 'estancias_consonantes_variables'],
+	cancion_canzone: ['cancion', 'estancias_consonantes_variables'],
 	sestina: ['sextina', 'clasica'],
 	seguidilla: ['seguidilla', 'simple'],
 	sextilla_de_pie_quebrado: ['sextilla', 'pie_quebrado'],
@@ -202,11 +203,11 @@ function sueltoPorLargo(versos) {
 /**
  * Lo mínimo que puede medir una forma para que sus partes quepan.
  *
- * La canción petrarquista repite la estancia tres veces por lo menos y ninguna baja de cinco
- * versos: por debajo de quince no cabe una canción. Como las obras son inventadas, el pasaje
- * **crece hasta que quepa** en vez de degradarse a tramo irregular, que era perder el ejemplo.
+ * La canción repite la estancia tres veces por lo menos y ninguna baja de nueve versos: por
+ * debajo de veintisiete no cabe una canción. Como las obras son inventadas, el pasaje **crece
+ * hasta que quepa** en vez de degradarse a tramo irregular, que era perder el ejemplo.
  */
-const MINIMO = { cancion_petrarquista: 15, villancico: 7 };
+const MINIMO = { cancion: 27, villancico: 7 };
 
 /**
  * Las partes de las dos formas que crecen por ciclos, dichas árbol abajo.
@@ -217,7 +218,7 @@ const MINIMO = { cancion_petrarquista: 15, villancico: 7 };
  */
 function partesDe(forma, versos) {
 	if (forma === 'villancico') return ciclosDeVillancico(versos);
-	if (forma === 'cancion_petrarquista') return estanciasDeCancion(versos);
+	if (forma === 'cancion') return estanciasDeCancion(versos);
 	return null;
 }
 
@@ -269,26 +270,27 @@ function ciclosDeVillancico(versos) {
 /**
  * Las estancias de una canción, que miden lo que quieran mientras midan todas igual.
  *
- * La canción petrarquista repite una estancia —fronte de dos pies, a veces un eslabón, y sirima—
- * al menos tres veces, y puede cerrar con un remate más corto. Lo que aquí se calcula es un
- * reparto posible del pasaje: tres estancias o más, ninguna de menos de cinco versos ni de más de
- * veinte, y el resto al remate.
+ * La canción repite una estancia —fronte de dos pies, a veces un eslabón, y sirima— al menos tres
+ * veces, y puede cerrar con un remate más corto. Lo que aquí se calcula es un reparto posible del
+ * pasaje: tres estancias o más, ninguna de menos de nueve versos ni de más de quince, y el resto al
+ * remate. Las estancias de prueba llevan siempre la partición entera, aunque el catálogo la haga
+ * opcional: es lo que más ejercita al editor.
  */
 function estanciasDeCancion(versos) {
 	let cuantas = Math.max(3, Math.round(versos / 13));
-	while (cuantas > 3 && Math.floor(versos / cuantas) < 5) cuantas -= 1;
+	while (cuantas > 3 && Math.floor(versos / cuantas) < 9) cuantas -= 1;
 	const largo = Math.floor(versos / cuantas);
-	if (largo < 5 || largo > 20) return null;
+	if (largo < 9 || largo > 15) return null;
 	const sobra = versos - largo * cuantas;
-	if (sobra > 20) return null;
+	if (sobra > 15) return null;
 
-	// El fronte son dos pies iguales de dos a nueve versos; el eslabón, uno o ninguno; la sirima,
-	// lo que quede, entre uno y dieciséis.
+	// El fronte son dos pies iguales de dos a siete versos; el eslabón, uno o ninguno; la sirima,
+	// lo que quede, entre uno y once.
 	let reparto = null;
-	for (let pie = Math.min(9, Math.floor(largo / 2)); pie >= 2 && !reparto; pie -= 1) {
+	for (let pie = Math.min(7, Math.floor(largo / 2)); pie >= 2 && !reparto; pie -= 1) {
 		for (const eslabon of [1, 0]) {
 			const sirima = largo - pie * 2 - eslabon;
-			if (sirima >= 1 && sirima <= 16 && pie * 2 >= 4 && pie * 2 <= 18) {
+			if (sirima >= 1 && sirima <= 11 && pie * 2 >= 4 && pie * 2 <= 14) {
 				reparto = { pie, eslabon, sirima };
 				break;
 			}
@@ -488,7 +490,7 @@ function respuestas(arq, unidades, rnd, medida) {
 			// **La estancia de una canción es alirada**: alterna heptasílabos y endecasílabos, y como
 			// las dos medidas se ofrecen en todas las posiciones parecería isométrica. Se responde
 			// alternando, que es lo que hace una canción.
-			if (arq.forma === 'cancion_petrarquista' && g.dimension === 'metro') {
+			if (arq.forma === 'cancion' && g.dimension === 'metro') {
 				unidad[g.nombre] = {
 					por_posicion: Object.fromEntries(
 						posiciones.map((p, i) => [p, `Verso ${p} · ${i % 2 === 0 ? 'Heptasílabo' : 'Endecasílabo'}`])
@@ -617,7 +619,7 @@ function guionDe(obra, catalogo) {
 			entrada.versos = Math.max(unidades * paso, MINIMO[arq.forma] ?? 0);
 			const partes = partesDe(arq.forma, entrada.versos);
 			if (partes) entrada.partes = partes;
-			else if (arq.forma === 'villancico' || arq.forma === 'cancion_petrarquista') {
+			else if (arq.forma === 'villancico' || arq.forma === 'cancion') {
 				avisos.push(`no se pudo repartir ${arq.forma} en ${entrada.versos} versos`);
 			}
 			Object.assign(entrada, respuestas(arq, unidades, rnd, par[2]));

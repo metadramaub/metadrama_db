@@ -249,25 +249,26 @@ terceto encadenado, los pareados de la silva—, que sí es una sola unidad.
 Las dos repeticiones no se confunden: la del pasaje se deriva del rango; la interna —los
 dos cuartetos del soneto, las seis estrofas de la sextina— pertenece a la arquitectura.
 
-**Una estancia se distingue de una estrofa por el eslabón.** *Decisión del IP el 24 de agosto de
-2026.* La canción y las estrofas aliradas tienen la misma materia —heptasílabos y endecasílabos
-consonantes, repetidos sin cambio— y se distinguen por cómo se ordena la unidad:
+**Una estancia se distingue de una estrofa alirada por la extensión y, de nueve versos en
+adelante, por la articulación.** *Decisión del 17 de septiembre de 2026, que sustituye a la del 24 de
+agosto.* La canción y las estrofas aliradas tienen la misma materia —heptasílabos y endecasílabos
+consonantes, repetidos sin cambio— y se distinguen así:
 
-> Es **estancia de canción** si la fronte se parte en dos piedi idénticos **y** la sirima empieza
-> con eslabón —el verso que retoma la rima con que se cerró la fronte—. Es **estrofa alirada** en
-> cualquier otro caso.
+> Hasta **ocho versos** es siempre **estrofa alirada**: el suelo de la estancia está en nueve, donde
+> lo ponen cuatro de las seis fuentes. De nueve a quince las dos formas coinciden en materia y en
+> extensión, y es **estancia de canción** si una fronte de dos *piedi* unidos por la rima y una
+> sirima de rimas nuevas la articulan como estancia, con eslabón o sin él; es **novena-** o
+> **décima-lira** si se considera una estrofa sin partes. **Un pareado final no constituye por sí solo
+> una sirima**, porque lo tienen también las aliradas menores.
 
-El criterio se fijó porque el que se venía usando —«la alirada prescinde de la ordenación en fronte
-y sirima»— es cierto de lejos y no distingue nada de cerca. Aplicado al patrón `aBaBcDcDeE`, que la
-edición crítica de *Elisa Dido* llama «décima-estancia», da `aB` + `aB` de fronte y `cDcDeE` de
-sirima: **lo declararía canción**. Lo único que le falta frente al modelo petrarquista es el
-eslabón, de modo que era el eslabón lo que estaba decidiendo.
-
-Los dos planos no se confunden. **Estructuralmente el eslabón es opcional**, porque en la tradición
-italiana la chiave lo es y una canción sin ella no deja de serlo; lo que la decisión fija es **cómo
-se nombra por defecto** lo que no lo trae. Por eso el criterio es reversible: registrados por
-separado el esquema observado, si la cabeza se repite y si hay eslabón, una estancia larga sin
-chiave se encuentra con una consulta y se reclasifica.
+El criterio anterior —el eslabón— se retiró porque ninguna de las seis fuentes lo usa y las dos que
+lo describen dicen expresamente que no es obligatorio; y porque, aplicado a las dos disposiciones de
+nueve versos de Navarro Tomás (`abCabCcdD`, `AbCAbCcdD`), fabricaba una sola lectura donde hay dos
+legítimas. El solape es real y el catálogo lo declara en vez de resolverlo por decreto: la misma
+estrofa de nueve puede registrarse como canción o como novena-lira, la partición queda anotada verso a
+verso en `anotacion_realizaciones` —fronte y sirima son secciones opcionales—, y después las dos
+lecturas se comparan por su esquema de rima. El razonamiento entero, con las fuentes, está en el
+[histórico](./historico/cancion-y-liras-2026-09-17.md).
 
 ### 3.5 · Composición y reutilización
 

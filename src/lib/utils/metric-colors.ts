@@ -28,6 +28,10 @@ const FORMA_COLOR_BY_SLUG: Record<string, string> = {
 	// dominan cualquier barcode: alternan matiz Y claridad para no fundirse entre sí.
 	quintilla: '#b71c1c', // rojo profundo
 	romance: '#ff9d3c', // naranja claro
+	// El heroico es el romance en endecasílabos y va del mismo color; el romancillo, distinto para
+	// que un pasaje de arte menor se distinga del octosílabo de al lado.
+	romance_heroico: '#ff9d3c',
+	romancillo: '#f2c14e', // amarillo cálido
 	redondilla: '#e07016', // ámbar-naranja medio
 	// Medias.
 	decima: '#9c4a1a', // terracota oscura
@@ -60,7 +64,11 @@ const FORMA_COLOR_BY_SLUG: Record<string, string> = {
 	silva: '#5a4fd4', // índigo medio
 	terceto_encadenado: '#7aa8f0', // azul claro, hermano del terceto
 	// Medias.
+	// Las tres canciones, del mismo color: son la misma composición con la estancia fija, inventada
+	// o sin rima, y en el código de barras interesa verlas como una.
+	cancion: '#8fc4e0',
 	cancion_petrarquista: '#8fc4e0',
+	cancion_sin_rima: '#8fc4e0',
 	octava_aguda: '#1a9ec4',
 	cuarteto: '#4aa8c9',
 	sexteto: '#0e5f8a',

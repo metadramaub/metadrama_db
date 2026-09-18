@@ -50,8 +50,8 @@ anotó no encontrara la forma precisa y con el catálogo nuevo sí la encuentre.
 registrar exactamente lo que se ve.
 
 **A4 · Las preguntas que la serie alirada no tiene.** La novena-lira no tiene dónde registrar la
-disposición que se vea, ni la décima cuando no sea la documentada, ni la canción variable las medidas
-de sus partes. Es el mismo hueco de la sextilla y el sexteto, y se resuelve de una vez para todo el
+disposición que se vea, ni la décima cuando no sea la documentada. (La canción ya no está aquí: la
+estancia se reparte verso a verso y el remate pregunta medida y rima desde el 18 de septiembre.) Es el mismo hueco de la sextilla y el sexteto, y se resuelve de una vez para todo el
 catálogo.
 
 **A5 · Las rimas compartidas entre partes de una forma compuesta no tienen destino.** El editor
@@ -108,6 +108,16 @@ idénticas. *Ninguna es un defecto.*
 **B10 · Las desviaciones no se han probado nunca.** Se puede abrir una desde el editor y no hay
 ninguna anotada, ni en pruebas. Hay que recorrerlas antes de pedirle a nadie que las use. Y decidir
 si es límite aceptable que **una desviación no pueda registrar algo que el catálogo no tenga**.
+
+**B11 · El separador de las notaciones no es uniforme.** Once esquemas llevan `:` —`abCabC:cdeeDfF`,
+`abba:accddc`, `ABBA:CDDC`— y quince llevan `|` —`abab|cddc`, `abcabc|defdef`—; el editor pinta
+siempre `|` y la restricción de la base acepta los dos. Decidir cuál gana y unificar. Aplazado el 17
+de septiembre de 2026 al partir la canción, que era donde se veía.
+
+**B12 · Una canción cuyas estancias midan distinto no se puede anotar como una secuencia.**
+`primera_realizacion_define_patron` obliga a que todas midan lo mismo, y Morley y Bruerton dan un
+pasaje «mezclado» de 13, 13, 13, 14 y 15 versos en *El verdadero amante*. Cuando aparezca uno se
+decide si se admite o se parte en secuencias.
 
 ---
 
@@ -244,7 +254,9 @@ fiarse de nosotros.
 trabajo.** *Cuando se aborde, entran como esquemas de la arquitectura con modalidad `admitida`,
 nunca `definitoria`* —decidido el 17 de septiembre—: la distribución sigue siendo variable y lo que
 se documenta es solo lo ya encontrado. Si entran, **la canción petrarquista dejará de tener una
-sola arquitectura regular**.
+sola arquitectura regular**. Y uno tiene ya destino dicho por el IP: `ABCABCDD`, la «canción toda
+en endecasílabos» de *Barlaán y Josafat* (Morley y Bruerton, p. 176), es un esquema de **octava
+real**, no una canción; el término legado `cancion_endecasilaba` apunta ahí.
 
 **E3 · Las 23 afirmaciones que matizan sobre formas con esquema definitorio.** Lo único del inventario
 de divergencias que apunta a desacuerdo real, no a silencio.
