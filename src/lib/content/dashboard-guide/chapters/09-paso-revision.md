@@ -16,7 +16,7 @@ Las **comprobaciones necesarias** revisan:
 - que la inauguración de espacio esté revisada: la primera secuencia de la obra la inaugura siempre, y si ninguna secuencia lo hace es que esa caracterización no se ha mirado;
 - que exista al menos una propuesta de autoría documentada. Una autoría disputada también es válida si sus propuestas están correctamente registradas.
 
-Las **recomendaciones editoriales** recuerdan revisar las sinopsis de las secuencias, que la primera secuencia de cada jornada inaugure espacio, las observaciones, la bibliografía y la asignación del responsable de edición. Orientan la revisión, pero no bloquean el cambio de estado.
+Las **recomendaciones editoriales** recuerdan revisar las sinopsis de las secuencias, la fecha tradicional y su fuente, las observaciones, la bibliografía y la asignación del responsable de edición. Orientan la revisión, pero no bloquean el cambio de estado.
 
 Si una comprobación está pendiente, el botón **Revisar** abre directamente la pestaña donde puede corregirse.
 

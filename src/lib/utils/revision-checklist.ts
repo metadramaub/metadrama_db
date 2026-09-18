@@ -26,6 +26,10 @@ type ObraChecklistData = {
 	observaciones: string | null;
 	bibliografia: string | null;
 	editor_asignado: string | null;
+	/** La fecha tradicional y de dónde sale. Se recomiendan, no se exigen: no toda obra la tiene. */
+	fecha_inicio_trad?: number | null;
+	fecha_fin_trad?: number | null;
+	fuente_fecha?: string | null;
 };
 
 type JornadaChecklistData = {
@@ -143,24 +147,6 @@ function analyzeSpaceInauguration(secuencias: SecuenciaChecklistData[]): {
 }
 
 /**
- * Cada jornada empieza en otro sitio, casi siempre. No es una ley como la de la primera secuencia
- * de la obra, así que se recomienda y no se exige: si la primera secuencia de una jornada no
- * inaugura espacio, conviene volver a mirarla.
- */
-function jornadasWhoseOpeningDoesNotInaugurate(
-	jornadas: JornadaChecklistData[],
-	secuencias: SecuenciaChecklistData[]
-): JornadaChecklistData[] {
-	const ordered = [...secuencias].sort((a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin);
-	return [...jornadas]
-		.sort((a, b) => a.v_ini - b.v_ini)
-		.filter((jornada) => {
-			const opening = ordered.find((secuencia) => secuencia.v_fin >= jornada.v_ini);
-			return opening !== undefined && opening.inaugura_espacio !== true;
-		});
-}
-
-/**
  * **Los versos que ninguna secuencia cubre.** Que dos secuencias no se pisen lo mira la coherencia
  * de rangos; que entre las dos no quede un hueco, o que la anotación termine antes que la obra, no
  * lo miraba nadie, y una obra publicada con versos sin anotar tiene el perfil mal. Se compara con
@@ -240,9 +226,10 @@ export function buildRevisionChecklist(
 			? 'estructura'
 			: 'secuencias';
 	const spaceInauguration = analyzeSpaceInauguration(input.secuencias);
-	const jornadasSinInaugurar = jornadasWhoseOpeningDoesNotInaugurate(input.jornadas, input.secuencias);
 	const uncovered = findUncoveredRanges(input.jornadas, input.secuencias);
 	const uncoveredVerses = uncovered.reduce((sum, gap) => sum + (gap.v_fin - gap.v_ini + 1), 0);
+	const tieneFecha = input.obra.fecha_inicio_trad != null || input.obra.fecha_fin_trad != null;
+	const tieneFuenteFecha = Boolean((input.obra.fuente_fecha ?? '').trim());
 	const observacionesLength = (input.obra.observaciones ?? '').trim().length;
 	const bibliografiaLength = (input.obra.bibliografia ?? '').trim().length;
 
@@ -358,18 +345,17 @@ export function buildRevisionChecklist(
 				targetTab: 'secuencias'
 			},
 			{
-				id: 'jornada-openings',
-				label: 'Cada jornada empieza inaugurando espacio',
-				done: input.jornadas.length > 0 && input.secuencias.length > 0 && jornadasSinInaugurar.length === 0,
-				detail:
-					input.jornadas.length === 0 || input.secuencias.length === 0
-						? 'Sin estructura o sin secuencias'
-						: jornadasSinInaugurar.length === 0
-							? ''
-							: `Revisar la primera secuencia de ${jornadasSinInaugurar.length === 1 ? 'la jornada' : 'las jornadas'} ${jornadasSinInaugurar
-									.map((jornada) => jornada.jornada_num)
-									.join(', ')}`,
-				targetTab: 'secuencias'
+				id: 'dating',
+				label: 'Fecha tradicional y su fuente',
+				done: tieneFecha && tieneFuenteFecha,
+				detail: !tieneFecha
+					? tieneFuenteFecha
+						? 'Hay fuente pero no fecha'
+						: 'Sin fecha'
+					: tieneFuenteFecha
+						? ''
+						: 'Hay fecha pero no dice de dónde sale',
+				targetTab: 'datos'
 			},
 			{
 				id: 'observations',
