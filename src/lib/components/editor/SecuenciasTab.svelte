@@ -14,6 +14,7 @@
 	import TriangleAlert from 'lucide-svelte/icons/triangle-alert';
 	import Venus from 'lucide-svelte/icons/venus';
 	import Pencil from 'lucide-svelte/icons/pencil';
+	import Slash from 'lucide-svelte/icons/slash';
 	import Trash2 from 'lucide-svelte/icons/trash-2';
 	import type { Tables } from '$lib/types/database.types';
 	import Button from '$lib/components/ui/button.svelte';
@@ -470,13 +471,35 @@
 		return resumenPorSecuencia.get(secuencia.secuencia_id) ?? resumirSecuencia(secuencia);
 	}
 
-	/** Las intervenciones se encienden si las hay; el título dice si son exclusivas o compartidas. */
-	function intervencionEncendida(valor: string | null | undefined): boolean {
-		return Boolean(valor) && valor !== 'sin_intervencion';
+	/**
+	 * Tres estados para cada caracterización, no dos. Un icono apagado decía lo mismo para «no» y
+	 * para «sin responder», y son cosas distintas: la primera es una respuesta y la segunda es
+	 * trabajo pendiente. Encendido es sí; tachado es no; apagado es que nadie ha contestado.
+	 */
+	type EstadoDeCaracterizacion = 'si' | 'no' | 'pendiente';
+
+	function estadoBooleano(valor: boolean | null | undefined): EstadoDeCaracterizacion {
+		if (valor === true) return 'si';
+		if (valor === false) return 'no';
+		return 'pendiente';
+	}
+
+	function estadoDeIntervencion(valor: string | null | undefined): EstadoDeCaracterizacion {
+		if (!valor) return 'pendiente';
+		return valor === 'sin_intervencion' ? 'no' : 'si';
+	}
+
+	function tituloDeCaracterizacion(
+		estado: EstadoDeCaracterizacion,
+		textos: { si: string; no: string; pendiente: string }
+	): string {
+		return textos[estado];
 	}
 
 	function tituloDeIntervencion(que: string, valor: string | null | undefined): string {
-		if (!intervencionEncendida(valor)) return `Sin ${que}`;
+		const estado = estadoDeIntervencion(valor);
+		if (estado === 'pendiente') return `${que[0].toUpperCase()}${que.slice(1)}: sin responder`;
+		if (estado === 'no') return `Sin ${que}`;
 		return `${que[0].toUpperCase()}${que.slice(1)}: ${valor === 'exclusiva' ? 'intervención exclusiva' : 'intervención compartida'}`;
 	}
 
@@ -1482,48 +1505,48 @@
 									</td>
 									<td class="px-3 py-2">
 										<div class="flex items-center gap-2">
-											<span
-												class={secuencia.inaugura_espacio ? 'text-[color:var(--foreground)]' : 'text-[color:var(--muted-foreground)] opacity-30'}
-												title={secuencia.inaugura_espacio ? 'Inaugura espacio' : 'No inaugura espacio'}
-												aria-label={secuencia.inaugura_espacio ? 'Inaugura espacio' : 'No inaugura espacio'}
-											>
-												<MapPin size={15} aria-hidden="true" />
-											</span>
-											<span
-												class={secuencia.versos_partidos ? 'text-[color:var(--foreground)]' : 'text-[color:var(--muted-foreground)] opacity-30'}
-												title={secuencia.versos_partidos ? 'Con versos partidos' : 'Sin versos partidos'}
-												aria-label={secuencia.versos_partidos ? 'Con versos partidos' : 'Sin versos partidos'}
-											>
-												<MessagesSquare size={15} aria-hidden="true" />
-											</span>
-											<span
-												class={intervencionEncendida(secuencia.intervencion_personajes_femeninos) ? 'text-[color:var(--foreground)]' : 'text-[color:var(--muted-foreground)] opacity-30'}
-												title={tituloDeIntervencion('personajes femeninos', secuencia.intervencion_personajes_femeninos)}
-												aria-label={tituloDeIntervencion('personajes femeninos', secuencia.intervencion_personajes_femeninos)}
-											>
-												<Venus size={15} aria-hidden="true" />
-											</span>
-											<span
-												class={intervencionEncendida(secuencia.intervencion_figuras_donaire) ? 'text-[color:var(--foreground)]' : 'text-[color:var(--muted-foreground)] opacity-30'}
-												title={tituloDeIntervencion('figura del donaire', secuencia.intervencion_figuras_donaire)}
-												aria-label={tituloDeIntervencion('figura del donaire', secuencia.intervencion_figuras_donaire)}
-											>
-												<Laugh size={15} aria-hidden="true" />
-											</span>
-											<span
-												class={intervencionEncendida(secuencia.intervencion_personajes_sobrenaturales) ? 'text-[color:var(--foreground)]' : 'text-[color:var(--muted-foreground)] opacity-30'}
-												title={tituloDeIntervencion('personajes sobrenaturales', secuencia.intervencion_personajes_sobrenaturales)}
-												aria-label={tituloDeIntervencion('personajes sobrenaturales', secuencia.intervencion_personajes_sobrenaturales)}
-											>
-												<Ghost size={15} aria-hidden="true" />
-											</span>
-											<span
-												class={secuencia.evento_sobrenatural ? 'text-[color:var(--foreground)]' : 'text-[color:var(--muted-foreground)] opacity-30'}
-												title={secuencia.evento_sobrenatural ? 'Con evento sobrenatural' : 'Sin evento sobrenatural'}
-												aria-label={secuencia.evento_sobrenatural ? 'Con evento sobrenatural' : 'Sin evento sobrenatural'}
-											>
-												<MoonStar size={15} aria-hidden="true" />
-											</span>
+											{@render caracterizacion(
+												estadoBooleano(secuencia.inaugura_espacio),
+												tituloDeCaracterizacion(estadoBooleano(secuencia.inaugura_espacio), {
+													si: 'Inaugura espacio',
+													no: 'No inaugura espacio',
+													pendiente: 'Inaugura espacio: sin responder'
+												}),
+												MapPin
+											)}
+											{@render caracterizacion(
+												estadoBooleano(secuencia.versos_partidos),
+												tituloDeCaracterizacion(estadoBooleano(secuencia.versos_partidos), {
+													si: 'Con versos partidos',
+													no: 'Sin versos partidos',
+													pendiente: 'Versos partidos: sin responder'
+												}),
+												MessagesSquare
+											)}
+											{@render caracterizacion(
+												estadoDeIntervencion(secuencia.intervencion_personajes_femeninos),
+												tituloDeIntervencion('personajes femeninos', secuencia.intervencion_personajes_femeninos),
+												Venus
+											)}
+											{@render caracterizacion(
+												estadoDeIntervencion(secuencia.intervencion_figuras_donaire),
+												tituloDeIntervencion('figura del donaire', secuencia.intervencion_figuras_donaire),
+												Laugh
+											)}
+											{@render caracterizacion(
+												estadoDeIntervencion(secuencia.intervencion_personajes_sobrenaturales),
+												tituloDeIntervencion('personajes sobrenaturales', secuencia.intervencion_personajes_sobrenaturales),
+												Ghost
+											)}
+											{@render caracterizacion(
+												estadoBooleano(secuencia.evento_sobrenatural),
+												tituloDeCaracterizacion(estadoBooleano(secuencia.evento_sobrenatural), {
+													si: 'Con evento sobrenatural',
+													no: 'Sin evento sobrenatural',
+													pendiente: 'Evento sobrenatural: sin responder'
+												}),
+												MoonStar
+											)}
 										</div>
 									</td>
 									<td class="px-3 py-2">
@@ -1614,6 +1637,7 @@
 	</div>
 	<p class="text-xs text-[color:var(--muted-foreground)]">
 		La suma de versos declarados se calcula solo sobre las secuencias visibles por los filtros activos.
+		En las caracterizaciones, un icono encendido es «sí», tachado es «no» y apagado, sin responder.
 	</p>
 	<div class="space-y-2 lg:hidden">
 		<div class="flex justify-start">
@@ -1780,6 +1804,27 @@
 	fueron con él sin que nadie lo notara: la anotación perdió el sitio donde se discute, que es
 	justo lo que un equipo editorial necesita a mano mientras anota.
 -->
+{#snippet caracterizacion(estado: EstadoDeCaracterizacion, titulo: string, Icono: typeof Venus)}
+	<!-- El «no» se dibuja tachado con una barra encima del icono, en el color del texto atenuado;
+	     el «sin responder» queda tenue y sin barra. Así el hueco y la negativa no se confunden. -->
+	<span
+		class={`relative inline-flex ${
+			estado === 'si'
+				? 'text-[color:var(--foreground)]'
+				: estado === 'no'
+					? 'text-[color:var(--muted-foreground)]'
+					: 'text-[color:var(--muted-foreground)] opacity-30'
+		}`}
+		title={titulo}
+		aria-label={titulo}
+	>
+		<Icono size={15} aria-hidden="true" />
+		{#if estado === 'no'}
+			<Slash size={15} aria-hidden="true" class="absolute inset-0" strokeWidth={2.5} />
+		{/if}
+	</span>
+{/snippet}
+
 {#snippet restoDelFormulario()}
 	<MetricPanelSection
 		id="caracterizaciones"
