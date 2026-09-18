@@ -17,6 +17,11 @@ export type RevisionChecklistItem = {
 	done: boolean;
 	detail: string;
 	targetTab?: RevisionTargetTab;
+	/**
+	 * Lo que puede quedarse vacío sin que nadie tenga que revisarlo: las observaciones de obra y la
+	 * bibliografía métrica. Se enseña como opcional, no como pendiente, y no cuenta en el total.
+	 */
+	optional?: boolean;
 };
 
 type ObraChecklistData = {
@@ -133,8 +138,7 @@ function analyzeSpaceInauguration(secuencias: SecuenciaChecklistData[]): {
 	if (inauguran === 0) {
 		return {
 			done: false,
-			detail:
-				'Ninguna secuencia inaugura espacio, y la que abre la obra lo hace siempre: revisa esta caracterización en todas'
+			detail: 'Ninguna secuencia inaugura espacio, ni siquiera la que abre la obra'
 		};
 	}
 	if (first.inaugura_espacio !== true) {
@@ -143,7 +147,14 @@ function analyzeSpaceInauguration(secuencias: SecuenciaChecklistData[]): {
 			detail: `La primera secuencia (${rangeLabel(first.v_ini, first.v_fin)}) no inaugura espacio, y la que abre la obra lo hace siempre`
 		};
 	}
-	return { done: true, detail: pluralize(inauguran, 'secuencia lo inaugura', 'secuencias lo inauguran') };
+	const otras = inauguran - 1;
+	return {
+		done: true,
+		detail:
+			otras === 0
+				? 'La primera secuencia de la primera jornada inaugura espacio'
+				: `La primera secuencia de la primera jornada inaugura espacio, y ${pluralize(otras, 'secuencia más lo hace', 'secuencias más lo hacen')}`
+	};
 }
 
 /**
@@ -321,6 +332,18 @@ export function buildRevisionChecklist(
 				targetTab: 'secuencias'
 			},
 			{
+				id: 'sequence-synopses',
+				label: 'Sinopsis de todas las secuencias',
+				done: input.secuencias.length > 0 && missingSynopsisCount === 0,
+				detail:
+					input.secuencias.length === 0
+						? 'No hay secuencias'
+						: missingSynopsisCount === 0
+							? ''
+							: `${pluralize(missingSynopsisCount, 'sinopsis pendiente', 'sinopsis pendientes')}`,
+				targetTab: 'secuencias'
+			},
+			{
 				id: 'authorship',
 				label: 'Autoría registrada',
 				done: input.autoriaGroupCount > 0,
@@ -333,20 +356,8 @@ export function buildRevisionChecklist(
 		],
 		recommendations: [
 			{
-				id: 'sequence-synopses',
-				label: 'Sinopsis de las secuencias completadas',
-				done: input.secuencias.length > 0 && missingSynopsisCount === 0,
-				detail:
-					input.secuencias.length === 0
-						? 'No hay secuencias'
-						: missingSynopsisCount === 0
-							? ''
-							: `${pluralize(missingSynopsisCount, 'sinopsis pendiente', 'sinopsis pendientes')}`,
-				targetTab: 'secuencias'
-			},
-			{
 				id: 'dating',
-				label: 'Fecha tradicional y su fuente',
+				label: 'Fecha o datación y su fuente',
 				done: tieneFecha && tieneFuenteFecha,
 				detail: !tieneFecha
 					? tieneFuenteFecha
@@ -359,17 +370,19 @@ export function buildRevisionChecklist(
 			},
 			{
 				id: 'observations',
-				label: 'Observaciones de obra desarrolladas',
-				done: observacionesLength > 100,
-				detail: `${pluralize(observacionesLength, 'carácter', 'caracteres')}`,
-				targetTab: 'observaciones'
+				label: 'Observaciones de obra',
+				done: observacionesLength > 0,
+				detail: observacionesLength > 0 ? `${pluralize(observacionesLength, 'carácter', 'caracteres')}` : '',
+				targetTab: 'observaciones',
+				optional: true
 			},
 			{
 				id: 'bibliography',
-				label: 'Bibliografía métrica añadida',
+				label: 'Bibliografía métrica',
 				done: bibliografiaLength > 0,
-				detail: `${pluralize(bibliografiaLength, 'carácter', 'caracteres')}`,
-				targetTab: 'observaciones'
+				detail: bibliografiaLength > 0 ? `${pluralize(bibliografiaLength, 'carácter', 'caracteres')}` : '',
+				targetTab: 'observaciones',
+				optional: true
 			},
 			{
 				id: 'editor',
