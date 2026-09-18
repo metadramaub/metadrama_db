@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 
 	/**
 	 * Una fila de la rejilla del editor: a la izquierda una parte de la secuencia, a la
@@ -18,6 +19,8 @@
 		nota?: string;
 		/** Por qué la extensión no se toca. */
 		notaAyuda?: string;
+		/** Lo que se explica de la fila detrás de un «?», para que no ocupe una línea. */
+		ayuda?: string;
 		/** Sangrado: 0 es la unidad, 1 sus secciones, 2 las partes de estas. */
 		depth?: number;
 		/** `grupo` abre un bloque estructural, como cada ciclo del villancico. */
@@ -47,13 +50,16 @@
 		style={depth > 1 ? `margin-left:${(depth - 1) * 0.9}rem` : undefined}
 	>
 		<span
-			class={`block text-sm leading-snug ${
+			class={`flex items-center gap-1.5 text-sm leading-snug ${
 				variant === 'resumen'
 					? 'text-[color:var(--muted-foreground)]'
 					: 'font-medium text-[color:var(--foreground)]'
 			}`}
 		>
-			{props.label}
+			<span>{props.label}</span>
+			{#if props.ayuda}
+				<FieldHelpTooltip text={props.ayuda} label={`Ayuda sobre «${props.label}»`} />
+			{/if}
 		</span>
 		{#if props.rango}
 			<span

@@ -45,6 +45,15 @@
 		type PreguntaEnFila
 	} from './grid-rows';
 	import { preguntasDelFormulario, type PreguntaFormulario } from './preguntas-formulario';
+	import { escribirEstancia } from './estancia-escrita';
+	import {
+		aplicarReparto,
+		avisosDelReparto,
+		partesAsignables,
+		repartoDeLaUnidad,
+		replicarReparto,
+		seReparteVersoAVerso
+	} from './reparto-estancia';
 
 	/**
 	 * La estructura de la secuencia, como una rejilla: a la izquierda lo que el pasaje es
@@ -452,6 +461,17 @@
 		const rhymeValue = rhyme
 			? choiceTextValue(String(rhyme.group.grupo_eleccion_id), source.realizacion_id).trim()
 			: '';
+		// **Con la estancia entera respondida, se enseña como se escribe**: `abC.abC:c.dD`, que
+		// lleva la medida en la caja de cada letra y la partición en los cortes. Medidas y rima por
+		// separado solo mientras falte alguna letra.
+		if (rhymeValue.length === length && seReparteVersoAVerso(props.sections, row.section)) {
+			const escrita = escribirEstancia(
+				rhymeValue,
+				repartoDeLaUnidad(props.units, props.sections, source),
+				partesDelPatron(row)
+			);
+			if (escrita) return `${length} versos · ${escrita}`;
+		}
 		return [
 			`${length} ${length === 1 ? 'verso' : 'versos'}`,
 			measures || null,
@@ -461,7 +481,8 @@
 			.join(' · ');
 	}
 
-	function commitUnits(next: MetricUnitDraft[], previous = props.units) {
+	function commitUnits(sinSincronizar: MetricUnitDraft[], previous = props.units) {
+		const next = sincronizarReparto(sinSincronizar);
 		const remainingIds = new Set(
 			next.map((unit: MetricUnitDraft) => unit.realizacion_id)
 		);
@@ -618,6 +639,46 @@
 			];
 		}
 		props.onChoicesChange(nextChoices);
+	}
+
+	/**
+	 * La rima escrita de una sola realización, letra a letra.
+	 *
+	 * Es lo que hace `setPatternRhyme` para la estancia modelo, pero para una parte suelta —el
+	 * remate—: los espacios se conservan mientras se responde por posiciones, porque marcan los
+	 * versos que aún no tienen letra.
+	 */
+	function setUnitRhyme(group: MetricCatalogDomainRow, unit: MetricUnitDraft, value: string) {
+		const groupId = String(group.grupo_eleccion_id);
+		const normalized = value.normalize('NFC');
+		props.onChoicesChange([
+			...props.choices.filter(
+				(choice: MetricChoiceDraft) =>
+					!(choice.grupo_eleccion_id === groupId && choice.realizacion_id === unit.realizacion_id)
+			),
+			...(normalized.trim()
+				? [
+						{
+							realizacion_id: unit.realizacion_id,
+							grupo_eleccion_id: groupId,
+							opcion_eleccion_id: null,
+							valor_texto: normalized,
+							observaciones: null
+						}
+					]
+				: [])
+		]);
+	}
+
+	/** La pregunta de rima que se escribe letra a letra, si la fila la tiene. */
+	function preguntaRimaEscrita(row: GridRealizacionRow): PreguntaEnFila | null {
+		return (
+			row.preguntas.find(
+				(pregunta: PreguntaEnFila) =>
+					String(pregunta.group.dimension) === 'rima' &&
+					String(pregunta.group.tipo_control ?? '') === 'esquema_rima'
+			) ?? null
+		);
 	}
 
 	/** Copia lo respondido en una realización a todas sus equivalentes. */
@@ -1907,7 +1968,7 @@
 		if (pregunta.group.tipo_control === 'esquema_rima') return false;
 		const selected = selectedChoiceIds(groupId, pregunta.owner.realizacion_id);
 		const options = optionsForGroup(groupId);
-		if (isPartialPositionalSelection(pregunta.group, options)) {
+		if (isPartialPositionalSelection(pregunta.group, options, versosDe(pregunta.owner))) {
 			return selected.length >= Number(pregunta.group.selecciones_min ?? 0);
 		}
 		return (
@@ -1916,17 +1977,26 @@
 		);
 	}
 
+	/**
+	 * Cuántos versos tiene la realización que responde. Con él, una pregunta que ofrece más
+	 * posiciones de las que la parte tiene —el remate ofrece hasta quince y mide doce— no se toma
+	 * por parcial: es completa, y se pinta verso a verso.
+	 */
+	function versosDe(unit: MetricUnitDraft): number {
+		return Math.max(1, unit.v_fin - unit.v_ini + 1);
+	}
+
 	function esFilaPosicionalParcial(row: GridRealizacionRow): boolean {
 		return row.preguntas.some((pregunta: PreguntaEnFila) => {
 			const groupId = String(pregunta.group.grupo_eleccion_id);
-			return isPartialPositionalSelection(pregunta.group, optionsForGroup(groupId));
+			return isPartialPositionalSelection(pregunta.group, optionsForGroup(groupId), versosDe(pregunta.owner));
 		});
 	}
 
 	function preguntasPosicionalesParciales(row: GridRealizacionRow): PreguntaEnFila[] {
 		return row.preguntas.filter((pregunta: PreguntaEnFila) => {
 			const groupId = String(pregunta.group.grupo_eleccion_id);
-			return isPartialPositionalSelection(pregunta.group, optionsForGroup(groupId));
+			return isPartialPositionalSelection(pregunta.group, optionsForGroup(groupId), versosDe(pregunta.owner));
 		});
 	}
 
@@ -1935,7 +2005,7 @@
 			row.preguntas.find((pregunta: PreguntaEnFila) => {
 				const options = optionsForGroup(String(pregunta.group.grupo_eleccion_id));
 				return (
-					!isPartialPositionalSelection(pregunta.group, options) &&
+					!isPartialPositionalSelection(pregunta.group, options, versosDe(pregunta.owner)) &&
 					haveAlternativesByPosition(options)
 				);
 			}) ?? null
@@ -2358,11 +2428,26 @@
 				!choice.opcion_eleccion_id ||
 				!sobran.has(choice.opcion_eleccion_id)
 		);
-		const changed = props.units.map((unit: MetricUnitDraft) =>
+		let changed = props.units.map((unit: MetricUnitDraft) =>
 			peerIds.has(unit.realizacion_id)
 				? { ...unit, v_fin: unit.v_ini + length - 1 }
 				: unit
 		);
+		// Con la estancia repartida verso a verso, las partes que quedan fuera de la extensión
+		// nueva se recortan, y las demás estancias copian lo que quede.
+		if (seReparteVersoAVerso(props.sections, section)) {
+			const modeloAntes = patternSource(row);
+			const modelo = changed.find(
+				(unit: MetricUnitDraft) => unit.realizacion_id === modeloAntes.realizacion_id
+			)!;
+			const reparto = repartoDeLaUnidad(props.units, props.sections, modeloAntes).slice(0, length);
+			while (reparto.length < length) reparto.push(null);
+			changed = replicarReparto(
+				aplicarReparto(changed, props.sections, modelo, reparto),
+				props.sections,
+				modelo
+			);
+		}
 		if (nextChoices.length !== props.choices.length) props.onChoicesChange(nextChoices);
 		commitUnits(
 			reflowMetricUnits(
@@ -2373,6 +2458,51 @@
 				props.options
 			)
 		);
+	}
+
+	// ------------------------------------------------------------------
+	// El reparto verso a verso de la estancia
+	//
+	// Cada verso dice a qué parte pertenece, en la misma fila en que dice su medida y su rima.
+	// De ahí salen las realizaciones de fronte, piedi, eslabón y sirima, que se guardan como
+	// siempre; las demás estancias copian el reparto de la modelo.
+	// ------------------------------------------------------------------
+
+	function partesDelPatron(row: GridRealizacionRow) {
+		return row.section ? partesAsignables(props.sections, row.section) : [];
+	}
+
+	function repartoDelPatron(row: GridRealizacionRow): (string | null)[] {
+		return repartoDeLaUnidad(props.units, props.sections, patternSource(row));
+	}
+
+	function setReparto(row: GridRealizacionRow, reparto: (string | null)[]) {
+		const modelo = patternSource(row);
+		const changed = replicarReparto(
+			aplicarReparto(props.units, props.sections, modelo, reparto, partesDelPatron(row)),
+			props.sections,
+			modelo
+		);
+		commitUnits(
+			reflowMetricUnits(changed, props.sections, props.sequenceStart, props.choices, props.options)
+		);
+	}
+
+	/** Tras añadir o quitar estancias, las nuevas copian el reparto de la modelo. */
+	function sincronizarReparto(units: MetricUnitDraft[]): MetricUnitDraft[] {
+		let next = units;
+		for (const section of props.sections) {
+			if (!seReparteVersoAVerso(props.sections, section)) continue;
+			const modelos = new Map<string, MetricUnitDraft>();
+			for (const unit of next) {
+				if (unit.seccion_id !== sectionId(section)) continue;
+				const clave = unit.realizacion_padre_id ?? '';
+				const actual = modelos.get(clave);
+				if (!actual || unit.v_ini < actual.v_ini) modelos.set(clave, unit);
+			}
+			for (const modelo of modelos.values()) next = replicarReparto(next, props.sections, modelo);
+		}
+		return next;
 	}
 
 	function applyUnitLengthToEquivalentUnits(sourceUnit: MetricUnitDraft) {
@@ -2982,10 +3112,12 @@
 			{@const respondida =
 				row.preguntas.every(preguntaRespondida) &&
 				parts.every((part: GridFijasRow) => part.preguntas.every(preguntaRespondida))}
+			{@const notaAlTooltip = sectionDefinesPattern(row.section)}
 			<MetricGridRow
 				label={row.label}
 				rango={`vv. ${row.unit.v_ini}–${row.unit.v_fin}`}
-				nota={row.nota}
+				nota={notaAlTooltip ? undefined : row.nota}
+				ayuda={notaAlTooltip ? row.nota : undefined}
 				depth={row.depth}
 				variant={row.container || parts.length > 0 || fixedRhymeParts.length > 0 ? 'grupo' : 'normal'}
 				actionLabel={plegable ? (plegada ? 'Desplegar' : 'Plegar') : undefined}
@@ -2998,13 +3130,8 @@
 					{@const metroQuestion = patternQuestion(row, 'metro')}
 					{@const rhymeQuestion = patternQuestion(row, 'rima')}
 					{#if source.realizacion_id !== row.unit.realizacion_id}
-						<div class="border border-[color:var(--border)] bg-[color:var(--gray-50)] px-3 py-2">
-							<p class="text-sm font-medium">{patternSummary(row)}</p>
-							<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">
-								Resultado heredado de la estancia modelo. Si el testimonio no lo cumple,
-								registra una desviación.
-							</p>
-						</div>
+						<!-- La nota de la fila ya dice que hereda de la modelo: aquí solo lo heredado. -->
+						<p class="text-sm font-medium tabular-nums">{patternSummary(row)}</p>
 					{:else}
 						<div class="space-y-3">
 							<label class="flex items-center gap-2 text-xs text-[color:var(--muted-foreground)]">
@@ -3022,19 +3149,24 @@
 							</label>
 
 							{#if metroQuestion}
+								{@const repartida = seReparteVersoAVerso(props.sections, row.section)}
+								{@const partes = repartida ? partesDelPatron(row) : []}
+								{@const reparto = repartida ? repartoDelPatron(row) : []}
 								<div>
-									<p class="form-label mb-1.5 flex items-center gap-2">
+									<!-- La explicación va detrás del «?»: encima de quince filas, una línea menos. -->
+									<p class="form-label mb-2 flex items-center gap-2">
 										<span>Patrón de la estancia <span aria-hidden="true">*</span></span>
-										{#if rhymeQuestion?.group.ayuda_editor}
-											<FieldHelpTooltip
-												text={String(rhymeQuestion.group.ayuda_editor)}
-												label="Ayuda sobre la notación de la rima"
-											/>
-										{/if}
-									</p>
-									<p class="mb-2 text-xs text-[color:var(--muted-foreground)]">
-										Elige la medida y la clase de rima de cada verso. Las demás estancias
-										repetirán esta disposición.
+										<FieldHelpTooltip
+											text={[
+												repartida
+													? 'Elige la medida y la clase de rima de cada verso, y corta la estancia donde empiece cada parte. Una estancia sin partes también es estancia. Las demás estancias repetirán esta disposición.'
+													: 'Elige la medida y la clase de rima de cada verso. Las demás estancias repetirán esta disposición.',
+												rhymeQuestion?.group.ayuda_editor ? String(rhymeQuestion.group.ayuda_editor) : ''
+											]
+												.filter(Boolean)
+												.join(' ')}
+											label="Ayuda sobre el patrón de la estancia"
+										/>
 									</p>
 									<MetricVersePatternField
 										length={row.unit.v_fin - row.unit.v_ini + 1}
@@ -3054,7 +3186,20 @@
 										onRhymeChange={rhymeQuestion
 											? (value) => setPatternRhyme(row, rhymeQuestion.group, value)
 											: undefined}
+										partes={repartida ? partes : undefined}
+										reparto={repartida ? reparto : undefined}
+										onRepartoChange={repartida ? (reparto) => setReparto(row, reparto) : undefined}
 									/>
+									{#if repartida}
+										{@const avisos = avisosDelReparto(props.sections, partes, reparto)}
+										{#if avisos.length > 0}
+											<ul class="mt-2 space-y-1 text-xs text-amber-800">
+												{#each avisos as aviso (aviso)}
+													<li>{aviso}</li>
+												{/each}
+											</ul>
+										{/if}
+									{/if}
 								</div>
 							{/if}
 						</div>
@@ -3196,6 +3341,46 @@
 					<span class="text-sm text-[color:var(--muted-foreground)]">
 						{row.unit.v_fin - row.unit.v_ini + 1} versos · patrón fijo por la arquitectura
 					</span>
+				{:else if completePatternQuestion && preguntaRimaEscrita(row)}
+					<!--
+						**Medida y rima se leen juntas, verso a verso**, como en la estancia modelo. Es el
+						remate de la canción: pregunta la medida de cada verso y una rima escrita, y
+						pintarlas en dos paneles —una lista de versos y, aparte, una caja de texto—
+						obligaba a contar dos veces lo mismo.
+					-->
+					{@const rimaEscrita = preguntaRimaEscrita(row)!}
+					{@const restantes = preguntasEnLaFila(row.preguntas).filter(
+						(pregunta: PreguntaEnFila) =>
+							pregunta !== completePatternQuestion && pregunta !== rimaEscrita
+					)}
+					<div>
+						<p class="form-label mb-1.5 flex items-center gap-2">
+							<span>Medida y rima de cada verso</span>
+							{#if rimaEscrita.group.ayuda_editor}
+								<FieldHelpTooltip
+									text={String(rimaEscrita.group.ayuda_editor)}
+									label="Ayuda sobre la notación de la rima"
+								/>
+							{/if}
+						</p>
+						<MetricVersePatternField
+							length={row.unit.v_fin - row.unit.v_ini + 1}
+							options={optionsForGroup(String(completePatternQuestion.group.grupo_eleccion_id))}
+							selectedIds={selectedChoiceIds(
+								String(completePatternQuestion.group.grupo_eleccion_id),
+								row.unit.realizacion_id
+							)}
+							onMeasureChange={(ids) => setChoices(completePatternQuestion.group, row.unit, ids)}
+							rhymeValue={choiceTextValue(
+								String(rimaEscrita.group.grupo_eleccion_id),
+								row.unit.realizacion_id
+							)}
+							onRhymeChange={(value) => setUnitRhyme(rimaEscrita.group, row.unit, value)}
+						/>
+					</div>
+					{#if restantes.length > 0}
+						{@render camposDeLaParte(restantes, row.equivalentes)}
+					{/if}
 				{:else if preguntasEnLaFila(row.preguntas).length > 0}
 					{@render camposDeLaParte(preguntasEnLaFila(row.preguntas), row.equivalentes)}
 				{/if}
