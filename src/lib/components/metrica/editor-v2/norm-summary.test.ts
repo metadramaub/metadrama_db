@@ -453,6 +453,10 @@ describe('resumen de la norma', () => {
 					{ esquema_metrico_id: 'em', metro_id: 'm7' },
 					{ esquema_metrico_id: 'em', metro_id: 'm11' }
 				],
+				// La canción pregunta la rima de la estancia: por eso su esquema abierto es del pasaje.
+				choiceGroups: [
+					{ grupo_eleccion_id: 'g-rima', arquitectura_id: 'a', dimension: 'rima', activo: true, selecciones_min: 1, selecciones_max: 1 }
+				],
 				rhymePatterns: [
 					{
 						arquitectura_id: 'a',
@@ -690,5 +694,29 @@ describe('resumen de la norma', () => {
 				value: 'Base de 8 sílabas'
 			}
 		]);
+	});
+});
+
+describe('un esquema de rima abierto sin pregunta de rima no es «del pasaje»', () => {
+	it('el endecasílabo encadenado lo enseña como norma', () => {
+		const facts = metricNormFacts({
+			architectureId: 'a',
+			unitPlan: null,
+			lengthRule: null,
+			domain: domain({
+				configurations: [{ arquitectura_id: 'a', forma_id: 'f' }],
+				rhymePatterns: [
+					{
+						arquitectura_id: 'a',
+						esquema_rima_id: 'er',
+						modalidad: 'definitoria',
+						tipo_secuencia: 'abierta',
+						nombre: 'Rima encadenada al interior del verso siguiente'
+					}
+				]
+			})
+		});
+		const rima = facts.find((fact) => fact.label === 'Rima');
+		expect(rima).toEqual({ label: 'Rima', value: 'Rima encadenada al interior del verso siguiente' });
 	});
 });

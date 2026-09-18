@@ -959,7 +959,23 @@ export function metricNormFacts(args: {
 		sections,
 		variableSchemes.rhyme
 	);
-	if (openRhyme) facts.push({ label: 'Rima', value: openRhyme, estado: 'pasaje' });
+	// **Un esquema abierto es «del pasaje» solo si la arquitectura pregunta la rima.** El
+	// endecasílabo encadenado y el suelto tienen esquema abierto y ninguna pregunta de rima: lo
+	// que dice ese esquema es la norma, y ponerlo bajo «lo dice el pasaje» hacía buscar un campo
+	// que no existe.
+	const preguntaRima = (domain.choiceGroups ?? []).some(
+		(group: MetricCatalogDomainRow) =>
+			id(group, 'arquitectura_id') === architectureId &&
+			group.activo !== false &&
+			String(group.dimension ?? '') === 'rima'
+	);
+	if (openRhyme) {
+		facts.push(
+			preguntaRima
+				? { label: 'Rima', value: openRhyme, estado: 'pasaje' }
+				: { label: 'Rima', value: openRhyme }
+		);
+	}
 	const rhymeRestrictions = rhymeRestrictionSummary(
 		architectureId,
 		domain,
