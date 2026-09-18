@@ -39,6 +39,7 @@
 		MetricSequenceDraft,
 		MetricSequenceEditorState
 	} from '$lib/components/metrica/editor-v2/sequence-draft';
+	import { contarUnidades, type SeccionContable, type UnidadContable } from '$lib/metrica/contar-unidades';
 	import type {
 		MetricCatalogConfiguration,
 		MetricCatalogDomainRow,
@@ -504,19 +505,35 @@
 			: null;
 		const anotacionId = guardada?.anotacion_id ? String(guardada.anotacion_id) : null;
 		const filasDe = (filas: MetricCatalogDomainRow[] | undefined) =>
-			anotacionId ? (filas ?? []).filter((fila) => String(fila.anotacion_id) === anotacionId).length : 0;
+			anotacionId ? (filas ?? []).filter((fila) => String(fila.anotacion_id) === anotacionId) : [];
+		// Las unidades no son las filas del árbol: un villancico de dos coplas son catorce. Se
+		// cuentan como las lee el editor, y la regla vive en `contarUnidades`.
+		const unidadesAnotadas: UnidadContable[] = enSesion
+			? enSesion.unidades
+			: filasDe(props.anotacionMetrica?.unidades).map((fila) => ({
+					realizacion_padre_id: fila.realizacion_padre_id ? String(fila.realizacion_padre_id) : null,
+					seccion_id: fila.seccion_id ? String(fila.seccion_id) : null
+				}));
 
 		return {
 			formaId,
 			formaNombre: forma?.nombre ?? (formaId ? 'Forma registrada' : null),
 			formaSlug: forma?.slug ?? null,
 			arquitecturaNombre: arquitectura?.nombre ?? null,
-			unidades: enSesion ? enSesion.unidades.length : filasDe(props.anotacionMetrica?.unidades),
-			desviaciones: enSesion ? enSesion.desviaciones.length : filasDe(props.anotacionMetrica?.desviaciones),
+			unidades: contarUnidades(unidadesAnotadas, seccionesDelCatalogo),
+			desviaciones: enSesion ? enSesion.desviaciones.length : filasDe(props.anotacionMetrica?.desviaciones).length,
 			tieneSinopsis: Boolean((secuencia.sinopsis ?? '').trim()),
 			comentarios: comentariosPorSecuencia.get(secuencia.secuencia_id) ?? 0
 		};
 	}
+
+	const seccionesDelCatalogo = $derived.by((): SeccionContable[] =>
+		(props.catalogoMetrico?.domain.sections ?? []).map((fila: MetricCatalogDomainRow) => ({
+			seccion_id: String(fila.seccion_id),
+			seccion_padre_id: fila.seccion_padre_id ? String(fila.seccion_padre_id) : null,
+			repeticiones_max: fila.repeticiones_max === null || fila.repeticiones_max === undefined ? null : Number(fila.repeticiones_max)
+		}))
+	);
 
 	const resumenPorSecuencia = $derived.by(
 		() => new Map(secuencias.map((secuencia) => [secuencia.secuencia_id, resumirSecuencia(secuencia)]))
