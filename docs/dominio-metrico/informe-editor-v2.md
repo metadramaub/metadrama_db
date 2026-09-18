@@ -1,13 +1,14 @@
 # Qué le pide el editor a cada forma
 
-Generado el 2026-09-16 desde la base enlazada.
+Generado el 2026-09-18 desde la base enlazada.
 
 ## 1 · Coste por forma
 
 | Forma | Arquitectura | Una vez | En la unidad | Con atajo | Sin atajo |
 | --- | --- | ---: | ---: | ---: | ---: |
-| Canción petrarquista | estancias_consonantes_variables | 0 | 2 | 2 | 0 |
-| Canción petrarquista | sin_rima_con_pareado_final | 1 | 1 | 1 | 0 |
+| Canción | estancias_consonantes_variables | 0 | 4 | 2 | 2 |
+| Canción petrarquista | regular_13_versos | 0 | 2 | 0 | 2 |
+| Canción sin rima | sin_rima_con_pareado_final | 1 | 2 | 1 | 1 |
 | Copla castellana | octosilabica | 0 | 2 | 2 | 0 |
 | Copla de arte mayor | dodecasilabica_compuesta | 0 | 1 | 1 | 0 |
 | Copla de arte menor | octosilabica | 0 | 2 | 2 | 0 |
@@ -42,12 +43,12 @@ Generado el 2026-09-16 desde la base enlazada.
 | Redondilla | heptasilabica | 0 | 1 | 1 | 0 |
 | Redondilla | hexasilabica | 0 | 1 | 1 | 0 |
 | Redondilla | octosilabica | 0 | 2 | 2 | 0 |
-| Romance | endecasilabica | 1 | 0 | 0 | 0 |
-| Romance | heptasilabica | 1 | 0 | 0 | 0 |
-| Romance | hexasilabica | 1 | 0 | 0 | 0 |
 | Romance | octosilabica | 1 | 0 | 0 | 0 |
-| Romance | pentasilabica | 1 | 0 | 0 | 0 |
-| Romance | tetrasilabica | 1 | 0 | 0 | 0 |
+| Romance heroico | endecasilabica | 1 | 0 | 0 | 0 |
+| Romancillo | heptasilabica | 1 | 0 | 0 | 0 |
+| Romancillo | hexasilabica | 1 | 0 | 0 | 0 |
+| Romancillo | pentasilabica | 1 | 0 | 0 | 0 |
+| Romancillo | tetrasilabica | 1 | 0 | 0 | 0 |
 | Seguidilla | chamberga | 1 | 0 | 0 | 0 |
 | Seguidilla | compuesta | 1 | 0 | 0 | 0 |
 | Seguidilla | gitana | 1 | 1 | 1 | 0 |
@@ -82,12 +83,10 @@ Generado el 2026-09-16 desde la base enlazada.
 | Versificación irregular | mixta | 2 | 0 | 0 | 0 |
 | Verso aislado | cualquier_medida | 1 | 0 | 0 | 0 |
 | Villancico | estribillo_inicial | 1 | 6 | 6 | 0 |
-| Villancico | estribillo_tras_primera_copla | 1 | 6 | 6 | 0 |
 | Zéjel | estribillo_y_coplas_monorrimas | 0 | 4 | 4 | 0 |
 
-**19 arquitecturas se registran sin preguntar nada**, que es el mejor caso posible: elegir la forma basta.
+**18 arquitecturas se registran sin preguntar nada**, que es el mejor caso posible: elegir la forma basta.
 
-- Canción petrarquista · regular_13_versos
 - Décima · aumentada
 - Décima · endecasilabica
 - Décima · espinela
@@ -121,7 +120,7 @@ Sin incidencias.
 
 | Dónde | Cuál |
 | --- | --- |
-| Canción petrarquista · sin_rima_con_pareado_final | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
+| Canción sin rima · sin_rima_con_pareado_final | final_acentual_destacado · rasgo · 1 opciones · alcance secuencia |
 | Copla manriqueña · doble_pie_quebrado | esquema_rima · rima · 1 opciones · alcance unidad |
 | Endecasílabo suelto · endecasilabica | distico_final · rasgo · 1 opciones · alcance secuencia |
 | Endecasílabo suelto · endecasilabica | encadenamiento_interior · rasgo · 1 opciones · alcance secuencia |
@@ -148,15 +147,20 @@ Sin incidencias.
 | --- | --- |
 | Novena-lira · heterometrica_consonante | esquema_rima · rima · 0 opciones · alcance unidad |
 
-### E4 · Pregunta obligatoria que el editor no puede saltarse — 111
+### E4 · Pregunta obligatoria que el editor no puede saltarse — 110
 
 > Con `selecciones_min` mayor que cero la secuencia no se guarda sin responderla. Es legítimo, pero conviene tenerlas contadas: son el suelo de trabajo de cada forma.
 
 | Dónde | Cuál |
 | --- | --- |
-| Canción petrarquista · estancias_consonantes_variables | medida_estancia · metro · 40 opciones · alcance unidad |
-| Canción petrarquista · estancias_consonantes_variables | esquema_rima_estancia · rima · 0 opciones · alcance unidad |
-| Canción petrarquista · sin_rima_con_pareado_final | medida_estancia · metro · 40 opciones · alcance unidad |
+| Canción · estancias_consonantes_variables | medida_estancia · metro · 30 opciones · alcance unidad |
+| Canción · estancias_consonantes_variables | esquema_rima_estancia · rima · 0 opciones · alcance unidad |
+| Canción · estancias_consonantes_variables | medida_remate · metro · 30 opciones · alcance unidad |
+| Canción · estancias_consonantes_variables | esquema_rima_remate · rima · 0 opciones · alcance unidad |
+| Canción petrarquista · regular_13_versos | medida_remate · metro · 26 opciones · alcance unidad |
+| Canción petrarquista · regular_13_versos | esquema_rima_remate · rima · 0 opciones · alcance unidad |
+| Canción sin rima · sin_rima_con_pareado_final | medida_estancia · metro · 40 opciones · alcance unidad |
+| Canción sin rima · sin_rima_con_pareado_final | medida_remate · metro · 40 opciones · alcance unidad |
 | Copla castellana · octosilabica | esquema_rima · rima · 4 opciones · alcance unidad |
 | Copla de arte mayor · dodecasilabica_compuesta | esquema_rima · rima · 4 opciones · alcance unidad |
 | Copla de arte menor · octosilabica | esquema_rima · rima · 3 opciones · alcance unidad |
@@ -195,7 +199,7 @@ Sin incidencias.
 | Oncena · sextilla_quintilla | esquema_rima · rima · 4 opciones · alcance unidad |
 | Oncena · sextilla_quintilla | esquema_rima · rima · 8 opciones · alcance unidad |
 | Pareado · alirado | medida_del_pareado · metro · 4 opciones · alcance unidad |
-| Pareado · cualquier_medida | medida_del_pareado · metro · 18 opciones · alcance unidad |
+| Pareado · cualquier_medida | medida_del_pareado · metro · 9 opciones · alcance unidad |
 | Pareado · cualquier_medida | tipo_de_rima · rima · 2 opciones · alcance unidad |
 | Quintilla · heptasilabica | esquema_rima · rima · 8 opciones · alcance unidad |
 | Quintilla · hexasilabica | esquema_rima · rima · 8 opciones · alcance unidad |
@@ -203,12 +207,12 @@ Sin incidencias.
 | Redondilla · heptasilabica | disposicion_rima · rima · 2 opciones · alcance unidad |
 | Redondilla · hexasilabica | disposicion_rima · rima · 2 opciones · alcance unidad |
 | Redondilla · octosilabica | disposicion_rima · rima · 2 opciones · alcance unidad |
-| Romance · endecasilabica | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
-| Romance · heptasilabica | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
-| Romance · hexasilabica | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
 | Romance · octosilabica | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
-| Romance · pentasilabica | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
-| Romance · tetrasilabica | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
+| Romance heroico · endecasilabica | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
+| Romancillo · heptasilabica | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
+| Romancillo · hexasilabica | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
+| Romancillo · pentasilabica | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
+| Romancillo · tetrasilabica | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
 | Seguidilla · chamberga | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
 | Seguidilla · compuesta | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
 | Seguidilla · gitana | medida_tercer_verso · metro · 3 opciones · alcance unidad |
@@ -255,12 +259,6 @@ Sin incidencias.
 | Villancico · estribillo_inicial | medida_enlace · metro · 2 opciones · alcance unidad |
 | Villancico · estribillo_inicial | medida_vuelta · metro · 2 opciones · alcance unidad |
 | Villancico · estribillo_inicial | represa_estribillo · repeticion · 2 opciones · alcance realizacion |
-| Villancico · estribillo_tras_primera_copla | medida_mudanza · metro · 2 opciones · alcance unidad |
-| Villancico · estribillo_tras_primera_copla | medida_enlace · metro · 2 opciones · alcance unidad |
-| Villancico · estribillo_tras_primera_copla | medida_vuelta · metro · 2 opciones · alcance unidad |
-| Villancico · estribillo_tras_primera_copla | rima_mudanza · rima · 3 opciones · alcance unidad |
-| Villancico · estribillo_tras_primera_copla | represa_estribillo · repeticion · 2 opciones · alcance realizacion |
-| Villancico · estribillo_tras_primera_copla | medida_estribillo · metro · 2 opciones · alcance unidad |
 | Zéjel · estribillo_y_coplas_monorrimas | medida_cabeza · metro · 2 opciones · alcance unidad |
 | Zéjel · estribillo_y_coplas_monorrimas | medida_mudanza · metro · 2 opciones · alcance unidad |
 | Zéjel · estribillo_y_coplas_monorrimas | represa_estribillo · repeticion · 2 opciones · alcance realizacion |

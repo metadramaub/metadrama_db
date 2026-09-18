@@ -5,14 +5,14 @@
 > por qué faltan y las decisiones del IP viven en
 > [equivalencias-pendientes.md](./equivalencias-pendientes.md), que sí es prosa propia.
 
-Generado el 2026-09-16.
+Generado el 2026-09-18.
 
 ## Resumen
 
 - **123 términos** en `vocabularios.categoria = 'estrofa_tipo'`.
-- **99 declaran su destino** en el catálogo nuevo; **24 no**.
+- **100 declaran su destino** en el catálogo nuevo; **23 no**.
 - **263 secuencias con vocabulario legado**, todas con forma propuesta. Son las que hay que migrar.
-- Otras **454 no lo tienen** y quedan fuera de este informe: 453 ya están anotadas con el editor V2 y el resto no declara forma ninguna. La equivalencia va solo del término viejo al catálogo nuevo, así que a estas no les hace falta.
+- Otras **469 no lo tienen** y quedan fuera de este informe: 457 ya están anotadas con el editor V2 y el resto no declara forma ninguna. La equivalencia va solo del término viejo al catálogo nuevo, así que a estas no les hace falta.
 - De las que hay que migrar, 1 no propone arquitectura: es un tramo sin forma, que no la tiene por diseño.
 - **21 tienen la longitud incompatible** con la arquitectura propuesta. No es un fallo de la equivalencia: es la anotación de la obra, y se revisa en [migracion/](./migracion/).
 
@@ -52,7 +52,6 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 | `pareado_hexasilabo` | `pareado_de_arte_menor` | 0 | 0 |
 | `pareado_octosilabo` | `pareado_de_arte_menor` | 0 | 0 |
 | `redondilla_cruzada` | `redondilla` | 0 | 63 |
-| `romancillo` | — | 0 | 1 |
 | `sexteto_lira_de_esdrujulos` | `sexteto_lira` | 0 | 5 |
 | `soneto_de_esdrújulos` | `soneto` | 0 | 9 |
 | `terceto_de_esdrujulos` | `terceto` | 0 | 7 |
@@ -94,15 +93,15 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 | `romance_o` | valor de rasgo · o | **1** | 71 |
 | `romance_u-e` | valor de rasgo · u-e | **1** | 71 |
 | `romance_u-o` | valor de rasgo · u-o | **1** | 71 |
-| `romancillo_heptasilabo` | arquitectura · Romance · Heptasílabo | **1** | 1 |
+| `romancillo_heptasilabo` | arquitectura · Romancillo · Heptasílabo | **1** | 1 |
 | `sexteto_lira_a2_AbaBcC` | variedad · A2 · AbaBcC | **1** | 5 |
 | `sexteto_lira_a3_abaBcC` | variedad · A3 · abaBcC | **1** | 5 |
 | `sexteto_lira_a4_aBaBCC` | variedad · A4 · aBaBCC | **1** | 5 |
 | `silva_de_consonantes_regular` | arquitectura · Silva · Consonante regular | **1** | 12 |
 | `soneto_con_tercetos_de_rima_conclusiva_ABBAABBACDEDCE` | esquema de rima · Tercetos de rima conclusiva | **1** | 9 |
 | `soneto_con_tercetos_de_rima_paralela_ABBAABBACDECDE` | esquema de rima · Tercetos de rima paralela | **1** | 9 |
-| `cancion_petrarquista` | forma · Canción petrarquista | 0 | 3 |
-| `cancion_sin_rima` | arquitectura · Canción petrarquista · Sin rima, con pareado final | 0 | 3 |
+| `cancion_petrarquista` | forma · Canción | 0 | 3 |
+| `cancion_sin_rima` | arquitectura · Canción sin rima · Sin rima, con pareado final | 0 | 3 |
 | `copla_de_arte_mayor` | forma · Copla de arte mayor | 0 | 0 |
 | `copla_de_arte_mayor_tipo_1_ABBAACCA` | esquema de rima · ABBA:ACCA | 0 | 0 |
 | `copla_de_pie_quebrado` | forma · Copla de pie quebrado | 0 | 0 |
@@ -133,10 +132,11 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 | `redondilla_hexasilaba` | arquitectura · Redondilla · Hexasílaba | 0 | 63 |
 | `romance` | forma · Romance | 0 | 71 |
 | `romance_e` | valor de rasgo · e | 0 | 71 |
-| `romance_heroico` | arquitectura · Romance · Endecasílabo | 0 | 0 |
+| `romance_heroico` | forma · Romance heroico | 0 | 0 |
 | `romance_i` | valor de rasgo · i | 0 | 71 |
 | `romance_u-a` | valor de rasgo · u-a | 0 | 71 |
-| `romancillo_hexasilabo` | arquitectura · Romance · Hexasílabo | 0 | 1 |
+| `romancillo` | forma · Romancillo | 0 | 1 |
+| `romancillo_hexasilabo` | arquitectura · Romancillo · Hexasílabo | 0 | 1 |
 | `sexta_rima` | denominación · Sexta rima | 0 | 0 |
 | `sexteto` | forma · Sexteto | 0 | 0 |
 | `sexteto_lira` | forma · Sexteto-lira | 0 | 5 |
