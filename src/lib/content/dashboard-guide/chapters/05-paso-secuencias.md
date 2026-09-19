@@ -1,7 +1,7 @@
 La pestaña **Secuencias** es donde haces el análisis métrico más detallado. Es la más compleja de la obra.
 
 > [!TIP]
-> Conviene trabajarla en dos pasadas: primero declara las secuencias base (rango de versos y tipología) y luego completa su análisis (caracterización, sinopsis y caracterizaciones por rango).
+> Conviene trabajarla en dos pasadas: primero declara las secuencias base (rango de versos) y luego completa su análisis (forma, caracterización, sinopsis).
 
 Puedes declarar las secuencias antes que jornadas y cuadros.
 
@@ -10,28 +10,69 @@ Puedes declarar las secuencias antes que jornadas y cuadros.
 >
 > Los huecos entre secuencias no se consideran errores: pueden corresponder, por ejemplo, a prosa o lagunas. Solo se señalan los rangos que se solapan.
 
-Al abrir una secuencia (con **Nueva secuencia** o **Editar**) se despliega un panel lateral con estos bloques, en este orden. Los explicamos en el mismo orden en que los ves.
+## Antes de anotar: lo que no hay en la obra
 
-## Métrica base
+Al abrir la pestaña por primera vez encuentras un bloque plegable, **Antes de anotar**, con tres casillas:
+
+- **Figuras de donaire** — "No hay en esta obra".
+- **Personajes sobrenaturales** — "No hay en esta obra".
+- **Eventos sobrenaturales** — "No ocurren en esta obra".
+
+Márcalas solo cuando estés seguro de que el fenómeno no aparece en ningún punto de la obra. Al marcar una, todas las secuencias dejan de preguntarla y quedan cerradas en "sin intervención" (o "no", en eventos sobrenaturales), así que ahorras tener que contestarla secuencia por secuencia.
+
+> [!WARNING]
+> Es una vía de sentido único mientras haya alguna secuencia que la contradiga: si más adelante alguna secuencia declara que sí hay donaire, sobrenaturales o un evento sobrenatural, el sistema no te dejará desmarcar la casilla hasta que corrijas esa secuencia.
+
+Si tienes dudas sobre alguna de las tres, no la marques: es preferible responderla secuencia a secuencia a bloquearte más adelante.
+
+## Al abrir una secuencia
+
+Al abrir una secuencia (con **Nueva secuencia** o **Editar**) se despliega el editor con un mapa a la izquierda (qué falta y qué está resuelto) y el formulario a la derecha. Lo explicamos en el orden en que aparece.
+
+### Identificación métrica
 
 Lo primero que rellenas:
 
-- **Verso inicial** y **Verso final** de la secuencia;
-- **Estrofa**: el tipo de estrofa, obligatorio.
+- **Verso inicial** y **Verso final** de la secuencia.
+- **Forma métrica**: el desplegable ofrece dos grupos. El primero, **Formas métricas**, es el catálogo (quintilla, redondilla, soneto, romance...). El segundo, **Solo si no encaja en una forma**, son salidas editoriales (por ejemplo, versificación irregular o verso aislado) para cuando el pasaje no responde a ninguna forma del catálogo.
+- **Arquitectura**: en cuanto eliges la forma, si esta tiene una sola arquitectura posible se muestra directamente su nombre; si admite varias (variantes con distinta rima, distinta extensión o distinto reparto), elige la que corresponda en el desplegable. Cada opción lleva su descripción para distinguirlas.
 
-El selector de estrofa es **jerárquico**: algunas formas tienen subformas anidadas. Elige siempre la **opción más específica** (la hija) que corresponda; las formas raíz que agrupan a otras no son seleccionables. Si dudas, empieza por la familia general y ve bajando.
+> [!TIP]
+> Junto al resumen de la norma hay un enlace a su ficha en el [catálogo métrico](/recursos/catalogo-metrico) público. Ábrelo si necesitas ver la arquitectura completa —esquema de rima, extensión, licencias— antes de contestar.
 
 > [!IMPORTANT]
-> ¿Qué hacer si una forma métrica (o una variación o patrón distinto de la misma) presente en la obra no aparece entre las opciones seleccionables de la base de datos? **Avísanos para que demos de alta la opción o resolvamos la duda.** No sigas adelante con ese punto sin resolver: es mejor parar y aclararlo que arrastrar el problema al resto de la ficha.
+> ¿Qué hacer si una forma métrica (o una arquitectura distinta de la misma) presente en la obra no aparece entre las opciones? **Avísanos para que demos de alta la opción o resolvamos la duda.** No sigas adelante con ese punto sin resolver: es mejor parar y aclararlo que arrastrar el problema al resto de la ficha.
 
-## Subtipos internos y caracterizaciones por rango
+### Respuestas
 
-Justo debajo de la métrica base aparecen dos bloques que **solo se activan cuando la secuencia ya está guardada** (necesitan un identificador para colgar de ella):
+En cuanto hay arquitectura elegida aparece el bloque **Respuestas**, con un contador de cuántas preguntas obligatorias llevas contestadas: se ve antes de guardar, no como aviso posterior.
 
-- **Subtipos internos**: solo se muestran cuando la estrofa es una que los admite (por ejemplo, quintilla).
-- **Caracterizaciones por rango**: fenómenos internos de la secuencia (versos cantados, irregularidades, prosa, lagunas…).
+- Si la forma **no se organiza en partes que se repiten** (un romance, una tirada de endecasílabos sueltos), las preguntas son de la secuencia entera: cómo es su rima, si admite ciertas licencias, etc.
+- Si la forma **se organiza en unidades repetidas o en partes** (varias quintillas seguidas, un soneto con sus dos cuartetos y sus dos tercetos, un villancico con mudanza y vuelta), el editor pinta la estructura verso a verso: contestas una vez para todas las unidades y, si alguna se aparta, se lo indicas a ella sola sin tocar la respuesta común.
 
-Ambos se explican en detalle en [Paso 4 · Caracterizaciones por rango](/dashboard/guia/paso-caracterizaciones).
+Cada pregunta lleva su ayuda al lado cuando la necesita. Las preguntas de posición (por ejemplo, qué versos llevan pie quebrado) se marcan directamente sobre la rejilla de versos.
+
+### Desviaciones
+
+Al final de las respuestas encontrarás: *"¿Hay algo que no encaja en la norma? Registrar una desviación."* Ábrelo cuando el pasaje se aparte de lo que la arquitectura elegida exige: un verso con una sílaba de más o de menos, una rima distinta de la esperada, una laguna, una repetición distinta a la prevista...
+
+Cada desviación declara:
+
+- **Dimensión**: de qué habla — metro, rima, estructura, repetición o un rasgo concreto.
+- **Relación con la norma**: qué le pasa (menos que la norma, más que la norma, otra cosa, o que directamente falta).
+- Lo observado, cuando aplica (por ejemplo, qué metro tiene realmente el verso).
+- El rango de versos al que afecta, dentro del rango de la secuencia.
+- Una descripción, para dar contexto (recomendable, no obligatoria).
+
+> [!NOTE]
+> No declarar ninguna desviación significa que la realización cumple la norma, no que falte revisarla.
+
+> [!IMPORTANT]
+> Las irregularidades de metro, la rima defectuosa, los patrones alternativos y las lagunas ya **no** se anotan como caracterización por rango: se declaran aquí, como desviación, una vez que la secuencia tiene su forma del catálogo nuevo. Ver [Paso 4 · Caracterizaciones por rango](/dashboard/guia/paso-caracterizaciones).
+
+### Si la secuencia viene del sistema antiguo
+
+En una secuencia que todavía conserva su anotación con el vocabulario legado, puede aparecer un aviso ámbar con dos líneas: **Sistema antiguo** (lo que decía la anotación vieja) y **Propuesta nueva** (lo que correspondería en el catálogo actual). Es solo informativo, para no tener que consultar el informe de migración de la obra en otra pestaña; no rellena nada por ti. La migración de estas secuencias se hace a mano, con el informe de tu obra delante.
 
 ## Intervención de personajes
 
@@ -42,6 +83,8 @@ Los tres selectores comienzan en blanco. Si guardas la secuencia sin completarlo
 - personajes femeninos;
 - figuras de donaire;
 - personajes sobrenaturales.
+
+Si has marcado en **Antes de anotar** que la obra no tiene figuras de donaire o personajes sobrenaturales, el campo correspondiente aparece ya resuelto en "sin intervención" y bloqueado, con la nota "declarado para toda la obra".
 
 > [!IMPORTANT]
 > "Intervención" se refiere a que el personaje **habla dentro de la secuencia**, no a su mera presencia escénica. Un personaje puede estar en escena sin intervenir métricamente en esa secuencia.
@@ -55,7 +98,7 @@ Tres marcas más sobre la secuencia:
 
 - **Versos partidos** (`pendiente/no/sí`): selecciona "sí" si hay versos partidos entre intervenciones de distintos personajes.
 - **Inaugura espacio** (`pendiente/no/sí`): selecciona "sí" si el inicio de la secuencia coincide, de forma evidente, con un cambio de espacio escénico.
-- **Evocación métrica** (`pendiente/no/sí`): selecciona "sí" cuando el cambio de metro se deba a que un personaje **adopta, imita o reproduce la voz de otro personaje**. Al hacerlo, se abre un campo **"Explicación de la evocación métrica"** (admite [Markdown](/dashboard/guia/ref-markdown)) para que expliques brevemente el caso.
+- **Evento sobrenatural** (`pendiente/no/sí`): selecciona "sí" si en la secuencia ocurre un milagro, una aparición o una transformación. Ocurre aunque no hable ningún personaje sobrenatural, y por eso se pregunta aparte de la intervención de personajes. Si has marcado en **Antes de anotar** que la obra no tiene eventos sobrenaturales, este campo aparece ya resuelto en "no" y bloqueado.
 
 Las secuencias nuevas empiezan con estas caracterizaciones en **Pendiente**. Este estado permite guardar la secuencia y deja visible que el dato todavía debe revisarse.
 

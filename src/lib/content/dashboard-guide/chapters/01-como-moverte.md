@@ -9,6 +9,7 @@ En el menú lateral encontrarás estas secciones:
 - [Obras](/dashboard/obras?scope=mine): listado principal para abrir obras y trabajar en ellas según tu asignación.
 - [Autores](/dashboard/autores): consulta de fichas de autor para tomar decisiones de atribución o crear nuevos autores.
 - [Vocabularios](/dashboard/vocabularios): consulta de términos controlados para registrar datos de forma consistente.
+- [Publicación](/dashboard/publicacion): solo visible para `admin` e `IP`. Desde ahí se regeneran los datos públicos (fichas, índices y comparativas) pulsando **Actualizar datos públicos**.
 - [Guía de uso](/dashboard/guia): la documentación interna para resolver dudas que estás leyendo ahora.
 
 ## Cuando editas una obra
