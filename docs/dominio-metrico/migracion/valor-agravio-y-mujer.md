@@ -1,98 +1,158 @@
 # Migración métrica · Valor, agravio y mujer
 
-Generado el 2026-08-27 por `npm run migracion:informe`. **No editar a mano:**
-se regenera y se pierde lo escrito. El procedimiento está en
-[cómo se migra una obra](../como-se-migra-una-obra.md) y las decisiones van a
-[equivalencias pendientes](../equivalencias-pendientes.md).
+Informe para María Isabel Cuena, generado el 2026-09-19. Se
+regenera con `npm run migracion:informe`, así que no conviene editarlo a mano. Va acompañado
+de un Excel con el mismo nombre, que es lo que hay que devolver rellenado.
 
-- **Editor asignado:** María Isabel Cuena
-- **Secuencias métricas:** 26
-- **Subtipos estróficos:** 0
-- **Caracterizaciones por rango:** 160
+## De qué va esto
 
-## Qué hay que consultar
+Estamos trasladando la anotación métrica de las obras al catálogo nuevo, el que se publica en
+[recursos/catalogo-metrico](https://versologia.metadrama.org/recursos/catalogo-metrico). La mayor parte del trabajo la hace un programa:
+cada término del vocabulario anterior tiene su forma y su arquitectura en el catálogo, y las
+tipologías de quintilla, las asonancias de los romances o los esquemas de los sonetos que
+anotaste en su día se conservan tal cual. Hay, sin embargo, algunas cosas que el catálogo nuevo
+registra y que el vocabulario anterior no recogía, y eso es lo que te pedimos en el Excel. Con
+esas respuestas hacemos la migración de una vez y no hace falta que vuelvas a anotar nada.
 
-- **4 secuencia(s) sin equivalencia.** Es lo que hay que decidir con el editor.
-- **1 secuencia(s) resueltas por ascendencia.** La forma y la arquitectura
-  se heredan del término padre, pero las respuestas concretas —pareados, dístico final,
-  encadenamiento— no se deducen y las tiene que confirmar quien anotó.
+Mientras tanto tu obra no cambia: en el dashboard sigue tal como está hasta que devuelvas el
+Excel. Cuando la migración esté hecha, podrás ver cada secuencia con el editor nuevo y corregir
+allí lo que haga falta.
 
-Resolución: 17 directas · 8 con rasgo propio · 1 por ascendencia · 0 sin destino · 0 sin forma declarada · 4 con longitud por revisar.
+## Tu obra en cifras
 
-## Dudas, una por una
+- 26 secuencias métricas. De ellas, 18 tienen equivalencia directa en el
+  catálogo, 8 llevan además un rasgo (la asonancia de un romance, por ejemplo) y
+  0 toman la forma del término padre porque el suyo no tiene equivalencia propia.
+- 0 subtipos estróficos (las tipologías de quintilla, estrofa a estrofa), que se conservan sin cambios.
+- 160 caracterizaciones por rango, que se convierten en desviaciones o se mantienen como están.
 
-| Versos | Término actual | Qué pasa |
-| --- | --- | --- |
-| 237–463 (227 v) | `romance_e-a` | Ninguna arquitectura activa de «Romance» admite una secuencia de 227 versos. |
-| 928–1182 (255 v) | `romance_a` | Ninguna arquitectura activa de «Romance» admite una secuencia de 255 versos. |
-| 1267–1301 (35 v) | `decima_espinela` | La arquitectura «Espinela» no admite una secuencia de 35 versos: unidades completas de 10 versos. |
-| 1839–2003 (165 v) | `romance_a-e` | Ninguna arquitectura activa de «Romance» admite una secuencia de 165 versos. |
+## Qué te pedimos
 
-## Lo que hay que completar
+- 4 decisiones sobre pasajes cuyo número de versos no encaja, o sobre tramos que van a unirse en una sola secuencia.
+- 6 respuestas, en 6 secuencias, a preguntas que el vocabulario anterior no recogía.
+- 14 confirmaciones de respuestas que ya hemos rellenado nosotros.
+- 143 versos hipométricos o hipermétricos en los que puedes indicar el número de sílabas si lo tienes a mano. Es opcional.
+- 5 caracterizaciones que conviene que revises, porque su traducción al modelo nuevo no es automática.
 
-**7 de 26 secuencias** llegan al editor con algo sin
-responder. El resto se puede aceptar de un vistazo. Lo que falta aquí no lo arregla ninguna
-equivalencia: es lectura del texto.
+## Pasajes que no encajan
 
-| Versos | Forma | Estrofas | Qué falta |
-| --- | --- | ---: | --- |
-| 464–655 | Redondilla | 48 | Esquema de rima |
-| 656–727 | Octava real | 9 | Esquema de rima |
-| 728–819 | Redondilla | 23 | Esquema de rima |
-| 888–927 | Redondilla | 10 | Esquema de rima |
-| 1263–1266 | Redondilla | 1 | Esquema de rima |
-| 2004–2075 | Redondilla | 18 | Esquema de rima |
-| 2418–2537 | Redondilla | 30 | Esquema de rima |
+Son secuencias cuyo número de versos no se corresponde con la forma que tienen asignada, y
+tramos que el vocabulario anterior obligaba a dividir. Aparecen en la pestaña **Responder**
+del Excel, marcadas como *Decidir*.
 
-## Secuencias
+- **vv. 237–463** · Romance · Octosílabo. Tiene 227 versos, y un romance no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraremos la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto.
+- **vv. 928–1182** · Romance · Octosílabo. Tiene 255 versos, y un romance no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraremos la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto.
+- **vv. 1267–1301** · Décima · Espinela. Sus 35 versos no encajan con «Espinela», que se compone de unidades completas de 10 versos. Encajaría con 5 versos más (40) o con 5 versos menos (30).
+- **vv. 1839–2003** · Romance · Octosílabo. Tiene 165 versos, y un romance no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraremos la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto.
 
-**Todo lo que la obra tiene anotado de cada secuencia**, salvo la sinopsis y los comentarios
-internos: así se puede recorrer la migración con el editor sin consultar la base. Los subtipos
-y las caracterizaciones llevan su rango entre paréntesis cuando no ocupan la secuencia entera.
+## Preguntas pendientes
 
-La columna **Propuesta** dice qué trae ya puesto el editor: lo *anotado* se miró verso a verso
-en su día y se traslada tal cual; lo *derivado* se deduce del término legado y hay que revisarlo.
+Estas son las preguntas que hace el catálogo nuevo y que no se pueden responder con lo que
+había anotado; hace falta mirar el texto. Están en la pestaña **Responder**.
 
-| # | Versos | v | Término actual | Forma propuesta | Arquitectura | Subtipos | Caracterizaciones | Estado | Propuesta | Vía |
+| Versos | Forma | Pregunta | Cómo contestar |
+| --- | --- | --- | --- |
+| 464–655 | Redondilla · Octosílaba | Esquema de rima · 48 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
+| 728–819 | Redondilla · Octosílaba | Esquema de rima · 23 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
+| 888–927 | Redondilla · Octosílaba | Esquema de rima · 10 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
+| 1263–1266 | Redondilla · Octosílaba | Esquema de rima · 1 estrofa | Elige en el desplegable |
+| 2004–2075 | Redondilla · Octosílaba | Esquema de rima · 18 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
+| 2418–2537 | Redondilla · Octosílaba | Esquema de rima · 30 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
+
+## Respuestas ya rellenas
+
+Estas respuestas se deducen del término que elegiste en su día, y las hemos rellenado
+nosotros. Conviene echarles un vistazo por si en alguna estrofa las cosas eran de otra
+manera. Están en la pestaña **Confirmar**.
+
+| Versos | Forma | Pregunta | Respuesta | Vocabulario anterior |
+| --- | --- | --- | --- | --- |
+| 1–236 | Romance · Octosílabo | Vocales de la asonancia | o-e | romance_o-e |
+| 237–463 | Romance · Octosílabo | Vocales de la asonancia | e-a | romance_e-a |
+| 656–727 | Octava real · Endecasílaba consonante | Esquema de rima | ABABABCC en las 9 estrofas | octava_real_regular |
+| 820–887 | Romance · Octosílabo | Vocales de la asonancia | u-e | romance_u-e |
+| 928–1182 | Romance · Octosílabo | Vocales de la asonancia | a | romance_a |
+| 1302–1595 | Romance · Octosílabo | Vocales de la asonancia | a-e | romance_a-e |
+| 1596–1690 | Silva · Consonante de orden libre | Densidad de rima | Mayoritaria | silva_de_consonantes_irregular |
+| 1711–1714 | Silva · Consonante de orden libre | Densidad de rima | Mayoritaria | silva_de_consonantes_irregular |
+| 1735–1738 | Silva · Consonante de orden libre | Densidad de rima | Mayoritaria | silva_de_consonantes_irregular |
+| 1759–1762 | Silva · Consonante de orden libre | Densidad de rima | Mayoritaria | silva_de_consonantes_irregular |
+| 1783–1838 | Silva · Consonante de orden libre | Densidad de rima | Mayoritaria | silva_de_consonantes_irregular |
+| 1839–2003 | Romance · Octosílabo | Vocales de la asonancia | a-e | romance_a-e |
+| 2076–2417 | Romance · Octosílabo | Vocales de la asonancia | i-o | romance_i-o |
+| 2538–2757 | Romance · Octosílabo | Vocales de la asonancia | e-o | romance_e-o |
+
+## Desviaciones
+
+Las caracterizaciones por rango que anotaste, y cómo quedan en el modelo nuevo. Los versos
+hipométricos e hipermétricos pasan a ser desviaciones de medida; si tienes a mano el número
+de sílabas puedes indicarlo, y si no se registra que el verso tiene menos o más sílabas de
+las que le tocan, sin dar una cifra. Están en la pestaña **Desviaciones**.
+
+| Tipo | Rangos | Cómo queda |
+| --- | ---: | --- |
+| `hipermetrico` | 102 | Pasa a ser una desviación de medida: el verso tiene más sílabas de las que le tocan |
+| `hipometrico` | 41 | Pasa a ser una desviación de medida: el verso tiene menos sílabas de las que le tocan |
+| `rima_defectuosa` | 12 | Pasa a ser una desviación de rima, y se conserva tu nota |
+| `patron_alternativo` | 4 | Pasa a ser una desviación de rima, y se conserva tu nota |
+| `mayoria_agudas` | 1 | En un romance con asonancia en «a» el final agudo ya va implícito, así que no se registra aparte |
+
+## Cómo rellenar el Excel
+
+El Excel tiene cinco pestañas. En tres de ellas hay que escribir —**Responder**, **Confirmar** y **Desviaciones**— y las otras dos son de consulta: **Secuencias**, con todo lo que tiene anotado tu obra, e **Instrucciones**, con este mismo texto. Solo hace falta escribir en las columnas de fondo amarillo, que son «Respuesta», «Excepciones / detalle» y «Comentario». El resto de columnas las genera el programa y las necesita tal cual para poder leer las respuestas, así que conviene no tocarlas.
+
+En **Responder** están las preguntas que no hemos podido contestar con lo que ya tenías anotado. Cada fila corresponde a un pasaje y a una pregunta. Cuando la celda tiene desplegable, basta con elegir; cuando no, la columna «Cómo contestar» explica el formato. Las preguntas que se refieren a cada estrofa aparecen de dos maneras: si son pocas estrofas, hay una fila por estrofa; si son muchas, hay una sola fila cuya respuesta vale para todas, y las estrofas que se aparten de ella se anotan en «Excepciones / detalle» indicando los versos y la respuesta, por ejemplo «191–194: Cruzada · abab; 203–206: Cruzada · abab».
+
+Las filas marcadas como **Decidir** señalan pasajes cuyo número de versos no encaja con la forma que tienen asignada. En ellas hay que elegir en el desplegable qué ocurre y explicarlo al lado. Si se trata de una laguna que no se contó, indica en qué verso está y cuántos versos faltan, porque los añadiremos a la numeración y todo lo que viene después se desplazará. Si lo que falla es el rango, escribe el rango correcto.
+
+En **Confirmar** aparecen las respuestas que hemos rellenado nosotros a partir del término que elegiste en su día: la asonancia de un romance, el esquema de una octava real «regular», o que un endecasílabo suelto «puro» no lleva pareados. Solo hay que revisarlas. Si alguna no es así, elige «No es así» y escribe al lado lo que corresponde.
+
+En **Desviaciones** están los versos hipométricos e hipermétricos, las rimas defectuosas y las lagunas que anotaste, con tus notas, y cómo quedan en el modelo nuevo. Se trasladan tal cual. Si tienes a mano el número de sílabas de algún verso hipométrico o hipermétrico, ponlo en la columna «Sílabas»; si no, se registra simplemente que el verso tiene menos o más sílabas de las que le tocan, sin dar una cifra.
+
+Si algo no está claro o no sabes cómo contestarlo, pregúntaselo a David antes de dejarlo a medias. Una vez hecha la migración podrás ver cada secuencia de tu obra con el editor nuevo en el dashboard y corregir allí lo que haga falta.
+
+Cuando no hay desplegable, los formatos son estos:
+
+- Medidas: el número de sílabas de cada verso, en orden y separados por espacios. Por ejemplo, «7 11 7 7 11 7 11 11».
+- Posiciones: en qué versos de la estrofa cae el quebrado y cuántas sílabas tiene cada uno, separados por comas. Por ejemplo, «3: 4, 8: 5» quiere decir que el verso 3 tiene cuatro sílabas y el 8 tiene cinco.
+- Esquema de rima: una letra por verso, en mayúscula si el verso es de arte mayor y un guion si queda suelto. Por ejemplo, «aBab-B».
+- Excepciones: los versos de la estrofa y la respuesta que le corresponde, separando cada estrofa con punto y coma. Por ejemplo, «191–194: Cruzada · abab; 203–206: Cruzada · abab».
+
+## Todas las secuencias
+
+Para terminar, la lista completa de secuencias con todo lo que la obra tiene anotado de cada
+una, salvo la sinopsis y los comentarios internos, de modo que se pueda seguir la migración
+sin consultar la base. Cuando un subtipo o una caracterización no ocupa la secuencia entera,
+lleva su rango entre paréntesis. La columna «Propuesta» indica cuántas respuestas trae ya la
+secuencia: las anotadas son las que se miraron verso a verso en su día y se conservan; las
+derivadas se deducen del término y aparecen en la pestaña Confirmar.
+
+| # | Versos | v | Vocabulario anterior | Forma | Arquitectura | Subtipos | Caracterizaciones | Estado | Propuesta | Vía |
 | ---: | --- | ---: | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 1–236 | 236 | `romance_o-e` | Romance | Octosilábica | — | `rima_defectuosa` (22–22)<br>`hipermetrico` (28–28)<br>`rima_defectuosa` (58–58)<br>`hipometrico` (59–59)<br>`hipometrico` (87–87)<br>`rima_defectuosa` (110–110)<br>`hipermetrico` (150–150)<br>`hipometrico` (159–159)<br>`hipometrico` (175–175)<br>`hipermetrico` (210–210)<br>`rima_defectuosa` (228–228)<br>`hipometrico` (228–228) | lista | 1 derivada | rasgo + forma del padre |
-| 2 | 237–463 | 227 | `romance_e-a` | Romance | Octosilábica | — | `rima_defectuosa` (246–246)<br>`patron_alternativo` (354–355) | **Revisar:** Ninguna arquitectura activa de «Romance» admite una secuencia de 227 versos. | 1 derivada | rasgo + forma del padre |
-| 3 | 464–655 | 192 | `redondilla` | Redondilla | Octosilábica | — | `hipometrico` (512–512)<br>`hipometrico` (522–522)<br>`hipermetrico` (556–556)<br>`hipometrico` (570–570)<br>`hipermetrico` (630–630)<br>`hipermetrico` (655–655) | **falta:** Esquema de rima | — | directa |
-| 4 | 656–727 | 72 | `octava_real_regular` | Octava real | Endecasilábica consonante | — | `hipermetrico` (659–659)<br>`hipometrico` (681–681)<br>`hipermetrico` (687–687) | **falta:** Esquema de rima | — | por ascendencia (octava_real) |
-| 5 | 728–819 | 92 | `redondilla` | Redondilla | Octosilábica | — | `hipermetrico` (734–734)<br>`hipometrico` (737–737)<br>`hipermetrico` (749–749)<br>`hipermetrico` (765–765)<br>`hipermetrico` (776–776)<br>`hipermetrico` (790–790)<br>`hipermetrico` (791–791)<br>`hipermetrico` (793–793) | **falta:** Esquema de rima | — | directa |
-| 6 | 820–887 | 68 | `romance_u-e` | Romance | Octosilábica | — | `rima_defectuosa` (829–829) | lista | 1 derivada | rasgo + forma del padre |
-| 7 | 888–927 | 40 | `redondilla` | Redondilla | Octosilábica | — | `hipermetrico` (906–906) | **falta:** Esquema de rima | — | directa |
-| 8 | 928–1182 | 255 | `romance_a` | Romance | Octosilábica | — | `mayoria_agudas`<br>`patron_alternativo` (928–928)<br>`hipermetrico` (948–948)<br>`hipermetrico` (954–954)<br>`hipermetrico` (1042–1042)<br>`hipermetrico` (1046–1046)<br>`hipermetrico` (1074–1074)<br>`rima_defectuosa` (1107–1109)<br>`hipermetrico` (1138–1138)<br>`hipometrico` (1143–1143)<br>`hipermetrico` (1153–1153)<br>`hipermetrico` (1155–1155)<br>`rima_defectuosa` (1162–1164)<br>`hipometrico` (1172–1172) | **Revisar:** Ninguna arquitectura activa de «Romance» admite una secuencia de 255 versos. | 1 derivada | rasgo + forma del padre |
-| 9 | 1183–1262 | 80 | `decima_espinela` | Décima | Espinela | — | `hipermetrico` (1207–1207)<br>`hipermetrico` (1212–1212)<br>`hipermetrico` (1221–1221)<br>`hipermetrico` (1225–1225)<br>`hipermetrico` (1244–1244) | lista | — | directa |
-| 10 | 1263–1266 | 4 | `redondilla` | Redondilla | Octosilábica | — | — | **falta:** Esquema de rima | — | directa |
-| 11 | 1267–1301 | 35 | `decima_espinela` | Décima | Espinela | — | `patron_alternativo` (1276–1291)<br>`rima_defectuosa` (1276–1291) | **Revisar:** La arquitectura «Espinela» no admite una secuencia de 35 versos: unidades completas de 10 versos. | — | directa |
-| 12 | 1302–1595 | 294 | `romance_a-e` | Romance | Octosilábica | — | `hipometrico` (1307–1307)<br>`patron_alternativo` (1311–1314)<br>`hipermetrico` (1328–1328)<br>`hipometrico` (1385–1385)<br>`hipometrico` (1394–1394)<br>`hipermetrico` (1395–1395)<br>`hipermetrico` (1402–1402)<br>`hipometrico` (1447–1447)<br>`hipermetrico` (1451–1451)<br>`rima_defectuosa` (1457–1457)<br>`hipermetrico` (1486–1486)<br>`hipermetrico` (1498–1498)<br>`hipometrico` (1503–1503)<br>`rima_defectuosa` (1523–1523)<br>`hipermetrico` (1582–1582)<br>`hipometrico` (1585–1585)<br>`hipermetrico` (1588–1588) | lista | 1 derivada | rasgo + forma del padre |
-| 13 | 1596–1690 | 95 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | `hipermetrico` (1596–1596)<br>`hipermetrico` (1604–1604)<br>`hipermetrico` (1605–1605)<br>`hipermetrico` (1616–1616)<br>`hipermetrico` (1617–1617)<br>`hipermetrico` (1643–1643)<br>`hipometrico` (1651–1651)<br>`hipermetrico` (1653–1653)<br>`hipermetrico` (1653–1653)<br>`hipermetrico` (1657–1657)<br>`hipermetrico` (1664–1664)<br>`hipermetrico` (1670–1670)<br>`rima_defectuosa` (1686–1686) | lista | 1 derivada | directa |
-| 14 | 1691–1710 | 20 | `decima_espinela` | Décima | Espinela | — | `hipermetrico` (1701–1701)<br>`hipermetrico` (1704–1704) | lista | — | directa |
+| 1 | 1–236 | 236 | `romance_o-e` | Romance | Octosílabo | — | `rima_defectuosa` (22)<br>`hipermetrico` (28)<br>`rima_defectuosa` (58)<br>`hipometrico` (59)<br>`hipometrico` (87)<br>`rima_defectuosa` (110)<br>`hipermetrico` (150)<br>`hipometrico` (159)<br>`hipometrico` (175)<br>`hipermetrico` (210)<br>`hipometrico` (228)<br>`rima_defectuosa` (228) | lista | 1 derivada | rasgo + forma del padre |
+| 2 | 237–463 | 227 | `romance_e-a` | Romance | Octosílabo | — | `rima_defectuosa` (246)<br>`patron_alternativo` (354–355) | **Revisar:** Tiene 227 versos, y un romance no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraremos la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto. | 1 derivada | rasgo + forma del padre |
+| 3 | 464–655 | 192 | `redondilla` | Redondilla | Octosílaba | — | `hipometrico` (512)<br>`hipometrico` (522)<br>`hipermetrico` (556)<br>`hipometrico` (570)<br>`hipermetrico` (630)<br>`hipermetrico` (655) | **Falta:** Esquema de rima | — | directa |
+| 4 | 656–727 | 72 | `octava_real_regular` | Octava real | Endecasílaba consonante | — | `hipermetrico` (659)<br>`hipometrico` (681)<br>`hipermetrico` (687) | lista | 9 derivadas | directa |
+| 5 | 728–819 | 92 | `redondilla` | Redondilla | Octosílaba | — | `hipermetrico` (734)<br>`hipometrico` (737)<br>`hipermetrico` (749)<br>`hipermetrico` (765)<br>`hipermetrico` (776)<br>`hipermetrico` (790)<br>`hipermetrico` (791)<br>`hipermetrico` (793) | **Falta:** Esquema de rima | — | directa |
+| 6 | 820–887 | 68 | `romance_u-e` | Romance | Octosílabo | — | `rima_defectuosa` (829) | lista | 1 derivada | rasgo + forma del padre |
+| 7 | 888–927 | 40 | `redondilla` | Redondilla | Octosílaba | — | `hipermetrico` (906) | **Falta:** Esquema de rima | — | directa |
+| 8 | 928–1182 | 255 | `romance_a` | Romance | Octosílabo | — | `patron_alternativo` (928)<br>`mayoria_agudas`<br>`hipermetrico` (948)<br>`hipermetrico` (954)<br>`hipermetrico` (1042)<br>`hipermetrico` (1046)<br>`hipermetrico` (1074)<br>`rima_defectuosa` (1107–1109)<br>`hipermetrico` (1138)<br>`hipometrico` (1143)<br>`hipermetrico` (1153)<br>`hipermetrico` (1155)<br>`rima_defectuosa` (1162–1164)<br>`hipometrico` (1172) | **Revisar:** Tiene 255 versos, y un romance no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraremos la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto. | 1 derivada | rasgo + forma del padre |
+| 9 | 1183–1262 | 80 | `decima_espinela` | Décima | Espinela | — | `hipermetrico` (1207)<br>`hipermetrico` (1212)<br>`hipermetrico` (1221)<br>`hipermetrico` (1225)<br>`hipermetrico` (1244) | lista | — | directa |
+| 10 | 1263–1266 | 4 | `redondilla` | Redondilla | Octosílaba | — | — | **Falta:** Esquema de rima | — | directa |
+| 11 | 1267–1301 | 35 | `decima_espinela` | Décima | Espinela | — | `patron_alternativo` (1276–1291)<br>`rima_defectuosa` (1276–1291) | **Revisar:** Sus 35 versos no encajan con «Espinela», que se compone de unidades completas de 10 versos. Encajaría con 5 versos más (40) o con 5 versos menos (30). | — | directa |
+| 12 | 1302–1595 | 294 | `romance_a-e` | Romance | Octosílabo | — | `hipometrico` (1307)<br>`patron_alternativo` (1311–1314)<br>`hipermetrico` (1328)<br>`hipometrico` (1385)<br>`hipometrico` (1394)<br>`hipermetrico` (1395)<br>`hipermetrico` (1402)<br>`hipometrico` (1447)<br>`hipermetrico` (1451)<br>`rima_defectuosa` (1457)<br>`hipermetrico` (1486)<br>`hipermetrico` (1498)<br>`hipometrico` (1503)<br>`rima_defectuosa` (1523)<br>`hipermetrico` (1582)<br>`hipometrico` (1585)<br>`hipermetrico` (1588) | lista | 1 derivada | rasgo + forma del padre |
+| 13 | 1596–1690 | 95 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | `hipermetrico` (1596)<br>`hipermetrico` (1604)<br>`hipermetrico` (1605)<br>`hipermetrico` (1616)<br>`hipermetrico` (1617)<br>`hipermetrico` (1643)<br>`hipometrico` (1651)<br>`hipermetrico` (1653)<br>`hipermetrico` (1653)<br>`hipermetrico` (1657)<br>`hipermetrico` (1664)<br>`hipermetrico` (1670)<br>`rima_defectuosa` (1686) | lista | 1 derivada | directa |
+| 14 | 1691–1710 | 20 | `decima_espinela` | Décima | Espinela | — | `hipermetrico` (1701)<br>`hipermetrico` (1704) | lista | — | directa |
 | 15 | 1711–1714 | 4 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | — | lista | 1 derivada | directa |
-| 16 | 1715–1734 | 20 | `decima_espinela` | Décima | Espinela | — | `hipometrico` (1723–1723) | lista | — | directa |
-| 17 | 1735–1738 | 4 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | `hipermetrico` (1737–1737) | lista | 1 derivada | directa |
-| 18 | 1739–1758 | 20 | `decima_espinela` | Décima | Espinela | — | `hipermetrico` (1751–1751) | lista | — | directa |
+| 16 | 1715–1734 | 20 | `decima_espinela` | Décima | Espinela | — | `hipometrico` (1723) | lista | — | directa |
+| 17 | 1735–1738 | 4 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | `hipermetrico` (1737) | lista | 1 derivada | directa |
+| 18 | 1739–1758 | 20 | `decima_espinela` | Décima | Espinela | — | `hipermetrico` (1751) | lista | — | directa |
 | 19 | 1759–1762 | 4 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | — | lista | 1 derivada | directa |
-| 20 | 1763–1782 | 20 | `decima_espinela` | Décima | Espinela | — | `hipometrico` (1767–1767)<br>`hipometrico` (1772–1772) | lista | — | directa |
-| 21 | 1783–1838 | 56 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | `hipermetrico` (1794–1794)<br>`hipermetrico` (1811–1811)<br>`hipometrico` (1813–1813) | lista | 1 derivada | directa |
-| 22 | 1839–2003 | 165 | `romance_a-e` | Romance | Octosilábica | — | `hipermetrico` (1896–1896)<br>`hipometrico` (1954–1954)<br>`hipermetrico` (1964–1964)<br>`hipermetrico` (1980–1980)<br>`hipermetrico` (1981–1981)<br>`hipermetrico` (2001–2001) | **Revisar:** Ninguna arquitectura activa de «Romance» admite una secuencia de 165 versos. | 1 derivada | rasgo + forma del padre |
-| 23 | 2004–2075 | 72 | `redondilla` | Redondilla | Octosilábica | — | `hipermetrico` (2016–2016)<br>`hipometrico` (2027–2027)<br>`hipometrico` (2031–2031)<br>`hipermetrico` (2071–2071) | **falta:** Esquema de rima | — | directa |
-| 24 | 2076–2417 | 342 | `romance_i-o` | Romance | Octosilábica | — | `hipometrico` (2101–2101)<br>`hipermetrico` (2121–2121)<br>`hipometrico` (2158–2158)<br>`hipometrico` (2165–2165)<br>`hipermetrico` (2212–2212)<br>`hipermetrico` (2214–2214)<br>`hipometrico` (2220–2220)<br>`hipermetrico` (2250–2250)<br>`hipermetrico` (2260–2260)<br>`hipermetrico` (2264–2264)<br>`hipermetrico` (2270–2270)<br>`hipermetrico` (2271–2271)<br>`hipometrico` (2287–2287)<br>`hipermetrico` (2290–2290)<br>`hipermetrico` (2298–2298)<br>`hipermetrico` (2318–2318)<br>`hipermetrico` (2328–2328)<br>`hipometrico` (2334–2334)<br>`hipermetrico` (2343–2343)<br>`hipermetrico` (2353–2353)<br>`hipometrico` (2370–2370)<br>`hipometrico` (2376–2376)<br>`hipometrico` (2381–2381) | lista | 1 derivada | rasgo + forma del padre |
-| 25 | 2418–2537 | 120 | `redondilla` | Redondilla | Octosilábica | — | `hipermetrico` (2418–2418)<br>`hipermetrico` (2459–2459)<br>`hipermetrico` (2489–2489)<br>`hipermetrico` (2505–2505)<br>`hipermetrico` (2530–2530) | **falta:** Esquema de rima | — | directa |
-| 26 | 2538–2757 | 220 | `romance_e-o` | Romance | Octosilábica | — | `hipometrico` (2542–2542)<br>`hipermetrico` (2548–2548)<br>`hipometrico` (2558–2558)<br>`hipermetrico` (2568–2568)<br>`hipometrico` (2574–2574)<br>`hipermetrico` (2584–2584)<br>`hipometrico` (2585–2585)<br>`hipermetrico` (2589–2589)<br>`hipermetrico` (2590–2590)<br>`hipermetrico` (2595–2595)<br>`hipermetrico` (2616–2616)<br>`hipermetrico` (2638–2638)<br>`hipometrico` (2647–2647)<br>`hipermetrico` (2653–2653)<br>`hipometrico` (2653–2653)<br>`hipermetrico` (2654–2654)<br>`hipermetrico` (2660–2660)<br>`hipermetrico` (2666–2666)<br>`hipermetrico` (2671–2671)<br>`hipermetrico` (2679–2679)<br>`hipermetrico` (2687–2687)<br>`hipermetrico` (2693–2693)<br>`hipermetrico` (2723–2723)<br>`hipermetrico` (2724–2724)<br>`hipermetrico` (2726–2726)<br>`hipermetrico` (2730–2730)<br>`hipermetrico` (2732–2732)<br>`hipermetrico` (2735–2735) | lista | 1 derivada | rasgo + forma del padre |
-
-## Caracterizaciones por rango
-
-Buena parte de estas no son caracterizaciones sino **desviaciones**, y en el modelo nuevo
-se registran como tales. Las de medida —hipometría e hipermetría— no conservan el número
-de sílabas observado, así que hay que revisarlas con quien las anotó.
-
-| Tipo | Rangos |
-| --- | ---: |
-| `hipermetrico` | 102 |
-| `hipometrico` | 41 |
-| `rima_defectuosa` | 12 |
-| `patron_alternativo` | 4 |
-| `mayoria_agudas` | 1 |
+| 20 | 1763–1782 | 20 | `decima_espinela` | Décima | Espinela | — | `hipometrico` (1767)<br>`hipometrico` (1772) | lista | — | directa |
+| 21 | 1783–1838 | 56 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | `hipermetrico` (1794)<br>`hipermetrico` (1811)<br>`hipometrico` (1813) | lista | 1 derivada | directa |
+| 22 | 1839–2003 | 165 | `romance_a-e` | Romance | Octosílabo | — | `hipermetrico` (1896)<br>`hipometrico` (1954)<br>`hipermetrico` (1964)<br>`hipermetrico` (1980)<br>`hipermetrico` (1981)<br>`hipermetrico` (2001) | **Revisar:** Tiene 165 versos, y un romance no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraremos la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto. | 1 derivada | rasgo + forma del padre |
+| 23 | 2004–2075 | 72 | `redondilla` | Redondilla | Octosílaba | — | `hipermetrico` (2016)<br>`hipometrico` (2027)<br>`hipometrico` (2031)<br>`hipermetrico` (2071) | **Falta:** Esquema de rima | — | directa |
+| 24 | 2076–2417 | 342 | `romance_i-o` | Romance | Octosílabo | — | `hipometrico` (2101)<br>`hipermetrico` (2121)<br>`hipometrico` (2158)<br>`hipometrico` (2165)<br>`hipermetrico` (2212)<br>`hipermetrico` (2214)<br>`hipometrico` (2220)<br>`hipermetrico` (2250)<br>`hipermetrico` (2260)<br>`hipermetrico` (2264)<br>`hipermetrico` (2270)<br>`hipermetrico` (2271)<br>`hipometrico` (2287)<br>`hipermetrico` (2290)<br>`hipermetrico` (2298)<br>`hipermetrico` (2318)<br>`hipermetrico` (2328)<br>`hipometrico` (2334)<br>`hipermetrico` (2343)<br>`hipermetrico` (2353)<br>`hipometrico` (2370)<br>`hipometrico` (2376)<br>`hipometrico` (2381) | lista | 1 derivada | rasgo + forma del padre |
+| 25 | 2418–2537 | 120 | `redondilla` | Redondilla | Octosílaba | — | `hipermetrico` (2418)<br>`hipermetrico` (2459)<br>`hipermetrico` (2489)<br>`hipermetrico` (2505)<br>`hipermetrico` (2530) | **Falta:** Esquema de rima | — | directa |
+| 26 | 2538–2757 | 220 | `romance_e-o` | Romance | Octosílabo | — | `hipometrico` (2542)<br>`hipermetrico` (2548)<br>`hipometrico` (2558)<br>`hipermetrico` (2568)<br>`hipometrico` (2574)<br>`hipermetrico` (2584)<br>`hipometrico` (2585)<br>`hipermetrico` (2589)<br>`hipermetrico` (2590)<br>`hipermetrico` (2595)<br>`hipermetrico` (2616)<br>`hipermetrico` (2638)<br>`hipometrico` (2647)<br>`hipermetrico` (2653)<br>`hipometrico` (2653)<br>`hipermetrico` (2654)<br>`hipermetrico` (2660)<br>`hipermetrico` (2666)<br>`hipermetrico` (2671)<br>`hipermetrico` (2679)<br>`hipermetrico` (2687)<br>`hipermetrico` (2693)<br>`hipermetrico` (2723)<br>`hipermetrico` (2724)<br>`hipermetrico` (2726)<br>`hipermetrico` (2730)<br>`hipermetrico` (2732)<br>`hipermetrico` (2735) | lista | 1 derivada | rasgo + forma del padre |
 

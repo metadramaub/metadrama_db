@@ -1,75 +1,148 @@
 # Migración métrica · El conde de Sex
 
-Generado el 2026-08-27 por `npm run migracion:informe`. **No editar a mano:**
-se regenera y se pierde lo escrito. El procedimiento está en
-[cómo se migra una obra](../como-se-migra-una-obra.md) y las decisiones van a
-[equivalencias pendientes](../equivalencias-pendientes.md).
+Informe para Rosa Bono, generado el 2026-09-19. Se
+regenera con `npm run migracion:informe`, así que no conviene editarlo a mano. Va acompañado
+de un Excel con el mismo nombre, que es lo que hay que devolver rellenado.
 
-- **Editor asignado:** Rosa Bono
-- **Secuencias métricas:** 28
-- **Subtipos estróficos:** 0
-- **Caracterizaciones por rango:** 0
+## De qué va esto
 
-## Qué hay que consultar
+Estamos trasladando la anotación métrica de las obras al catálogo nuevo, el que se publica en
+[recursos/catalogo-metrico](https://versologia.metadrama.org/recursos/catalogo-metrico). La mayor parte del trabajo la hace un programa:
+cada término del vocabulario anterior tiene su forma y su arquitectura en el catálogo, y las
+tipologías de quintilla, las asonancias de los romances o los esquemas de los sonetos que
+anotaste en su día se conservan tal cual. Hay, sin embargo, algunas cosas que el catálogo nuevo
+registra y que el vocabulario anterior no recogía, y eso es lo que te pedimos en el Excel. Con
+esas respuestas hacemos la migración de una vez y no hace falta que vuelvas a anotar nada.
 
-- **1 secuencia(s) sin equivalencia.** Es lo que hay que decidir con el editor.
+Mientras tanto tu obra no cambia: en el dashboard sigue tal como está hasta que devuelvas el
+Excel. Cuando la migración esté hecha, podrás ver cada secuencia con el editor nuevo y corregir
+allí lo que haga falta.
 
-Resolución: 11 directas · 17 con rasgo propio · 0 por ascendencia · 0 sin destino · 0 sin forma declarada · 1 con longitud por revisar.
+## Tu obra en cifras
 
-## Dudas, una por una
+- 28 secuencias métricas. De ellas, 11 tienen equivalencia directa en el
+  catálogo, 17 llevan además un rasgo (la asonancia de un romance, por ejemplo) y
+  0 toman la forma del término padre porque el suyo no tiene equivalencia propia.
+- 0 subtipos estróficos (las tipologías de quintilla, estrofa a estrofa), que se conservan sin cambios.
+- 0 caracterizaciones por rango, que se convierten en desviaciones o se mantienen como están.
 
-| Versos | Término actual | Qué pasa |
-| --- | --- | --- |
-| 2905–3093 (189 v) | `romance_e-a` | Ninguna arquitectura activa de «Romance» admite una secuencia de 189 versos. |
+## Qué te pedimos
 
-## Lo que hay que completar
+- 1 decisión sobre pasajes cuyo número de versos no encaja, o sobre tramos que van a unirse en una sola secuencia.
+- 10 respuestas, en 3 secuencias, a preguntas que el vocabulario anterior no recogía.
+- 25 confirmaciones de respuestas que ya hemos rellenado nosotros.
 
-**2 de 28 secuencias** llegan al editor con algo sin
-responder. El resto se puede aceptar de un vistazo. Lo que falta aquí no lo arregla ninguna
-equivalencia: es lectura del texto.
+## Pasajes que no encajan
 
-| Versos | Forma | Estrofas | Qué falta |
-| --- | --- | ---: | --- |
-| 1323–1326 | Redondilla | 1 | Esquema de rima |
-| 1329–1368 | Quintilla | 8 | Esquema de rima |
+Son secuencias cuyo número de versos no se corresponde con la forma que tienen asignada, y
+tramos que el vocabulario anterior obligaba a dividir. Aparecen en la pestaña **Responder**
+del Excel, marcadas como *Decidir*.
 
-## Secuencias
+- **vv. 2905–3093** · Romance · Octosílabo. Tiene 189 versos, y un romance no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraremos la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto.
 
-**Todo lo que la obra tiene anotado de cada secuencia**, salvo la sinopsis y los comentarios
-internos: así se puede recorrer la migración con el editor sin consultar la base. Los subtipos
-y las caracterizaciones llevan su rango entre paréntesis cuando no ocupan la secuencia entera.
+## Preguntas pendientes
 
-La columna **Propuesta** dice qué trae ya puesto el editor: lo *anotado* se miró verso a verso
-en su día y se traslada tal cual; lo *derivado* se deduce del término legado y hay que revisarlo.
+Estas son las preguntas que hace el catálogo nuevo y que no se pueden responder con lo que
+había anotado; hace falta mirar el texto. Están en la pestaña **Responder**.
 
-| # | Versos | v | Término actual | Forma propuesta | Arquitectura | Subtipos | Caracterizaciones | Estado | Propuesta | Vía |
+| Versos | Forma | Pregunta | Cómo contestar |
+| --- | --- | --- | --- |
+| 1323–1326 | Redondilla · Octosílaba | Esquema de rima · 1 estrofa | Elige en el desplegable |
+| 1329–1368 | Quintilla · Octosílaba consonante | Esquema de rima, en 8 estrofas (una fila por estrofa) | Elige en el desplegable |
+| 1887–1888 | Pareado · De cualquier medida | Medida de los versos · estrofa 1 (vv. 1887–1888) | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») |
+
+## Respuestas ya rellenas
+
+Estas respuestas se deducen del término que elegiste en su día, y las hemos rellenado
+nosotros. Conviene echarles un vistazo por si en alguna estrofa las cosas eran de otra
+manera. Están en la pestaña **Confirmar**.
+
+| Versos | Forma | Pregunta | Respuesta | Vocabulario anterior |
+| --- | --- | --- | --- | --- |
+| 1–114 | Romance · Octosílabo | Vocales de la asonancia | a-o | romance_a-o |
+| 115–240 | Silva · Consonante de orden libre | Densidad de rima | Mayoritaria | silva_de_consonantes_irregular |
+| 241–292 | Romance · Octosílabo | Vocales de la asonancia | a-o | romance_a-o |
+| 293–364 | Redondilla · Octosílaba | Esquema de rima | Abrazada · abba en las 18 estrofas | redondilla_regular |
+| 365–816 | Romance · Octosílabo | Vocales de la asonancia | i-o | romance_i-o |
+| 817–994 | Romance · Octosílabo | Vocales de la asonancia | a-o | romance_a-o |
+| 995–1076 | Romance · Octosílabo | Vocales de la asonancia | e-o | romance_e-o |
+| 1077–1256 | Redondilla · Octosílaba | Esquema de rima | Abrazada · abba en las 45 estrofas | redondilla_regular |
+| 1257–1300 | Romance · Octosílabo | Vocales de la asonancia | e-o | romance_e-o |
+| 1301–1304 | Redondilla · Octosílaba | Esquema de rima | Abrazada · abba | redondilla_regular |
+| 1305–1322 | Romance · Octosílabo | Vocales de la asonancia | e-o | romance_e-o |
+| 1327–1328 | Romance · Octosílabo | Vocales de la asonancia | e-o | romance_e-o |
+| 1369–1438 | Romance · Octosílabo | Vocales de la asonancia | e-o | romance_e-o |
+| 1439–1452 | Soneto · Endecasílabo consonante | Varias respuestas | Cuartetos · Esquema de rima: Cuartetos de rima abrazada · ABBA ABBA; Tercetos · Esquema de rima: Tercetos de rima cruzada · CDC DCD | soneto_regular_ABBAABBACDCDCD |
+| 1453–1454 | Romance · Octosílabo | Vocales de la asonancia | e-o | romance_e-o |
+| 1455–1468 | Soneto · Endecasílabo consonante | Varias respuestas | Cuartetos · Esquema de rima: Cuartetos de rima abrazada · ABBA ABBA; Tercetos · Esquema de rima: Tercetos de rima cruzada · CDC DCD | soneto_regular_ABBAABBACDCDCD |
+| 1469–1554 | Romance · Octosílabo | Vocales de la asonancia | e-o | romance_e-o |
+| 1555–1634 | Redondilla · Octosílaba | Esquema de rima | Abrazada · abba en las 20 estrofas | redondilla_regular |
+| 1635–1886 | Romance · Octosílabo | Vocales de la asonancia | e-a | romance_e-a |
+| 1887–1888 | Pareado · De cualquier medida | Esquema de rima | aa · Consonante | pareado_endecasilabo |
+| 1889–2030 | Romance · Octosílabo | Vocales de la asonancia | e-e | romance_e-e |
+| 2141–2316 | Romance · Octosílabo | Vocales de la asonancia | e-e | romance_e-e |
+| 2317–2436 | Romance · Octosílabo | Vocales de la asonancia | o-o | romance_o-o |
+| 2437–2904 | Romance · Octosílabo | Vocales de la asonancia | e-o | romance_e-o |
+| 2905–3093 | Romance · Octosílabo | Vocales de la asonancia | e-a | romance_e-a |
+
+## Cómo rellenar el Excel
+
+El Excel tiene cinco pestañas. En tres de ellas hay que escribir —**Responder**, **Confirmar** y **Desviaciones**— y las otras dos son de consulta: **Secuencias**, con todo lo que tiene anotado tu obra, e **Instrucciones**, con este mismo texto. Solo hace falta escribir en las columnas de fondo amarillo, que son «Respuesta», «Excepciones / detalle» y «Comentario». El resto de columnas las genera el programa y las necesita tal cual para poder leer las respuestas, así que conviene no tocarlas.
+
+En **Responder** están las preguntas que no hemos podido contestar con lo que ya tenías anotado. Cada fila corresponde a un pasaje y a una pregunta. Cuando la celda tiene desplegable, basta con elegir; cuando no, la columna «Cómo contestar» explica el formato. Las preguntas que se refieren a cada estrofa aparecen de dos maneras: si son pocas estrofas, hay una fila por estrofa; si son muchas, hay una sola fila cuya respuesta vale para todas, y las estrofas que se aparten de ella se anotan en «Excepciones / detalle» indicando los versos y la respuesta, por ejemplo «191–194: Cruzada · abab; 203–206: Cruzada · abab».
+
+Las filas marcadas como **Decidir** señalan pasajes cuyo número de versos no encaja con la forma que tienen asignada. En ellas hay que elegir en el desplegable qué ocurre y explicarlo al lado. Si se trata de una laguna que no se contó, indica en qué verso está y cuántos versos faltan, porque los añadiremos a la numeración y todo lo que viene después se desplazará. Si lo que falla es el rango, escribe el rango correcto.
+
+En **Confirmar** aparecen las respuestas que hemos rellenado nosotros a partir del término que elegiste en su día: la asonancia de un romance, el esquema de una octava real «regular», o que un endecasílabo suelto «puro» no lleva pareados. Solo hay que revisarlas. Si alguna no es así, elige «No es así» y escribe al lado lo que corresponde.
+
+En **Desviaciones** están los versos hipométricos e hipermétricos, las rimas defectuosas y las lagunas que anotaste, con tus notas, y cómo quedan en el modelo nuevo. Se trasladan tal cual. Si tienes a mano el número de sílabas de algún verso hipométrico o hipermétrico, ponlo en la columna «Sílabas»; si no, se registra simplemente que el verso tiene menos o más sílabas de las que le tocan, sin dar una cifra.
+
+Si algo no está claro o no sabes cómo contestarlo, pregúntaselo a David antes de dejarlo a medias. Una vez hecha la migración podrás ver cada secuencia de tu obra con el editor nuevo en el dashboard y corregir allí lo que haga falta.
+
+Cuando no hay desplegable, los formatos son estos:
+
+- Medidas: el número de sílabas de cada verso, en orden y separados por espacios. Por ejemplo, «7 11 7 7 11 7 11 11».
+- Posiciones: en qué versos de la estrofa cae el quebrado y cuántas sílabas tiene cada uno, separados por comas. Por ejemplo, «3: 4, 8: 5» quiere decir que el verso 3 tiene cuatro sílabas y el 8 tiene cinco.
+- Esquema de rima: una letra por verso, en mayúscula si el verso es de arte mayor y un guion si queda suelto. Por ejemplo, «aBab-B».
+- Excepciones: los versos de la estrofa y la respuesta que le corresponde, separando cada estrofa con punto y coma. Por ejemplo, «191–194: Cruzada · abab; 203–206: Cruzada · abab».
+
+## Todas las secuencias
+
+Para terminar, la lista completa de secuencias con todo lo que la obra tiene anotado de cada
+una, salvo la sinopsis y los comentarios internos, de modo que se pueda seguir la migración
+sin consultar la base. Cuando un subtipo o una caracterización no ocupa la secuencia entera,
+lleva su rango entre paréntesis. La columna «Propuesta» indica cuántas respuestas trae ya la
+secuencia: las anotadas son las que se miraron verso a verso en su día y se conservan; las
+derivadas se deducen del término y aparecen en la pestaña Confirmar.
+
+| # | Versos | v | Vocabulario anterior | Forma | Arquitectura | Subtipos | Caracterizaciones | Estado | Propuesta | Vía |
 | ---: | --- | ---: | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 1–114 | 114 | `romance_a-o` | Romance | Octosilábica | — | — | lista | 1 derivada | rasgo + forma del padre |
+| 1 | 1–114 | 114 | `romance_a-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
 | 2 | 115–240 | 126 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | — | lista | 1 derivada | directa |
-| 3 | 241–292 | 52 | `romance_a-o` | Romance | Octosilábica | — | — | lista | 1 derivada | rasgo + forma del padre |
-| 4 | 293–364 | 72 | `redondilla_regular` | Redondilla | Octosilábica | — | — | lista | 18 derivadas | directa |
-| 5 | 365–816 | 452 | `romance_i-o` | Romance | Octosilábica | — | — | lista | 1 derivada | rasgo + forma del padre |
-| 6 | 817–994 | 178 | `romance_a-o` | Romance | Octosilábica | — | — | lista | 1 derivada | rasgo + forma del padre |
-| 7 | 995–1076 | 82 | `romance_e-o` | Romance | Octosilábica | — | — | lista | 1 derivada | rasgo + forma del padre |
-| 8 | 1077–1256 | 180 | `redondilla_regular` | Redondilla | Octosilábica | — | — | lista | 45 derivadas | directa |
-| 9 | 1257–1300 | 44 | `romance_e-o` | Romance | Octosilábica | — | — | lista | 1 derivada | rasgo + forma del padre |
-| 10 | 1301–1304 | 4 | `redondilla_regular` | Redondilla | Octosilábica | — | — | lista | 1 derivada | directa |
-| 11 | 1305–1322 | 18 | `romance_e-o` | Romance | Octosilábica | — | — | lista | 1 derivada | rasgo + forma del padre |
-| 12 | 1323–1326 | 4 | `redondilla` | Redondilla | Octosilábica | — | — | **falta:** Esquema de rima | — | directa |
-| 13 | 1327–1328 | 2 | `romance_e-o` | Romance | Octosilábica | — | — | lista | 1 derivada | rasgo + forma del padre |
-| 14 | 1329–1368 | 40 | `quintilla` | Quintilla | Octosilábica consonante | — | — | **falta:** Esquema de rima | — | directa |
-| 15 | 1369–1438 | 70 | `romance_e-o` | Romance | Octosilábica | — | — | lista | 1 derivada | rasgo + forma del padre |
-| 16 | 1439–1452 | 14 | `soneto_regular_ABBAABBACDCDCD` | Soneto | Endecasilábica consonante | — | — | lista | 2 derivadas | directa |
-| 17 | 1453–1454 | 2 | `romance_e-o` | Romance | Octosilábica | — | — | lista | 1 derivada | rasgo + forma del padre |
-| 18 | 1455–1468 | 14 | `soneto_regular_ABBAABBACDCDCD` | Soneto | Endecasilábica consonante | — | — | lista | 2 derivadas | directa |
-| 19 | 1469–1554 | 86 | `romance_e-o` | Romance | Octosilábica | — | — | lista | 1 derivada | rasgo + forma del padre |
-| 20 | 1555–1634 | 80 | `redondilla_regular` | Redondilla | Octosilábica | — | — | lista | 20 derivadas | directa |
-| 21 | 1635–1886 | 252 | `romance_e-a` | Romance | Octosilábica | — | — | lista | 1 derivada | rasgo + forma del padre |
-| 22 | 1887–1888 | 2 | `pareado_endecasilabo` | Pareado | De cualquier medida | — | — | lista | 3 derivadas | directa |
-| 23 | 1889–2030 | 142 | `romance_e-e` | Romance | Octosilábica | — | — | lista | 1 derivada | rasgo + forma del padre |
+| 3 | 241–292 | 52 | `romance_a-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
+| 4 | 293–364 | 72 | `redondilla_regular` | Redondilla | Octosílaba | — | — | lista | 18 derivadas | directa |
+| 5 | 365–816 | 452 | `romance_i-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
+| 6 | 817–994 | 178 | `romance_a-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
+| 7 | 995–1076 | 82 | `romance_e-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
+| 8 | 1077–1256 | 180 | `redondilla_regular` | Redondilla | Octosílaba | — | — | lista | 45 derivadas | directa |
+| 9 | 1257–1300 | 44 | `romance_e-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
+| 10 | 1301–1304 | 4 | `redondilla_regular` | Redondilla | Octosílaba | — | — | lista | 1 derivada | directa |
+| 11 | 1305–1322 | 18 | `romance_e-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
+| 12 | 1323–1326 | 4 | `redondilla` | Redondilla | Octosílaba | — | — | **Falta:** Esquema de rima | — | directa |
+| 13 | 1327–1328 | 2 | `romance_e-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
+| 14 | 1329–1368 | 40 | `quintilla` | Quintilla | Octosílaba consonante | — | — | **Falta:** Esquema de rima | — | directa |
+| 15 | 1369–1438 | 70 | `romance_e-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
+| 16 | 1439–1452 | 14 | `soneto_regular_ABBAABBACDCDCD` | Soneto | Endecasílabo consonante | — | — | lista | 2 derivadas | directa |
+| 17 | 1453–1454 | 2 | `romance_e-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
+| 18 | 1455–1468 | 14 | `soneto_regular_ABBAABBACDCDCD` | Soneto | Endecasílabo consonante | — | — | lista | 2 derivadas | directa |
+| 19 | 1469–1554 | 86 | `romance_e-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
+| 20 | 1555–1634 | 80 | `redondilla_regular` | Redondilla | Octosílaba | — | — | lista | 20 derivadas | directa |
+| 21 | 1635–1886 | 252 | `romance_e-a` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
+| 22 | 1887–1888 | 2 | `pareado_endecasilabo` | Pareado | De cualquier medida | — | — | **Falta:** Medida de los versos | 1 derivada | directa |
+| 23 | 1889–2030 | 142 | `romance_e-e` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
 | 24 | 2031–2140 | 110 | `decima_espinela` | Décima | Espinela | — | — | lista | — | directa |
-| 25 | 2141–2316 | 176 | `romance_e-e` | Romance | Octosilábica | — | — | lista | 1 derivada | rasgo + forma del padre |
-| 26 | 2317–2436 | 120 | `romance_o-o` | Romance | Octosilábica | — | — | lista | 1 derivada | rasgo + forma del padre |
-| 27 | 2437–2904 | 468 | `romance_e-o` | Romance | Octosilábica | — | — | lista | 1 derivada | rasgo + forma del padre |
-| 28 | 2905–3093 | 189 | `romance_e-a` | Romance | Octosilábica | — | — | **Revisar:** Ninguna arquitectura activa de «Romance» admite una secuencia de 189 versos. | 1 derivada | rasgo + forma del padre |
+| 25 | 2141–2316 | 176 | `romance_e-e` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
+| 26 | 2317–2436 | 120 | `romance_o-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
+| 27 | 2437–2904 | 468 | `romance_e-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
+| 28 | 2905–3093 | 189 | `romance_e-a` | Romance | Octosílabo | — | — | **Revisar:** Tiene 189 versos, y un romance no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraremos la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto. | 1 derivada | rasgo + forma del padre |
 

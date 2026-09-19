@@ -1,6 +1,6 @@
 # Dominio métrico
 
-Actualizado: 16 de septiembre de 2026
+Actualizado: 19 de septiembre de 2026
 
 Esta carpeta reúne la ontología, los criterios, el modelo aplicado y los planes del dominio
 métrico de Versología, separado del vocabulario genérico del proyecto.
@@ -18,7 +18,7 @@ métrico de Versología, separado del vocabulario genérico del proyecto.
 | formalizar o corregir una forma | [criterios de nivel](./criterios-de-nivel.md) → [cómo se cambia el catálogo](./como-se-cambia-el-catalogo.md) → [dónde vive la prosa](./donde-vive-la-prosa.md) |
 | añadir o corregir una afirmación de fuente | [las fuentes del catálogo](./fuentes-del-catalogo.md) → [cómo se cambia el catálogo](./como-se-cambia-el-catalogo.md) |
 | tocar el editor V2 | `src/lib/components/metrica/editor-v2/` y sus pruebas; la persistencia, en [el modelo aplicado](./implementacion-metrica.md) |
-| migrar las secuencias de una obra | [el plan](./plan-migracion-anotaciones.md) → [cómo se migra una obra](./como-se-migra-una-obra.md) → [equivalencias pendientes](./equivalencias-pendientes.md) |
+| migrar las secuencias de una obra | [el plan](./plan-migracion-anotaciones.md) → [el informe de esa obra](./migracion/) → [equivalencias pendientes](./equivalencias-pendientes.md) |
 | saber la razón filológica de una forma | primero [`/formas`](https://versologia.metadrama.org/formas), que se genera del dato; si hace falta el porqué, [cuestiones para el IP](./cuestiones-para-el-ip.md) |
 
 **El estado no se escribe aquí**: cuántas formas hay, cuántas secuencias faltan o qué defectos
@@ -49,7 +49,7 @@ quedan se consultan en la base y con los informes de más abajo.
 | --- | --- |
 | [Conformidad del catálogo](./informe-conformidad-catalogo.md) | `npm run audit:metrica` — D1–D16 contra la base viva |
 | [Estado de las equivalencias](./informe-equivalencias.md) | `npm run equivalencias:informe` |
-| [Informes por obra](./migracion/) | `npm run migracion:informe` |
+| [Informes por obra](./migracion/) | `npm run migracion:informe` — el informe para quien anotó, y en `cuestionarios/` su HTML y el Excel que rellena |
 | [Qué le pide el editor a cada forma](./informe-editor-v2.md) | `npm run audit:editor` — coste por forma y defectos del formulario |
 | [Lo anotado frente al catálogo](./informe-anotaciones.md) | `npm run audit:anotaciones` — dónde un cambio del catálogo dejó una respuesta sin pregunta; `--comprobar` prueba las sondas |
 
@@ -59,8 +59,7 @@ Ninguno se edita a mano. `npm run audit:metrica` necesita Docker, porque vuelca 
 
 | Documento | Para qué |
 | --- | --- |
-| [Plan de migración de las anotaciones](./plan-migracion-anotaciones.md) | El marco: condiciones previas, fases y criterios de aceptación. No iniciado |
-| [Cómo se migra una obra](./como-se-migra-una-obra.md) | El procedimiento obra por obra, escrito para poder explicárselo a quien la anotó |
+| [Plan de migración de las anotaciones](./plan-migracion-anotaciones.md) | Qué se preserva, las reglas que salieron de mirar los datos, el procedimiento obra por obra —informe, Excel, aplicador— y los criterios de aceptación. **En curso** |
 | [Equivalencias pendientes](./equivalencias-pendientes.md) | **Por qué** algunos términos legados no declaran todavía su destino, y qué decidió el IP sobre cada uno. Hay que cerrarlo antes del backfill |
 | [Auditoría profunda contra las fuentes](../../scripts/auditoria-fuentes/) | Los catorce comandos que comprueban que cada afirmación diga lo que su libro dice. Cinco se pasan de vez en cuando; los demás solo dentro de una pasada de lectura. **Necesitan la bibliografía local** |
 | [Plan de auditoría de las fuentes](./plan-auditoria-fuentes.md) | El método, por si hay que repetirlo: taxonomía de defectos, pasadas ciegas y errores sembrados para medir al auditor. **La auditoría terminó**; qué enseñó, en el [registro](./historico/auditoria-de-fuentes-2026-09.md) |

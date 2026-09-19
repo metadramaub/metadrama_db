@@ -21,33 +21,35 @@ interpretables, antes de proyectar una selección pequeña a las fichas. Las 11 
 prueba: valen para comprobar cálculo y presentación, no para sostener resultados.
 → [plan de comparativas](./plan-comparativas-corpus.md)
 
-**2 · Migrar las secuencias ya anotadas.** 263, en las 88 obras en borrador y las 5 en vista previa.
-Por equivalencias más revisión manual obra por obra. **Hasta que se haga, esas obras no tienen
-perfil.**
+**2 · Migrar las secuencias ya anotadas.** 263, en 11 obras de 8 editores. Los informes y los
+Excel que cada editor rellena **están generados** desde el 19 de septiembre de 2026; falta
+enviarlos, escribir el aplicador que lee las respuestas y migrar obra por obra. **Hasta que se
+haga, esas obras no tienen perfil.**
 → [plan de migración](./dominio-metrico/plan-migracion-anotaciones.md) ·
-[cómo se migra una obra](./dominio-metrico/como-se-migra-una-obra.md) ·
+[informes y cuestionarios](./dominio-metrico/migracion/) ·
 estado con `npm run equivalencias:informe`
 
 ---
 
 ## A · Bloquean la migración de las secuencias
 
-Casos en que una secuencia real **no tendría dónde caer**. Cada uno obliga a parar la migración de
-una obra a la mitad.
+**A1 · El aplicador.** `npm run migracion:aplicar -- --obra <slug>`, con `--simular`: lee la vista
+y el Excel devuelto por sus claves, aplica primero las correcciones a las tablas legadas
+—renumeraciones por laguna sin contar, rangos, fusiones—, y escribe la anotación nueva por
+`guardar_anotacion_metrica` con la identidad del editor asignado, reutilizando lo que ya hace
+`aplicar-guiones.mjs`. Con la tabla `migracion_secuencias` como rastro. Los formatos que tiene que
+leer están en `scripts/lib/migracion/modelo.mjs`.
+→ [plan, §5](./dominio-metrico/plan-migracion-anotaciones.md)
 
-**A1 · Huecos que ninguna equivalencia arregla.** Trabajo de editor con el texto delante: 37
-secuencias de `redondilla` genérica, 7 quintillas sin tipología, los dos esquemas de 3 coplas reales
-y las vocales de un romancillo. Y uno del catálogo: el endecasílabo suelto no pregunta por el final
-acentual, así que `endecasilabo_suelto_de_esdrujulos` no tiene dónde caer.
-→ [equivalencias pendientes](./dominio-metrico/equivalencias-pendientes.md)
+**A2 · Enviar los cuestionarios y recoger las respuestas.** El HTML y el Excel de cada obra están
+en [migracion/cuestionarios/](./dominio-metrico/migracion/cuestionarios/); las respuestas van a
+`migracion/respuestas/`, versionadas. Lo que un editor no tenga claro lo pregunta antes de
+contestar.
 
-**A2 · Ver la precarga funcionando con una obra de verdad.** El editor abre ya una secuencia real
-sin empezar en blanco, pero `anotaciones_metricas.secuencia_id` sigue a cero porque nadie ha anotado
-todavía una secuencia heredada. Es trabajo de editor, no de implementación.
-
-**A3 · Las equivalencias de los tres tramos irregulares, una a una.** Alguna puede ser que quien
-anotó no encontrara la forma precisa y con el catálogo nuevo sí la encuentre. Las que no, tendrán que
-registrar exactamente lo que se ve.
+**A3 · La pausa de edición pasa a ser por obra.** Hoy es un `$derived` global en la página de la
+obra; tiene que abrirse para cada obra migrada —ninguna secuencia legada sin anotación nueva— para
+que el editor revise sus secuencias en el dashboard.
+→ [la pausa](./edicion-pausada.md)
 
 **A4 · Las preguntas que la serie alirada no tiene.** La novena-lira no tiene dónde registrar la
 disposición que se vea, ni la décima cuando no sea la documentada. (La canción ya no está aquí: la
@@ -276,10 +278,10 @@ cuándo la ficha ablanda a la fuente, y el cotejo de los epígrafes de Jauralde 
 **E7 · Dos propuestas sin redactar:** `cfb377cd` (septeto-lira de Navarro) y la afirmación del cubo
 limpio que quedó sin decidir.
 
-**E8 · Tres comprobaciones que salieron de cuestiones para el IP.** Pedirle al editor de *El
-caballero de Olmedo* los datos de sus tres coplas reales —qué disposición tiene cada quintilla y
-dónde caen los quiebros—, que es el único sitio donde el corpus puede contrastar lo que las fuentes
-dicen del emparejamiento. Comprobar contra lo anotado que **ningún pasaje con quebrado esté
+**E8 · Tres comprobaciones que salieron de cuestiones para el IP.** Los datos de las tres coplas
+reales de *El caballero de Olmedo* —qué disposición tiene cada quintilla y dónde caen los
+quiebros—, que es el único sitio donde el corpus puede contrastar lo que las fuentes dicen del
+emparejamiento: **ya se piden en el Excel de la obra**; cuando vuelva, contrastarlos. Comprobar contra lo anotado que **ningún pasaje con quebrado esté
 registrado como versificación irregular**, que es el error fácil al anotar y que la definición ya
 excluye. *Esa secuencia de* Lo fingido y lo cierto (prueba) *quedó anotada como **silva**, y el guion la
 vuelve a construir como villancico: al regenerar las pruebas volverá a serlo, que es lo que
@@ -304,5 +306,6 @@ apoyándose en unas afirmaciones que la auditoría corrigió después en más de
 → [revisión de vocabularios](./revision-de-vocabularios.md)
 
 **F2 · Reabrir la edición de obras**, pausada desde el 2 de septiembre para que el corpus anotado
-con el vocabulario legado deje de crecer. Se levanta cuando termine el hito 2.
+con el vocabulario legado deje de crecer. Se levanta obra a obra según se migren (A3) y del todo
+cuando termine el hito 2.
 → [la pausa](./edicion-pausada.md)

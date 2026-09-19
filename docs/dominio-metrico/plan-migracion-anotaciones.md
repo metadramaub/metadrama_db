@@ -1,268 +1,142 @@
 # Plan de migración de las anotaciones métricas
 
-Estado: vigente, no iniciado · 30 de julio de 2026
+Estado: **en curso** desde el 19 de septiembre de 2026 · escrito el 30 de julio
 
-Este documento recoge lo que hay que hacer para llevar las declaraciones métricas reales
-de las obras del vocabulario legado al catálogo nuevo. Estaba disperso en la arquitectura
-y se separa aquí porque es la única parte del proyecto métrico que todavía no ha
-empezado y que no debe empezar hasta que se cumplan sus condiciones previas.
+Cómo se llevan las secuencias métricas anotadas con el vocabulario legado al catálogo nuevo. Es
+la única parte del dominio métrico que quedaba por hacer: el catálogo está revisado, el editor V2
+es el único que escribe y la zona pública lee solo de las tablas `anotacion_*`. **Hasta que una
+obra se migra, no tiene perfil.**
 
-**No se ejecutará** hasta que el IP haya presentado y corregido la ontología, el editor
-V2 funcione como se espera con datos de prueba y el demarcador resulte útil. Hay editores
-trabajando sobre los datos actuales y esa frontera no se adelanta.
+Cuántas secuencias quedan, en qué obras y qué le falta a cada una **no se escribe aquí**: lo dicen
+`npm run equivalencias:informe` y `npm run migracion:informe`, que leen la base.
 
-## 1 · Situación de partida
+## 1 · Lo primero: qué NO va a pasar
 
-Comprobado el 30 de julio de 2026 sobre la base enlazada:
+- **Nadie reanota su obra.** Casi todo se traduce solo, y lo que el término viejo no decía se pide
+  una vez, en un Excel, y se escribe por script.
+- **Nada se toca sin las respuestas.** Las secuencias reales no cambian hasta que el Excel de esa
+  obra vuelve; el editor de siempre sigue enseñando lo de siempre mientras tanto.
+- **No se inventa precisión.** Un verso anotado como hipométrico sin más se registra como menor que
+  la norma, sin cifra, salvo que el editor la dé ahora.
+- **Lo que se corrige por el camino se corrige en el dato**, no alrededor: una laguna que no se
+  contó renumera la obra desde ahí; cuatro sextetos-lira partidos por el vocabulario viejo pasan a
+  ser una secuencia.
 
-- 246 secuencias métricas reales, todas apuntando a `vocabularios.estrofa_tipo_id`;
-- 337 filas en `secuencias_subtipos_estrofa`;
-- 225 caracterizaciones por rango;
-- `secuencias_metricas` **no tiene todavía** `forma_metrica_id`;
-- las tablas `*_editor_metrico` son de prueba y no alimentan nada público.
+## 2 · Datos que se preservan
 
-## 2 · Datos que deben preservarse
+- las filas de `secuencias_metricas`, con su obra, su rango y su `n_versos`; el `estrofa_tipo_id`
+  se queda como evidencia de la clasificación hecha y el editor V2 no lo toca;
+- los subtipos (`secuencias_subtipos_estrofa`): son las estrofas, con su esquema, y se trasladan
+  tal cual;
+- las caracterizaciones por rango, según §3;
+- sinopsis, indicadores de escena, comentarios internos, fechas y responsables.
 
-- filas de `secuencias_metricas`;
-- obra, rango `v_ini`–`v_fin` y número de versos de cada secuencia;
-- `estrofa_tipo_id` actual como evidencia de la clasificación realizada;
-- subtipos o unidades internas y sus rangos;
-- caracterizaciones métricas por rango;
-- observaciones editoriales;
-- relaciones necesarias para identificar autoría y contexto de la anotación;
-- fechas y responsables disponibles.
+Antes de migrar una obra: `npm run snapshot:obras` y la copia completa que describe `README.md`.
 
-Antes de modificar estos datos se hará una copia de seguridad y un inventario de uso por
-UUID. Ninguna entrada utilizada se migrará mediante una regla genérica no revisada.
+## 3 · Las caracterizaciones por rango
 
-## 2bis · El reparto de las caracterizaciones por rango
+Se usaron para dos cosas y cada fila va a un sitio. El 7 de septiembre de 2026 se retiraron del
+selector las que no eran enunciativas; sus filas siguen escritas y se trasladan obra por obra. La
+tabla vive en código, en `scripts/lib/migracion/modelo.mjs` (`DESTINO_CARACTERIZACION`), y la usan
+el informe y el aplicador; esto es su lectura, con lo contado sobre las 11 obras el 19 de septiembre:
 
-Las caracterizaciones por rango se usaron para dos cosas, y al migrar cada fila va a un sitio
-distinto. El 7 de septiembre de 2026 se retiraron del selector las que no son de este mecanismo
-—no se puede volver a elegirlas—, pero **sus filas siguen escritas** y se trasladan aquí, obra por
-obra, porque una desviación cuelga de una anotación con su forma y esas secuencias todavía no la
-tienen.
+| Término | Filas | Destino | Se le pregunta al editor |
+| --- | ---: | --- | --- |
+| `hipermetrico` · `hipometrico` | 129 · 56 | desviación `metro` · mayor / menor que la norma, con el metro observado si lo da | las sílabas, opcionales |
+| `rima_defectuosa` | 16 | desviación `rima` · `otra`, con la nota | nada |
+| `laguna` | 2 | desviación `estructura` · `falta` | nada; pero ver §4 |
+| `patron_alternativo` | 8 | desviación `rima` · `otra`, con la nota | que le valga |
+| `mayoria_agudas` | 1 | en un romance en «a» lo dice ya la asonancia | que le valga |
+| `mayoria_esdrujulas` | 0 | rasgo `final_acentual` = esdrújulo | — |
+| `cantado` · `prosa` · `evocacion_metrica` | 11 · 5 · 6 | **se quedan**: siguen activas como caracterizaciones enunciativas | nada |
 
-| Término | Filas | Destino |
-| --- | ---: | --- |
-| `hipermetrico` | 129 | desviación · `metro` · `mayor_que_norma` |
-| `hipometrico` | 56 | desviación · `metro` · `menor_que_norma` |
-| `rima_defectuosa` | 16 | desviación · `rima` · `otra` |
-| `laguna` | 2 | desviación · `estructura` · `falta` |
-| `mayoria_agudas` | 1 | rasgo `final_acentual` = `agudo` |
-| `mayoria_esdrujulas` | 1 | rasgo `final_acentual` = `esdrujulo` |
-| `patron_alternativo` | 8 | caso por caso: no era una categoría, era la falta de sitio para decir algo del comportamiento de la rima dentro de un romance |
-| `cantado` · `prosa` | 16 | **se quedan**: son fenómenos enunciativos y no métricos |
+Las relaciones son las que la base admite: `metro` acepta `menor_que_norma`, `mayor_que_norma` y
+`otra`; `rima`, solo `otra`; `estructura`, `falta`, `sobra`, `menor_que_norma`, `mayor_que_norma` y
+`otra`.
 
-**Las relaciones son las que la base admite**, que no son las seis del vocabulario: `metro` acepta
-`menor_que_norma`, `mayor_que_norma` y `otra`; `rima`, solo `otra`; `estructura`, `falta`, `sobra`,
-`menor_que_norma`, `mayor_que_norma` y `otra`; `repeticion` y `rasgo`, `falta`, `sobra` y `otra`.
-Que la rima se estrechara es deliberado: **casi cualquier forma admite ya escribir a mano un esquema
-que el catálogo no tiene**, así que decir «la rima es otra» dejó de ser la manera de registrar una
-disposición no catalogada, y la desviación de rima queda para lo que de verdad no cabe en un
-esquema.
+## 4 · Reglas que salieron de mirar los datos
 
-Aparte, las **379 filas de `secuencias_subtipos_estrofa`** son todas esquemas de quintilla
-—`quintilla_1_ababa` 266, `quintilla_5_aabba` 79 y cinco más—. Su traducción no tiene decisiones:
-una elección de `esquema_rima` sobre la arquitectura de la quintilla.
+- **Las unidades salen de los subtipos** cuando los hay, no de dividir la secuencia. Sus rangos
+  dicen dónde una estrofa mide menos de lo que debe y dónde quedan versos sin cubrir, y eso se
+  pregunta localizado —«el subtipo 762–765 mide 4»— y no como «150 no cuadra».
+- **Una laguna se registra contando sus versos.** La quintilla a la que le faltan dos sigue
+  ocupando cinco números. Si un rango solo cuadra sumando la laguna, no se contó: la respuesta
+  «laguna sin contar» renumera la obra desde ahí, en las tablas legadas y antes de anotar.
+- **Un romance impar es un verso perdido.** No se admite otra explicación: el editor lo localiza y
+  dice si es laguna o rango.
+- **Lo derivado se confirma, lo anotado no se pregunta.** Una respuesta que sale del término
+  —la asonancia de `romance_a-o`, el ABABABCC de `octava_real_regular`— se enseña rellena para que
+  el editor diga si alguna estrofa no era así.
+- **Un cierre que explica el rango se confirma.** Sesenta y un versos de terceto encadenado son
+  veinte tercetos y un verso de cierre; la vista lo admite desde el 19 de septiembre, y el Excel
+  pide confirmar que el cierre existe.
+- **Los tramos fundibles se funden.** Secuencias contiguas de la misma arquitectura con unidad de
+  extensión fija, sin cruzar jornada ni cuadro, pasan a una sola con varias estrofas. Los booleanos
+  de escena se suman, las intervenciones coinciden o quedan `compartida`, y la sinopsis la escribe
+  el editor.
+- **Sin arquitectura propuesta se pregunta cuál**, y lo que todas las de la forma preguntan por
+  igual: el `irregular` escueto.
 
-## 3 · Datos que pueden descartarse y regenerarse
+## 5 · El procedimiento, obra por obra
 
-- `obras_resumen` y `autores_resumen`;
-- perfiles, tramos y facetas precomputadas;
-- payloads de las fichas públicas de prueba;
-- índices o artefactos del laboratorio derivados de esos resúmenes;
-- versiones de prueba del demarcador que no estén publicadas como referencia.
+1. **Generar.** `npm run migracion:informe` escribe, por obra, el informe en Markdown
+   ([migracion/](./migracion/)), el mismo informe en HTML y el Excel
+   ([migracion/cuestionarios/](./migracion/cuestionarios/)). El informe está redactado para quien
+   anotó: qué se ha encontrado, qué se le pide, cómo contestar. El Excel tiene tres pestañas que
+   rellenar —*Responder*, *Confirmar*, *Desviaciones*— y cada fila lleva una clave que el
+   aplicador lee sin mirar el texto.
+2. **Enviar.** El HTML y el Excel, al editor asignado. Lo que no tenga claro lo pregunta; no deja
+   respuestas a medias.
+3. **Recibir.** El Excel devuelto se guarda en [migracion/respuestas/](./migracion/respuestas/) y
+   se versiona: es el rastro de lo que se decidió.
+4. **Aplicar.** `npm run migracion:aplicar -- --obra <slug>` *(por escribir)* lee la vista y el
+   Excel, y con `--simular` escribe un guion legible sin tocar la base. Sin él: snapshot, las
+   correcciones de las tablas legadas —renumeraciones, fusiones, rangos—, y una transacción por
+   obra que llama a `guardar_anotacion_metrica` con la identidad del editor asignado, igual que
+   `aplicar:guiones`. Deja constancia en `migracion_secuencias` (secuencia, anotación, término
+   legado, fecha) e informa de lo que rechazó y de lo que sigue sin respuesta.
+5. **Cerrar.** Recuento (secuencias legadas con anotación nueva = total), `npm run
+   audit:anotaciones`, recompute. La pausa de edición se levanta para esa obra, y el editor revisa
+   cada secuencia en el dashboard y corrige ahí lo que haga falta.
 
-La web no está abierta al público y las fichas actuales son de prueba. No hace falta
-mantener compatibilidad de contenido con esas proyecciones: se reconstruirán desde el
-modelo nuevo una vez validadas las anotaciones.
+Las reglas de equivalencia viven en **un solo sitio**, la vista `propuesta_metrica_secuencia`, y
+las respuestas que el término ya contenía en `propuesta_elecciones_secuencia`. Las consultan por
+igual el dashboard, `npm run equivalencias:informe`, el informe por obra y el aplicador.
 
-## 4 · Trazabilidad
+## 6 · Trazabilidad
 
-**No hay hoy ninguna tabla de correspondencias.** `migracion_terminos_metricos` y
-`migracion_termino_destinos` se describían aquí como el mecanismo de trazabilidad, pero
-**no existen en el esquema**: se retiraron con la matriz de importación en julio de 2026.
-Comprobado sobre la base el 4 de agosto.
+El mapa vigente es `origen_termino_id`, una columna en cada entidad del catálogo, más
+`equivalencias_respuestas_legadas` para lo que un término afirma y la columna única no expresa.
+Las tablas `migracion_terminos_metricos` y `migracion_termino_destinos` **no existen**: se
+retiraron en julio de 2026. Lo que falta, y añade el aplicador, es el rastro por secuencia:
+`migracion_secuencias`.
 
-Lo único que queda es `origen_termino_id`, una columna en cada entidad del catálogo, y dos
-mecanismos heredados:
+## 7 · Después
 
-- cuando una entrada sobrevive como forma canónica se reutiliza su UUID en
-  `formas_metricas`, lo que facilita el backfill;
-- las demás declaran su procedencia en `origen_termino_id`.
+- **Editor de obras.** La pausa de edición pasa de global a por obra: editable cuando no le queda
+  ninguna secuencia legada sin anotación nueva.
+- **Retirada.** `estrofa_tipo` de solo lectura; retirar las FK y los servicios legados sin
+  consumidores; conservar el rastro; eliminar las columnas métricas de `vocabularios` solo si
+  ninguna otra categoría las usa.
 
-Eso basta para las correspondencias de uno a uno, pero **no para las de varios a uno ni
-para los destinos compuestos**, que son justamente los casos difíciles: `soneto_de_esdrújulos`
-es una forma más un rasgo, y los cuatro hijos del endecasílabo suelto son una misma
-arquitectura con respuestas distintas. Una columna única no expresa ninguna de las dos
-cosas. Decidir dónde viven esas correspondencias es parte de
-[equivalencias pendientes](./equivalencias-pendientes.md).
+## 8 · Criterios de aceptación
 
-Los términos ambiguos no se asignan por conjetura. La antigua raíz `romancillo`, por
-ejemplo, exige saber si la secuencia es hexasílaba o heptasílaba, y esa decisión es
-editorial.
+1. Igual número de secuencias antes y después, salvo las fusiones decididas.
+2. Igualdad exacta de obra, `v_ini`, `v_fin` y `n_versos`, salvo las correcciones decididas.
+3. Toda asignación legada puede trazarse hasta su anotación nueva.
+4. Todo subtipo conserva su rango como estrofa.
+5. Un verso legado marcado solo como hipométrico no recibe un número de sílabas inventado.
+6. Una secuencia sin desviaciones se interpreta como conforme con su norma.
+7. Ninguna proyección pública consulta ya la jerarquía de `estrofa_tipo` —ya es así desde el 7 de
+   septiembre de 2026—.
+8. Una restauración de la copia de seguridad ha quedado ensayada.
 
-## 4bis · El procedimiento por obra
-
-Cómo se hace en la práctica —informe, revisión con el editor, decisión, anotación en sombra
-y contraste— está en [cómo se migra una obra](./como-se-migra-una-obra.md), escrito para
-poder explicárselo a quien anotó cada una.
-
-Las reglas de equivalencia viven en **un solo sitio**, la vista `propuesta_metrica_secuencia`.
-La consultan igual la anotación en sombra del dashboard y `npm run migracion:informe`, así
-que no pueden separarse.
-
-## 5 · Auditoría obligatoria antes del backfill
-
-Se generará un informe con:
-
-- número de secuencias total y por `estrofa_tipo_id`;
-- términos activos e inactivos realmente utilizados;
-- secuencias que apuntan a raíces, hijos o entradas pendientes;
-- número y rango de `secuencias_subtipos_estrofa`;
-- caracterizaciones por rango relacionadas con métrica;
-- correspondencia de `hipometrico`, `hipermetrico`, `rima_defectuosa` y finales
-  acentuales con las observaciones normalizadas;
-- referencias huérfanas o inconsistentes;
-- obras afectadas por cada regla de reclasificación.
-
-Ese informe será la línea base de aceptación.
-
-## 6 · Fases
-
-### Condición previa
-
-El catálogo cumple los [criterios de nivel](./criterios-de-nivel.md) y el
-[informe de conformidad](./informe-conformidad-catalogo.md) no tiene defectos abiertos.
-
-La capa de observación real no se crea a ciegas: la fase 0 sirve para saber, con obras de
-verdad, si el modelo aguanta antes de abrirle la puerta a `secuencias_metricas`.
-
-### Fase 0 · Anotación en sombra
-
-Decidida el 3 de agosto de 2026. Es el ensayo: anotar secuencias **reales** con el modelo
-nuevo sin que producción se entere, para validar a la vez el editor, el catálogo y el mapa
-de correspondencias.
-
-**Cómo se conecta.** `anotaciones_metricas` gana una columna `secuencia_id` nullable
-que apunta a `secuencias_metricas`. Todo el árbol nuevo —realizaciones, elecciones,
-desviaciones— sigue colgando de la prueba, no de la secuencia. La secuencia real no cambia
-ni una columna y **no sabe que la están anotando**. Se revierte borrando la columna.
-
-Una prueba tiene entonces dos modos: cuelga de un escenario ficticio, como hasta ahora, o
-señala una secuencia real. Nunca las dos cosas.
-
-**Cómo se elige qué obra.** Un interruptor por obra, no por rol: solo las obras marcadas
-abren el editor nuevo. Se eligen por las formas que traen —conviene que haya villancicos,
-canciones y tercetos encadenados—, no por quién las anota. El selector enseña por eso los
-términos legados de cada obra y cuántas de sus secuencias no tienen correspondencia.
-
-Retirar una obra no borra lo anotado: deja de poder anotarse, nada más. El rango de una
-anotación en sombra lo manda siempre la secuencia real —la sombra dice qué es ese pasaje, no
-dónde empieza—, porque si además se moviera el contraste dejaría de comparar lo mismo.
-
-**El editor no empieza en blanco.** Al abrir por primera vez una secuencia real, el
-formulario se propone solo a partir de su `estrofa_tipo_id`, siguiendo el
-`origen_termino_id` que cada entidad del catálogo declara. El editor no reanota: revisa una
-propuesta y corrige. Eso cambia lo que se está probando, y a mejor: no solo la ergonomía
-del formulario, sino **si el mapa de correspondencias acierta**, que es justamente lo que
-hay que saber antes de migrar el corpus de golpe.
-
-**Cobertura medida el 4 de agosto**, ya sin la obra de pruebas: **205 de 216 secuencias, el
-94,9 %**. Solo tres términos en uso siguen sin correspondencia —`endecasilabo_suelto_puro`
-(6 secuencias), `pareado_endecasilabo` (1) y `copla_real_de_pie_quebrado` (1)—, más tres
-secuencias con `estrofa_tipo_id` nulo. Es una tarde de trabajo, no un proyecto.
-
-> Las tablas `migracion_terminos_metricos` y `migracion_termino_destinos` **ya no existen**:
-> se retiraron con la matriz de importación en julio. El mapa vigente es `origen_termino_id`,
-> y es el que hay que consultar.
-
-**Lo que el mapa no dice.** `origen_termino_id` registra supervivencias y transformaciones,
-nunca disoluciones: un término que desapareció a propósito, porque su contenido se disolvió en
-otro nivel, no deja rastro y es indistinguible de uno olvidado. **Cuántos términos declaran hoy
-su equivalencia, cuáles no y cuánto se usa cada uno se consulta en
-[el informe generado](./informe-equivalencias.md)**, que emite `npm run equivalencias:informe`;
-no se copian aquí porque cambian con cada migración. Ninguna secuencia queda sin resolver. El
-razonamiento sobre por qué faltan los que faltan, lo que dijo la matriz de julio y dónde
-contradice ya a la ontología, está en
-[equivalencias pendientes](./equivalencias-pendientes.md). **Resolverla es condición para la
-fase B**, no para la fase 0: en sombra se puede anotar sin ella, simplemente esas secuencias
-aparecen «sin correspondencia» y el editor elige a mano.
-
-**Qué se mira al final.** Un recuento agregado que responde la pregunta que decide el resto:
-de las secuencias anotadas en los dos modelos, cuántas coinciden, cuántas difieren y
-cuántas no tienen todavía correspondencia en el catálogo.
-
-No se construye una pantalla de contraste lado a lado: para ver una obra en los dos modelos
-se abre el editor de siempre en otra pestaña, que enseña el dato real y no una copia suya.
-Lo que no se puede obtener así es el agregado —habría que contar a mano 216 secuencias—, y
-por eso es lo único que se implementa. Que «sin correspondencia» se cuente aparte y no como
-desacuerdo es deliberado: es una pieza que falta en el catálogo, no una discrepancia entre
-modelos, y mezclarlas haría parecer que la fase va peor de lo que va.
-
-**Criterio de salida.** La fase 0 termina cuando ese contraste dice que el modelo nuevo
-recoge sin pérdida lo que decía el viejo, y las diferencias que quedan son correcciones
-deliberadas y no defectos del modelo. Solo entonces se abre la fase A.
-
-### Fase A · Esquema de anotación
-
-- crear la capa de observaciones y desviaciones sobre `secuencias_metricas`;
-- añadir `forma_metrica_id` de manera aditiva, junto a `estrofa_tipo_id`;
-- sellar cada anotación con la revisión del catálogo vigente.
-
-### Fase B · Backfill
-
-- migrar las asignaciones directas;
-- transformar los hijos que eran patrones o rasgos;
-- migrar `secuencias_subtipos_estrofa` a unidades y elecciones;
-- migrar las irregularidades por rango a observaciones normalizadas sin inventar valores
-  exactos: los casos que solo afirman hipometría o hipermetría conservan
-  `menor_que_norma` o `mayor_que_norma` y dejan la medida sin determinar;
-- conservar `cantado`, `prosa` y `laguna` en su dominio general;
-- fusionar los subtipos residuales de irregular por arte con Versificación irregular,
-  conservando su información como observación o derivándola de las medidas disponibles;
-- producir informes de discrepancias.
-
-### Fase C · Editor de obras
-
-- sustituir el selector de vocabulario por el del dominio;
-- eliminar la excepción específica de quintilla;
-- mantener lectura de registros legados durante la transición.
-
-### Fase D · Proyecciones públicas
-
-- vaciar las proyecciones de prueba;
-- rediseñar fichas, catálogo, autores y laboratorio;
-- recalcular perfiles canónicos y generar facetas separadas;
-- validar semánticamente las nuevas facetas.
-
-### Fase E · Retirada
-
-- hacer `estrofa_tipo` de solo lectura;
-- retirar FKs y servicios legados sin consumidores;
-- conservar tablas de correspondencia e historial;
-- eliminar columnas métricas de `vocabularios` solo si ninguna otra categoría las usa.
-
-## 7 · Criterios de aceptación
-
-1. Igual número de secuencias antes y después.
-2. Igualdad exacta de obra, `v_ini`, `v_fin` y `n_versos`.
-3. Toda asignación legada puede trazarse hasta sus destinos nuevos.
-4. Todos los subtipos internos conservan su rango como unidad o incidencia revisable.
-5. Cada transformación compuesta conserva forma, configuración y rasgos.
-6. Un verso legado marcado solo como hipométrico no recibe un número de sílabas inventado.
-7. Una secuencia sin observaciones se interpreta como plenamente conforme con su norma.
-8. Ninguna proyección pública consulta ya la jerarquía de `estrofa_tipo`.
-9. Una restauración de la copia de seguridad ha quedado ensayada.
-
-## 8 · Riesgos
+## 9 · Riesgos
 
 | Riesgo | Mitigación |
 | --- | --- |
-| Reclasificar erróneamente una entrada usada | Matriz revisada, correspondencias y lectura dual |
-| Perder anotaciones de hijos actuales | Copia de seguridad y auditoría de cada UUID usado |
-| Inventar precisión en datos legados | Conservar relaciones cualitativas cuando no exista medida o rima exacta |
-| Cambiar una norma y reinterpretar secuencias en silencio | Sellado de revisión e invalidación técnica de lo afectado |
-| Duplicar fuentes de verdad | Definir por fase qué tablas admiten escritura |
-| Migrar mientras hay editores trabajando | Coordinar el corte y evitar la escritura dual prolongada |
+| Reclasificar mal una entrada usada | La equivalencia vive en la vista y el informe la enseña; lo derivado se confirma |
+| Perder lo anotado estrofa a estrofa | Las unidades salen de los subtipos; copia y snapshot antes de cada obra |
+| Inventar precisión | Sílabas solo si el editor las da; relaciones cualitativas si no |
+| Renumerar mal una obra | La renumeración sale de una respuesta explícita, se simula antes y se comprueba contra jornadas y cuadros |
+| Migrar mientras alguien edita | La edición está pausada; se levanta obra a obra, después de migrarla |
