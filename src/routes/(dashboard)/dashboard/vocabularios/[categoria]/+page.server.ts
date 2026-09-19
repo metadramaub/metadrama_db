@@ -17,6 +17,10 @@ export const load: PageServerLoad = async ({ locals, params, parent, url }) => {
 	const profile = parentData.profile;
 	const categoria = decodeURIComponent(params.categoria ?? '').trim();
 
+	if (!canManageVocabularios(profile.roleTerm)) {
+		throw error(403, 'Solo admin o IP pueden ver los vocabularios.');
+	}
+
 	if (!categoria || categoria === 'estado_revision') {
 		throw error(404, 'Categoría no encontrada');
 	}

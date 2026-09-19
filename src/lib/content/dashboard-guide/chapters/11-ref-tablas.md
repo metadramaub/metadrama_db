@@ -34,14 +34,16 @@ Por cada propuesta de autoría:
 - `colaborada`: 2 o más autores.
 - `desconocida`: 0 autores (no crear un autor ficticio "desconocido").
 
-Autoría **disputada** = varias propuestas en el mismo ámbito (alternativas entre sí). Varias **evidencias** dentro de una propuesta = varias fuentes que apoyan la misma atribución. Ver [Paso 5 · Autoría](/dashboard/guia/paso-autoria).
+Autoría **disputada** = varias propuestas en el mismo ámbito (alternativas entre sí). Varias **evidencias** dentro de una propuesta = varias fuentes que apoyan la misma atribución. Ver [Paso 4 · Autoría](/dashboard/guia/paso-autoria).
 
 ## Caracterizaciones por rango: regla de v_ini / v_fin
 
-- `cantado`, `rima defectuosa`, `laguna`, `mayoria_agudas`, `mayoria_esdrujulas`: un solo verso o un rango.
-- `hipométrico`, `hipermétrico`: `v_ini` y `v_fin` deben ser el **mismo verso** (una irregularidad por caracterización).
+Hoy solo se pueden crear tres tipos: `cantado`, `prosa` y `evocación métrica`. Un verso hipométrico o hipermétrico, una rima defectuosa, un patrón alternativo o una laguna se declaran como **desviación** dentro del editor de la forma, no aquí. Ver [Paso 3 · Secuencias (forma y métrica)](/dashboard/guia/paso-secuencias-metrica#desviaciones).
+
+- `cantado`: un solo verso o un rango.
+- `evocación métrica`: nace con el rango completo de la secuencia; se puede acotar si empieza o acaba dentro.
 - `prosa`: `v_ini` y `v_fin` son el verso **anterior y posterior** a la prosa (la prosa no se numera).
-- Tipos padre (`fenomenos_enunciativos`, `irregularidades_metricas`, `final_acentual`): agrupadores, **no se seleccionan directamente**.
+- `fenómenos_enunciativos` es el tipo padre de `cantado` y `evocación métrica`: agrupador, **no se selecciona directamente**.
 - Toda caracterización debe quedar **dentro** del rango de versos de su secuencia.
 
 ## Roles y permisos (resumen)
@@ -50,8 +52,8 @@ El rol `editor` (incluye a quien actúa como `revisor`):
 
 - edita obras asignadas y revisa las asignadas a revisión;
 - ve el listado completo de obras, pero **solo puede abrir la ficha** de las que edita o revisa;
-- consulta autores y vocabularios;
+- consulta autores;
 - **puede crear autores**, pero no editarlos ni eliminarlos;
-- no crea obras, no gestiona vocabularios, no cambia su perfil ni su rol.
+- no crea obras, no cambia su perfil ni su rol.
 
 Los roles `admin` e `IP` tienen permisos ampliados (publicar, gestionar autores y vocabularios, asignar revisiones, etc.).

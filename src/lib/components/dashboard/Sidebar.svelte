@@ -251,23 +251,23 @@
 			<span class={collapsed ? 'md:sr-only' : ''}>Autores</span>
 		</a>
 
-		<a
-			class={`flex items-center gap-2 px-3 py-2 text-[color:var(--foreground)] transition-colors hover:bg-[color:var(--muted)] ${
-				collapsed ? 'md:h-11 md:w-11 md:self-center md:justify-center md:px-0' : ''
-			}`}
-			href="/dashboard/vocabularios"
-			aria-label="Vocabularios"
-			title="Vocabularios"
-		>
-			{#if LibraryBigIcon}
-				<LibraryBigIcon size={16} aria-hidden="true" />
-			{:else}
-				<span class="inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
-			{/if}
-			<span class={collapsed ? 'md:sr-only' : ''}>Vocabularios</span>
-		</a>
-
 		{#if isAdminIp}
+			<a
+				class={`flex items-center gap-2 px-3 py-2 text-[color:var(--foreground)] transition-colors hover:bg-[color:var(--muted)] ${
+					collapsed ? 'md:h-11 md:w-11 md:self-center md:justify-center md:px-0' : ''
+				}`}
+				href="/dashboard/vocabularios"
+				aria-label="Vocabularios"
+				title="Vocabularios"
+			>
+				{#if LibraryBigIcon}
+					<LibraryBigIcon size={16} aria-hidden="true" />
+				{:else}
+					<span class="inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
+				{/if}
+				<span class={collapsed ? 'md:sr-only' : ''}>Vocabularios</span>
+			</a>
+
 			<a
 				class={`flex items-center gap-2 px-3 py-2 text-[color:var(--foreground)] transition-colors hover:bg-[color:var(--muted)] ${
 					collapsed ? 'md:h-11 md:w-11 md:self-center md:justify-center md:px-0' : ''

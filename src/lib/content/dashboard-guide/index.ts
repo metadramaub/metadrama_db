@@ -37,36 +37,36 @@ export const DASHBOARD_GUIDE_CHAPTERS = [
 		group: 'edicion'
 	},
 	{
-		slug: 'paso-secuencias',
-		title: 'Paso 3 · Secuencias',
-		summary: 'Análisis métrico: estrofa, caracterización y sinopsis.',
+		slug: 'paso-secuencias-metrica',
+		title: 'Paso 3 · Secuencias (forma y métrica)',
+		summary: 'Análisis métrico: forma, respuestas, desviaciones y caracterizaciones por rango.',
 		file: '05-paso-secuencias.md',
 		group: 'edicion'
 	},
 	{
-		slug: 'paso-caracterizaciones',
-		title: 'Paso 4 · Caracterizaciones por rango',
-		summary: 'Fenómenos internos de una secuencia declarados por rango.',
-		file: '06-paso-caracterizaciones.md',
+		slug: 'paso-secuencias-caracterizacion',
+		title: 'Paso 3 · Secuencias (caracterización y sinopsis)',
+		summary: 'Personajes, otras marcas sobre la secuencia y sinopsis argumental.',
+		file: '06-paso-secuencias-caracterizacion.md',
 		group: 'edicion'
 	},
 	{
 		slug: 'paso-autoria',
-		title: 'Paso 5 · Autoría',
+		title: 'Paso 4 · Autoría',
 		summary: 'Reglas de atribución y creación de autores nuevos.',
 		file: '07-paso-autoria.md',
 		group: 'edicion'
 	},
 	{
 		slug: 'paso-observaciones',
-		title: 'Paso 6 · Observaciones y bibliografía',
+		title: 'Paso 5 · Observaciones y bibliografía',
 		summary: 'Observaciones públicas y bibliografía específica de métrica.',
 		file: '08-paso-observaciones.md',
 		group: 'edicion'
 	},
 	{
 		slug: 'paso-revision',
-		title: 'Paso 7 · Revisión y estados',
+		title: 'Paso 6 · Revisión y estados',
 		summary: 'Checklist final, comentarios internos y transiciones de estado.',
 		file: '09-paso-revision.md',
 		group: 'edicion'
@@ -83,13 +83,6 @@ export const DASHBOARD_GUIDE_CHAPTERS = [
 		title: 'Tablas rápidas',
 		summary: 'Estados, público/interno, autoría, caracterizaciones y permisos.',
 		file: '11-ref-tablas.md',
-		group: 'consulta'
-	},
-	{
-		slug: 'ref-vocabularios',
-		title: 'Vocabularios',
-		summary: 'Consulta de términos controlados para editar con coherencia.',
-		file: '13-ref-vocabularios.md',
 		group: 'consulta'
 	},
 	{

@@ -15,22 +15,20 @@ En la práctica, trabajamos en tres capas de información, distribuidas en varia
 
 ## Qué es público y qué es interno
 
-La regla es simple:
-
 > [!NOTE]
 > Todo lo que introduces es **público** (aparecerá en la ficha cuando la obra se publique), **excepto los comentarios internos**, que solo vemos nosotros.
 
 Para no liarte, distingue estos tres tipos de campo:
 
-### 1. Datos y observaciones → públicos
+### Datos y observaciones, públicos
 
-Los datos de la obra (título, género, datación, edición, autoría), la estructura, las secuencias, las **observaciones** y la bibliografía. También consta quién editó o revisó cada obra. Todo esto se ve en la ficha pública.
+Los datos de la obra (título, género, datación, edición, autoría), la estructura, las secuencias, las **observaciones** y la bibliografía se ven en la ficha pública. También consta quién editó o revisó cada obra.
 
-### 2. Comentarios internos → privados
+### Comentarios internos, privados
 
-Los que dejas en cualquier punto (obra, jornadas, cuadros, secuencias, revisión) para hablar entre editores: dudas, notas para ti, cuestiones de revisión. **Nunca** se publican.
+Los que dejas en cualquier punto (obra, jornadas, cuadros, secuencias, revisión) para hablar entre editores —dudas, notas para ti, cuestiones de revisión— **nunca** se publican.
 
-### 3. Comentario interno como "observación pública" → la excepción
+### La excepción: un comentario interno como observación pública
 
 A veces un comentario interno aclara algo útil para quien consulte la base de datos. Puedes convertirlo en público, pero hacen falta **dos pasos**:
 
@@ -47,7 +45,7 @@ Solo cuando se cumplen **ambas cosas** (y la obra está publicada) ese comentari
 Cuando haya varias opciones posibles, usa este criterio simple:
 
 1. Prioriza la coherencia con el resto de decisiones tomadas en la misma obra.
-2. Elige términos del [vocabulario](/dashboard/vocabularios) (si crees que falta alguno, escríbenos un correo directamente, ¡no esperes!).
+2. Usa siempre el término más preciso que te ofrezca el propio formulario —en el catálogo métrico, en las evidencias de autoría, en los comentarios— y si crees que falta una opción, escríbenos un correo directamente, ¡no esperes!
 3. Si hay dudas razonables, deja constancia breve de la decisión.
 
 Recuerda: si tienes dudas, pregunta antes de seguir para no arrastrar problemas.
@@ -58,8 +56,8 @@ Todo el contenido de la obra debe quedar completo y revisado por ti antes de pas
 
 1. **Datos base**: título y variantes, género, datación, fuente, edición base. El título ya vendrá declarado, pero puedes corregirlo y agregar variantes.
 2. **Estructura** de la obra (jornadas y cuadros), para poder trabajar después con estos rangos.
-3. **Secuencias**: declara todas las secuencias métricas en una primera pasada (rango de versos y tipología).
-4. Segunda pasada de **secuencias y caracterizaciones por rango** para completar el análisis (caracterización, sinopsis).
+3. **Secuencias**: declara todas las secuencias métricas en una primera pasada (rango de versos y forma).
+4. Segunda pasada de **secuencias** para completar el análisis (respuestas, desviaciones, caracterización y sinopsis).
 5. **Autoría**: registra todas las atribuciones discutidas por la crítica.
 6. **Observaciones** generales y bibliografía específica.
 7. **Revisión**: revisa todo y cambia el estado cuando corresponda.
