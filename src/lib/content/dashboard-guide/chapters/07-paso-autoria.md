@@ -40,9 +40,6 @@ Para decidir si algo va como **otra evidencia** o como **otra propuesta**, preg�
 
 Por ejemplo: si la tradición y un análisis versológico coinciden en que el autor es Lope, es **una** propuesta (Lope) con **dos** evidencias (Tradicional y Propuesta versológica). Si en cambio una fuente dice Lope y otra dice Tirso, son **dos** propuestas de atribución distintas.
 
-> [!NOTE]
-> Junto a algunas propuestas individuales puede aparecer una etiqueta **Perfil métrico**: marca que esa atribución alimenta el perfil del autor. Solo `admin` e `IP` pueden marcarla, y solo en una propuesta individual con un único autor; como editor no tienes que hacer nada con ella.
-
 ## Obra colaborada por jornadas
 
 Cuando una obra es de autoría colaborada, procede así:
