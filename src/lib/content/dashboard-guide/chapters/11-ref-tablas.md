@@ -38,11 +38,15 @@ Autoría **disputada** = varias propuestas en el mismo ámbito (alternativas ent
 
 ## Caracterizaciones por rango: regla de v_ini / v_fin
 
-- `cantado`, `rima defectuosa`, `laguna`, `mayoria_agudas`, `mayoria_esdrujulas`: un solo verso o un rango.
-- `hipométrico`, `hipermétrico`: `v_ini` y `v_fin` deben ser el **mismo verso** (una irregularidad por caracterización).
+Hoy solo se pueden crear tres tipos: `cantado`, `prosa` y `evocación métrica`. Un verso hipométrico o hipermétrico, una rima defectuosa, un patrón alternativo o una laguna se declaran como **desviación** dentro del editor de la forma, no aquí. Ver [Paso 3 · Secuencias](/dashboard/guia/paso-secuencias#desviaciones).
+
+- `cantado`: un solo verso o un rango.
+- `evocación métrica`: nace con el rango completo de la secuencia; se puede acotar si empieza o acaba dentro.
 - `prosa`: `v_ini` y `v_fin` son el verso **anterior y posterior** a la prosa (la prosa no se numera).
-- Tipos padre (`fenomenos_enunciativos`, `irregularidades_metricas`, `final_acentual`): agrupadores, **no se seleccionan directamente**.
+- `fenómenos_enunciativos` es el tipo padre de `cantado` y `evocación métrica`: agrupador, **no se selecciona directamente**.
 - Toda caracterización debe quedar **dentro** del rango de versos de su secuencia.
+
+Una secuencia anotada antes del 7 de septiembre de 2026 puede conservar todavía una fila de un tipo ya retirado (hipométrico, hipermétrico, rima defectuosa, patrón alternativo, laguna, mayoría de agudas o de esdrújulas): se sigue leyendo y se puede corregir o borrar, pero no se puede volver a elegir.
 
 ## Roles y permisos (resumen)
 

@@ -39,7 +39,7 @@ export const DASHBOARD_GUIDE_CHAPTERS = [
 	{
 		slug: 'paso-secuencias',
 		title: 'Paso 3 · Secuencias',
-		summary: 'Análisis métrico: estrofa, caracterización y sinopsis.',
+		summary: 'Análisis métrico: forma, respuestas, desviaciones y sinopsis.',
 		file: '05-paso-secuencias.md',
 		group: 'edicion'
 	},

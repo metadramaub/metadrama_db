@@ -1,44 +1,32 @@
-A veces una secuencia métrica contiene fenómenos internos que no requieren crear una nueva secuencia, pero sí conviene declarar por rango. Eso se hace con las **caracterizaciones por rango**, dentro de la pestaña Secuencias.
+A veces una secuencia métrica contiene un fenómeno que afecta a cómo se usa la voz dentro del pasaje —se canta, se habla en prosa, un personaje adopta la voz de otro— y que no requiere crear una nueva secuencia. Eso se declara con las **caracterizaciones por rango**, dentro de la pestaña Secuencias, una vez que la secuencia está guardada.
 
 > [!IMPORTANT]
 > Para poder añadir caracterizaciones por rango (tantas como necesites), debes guardar al menos una vez la secuencia en edición.
 
-## Tipos que contemplamos
+## Qué se anota aquí, y qué no
 
-- versos cantados;
-- versos de medida irregular (hipométricos o hipermétricos);
-- rimas defectuosas o diferentes a lo esperado según la tipología estrófica;
-- patrones alternativos a lo esperado según la tipología estrófica;
-- lagunas textuales;
-- prosa dentro de una secuencia métrica;
-- tramos con mayoría de agudas o mayoría de esdrújulas.
+Hoy se pueden crear caracterizaciones de tres tipos:
+
+- **Cantado**: versos cantados dentro de la secuencia.
+- **Prosa**: un tramo en prosa dentro de una secuencia métrica.
+- **Evocación métrica**: el cambio de metro se debe a que un personaje adopta, imita o reproduce la voz de otro personaje.
+
+> [!IMPORTANT]
+> Un verso hipométrico o hipermétrico, una rima defectuosa, un patrón alternativo o una laguna **ya no se anotan aquí**. Se declaran como **desviación** dentro del editor de la forma, una vez que la secuencia tiene su arquitectura del catálogo elegida. Ver [Paso 3 · Secuencias](/dashboard/guia/paso-secuencias#desviaciones).
+>
+> Si al editar una secuencia antigua ves todavía una fila de ese tipo (hipométrico, hipermétrico, rima defectuosa, patrón alternativo, laguna, mayoría de agudas o mayoría de esdrújulas), es porque se anotó antes del cambio: se conserva, se puede corregir o borrar, pero no se puede volver a elegir para una fila nueva.
 
 ## Qué incluye cada caracterización
 
-- tipo de caracterización;
+- tipo de caracterización (cantado, prosa o evocación métrica);
 - verso inicial y verso final (que puede ser el mismo, si se trata de un solo verso);
 - observaciones específicas de esa caracterización (cualquier dato extra que quieras añadir; será público).
 
 Las observaciones de caracterización admiten [Markdown](/dashboard/guia/ref-markdown).
 
-## Reglas importantes
+## Reglas de cada tipo
 
-- La caracterización debe quedar **dentro del rango de versos** de su secuencia.
-- Los tipos padre (`fenomenos_enunciativos`, `irregularidades_metricas`, `final_acentual`) funcionan como agrupadores y **no se seleccionan directamente**.
-- Si existe una secuencia cantada con versificación muy irregular, puedes combinar varias caracterizaciones por rango dentro de la misma secuencia.
-- Si una secuencia cantada **parece** una estrofa concreta (por ejemplo, redondilla) pero tiene una versificación muy irregular, **no** elijas "redondilla" como tipo de estrofa: elige "irregular" y, dentro de las caracterizaciones, marca "cantado".
-- En `prosa`, `v_ini` y `v_fin` indican el verso **anterior y posterior** a la prosa, pues esta, en realidad, no está numerada.
-- En `hipométrico` e `hipermétrico`, `v_ini` y `v_fin` deben ser el **mismo verso**, declarando cada irregularidad de forma individual.
-- En tipos como `cantado`, `rima defectuosa`, `laguna`, `mayoria_agudas` o `mayoria_esdrujulas`, puedes marcar un solo verso o un rango.
-
-## Subtipos internos de quintilla
-
-De momento, los subtipos extraordinarios solo se habilitan cuando la estrofa de la secuencia es `quintilla`, y también requieren que la secuencia esté guardada.
-
-En cada subtipo registras:
-
-- subtipo de quintilla (por ejemplo, ababa);
-- verso inicial y verso final del subtipo dentro de la secuencia.
-
-> [!IMPORTANT]
-> El rango del subtipo debe quedar dentro del rango de su secuencia.
+- En **prosa**, `v_ini` y `v_fin` indican el verso **anterior y posterior** a la prosa, pues esta, en realidad, no está numerada; deben ser dos versos distintos.
+- En **cantado**, puedes marcar un solo verso (`v_ini` = `v_fin`) o un rango.
+- En **evocación métrica**, la caracterización nace por defecto abarcando el rango completo de la secuencia —la evocación suele afectarla entera—, pero puedes acotarla si empieza o acaba dentro de ella.
+- Toda caracterización debe quedar **dentro del rango de versos** de su secuencia.

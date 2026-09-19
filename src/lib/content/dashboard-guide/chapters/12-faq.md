@@ -16,6 +16,14 @@ Sí. Como `editor` puedes **crear** un autor que no exista todavía. Lo que no p
 
 El verso **anterior y posterior** a la prosa, porque la prosa no está numerada. Ver [Paso 4 · Caracterizaciones por rango](/dashboard/guia/paso-caracterizaciones).
 
+## ¿Dónde declaro un verso hipométrico, una rima defectuosa o una laguna?
+
+Como **desviación**, dentro del editor de la secuencia, una vez elegida su forma y su arquitectura. Ya no se anotan como caracterización por rango. Ver [Paso 3 · Secuencias](/dashboard/guia/paso-secuencias#desviaciones).
+
+## ¿Para qué son las casillas "Antes de anotar" al abrir Secuencias?
+
+Marcan que la obra entera no tiene figuras de donaire, personajes sobrenaturales o eventos sobrenaturales, y cierran esa pregunta en todas las secuencias de golpe. Márcalas solo cuando estés seguro: una vez que alguna secuencia declare lo contrario, no podrás desmarcarlas sin corregir antes esa secuencia. Ver [Paso 3 · Secuencias](/dashboard/guia/paso-secuencias#antes-de-anotar-lo-que-no-hay-en-la-obra).
+
 ## ¿Cómo marco una autoría desconocida?
 
 Usa la tipología `desconocida` y deja la atribución **sin autores** seleccionados (0 autores). No crees un autor ficticio llamado "desconocido". Ver [Paso 5 · Autoría](/dashboard/guia/paso-autoria).
