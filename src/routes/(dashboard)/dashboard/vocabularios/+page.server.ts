@@ -24,6 +24,9 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 	const parentData = await parent();
 	const profile = parentData.profile;
 	const canManage = canManageVocabularios(profile.roleTerm);
+	if (!canManage) {
+		throw error(403, 'Solo admin o IP pueden ver los vocabularios.');
+	}
 
 	const { data, error: dbError } = await locals.supabase
 		.from('vocabularios')
