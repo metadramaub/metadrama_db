@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
+	import { errorDeCoherenciaDeRasgos } from './coherencia-rasgos';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import SegmentedChoice from '$lib/components/ui/segmented-choice.svelte';
 	import type {
@@ -1233,6 +1234,14 @@
 				}
 			}
 		}
+		// Dos rasgos de la secuencia no pueden decir lo contrario: sin rima y con pareados.
+		const incoherencia = errorDeCoherenciaDeRasgos(
+			draft.elecciones,
+			props.catalog.domain.choiceOptions,
+			props.catalog.domain.traitValues,
+			props.catalog.domain.traits
+		);
+		if (incoherencia) return incoherencia;
 		return null;
 	}
 
