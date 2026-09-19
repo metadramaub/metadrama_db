@@ -46,16 +46,14 @@ Hoy solo se pueden crear tres tipos: `cantado`, `prosa` y `evocación métrica`.
 - `fenómenos_enunciativos` es el tipo padre de `cantado` y `evocación métrica`: agrupador, **no se selecciona directamente**.
 - Toda caracterización debe quedar **dentro** del rango de versos de su secuencia.
 
-Una secuencia anotada antes del 7 de septiembre de 2026 puede conservar todavía una fila de un tipo ya retirado (hipométrico, hipermétrico, rima defectuosa, patrón alternativo, laguna, mayoría de agudas o de esdrújulas): se sigue leyendo y se puede corregir o borrar, pero no se puede volver a elegir.
-
 ## Roles y permisos (resumen)
 
 El rol `editor` (incluye a quien actúa como `revisor`):
 
 - edita obras asignadas y revisa las asignadas a revisión;
 - ve el listado completo de obras, pero **solo puede abrir la ficha** de las que edita o revisa;
-- consulta autores y vocabularios;
+- consulta autores;
 - **puede crear autores**, pero no editarlos ni eliminarlos;
-- no crea obras, no gestiona vocabularios, no cambia su perfil ni su rol.
+- no crea obras, no cambia su perfil ni su rol.
 
 Los roles `admin` e `IP` tienen permisos ampliados (publicar, gestionar autores y vocabularios, asignar revisiones, etc.).

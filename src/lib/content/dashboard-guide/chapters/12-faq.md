@@ -56,7 +56,7 @@ Cuando una secuencia contiene un fenómeno interno (versos cantados, una irregul
 
 ## ¿Cómo pido un cambio que no puedo hacer yo?
 
-Para contraseña, datos de perfil, corrección de un autor existente o alta/corrección de un término de vocabulario, contacta con:
+Para contraseña, datos de perfil o corrección de un autor existente, contacta con:
 
 - `metadrama.ub@gmail.com` (`general`)
 - `gastongilabert@gmail.com` (`IP`)

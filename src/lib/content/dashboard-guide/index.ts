@@ -86,13 +86,6 @@ export const DASHBOARD_GUIDE_CHAPTERS = [
 		group: 'consulta'
 	},
 	{
-		slug: 'ref-vocabularios',
-		title: 'Vocabularios',
-		summary: 'Consulta de términos controlados para editar con coherencia.',
-		file: '13-ref-vocabularios.md',
-		group: 'consulta'
-	},
-	{
 		slug: 'faq',
 		title: 'Preguntas frecuentes',
 		summary: 'Respuestas rápidas a las dudas más habituales al editar.',

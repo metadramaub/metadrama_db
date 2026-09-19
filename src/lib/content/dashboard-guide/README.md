@@ -13,7 +13,7 @@ Los capítulos se agrupan por el campo `group` del manifiesto (`index.ts`):
 - **Pasos de edición** (`edicion`): `paso-datos`, `paso-estructura`, `paso-secuencias`,
   `paso-caracterizaciones`, `paso-autoria`, `paso-observaciones`, `paso-revision`.
   Cada "paso" espeja una pestaña real del editor de obra.
-- **Material de consulta** (`consulta`): `ref-markdown`, `ref-tablas`, `ref-vocabularios`.
+- **Material de consulta** (`consulta`): `ref-markdown`, `ref-tablas`.
 - **Preguntas frecuentes** (`faq`): `faq`.
 
 Las etiquetas visibles de cada grupo están en `DASHBOARD_GUIDE_GROUPS`

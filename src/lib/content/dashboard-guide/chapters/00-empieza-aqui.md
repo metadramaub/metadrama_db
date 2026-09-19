@@ -13,7 +13,7 @@ Como `editor` (o `revisor`), esto es lo que puedes y no puedes hacer:
 - Editar el contenido de las obras que tengas asignadas.
 - Revisar obras asignadas a revisión (sin editar contenido, pero dejando comentarios).
 - Ver el listado completo de obras del proyecto (título, estado y editor asignado).
-- Consultar autores y vocabularios para elegir bien los términos durante el registro.
+- Consultar autores para elegir bien las atribuciones durante el registro.
 - **Crear nuevos autores** cuando falte uno en una atribución.
 
 **No puedes:**
@@ -21,7 +21,6 @@ Como `editor` (o `revisor`), esto es lo que puedes y no puedes hacer:
 - Crear nuevas obras.
 - **Entrar a los datos de una obra que no editas ni revisas.** La verás en el listado, pero no podrás abrir su ficha salvo que ya esté publicada.
 - **Editar o eliminar** autores ya existentes (crearlos sí, corregirlos no).
-- Crear o editar términos de vocabulario.
 - Cambiar tu rol o tus datos de perfil.
 
 
@@ -32,7 +31,6 @@ Si necesitas:
 - recuperar o cambiar contraseña;
 - editar tus datos personales (correo, nombre, afiliación, etc.);
 - corregir o eliminar un autor ya existente;
-- pedir alta o corrección de término de vocabulario (por ejemplo, un nuevo tipo de estrofa);
 
 contacta con:
 
