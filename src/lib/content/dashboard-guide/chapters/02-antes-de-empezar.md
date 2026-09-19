@@ -58,8 +58,8 @@ Todo el contenido de la obra debe quedar completo y revisado por ti antes de pas
 
 1. **Datos base**: título y variantes, género, datación, fuente, edición base. El título ya vendrá declarado, pero puedes corregirlo y agregar variantes.
 2. **Estructura** de la obra (jornadas y cuadros), para poder trabajar después con estos rangos.
-3. **Secuencias**: declara todas las secuencias métricas en una primera pasada (rango de versos y tipología).
-4. Segunda pasada de **secuencias y caracterizaciones por rango** para completar el análisis (caracterización, sinopsis).
+3. **Secuencias**: declara todas las secuencias métricas en una primera pasada (rango de versos y forma).
+4. Segunda pasada de **secuencias** para completar el análisis (respuestas, desviaciones, caracterización y sinopsis).
 5. **Autoría**: registra todas las atribuciones discutidas por la crítica.
 6. **Observaciones** generales y bibliografía específica.
 7. **Revisión**: revisa todo y cambia el estado cuando corresponda.

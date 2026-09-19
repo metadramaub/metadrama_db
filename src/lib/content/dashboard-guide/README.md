@@ -10,9 +10,11 @@ La guía está organizada en capítulos cortos orientados a tarea, pensados para
 Los capítulos se agrupan por el campo `group` del manifiesto (`index.ts`):
 
 - **Primeros pasos** (`intro`): `empieza-aqui`, `como-moverte`, `antes-de-empezar`.
-- **Pasos de edición** (`edicion`): `paso-datos`, `paso-estructura`, `paso-secuencias`,
-  `paso-caracterizaciones`, `paso-autoria`, `paso-observaciones`, `paso-revision`.
-  Cada "paso" espeja una pestaña real del editor de obra.
+- **Pasos de edición** (`edicion`): `paso-datos`, `paso-estructura`, `paso-secuencias-metrica`,
+  `paso-secuencias-caracterizacion`, `paso-autoria`, `paso-observaciones`, `paso-revision`.
+  Cada "paso" espeja una pestaña real del editor de obra; `paso-secuencias-metrica` y
+  `paso-secuencias-caracterizacion` son dos capítulos para la misma pestaña **Secuencias**,
+  partida solo porque junta era demasiado larga.
 - **Material de consulta** (`consulta`): `ref-markdown`, `ref-tablas`.
 - **Preguntas frecuentes** (`faq`): `faq`.
 
