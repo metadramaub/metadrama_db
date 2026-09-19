@@ -12,9 +12,7 @@ Hoy se pueden crear caracterizaciones de tres tipos:
 - **Evocación métrica**: el cambio de metro se debe a que un personaje adopta, imita o reproduce la voz de otro personaje.
 
 > [!IMPORTANT]
-> Un verso hipométrico o hipermétrico, una rima defectuosa, un patrón alternativo o una laguna **ya no se anotan aquí**. Se declaran como **desviación** dentro del editor de la forma, una vez que la secuencia tiene su arquitectura del catálogo elegida. Ver [Paso 3 · Secuencias](/dashboard/guia/paso-secuencias#desviaciones).
->
-> Si al editar una secuencia antigua ves todavía una fila de ese tipo (hipométrico, hipermétrico, rima defectuosa, patrón alternativo, laguna, mayoría de agudas o mayoría de esdrújulas), es porque se anotó antes del cambio: se conserva, se puede corregir o borrar, pero no se puede volver a elegir para una fila nueva.
+> Un verso hipométrico o hipermétrico, una rima defectuosa, un patrón alternativo o una laguna no se anotan aquí: se declaran como **desviación** dentro del editor de la forma, una vez elegida su arquitectura. Ver [Paso 3 · Secuencias](/dashboard/guia/paso-secuencias#desviaciones). Si ves alguna fila con un tipo distinto de estos tres, es de antes del cambio: puedes corregirla o borrarla, pero no crear una nueva igual.
 
 ## Qué incluye cada caracterización
 

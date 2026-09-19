@@ -47,7 +47,7 @@ Solo cuando se cumplen **ambas cosas** (y la obra está publicada) ese comentari
 Cuando haya varias opciones posibles, usa este criterio simple:
 
 1. Prioriza la coherencia con el resto de decisiones tomadas en la misma obra.
-2. Elige términos del [vocabulario](/dashboard/vocabularios) (si crees que falta alguno, escríbenos un correo directamente, ¡no esperes!).
+2. Usa siempre el término más preciso que te ofrezca el propio formulario —en el catálogo métrico, en las evidencias de autoría, en los comentarios— y si crees que falta una opción, escríbenos un correo directamente, ¡no esperes!
 3. Si hay dudas razonables, deja constancia breve de la decisión.
 
 Recuerda: si tienes dudas, pregunta antes de seguir para no arrastrar problemas.

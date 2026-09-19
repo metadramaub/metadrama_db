@@ -8,7 +8,6 @@ En el menú lateral encontrarás estas secciones:
 - [Actividad reciente](/dashboard/notificaciones): cambios de los últimos días en obras y revisiones (comentarios, estados y otras novedades).
 - [Obras](/dashboard/obras?scope=mine): listado principal para abrir obras y trabajar en ellas según tu asignación.
 - [Autores](/dashboard/autores): consulta de fichas de autor para tomar decisiones de atribución o crear nuevos autores.
-- [Vocabularios](/dashboard/vocabularios): consulta de términos controlados para registrar datos de forma consistente.
 - [Guía de uso](/dashboard/guia): la documentación interna para resolver dudas que estás leyendo ahora.
 
 ## Cuando editas una obra

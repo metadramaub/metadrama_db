@@ -70,9 +70,8 @@ Cada desviación declara:
 > [!IMPORTANT]
 > Las irregularidades de metro, la rima defectuosa, los patrones alternativos y las lagunas ya **no** se anotan como caracterización por rango: se declaran aquí, como desviación, una vez que la secuencia tiene su forma del catálogo nuevo. Ver [Paso 4 · Caracterizaciones por rango](/dashboard/guia/paso-caracterizaciones).
 
-### Si la secuencia viene del sistema antiguo
-
-En una secuencia que todavía conserva su anotación con el vocabulario legado, puede aparecer un aviso ámbar con dos líneas: **Sistema antiguo** (lo que decía la anotación vieja) y **Propuesta nueva** (lo que correspondería en el catálogo actual). Es solo informativo, para no tener que consultar el informe de migración de la obra en otra pestaña; no rellena nada por ti. La migración de estas secuencias se hace a mano, con el informe de tu obra delante.
+> [!NOTE]
+> Si tu obra está en proceso de migración desde el sistema anterior, alguna secuencia puede mostrar un aviso con lo que decía su anotación antigua y lo que le correspondería en el catálogo actual. Es solo informativo: trabaja con el informe de tu obra delante y consulta cualquier duda antes de decidir.
 
 ## Intervención de personajes
 
