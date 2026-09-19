@@ -22,7 +22,7 @@ En el menú lateral encontrarás estas secciones:
 > [!TIP]
 > Los cambios de secuencias, jornadas y cuadros se guardan solo cuando pulsas `Guardar`. Mientras editas, la interfaz conserva un borrador local en este navegador y avisa antes de cambiar de pestaña, cerrar el panel o salir con cambios pendientes.
 
-El detalle de cada pestaña está en los capítulos **Paso 1** a **Paso 7**.
+El detalle de cada pestaña está en los capítulos **Paso 1** a **Paso 6** (Secuencias ocupa dos: forma y métrica, y caracterización y sinopsis).
 
 ## Cuando revisas una obra
 

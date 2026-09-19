@@ -34,11 +34,11 @@ Por cada propuesta de autoría:
 - `colaborada`: 2 o más autores.
 - `desconocida`: 0 autores (no crear un autor ficticio "desconocido").
 
-Autoría **disputada** = varias propuestas en el mismo ámbito (alternativas entre sí). Varias **evidencias** dentro de una propuesta = varias fuentes que apoyan la misma atribución. Ver [Paso 5 · Autoría](/dashboard/guia/paso-autoria).
+Autoría **disputada** = varias propuestas en el mismo ámbito (alternativas entre sí). Varias **evidencias** dentro de una propuesta = varias fuentes que apoyan la misma atribución. Ver [Paso 4 · Autoría](/dashboard/guia/paso-autoria).
 
 ## Caracterizaciones por rango: regla de v_ini / v_fin
 
-Hoy solo se pueden crear tres tipos: `cantado`, `prosa` y `evocación métrica`. Un verso hipométrico o hipermétrico, una rima defectuosa, un patrón alternativo o una laguna se declaran como **desviación** dentro del editor de la forma, no aquí. Ver [Paso 3 · Secuencias](/dashboard/guia/paso-secuencias#desviaciones).
+Hoy solo se pueden crear tres tipos: `cantado`, `prosa` y `evocación métrica`. Un verso hipométrico o hipermétrico, una rima defectuosa, un patrón alternativo o una laguna se declaran como **desviación** dentro del editor de la forma, no aquí. Ver [Paso 3 · Secuencias (forma y métrica)](/dashboard/guia/paso-secuencias-metrica#desviaciones).
 
 - `cantado`: un solo verso o un rango.
 - `evocación métrica`: nace con el rango completo de la secuencia; se puede acotar si empieza o acaba dentro.
