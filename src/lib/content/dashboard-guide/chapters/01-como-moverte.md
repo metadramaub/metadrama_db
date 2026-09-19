@@ -1,4 +1,4 @@
-Este capítulo te explica cómo moverte por el dashboard con un orden claro y fácil de seguir.
+Estas son las secciones del dashboard, y el orden que siguen los flujos de editar y de revisar una obra.
 
 ## Secciones del dashboard
 
