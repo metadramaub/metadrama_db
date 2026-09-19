@@ -46,11 +46,6 @@ en [migracion/cuestionarios/](./dominio-metrico/migracion/cuestionarios/); las r
 `migracion/respuestas/`, versionadas. Lo que un editor no tenga claro lo pregunta antes de
 contestar.
 
-**A3 · La pausa de edición pasa a ser por obra.** Hoy es un `$derived` global en la página de la
-obra; tiene que abrirse para cada obra migrada —ninguna secuencia legada sin anotación nueva— para
-que el editor revise sus secuencias en el dashboard.
-→ [la pausa](./edicion-pausada.md)
-
 **A4 · Las preguntas que la serie alirada no tiene.** La novena-lira no tiene dónde registrar la
 disposición que se vea, ni la décima cuando no sea la documentada. (La canción ya no está aquí: la
 estancia se reparte verso a verso y el remate pregunta medida y rima desde el 18 de septiembre.) Es el mismo hueco de la sextilla y el sexteto, y se resuelve de una vez para todo el
@@ -304,8 +299,3 @@ apoyándose en unas afirmaciones que la auditoría corrigió después en más de
 
 **F1 · Los sesenta enums en `CHECK`** y los tres sitios donde viven los vocabularios.
 → [revisión de vocabularios](./revision-de-vocabularios.md)
-
-**F2 · Reabrir la edición de obras**, pausada desde el 2 de septiembre para que el corpus anotado
-con el vocabulario legado deje de crecer. Se levanta obra a obra según se migren (A3) y del todo
-cuando termine el hito 2.
-→ [la pausa](./edicion-pausada.md)
