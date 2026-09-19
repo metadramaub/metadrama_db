@@ -1,6 +1,6 @@
 # Equivalencias pendientes entre el vocabulario legado y el catálogo
 
-Estado: **abierto, a completar por el IP** · actualizado el 9 de agosto de 2026
+Estado: **abierto, a completar por el IP** · actualizado el 19 de septiembre de 2026
 
 > **Las cifras no están aquí.** Cuántos términos declaran destino, cuáles no, cuánto se usa
 > cada uno y cómo resuelve cada secuencia se consultan en
@@ -67,8 +67,8 @@ la revisión de la ontología y **la contradice en cuatro casos**.
 
 Lo resuelve la vista **`propuesta_metrica_secuencia`**, y de ahí lo leen sus dos consumidores:
 
-- la **anotación en sombra** del dashboard;
-- el comando **`npm run migracion:informe`**, que escribe [los informes por obra](./migracion/).
+- el mensaje que el editor enseña al abrir una secuencia legada;
+- el comando **`npm run migracion:informe`**, que escribe [los informes por obra](./migracion/) y los Excel que rellena cada editor.
 
 El reparto por vía, siempre al día, está en
 [el informe generado](./informe-equivalencias.md#cómo-se-resuelve-cada-secuencia).
@@ -102,7 +102,7 @@ criterio que usa la función de guardado.
 **Hay una sola fuente: la vista.** Desde el 4 de agosto el informe no calcula nada — consulta
 `propuesta_metrica_secuencia` y se limita a redactar. Cambiar una regla es cambiar la vista, y
 los dos sitios cambian a la vez. El procedimiento completo está en
-[cómo se migra una obra](./como-se-migra-una-obra.md).
+[el plan de migración](./plan-migracion-anotaciones.md).
 
 Las tres vías:
 
@@ -188,10 +188,11 @@ apuntar todos al mismo valor de rasgo.
 
 **c) Disoluciones deliberadas.** No hay destino porque no debe haberlo; el detalle, más abajo.
 
-## Resueltos por el IP el 4 de agosto de 2026
+## Resueltos
 
 | Término legado | Propias | Familia | Decisión |
 | --- | ---: | ---: | --- |
+| `octava_real_regular` | **12** | 12 | **Aplicado** en `20260922231000`, el 19 de septiembre de 2026. Su definición y su `patron_especifico` dicen «ABABABCC», así que la arquitectura «Endecasílaba consonante» de Octava real reclama el término y una fila de `equivalencias_respuestas_legadas` afirma el esquema, como `redondilla_regular` con abba. Es una respuesta derivada: el cuestionario la enseña rellena para que quien anotó confirme que ninguna octava rimaba de otra manera |
 | `redondilla_cruzada` | 0 | **63** | Esquema de rima `abab` de la redondilla. Es exactamente la misma cosa que la cuarteta: «redondilla cruzada» es el nombre preferente y «cuarteta» el que se usa hoy. En el catálogo va como denominación del esquema cruzado, porque en el Siglo de Oro ambas disposiciones eran redondillas. No confundir con la forma «Cuarteto», que es otra cosa |
 | `decima` | 0 | 18 | **Aplicado** en `20260804110000`. Una sola forma **Décima** con dos arquitecturas: **Espinela** (10 versos, principal) y **Aumentada** (12). La raíz legada y `decima_espinela` eran el mismo texto con el mismo patrón, no una forma general. La aumentada vuelve dentro porque la extensión la declara la arquitectura, no la forma —igual que la redondilla, de cuatro versos, aloja «Doble enlazada», de ocho—. No se creó arquitectura genérica: en el corpus no hay ninguna décima de diez versos que no sea espinela. La definición lleva la articulación 4 + 2 + 4 y no solo la medida, porque la copla real es también diez octosílabos consonantes y se separa por la pausa (5 + 5) |
 | `decima_espinela` | — | — | Arquitectura «Espinela» de Décima; conserva su nombre como denominación |

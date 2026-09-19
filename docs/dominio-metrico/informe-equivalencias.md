@@ -5,24 +5,24 @@
 > por qué faltan y las decisiones del IP viven en
 > [equivalencias-pendientes.md](./equivalencias-pendientes.md), que sí es prosa propia.
 
-Generado el 2026-09-18.
+Generado el 2026-09-19.
 
 ## Resumen
 
 - **123 términos** en `vocabularios.categoria = 'estrofa_tipo'`.
-- **101 declaran su destino** en el catálogo nuevo; **22 no**.
+- **102 declaran su destino** en el catálogo nuevo; **21 no**.
 - **263 secuencias con vocabulario legado**, todas con forma propuesta. Son las que hay que migrar.
-- Otras **498 no lo tienen** y quedan fuera de este informe: 478 ya están anotadas con el editor V2 y el resto no declara forma ninguna. La equivalencia va solo del término viejo al catálogo nuevo, así que a estas no les hace falta.
+- Otras **512 no lo tienen** y quedan fuera de este informe: 492 ya están anotadas con el editor V2 y el resto no declara forma ninguna. La equivalencia va solo del término viejo al catálogo nuevo, así que a estas no les hace falta.
 - De las que hay que migrar, 1 no propone arquitectura: es un tramo sin forma, que no la tiene por diseño.
-- **21 tienen la longitud incompatible** con la arquitectura propuesta. No es un fallo de la equivalencia: es la anotación de la obra, y se revisa en [migracion/](./migracion/).
+- **15 tienen la longitud incompatible** con la arquitectura propuesta. No es un fallo de la equivalencia: es la anotación de la obra, y se revisa en [migracion/](./migracion/).
 
 ### Cómo se resuelve cada secuencia
 
 | Vía | Secuencias | Qué significa |
 | --- | ---: | --- |
-| `directa` | 153 | El término declara su destino, o lo declara algo que cuelga de él |
+| `directa` | 165 | El término declara su destino, o lo declara algo que cuelga de él |
 | `rasgo` | 71 | El término se disolvió en un rasgo y la forma la da su ascendiente |
-| `ascendencia` | 39 | El término no declara destino; lo hereda de un ascendiente |
+| `ascendencia` | 27 | El término no declara destino; lo hereda de un ascendiente |
 
 ## Términos sin destino declarado
 
@@ -33,7 +33,6 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 | Término legado | Padre | Propias | Familia |
 | --- | --- | ---: | ---: |
 | `endecasilabo_suelto_puro` | `endecasilabo_suelto` | **26** | 26 |
-| `octava_real_regular` | `octava_real` | **12** | 12 |
 | `copla_real_de_pie_quebrado` | `copla_real` | **1** | 3 |
 | `cancion_de_15_versos` | `cancion_petrarquista` | 0 | 3 |
 | `cancion_de_8_versos` | `cancion_petrarquista` | 0 | 3 |
@@ -64,6 +63,7 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 | `romance_e-o` | valor de rasgo · e-o | **20** | 71 |
 | `decima_espinela` | arquitectura · Décima · Espinela | **18** | 18 |
 | `quintilla` | forma · Quintilla | **18** | 18 |
+| `octava_real_regular` | arquitectura · Octava real · Endecasílaba consonante | **12** | 12 |
 | `silva_de_consonantes_irregular` | arquitectura · Silva · Consonante de orden libre | **11** | 12 |
 | `romance_a-e` | valor de rasgo · a-e | **9** | 71 |
 | `romance_e-a` | valor de rasgo · e-a | **8** | 71 |
