@@ -3,9 +3,9 @@ Este capítulo y el siguiente cubren la misma pestaña, **Secuencias**: aquí lo
 Puedes declarar las secuencias antes que jornadas y cuadros.
 
 > [!IMPORTANT]
-> Si al corregir la numeración una secuencia se solapa temporalmente con otra, puedes guardar el borrador. Después de guardar, el sistema mostrará automáticamente un aviso y resaltará en rojo las secuencias afectadas hasta que ajustes sus rangos. Una obra con solapamientos no puede avanzar a revisión ni publicarse.
+> Si al corregir la numeración una secuencia se solapa temporalmente con otra, puedes guardar el borrador: el sistema resalta en rojo las secuencias afectadas. Una obra con solapamientos no puede avanzar a revisión ni publicarse.
 >
-> Los huecos entre secuencias no se consideran errores: pueden corresponder, por ejemplo, a prosa o lagunas. Solo se señalan los rangos que se solapan.
+> Un hueco entre secuencias —versos que ninguna cubre— tampoco se puede publicar, aunque solo se detecta al llegar a Revisión. Ni la prosa ni una laguna lo justifican: van dentro del rango de la secuencia que las contiene.
 
 ## Al abrir una secuencia
 
@@ -46,13 +46,11 @@ Cada desviación declara:
 - El rango de versos al que afecta, dentro del rango de la secuencia.
 - Una descripción, para dar contexto (recomendable, no obligatoria).
 
-Por ejemplo, para registrar una **laguna**: dimensión **Estructura**, relación **Falta**, y como rango los versos que faltan. No hace falta indicar nada como "lo observado", porque no hay nada que observar.
+Por ejemplo, para registrar una **laguna**: dimensión **Estructura**, relación **Falta**, y como rango los versos que faltan; no hace falta indicar nada como "lo observado", salvo que quieras dar más información sobre la laguna en la descripción.
 
-> [!IMPORTANT]
-> Cómo numerar una laguna depende de si la edición ya la advierte:
->
-> - Si la propia edición ya marca la pérdida (con puntos suspensivos, una indicación entre corchetes, etc.), esos versos perdidos ya tienen su número dentro de la numeración de la edición: marca la laguna en ese mismo rango, sin tocar nada más.
-> - Si la edición no advierte nada, pero al analizar la métrica ves que falta un verso o más, tienes que abrir tú el hueco: cuenta ese verso como si existiera y desplaza en consecuencia la numeración de todo lo que viene después, en esa secuencia y en el resto de la obra. Por eso una quintilla con un verso perdido se registra como una quintilla de cinco versos con una laguna, y no como una de cuatro: esa forma no existe.
+¿Cuántos versos marcar cuando no está claro cuántos se han perdido? Solo los que hacen falta con certeza para completar la unidad incompleta: si de una quintilla solo quedan tres versos, faltan dos, y eso es lo que se marca, aunque sospeches que pudo perderse más —por ejemplo, una estrofa entera detrás—. Esa sospecha, al no poder acotarse en un rango, va en la descripción, no en la numeración.
+
+Cómo numerarla depende además de si la edición ya advierte la pérdida. Si lo hace —con puntos suspensivos, una indicación entre corchetes—, esos versos ya tienen su número en la edición y basta con marcar la laguna en ese rango. Si no lo hace, pero el análisis métrico revela que falta un verso, tienes que abrir tú el hueco: cuenta ese verso como si existiera y desplaza la numeración de todo lo que sigue, en la secuencia y en el resto de la obra. Así, una quintilla con un verso perdido se anota con cinco versos, uno de ellos laguna; con cuatro versos no hay quintilla.
 
 > [!NOTE]
 > No declarar ninguna desviación significa que la realización cumple la norma, no que falte revisarla.
