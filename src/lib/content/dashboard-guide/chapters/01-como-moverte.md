@@ -1,4 +1,4 @@
-Este capítulo te explica cómo moverte por el dashboard con un orden claro y fácil de seguir.
+Estas son las secciones del dashboard, y el orden que siguen los flujos de editar y de revisar una obra.
 
 ## Secciones del dashboard
 
@@ -8,7 +8,6 @@ En el menú lateral encontrarás estas secciones:
 - [Actividad reciente](/dashboard/notificaciones): cambios de los últimos días en obras y revisiones (comentarios, estados y otras novedades).
 - [Obras](/dashboard/obras?scope=mine): listado principal para abrir obras y trabajar en ellas según tu asignación.
 - [Autores](/dashboard/autores): consulta de fichas de autor para tomar decisiones de atribución o crear nuevos autores.
-- [Vocabularios](/dashboard/vocabularios): consulta de términos controlados para registrar datos de forma consistente.
 - [Guía de uso](/dashboard/guia): la documentación interna para resolver dudas que estás leyendo ahora.
 
 ## Cuando editas una obra
@@ -23,7 +22,7 @@ En el menú lateral encontrarás estas secciones:
 > [!TIP]
 > Los cambios de secuencias, jornadas y cuadros se guardan solo cuando pulsas `Guardar`. Mientras editas, la interfaz conserva un borrador local en este navegador y avisa antes de cambiar de pestaña, cerrar el panel o salir con cambios pendientes.
 
-El detalle de cada pestaña está en los capítulos **Paso 1** a **Paso 7**.
+El detalle de cada pestaña está en los capítulos **Paso 1** a **Paso 6** (Secuencias ocupa dos: forma y métrica, y caracterización y sinopsis).
 
 ## Cuando revisas una obra
 

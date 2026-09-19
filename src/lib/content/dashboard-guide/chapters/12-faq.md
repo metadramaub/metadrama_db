@@ -6,23 +6,31 @@ Solo puedes abrir la ficha de las obras que **editas** o **revisas**. El listado
 
 ## ¿Puedo crear un autor nuevo?
 
-Sí. Como `editor` puedes **crear** un autor que no exista todavía. Lo que no puedes es **editar ni eliminar** fichas de autor ya creadas. Para corregir una ficha existente, deja un comentario interno o escríbenos. Ver [Paso 5 · Autoría](/dashboard/guia/paso-autoria).
+Sí. Como `editor` puedes **crear** un autor que no exista todavía. Lo que no puedes es **editar ni eliminar** fichas de autor ya creadas. Para corregir una ficha existente, deja un comentario interno o escríbenos. Ver [Paso 4 · Autoría](/dashboard/guia/paso-autoria).
 
 ## ¿Qué hago si falta una forma métrica en las opciones?
 
-**Avísanos** para que demos de alta la opción o resolvamos la duda. No sigas adelante con ese punto sin resolver: es mejor parar y aclararlo que arrastrar el problema al resto de la ficha. Ver [Paso 3 · Secuencias](/dashboard/guia/paso-secuencias).
+**Avísanos** para que demos de alta la opción o resolvamos la duda. No sigas adelante con ese punto sin resolver: es mejor parar y aclararlo que arrastrar el problema al resto de la ficha. Ver [Paso 3 · Secuencias (forma y métrica)](/dashboard/guia/paso-secuencias-metrica).
 
 ## ¿Qué pongo en v_ini / v_fin de una prosa?
 
-El verso **anterior y posterior** a la prosa, porque la prosa no está numerada. Ver [Paso 4 · Caracterizaciones por rango](/dashboard/guia/paso-caracterizaciones).
+El verso **anterior y posterior** a la prosa, porque la prosa no está numerada. Ver [Paso 3 · Secuencias (forma y métrica)](/dashboard/guia/paso-secuencias-metrica#caracterizaciones-por-rango).
+
+## ¿Dónde declaro un verso hipométrico, una rima defectuosa o una laguna?
+
+Como **desviación**, dentro del editor de la secuencia, una vez elegida su forma y su arquitectura. Ya no se anotan como caracterización por rango. Ver [Paso 3 · Secuencias (forma y métrica)](/dashboard/guia/paso-secuencias-metrica#desviaciones).
+
+## ¿Para qué son las casillas "Antes de anotar" al abrir Secuencias?
+
+Marcan que la obra entera no tiene figuras de donaire, personajes sobrenaturales o eventos sobrenaturales, y cierran esa pregunta en todas las secuencias de golpe. Márcalas solo cuando estés seguro: una vez que alguna secuencia declare lo contrario, no podrás desmarcarlas sin corregir antes esa secuencia. Ver [Paso 3 · Secuencias (caracterización y sinopsis)](/dashboard/guia/paso-secuencias-caracterizacion#antes-de-anotar-lo-que-no-hay-en-la-obra).
 
 ## ¿Cómo marco una autoría desconocida?
 
-Usa la tipología `desconocida` y deja la atribución **sin autores** seleccionados (0 autores). No crees un autor ficticio llamado "desconocido". Ver [Paso 5 · Autoría](/dashboard/guia/paso-autoria).
+Usa la tipología `desconocida` y deja la atribución **sin autores** seleccionados (0 autores). No crees un autor ficticio llamado "desconocido". Ver [Paso 4 · Autoría](/dashboard/guia/paso-autoria).
 
 ## ¿Cuándo paso una obra de `borrador` a `vista_previa` o `listo_para_publicar`?
 
-Cambia a `vista_previa` cuando quieras revisar cómo va a quedar la ficha pública, piensa en ello como unas pruebas de imprenta; pasa a `listo_para_publicar` cuando la revisión esté cerrada, todo el contenido esté completo y no queden incoherencias de rango. Ver [Paso 7 · Revisión y estados](/dashboard/guia/paso-revision).
+Cambia a `vista_previa` cuando quieras revisar cómo va a quedar la ficha pública, piensa en ello como unas pruebas de imprenta; pasa a `listo_para_publicar` cuando la revisión esté cerrada, todo el contenido esté completo y no queden incoherencias de rango. Ver [Paso 6 · Revisión y estados](/dashboard/guia/paso-revision).
 
 ## ¿Qué hago si aparece un solapamiento de rangos?
 
@@ -44,11 +52,11 @@ En secuencias, jornadas y cuadros debes pulsar `Guardar` para enviar los cambios
 
 ## ¿Qué es una caracterización por rango y cuándo NO creo una secuencia nueva?
 
-Cuando una secuencia contiene un fenómeno interno (versos cantados, una irregularidad métrica, una laguna, prosa…) que no justifica partir la secuencia, lo declaras como caracterización por rango dentro de esa misma secuencia. Ver [Paso 4 · Caracterizaciones por rango](/dashboard/guia/paso-caracterizaciones).
+Cuando una secuencia contiene un fenómeno interno (versos cantados, prosa, una evocación métrica) que no justifica partir la secuencia, lo declaras como caracterización por rango dentro de esa misma secuencia. Ver [Paso 3 · Secuencias (forma y métrica)](/dashboard/guia/paso-secuencias-metrica#caracterizaciones-por-rango).
 
 ## ¿Cómo pido un cambio que no puedo hacer yo?
 
-Para contraseña, datos de perfil, corrección de un autor existente o alta/corrección de un término de vocabulario, contacta con:
+Para contraseña, datos de perfil o corrección de un autor existente, contacta con:
 
 - `metadrama.ub@gmail.com` (`general`)
 - `gastongilabert@gmail.com` (`IP`)

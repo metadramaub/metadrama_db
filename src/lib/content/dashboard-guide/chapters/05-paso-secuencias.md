@@ -1,76 +1,84 @@
-La pestaña **Secuencias** es donde haces el análisis métrico más detallado. Es la más compleja de la obra.
-
-> [!TIP]
-> Conviene trabajarla en dos pasadas: primero declara las secuencias base (rango de versos y tipología) y luego completa su análisis (caracterización, sinopsis y caracterizaciones por rango).
+Este capítulo y el siguiente cubren la misma pestaña, **Secuencias**: aquí lo que tiene que ver con la forma métrica de cada secuencia —rango de versos, forma, arquitectura, respuestas, desviaciones y las caracterizaciones por rango que completan ese análisis—; en [Secuencias (caracterización y sinopsis)](/dashboard/guia/paso-secuencias-caracterizacion) lo demás: personajes, otras marcas sobre la secuencia y su resumen argumental.
 
 Puedes declarar las secuencias antes que jornadas y cuadros.
 
 > [!IMPORTANT]
-> Si al corregir la numeración una secuencia se solapa temporalmente con otra, puedes guardar el borrador. Después de guardar, el sistema mostrará automáticamente un aviso y resaltará en rojo las secuencias afectadas hasta que ajustes sus rangos. Una obra con solapamientos no puede avanzar a revisión ni publicarse.
+> Si al corregir la numeración una secuencia se solapa temporalmente con otra, puedes guardar el borrador: el sistema resalta en rojo las secuencias afectadas. Una obra con solapamientos no puede avanzar a revisión ni publicarse.
 >
-> Los huecos entre secuencias no se consideran errores: pueden corresponder, por ejemplo, a prosa o lagunas. Solo se señalan los rangos que se solapan.
+> Un hueco entre secuencias —versos que ninguna cubre— tampoco se puede publicar, aunque solo se detecta al llegar a Revisión. Ni la prosa ni una laguna lo justifican: van dentro del rango de la secuencia que las contiene.
 
-Al abrir una secuencia (con **Nueva secuencia** o **Editar**) se despliega un panel lateral con estos bloques, en este orden. Los explicamos en el mismo orden en que los ves.
+## Al abrir una secuencia
 
-## Métrica base
+Al abrir una secuencia (con **Nueva secuencia** o **Editar**) se despliega el editor con un mapa a la izquierda (qué falta y qué está resuelto) y el formulario a la derecha. Empieza por la identificación métrica.
+
+## Identificación métrica
 
 Lo primero que rellenas:
 
-- **Verso inicial** y **Verso final** de la secuencia;
-- **Estrofa**: el tipo de estrofa, obligatorio.
+- **Verso inicial** y **Verso final** de la secuencia.
+- **Forma métrica**: el desplegable ofrece primero el catálogo (quintilla, redondilla, soneto, romance...) y, al final de la lista, dos opciones para cuando el pasaje no responde a ninguna forma: **versificación irregular** y **verso aislado**.
+- **Arquitectura**: en cuanto eliges la forma, si esta tiene una sola arquitectura posible se muestra directamente su nombre; si admite varias (variantes con distinta rima, distinta extensión o distinto reparto), elige la que corresponda en el desplegable. Cada opción lleva su descripción para distinguirlas.
 
-El selector de estrofa es **jerárquico**: algunas formas tienen subformas anidadas. Elige siempre la **opción más específica** (la hija) que corresponda; las formas raíz que agrupan a otras no son seleccionables. Si dudas, empieza por la familia general y ve bajando.
-
-> [!IMPORTANT]
-> ¿Qué hacer si una forma métrica (o una variación o patrón distinto de la misma) presente en la obra no aparece entre las opciones seleccionables de la base de datos? **Avísanos para que demos de alta la opción o resolvamos la duda.** No sigas adelante con ese punto sin resolver: es mejor parar y aclararlo que arrastrar el problema al resto de la ficha.
-
-## Subtipos internos y caracterizaciones por rango
-
-Justo debajo de la métrica base aparecen dos bloques que **solo se activan cuando la secuencia ya está guardada** (necesitan un identificador para colgar de ella):
-
-- **Subtipos internos**: solo se muestran cuando la estrofa es una que los admite (por ejemplo, quintilla).
-- **Caracterizaciones por rango**: fenómenos internos de la secuencia (versos cantados, irregularidades, prosa, lagunas…).
-
-Ambos se explican en detalle en [Paso 4 · Caracterizaciones por rango](/dashboard/guia/paso-caracterizaciones).
-
-## Intervención de personajes
-
-Indicas si en la secuencia interviene cada tipo de personaje, con tres valores: **sin intervención**, **intervención exclusiva** o **intervención compartida**.
-
-Los tres selectores comienzan en blanco. Si guardas la secuencia sin completarlos, quedan marcados como **pendientes**; el sistema no los interpreta como "sin intervención".
-
-- personajes femeninos;
-- figuras de donaire;
-- personajes sobrenaturales.
+> [!TIP]
+> Junto al resumen de la norma hay un enlace a su ficha en el [catálogo métrico](/recursos/catalogo-metrico) público. Ábrelo si necesitas ver la arquitectura completa —esquema de rima, extensión, licencias— antes de contestar.
 
 > [!IMPORTANT]
-> "Intervención" se refiere a que el personaje **habla dentro de la secuencia**, no a su mera presencia escénica. Un personaje puede estar en escena sin intervenir métricamente en esa secuencia.
+> ¿Qué hacer si una forma métrica (o una arquitectura distinta de la misma) presente en la obra no aparece entre las opciones? **Avísanos para que demos de alta la opción o resolvamos la duda.** No sigas adelante con ese punto sin resolver: es mejor parar y aclararlo que arrastrar el problema al resto de la ficha.
+
+## Respuestas
+
+En cuanto hay arquitectura elegida aparece el bloque **Respuestas**, con un contador de cuántas preguntas obligatorias llevas contestadas: se ve antes de guardar, no como aviso posterior.
+
+- Si la forma **no se organiza en partes que se repiten** (un romance, una tirada de endecasílabos sueltos), las preguntas son de la secuencia entera: cómo es su rima, si admite ciertas licencias, etc.
+- Si la forma **se organiza en unidades repetidas o en partes** (varias quintillas seguidas, un soneto con sus dos cuartetos y sus dos tercetos, un villancico con mudanza y vuelta), el editor pinta la estructura verso a verso: contestas una vez para todas las unidades y, si alguna se aparta, se lo indicas a ella sola sin tocar la respuesta común.
+
+Cada pregunta lleva su ayuda al lado cuando la necesita. Las preguntas de posición (por ejemplo, qué versos llevan pie quebrado) se marcan directamente sobre la rejilla de versos.
+
+## Desviaciones
+
+Al final de las respuestas encontrarás: *"¿Hay algo que no encaja en la norma? Registrar una desviación."* Ábrelo cuando el pasaje se aparte de lo que la arquitectura elegida exige: un verso con una sílaba de más o de menos, una rima distinta de la esperada, una laguna, una repetición distinta a la prevista...
+
+Cada desviación declara:
+
+- **Dimensión**: de qué habla — metro, rima, estructura, repetición o un rasgo concreto.
+- **Relación con la norma**: qué le pasa (menos que la norma, más que la norma, otra cosa, o que directamente falta).
+- Lo observado, cuando aplica (por ejemplo, qué metro tiene realmente el verso).
+- El rango de versos al que afecta, dentro del rango de la secuencia.
+- Una descripción, para dar contexto (recomendable, no obligatoria).
+
+Por ejemplo, para registrar una **laguna**: dimensión **Estructura**, relación **Falta**, y como rango los versos que faltan; no hace falta indicar nada como "lo observado", salvo que quieras dar más información sobre la laguna en la descripción.
+
+¿Cuántos versos marcar cuando no está claro cuántos se han perdido? Solo los que hacen falta con certeza para completar la unidad incompleta: si de una quintilla solo quedan tres versos, faltan dos, y eso es lo que se marca, aunque sospeches que pudo perderse más —por ejemplo, una estrofa entera detrás—. Esa sospecha, al no poder acotarse en un rango, va en la descripción, no en la numeración.
+
+Cómo numerarla depende además de si la edición ya advierte la pérdida. Si lo hace —con puntos suspensivos, una indicación entre corchetes—, esos versos ya tienen su número en la edición y basta con marcar la laguna en ese rango. Si no lo hace, pero el análisis métrico revela que falta un verso, tienes que abrir tú el hueco: cuenta ese verso como si existiera y desplaza la numeración de todo lo que sigue, en la secuencia y en el resto de la obra. Así, una quintilla con un verso perdido se anota con cinco versos, uno de ellos laguna; con cuatro versos no hay quintilla.
 
 > [!NOTE]
-> Por **figura de donaire** entendemos el personaje subalterno (típicamente el criado o gracioso) que contrasta con los amos y funciona como contrapunto de la acción principal. Es un criterio de tipo de personaje, lo relevante es su papel subalterno y no es necesario juzgar su comicidad.
+> No declarar ninguna desviación significa que la realización cumple la norma, no que falte revisarla.
 
-## Otras caracterizaciones
+> [!NOTE]
+> Si tu obra está en proceso de migración desde el sistema anterior, alguna secuencia puede mostrar un aviso con lo que decía su anotación antigua y lo que le correspondería en el catálogo actual. Es solo informativo: trabaja con el informe de tu obra delante y consulta cualquier duda antes de decidir.
 
-Tres marcas más sobre la secuencia:
+## Caracterizaciones por rango
 
-- **Versos partidos** (`pendiente/no/sí`): selecciona "sí" si hay versos partidos entre intervenciones de distintos personajes.
-- **Inaugura espacio** (`pendiente/no/sí`): selecciona "sí" si el inicio de la secuencia coincide, de forma evidente, con un cambio de espacio escénico.
-- **Evocación métrica** (`pendiente/no/sí`): selecciona "sí" cuando el cambio de metro se deba a que un personaje **adopta, imita o reproduce la voz de otro personaje**. Al hacerlo, se abre un campo **"Explicación de la evocación métrica"** (admite [Markdown](/dashboard/guia/ref-markdown)) para que expliques brevemente el caso.
+A veces una secuencia contiene un fenómeno que afecta a cómo se usa la voz dentro del pasaje —se canta, se habla en prosa, un personaje adopta la voz de otro— y que no requiere crear una nueva secuencia ni encaja en ninguna de las preguntas anteriores. Eso se declara con las **caracterizaciones por rango**, más abajo en el mismo panel, una vez que la secuencia está guardada.
 
-Las secuencias nuevas empiezan con estas caracterizaciones en **Pendiente**. Este estado permite guardar la secuencia y deja visible que el dato todavía debe revisarse.
+> [!IMPORTANT]
+> Para poder añadir caracterizaciones por rango (tantas como necesites), debes guardar al menos una vez la secuencia en edición.
 
-La pestaña **Revisión** indica cuántas secuencias conservan algún campo pendiente. Debes resolverlos todos antes de avanzar a `vista_previa`, `listo_para_publicar` o `publicado`.
+Hoy se pueden crear caracterizaciones de tres tipos:
 
-## Sinopsis argumental
+- **Cantado**: versos cantados dentro de la secuencia.
+- **Prosa**: un tramo en prosa dentro de una secuencia métrica.
+- **Evocación métrica**: el cambio de metro se debe a que un personaje adopta, imita o reproduce la voz de otro personaje.
 
-La sinopsis argumental admite [Markdown](/dashboard/guia/ref-markdown).
+> [!IMPORTANT]
+> Un verso hipométrico o hipermétrico, una rima defectuosa, un patrón alternativo o una laguna no se anotan aquí: se declaran como desviación, arriba. Si ves alguna fila con un tipo distinto de estos tres, es de antes del cambio: puedes corregirla o borrarla, pero no crear una nueva igual.
 
-Da la información general de lo que ocurre y también los detalles importantes. Sé sistemático en la redacción: en el futuro trataremos de formalizar funciones dramáticas a partir de estos resúmenes y de relacionarlas con la métrica de cada secuencia, así que un resumen ordenado y consistente nos será mucho más útil. Puedes incorporar números de verso y citar versos o acotaciones si te ayuda.
+Cada caracterización incluye tipo, verso inicial y verso final (que puede ser el mismo, si se trata de un solo verso), y unas observaciones específicas —cualquier dato extra que quieras añadir; será público, y admite [Markdown](/dashboard/guia/ref-markdown).
 
-Un modelo puede ser este de Antonucci para *La vida es sueño*. Fíjate en el resumen que hace para las dos primeras secuencias (silva de pareados y décimas):
+Reglas de cada tipo:
 
-> [*Secuencia 1*]
-> En lo alto de un monte, sale Rosaura, vestida de hombre, increpando a su cabalgadura que acaba de desarzonarla. Su llegada a Polonia no parece haberse realizado bajo los mejores auspicios: ya es casi de noche y ni ella ni su criado Clarín saben adónde encontrar refugio. De lejos ven una torre que casi se confunde con las peñas y deciden acercarse (espacio itinerante). Al llegar allí escuchan ruido de cadenas y un quejido; un paso más y ven una habitación oscura en la que yace un prisionero vestido de pieles.
-
-> [*Secuencia 2*]
-> Quedándose a los umbrales, y habiendo salido ya al tablado Segismundo, escuchan un largo monólogo en el que este se pregunta por qué está preso, por qué, único entre las criaturas vivientes, se le ha privado de su libertad. Al manifestar Rosaura la conmoción que siente, el prisionero se da cuenta de que alguien ha escuchado sus palabras y se abalanza sobre los intrusos para matarlos, porque han escuchado sus "flaquezas" (v. 182). Rosaura se arrodilla delante de él confiando en su piedad y enseguida la actitud del prisionero cambia: declara sentir algo nuevo, algo que lo empuja a mirar al desconocido una y otra vez como si sus ojos fueran "hidrópicos" (v. 227). Rosaura reconoce que, ante las penas del prisionero, las suyas le parecen menores.
+- En **prosa**, `v_ini` y `v_fin` indican el verso **anterior y posterior** a la prosa, pues esta, en realidad, no está numerada; deben ser dos versos distintos.
+- En **cantado**, puedes marcar un solo verso (`v_ini` = `v_fin`) o un rango.
+- En **evocación métrica**, la caracterización nace por defecto abarcando el rango completo de la secuencia —la evocación suele afectarla entera—, pero puedes acotarla si empieza o acaba dentro de ella.
+- Toda caracterización debe quedar **dentro del rango de versos** de su secuencia.
