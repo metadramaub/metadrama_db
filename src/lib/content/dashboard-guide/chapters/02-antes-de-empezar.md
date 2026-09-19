@@ -15,22 +15,20 @@ En la práctica, trabajamos en tres capas de información, distribuidas en varia
 
 ## Qué es público y qué es interno
 
-La regla es simple:
-
 > [!NOTE]
 > Todo lo que introduces es **público** (aparecerá en la ficha cuando la obra se publique), **excepto los comentarios internos**, que solo vemos nosotros.
 
 Para no liarte, distingue estos tres tipos de campo:
 
-### 1. Datos y observaciones → públicos
+### Datos y observaciones, públicos
 
-Los datos de la obra (título, género, datación, edición, autoría), la estructura, las secuencias, las **observaciones** y la bibliografía. También consta quién editó o revisó cada obra. Todo esto se ve en la ficha pública.
+Los datos de la obra (título, género, datación, edición, autoría), la estructura, las secuencias, las **observaciones** y la bibliografía se ven en la ficha pública. También consta quién editó o revisó cada obra.
 
-### 2. Comentarios internos → privados
+### Comentarios internos, privados
 
-Los que dejas en cualquier punto (obra, jornadas, cuadros, secuencias, revisión) para hablar entre editores: dudas, notas para ti, cuestiones de revisión. **Nunca** se publican.
+Los que dejas en cualquier punto (obra, jornadas, cuadros, secuencias, revisión) para hablar entre editores —dudas, notas para ti, cuestiones de revisión— **nunca** se publican.
 
-### 3. Comentario interno como "observación pública" → la excepción
+### La excepción: un comentario interno como observación pública
 
 A veces un comentario interno aclara algo útil para quien consulte la base de datos. Puedes convertirlo en público, pero hacen falta **dos pasos**:
 
