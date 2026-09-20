@@ -56,6 +56,33 @@ function ejecutar(sql) {
 	}
 }
 
+/**
+ * Las filas que hay en lo que la CLI imprime.
+ *
+ * La CLI ha respondido de dos maneras: un objeto `{ rows: [...] }` con un aviso sobre datos no
+ * fiables, y —en versiones más nuevas— el array de filas a secas. Puede haber además líneas
+ * sueltas antes o después del JSON (el aviso de que hay una versión nueva, por ejemplo). Se
+ * localiza el JSON por su primer corchete o llave y se cierra en el último.
+ */
+export function filasDe(salida) {
+	const texto = String(salida ?? '');
+	const llave = texto.indexOf('{');
+	const corchete = texto.indexOf('[');
+	const empiezaEnArray = corchete >= 0 && (llave < 0 || corchete < llave);
+	const inicio = empiezaEnArray ? corchete : llave;
+	if (inicio < 0) return null;
+	const fin = texto.lastIndexOf(empiezaEnArray ? ']' : '}');
+	if (fin < inicio) return null;
+	try {
+		const payload = JSON.parse(texto.slice(inicio, fin + 1));
+		if (Array.isArray(payload)) return payload;
+		if (payload && Array.isArray(payload.rows)) return payload.rows;
+		return null;
+	} catch {
+		return null;
+	}
+}
+
 export function query(sql) {
 	const command = ejecutar(sql);
 	if (command.status !== 0) {
@@ -63,23 +90,13 @@ export function query(sql) {
 		console.error('No se pudo consultar la base enlazada. ¿Está el proyecto enlazado?');
 		process.exit(command.status ?? 1);
 	}
-	// La salida puede traer líneas sueltas de la CLI antes del JSON.
-	const salida = command.stdout;
-	const inicio = salida.indexOf('{');
-	if (inicio < 0) {
-		console.error('Respuesta inesperada de la CLI de Supabase:');
-		console.error(salida.slice(0, 500));
+	const filas = filasDe(command.stdout);
+	if (!filas) {
+		console.error('No se pudo interpretar la respuesta de la CLI de Supabase:');
+		console.error(String(command.stdout).slice(0, 500));
 		process.exit(1);
 	}
-	let payload;
-	try {
-		payload = JSON.parse(salida.slice(inicio));
-	} catch {
-		console.error('No se pudo interpretar la respuesta de la consulta.');
-		console.error(salida.slice(0, 500));
-		process.exit(1);
-	}
-	return payload.rows ?? [];
+	return filas;
 }
 
 /**
@@ -97,12 +114,7 @@ export function tryQuery(sql) {
 			salida.match(/ERROR:\s*[^\n]+/)?.[0] ?? salida.trim().split('\n').slice(-1)[0] ?? 'error';
 		return { rows: [], error: mensaje };
 	}
-	const salida = command.stdout;
-	const inicio = salida.indexOf('{');
-	if (inicio < 0) return { rows: [], error: 'respuesta inesperada de la CLI' };
-	try {
-		return { rows: JSON.parse(salida.slice(inicio)).rows ?? [], error: null };
-	} catch {
-		return { rows: [], error: 'no se pudo interpretar la respuesta' };
-	}
+	const filas = filasDe(command.stdout);
+	if (!filas) return { rows: [], error: 'no se pudo interpretar la respuesta de la CLI' };
+	return { rows: filas, error: null };
 }
