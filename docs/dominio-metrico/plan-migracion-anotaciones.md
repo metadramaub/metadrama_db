@@ -92,12 +92,18 @@ Las relaciones son las que la base admite: `metro` acepta `menor_que_norma`, `ma
    pregunta; no deja respuestas a medias.
 3. **Recibir.** El Excel devuelto se guarda en [migracion/respuestas/](./migracion/respuestas/) y
    se versiona: es el rastro de lo que se decidió.
-4. **Aplicar.** `npm run migracion:aplicar -- --obra <slug>` *(por escribir)* lee la vista y el
-   Excel, y con `--simular` escribe un guion legible sin tocar la base. Sin él: snapshot, las
-   correcciones de las tablas legadas —renumeraciones, fusiones, rangos—, y una transacción por
-   obra que llama a `guardar_anotacion_metrica` con la identidad del editor asignado, igual que
-   `aplicar:guiones`. Deja constancia en `migracion_secuencias` (secuencia, anotación, término
-   legado, fecha) e informa de lo que rechazó y de lo que sigue sin respuesta.
+4. **Aplicar.** `npm run migracion:aplicar -- --obra <slug>` lee la vista y el Excel, y con
+   `--simular` escribe un guion legible en `backups/migracion/` sin tocar la base; añadiendo
+   `--ensayar` ejecuta además la transacción entera **y la deshace**, que es lo único que dice si
+   `guardar_anotacion_metrica` va a aceptarla. Sin `--simular`: snapshot, las correcciones de las
+   tablas legadas —renumeraciones, fusiones, rangos—, y una transacción por obra que llama a
+   `guardar_anotacion_metrica` con la identidad del editor asignado, igual que `aplicar:guiones`.
+   Deja constancia en `migracion_secuencias` (secuencia, anotación, término legado, respuestas,
+   correcciones, fecha) e informa de lo que rechazó y de lo que sigue sin respuesta.
+
+   **Lo que no se entiende no se aplica.** Una laguna cuya localización no se lee en la prosa del
+   editor, una confirmación corregida a mano, una respuesta que no nombra ninguna opción: esas
+   secuencias quedan sin anotar, con su motivo escrito, y las demás de la obra se migran igual.
 5. **Cerrar.** Recuento (secuencias legadas con anotación nueva = total), `npm run
    audit:anotaciones`, recompute. El editor revisa cada secuencia en el dashboard y comprueba que
    la migración no dejó ningún hueco.

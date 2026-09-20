@@ -33,12 +33,10 @@ estado con `npm run equivalencias:informe`
 
 ## A · Bloquean la migración de las secuencias
 
-**A1 · El aplicador.** `npm run migracion:aplicar -- --obra <slug>`, con `--simular`: lee la vista
-y el Excel devuelto por sus claves, aplica primero las correcciones a las tablas legadas
-—renumeraciones por laguna sin contar, rangos, fusiones—, y escribe la anotación nueva por
-`guardar_anotacion_metrica` con la identidad del editor asignado, reutilizando lo que ya hace
-`aplicar-guiones.mjs`. Con la tabla `migracion_secuencias` como rastro. Los formatos que tiene que
-leer están en `scripts/lib/migracion/modelo.mjs`.
+**A1 · Migrar obra por obra.** El aplicador está escrito —`npm run migracion:aplicar -- --obra
+<slug>`, con `--simular` y con `--simular --ensayar`, que ejecuta la transacción entera y la
+deshace— y las once obras la pasan con respuestas de prueba. Falta: **aplicar la migración que crea
+`migracion_secuencias`**, que está escrita y sin aplicar, y migrar cada obra cuando vuelva su Excel.
 → [plan, §5](./dominio-metrico/plan-migracion-anotaciones.md)
 
 **A2 · Enviar los cuestionarios y recoger las respuestas.** El informe de cada obra se lee en
