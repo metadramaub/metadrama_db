@@ -96,8 +96,8 @@ Las relaciones son las que la base admite: `metro` acepta `menor_que_norma`, `ma
    `aplicar:guiones`. Deja constancia en `migracion_secuencias` (secuencia, anotación, término
    legado, fecha) e informa de lo que rechazó y de lo que sigue sin respuesta.
 5. **Cerrar.** Recuento (secuencias legadas con anotación nueva = total), `npm run
-   audit:anotaciones`, recompute. La pausa de edición se levanta para esa obra, y el editor revisa
-   cada secuencia en el dashboard y corrige ahí lo que haga falta.
+   audit:anotaciones`, recompute. El editor revisa cada secuencia en el dashboard y comprueba que
+   la migración no dejó ningún hueco.
 
 Las reglas de equivalencia viven en **un solo sitio**, la vista `propuesta_metrica_secuencia`, y
 las respuestas que el término ya contenía en `propuesta_elecciones_secuencia`. Las consultan por
@@ -113,8 +113,6 @@ retiraron en julio de 2026. Lo que falta, y añade el aplicador, es el rastro po
 
 ## 7 · Después
 
-- **Editor de obras.** La pausa de edición pasa de global a por obra: editable cuando no le queda
-  ninguna secuencia legada sin anotación nueva.
 - **Retirada.** `estrofa_tipo` de solo lectura; retirar las FK y los servicios legados sin
   consumidores; conservar el rastro; eliminar las columnas métricas de `vocabularios` solo si
   ninguna otra categoría las usa.
@@ -139,4 +137,4 @@ retiraron en julio de 2026. Lo que falta, y añade el aplicador, es el rastro po
 | Perder lo anotado estrofa a estrofa | Las unidades salen de los subtipos; copia y snapshot antes de cada obra |
 | Inventar precisión | Sílabas solo si el editor las da; relaciones cualitativas si no |
 | Renumerar mal una obra | La renumeración sale de una respuesta explícita, se simula antes y se comprueba contra jornadas y cuadros |
-| Migrar mientras alguien edita | La edición está pausada; se levanta obra a obra, después de migrarla |
+| Migrar mientras alguien edita | No hay pausa de edición (comprobado el 19 de septiembre de 2026): se avisa al editor de que no toque la obra desde que devuelve el Excel hasta que se le confirma la migración, y la obra se escribe en una sola transacción |
