@@ -225,8 +225,8 @@ function sentenciaDeRastro(obraId, anotacion, correcciones, editorId) {
 	};
 	return `
 		insert into public.migracion_secuencias (
-			secuencia_id, obra_id, anotacion_id, termino_legado, resultado, respuestas, correcciones,
-			notas, migrada_por
+			secuencia_id, obra_id, anotacion_id, termino_legado, origen_termino_id, resultado,
+			respuestas, correcciones, notas, migrada_por
 		)
 		values (
 			${lit(secuencia.secuencia_id)}::uuid,
@@ -234,6 +234,10 @@ function sentenciaDeRastro(obraId, anotacion, correcciones, editorId) {
 			(select anotacion_id from public.anotaciones_metricas
 			 where secuencia_id = ${lit(secuencia.secuencia_id)}::uuid),
 			${lit(secuencia.termino_legado)},
+			-- El término legado por su identificador, mientras estrofa_tipo_id siga ahí: el rastro
+			-- tiene que sobrevivir al día en que esa columna se retire.
+			(select estrofa_tipo_id from public.secuencias_metricas
+			 where secuencia_id = ${lit(secuencia.secuencia_id)}::uuid),
 			${lit(anotacion.resultado)},
 			${lit(JSON.stringify(respuestas))}::jsonb,
 			${lit(JSON.stringify(suyas))}::jsonb,
@@ -242,6 +246,7 @@ function sentenciaDeRastro(obraId, anotacion, correcciones, editorId) {
 		)
 		on conflict (secuencia_id) do update set
 			anotacion_id = excluded.anotacion_id,
+			origen_termino_id = excluded.origen_termino_id,
 			resultado = excluded.resultado,
 			respuestas = excluded.respuestas,
 			correcciones = excluded.correcciones,
