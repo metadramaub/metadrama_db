@@ -14,10 +14,18 @@
 
 /**
  * A partir de cuántas unidades una pregunta por estrofa se contesta **una vez para todas, con
- * excepciones**, en vez de una fila por estrofa. Ocho quintillas se contestan bien de una en una;
- * cincuenta y seis redondillas, no.
+ * excepciones**, en vez de una fila por estrofa.
+ *
+ * Solo llegan aquí las preguntas con más de dos opciones, que son las que no tienen una respuesta
+ * dominante: la tipología de una quintilla cambia de estrofa en estrofa y contestarla «todas
+ * aabba, salvo estas» sería pedirle al editor que resuma lo que precisamente hay que mirar una a
+ * una. El tope está donde el Excel se hace inmanejable, no donde la pregunta cambia de naturaleza:
+ * las series de quintillas más largas del corpus son de 35 estrofas.
+ *
+ * El esquema de una redondilla no pasa por aquí —abba o abab son dos opciones— y se contesta
+ * siempre de una vez, con sus excepciones.
  */
-export const UMBRAL_FILAS_POR_UNIDAD = 16;
+export const UMBRAL_FILAS_POR_UNIDAD = 40;
 
 /**
  * Qué se hace con cada caracterización por rango del vocabulario viejo. Es la tabla de §2bis del
@@ -85,8 +93,6 @@ export const OPCIONES_DECISION = [
 	'Es otra forma (indico cuál)',
 	'Es otra cosa (lo explico al lado)'
 ];
-
-export const OPCIONES_FUSION = ['Sí, es un mismo pasaje', 'No, son pasajes distintos'];
 
 export const OPCIONES_CONFIRMACION = ['Es correcto', 'No es así (lo corrijo al lado)'];
 
@@ -666,7 +672,15 @@ export function filasDeSecuencia(secuencia) {
 	return { responder, confirmar, desviaciones };
 }
 
-/** Las filas de decisión de un tramo que se funde: la fusión y la sinopsis nueva. */
+/**
+ * Las filas de un tramo que se funde: la fusión, que se confirma, y la sinopsis nueva, que se
+ * escribe.
+ *
+ * **Fundir no es una decisión del editor, es la regla**: secuencias contiguas de la misma
+ * arquitectura, con unidad de extensión fija y sin cruzar jornada ni cuadro, son un solo pasaje que
+ * el vocabulario anterior obligaba a partir. Por eso se enseña resuelta, como lo derivado de un
+ * término, y lo que se le pide al editor es que diga si en su obra no era así.
+ */
 export function filasDeFusion(tramo) {
 	const primera = tramo[0];
 	const ultima = tramo[tramo.length - 1];
@@ -679,41 +693,50 @@ export function filasDeFusion(tramo) {
 		.filter(Boolean)
 		.join(' · ');
 	const abreEspacioFuera = tramo.slice(1).filter((p) => p.inaugura_espacio === true);
-	let asunto =
-		`En tu obra este pasaje está dividido en ${tramo.length} secuencias (${tramo.map((p) => `${p.v_ini}–${p.v_fin}`).join(', ')}).` +
-		` En el modelo nuevo pasa a ser una sola, con ${Number.isInteger(unidades) ? unidades : `¿${versos} / ${unidad}?`}` +
-		` estrofas de ${unidad} versos, y lo que distinguía a cada parte se conserva en sus estrofas.` +
-		` ¿Es realmente un mismo pasaje?`;
+	let propuesta =
+		`En tu obra este pasaje está dividido en ${tramo.length} secuencias (${tramo.map((p) => `${p.v_ini}–${p.v_fin}`).join(', ')}),` +
+		` y pasa a ser una sola con ${Number.isInteger(unidades) ? unidades : `¿${versos} / ${unidad}?`}` +
+		` estrofas de ${unidad} versos: lo que distinguía a cada parte se conserva en sus estrofas.`;
 	if (abreEspacioFuera.length > 0) {
-		asunto += ` Ten en cuenta que ${abreEspacioFuera.map((p) => `${p.v_ini}–${p.v_fin}`).join(' y ')} está marcada como inicio de un espacio nuevo.`;
+		propuesta += ` Ten en cuenta que ${abreEspacioFuera.map((p) => `${p.v_ini}–${p.v_fin}`).join(' y ')} está marcada como inicio de un espacio nuevo.`;
 	}
+	// Cada sinopsis en su párrafo: pegadas con un espacio parecían menos de las que son.
 	const sinopsis = tramo
 		.map((p) => (p.sinopsis ?? '').trim())
 		.filter(Boolean)
-		.join(' ');
-	return [
-		{
-			secuencia_id: primera.secuencia_id,
-			clave: claveFusion(primera.secuencia_id, ultima.secuencia_id),
-			tipo: 'decidir',
-			versos: `${desde}–${hasta}`,
-			forma,
-			asunto,
-			propuesta: '',
-			formato: { modo: 'lista', lista: OPCIONES_FUSION, ayuda: '' }
-		},
-		{
-			secuencia_id: primera.secuencia_id,
-			clave: claveSinopsis(primera.secuencia_id),
-			tipo: 'responder',
-			versos: `${desde}–${hasta}`,
-			forma,
-			asunto: 'Escribe la sinopsis de la secuencia completa',
-			propuesta: sinopsis,
-			formato: {
-				modo: 'texto',
-				ayuda: `En «Propuesta» tienes las ${tramo.length} sinopsis actuales, una detrás de otra, para partir de ellas`
+		.join('\n\n');
+	const cuantas = tramo.map((p) => (p.sinopsis ?? '').trim()).filter(Boolean).length;
+	return {
+		confirmar: [
+			{
+				secuencia_id: primera.secuencia_id,
+				clave: claveFusion(primera.secuencia_id, ultima.secuencia_id),
+				tipo: 'confirmar',
+				versos: `${desde}–${hasta}`,
+				forma,
+				asunto: 'Un solo pasaje',
+				propuesta,
+				origen: [...new Set(tramo.map((p) => p.termino_legado).filter(Boolean))].join(', '),
+				formato: { modo: 'lista', lista: OPCIONES_CONFIRMACION, ayuda: '' }
 			}
-		}
-	];
+		],
+		responder: [
+			{
+				secuencia_id: primera.secuencia_id,
+				clave: claveSinopsis(primera.secuencia_id),
+				tipo: 'responder',
+				versos: `${desde}–${hasta}`,
+				forma,
+				asunto: 'Escribe la sinopsis de la secuencia completa',
+				propuesta: sinopsis,
+				formato: {
+					modo: 'texto',
+					ayuda:
+						cuantas === 1
+							? 'En «Propuesta» tienes la sinopsis actual del tramo, para partir de ella'
+							: `En «Propuesta» tienes las ${cuantas} sinopsis actuales del tramo, en párrafos separados, para partir de ellas`
+				}
+			}
+		]
+	};
 }

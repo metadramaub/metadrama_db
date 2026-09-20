@@ -26,28 +26,37 @@ allí que la migración no dejó ningún hueco.
 
 ## Qué te pido
 
-- 1 decisión sobre pasajes cuyo número de versos no encaja, o sobre tramos que van a unirse en una sola secuencia.
-- 30 respuestas, en 6 secuencias, a preguntas que el vocabulario anterior no recogía.
-- 17 confirmaciones de respuestas que ya he rellenado yo.
+- 64 respuestas, en 6 secuencias, a preguntas que el vocabulario anterior no recogía.
+- 18 confirmaciones de respuestas que ya he rellenado yo.
 - 1 verso hipométrico o hipermétrico en los que puedes indicar el número de sílabas si lo tienes a mano. Es opcional.
 
-## Pasajes que no encajan
+## Tramos que pasan a ser una sola secuencia
 
-Son secuencias cuyo número de versos no se corresponde con la forma que tienen asignada, y
-tramos que el vocabulario anterior obligaba a dividir. Aparecen en la pestaña **Responder**
-del Excel, marcadas como *Decidir*.
+El vocabulario anterior obligaba a abrir una secuencia nueva cada vez que cambiaba el
+detalle de la estrofa, aunque el pasaje fuera el mismo. En el modelo nuevo eso se dice
+estrofa a estrofa, así que esos tramos vuelven a ser una secuencia. **Se hace salvo que me
+digas que no**, y por eso está en la pestaña **Confirmar**: contiguos, de la misma forma y
+sin cruzar jornada ni cuadro, son un solo pasaje.
 
-- **vv. 169–378** · Sexteto-lira · Heterométrico consonante. En tu obra este pasaje está dividido en 4 secuencias (169–174, 175–180, 181–186, 187–378). En el modelo nuevo pasa a ser una sola, con 35 estrofas de 6 versos, y lo que distinguía a cada parte se conserva en sus estrofas. ¿Es realmente un mismo pasaje?
+- **vv. 169–378** · Sexteto-lira · Heterométrico consonante, hoy 4 secuencias.
 
-Cuando un tramo se une en una sola secuencia, los indicadores de escena de las partes se
-combinan: basta con que una tenga versos partidos para que la secuencia entera los tenga, y
-si las intervenciones de personajes no coinciden quedan como «compartida». La sinopsis del
-pasaje la escribes tú; en el Excel van las actuales, una detrás de otra, para partir de ellas.
+Al unirse, los indicadores de escena de las partes se combinan: basta con que una tenga
+versos partidos para que la secuencia entera los tenga, y si las intervenciones de
+personajes no coinciden quedan como «compartida». La sinopsis del pasaje la escribes tú, y
+esa sí está en **Responder**; en el Excel van las actuales, en párrafos separados, para
+partir de ellas.
 
 ## Preguntas pendientes
 
 Estas son las preguntas que hace el catálogo nuevo y que no he podido responder con lo que
 había anotado; hace falta mirar el texto. Están en la pestaña **Responder**.
+
+Si te extraña que se pregunte algo que creías haber anotado, la razón está en el término
+que elegiste en su día: estos pasajes se anotaron con la forma sin más —`redondilla`, `quintilla`—, y el
+vocabulario anterior no guardaba en ninguna parte el esquema de cada estrofa. No es que
+se haya perdido: es que nunca llegó a escribirse.
+En cambio, donde se eligió un término que ya lo decía —`octava_real_regular`, `sexteto_lira_a2_AbaBcC`, `sexteto_lira_a1_aBaBcC` y alguno más—, la respuesta se
+deduce sola y solo hay que confirmarla.
 
 | Versos | Forma | Pregunta | Cómo contestar |
 | --- | --- | --- | --- |
@@ -55,8 +64,8 @@ había anotado; hace falta mirar el texto. Están en la pestaña **Responder**.
 | 771–942 | Redondilla · Octosílaba | Esquema de rima · 43 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
 | 1045–1094 | Quintilla · Octosílaba consonante | Esquema de rima, en 10 estrofas (una fila por estrofa) | Elige en el desplegable |
 | 1223–1302 | Quintilla · Octosílaba consonante | Esquema de rima, en 16 estrofas (una fila por estrofa) | Elige en el desplegable |
-| 2053–2227 | Quintilla · Octosílaba consonante | Esquema de rima · 35 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
-| 169–378 | Sexteto-lira · Heterométrico consonante | Escribe la sinopsis de la secuencia completa | En «Propuesta» tienes las 4 sinopsis actuales, una detrás de otra, para partir de ellas |
+| 2053–2227 | Quintilla · Octosílaba consonante | Esquema de rima, en 35 estrofas (una fila por estrofa) | Elige en el desplegable |
+| 169–378 | Sexteto-lira · Heterométrico consonante | Escribe la sinopsis de la secuencia completa | En «Propuesta» tienes las 4 sinopsis actuales del tramo, en párrafos separados, para partir de ellas |
 
 ## Respuestas ya rellenas
 
@@ -83,6 +92,7 @@ manera. Están en la pestaña **Confirmar**.
 | 2854–2971 | Romance · Octosílabo | Vocales de la asonancia | a-a | romance_a-a |
 | 2972–3015 | Redondilla · Octosílaba | Esquema de rima | Abrazada · abba en las 11 estrofas | redondilla_regular |
 | 3016–3073 | Romance · Octosílabo | Vocales de la asonancia | e-a | romance_e-a |
+| 169–378 | Sexteto-lira · Heterométrico consonante | Un solo pasaje | En tu obra este pasaje está dividido en 4 secuencias (169–174, 175–180, 181–186, 187–378), y pasa a ser una sola con 35 estrofas de 6 versos: lo que distinguía a cada parte se conserva en sus estrofas. | sexteto_lira_a2_AbaBcC, sexteto_lira_a1_aBaBcC, sexteto_lira_a3_abaBcC |
 
 ## Desviaciones
 
@@ -105,9 +115,9 @@ En **Responder** están las preguntas que no he podido contestar con lo que ya t
 
 Las filas marcadas como **Decidir** señalan pasajes cuyo número de versos no encaja con la forma que tienen asignada. En ellas hay que elegir en el desplegable qué ocurre y explicarlo al lado. Si se trata de una laguna que no se contó, indica en qué verso está y cuántos versos faltan, porque los añadiré a la numeración y todo lo que viene después se desplazará. Si lo que falla es el rango, escribe el rango correcto.
 
-En **Confirmar** aparecen las respuestas que he rellenado yo a partir del término que elegiste en su día: la asonancia de un romance, el esquema de una octava real «regular», o que un endecasílabo suelto «puro» no lleva pareados. Solo hay que revisarlas. Si alguna no es así, elige «No es así» y escribe al lado lo que corresponde.
+En **Confirmar** aparecen las respuestas que he rellenado yo a partir del término que elegiste en su día: la asonancia de un romance, el esquema de una octava real «regular», o que un endecasílabo suelto «puro» no lleva pareados. Ahí van también los tramos que vuelven a ser una sola secuencia. Solo hay que revisarlas. Si alguna no es así, elige «No es así» y escribe al lado lo que corresponde.
 
-En **Desviaciones** están los versos hipométricos e hipermétricos, las rimas defectuosas y las lagunas que anotaste, con tus notas, y cómo quedan en el modelo nuevo. Se trasladan tal cual. Si tienes a mano el número de sílabas de algún verso hipométrico o hipermétrico, ponlo en la columna «Sílabas»; si no, se registra simplemente que el verso tiene menos o más sílabas de las que le tocan, sin dar una cifra.
+En **Desviaciones** están los versos hipométricos e hipermétricos, las rimas defectuosas y las lagunas que anotaste, con tus notas, y cómo quedan en el modelo nuevo. Se trasladan tal cual, así que basta con revisarlas: la columna «¿Correcto?» tiene el mismo desplegable que la pestaña anterior y solo hay que tocarla si algo no queda como digo. La columna «Sílabas del verso» es únicamente para los versos hipométricos e hipermétricos, por si tienes a mano cuántas sílabas mide el verso; si no la rellenas, se registra que tiene menos o más de las que le tocan, sin dar una cifra. En las demás filas esa celda está apagada.
 
 Si algo no está claro o no sabes cómo contestarlo, pregúntamelo antes de dejarlo a medias. Una vez hecha la migración podrás ver cada secuencia de tu obra con el editor nuevo en el dashboard y comprobar allí que la migración no dejó ningún hueco.
 

@@ -21,8 +21,8 @@ export const instrucciones = ({ enExcel = false } = {}) => [
 	`El Excel tiene cinco pestañas. En tres de ellas hay que escribir —**Responder**, **Confirmar** y **Desviaciones**— y las otras dos son de consulta: **Secuencias**, con todo lo que tiene anotado tu obra, e **Instrucciones**, ${enExcel ? 'donde estás ahora' : 'con este mismo texto'}. Solo hace falta escribir en las columnas de fondo amarillo, que son «Respuesta», «Excepciones / detalle» y «Comentario». El resto de columnas las genera el programa y las necesita tal cual para poder leer las respuestas, así que conviene no tocarlas.`,
 	'En **Responder** están las preguntas que no he podido contestar con lo que ya tenías anotado. Cada fila corresponde a un pasaje y a una pregunta. Cuando la celda tiene desplegable, basta con elegir; cuando no, la columna «Cómo contestar» explica el formato. Las preguntas que se refieren a cada estrofa aparecen de dos maneras: si son pocas estrofas, hay una fila por estrofa; si son muchas, hay una sola fila cuya respuesta vale para todas, y las estrofas que se aparten de ella se anotan en «Excepciones / detalle» indicando los versos y la respuesta, por ejemplo «191–194: Cruzada · abab; 203–206: Cruzada · abab».',
 	'Las filas marcadas como **Decidir** señalan pasajes cuyo número de versos no encaja con la forma que tienen asignada. En ellas hay que elegir en el desplegable qué ocurre y explicarlo al lado. Si se trata de una laguna que no se contó, indica en qué verso está y cuántos versos faltan, porque los añadiré a la numeración y todo lo que viene después se desplazará. Si lo que falla es el rango, escribe el rango correcto.',
-	'En **Confirmar** aparecen las respuestas que he rellenado yo a partir del término que elegiste en su día: la asonancia de un romance, el esquema de una octava real «regular», o que un endecasílabo suelto «puro» no lleva pareados. Solo hay que revisarlas. Si alguna no es así, elige «No es así» y escribe al lado lo que corresponde.',
-	'En **Desviaciones** están los versos hipométricos e hipermétricos, las rimas defectuosas y las lagunas que anotaste, con tus notas, y cómo quedan en el modelo nuevo. Se trasladan tal cual. Si tienes a mano el número de sílabas de algún verso hipométrico o hipermétrico, ponlo en la columna «Sílabas»; si no, se registra simplemente que el verso tiene menos o más sílabas de las que le tocan, sin dar una cifra.',
+	'En **Confirmar** aparecen las respuestas que he rellenado yo a partir del término que elegiste en su día: la asonancia de un romance, el esquema de una octava real «regular», o que un endecasílabo suelto «puro» no lleva pareados. Ahí van también los tramos que vuelven a ser una sola secuencia. Solo hay que revisarlas. Si alguna no es así, elige «No es así» y escribe al lado lo que corresponde.',
+	'En **Desviaciones** están los versos hipométricos e hipermétricos, las rimas defectuosas y las lagunas que anotaste, con tus notas, y cómo quedan en el modelo nuevo. Se trasladan tal cual, así que basta con revisarlas: la columna «¿Correcto?» tiene el mismo desplegable que la pestaña anterior y solo hay que tocarla si algo no queda como digo. La columna «Sílabas del verso» es únicamente para los versos hipométricos e hipermétricos, por si tienes a mano cuántas sílabas mide el verso; si no la rellenas, se registra que tiene menos o más de las que le tocan, sin dar una cifra. En las demás filas esa celda está apagada.',
 	'Si algo no está claro o no sabes cómo contestarlo, pregúntamelo antes de dejarlo a medias. Una vez hecha la migración podrás ver cada secuencia de tu obra con el editor nuevo en el dashboard y comprobar allí que la migración no dejó ningún hueco.'
 ];
 
@@ -163,7 +163,7 @@ export function informeDeObra(obra, fecha) {
 	} else {
 		if (decisiones.length > 0) {
 			w(
-				`- ${plural(decisiones.length, 'decisión', 'decisiones')} sobre pasajes cuyo número de versos no encaja, o sobre tramos que van a unirse en una sola secuencia.`
+				`- ${plural(decisiones.length, 'decisión', 'decisiones')} sobre pasajes cuyo número de versos no encaja con la forma que tienen asignada.`
 			);
 		}
 		if (respuestas.length > 0) {
@@ -192,29 +192,38 @@ export function informeDeObra(obra, fecha) {
 	if (decisiones.length > 0) {
 		w('## Pasajes que no encajan');
 		w();
-		w('Son secuencias cuyo número de versos no se corresponde con la forma que tienen asignada, y');
-		w(
-			'tramos que el vocabulario anterior obligaba a dividir. Aparecen en la pestaña **Responder**'
-		);
-		w('del Excel, marcadas como *Decidir*.');
+		w('Son secuencias cuyo número de versos no se corresponde con la forma que tienen asignada.');
+		w('Aparecen en la pestaña **Responder** del Excel, marcadas como *Decidir*.');
 		w();
 		for (const d of decisiones) {
 			w(`- **vv. ${d.versos}** · ${d.forma}. ${d.asunto}`);
 		}
 		w();
-		if (fundibles.length > 0) {
-			w('Cuando un tramo se une en una sola secuencia, los indicadores de escena de las partes se');
+	}
+
+	if (fundibles.length > 0) {
+		w('## Tramos que pasan a ser una sola secuencia');
+		w();
+		w('El vocabulario anterior obligaba a abrir una secuencia nueva cada vez que cambiaba el');
+		w('detalle de la estrofa, aunque el pasaje fuera el mismo. En el modelo nuevo eso se dice');
+		w('estrofa a estrofa, así que esos tramos vuelven a ser una secuencia. **Se hace salvo que me');
+		w('digas que no**, y por eso está en la pestaña **Confirmar**: contiguos, de la misma forma y');
+		w('sin cruzar jornada ni cuadro, son un solo pasaje.');
+		w();
+		for (const tramo of fundibles) {
+			const desde = Number(tramo[0].v_ini);
+			const hasta = Number(tramo[tramo.length - 1].v_fin);
 			w(
-				'combinan: basta con que una tenga versos partidos para que la secuencia entera los tenga, y'
+				`- **vv. ${desde}–${hasta}** · ${[tramo[0].forma_propuesta, tramo[0].arquitectura_propuesta].filter(Boolean).join(' · ')}, hoy ${plural(tramo.length, 'secuencia', 'secuencias')}.`
 			);
-			w(
-				'si las intervenciones de personajes no coinciden quedan como «compartida». La sinopsis del'
-			);
-			w(
-				'pasaje la escribes tú; en el Excel van las actuales, una detrás de otra, para partir de ellas.'
-			);
-			w();
 		}
+		w();
+		w('Al unirse, los indicadores de escena de las partes se combinan: basta con que una tenga');
+		w('versos partidos para que la secuencia entera los tenga, y si las intervenciones de');
+		w('personajes no coinciden quedan como «compartida». La sinopsis del pasaje la escribes tú, y');
+		w('esa sí está en **Responder**; en el Excel van las actuales, en párrafos separados, para');
+		w('partir de ellas.');
+		w();
 	}
 
 	if (respuestas.length > 0) {
@@ -223,6 +232,37 @@ export function informeDeObra(obra, fecha) {
 		w('Estas son las preguntas que hace el catálogo nuevo y que no he podido responder con lo que');
 		w('había anotado; hace falta mirar el texto. Están en la pestaña **Responder**.');
 		w();
+		// Por qué se pregunta lo que el editor cree haber anotado: eligió la forma madre y no el
+		// subtipo que ya llevaba el esquema. Los términos se nombran, no se dan por sabidos.
+		const conPregunta = [
+			...new Set(
+				secuencias
+					.filter((s) => s.termino_legado && s.derivadas === 0 && (s.faltan ?? []).length > 0)
+					.map((s) => s.termino_legado)
+			)
+		];
+		const conRespuesta = [
+			...new Set(secuencias.filter((s) => s.derivadas > 0).map((s) => s.termino_legado))
+		];
+		if (conPregunta.length > 0) {
+			w('Si te extraña que se pregunte algo que creías haber anotado, la razón está en el término');
+			w(
+				`que elegiste en su día: estos pasajes se anotaron con la forma sin más —${conPregunta
+					.map((t) => `\`${t}\``)
+					.join(', ')}—, y el`
+			);
+			w('vocabulario anterior no guardaba en ninguna parte el esquema de cada estrofa. No es que');
+			w('se haya perdido: es que nunca llegó a escribirse.');
+			if (conRespuesta.length > 0) {
+				const muestra = conRespuesta.slice(0, 3).map((t) => `\`${t}\``);
+				w(
+					`En cambio, donde se eligió un término que ya lo decía —${muestra.join(', ')}` +
+						`${conRespuesta.length > muestra.length ? ' y alguno más' : ''}—, la respuesta se`
+				);
+				w('deduce sola y solo hay que confirmarla.');
+			}
+			w();
+		}
 		w('| Versos | Forma | Pregunta | Cómo contestar |');
 		w('| --- | --- | --- | --- |');
 		const porSecuencia = new Map();
@@ -358,7 +398,9 @@ export function indiceDeObras(obras, fecha) {
 		'Hay un informe por cada obra con secuencias del vocabulario anterior, escrito para la persona'
 	);
 	w('que la anotó, que lo lee en `/dashboard/migracion/<obra>`. En');
-	w('[cuestionarios/](./cuestionarios/) está el Excel que se le manda por correo, y las respuestas');
+	w(
+		'[cuestionarios/](./cuestionarios/) está el Excel que se le manda por correo, y las respuestas'
+	);
 	w('devueltas van a [respuestas/](./respuestas/). El procedimiento completo está en');
 	w('[el plan de migración](../plan-migracion-anotaciones.md).');
 	w();

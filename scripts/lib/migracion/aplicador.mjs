@@ -346,15 +346,27 @@ function eleccionesDeUnaRespuesta(pregunta, fila, unidades, metros, pendientes, 
 // Las desviaciones que salen de las caracterizaciones
 // ---------------------------------------------------------------------------
 
-function desviacionesDe(partes, respuestas, metros, avisos) {
+function desviacionesDe(partes, respuestas, metros, avisos, pendientes) {
 	const desviaciones = [];
 	const conservadas = [];
 	for (const parte of partes) {
 		for (const caracterizacion of parte.caracterizaciones ?? []) {
 			const destino = DESTINO_CARACTERIZACION[caracterizacion.termino];
+			const fila = respuestas.get(claveDesviacion(caracterizacion.caracterizacion_rango_id));
+			const donde = `«${caracterizacion.termino}» de ${caracterizacion.v_ini}–${caracterizacion.v_fin}`;
+
+			// **Lo que el editor no da por bueno no se escribe**, diga lo que diga la tabla: la
+			// corrección viene en prosa y eso se mira a mano. Vale para las tres clases de fila,
+			// también para las que solo se le enseñaban.
+			if (confirma(fila) === false) {
+				pendientes.push(
+					`La caracterización ${donde} no queda como dice el informe, según el editor («${fila.detalle || fila.comentario || 'sin detalle'}»).`
+				);
+				continue;
+			}
 			if (!destino) {
 				avisos.push(
-					`La caracterización «${caracterizacion.termino}» (${caracterizacion.v_ini}–${caracterizacion.v_fin}) no tiene traducción prevista y se queda como está.`
+					`La caracterización ${donde} no tiene traducción prevista y se queda como está.`
 				);
 				conservadas.push(caracterizacion);
 				continue;
@@ -365,7 +377,6 @@ function desviacionesDe(partes, respuestas, metros, avisos) {
 				conservadas.push(caracterizacion);
 				continue;
 			}
-			const fila = respuestas.get(claveDesviacion(caracterizacion.caracterizacion_rango_id));
 			const silabas = destino.pide === 'silabas' ? leerSilabas(fila?.silabas) : null;
 			const metro = silabas ? metroDeSilabas(metros, silabas) : null;
 			if (silabas && !metro) {
@@ -479,25 +490,25 @@ export function corregirLaObra(obra, correcciones) {
 // ---------------------------------------------------------------------------
 
 /**
- * Los tramos que se funden, según lo que el editor contestó. Un tramo sin respuesta no se funde
- * **ni se anota**: si luego resultara ser un mismo pasaje habría que deshacer lo escrito.
+ * Los tramos que se funden.
+ *
+ * **Fundir es la regla, no una decisión**: el tramo es contiguo, de la misma arquitectura y no
+ * cruza jornada ni cuadro, así que el pasaje es uno solo y el vocabulario anterior lo partía. Por
+ * eso se funde salvo que el editor diga que no; si no contestó, se funde y se deja dicho en el
+ * guion, como cualquier otra respuesta que se enseñó rellena y nadie corrigió.
  */
 function fusionesConfirmadas(obra, respuestas) {
 	return (obra.fundibles ?? []).map((tramo) => {
 		const primera = tramo[0];
 		const ultima = tramo[tramo.length - 1];
 		const fila = respuestas.get(claveFusion(primera.secuencia_id, ultima.secuencia_id));
-		const dicho = normalizar(fila?.respuesta);
-		if (!dicho) return { tramo, decidida: false };
-		if (dicho.startsWith('si')) {
-			return {
-				tramo,
-				decidida: true,
-				funde: true,
-				sinopsis: respuestas.get(claveSinopsis(primera.secuencia_id))?.respuesta ?? ''
-			};
-		}
-		return { tramo, decidida: true, funde: false };
+		if (confirma(fila) === false) return { tramo, funde: false, dicho: fila };
+		return {
+			tramo,
+			funde: true,
+			confirmada: confirma(fila) === true,
+			sinopsis: respuestas.get(claveSinopsis(primera.secuencia_id))?.respuesta ?? ''
+		};
 	});
 }
 
@@ -570,16 +581,17 @@ export function planificarObra(obra, respuestas, catalogo, metros) {
 	for (const fusion of fusionesConfirmadas(corregida, respuestas)) {
 		const primera = fusion.tramo[0];
 		const ultima = fusion.tramo[fusion.tramo.length - 1];
-		if (!fusion.decidida) {
-			for (const parte of fusion.tramo) {
-				bloqueadas.set(
-					parte.secuencia_id,
-					`Es parte del tramo ${primera.v_ini}–${ultima.v_fin}, que espera saber si es un mismo pasaje.`
-				);
-			}
+		if (!fusion.funde) {
+			pendientesObra.push(
+				`El tramo ${primera.v_ini}–${ultima.v_fin} no se funde: el editor dice que son pasajes distintos${fusion.dicho?.detalle ? ` («${fusion.dicho.detalle}»)` : ''}. Sus secuencias se anotan por separado.`
+			);
 			continue;
 		}
-		if (!fusion.funde) continue;
+		if (!fusion.confirmada) {
+			pendientesObra.push(
+				`El tramo ${primera.v_ini}–${ultima.v_fin} se funde sin que el editor lo haya confirmado: dejó esa fila en blanco.`
+			);
+		}
 		funde.set(primera.secuencia_id, fusion);
 		for (const parte of fusion.tramo.slice(1)) {
 			absorbidas.set(parte.secuencia_id, primera.secuencia_id);
@@ -755,7 +767,13 @@ export function planificarObra(obra, respuestas, catalogo, metros) {
 			);
 		}
 
-		const { desviaciones, conservadas } = desviacionesDe(partes, respuestas, metros, avisos);
+		const { desviaciones, conservadas } = desviacionesDe(
+			partes,
+			respuestas,
+			metros,
+			avisos,
+			pendientes
+		);
 
 		if (pendientes.length > 0) {
 			anotaciones.push({

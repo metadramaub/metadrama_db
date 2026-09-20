@@ -26,15 +26,14 @@ allí que la migración no dejó ningún hueco.
 
 ## Qué te pido
 
-- 2 decisiones sobre pasajes cuyo número de versos no encaja, o sobre tramos que van a unirse en una sola secuencia.
-- 2 respuestas, en 2 secuencias, a preguntas que el vocabulario anterior no recogía.
+- 2 decisiones sobre pasajes cuyo número de versos no encaja con la forma que tienen asignada.
+- 35 respuestas, en 2 secuencias, a preguntas que el vocabulario anterior no recogía.
 - 22 confirmaciones de respuestas que ya he rellenado yo.
 
 ## Pasajes que no encajan
 
-Son secuencias cuyo número de versos no se corresponde con la forma que tienen asignada, y
-tramos que el vocabulario anterior obligaba a dividir. Aparecen en la pestaña **Responder**
-del Excel, marcadas como *Decidir*.
+Son secuencias cuyo número de versos no se corresponde con la forma que tienen asignada.
+Aparecen en la pestaña **Responder** del Excel, marcadas como *Decidir*.
 
 - **vv. 641–790** · Quintilla · Octosílaba consonante. El subtipo 762–765 tiene 4 versos, cuando una estrofa de esta forma tiene 5. Hay versos sin subtipo: 761.
 - **vv. 2936–3073** · Redondilla · Octosílaba. Sus 138 versos no encajan en una redondilla octosílaba, que se compone de unidades completas de 4 versos. Encajaría con 2 versos más (140) o con 2 versos menos (136).
@@ -44,9 +43,16 @@ del Excel, marcadas como *Decidir*.
 Estas son las preguntas que hace el catálogo nuevo y que no he podido responder con lo que
 había anotado; hace falta mirar el texto. Están en la pestaña **Responder**.
 
+Si te extraña que se pregunte algo que creías haber anotado, la razón está en el término
+que elegiste en su día: estos pasajes se anotaron con la forma sin más —`quintilla`, `redondilla`—, y el
+vocabulario anterior no guardaba en ninguna parte el esquema de cada estrofa. No es que
+se haya perdido: es que nunca llegó a escribirse.
+En cambio, donde se eligió un término que ya lo decía —`romance_o-a`, `endecasilabo_suelto_puro`, `redondilla_regular` y alguno más—, la respuesta se
+deduce sola y solo hay que confirmarla.
+
 | Versos | Forma | Pregunta | Cómo contestar |
 | --- | --- | --- | --- |
-| 2766–2935 | Quintilla · Octosílaba consonante | Esquema de rima · 34 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
+| 2766–2935 | Quintilla · Octosílaba consonante | Esquema de rima, en 34 estrofas (una fila por estrofa) | Elige en el desplegable |
 | 2936–3073 | Redondilla · Octosílaba | Esquema de rima · 34 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
 
 ## Respuestas ya rellenas
@@ -99,9 +105,9 @@ En **Responder** están las preguntas que no he podido contestar con lo que ya t
 
 Las filas marcadas como **Decidir** señalan pasajes cuyo número de versos no encaja con la forma que tienen asignada. En ellas hay que elegir en el desplegable qué ocurre y explicarlo al lado. Si se trata de una laguna que no se contó, indica en qué verso está y cuántos versos faltan, porque los añadiré a la numeración y todo lo que viene después se desplazará. Si lo que falla es el rango, escribe el rango correcto.
 
-En **Confirmar** aparecen las respuestas que he rellenado yo a partir del término que elegiste en su día: la asonancia de un romance, el esquema de una octava real «regular», o que un endecasílabo suelto «puro» no lleva pareados. Solo hay que revisarlas. Si alguna no es así, elige «No es así» y escribe al lado lo que corresponde.
+En **Confirmar** aparecen las respuestas que he rellenado yo a partir del término que elegiste en su día: la asonancia de un romance, el esquema de una octava real «regular», o que un endecasílabo suelto «puro» no lleva pareados. Ahí van también los tramos que vuelven a ser una sola secuencia. Solo hay que revisarlas. Si alguna no es así, elige «No es así» y escribe al lado lo que corresponde.
 
-En **Desviaciones** están los versos hipométricos e hipermétricos, las rimas defectuosas y las lagunas que anotaste, con tus notas, y cómo quedan en el modelo nuevo. Se trasladan tal cual. Si tienes a mano el número de sílabas de algún verso hipométrico o hipermétrico, ponlo en la columna «Sílabas»; si no, se registra simplemente que el verso tiene menos o más sílabas de las que le tocan, sin dar una cifra.
+En **Desviaciones** están los versos hipométricos e hipermétricos, las rimas defectuosas y las lagunas que anotaste, con tus notas, y cómo quedan en el modelo nuevo. Se trasladan tal cual, así que basta con revisarlas: la columna «¿Correcto?» tiene el mismo desplegable que la pestaña anterior y solo hay que tocarla si algo no queda como digo. La columna «Sílabas del verso» es únicamente para los versos hipométricos e hipermétricos, por si tienes a mano cuántas sílabas mide el verso; si no la rellenas, se registra que tiene menos o más de las que le tocan, sin dar una cifra. En las demás filas esa celda está apagada.
 
 Si algo no está claro o no sabes cómo contestarlo, pregúntamelo antes de dejarlo a medias. Una vez hecha la migración podrás ver cada secuencia de tu obra con el editor nuevo en el dashboard y comprobar allí que la migración no dejó ningún hueco.
 

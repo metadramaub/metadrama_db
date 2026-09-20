@@ -20,9 +20,9 @@
 			"editor": "Gaston Gilabert",
 			"excel": "dido-y-eneas.xlsx",
 			"secuencias": 24,
-			"decidir": 1,
-			"responder": 30,
-			"confirmar": 17,
+			"decidir": 0,
+			"responder": 64,
+			"confirmar": 18,
 			"desviaciones": 7
 		},
 		{
@@ -69,7 +69,7 @@
 			"excel": "el-esclavo-del-demonio.xlsx",
 			"secuencias": 30,
 			"decidir": 2,
-			"responder": 2,
+			"responder": 35,
 			"confirmar": 22,
 			"desviaciones": 1
 		},

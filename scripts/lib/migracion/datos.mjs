@@ -239,7 +239,12 @@ export function cargarObras() {
 			cuestionario.confirmar.push(...de.confirmar);
 			cuestionario.desviaciones.push(...de.desviaciones);
 		}
-		for (const tramo of fundibles) cuestionario.responder.push(...filasDeFusion(tramo));
+		for (const tramo of fundibles) {
+			// Fundir se enseña resuelto y se confirma; lo que se escribe es la sinopsis del pasaje.
+			const filas = filasDeFusion(tramo);
+			cuestionario.confirmar.push(...filas.confirmar);
+			cuestionario.responder.push(...filas.responder);
+		}
 
 		obras.push({
 			obra_id: obraId,

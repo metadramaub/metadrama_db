@@ -26,7 +26,7 @@ allí que la migración no dejó ningún hueco.
 
 ## Qué te pido
 
-- 4 decisiones sobre pasajes cuyo número de versos no encaja, o sobre tramos que van a unirse en una sola secuencia.
+- 4 decisiones sobre pasajes cuyo número de versos no encaja con la forma que tienen asignada.
 - 6 respuestas, en 6 secuencias, a preguntas que el vocabulario anterior no recogía.
 - 14 confirmaciones de respuestas que ya he rellenado yo.
 - 143 versos hipométricos o hipermétricos en los que puedes indicar el número de sílabas si lo tienes a mano. Es opcional.
@@ -34,9 +34,8 @@ allí que la migración no dejó ningún hueco.
 
 ## Pasajes que no encajan
 
-Son secuencias cuyo número de versos no se corresponde con la forma que tienen asignada, y
-tramos que el vocabulario anterior obligaba a dividir. Aparecen en la pestaña **Responder**
-del Excel, marcadas como *Decidir*.
+Son secuencias cuyo número de versos no se corresponde con la forma que tienen asignada.
+Aparecen en la pestaña **Responder** del Excel, marcadas como *Decidir*.
 
 - **vv. 237–463** · Romance · Octosílabo. Tiene 227 versos, y un romance octosílabo no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraré la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto.
 - **vv. 928–1182** · Romance · Octosílabo. Tiene 255 versos, y un romance octosílabo no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraré la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto.
@@ -47,6 +46,13 @@ del Excel, marcadas como *Decidir*.
 
 Estas son las preguntas que hace el catálogo nuevo y que no he podido responder con lo que
 había anotado; hace falta mirar el texto. Están en la pestaña **Responder**.
+
+Si te extraña que se pregunte algo que creías haber anotado, la razón está en el término
+que elegiste en su día: estos pasajes se anotaron con la forma sin más —`redondilla`—, y el
+vocabulario anterior no guardaba en ninguna parte el esquema de cada estrofa. No es que
+se haya perdido: es que nunca llegó a escribirse.
+En cambio, donde se eligió un término que ya lo decía —`romance_o-e`, `romance_e-a`, `octava_real_regular` y alguno más—, la respuesta se
+deduce sola y solo hay que confirmarla.
 
 | Versos | Forma | Pregunta | Cómo contestar |
 | --- | --- | --- | --- |
@@ -103,9 +109,9 @@ En **Responder** están las preguntas que no he podido contestar con lo que ya t
 
 Las filas marcadas como **Decidir** señalan pasajes cuyo número de versos no encaja con la forma que tienen asignada. En ellas hay que elegir en el desplegable qué ocurre y explicarlo al lado. Si se trata de una laguna que no se contó, indica en qué verso está y cuántos versos faltan, porque los añadiré a la numeración y todo lo que viene después se desplazará. Si lo que falla es el rango, escribe el rango correcto.
 
-En **Confirmar** aparecen las respuestas que he rellenado yo a partir del término que elegiste en su día: la asonancia de un romance, el esquema de una octava real «regular», o que un endecasílabo suelto «puro» no lleva pareados. Solo hay que revisarlas. Si alguna no es así, elige «No es así» y escribe al lado lo que corresponde.
+En **Confirmar** aparecen las respuestas que he rellenado yo a partir del término que elegiste en su día: la asonancia de un romance, el esquema de una octava real «regular», o que un endecasílabo suelto «puro» no lleva pareados. Ahí van también los tramos que vuelven a ser una sola secuencia. Solo hay que revisarlas. Si alguna no es así, elige «No es así» y escribe al lado lo que corresponde.
 
-En **Desviaciones** están los versos hipométricos e hipermétricos, las rimas defectuosas y las lagunas que anotaste, con tus notas, y cómo quedan en el modelo nuevo. Se trasladan tal cual. Si tienes a mano el número de sílabas de algún verso hipométrico o hipermétrico, ponlo en la columna «Sílabas»; si no, se registra simplemente que el verso tiene menos o más sílabas de las que le tocan, sin dar una cifra.
+En **Desviaciones** están los versos hipométricos e hipermétricos, las rimas defectuosas y las lagunas que anotaste, con tus notas, y cómo quedan en el modelo nuevo. Se trasladan tal cual, así que basta con revisarlas: la columna «¿Correcto?» tiene el mismo desplegable que la pestaña anterior y solo hay que tocarla si algo no queda como digo. La columna «Sílabas del verso» es únicamente para los versos hipométricos e hipermétricos, por si tienes a mano cuántas sílabas mide el verso; si no la rellenas, se registra que tiene menos o más de las que le tocan, sin dar una cifra. En las demás filas esa celda está apagada.
 
 Si algo no está claro o no sabes cómo contestarlo, pregúntamelo antes de dejarlo a medias. Una vez hecha la migración podrás ver cada secuencia de tu obra con el editor nuevo en el dashboard y comprobar allí que la migración no dejó ningún hueco.
 

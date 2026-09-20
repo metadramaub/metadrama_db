@@ -11,6 +11,7 @@
  */
 
 import ExcelJS from 'exceljs';
+import { OPCIONES_CONFIRMACION } from './modelo.mjs';
 import { FORMATOS, instrucciones as textoDeInstrucciones } from './markdown.mjs';
 
 const RELLENO_CABECERA = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFE5E7EB' } };
@@ -23,7 +24,7 @@ const ETIQUETA_TIPO = {
 	responder: 'Responder',
 	confirmar: 'Confirmar',
 	silabas: 'Sílabas (opcional)',
-	informar: 'Informativa'
+	informar: 'Revisar'
 };
 
 /** Quita las marcas de Markdown de un párrafo, para escribirlo en una celda. */
@@ -171,7 +172,11 @@ export async function escribirExcel(obra, ruta, fecha) {
 	];
 	const confirmar = libro.addWorksheet('Confirmar');
 	cabecera(confirmar, columnasConfirmar);
-	for (const f of obra.cuestionario.confirmar) {
+	// Por el verso en el que empieza cada pasaje: las fusiones se calculan al final y si no se
+	// ordenan aparecen sueltas detrás de todo.
+	for (const f of [...obra.cuestionario.confirmar].sort(
+		(a, b) => versoInicial(a) - versoInicial(b)
+	)) {
 		const fila = confirmar.addRow({
 			versos: f.versos,
 			forma: f.forma,
@@ -195,7 +200,7 @@ export async function escribirExcel(obra, ruta, fecha) {
 		{ titulo: 'Anotado como', clave: 'termino', ancho: 18 },
 		{ titulo: 'Tu nota', clave: 'observacion', ancho: 44 },
 		{ titulo: 'Cómo queda', clave: 'asunto', ancho: 40 },
-		{ titulo: 'Sílabas', clave: 'respuesta', ancho: 10, respuesta: true },
+		{ titulo: 'Sílabas del verso', clave: 'respuesta', ancho: 12, respuesta: true },
 		{ titulo: '¿Correcto?', clave: 'excepciones', ancho: 18, respuesta: true },
 		{ titulo: 'Comentario', clave: 'comentario', ancho: 30, respuesta: true },
 		{ titulo: 'Clave', clave: 'clave', ancho: 14 }
@@ -216,7 +221,11 @@ export async function escribirExcel(obra, ruta, fecha) {
 			clave: f.clave
 		});
 		estilarFila(fila, columnasDesviaciones);
-		if (f.tipo === 'confirmar') validar(fila.getCell('excepciones'), f.formato, listas);
+		// **El desplegable va en todas las filas.** Cualquier traducción puede estar mal, y una
+		// columna sin desplegable donde las otras pestañas sí lo tienen parece texto libre.
+		validar(fila.getCell('excepciones'), { modo: 'lista', lista: OPCIONES_CONFIRMACION }, listas);
+		// Las sílabas solo se piden donde hay una medida que observar: en los demás casos la celda
+		// se apaga, para que se vea que no hay nada que escribir ahí.
 		if (f.tipo !== 'silabas') fila.getCell('respuesta').fill = RELLENO_CLAVE;
 	}
 
