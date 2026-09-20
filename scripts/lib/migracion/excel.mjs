@@ -11,7 +11,7 @@
  */
 
 import ExcelJS from 'exceljs';
-import { FORMATOS, INSTRUCCIONES } from './markdown.mjs';
+import { FORMATOS, instrucciones as textoDeInstrucciones } from './markdown.mjs';
 
 const RELLENO_CABECERA = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFE5E7EB' } };
 const RELLENO_RESPUESTA = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFEF9C3' } };
@@ -105,7 +105,7 @@ export async function escribirExcel(obra, ruta, fecha) {
 		italic: true
 	};
 	instrucciones.addRow([]);
-	for (const parrafo of INSTRUCCIONES) {
+	for (const parrafo of textoDeInstrucciones({ enExcel: true })) {
 		const fila = instrucciones.addRow([sinMarcas(parrafo)]);
 		fila.alignment = { wrapText: true, vertical: 'top' };
 	}

@@ -220,6 +220,24 @@ export function unidadesDe(secuencia) {
 // Diagnóstico
 // ---------------------------------------------------------------------------
 
+/**
+ * La forma con su arquitectura, en minúscula, para nombrarla en una frase: «redondilla
+ * octosílaba», «seguidilla simple». Una arquitectura sola no dice nada.
+ */
+export function nombreDeForma(secuencia) {
+	return [secuencia.forma_propuesta, secuencia.arquitectura_propuesta]
+		.filter(Boolean)
+		.map((n) => String(n).toLowerCase())
+		.join(' ');
+}
+
+/** «una redondilla», «un soneto», «una canción»: el género se lee del nombre de la forma. */
+export function conArticulo(secuencia) {
+	const forma = String(secuencia.forma_propuesta ?? '').toLowerCase();
+	const femenino = /(a|ción)$/.test(forma.split(/[\s-]/)[0] ?? '') || /ción/.test(forma);
+	return `${femenino ? 'una' : 'un'} ${nombreDeForma(secuencia)}`;
+}
+
 const rango = (desde, hasta) => (desde === hasta ? `${desde}` : `${desde}–${hasta}`);
 const plural = (n, singular, plural_) => `${n} ${n === 1 ? singular : plural_}`;
 
@@ -285,7 +303,7 @@ export function diagnosticar(secuencia) {
 		return {
 			tipo: 'minimo',
 			texto:
-				`Solo tiene ${n} versos, y «${secuencia.arquitectura_propuesta}» necesita al menos` +
+				`Solo tiene ${n} versos, y ${conArticulo(secuencia)} necesita al menos` +
 				` ${regla.minimo_versos}. Puede que el rango esté mal o que se trate de otra forma.`,
 			opciones: OPCIONES_DECISION.slice(1)
 		};
@@ -297,9 +315,9 @@ export function diagnosticar(secuencia) {
 		return {
 			tipo: 'impar',
 			texto:
-				`Tiene ${n} versos, y un ${secuencia.forma_propuesta.toLowerCase()} no puede tener un número` +
+				`Tiene ${n} versos, y ${conArticulo(secuencia)} no puede tener un número` +
 				` impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de` +
-				` una laguna, en cuyo caso renumeraremos la obra a partir de ahí, o de un error en el rango,` +
+				` una laguna, en cuyo caso renumeraré la obra a partir de ahí, o de un error en el rango,` +
 				` en cuyo caso hace falta el rango correcto.`,
 			opciones: OPCIONES_DECISION.slice(0, 2)
 		};
@@ -307,7 +325,7 @@ export function diagnosticar(secuencia) {
 
 	const lagunaDentro = lagunas[0] ?? null;
 	let texto =
-		`Sus ${n} versos no encajan con «${secuencia.arquitectura_propuesta}»` +
+		`Sus ${n} versos no encajan en ${conArticulo(secuencia)}` +
 		(regla?.explicacion ? `, que se compone de ${regla.explicacion}` : '') +
 		'.';
 	const ajustes = [];
@@ -619,7 +637,7 @@ export function filasDeSecuencia(secuencia) {
 	// --- Las caracterizaciones por rango, una a una.
 	for (const c of secuencia.caracterizaciones ?? []) {
 		const destino = DESTINO_CARACTERIZACION[c.termino] ?? {
-			destino: `No hay traducción prevista para «${c.termino}»; lo revisaremos a mano`,
+			destino: `No hay traducción prevista para «${c.termino}»; lo revisaré a mano`,
 			pide: 'confirmar'
 		};
 		desviaciones.push({

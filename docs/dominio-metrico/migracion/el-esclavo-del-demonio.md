@@ -1,22 +1,22 @@
 # Migración métrica · El esclavo del demonio
 
-Informe para Blanca Ballester Morell, generado el 2026-09-19. Se
+Informe para Blanca Ballester Morell, generado el 2026-09-20. Se
 regenera con `npm run migracion:informe`, así que no conviene editarlo a mano. Va acompañado
 de un Excel con el mismo nombre, que es lo que hay que devolver rellenado.
 
 ## De qué va esto
 
-Estamos trasladando la anotación métrica de las obras al catálogo nuevo, el que se publica en
+Estoy trasladando la anotación métrica de las obras al catálogo nuevo, el que se publica en
 [recursos/catalogo-metrico](https://versologia.metadrama.org/recursos/catalogo-metrico). La mayor parte del trabajo la hace un programa:
 cada término del vocabulario anterior tiene su forma y su arquitectura en el catálogo, y las
 tipologías de quintilla, las asonancias de los romances o los esquemas de los sonetos que
 anotaste en su día se conservan tal cual. Hay, sin embargo, algunas cosas que el catálogo nuevo
-registra y que el vocabulario anterior no recogía, y eso es lo que te pedimos en el Excel. Con
-esas respuestas hacemos la migración de una vez y no hace falta que vuelvas a anotar nada.
+registra y que el vocabulario anterior no recogía, y eso es lo que te pido en el Excel. Con
+esas respuestas hago la migración de una vez y no hace falta que vuelvas a anotar nada.
 
 Mientras tanto tu obra no cambia: en el dashboard sigue tal como está hasta que devuelvas el
-Excel. Cuando la migración esté hecha, podrás ver cada secuencia con el editor nuevo y corregir
-allí lo que haga falta.
+Excel. Cuando la migración esté hecha, podrás ver cada secuencia con el editor nuevo y comprobar
+allí que la migración no dejó ningún hueco.
 
 ## Tu obra en cifras
 
@@ -26,11 +26,11 @@ allí lo que haga falta.
 - 225 subtipos estróficos (las tipologías de quintilla, estrofa a estrofa), que se conservan sin cambios.
 - 1 caracterización por rango, que se convierte en una desviación o se mantiene como está.
 
-## Qué te pedimos
+## Qué te pido
 
 - 2 decisiones sobre pasajes cuyo número de versos no encaja, o sobre tramos que van a unirse en una sola secuencia.
 - 2 respuestas, en 2 secuencias, a preguntas que el vocabulario anterior no recogía.
-- 22 confirmaciones de respuestas que ya hemos rellenado nosotros.
+- 22 confirmaciones de respuestas que ya he rellenado yo.
 
 ## Pasajes que no encajan
 
@@ -39,11 +39,11 @@ tramos que el vocabulario anterior obligaba a dividir. Aparecen en la pestaña *
 del Excel, marcadas como *Decidir*.
 
 - **vv. 641–790** · Quintilla · Octosílaba consonante. El subtipo 762–765 tiene 4 versos, cuando una estrofa de esta forma tiene 5. Hay versos sin subtipo: 761.
-- **vv. 2936–3073** · Redondilla · Octosílaba. Sus 138 versos no encajan con «Octosílaba», que se compone de unidades completas de 4 versos. Encajaría con 2 versos más (140) o con 2 versos menos (136).
+- **vv. 2936–3073** · Redondilla · Octosílaba. Sus 138 versos no encajan en una redondilla octosílaba, que se compone de unidades completas de 4 versos. Encajaría con 2 versos más (140) o con 2 versos menos (136).
 
 ## Preguntas pendientes
 
-Estas son las preguntas que hace el catálogo nuevo y que no se pueden responder con lo que
+Estas son las preguntas que hace el catálogo nuevo y que no he podido responder con lo que
 había anotado; hace falta mirar el texto. Están en la pestaña **Responder**.
 
 | Versos | Forma | Pregunta | Cómo contestar |
@@ -53,8 +53,8 @@ había anotado; hace falta mirar el texto. Están en la pestaña **Responder**.
 
 ## Respuestas ya rellenas
 
-Estas respuestas se deducen del término que elegiste en su día, y las hemos rellenado
-nosotros. Conviene echarles un vistazo por si en alguna estrofa las cosas eran de otra
+Estas respuestas se deducen del término que elegiste en su día, y las he rellenado yo.
+Conviene echarles un vistazo por si en alguna estrofa las cosas eran de otra
 manera. Están en la pestaña **Confirmar**.
 
 | Versos | Forma | Pregunta | Respuesta | Vocabulario anterior |
@@ -97,15 +97,15 @@ las que le tocan, sin dar una cifra. Están en la pestaña **Desviaciones**.
 
 El Excel tiene cinco pestañas. En tres de ellas hay que escribir —**Responder**, **Confirmar** y **Desviaciones**— y las otras dos son de consulta: **Secuencias**, con todo lo que tiene anotado tu obra, e **Instrucciones**, con este mismo texto. Solo hace falta escribir en las columnas de fondo amarillo, que son «Respuesta», «Excepciones / detalle» y «Comentario». El resto de columnas las genera el programa y las necesita tal cual para poder leer las respuestas, así que conviene no tocarlas.
 
-En **Responder** están las preguntas que no hemos podido contestar con lo que ya tenías anotado. Cada fila corresponde a un pasaje y a una pregunta. Cuando la celda tiene desplegable, basta con elegir; cuando no, la columna «Cómo contestar» explica el formato. Las preguntas que se refieren a cada estrofa aparecen de dos maneras: si son pocas estrofas, hay una fila por estrofa; si son muchas, hay una sola fila cuya respuesta vale para todas, y las estrofas que se aparten de ella se anotan en «Excepciones / detalle» indicando los versos y la respuesta, por ejemplo «191–194: Cruzada · abab; 203–206: Cruzada · abab».
+En **Responder** están las preguntas que no he podido contestar con lo que ya tenías anotado. Cada fila corresponde a un pasaje y a una pregunta. Cuando la celda tiene desplegable, basta con elegir; cuando no, la columna «Cómo contestar» explica el formato. Las preguntas que se refieren a cada estrofa aparecen de dos maneras: si son pocas estrofas, hay una fila por estrofa; si son muchas, hay una sola fila cuya respuesta vale para todas, y las estrofas que se aparten de ella se anotan en «Excepciones / detalle» indicando los versos y la respuesta, por ejemplo «191–194: Cruzada · abab; 203–206: Cruzada · abab».
 
-Las filas marcadas como **Decidir** señalan pasajes cuyo número de versos no encaja con la forma que tienen asignada. En ellas hay que elegir en el desplegable qué ocurre y explicarlo al lado. Si se trata de una laguna que no se contó, indica en qué verso está y cuántos versos faltan, porque los añadiremos a la numeración y todo lo que viene después se desplazará. Si lo que falla es el rango, escribe el rango correcto.
+Las filas marcadas como **Decidir** señalan pasajes cuyo número de versos no encaja con la forma que tienen asignada. En ellas hay que elegir en el desplegable qué ocurre y explicarlo al lado. Si se trata de una laguna que no se contó, indica en qué verso está y cuántos versos faltan, porque los añadiré a la numeración y todo lo que viene después se desplazará. Si lo que falla es el rango, escribe el rango correcto.
 
-En **Confirmar** aparecen las respuestas que hemos rellenado nosotros a partir del término que elegiste en su día: la asonancia de un romance, el esquema de una octava real «regular», o que un endecasílabo suelto «puro» no lleva pareados. Solo hay que revisarlas. Si alguna no es así, elige «No es así» y escribe al lado lo que corresponde.
+En **Confirmar** aparecen las respuestas que he rellenado yo a partir del término que elegiste en su día: la asonancia de un romance, el esquema de una octava real «regular», o que un endecasílabo suelto «puro» no lleva pareados. Solo hay que revisarlas. Si alguna no es así, elige «No es así» y escribe al lado lo que corresponde.
 
 En **Desviaciones** están los versos hipométricos e hipermétricos, las rimas defectuosas y las lagunas que anotaste, con tus notas, y cómo quedan en el modelo nuevo. Se trasladan tal cual. Si tienes a mano el número de sílabas de algún verso hipométrico o hipermétrico, ponlo en la columna «Sílabas»; si no, se registra simplemente que el verso tiene menos o más sílabas de las que le tocan, sin dar una cifra.
 
-Si algo no está claro o no sabes cómo contestarlo, pregúntaselo a David antes de dejarlo a medias. Una vez hecha la migración podrás ver cada secuencia de tu obra con el editor nuevo en el dashboard y corregir allí lo que haga falta.
+Si algo no está claro o no sabes cómo contestarlo, pregúntamelo antes de dejarlo a medias. Una vez hecha la migración podrás ver cada secuencia de tu obra con el editor nuevo en el dashboard y comprobar allí que la migración no dejó ningún hueco.
 
 Cuando no hay desplegable, los formatos son estos:
 
@@ -152,7 +152,7 @@ derivadas se deducen del término y aparecen en la pestaña Confirmar.
 | 25 | 2580–2751 | 172 | `romance_a-a` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
 | 26 | 2752–2765 | 14 | `soneto_con_tercetos_de_rima_conclusiva_ABBAABBACDEDCE` | Soneto | Endecasílabo consonante | — | — | lista | 2 derivadas | directa |
 | 27 | 2766–2935 | 170 | `quintilla` | Quintilla | Octosílaba consonante | — | — | **Falta:** Esquema de rima | — | directa |
-| 28 | 2936–3073 | 138 | `redondilla` | Redondilla | Octosílaba | — | — | **Revisar:** Sus 138 versos no encajan con «Octosílaba», que se compone de unidades completas de 4 versos. Encajaría con 2 versos más (140) o con 2 versos menos (136). | — | directa |
+| 28 | 2936–3073 | 138 | `redondilla` | Redondilla | Octosílaba | — | — | **Revisar:** Sus 138 versos no encajan en una redondilla octosílaba, que se compone de unidades completas de 4 versos. Encajaría con 2 versos más (140) o con 2 versos menos (136). | — | directa |
 | 29 | 3074–3131 | 58 | `endecasilabo_suelto_puro` | Endecasílabo suelto | Endecasílabo | — | — | lista | 3 derivadas | por ascendencia (endecasilabo_suelto) |
 | 30 | 3132–3295 | 164 | `romance_e-a` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
 

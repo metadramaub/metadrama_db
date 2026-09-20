@@ -1,6 +1,6 @@
 # Migración métrica, obra por obra
 
-Generado el 2026-09-19 por `npm run migracion:informe`. **No editar a mano.**
+Generado el 2026-09-20 por `npm run migracion:informe`. **No editar a mano.**
 
 Hay un informe por cada obra con secuencias del vocabulario anterior, escrito para la persona
 que la anotó. En [cuestionarios/](./cuestionarios/) están el mismo informe en HTML y el Excel

@@ -50,8 +50,17 @@ mkdirSync(cuestionarios, { recursive: true });
 for (const fichero of readdirSync(options.salida)) {
 	if (fichero.endsWith('.md')) rmSync(join(options.salida, fichero));
 }
+// Un Excel abierto en Excel está bloqueado en Windows: se avisa y se sigue con los demás.
+const bloqueados = new Set();
 for (const fichero of readdirSync(cuestionarios)) {
-	if (/\.(html|xlsx)$/.test(fichero)) rmSync(join(cuestionarios, fichero));
+	if (!/\.(html|xlsx)$/.test(fichero)) continue;
+	try {
+		rmSync(join(cuestionarios, fichero));
+	} catch (error) {
+		if (error.code !== 'EPERM' && error.code !== 'EBUSY') throw error;
+		bloqueados.add(fichero);
+		console.warn(`  ${fichero} está abierto en otro programa y no se puede reescribir.`);
+	}
 }
 
 const obras = cargarObras();
@@ -64,7 +73,9 @@ for (const obra of obras) {
 		htmlDeInforme(markdown, obra.titulo),
 		'utf-8'
 	);
-	await escribirExcel(obra, join(cuestionarios, `${obra.slug}.xlsx`), fecha);
+	if (!bloqueados.has(`${obra.slug}.xlsx`)) {
+		await escribirExcel(obra, join(cuestionarios, `${obra.slug}.xlsx`), fecha);
+	}
 
 	const decidir = obra.cuestionario.responder.filter((f) => f.tipo === 'decidir').length;
 	console.log(

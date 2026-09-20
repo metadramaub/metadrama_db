@@ -17,13 +17,13 @@ const URL_CATALOGO = 'https://versologia.metadrama.org/recursos/catalogo-metrico
  * Cómo se rellena el Excel. Cada elemento es un párrafo; se usa aquí y en la pestaña de
  * instrucciones del propio Excel.
  */
-export const INSTRUCCIONES = [
-	'El Excel tiene cinco pestañas. En tres de ellas hay que escribir —**Responder**, **Confirmar** y **Desviaciones**— y las otras dos son de consulta: **Secuencias**, con todo lo que tiene anotado tu obra, e **Instrucciones**, con este mismo texto. Solo hace falta escribir en las columnas de fondo amarillo, que son «Respuesta», «Excepciones / detalle» y «Comentario». El resto de columnas las genera el programa y las necesita tal cual para poder leer las respuestas, así que conviene no tocarlas.',
-	'En **Responder** están las preguntas que no hemos podido contestar con lo que ya tenías anotado. Cada fila corresponde a un pasaje y a una pregunta. Cuando la celda tiene desplegable, basta con elegir; cuando no, la columna «Cómo contestar» explica el formato. Las preguntas que se refieren a cada estrofa aparecen de dos maneras: si son pocas estrofas, hay una fila por estrofa; si son muchas, hay una sola fila cuya respuesta vale para todas, y las estrofas que se aparten de ella se anotan en «Excepciones / detalle» indicando los versos y la respuesta, por ejemplo «191–194: Cruzada · abab; 203–206: Cruzada · abab».',
-	'Las filas marcadas como **Decidir** señalan pasajes cuyo número de versos no encaja con la forma que tienen asignada. En ellas hay que elegir en el desplegable qué ocurre y explicarlo al lado. Si se trata de una laguna que no se contó, indica en qué verso está y cuántos versos faltan, porque los añadiremos a la numeración y todo lo que viene después se desplazará. Si lo que falla es el rango, escribe el rango correcto.',
-	'En **Confirmar** aparecen las respuestas que hemos rellenado nosotros a partir del término que elegiste en su día: la asonancia de un romance, el esquema de una octava real «regular», o que un endecasílabo suelto «puro» no lleva pareados. Solo hay que revisarlas. Si alguna no es así, elige «No es así» y escribe al lado lo que corresponde.',
+export const instrucciones = ({ enExcel = false } = {}) => [
+	`El Excel tiene cinco pestañas. En tres de ellas hay que escribir —**Responder**, **Confirmar** y **Desviaciones**— y las otras dos son de consulta: **Secuencias**, con todo lo que tiene anotado tu obra, e **Instrucciones**, ${enExcel ? 'donde estás ahora' : 'con este mismo texto'}. Solo hace falta escribir en las columnas de fondo amarillo, que son «Respuesta», «Excepciones / detalle» y «Comentario». El resto de columnas las genera el programa y las necesita tal cual para poder leer las respuestas, así que conviene no tocarlas.`,
+	'En **Responder** están las preguntas que no he podido contestar con lo que ya tenías anotado. Cada fila corresponde a un pasaje y a una pregunta. Cuando la celda tiene desplegable, basta con elegir; cuando no, la columna «Cómo contestar» explica el formato. Las preguntas que se refieren a cada estrofa aparecen de dos maneras: si son pocas estrofas, hay una fila por estrofa; si son muchas, hay una sola fila cuya respuesta vale para todas, y las estrofas que se aparten de ella se anotan en «Excepciones / detalle» indicando los versos y la respuesta, por ejemplo «191–194: Cruzada · abab; 203–206: Cruzada · abab».',
+	'Las filas marcadas como **Decidir** señalan pasajes cuyo número de versos no encaja con la forma que tienen asignada. En ellas hay que elegir en el desplegable qué ocurre y explicarlo al lado. Si se trata de una laguna que no se contó, indica en qué verso está y cuántos versos faltan, porque los añadiré a la numeración y todo lo que viene después se desplazará. Si lo que falla es el rango, escribe el rango correcto.',
+	'En **Confirmar** aparecen las respuestas que he rellenado yo a partir del término que elegiste en su día: la asonancia de un romance, el esquema de una octava real «regular», o que un endecasílabo suelto «puro» no lleva pareados. Solo hay que revisarlas. Si alguna no es así, elige «No es así» y escribe al lado lo que corresponde.',
 	'En **Desviaciones** están los versos hipométricos e hipermétricos, las rimas defectuosas y las lagunas que anotaste, con tus notas, y cómo quedan en el modelo nuevo. Se trasladan tal cual. Si tienes a mano el número de sílabas de algún verso hipométrico o hipermétrico, ponlo en la columna «Sílabas»; si no, se registra simplemente que el verso tiene menos o más sílabas de las que le tocan, sin dar una cifra.',
-	'Si algo no está claro o no sabes cómo contestarlo, pregúntaselo a David antes de dejarlo a medias. Una vez hecha la migración podrás ver cada secuencia de tu obra con el editor nuevo en el dashboard y corregir allí lo que haga falta.'
+	'Si algo no está claro o no sabes cómo contestarlo, pregúntamelo antes de dejarlo a medias. Una vez hecha la migración podrás ver cada secuencia de tu obra con el editor nuevo en el dashboard y comprobar allí que la migración no dejó ningún hueco.'
 ];
 
 /** Los formatos de respuesta cuando no hay desplegable, para la pestaña de instrucciones. */
@@ -116,9 +116,7 @@ export function informeDeObra(obra, fecha) {
 
 	w('## De qué va esto');
 	w();
-	w(
-		'Estamos trasladando la anotación métrica de las obras al catálogo nuevo, el que se publica en'
-	);
+	w('Estoy trasladando la anotación métrica de las obras al catálogo nuevo, el que se publica en');
 	w(
 		`[recursos/catalogo-metrico](${URL_CATALOGO}). La mayor parte del trabajo la hace un programa:`
 	);
@@ -127,16 +125,14 @@ export function informeDeObra(obra, fecha) {
 	w(
 		'anotaste en su día se conservan tal cual. Hay, sin embargo, algunas cosas que el catálogo nuevo'
 	);
-	w(
-		'registra y que el vocabulario anterior no recogía, y eso es lo que te pedimos en el Excel. Con'
-	);
-	w('esas respuestas hacemos la migración de una vez y no hace falta que vuelvas a anotar nada.');
+	w('registra y que el vocabulario anterior no recogía, y eso es lo que te pido en el Excel. Con');
+	w('esas respuestas hago la migración de una vez y no hace falta que vuelvas a anotar nada.');
 	w();
 	w('Mientras tanto tu obra no cambia: en el dashboard sigue tal como está hasta que devuelvas el');
 	w(
-		'Excel. Cuando la migración esté hecha, podrás ver cada secuencia con el editor nuevo y corregir'
+		'Excel. Cuando la migración esté hecha, podrás ver cada secuencia con el editor nuevo y comprobar'
 	);
-	w('allí lo que haga falta.');
+	w('allí que la migración no dejó ningún hueco.');
 	w();
 
 	w('## Tu obra en cifras');
@@ -158,12 +154,10 @@ export function informeDeObra(obra, fecha) {
 	);
 	w();
 
-	w('## Qué te pedimos');
+	w('## Qué te pido');
 	w();
 	if (nadaQuePedir) {
-		w(
-			'Nada. En tu obra todo se resuelve sin preguntas; te mandamos el informe de todos modos para'
-		);
+		w('Nada. En tu obra todo se resuelve sin preguntas; te mando el informe de todos modos para');
 		w('que sepas cómo queda y por si ves algo que no cuadra.');
 	} else {
 		if (decisiones.length > 0) {
@@ -178,7 +172,7 @@ export function informeDeObra(obra, fecha) {
 		}
 		if (confirmaciones.length > 0) {
 			w(
-				`- ${plural(confirmaciones.length, 'confirmación', 'confirmaciones')} de respuestas que ya hemos rellenado nosotros.`
+				`- ${plural(confirmaciones.length, 'confirmación', 'confirmaciones')} de respuestas que ya he rellenado yo.`
 			);
 		}
 		if (conSilabas.length > 0) {
@@ -225,7 +219,7 @@ export function informeDeObra(obra, fecha) {
 	if (respuestas.length > 0) {
 		w('## Preguntas pendientes');
 		w();
-		w('Estas son las preguntas que hace el catálogo nuevo y que no se pueden responder con lo que');
+		w('Estas son las preguntas que hace el catálogo nuevo y que no he podido responder con lo que');
 		w('había anotado; hace falta mirar el texto. Están en la pestaña **Responder**.');
 		w();
 		w('| Versos | Forma | Pregunta | Cómo contestar |');
@@ -251,8 +245,8 @@ export function informeDeObra(obra, fecha) {
 	if (confirmaciones.length > 0) {
 		w('## Respuestas ya rellenas');
 		w();
-		w('Estas respuestas se deducen del término que elegiste en su día, y las hemos rellenado');
-		w('nosotros. Conviene echarles un vistazo por si en alguna estrofa las cosas eran de otra');
+		w('Estas respuestas se deducen del término que elegiste en su día, y las he rellenado yo.');
+		w('Conviene echarles un vistazo por si en alguna estrofa las cosas eran de otra');
 		w('manera. Están en la pestaña **Confirmar**.');
 		w();
 		w('| Versos | Forma | Pregunta | Respuesta | Vocabulario anterior |');
@@ -286,7 +280,7 @@ export function informeDeObra(obra, fecha) {
 
 	w('## Cómo rellenar el Excel');
 	w();
-	for (const parrafo of INSTRUCCIONES) {
+	for (const parrafo of instrucciones()) {
 		w(parrafo);
 		w();
 	}
