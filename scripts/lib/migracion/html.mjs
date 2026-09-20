@@ -1,48 +1,29 @@
 /**
- * El informe escrito, en HTML, para enviarlo: el Markdown de la obra con una hoja de estilo
- * dentro, que se abre en cualquier navegador y se imprime a PDF en un clic.
+ * El informe escrito de una obra, en HTML, para servirlo dentro del dashboard.
+ *
+ * No es una página: es el **fragmento** que la ruta `/dashboard/migracion/<obra>` pinta dentro de
+ * su marco, con las tablas que el Markdown del proyecto no sabe pintar. Se escribe en
+ * `src/lib/content/migracion/` y se carga con `import.meta.glob`, como la guía del dashboard.
+ *
+ * **Sin HTML de la base.** El informe cita sinopsis y notas escritas por los editores, y aquí se
+ * escapan: lo único que puede abrir etiquetas es lo que escribe el generador.
  */
 
 import MarkdownIt from 'markdown-it';
 
-const md = new MarkdownIt({ html: true, linkify: true, typographer: false });
+const md = new MarkdownIt({ html: false, linkify: true, typographer: false });
 
-const ESTILO = `
-	:root { color-scheme: light; }
-	body { font: 15px/1.55 Georgia, 'Times New Roman', serif; color: #1f2937; max-width: 62rem;
-		margin: 2rem auto; padding: 0 1.25rem; background: #fff; }
-	h1 { font-size: 1.7rem; margin: 0 0 .5rem; }
-	h2 { font-size: 1.2rem; margin: 2rem 0 .6rem; border-bottom: 1px solid #d1d5db; padding-bottom: .2rem; }
-	p, li { max-width: 46rem; }
-	code { font: 13px/1 ui-monospace, Menlo, Consolas, monospace; background: #f3f4f6;
-		padding: .05rem .3rem; border-radius: 3px; }
-	table { border-collapse: collapse; font-size: 13px; margin: .8rem 0 1.4rem; display: block;
-		max-width: 100%; overflow-x: auto; }
-	th, td { border: 1px solid #d1d5db; padding: .3rem .5rem; vertical-align: top; text-align: left; }
-	th { background: #f3f4f6; }
-	td:has(> code:only-child) { white-space: nowrap; }
-	strong { color: #111827; }
-	a { color: #1d4ed8; }
-	@media print { body { margin: 0; max-width: none; font-size: 12px; } h2 { break-after: avoid; } table { break-inside: auto; } tr { break-inside: avoid; } }
-`;
-
-export function htmlDeInforme(markdown, titulo) {
-	const cuerpo = md.render(markdown);
-	return `<!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Migración métrica · ${escapar(titulo)}</title>
-<style>${ESTILO}</style>
-</head>
-<body>
-${cuerpo}
-</body>
-</html>
-`;
+// El informe enumera subtipos y caracterizaciones separándolos con `<br>`, que es la única
+// etiqueta que el generador necesita y que un texto de la base no puede colar: con `html: false`
+// llega escapada, y se devuelve al salto de línea que era.
+function restaurarSaltos(html) {
+	return html.replaceAll('&lt;br&gt;', '<br>');
 }
 
-function escapar(texto) {
-	return String(texto).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+/**
+ * El fragmento de una obra: el informe sin su encabezado de primer nivel, que lo pone la página.
+ */
+export function fragmentoDeInforme(markdown) {
+	const sinTitulo = markdown.replace(/^#\s+.*\n/, '');
+	return restaurarSaltos(md.render(sinTitulo)).trim();
 }

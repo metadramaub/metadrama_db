@@ -57,6 +57,24 @@
 	</div>
 </section>
 
+{#if data.informesMigracion > 0}
+	<section class="mt-4">
+		<div class="card flex flex-wrap items-start justify-between gap-3 p-4">
+			<div>
+				<h2 class="text-lg font-semibold">Migración métrica</h2>
+				<p class="mt-1 max-w-2xl text-sm text-[color:var(--muted-foreground)]">
+					{data.informesMigracion === 1
+						? 'Hay un informe con lo que hace falta para trasladar la anotación métrica al catálogo nuevo.'
+						: `Hay ${data.informesMigracion} informes con lo que hace falta para trasladar la anotación métrica al catálogo nuevo.`}
+				</p>
+			</div>
+			<Button variant="secondary" onclick={() => goto('/dashboard/migracion')}>
+				Ver los informes
+			</Button>
+		</div>
+	</section>
+{/if}
+
 <section class="mt-4">
 	<div class="card flex flex-wrap items-start justify-between gap-3 p-4">
 		<div>

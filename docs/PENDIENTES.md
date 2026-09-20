@@ -41,14 +41,12 @@ y el Excel devuelto por sus claves, aplica primero las correcciones a las tablas
 leer están en `scripts/lib/migracion/modelo.mjs`.
 → [plan, §5](./dominio-metrico/plan-migracion-anotaciones.md)
 
-**A2 · Enviar los cuestionarios y recoger las respuestas.** El informe y el Excel de cada obra
-están en [migracion/cuestionarios/](./dominio-metrico/migracion/cuestionarios/); las respuestas
-van a `migracion/respuestas/`, versionadas. Lo que un editor no tenga claro lo pregunta antes de
-contestar. **Cómo llega el informe al editor está por decidir**: la propuesta es servirlo dentro
-del dashboard, en `/dashboard/migracion/<obra>`, visible solo para admin/IP y el editor asignado
-—el generador escribiría el fragmento HTML en `src/lib/content/migracion/` y se cargaría con
-`import.meta.glob`, como la guía—, y mandar el Excel por correo, que es lo que hay que devolver.
-Si se hace así, sobra el HTML suelto de `cuestionarios/`.
+**A2 · Enviar los cuestionarios y recoger las respuestas.** El informe de cada obra se lee en
+`/dashboard/migracion/<obra>`, que solo ven admin, el IP y el editor asignado; falta **mandar por
+correo el Excel** de [migracion/cuestionarios/](./dominio-metrico/migracion/cuestionarios/) a cada
+uno de los 8 editores, avisando de que no toque la obra desde que lo devuelve hasta que se le
+confirma la migración. Las respuestas van a `migracion/respuestas/`, versionadas. Lo que un editor
+no tenga claro lo pregunta antes de contestar.
 
 **A4 · Las preguntas que la serie alirada no tiene.** La novena-lira no tiene dónde registrar la
 disposición que se vea, ni la décima cuando no sea la documentada. (La canción ya no está aquí: la

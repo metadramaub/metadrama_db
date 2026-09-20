@@ -1,0 +1,137 @@
+{
+	"generado": "2026-09-20",
+	"obras": [
+		{
+			"slug": "cegar-para-ver-mejor",
+			"obra_id": "5153d160-01f7-4f31-aa76-8d0136fc8ea3",
+			"titulo": "Cegar para ver mejor",
+			"editor": "Gabriel López",
+			"excel": "cegar-para-ver-mejor.xlsx",
+			"secuencias": 3,
+			"decidir": 0,
+			"responder": 0,
+			"confirmar": 3,
+			"desviaciones": 0
+		},
+		{
+			"slug": "dido-y-eneas",
+			"obra_id": "1ee72138-24fd-4af6-bbcc-a01d05bcec55",
+			"titulo": "Dido y Eneas",
+			"editor": "Gaston Gilabert",
+			"excel": "dido-y-eneas.xlsx",
+			"secuencias": 24,
+			"decidir": 1,
+			"responder": 30,
+			"confirmar": 17,
+			"desviaciones": 7
+		},
+		{
+			"slug": "el-amor-al-uso",
+			"obra_id": "09479a39-0349-4470-9fba-49394954862c",
+			"titulo": "El amor al uso",
+			"editor": "Ana Vicente",
+			"excel": "el-amor-al-uso.xlsx",
+			"secuencias": 28,
+			"decidir": 0,
+			"responder": 13,
+			"confirmar": 17,
+			"desviaciones": 7
+		},
+		{
+			"slug": "el-caballero-de-olmedo",
+			"obra_id": "3b14aa61-97d6-4d2b-88f0-fb3ebc644d0a",
+			"titulo": "El caballero de Olmedo",
+			"editor": "María Isabel Cuena",
+			"excel": "el-caballero-de-olmedo.xlsx",
+			"secuencias": 46,
+			"decidir": 4,
+			"responder": 50,
+			"confirmar": 15,
+			"desviaciones": 52
+		},
+		{
+			"slug": "el-conde-de-sex",
+			"obra_id": "1a3f8f49-930a-4d3b-b69f-d5240c2c4d1e",
+			"titulo": "El conde de Sex",
+			"editor": "Rosa Bono",
+			"excel": "el-conde-de-sex.xlsx",
+			"secuencias": 28,
+			"decidir": 1,
+			"responder": 10,
+			"confirmar": 25,
+			"desviaciones": 0
+		},
+		{
+			"slug": "el-esclavo-del-demonio",
+			"obra_id": "443d1994-5ded-436e-a89f-54dcd538d732",
+			"titulo": "El esclavo del demonio",
+			"editor": "Blanca Ballester Morell",
+			"excel": "el-esclavo-del-demonio.xlsx",
+			"secuencias": 30,
+			"decidir": 2,
+			"responder": 2,
+			"confirmar": 22,
+			"desviaciones": 1
+		},
+		{
+			"slug": "el-magico-prodigioso",
+			"obra_id": "61cb3d77-169a-4217-833b-2eb4c1e8d365",
+			"titulo": "El mágico prodigioso",
+			"editor": "Emma González Mesas",
+			"excel": "el-magico-prodigioso.xlsx",
+			"secuencias": 21,
+			"decidir": 1,
+			"responder": 3,
+			"confirmar": 15,
+			"desviaciones": 4
+		},
+		{
+			"slug": "elisa-dido",
+			"obra_id": "0d055db5-61a8-4cc3-a015-5ab7b53720c2",
+			"titulo": "Elisa Dido",
+			"editor": "Blanca Ballester Morell",
+			"excel": "elisa-dido.xlsx",
+			"secuencias": 16,
+			"decidir": 0,
+			"responder": 19,
+			"confirmar": 7,
+			"desviaciones": 0
+		},
+		{
+			"slug": "la-gran-semiramis",
+			"obra_id": "1f58223c-a884-4cde-8721-37598f312cf4",
+			"titulo": "La gran Semíramis",
+			"editor": "Blanca Ballester Morell",
+			"excel": "la-gran-semiramis.xlsx",
+			"secuencias": 36,
+			"decidir": 2,
+			"responder": 36,
+			"confirmar": 31,
+			"desviaciones": 3
+		},
+		{
+			"slug": "la-tragedia-del-duque-de-berganza",
+			"obra_id": "9e7ec815-e9ae-4912-afa4-6b2a72ad93b2",
+			"titulo": "La tragedia del duque de Berganza",
+			"editor": "María Rosa Álvarez Sellers",
+			"excel": "la-tragedia-del-duque-de-berganza.xlsx",
+			"secuencias": 5,
+			"decidir": 2,
+			"responder": 3,
+			"confirmar": 2,
+			"desviaciones": 0
+		},
+		{
+			"slug": "valor-agravio-y-mujer",
+			"obra_id": "c464c237-35e5-4c40-a97e-83b58cb49079",
+			"titulo": "Valor, agravio y mujer",
+			"editor": "María Isabel Cuena",
+			"excel": "valor-agravio-y-mujer.xlsx",
+			"secuencias": 26,
+			"decidir": 4,
+			"responder": 6,
+			"confirmar": 14,
+			"desviaciones": 160
+		}
+	]
+}

@@ -111,7 +111,7 @@ export function informeDeObra(obra, fecha) {
 	w();
 	w(`Informe para ${obra.editor ?? 'la persona que anotó la obra'}, generado el ${fecha}. Se`);
 	w('regenera con `npm run migracion:informe`, así que no conviene editarlo a mano. Va acompañado');
-	w('de un Excel con el mismo nombre, que es lo que hay que devolver rellenado.');
+	w('de un Excel, que te llega por correo y es lo que hay que devolver rellenado.');
 	w();
 
 	w('## De qué va esto');
@@ -356,13 +356,10 @@ export function indiceDeObras(obras, fecha) {
 	w(
 		'Hay un informe por cada obra con secuencias del vocabulario anterior, escrito para la persona'
 	);
-	w(
-		'que la anotó. En [cuestionarios/](./cuestionarios/) están el mismo informe en HTML y el Excel'
-	);
-	w(
-		'que se le envía; las respuestas devueltas van a [respuestas/](./respuestas/). El procedimiento'
-	);
-	w('completo está en [el plan de migración](../plan-migracion-anotaciones.md).');
+	w('que la anotó, que lo lee en `/dashboard/migracion/<obra>`. En');
+	w('[cuestionarios/](./cuestionarios/) está el Excel que se le manda por correo, y las respuestas');
+	w('devueltas van a [respuestas/](./respuestas/). El procedimiento completo está en');
+	w('[el plan de migración](../plan-migracion-anotaciones.md).');
 	w();
 	w('| Obra | Editor | Secs | Directas | Rasgo | Ascend. | Decidir | Responder | Confirmar |');
 	w('| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |');

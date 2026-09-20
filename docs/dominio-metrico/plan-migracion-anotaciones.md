@@ -80,13 +80,16 @@ Las relaciones son las que la base admite: `metro` acepta `menor_que_norma`, `ma
 ## 5 · El procedimiento, obra por obra
 
 1. **Generar.** `npm run migracion:informe` escribe, por obra, el informe en Markdown
-   ([migracion/](./migracion/)), el mismo informe en HTML y el Excel
+   ([migracion/](./migracion/)), el mismo informe como fragmento HTML en
+   `src/lib/content/migracion/` —que es lo que sirve el dashboard— y el Excel
    ([migracion/cuestionarios/](./migracion/cuestionarios/)). El informe está redactado para quien
    anotó: qué se ha encontrado, qué se le pide, cómo contestar. El Excel tiene tres pestañas que
    rellenar —*Responder*, *Confirmar*, *Desviaciones*— y cada fila lleva una clave que el
    aplicador lee sin mirar el texto.
-2. **Enviar.** El HTML y el Excel, al editor asignado. Lo que no tenga claro lo pregunta; no deja
-   respuestas a medias.
+2. **Enviar.** El informe se lee en `/dashboard/migracion/<obra>`, que solo ven admin, el IP y el
+   editor asignado a esa obra; quien tiene informe lo ve anunciado en la portada del dashboard. El
+   Excel va por correo, porque es lo que hay que devolver. Lo que el editor no tenga claro lo
+   pregunta; no deja respuestas a medias.
 3. **Recibir.** El Excel devuelto se guarda en [migracion/respuestas/](./migracion/respuestas/) y
    se versiona: es el rastro de lo que se decidió.
 4. **Aplicar.** `npm run migracion:aplicar -- --obra <slug>` *(por escribir)* lee la vista y el

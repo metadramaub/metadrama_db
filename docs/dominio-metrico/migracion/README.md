@@ -3,9 +3,10 @@
 Generado el 2026-09-20 por `npm run migracion:informe`. **No editar a mano.**
 
 Hay un informe por cada obra con secuencias del vocabulario anterior, escrito para la persona
-que la anotó. En [cuestionarios/](./cuestionarios/) están el mismo informe en HTML y el Excel
-que se le envía; las respuestas devueltas van a [respuestas/](./respuestas/). El procedimiento
-completo está en [el plan de migración](../plan-migracion-anotaciones.md).
+que la anotó, que lo lee en `/dashboard/migracion/<obra>`. En
+[cuestionarios/](./cuestionarios/) está el Excel que se le manda por correo, y las respuestas
+devueltas van a [respuestas/](./respuestas/). El procedimiento completo está en
+[el plan de migración](../plan-migracion-anotaciones.md).
 
 | Obra | Editor | Secs | Directas | Rasgo | Ascend. | Decidir | Responder | Confirmar |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
