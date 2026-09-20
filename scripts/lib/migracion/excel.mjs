@@ -93,7 +93,9 @@ function validar(celda, formato, listas) {
 export async function escribirExcel(obra, ruta, fecha) {
 	const libro = new ExcelJS.Workbook();
 	libro.creator = 'Versología · npm run migracion:informe';
-	libro.created = new Date();
+	// La fecha del día, no el instante: dos ejecuciones el mismo día escriben el mismo fichero.
+	libro.created = new Date(`${fecha}T00:00:00Z`);
+	libro.modified = libro.created;
 
 	// ------------------------------------------------------------------ Instrucciones
 	const instrucciones = libro.addWorksheet('Instrucciones');
