@@ -1,8 +1,6 @@
 # Migración métrica · La tragedia del duque de Berganza
 
-Informe para María Rosa Álvarez Sellers, generado el 2026-09-20. Se
-regenera con `npm run migracion:informe`, así que no conviene editarlo a mano. Va acompañado
-de un Excel, que te llega por correo y es lo que hay que devolver rellenado.
+Informe para María Rosa Álvarez Sellers, generado el 2026-09-20. Leer antes de editar el Excel enviado por correo.
 
 ## De qué va esto
 

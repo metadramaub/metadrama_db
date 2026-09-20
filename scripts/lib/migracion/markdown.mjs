@@ -109,9 +109,10 @@ export function informeDeObra(obra, fecha) {
 
 	w(`# Migración métrica · ${obra.titulo}`);
 	w();
-	w(`Informe para ${obra.editor ?? 'la persona que anotó la obra'}, generado el ${fecha}. Se`);
-	w('regenera con `npm run migracion:informe`, así que no conviene editarlo a mano. Va acompañado');
-	w('de un Excel, que te llega por correo y es lo que hay que devolver rellenado.');
+	w(
+		`Informe para ${obra.editor ?? 'la persona que anotó la obra'}, generado el ${fecha}. ` +
+			'Leer antes de editar el Excel enviado por correo.'
+	);
 	w();
 
 	w('## De qué va esto');

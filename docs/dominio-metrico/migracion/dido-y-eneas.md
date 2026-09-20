@@ -1,8 +1,6 @@
 # Migración métrica · Dido y Eneas
 
-Informe para Gaston Gilabert, generado el 2026-09-20. Se
-regenera con `npm run migracion:informe`, así que no conviene editarlo a mano. Va acompañado
-de un Excel, que te llega por correo y es lo que hay que devolver rellenado.
+Informe para Gaston Gilabert, generado el 2026-09-20. Leer antes de editar el Excel enviado por correo.
 
 ## De qué va esto
 
