@@ -11,7 +11,7 @@
  */
 
 import ExcelJS from 'exceljs';
-import { OPCIONES_CONFIRMACION } from './modelo.mjs';
+import { OPCIONES_CONFIRMACION, ordenDeConfirmaciones } from './modelo.mjs';
 import { FORMATOS, instrucciones as textoDeInstrucciones } from './markdown.mjs';
 
 const RELLENO_CABECERA = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFE5E7EB' } };
@@ -172,11 +172,7 @@ export async function escribirExcel(obra, ruta, fecha) {
 	];
 	const confirmar = libro.addWorksheet('Confirmar');
 	cabecera(confirmar, columnasConfirmar);
-	// Por el verso en el que empieza cada pasaje: las fusiones se calculan al final y si no se
-	// ordenan aparecen sueltas detrás de todo.
-	for (const f of [...obra.cuestionario.confirmar].sort(
-		(a, b) => versoInicial(a) - versoInicial(b)
-	)) {
+	for (const f of ordenDeConfirmaciones(obra.cuestionario.confirmar)) {
 		const fila = confirmar.addRow({
 			versos: f.versos,
 			forma: f.forma,

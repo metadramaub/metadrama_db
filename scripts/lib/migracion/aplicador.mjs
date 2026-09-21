@@ -85,8 +85,14 @@ export function leerLaguna(texto) {
 }
 
 /**
- * «191–194: Cruzada · abab; 203–206: Cruzada · abab»: las estrofas que no siguen la respuesta
- * general. Una excepción sin rango o sin respuesta no se lee, y se dice cuál.
+ * «191-194: abab; 203-206: abab»: las estrofas que no siguen la respuesta general.
+ *
+ * Se escribe el esquema, no la etiqueta del desplegable, y la comparación con el repertorio no
+ * distingue mayúsculas: «abba» encuentra «Abrazada · abba» igual que el nombre entero. **Ninguna
+ * pregunta ofrece hoy dos disposiciones que solo se diferencien en el arte** —comprobado contra la
+ * base—, así que no hay dos opciones que se confundan por eso.
+ *
+ * Una excepción sin rango o sin respuesta no se lee, y se dice cuál.
  */
 export function leerExcepciones(texto) {
 	const partes = String(texto ?? '')

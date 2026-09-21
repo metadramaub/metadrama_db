@@ -52,14 +52,17 @@ describe('leerLaguna', () => {
 
 describe('leerExcepciones', () => {
 	it('lee las estrofas que se apartan de la respuesta general', () => {
-		const { excepciones, ilegibles } = leerExcepciones(
-			'191–194: Cruzada · abab; 203–206: Cruzada · abab'
-		);
+		const { excepciones, ilegibles } = leerExcepciones('191-194: abab; 203-206: abab');
 		expect(excepciones).toEqual([
-			{ v_ini: 191, v_fin: 194, respuesta: 'Cruzada · abab' },
-			{ v_ini: 203, v_fin: 206, respuesta: 'Cruzada · abab' }
+			{ v_ini: 191, v_fin: 194, respuesta: 'abab' },
+			{ v_ini: 203, v_fin: 206, respuesta: 'abab' }
 		]);
 		expect(ilegibles).toEqual([]);
+	});
+
+	it('y también la etiqueta entera del desplegable, por si alguien la copia', () => {
+		const { excepciones } = leerExcepciones('191–194: Cruzada · abab');
+		expect(excepciones).toEqual([{ v_ini: 191, v_fin: 194, respuesta: 'Cruzada · abab' }]);
 	});
 
 	it('devuelve lo que no entiende en vez de descartarlo en silencio', () => {

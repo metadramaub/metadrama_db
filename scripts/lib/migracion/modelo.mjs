@@ -13,21 +13,6 @@
 // ---------------------------------------------------------------------------
 
 /**
- * A partir de cuántas unidades una pregunta por estrofa se contesta **una vez para todas, con
- * excepciones**, en vez de una fila por estrofa.
- *
- * Solo llegan aquí las preguntas con más de dos opciones, que son las que no tienen una respuesta
- * dominante: la tipología de una quintilla cambia de estrofa en estrofa y contestarla «todas
- * aabba, salvo estas» sería pedirle al editor que resuma lo que precisamente hay que mirar una a
- * una. El tope está donde el Excel se hace inmanejable, no donde la pregunta cambia de naturaleza:
- * las series de quintillas más largas del corpus son de 35 estrofas.
- *
- * El esquema de una redondilla no pasa por aquí —abba o abab son dos opciones— y se contesta
- * siempre de una vez, con sus excepciones.
- */
-export const UMBRAL_FILAS_POR_UNIDAD = 40;
-
-/**
  * Qué se hace con cada caracterización por rango del vocabulario viejo. Es la tabla de §2bis del
  * plan, con lo que se comprobó en la base el 19 de septiembre de 2026: los nueve tipos en uso.
  *
@@ -489,6 +474,19 @@ export function formatoDeRespuesta(pregunta) {
  * diagnóstico. Devuelve tres listas —responder, confirmar, desviaciones— con filas del mismo
  * formato.
  */
+/**
+ * El orden en que se leen las confirmaciones: por el verso en que empieza cada pasaje y, cuando
+ * empiezan en el mismo, **la fusión antes que sus partes**, que es la que explica a las demás.
+ */
+export function ordenDeConfirmaciones(filas) {
+	const verso = (fila) => Number(String(fila.versos).split('–')[0]) || 0;
+	return [...filas].sort(
+		(a, b) =>
+			verso(a) - verso(b) ||
+			Number(String(b.clave).startsWith('F|')) - Number(String(a.clave).startsWith('F|'))
+	);
+}
+
 export function filasDeSecuencia(secuencia) {
 	const responder = [];
 	const confirmar = [];
@@ -593,7 +591,10 @@ export function filasDeSecuencia(secuencia) {
 			...base,
 			clave: claveArquitectura(secuencia.secuencia_id),
 			tipo: 'responder',
-			asunto: `El término «${secuencia.termino_legado}» no dice qué arquitectura de «${secuencia.forma_propuesta}» es. Indica cuál.`,
+			asunto:
+				`El término «${secuencia.termino_legado}» no dice qué arquitectura de ` +
+				`«${secuencia.forma_propuesta}» es. Indica cuál; las demás preguntas de este pasaje van ` +
+				'debajo.',
 			propuesta: '',
 			formato: {
 				modo: 'lista',
@@ -602,12 +603,14 @@ export function filasDeSecuencia(secuencia) {
 			},
 			pregunta: 'Arquitectura'
 		});
+		// Las preguntas que todas las arquitecturas de la forma hacen por igual. Van justo debajo de
+		// la de la arquitectura y hablan del mismo pasaje: sin decirlo parecen tres asuntos sueltos.
 		for (const pregunta of secuencia.preguntas_comunes ?? []) {
 			responder.push({
 				...base,
 				clave: claveRespuestaPorNombre(secuencia.secuencia_id, pregunta.nombre),
 				tipo: 'responder',
-				asunto: pregunta.nombre,
+				asunto: `${pregunta.nombre} · del mismo pasaje, sea cual sea su arquitectura`,
 				propuesta: '',
 				formato: formatoDeRespuesta(pregunta),
 				pregunta: pregunta.nombre
@@ -616,80 +619,54 @@ export function filasDeSecuencia(secuencia) {
 	}
 
 	const unidades = secuencia.unidades ?? [];
+	// **Una pregunta por estrofa se contesta una vez para todas, y las que difieran, aparte.** Aunque
+	// la tipología de una quintilla cambie de estrofa en estrofa, lo normal es que haya una dominante
+	// y unas pocas que se apartan: eso es exactamente lo que dice la respuesta con excepciones, y
+	// pedir treinta y cinco filas para escribir treinta y una veces lo mismo es pedir trabajo de más.
 	for (const pregunta of pendientes) {
 		const formato = formatoDeRespuesta(pregunta);
-		// Una fila por estrofa solo cuando son pocas **y la respuesta varía de verdad**: ocho
-		// tipologías de quintilla se eligen una a una; abba o abab en dieciséis redondillas se
-		// contesta «todas abba» y las excepciones.
-		const porUnidad =
-			!rangoEnDuda &&
-			pregunta.alcance === 'unidad' &&
-			unidades.length > 0 &&
-			unidades.length <= UMBRAL_FILAS_POR_UNIDAD &&
-			(pregunta.opciones ?? []).length > 2;
-		if (porUnidad) {
-			// Una pregunta que señala una sección —«Primera quintilla»— se responde una vez por
-			// unidad, y la unidad es la estrofa entera: decir «estrofa 3» de una copla real que mide
-			// diez versos haría pensar que la quintilla son esos diez.
-			const nombreUnidad = pregunta.seccion_id
-				? String(secuencia.forma_propuesta ?? 'unidad').toLowerCase()
-				: 'estrofa';
-			unidades.forEach((u, i) => {
-				responder.push({
-					...base,
-					clave: claveRespuestaUnidad(secuencia.secuencia_id, pregunta.grupo_eleccion_id, u.v_ini),
-					tipo: 'responder',
-					asunto: `${pregunta.nombre} · ${nombreUnidad} ${i + 1} (vv. ${u.v_ini}–${u.v_fin})`,
-					propuesta: '',
-					formato,
-					pregunta: pregunta.nombre,
-					unidad: u
-				});
-			});
-		} else {
-			// Con el rango en duda no se dice cuántas estrofas son, porque no se sabe: se dice que la
-			// respuesta vale para todas, que es lo que se le pide.
-			const cuantas =
-				pregunta.alcance === 'unidad' && unidades.length > 0
-					? rangoEnDuda
-						? ' · todas las estrofas'
-						: ` · ${plural(unidades.length, 'estrofa', 'estrofas')}`
-					: '';
-			// Escribir la medida o el esquema de una secuencia entera es contar sus versos uno a
-			// uno: decir cuántos son evita que el editor se encuentre con la sorpresa a media celda.
-			const cuantosVersos =
-				(formato.modo === 'medidas' || formato.modo === 'esquema') &&
-				pregunta.alcance === 'secuencia'
-					? ` (son ${secuencia.n_versos} versos)`
-					: '';
-			// Una pregunta sobre una parte que puede no estar —el remate de una canción— solo se
-			// contesta si el pasaje la lleva: en blanco no es una respuesta que falte.
-			const siLaLleva =
-				pregunta.seccion_id && Number(pregunta.seccion_repeticiones_min) === 0
-					? `. Solo si este pasaje lleva ${String(pregunta.seccion_nombre ?? 'esa parte').toLowerCase()}; si no, déjalo en blanco`
-					: '';
-			responder.push({
-				...base,
-				clave: claveRespuesta(secuencia.secuencia_id, pregunta.grupo_eleccion_id),
-				tipo: 'responder',
-				asunto: `${pregunta.nombre}${cuantas}`,
-				propuesta: '',
-				formato: {
-					...formato,
-					ayuda:
-						formato.ayuda +
-						cuantosVersos +
-						siLaLleva +
-						(pregunta.alcance === 'unidad' && unidades.length > 1
-							? '. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta)'
-							: '') +
-						(rangoEnDuda && pregunta.alcance === 'unidad'
-							? '. Cuántas estrofas son depende de lo que decidas arriba, así que contéstalo para todas'
-							: '')
-				},
-				pregunta: pregunta.nombre
-			});
-		}
+		// Con el rango en duda no se dice cuántas estrofas son, porque no se sabe: se dice que la
+		// respuesta vale para todas, que es lo que se le pide.
+		const cuantas =
+			pregunta.alcance === 'unidad' && unidades.length > 0
+				? rangoEnDuda
+					? ' · todas las estrofas'
+					: ` · ${plural(unidades.length, 'estrofa', 'estrofas')}`
+				: '';
+		// Escribir la medida o el esquema de una secuencia entera es contar sus versos uno a
+		// uno: decir cuántos son evita que el editor se encuentre con la sorpresa a media celda.
+		const cuantosVersos =
+			(formato.modo === 'medidas' || formato.modo === 'esquema') && pregunta.alcance === 'secuencia'
+				? ` (son ${secuencia.n_versos} versos)`
+				: '';
+		// Una pregunta sobre una parte que puede no estar —el remate de una canción— solo se
+		// contesta si el pasaje la lleva: en blanco no es una respuesta que falte.
+		const siLaLleva =
+			pregunta.seccion_id && Number(pregunta.seccion_repeticiones_min) === 0
+				? `. Solo si este pasaje lleva ${String(pregunta.seccion_nombre ?? 'esa parte').toLowerCase()}; si no, déjalo en blanco`
+				: '';
+		responder.push({
+			...base,
+			clave: claveRespuesta(secuencia.secuencia_id, pregunta.grupo_eleccion_id),
+			tipo: 'responder',
+			asunto: `${pregunta.nombre}${cuantas}`,
+			propuesta: '',
+			formato: {
+				...formato,
+				ayuda:
+					formato.ayuda +
+					cuantosVersos +
+					siLaLleva +
+					(pregunta.alcance === 'unidad' && unidades.length > 1
+						? '. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», ' +
+							`como «${pregunta.dimension === 'metro' ? '568-575: 7 11 7 7 11' : '191-194: abab'}»`
+						: '') +
+					(rangoEnDuda && pregunta.alcance === 'unidad'
+						? '. Cuántas estrofas son depende de lo que decidas arriba, así que contéstalo para todas'
+						: '')
+			},
+			pregunta: pregunta.nombre
+		});
 	}
 
 	// --- Lo derivado del término legado: se enseña para confirmar. Lo anotado no se pregunta.

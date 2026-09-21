@@ -281,6 +281,18 @@ export function cargarObras() {
 			const filas = filasDeFusion(tramo);
 			cuestionario.confirmar.push(...filas.confirmar);
 			cuestionario.responder.push(...filas.responder);
+
+			// **Las partes de un tramo que se funde ya no son secuencias: son sus estrofas.** Sus
+			// variedades se conservan, cada una en las suyas, y por eso se siguen confirmando; pero
+			// si la fila no dice de qué pasaje forman parte, parecen cuatro secuencias que siguen ahí.
+			const desde = Number(tramo[0].v_ini);
+			const hasta = Number(tramo[tramo.length - 1].v_fin);
+			const partes = new Set(tramo.map((p) => p.secuencia_id));
+			for (const fila of cuestionario.confirmar) {
+				if (!partes.has(fila.secuencia_id)) continue;
+				if (fila.clave.startsWith('F|')) continue;
+				fila.asunto = `${fila.asunto} · dentro del pasaje ${desde}–${hasta}`;
+			}
 		}
 
 		obras.push({

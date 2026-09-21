@@ -27,7 +27,7 @@ allí que la migración no dejó ningún hueco.
 ## Qué te pido
 
 - 4 decisiones sobre pasajes cuyo número de versos no encaja con la forma que tienen asignada.
-- 50 respuestas, en 26 secuencias, a preguntas que el vocabulario anterior no recogía.
+- 30 respuestas, en 26 secuencias, a preguntas que el vocabulario anterior no recogía.
 - 15 confirmaciones de respuestas que ya he rellenado yo.
 - 37 versos hipométricos o hipermétricos en los que puedes indicar el número de sílabas si lo tienes a mano. Es opcional.
 - 4 caracterizaciones que conviene que revises, porque su traducción al modelo nuevo no es automática.
@@ -56,36 +56,36 @@ deduce sola y solo hay que confirmarla.
 
 | Versos | Forma | Pregunta | Cómo contestar |
 | --- | --- | --- | --- |
-| 31–74 | Redondilla · Octosílaba | Esquema de rima · 11 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
-| 183–407 | Redondilla · Octosílaba | Esquema de rima · todas las estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta). Cuántas estrofas son depende de lo que decidas arriba, así que contéstalo para todas |
-| 491–502 | Redondilla · Octosílaba | Esquema de rima · 3 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
-| 517–532 | Redondilla · Octosílaba | Esquema de rima · 4 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
-| 571–622 | Redondilla · Octosílaba | Esquema de rima · 13 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
-| 707–786 | Redondilla · Octosílaba | Esquema de rima · 20 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
+| 31–74 | Redondilla · Octosílaba | Esquema de rima · 11 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
+| 183–407 | Redondilla · Octosílaba | Esquema de rima · todas las estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab». Cuántas estrofas son depende de lo que decidas arriba, así que contéstalo para todas |
+| 491–502 | Redondilla · Octosílaba | Esquema de rima · 3 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
+| 517–532 | Redondilla · Octosílaba | Esquema de rima · 4 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
+| 571–622 | Redondilla · Octosílaba | Esquema de rima · 13 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
+| 707–786 | Redondilla · Octosílaba | Esquema de rima · 20 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
 | 886–887 | Seguidilla · Simple | Vocales de la asonancia | Elige en el desplegable |
-| 888–1035 | Redondilla · Octosílaba | Esquema de rima · 37 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
-| 1096–1103 | Redondilla · Octosílaba | Esquema de rima · 2 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
+| 888–1035 | Redondilla · Octosílaba | Esquema de rima · 37 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
+| 1096–1103 | Redondilla · Octosílaba | Esquema de rima · 2 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
 | 1109–1112 | Redondilla · Octosílaba | Esquema de rima · 1 estrofa | Elige en el desplegable |
-| 1113–1162 | Copla real · Octosílaba consonante | Primera quintilla · Esquema de rima, en 5 estrofas (una fila por estrofa) | Elige en el desplegable |
-| 1113–1162 | Copla real · Octosílaba consonante | Segunda quintilla · Esquema de rima, en 5 estrofas (una fila por estrofa) | Elige en el desplegable |
-| 1113–1162 | Copla real · Octosílaba consonante | Pie quebrado, en 5 estrofas (una fila por estrofa) | Indica en qué versos cae el quebrado y cuántas sílabas tiene cada uno («3: 4, 8: 5») |
-| 1163–1250 | Redondilla · Octosílaba | Esquema de rima · 22 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
-| 1394–1465 | Redondilla · Octosílaba | Esquema de rima · 18 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
-| 1554–1609 | Redondilla · Octosílaba | Esquema de rima · 14 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
+| 1113–1162 | Copla real · Octosílaba consonante | Primera quintilla · Esquema de rima · 5 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
+| 1113–1162 | Copla real · Octosílaba consonante | Segunda quintilla · Esquema de rima · 5 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
+| 1113–1162 | Copla real · Octosílaba consonante | Pie quebrado · 5 estrofas | Indica en qué versos cae el quebrado y cuántas sílabas tiene cada uno («3: 4, 8: 5»). La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «568-575: 7 11 7 7 11» |
+| 1163–1250 | Redondilla · Octosílaba | Esquema de rima · 22 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
+| 1394–1465 | Redondilla · Octosílaba | Esquema de rima · 18 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
+| 1554–1609 | Redondilla · Octosílaba | Esquema de rima · 14 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
 | 1610–1659 | Romancillo · Heptasílabo | Vocales de la asonancia | Elige en el desplegable |
-| 1660–1727 | Redondilla · Octosílaba | Esquema de rima · 17 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
-| 1814–2013 | Redondilla · Octosílaba | Esquema de rima · 50 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
-| 2078–2177 | Redondilla · Octosílaba | Esquema de rima · 25 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
-| 2178–2227 | Copla real · Octosílaba consonante | Primera quintilla · Esquema de rima, en 5 estrofas (una fila por estrofa) | Elige en el desplegable |
-| 2178–2227 | Copla real · Octosílaba consonante | Segunda quintilla · Esquema de rima, en 5 estrofas (una fila por estrofa) | Elige en el desplegable |
-| 2228–2251 | Redondilla · Octosílaba | Esquema de rima · 6 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
-| 2364–2373 | Copla real · Octosílaba consonante | Primera quintilla · Esquema de rima · copla real 1 (vv. 2364–2373) | Elige en el desplegable |
-| 2364–2373 | Copla real · Octosílaba consonante | Segunda quintilla · Esquema de rima · copla real 1 (vv. 2364–2373) | Elige en el desplegable |
+| 1660–1727 | Redondilla · Octosílaba | Esquema de rima · 17 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
+| 1814–2013 | Redondilla · Octosílaba | Esquema de rima · 50 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
+| 2078–2177 | Redondilla · Octosílaba | Esquema de rima · 25 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
+| 2178–2227 | Copla real · Octosílaba consonante | Primera quintilla · Esquema de rima · 5 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
+| 2178–2227 | Copla real · Octosílaba consonante | Segunda quintilla · Esquema de rima · 5 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
+| 2228–2251 | Redondilla · Octosílaba | Esquema de rima · 6 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
+| 2364–2373 | Copla real · Octosílaba consonante | Primera quintilla · Esquema de rima · 1 estrofa | Elige en el desplegable |
+| 2364–2373 | Copla real · Octosílaba consonante | Segunda quintilla · Esquema de rima · 1 estrofa | Elige en el desplegable |
 | 2374–2377 | Seguidilla · Simple | Vocales de la asonancia | Elige en el desplegable |
-| 2378–2385 | Redondilla · Octosílaba | Esquema de rima · 2 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
+| 2378–2385 | Redondilla · Octosílaba | Esquema de rima · 2 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
 | 2386–2392 | Seguidilla · Compuesta | Vocales de la asonancia | Elige en el desplegable |
-| 2393–2416 | Redondilla · Octosílaba | Esquema de rima · 6 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
-| 2509–2588 | Redondilla · Octosílaba | Esquema de rima · 20 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
+| 2393–2416 | Redondilla · Octosílaba | Esquema de rima · 6 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
+| 2509–2588 | Redondilla · Octosílaba | Esquema de rima · 20 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», como «191-194: abab» |
 
 ## Respuestas ya rellenas
 
@@ -132,7 +132,7 @@ las que le tocan, sin dar una cifra. Están en la pestaña **Desviaciones**.
 
 El Excel tiene cinco pestañas. En tres de ellas hay que escribir —**Responder**, **Confirmar** y **Desviaciones**— y las otras dos son de consulta: **Secuencias**, con todo lo que tiene anotado tu obra, e **Instrucciones**, con este mismo texto. Solo hace falta escribir en las columnas de fondo amarillo, que son «Respuesta», «Excepciones / detalle» y «Comentario». El resto de columnas las genera el programa y las necesita tal cual para poder leer las respuestas, así que conviene no tocarlas.
 
-En **Responder** están las preguntas que no he podido contestar con lo que ya tenías anotado. Cada fila corresponde a un pasaje y a una pregunta. Cuando la celda tiene desplegable, basta con elegir; cuando no, la columna «Cómo contestar» explica el formato. Las preguntas que se refieren a cada estrofa aparecen de dos maneras: si son pocas estrofas, hay una fila por estrofa; si son muchas, hay una sola fila cuya respuesta vale para todas, y las estrofas que se aparten de ella se anotan en «Excepciones / detalle» indicando los versos y la respuesta, por ejemplo «191–194: Cruzada · abab; 203–206: Cruzada · abab».
+En **Responder** están las preguntas que no he podido contestar con lo que ya tenías anotado. Cada fila corresponde a un pasaje y a una pregunta, también cuando la pregunta es de cada estrofa: se contesta una vez y la respuesta vale para todas, y las estrofas que se aparten se anotan en «Excepciones / detalle» como «versos: esquema», por ejemplo «191-194: abab; 203-206: abab». Cuando la celda tiene desplegable, basta con elegir; cuando no, la columna «Cómo contestar» explica el formato.
 
 Las filas marcadas como **Decidir** señalan pasajes cuyo número de versos no encaja con la forma que tienen asignada. En ellas hay que elegir en el desplegable qué ocurre y explicarlo al lado. Si se trata de una laguna que no se contó, indica en qué verso está y cuántos versos faltan, porque los añadiré a la numeración y todo lo que viene después se desplazará. Si lo que falla es el rango, escribe el rango correcto.
 
@@ -147,7 +147,7 @@ Cuando no hay desplegable, los formatos son estos:
 - Medidas: el número de sílabas de cada verso, en orden y separados por espacios. Por ejemplo, «7 11 7 7 11 7 11 11».
 - Posiciones: en qué versos de la estrofa cae el quebrado y cuántas sílabas tiene cada uno, separados por comas. Por ejemplo, «3: 4, 8: 5» quiere decir que el verso 3 tiene cuatro sílabas y el 8 tiene cinco.
 - Esquema de rima: una letra por verso, en mayúscula si el verso es de arte mayor y un guion si queda suelto. Por ejemplo, «aBab-B».
-- Excepciones: los versos de la estrofa y la respuesta que le corresponde, separando cada estrofa con punto y coma. Por ejemplo, «191–194: Cruzada · abab; 203–206: Cruzada · abab».
+- Excepciones: los versos de la estrofa y su esquema, separados por dos puntos, y cada estrofa de la siguiente con punto y coma. Por ejemplo, «191-194: abab; 203-206: abab». El esquema se escribe como arriba: una letra por verso, en mayúscula si el verso es de arte mayor.
 
 ## Todas las secuencias
 

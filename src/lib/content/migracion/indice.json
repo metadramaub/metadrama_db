@@ -21,7 +21,7 @@
 			"excel": "dido-y-eneas.xlsx",
 			"secuencias": 24,
 			"decidir": 0,
-			"responder": 64,
+			"responder": 6,
 			"confirmar": 18,
 			"desviaciones": 7
 		},
@@ -33,7 +33,7 @@
 			"excel": "el-amor-al-uso.xlsx",
 			"secuencias": 28,
 			"decidir": 0,
-			"responder": 13,
+			"responder": 6,
 			"confirmar": 17,
 			"desviaciones": 7
 		},
@@ -45,7 +45,7 @@
 			"excel": "el-caballero-de-olmedo.xlsx",
 			"secuencias": 46,
 			"decidir": 4,
-			"responder": 50,
+			"responder": 30,
 			"confirmar": 15,
 			"desviaciones": 52
 		},
@@ -57,7 +57,7 @@
 			"excel": "el-conde-de-sex.xlsx",
 			"secuencias": 28,
 			"decidir": 1,
-			"responder": 9,
+			"responder": 2,
 			"confirmar": 25,
 			"desviaciones": 0
 		},
@@ -69,7 +69,7 @@
 			"excel": "el-esclavo-del-demonio.xlsx",
 			"secuencias": 30,
 			"decidir": 2,
-			"responder": 35,
+			"responder": 2,
 			"confirmar": 22,
 			"desviaciones": 1
 		},
@@ -105,7 +105,7 @@
 			"excel": "la-gran-semiramis.xlsx",
 			"secuencias": 36,
 			"decidir": 3,
-			"responder": 22,
+			"responder": 7,
 			"confirmar": 31,
 			"desviaciones": 3
 		},
