@@ -12,7 +12,7 @@
 
 import ExcelJS from 'exceljs';
 import { OPCIONES_CONFIRMACION, ordenDeConfirmaciones } from './modelo.mjs';
-import { FORMATOS, instrucciones as textoDeInstrucciones } from './markdown.mjs';
+import { instrucciones as textoDeInstrucciones } from './markdown.mjs';
 
 const RELLENO_CABECERA = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFE5E7EB' } };
 const RELLENO_RESPUESTA = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFEF9C3' } };
@@ -112,14 +112,6 @@ export async function escribirExcel(obra, ruta, fecha) {
 		const fila = instrucciones.addRow([sinMarcas(parrafo)]);
 		fila.alignment = { wrapText: true, vertical: 'top' };
 	}
-	instrucciones.addRow([]);
-	instrucciones.addRow(['Cuando no hay desplegable, los formatos son estos:']).font = {
-		bold: true
-	};
-	for (const linea of FORMATOS) {
-		instrucciones.addRow([linea]).alignment = { wrapText: true, vertical: 'top' };
-	}
-
 	const listas = new Listas(libro.addWorksheet('Listas', { state: 'veryHidden' }));
 
 	// ------------------------------------------------------------------ Responder

@@ -2,10 +2,10 @@
  * El modelo de la migración de una obra: lo que se sabe de cada secuencia legada, lo que falta y
  * lo que hay que preguntar. **Puro**: no consulta nada; recibe filas y devuelve estructuras.
  *
- * Lo consumen los tres escritores —Markdown, HTML y Excel— y lo consumirá el aplicador, que lee
- * las respuestas del Excel por las mismas claves que aquí se generan. Por eso las reglas que
- * traducen el vocabulario viejo viven aquí y no en un escritor: la tabla de caracterizaciones,
- * el umbral de filas por unidad, el formato de las claves.
+ * Lo consumen los tres escritores —Markdown, HTML y Excel— y lo consume el aplicador, que lee las
+ * respuestas del Excel por las mismas claves que aquí se generan. Por eso las reglas que traducen
+ * el vocabulario viejo viven aquí y no en un escritor: la tabla de caracterizaciones, el formato de
+ * las claves, cómo se dice cada pregunta.
  */
 
 // ---------------------------------------------------------------------------
@@ -659,7 +659,8 @@ export function filasDeSecuencia(secuencia) {
 					siLaLleva +
 					(pregunta.alcance === 'unidad' && unidades.length > 1
 						? '. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», ' +
-							`como «${pregunta.dimension === 'metro' ? '568-575: 7 11 7 7 11' : '191-194: abab'}»`
+							'una detrás de otra y separadas por punto y coma, como ' +
+							`«${pregunta.dimension === 'metro' ? '568-575: 7 11 7 7 11; 592-599: 7 7 11 11 7' : '191-194: abab; 203-206: abab'}»`
 						: '') +
 					(rangoEnDuda && pregunta.alcance === 'unidad'
 						? '. Cuántas estrofas son depende de lo que decidas arriba, así que contéstalo para todas'
