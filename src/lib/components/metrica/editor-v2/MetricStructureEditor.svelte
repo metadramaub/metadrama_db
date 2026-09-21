@@ -1240,8 +1240,24 @@
 					if (!elegidas.includes(String(opcion.opcion_eleccion_id))) continue;
 					const posicion = Number(opcion.posicion_unidad);
 					const silabas = Number(opcion.metro_silabas);
-					if (Number.isFinite(posicion) && Number.isFinite(silabas)) {
+					if (!Number.isFinite(silabas)) continue;
+					if (Number.isFinite(posicion)) {
 						medidas.set(posicion + desplazamiento, silabas);
+						continue;
+					}
+					/**
+					 * **Una medida sin posición vale para todos los versos de la parte.**
+					 *
+					 * Es lo que significa que el conjunto sea uniforme: se responde una vez y rige la
+					 * unidad entera. Se ignoraba —`Number(null)` no es finito— y la respuesta no
+					 * llegaba a la anotación: un pareado endecasílabo se leía «aa» en vez de «11A
+					 * 11A», porque sin saber cuánto mide el verso la letra no puede subir de caja.
+					 * No es cosa del pareado: son **doce** las preguntas de medida sin posiciones, y
+					 * once son del villancico y el zéjel —cabeza, mudanza, vuelta, enlace,
+					 * estribillo—, que arrastraban lo mismo sin que nadie lo hubiera mirado.
+					 */
+					for (let verso = 1; verso <= parte.v_fin - parte.v_ini + 1; verso += 1) {
+						medidas.set(desplazamiento + verso, silabas);
 					}
 				}
 			}
