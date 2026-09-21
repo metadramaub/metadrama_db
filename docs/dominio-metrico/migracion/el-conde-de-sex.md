@@ -35,7 +35,7 @@ allí que la migración no dejó ningún hueco.
 Son secuencias cuyo número de versos no se corresponde con la forma que tienen asignada.
 Aparecen en la pestaña **Responder** del Excel, marcadas como *Decidir*.
 
-- **vv. 2905–3093** · Romance · Octosílabo. Tiene 189 versos, y un romance octosílabo no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraré la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto. Las preguntas que dependen de cómo se reparta en estrofas te las haré cuando esto esté claro.
+- **vv. 2905–3093** · Romance · Octosílabo. Tiene 189 versos, y un romance octosílabo no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraré la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto.
 
 ## Preguntas pendientes
 

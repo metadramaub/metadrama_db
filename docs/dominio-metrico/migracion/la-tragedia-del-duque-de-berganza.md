@@ -27,7 +27,7 @@ allí que la migración no dejó ningún hueco.
 ## Qué te pido
 
 - 2 decisiones sobre pasajes cuyo número de versos no encaja con la forma que tienen asignada.
-- 2 respuestas, en 2 secuencias, a preguntas que el vocabulario anterior no recogía.
+- 3 respuestas, en 3 secuencias, a preguntas que el vocabulario anterior no recogía.
 - 2 confirmaciones de respuestas que ya he rellenado yo.
 
 ## Pasajes que no encajan
@@ -35,8 +35,8 @@ allí que la migración no dejó ningún hueco.
 Son secuencias cuyo número de versos no se corresponde con la forma que tienen asignada.
 Aparecen en la pestaña **Responder** del Excel, marcadas como *Decidir*.
 
-- **vv. 185–197** · Romance · Octosílabo. Tiene 13 versos, y un romance octosílabo no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraré la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto. Las preguntas que dependen de cómo se reparta en estrofas te las haré cuando esto esté claro.
-- **vv. 198–199** · Redondilla · Octosílaba. Solo tiene 2 versos, y una redondilla octosílaba necesita al menos 4. Puede que el rango esté mal o que se trate de otra forma. Hasta saber esto no te pregunto nada más de este pasaje.
+- **vv. 185–197** · Romance · Octosílabo. Tiene 13 versos, y un romance octosílabo no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraré la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto.
+- **vv. 198–199** · Redondilla · Octosílaba. Solo tiene 2 versos, y una redondilla octosílaba necesita al menos 4. Puede que el rango esté mal o que se trate de otra forma. Lo demás que te pregunto de este pasaje va contestado de una vez para todas sus estrofas, así que la respuesta vale igual si el rango cambia.
 
 ## Preguntas pendientes
 
@@ -54,6 +54,7 @@ deduce sola y solo hay que confirmarla.
 | --- | --- | --- | --- |
 | 1–64 | Redondilla · Octosílaba | Esquema de rima · 16 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
 | 129–184 | Redondilla · Octosílaba | Esquema de rima · 14 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
+| 198–199 | Redondilla · Octosílaba | Esquema de rima | Elige en el desplegable. Cuántas estrofas son depende de lo que decidas arriba, así que contéstalo para todas |
 
 ## Respuestas ya rellenas
 

@@ -35,7 +35,7 @@ allí que la migración no dejó ningún hueco.
 Son secuencias cuyo número de versos no se corresponde con la forma que tienen asignada.
 Aparecen en la pestaña **Responder** del Excel, marcadas como *Decidir*.
 
-- **vv. 2202–2459** · Quintilla · Octosílaba consonante. El subtipo 2277–2279 tiene 3 versos, cuando una estrofa de esta forma tiene 5. En ese punto hay anotada una laguna (2277–2279). Si los 2 versos que faltan no se contaron en la numeración, la estrofa iría de 2277 a 2281 y todo lo que viene después se desplazaría 2 versos. Las preguntas que dependen de cómo se reparta en estrofas te las haré cuando esto esté claro.
+- **vv. 2202–2459** · Quintilla · Octosílaba consonante. El subtipo 2277–2279 tiene 3 versos, cuando una estrofa de esta forma tiene 5. En ese punto hay anotada una laguna (2277–2279). Si los 2 versos que faltan no se contaron en la numeración, la estrofa iría de 2277 a 2281 y todo lo que viene después se desplazaría 2 versos.
 
 ## Preguntas pendientes
 

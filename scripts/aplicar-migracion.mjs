@@ -57,6 +57,16 @@ function argumentos(argv) {
 	return opciones;
 }
 
+/**
+ * Los motivos, sin repetir: una medida mal escrita se queja una vez por verso y por estrofa, y
+ * ciento veintiocho líneas iguales esconden lo que hay debajo.
+ */
+function agrupados(mensajes) {
+	const veces = new Map();
+	for (const mensaje of mensajes) veces.set(mensaje, (veces.get(mensaje) ?? 0) + 1);
+	return [...veces].map(([mensaje, n]) => (n === 1 ? mensaje : `${mensaje} (×${n})`));
+}
+
 const lit = (valor) =>
 	valor === null || valor === undefined ? 'null' : `'${String(valor).replaceAll("'", "''")}'`;
 const bool = (valor) => (valor === true ? 'true' : valor === false ? 'false' : 'null');
@@ -112,7 +122,7 @@ function guionDe(obra, plan, opciones) {
 	w();
 	if (pendientes.length === 0 && plan.pendientes.length === 0) w('Nada: la obra se migra entera.');
 	for (const anotacion of pendientes) {
-		for (const motivo of anotacion.motivos) w(`- ${motivo}`);
+		for (const motivo of agrupados(anotacion.motivos)) w(`- ${motivo}`);
 	}
 	for (const pendiente of plan.pendientes) w(`- ${pendiente}`);
 	w();
@@ -302,7 +312,7 @@ console.log(`  ${plan.correcciones.length} correcciones a las tablas legadas`);
 console.log(`  ${anotadas.length} secuencias se anotan`);
 console.log(`  ${pendientes.length} secuencias quedan pendientes`);
 for (const anotacion of pendientes) {
-	for (const motivo of anotacion.motivos) console.log(`      ${motivo}`);
+	for (const motivo of agrupados(anotacion.motivos)) console.log(`      ${motivo}`);
 }
 for (const pendiente of plan.pendientes) console.log(`      ${pendiente}`);
 console.log('');

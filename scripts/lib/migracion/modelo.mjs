@@ -499,15 +499,41 @@ export function filasDeSecuencia(secuencia) {
 		.join(' · ');
 	const base = { secuencia_id: secuencia.secuencia_id, versos, forma };
 
+	// --- Lo que falta por responder, y lo que se pregunta además por el término legado.
+	const respondidas = new Set((secuencia.respuestas ?? []).map((r) => r.grupo_eleccion_id));
+	const extra = new Set(PREGUNTAS_EXTRA_POR_TERMINO[secuencia.termino_legado] ?? []);
+	// **Una pregunta condicionada al régimen de la rima solo se hace si puede tocar.** Si lo que ya
+	// está respondido dice que el pasaje rima en consonante, sus vocales de la asonancia no existen y
+	// no se preguntan; si la rima aún no se sabe, se pregunta diciendo de qué depende.
+	const regimenes = new Set(
+		(secuencia.respuestas ?? [])
+			.map((r) => r.tipo_rima_id)
+			.filter(Boolean)
+			.map(String)
+	);
+	const pendientes = (secuencia.preguntas ?? []).filter(
+		(p) =>
+			!respondidas.has(p.grupo_eleccion_id) &&
+			(Number(p.selecciones_min) >= 1 || extra.has(p.nombre)) &&
+			!(
+				p.solo_si_tipo_rima_id &&
+				regimenes.size > 0 &&
+				!regimenes.has(String(p.solo_si_tipo_rima_id))
+			)
+	);
+
 	// --- Decisiones: el rango o las unidades no cuadran.
 	//
-	// **Lo que no cuadra se decide antes de preguntar nada más.** Las estrofas de una secuencia
-	// salen de repartir su rango, así que si el rango está en duda el reparto también: preguntar
-	// «la medida de la estrofa 7» sobre un reparto que sabemos falso es pedir un trabajo que luego
-	// hay que tirar. Y si además la forma puede ser otra —tiene menos versos que su mínimo—, no se
-	// le pregunta nada de esa forma.
+	// **Con el rango en duda, el reparto también.** Las estrofas de una secuencia salen de repartir
+	// su rango, así que preguntar «la medida de la estrofa 7» sobre un reparto que sabemos falso es
+	// pedir un trabajo que luego hay que tirar. Pero callarse obliga a una segunda vuelta: el editor
+	// arregla el rango y entonces nos falta su esquema, que no le pedimos.
+	//
+	// Así que no se calla: **se pregunta una vez para todas las estrofas**. «Todas abba» sigue
+	// siendo verdad tanto si al final son cincuenta y seis estrofas como cincuenta y siete, y el
+	// aplicador coloca esa respuesta sobre las estrofas que salen *después* de aplicar la
+	// corrección. Lo único que no se hace es la fila por estrofa, que sí depende del reparto.
 	const rangoEnDuda = Boolean(secuencia.diagnostico) || Boolean(secuencia.reparto_problema);
-	const formaEnDuda = secuencia.diagnostico?.tipo === 'minimo';
 	// Un pasaje que no se reparte en las partes de su forma se pregunta igual que un rango que no
 	// cuadra: **puede ser el rango, puede ser otra forma, y puede ser que el catálogo no admita algo
 	// que existe.** Lo que no puede es anotarse sin saberlo.
@@ -535,9 +561,10 @@ export function filasDeSecuencia(secuencia) {
 			tipo: 'decidir',
 			asunto:
 				secuencia.diagnostico.texto +
-				(formaEnDuda
-					? ' Hasta saber esto no te pregunto nada más de este pasaje.'
-					: ' Las preguntas que dependen de cómo se reparta en estrofas te las haré cuando esto esté claro.'),
+				(pendientes.length > 0
+					? ' Lo demás que te pregunto de este pasaje va contestado de una vez para todas sus' +
+						' estrofas, así que la respuesta vale igual si el rango cambia.'
+					: ''),
 			propuesta: '',
 			formato: {
 				modo: 'lista',
@@ -588,37 +615,14 @@ export function filasDeSecuencia(secuencia) {
 		}
 	}
 
-	// --- Lo que falta por responder, y lo que se pregunta además por el término legado.
-	const respondidas = new Set((secuencia.respuestas ?? []).map((r) => r.grupo_eleccion_id));
-	const extra = new Set(PREGUNTAS_EXTRA_POR_TERMINO[secuencia.termino_legado] ?? []);
-	// **Una pregunta condicionada al régimen de la rima solo se hace si puede tocar.** Si lo que ya
-	// está respondido dice que el pasaje rima en consonante, sus vocales de la asonancia no existen y
-	// no se preguntan; si la rima aún no se sabe, se pregunta diciendo de qué depende.
-	const regimenes = new Set(
-		(secuencia.respuestas ?? [])
-			.map((r) => r.tipo_rima_id)
-			.filter(Boolean)
-			.map(String)
-	);
-	const pendientes = (secuencia.preguntas ?? []).filter(
-		(p) =>
-			!respondidas.has(p.grupo_eleccion_id) &&
-			(Number(p.selecciones_min) >= 1 || extra.has(p.nombre)) &&
-			!(
-				p.solo_si_tipo_rima_id &&
-				regimenes.size > 0 &&
-				!regimenes.has(String(p.solo_si_tipo_rima_id))
-			)
-	);
 	const unidades = secuencia.unidades ?? [];
 	for (const pregunta of pendientes) {
-		if (formaEnDuda) continue;
-		if (rangoEnDuda && pregunta.alcance === 'unidad') continue;
 		const formato = formatoDeRespuesta(pregunta);
 		// Una fila por estrofa solo cuando son pocas **y la respuesta varía de verdad**: ocho
 		// tipologías de quintilla se eligen una a una; abba o abab en dieciséis redondillas se
 		// contesta «todas abba» y las excepciones.
 		const porUnidad =
+			!rangoEnDuda &&
 			pregunta.alcance === 'unidad' &&
 			unidades.length > 0 &&
 			unidades.length <= UMBRAL_FILAS_POR_UNIDAD &&
@@ -643,9 +647,13 @@ export function filasDeSecuencia(secuencia) {
 				});
 			});
 		} else {
+			// Con el rango en duda no se dice cuántas estrofas son, porque no se sabe: se dice que la
+			// respuesta vale para todas, que es lo que se le pide.
 			const cuantas =
 				pregunta.alcance === 'unidad' && unidades.length > 0
-					? ` · ${plural(unidades.length, 'estrofa', 'estrofas')}`
+					? rangoEnDuda
+						? ' · todas las estrofas'
+						: ` · ${plural(unidades.length, 'estrofa', 'estrofas')}`
 					: '';
 			// Escribir la medida o el esquema de una secuencia entera es contar sus versos uno a
 			// uno: decir cuántos son evita que el editor se encuentre con la sorpresa a media celda.
@@ -674,6 +682,9 @@ export function filasDeSecuencia(secuencia) {
 						siLaLleva +
 						(pregunta.alcance === 'unidad' && unidades.length > 1
 							? '. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta)'
+							: '') +
+						(rangoEnDuda && pregunta.alcance === 'unidad'
+							? '. Cuántas estrofas son depende de lo que decidas arriba, así que contéstalo para todas'
 							: '')
 				},
 				pregunta: pregunta.nombre

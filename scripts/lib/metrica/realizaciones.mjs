@@ -92,6 +92,17 @@ export function realizacionesDe(arq, vIni, vFin) {
 		return { unidades: [], problema: `las partes ocupan ${ocupado} y la unidad mide ${paso}` };
 	}
 
+	// **Las estrofas caben enteras o no caben.** Ciento veintisiete versos no son quince octavas y
+	// media: son un rango que está mal. Sin esto, la última unidad se salía del pasaje y la base la
+	// rechazaba —«la realización debe quedar dentro del rango de la secuencia»—, que es el mismo
+	// error dicho más tarde y peor.
+	if ((vFin - vIni + 1) % paso !== 0) {
+		return {
+			unidades: [],
+			problema: `${vFin - vIni + 1} versos no se reparten en estrofas de ${paso}`
+		};
+	}
+
 	const unidades = [];
 	let orden = 1;
 	for (let inicio = vIni; inicio <= vFin; inicio += paso) {

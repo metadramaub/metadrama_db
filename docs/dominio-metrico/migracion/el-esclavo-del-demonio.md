@@ -27,7 +27,7 @@ allí que la migración no dejó ningún hueco.
 ## Qué te pido
 
 - 2 decisiones sobre pasajes cuyo número de versos no encaja con la forma que tienen asignada.
-- 34 respuestas, en 1 secuencia, a preguntas que el vocabulario anterior no recogía.
+- 35 respuestas, en 2 secuencias, a preguntas que el vocabulario anterior no recogía.
 - 22 confirmaciones de respuestas que ya he rellenado yo.
 
 ## Pasajes que no encajan
@@ -35,8 +35,8 @@ allí que la migración no dejó ningún hueco.
 Son secuencias cuyo número de versos no se corresponde con la forma que tienen asignada.
 Aparecen en la pestaña **Responder** del Excel, marcadas como *Decidir*.
 
-- **vv. 641–790** · Quintilla · Octosílaba consonante. El subtipo 762–765 tiene 4 versos, cuando una estrofa de esta forma tiene 5. Hay versos sin subtipo: 761. Las preguntas que dependen de cómo se reparta en estrofas te las haré cuando esto esté claro.
-- **vv. 2936–3073** · Redondilla · Octosílaba. Sus 138 versos no encajan en una redondilla octosílaba, que se compone de unidades completas de 4 versos. Encajaría con 2 versos más (140) o con 2 versos menos (136). Las preguntas que dependen de cómo se reparta en estrofas te las haré cuando esto esté claro.
+- **vv. 641–790** · Quintilla · Octosílaba consonante. El subtipo 762–765 tiene 4 versos, cuando una estrofa de esta forma tiene 5. Hay versos sin subtipo: 761.
+- **vv. 2936–3073** · Redondilla · Octosílaba. Sus 138 versos no encajan en una redondilla octosílaba, que se compone de unidades completas de 4 versos. Encajaría con 2 versos más (140) o con 2 versos menos (136). Lo demás que te pregunto de este pasaje va contestado de una vez para todas sus estrofas, así que la respuesta vale igual si el rango cambia.
 
 ## Preguntas pendientes
 
@@ -53,6 +53,7 @@ deduce sola y solo hay que confirmarla.
 | Versos | Forma | Pregunta | Cómo contestar |
 | --- | --- | --- | --- |
 | 2766–2935 | Quintilla · Octosílaba consonante | Esquema de rima, en 34 estrofas (una fila por estrofa) | Elige en el desplegable |
+| 2936–3073 | Redondilla · Octosílaba | Esquema de rima · todas las estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta). Cuántas estrofas son depende de lo que decidas arriba, así que contéstalo para todas |
 
 ## Respuestas ya rellenas
 

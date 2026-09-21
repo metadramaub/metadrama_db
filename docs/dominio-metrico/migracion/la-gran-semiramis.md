@@ -27,7 +27,7 @@ allí que la migración no dejó ningún hueco.
 ## Qué te pido
 
 - 3 decisiones sobre pasajes cuyo número de versos no encaja con la forma que tienen asignada.
-- 18 respuestas, en 2 secuencias, a preguntas que el vocabulario anterior no recogía.
+- 22 respuestas, en 4 secuencias, a preguntas que el vocabulario anterior no recogía.
 - 31 confirmaciones de respuestas que ya he rellenado yo.
 
 ## Pasajes que no encajan
@@ -35,8 +35,8 @@ allí que la migración no dejó ningún hueco.
 Son secuencias cuyo número de versos no se corresponde con la forma que tienen asignada.
 Aparecen en la pestaña **Responder** del Excel, marcadas como *Decidir*.
 
-- **vv. 564–690** · Octava-lira · Heterométrica consonante. Sus 127 versos no encajan en una octava-lira heterométrica consonante, que se compone de unidades completas de 8 versos. Encajaría con 1 verso más (128) o con 7 versos menos (120). Las preguntas que dependen de cómo se reparta en estrofas te las haré cuando esto esté claro.
-- **vv. 1488–1502** · Soneto · Endecasílabo consonante. Sus 15 versos no encajan en un soneto endecasílabo consonante, que se compone de unidades completas de 14 versos. Encajaría con 13 versos más (28) o con 1 verso menos (14). Las preguntas que dependen de cómo se reparta en estrofas te las haré cuando esto esté claro.
+- **vv. 564–690** · Octava-lira · Heterométrica consonante. Sus 127 versos no encajan en una octava-lira heterométrica consonante, que se compone de unidades completas de 8 versos. Encajaría con 1 verso más (128) o con 7 versos menos (120). Lo demás que te pregunto de este pasaje va contestado de una vez para todas sus estrofas, así que la respuesta vale igual si el rango cambia.
+- **vv. 1488–1502** · Soneto · Endecasílabo consonante. Sus 15 versos no encajan en un soneto endecasílabo consonante, que se compone de unidades completas de 14 versos. Encajaría con 13 versos más (28) o con 1 verso menos (14).
 - **vv. 2022–2047** · Canción petrarquista · Regular de 13 versos. Sus 26 versos no se reparten en las partes que declara una canción petrarquista regular de 13 versos. Puede que el rango esté mal, que se trate de otra forma o que el catálogo no esté admitiendo algo que existe: dime lo que veas y lo consulto.
 
 ## Preguntas pendientes
@@ -53,9 +53,13 @@ deduce sola y solo hay que confirmarla.
 
 | Versos | Forma | Pregunta | Cómo contestar |
 | --- | --- | --- | --- |
+| 564–690 | Octava-lira · Heterométrica consonante | Esquema de rima · todas las estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta). Cuántas estrofas son depende de lo que decidas arriba, así que contéstalo para todas |
+| 564–690 | Octava-lira · Heterométrica consonante | Medida de cada verso · todas las estrofas | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11»). La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta). Cuántas estrofas son depende de lo que decidas arriba, así que contéstalo para todas |
 | 1642–1721 | Quintilla · Octosílaba consonante | Esquema de rima, en 16 estrofas (una fila por estrofa) | Elige en el desplegable |
 | 1979–2017 | Canción petrarquista · Regular de 13 versos | Remate o envío · Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11»). Solo si este pasaje lleva remate o envío; si no, déjalo en blanco |
 | 1979–2017 | Canción petrarquista · Regular de 13 versos | Remate o envío · Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B»). Solo si este pasaje lleva remate o envío; si no, déjalo en blanco |
+| 2022–2047 | Canción petrarquista · Regular de 13 versos | Remate o envío · Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11»). Solo si este pasaje lleva remate o envío; si no, déjalo en blanco. Cuántas estrofas son depende de lo que decidas arriba, así que contéstalo para todas |
+| 2022–2047 | Canción petrarquista · Regular de 13 versos | Remate o envío · Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B»). Solo si este pasaje lleva remate o envío; si no, déjalo en blanco. Cuántas estrofas son depende de lo que decidas arriba, así que contéstalo para todas |
 
 ## Respuestas ya rellenas
 
