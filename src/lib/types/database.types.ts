@@ -2429,6 +2429,7 @@ export type Database = {
           selecciones_max: number
           selecciones_min: number
           slug: string
+          solo_si_tipo_rima_id: string | null
           tipo_control: string
           updated_at: string
         }
@@ -2449,6 +2450,7 @@ export type Database = {
           selecciones_max?: number
           selecciones_min?: number
           slug: string
+          solo_si_tipo_rima_id?: string | null
           tipo_control?: string
           updated_at?: string
         }
@@ -2469,6 +2471,7 @@ export type Database = {
           selecciones_max?: number
           selecciones_min?: number
           slug?: string
+          solo_si_tipo_rima_id?: string | null
           tipo_control?: string
           updated_at?: string
         }
@@ -2507,6 +2510,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "estructuras_secciones"
             referencedColumns: ["seccion_id"]
+          },
+          {
+            foreignKeyName: "grupos_eleccion_metrica_solo_si_tipo_rima_id_fkey"
+            columns: ["solo_si_tipo_rima_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
           },
         ]
       }
@@ -2651,6 +2661,91 @@ export type Database = {
             isOneToOne: true
             referencedRelation: "vocabularios"
             referencedColumns: ["termino_id"]
+          },
+        ]
+      }
+      migracion_secuencias: {
+        Row: {
+          anotacion_id: string | null
+          correcciones: Json
+          migrada_en: string
+          migrada_por: string | null
+          notas: string | null
+          obra_id: string
+          origen_termino_id: string | null
+          respuestas: Json
+          resultado: string
+          secuencia_id: string
+          termino_legado: string | null
+        }
+        Insert: {
+          anotacion_id?: string | null
+          correcciones?: Json
+          migrada_en?: string
+          migrada_por?: string | null
+          notas?: string | null
+          obra_id: string
+          origen_termino_id?: string | null
+          respuestas?: Json
+          resultado: string
+          secuencia_id: string
+          termino_legado?: string | null
+        }
+        Update: {
+          anotacion_id?: string | null
+          correcciones?: Json
+          migrada_en?: string
+          migrada_por?: string | null
+          notas?: string | null
+          obra_id?: string
+          origen_termino_id?: string | null
+          respuestas?: Json
+          resultado?: string
+          secuencia_id?: string
+          termino_legado?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "migracion_secuencias_anotacion_id_fkey"
+            columns: ["anotacion_id"]
+            isOneToOne: false
+            referencedRelation: "anotaciones_metricas"
+            referencedColumns: ["anotacion_id"]
+          },
+          {
+            foreignKeyName: "migracion_secuencias_migrada_por_fkey"
+            columns: ["migrada_por"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "migracion_secuencias_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "migracion_secuencias_origen_termino_id_fkey"
+            columns: ["origen_termino_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "migracion_secuencias_secuencia_id_fkey"
+            columns: ["secuencia_id"]
+            isOneToOne: true
+            referencedRelation: "propuesta_metrica_secuencia"
+            referencedColumns: ["secuencia_id"]
+          },
+          {
+            foreignKeyName: "migracion_secuencias_secuencia_id_fkey"
+            columns: ["secuencia_id"]
+            isOneToOne: true
+            referencedRelation: "secuencias_metricas"
+            referencedColumns: ["secuencia_id"]
           },
         ]
       }
@@ -3720,6 +3815,7 @@ export type Database = {
           selecciones_max: number | null
           selecciones_min: number | null
           slug: string | null
+          solo_si_tipo_rima_id: string | null
           tipo_control: string | null
           updated_at: string | null
         }
@@ -3769,6 +3865,7 @@ export type Database = {
           selecciones_max: number | null
           selecciones_min: number | null
           slug: string | null
+          solo_si_tipo_rima_id: string | null
           tipo_control: string | null
           updated_at: string | null
         }
@@ -3826,6 +3923,10 @@ export type Database = {
     }
     Functions: {
       analisis_obra_publico_json: { Args: { p_obra_id: string }; Returns: Json }
+      anotacion_afirma_tipo_rima: {
+        Args: { p_anotacion: string; p_tipo: string }
+        Returns: boolean
+      }
       arquitectura_declara_norma: {
         Args: { p_arquitectura_id: string }
         Returns: boolean
@@ -3918,6 +4019,16 @@ export type Database = {
           p_version_esquema?: number
         }
         Returns: undefined
+      }
+      longitud_encaja_en_regla: {
+        Args: {
+          p_desplazamientos: number[]
+          p_minimo: number
+          p_modulo: number
+          p_residuo: number
+          p_versos: number
+        }
+        Returns: boolean
       }
       marcar_arquitectura_metrica_principal: {
         Args: { p_arquitectura_id: string }

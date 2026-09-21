@@ -350,7 +350,8 @@ function cargarCatalogo() {
 	const grupos = query(`
 		select
 			g.grupo_eleccion_id, g.arquitectura_id, g.nombre, g.dimension, g.alcance,
-			g.selecciones_min, g.selecciones_max, g.permite_aplicar_global
+			g.selecciones_min, g.selecciones_max, g.permite_aplicar_global,
+			g.solo_si_tipo_rima_id
 		from public.grupos_eleccion_metrica_resueltos g
 		where g.activo
 		order by g.arquitectura_id, g.orden
@@ -362,7 +363,7 @@ function cargarCatalogo() {
 	const opciones = query(`
 		select
 			o.opcion_eleccion_id, o.grupo_eleccion_id, o.nombre, o.orden, o.posicion_unidad,
-			coalesce(er.modalidad, 'admitida') as modalidad
+			coalesce(er.modalidad, 'admitida') as modalidad, er.tipo_rima_id
 		from public.opciones_eleccion_metrica o
 		left join public.esquemas_rima er on er.esquema_rima_id = o.esquema_rima_id
 		where o.activo
@@ -449,12 +450,32 @@ function sortea(opciones, rnd) {
 function respuestas(arq, unidades, rnd, medida) {
 	const secuencia = {};
 	const unidad = {};
-	for (const g of arq.grupos) {
-		if (g.opciones.length === 0) continue;
+	/**
+	 * **Una pregunta condicionada espera a saber si le toca.**
+	 *
+	 * Las vocales de la asonancia solo se responden cuando la rima elegida asuena, y en las doce
+	 * arquitecturas que admiten los dos regímenes eso no se sabe hasta haber sorteado la rima. Se
+	 * dejan para una segunda vuelta, con los regímenes ya afirmados delante; responderlas antes daba
+	 * la mitad de las veces una asonancia declarada sobre un pasaje consonante, que la base rechaza.
+	 */
+	const tiposDeRimaDichos = new Set();
+	const anota = (opcion) => {
+		if (opcion?.tipo_rima_id) tiposDeRimaDichos.add(String(opcion.tipo_rima_id));
+		return opcion;
+	};
+	const conOpciones = arq.grupos.filter((g) => g.opciones.length > 0);
+	const enOrden = [
+		...conOpciones.filter((g) => !g.solo_si_tipo_rima_id),
+		...conOpciones.filter((g) => g.solo_si_tipo_rima_id)
+	];
+	for (const g of enOrden) {
+		if (g.solo_si_tipo_rima_id && !tiposDeRimaDichos.has(String(g.solo_si_tipo_rima_id))) {
+			continue;
+		}
 		const obligatoria = Number(g.selecciones_min) > 0;
 		if (g.alcance === 'secuencia') {
 			if (!obligatoria && rnd() > 0.18) continue;
-			secuencia[g.nombre] = sortea(g.opciones, rnd).nombre;
+			secuencia[g.nombre] = anota(sortea(g.opciones, rnd)).nombre;
 			continue;
 		}
 		// `realizacion` es como `unidad`, pero la respuesta cae en una parte concreta: el estribillo
@@ -465,7 +486,7 @@ function respuestas(arq, unidades, rnd, medida) {
 			// eso el editor lo pregunta, pero en una comedia entera puede no aparecer ni una vez. La
 			// siembra anterior lo marcaba en una de cada seis secuencias, que era un disparate.
 			if (rnd() > 0.02) continue;
-			unidad[g.nombre] = { dominante: null, excepciones: { [sortea(g.opciones, rnd).nombre]: 1 } };
+			unidad[g.nombre] = { dominante: null, excepciones: { [anota(sortea(g.opciones, rnd)).nombre]: 1 } };
 			continue;
 		}
 		// Cuando las opciones van por posición dentro de la estrofa —los cuartetos y los tercetos del
@@ -522,17 +543,17 @@ function respuestas(arq, unidades, rnd, medida) {
 			}
 			continue;
 		}
-		const dominante = sortea(g.opciones, rnd);
+		const dominante = anota(sortea(g.opciones, rnd));
 		const excepciones = {};
 		const otras = g.opciones.filter((o) => o.opcion_eleccion_id !== dominante.opcion_eleccion_id);
 		if (otras.length > 0 && unidades > 3) {
 			// Una segunda disposición se lleva entre el 10 % y el 35 % de las estrofas, y a veces
 			// asoma una tercera en una o dos. Las proporciones salen de las quintillas ya anotadas.
-			const segunda = sortea(otras, rnd);
+			const segunda = anota(sortea(otras, rnd));
 			excepciones[segunda.nombre] = Math.max(1, Math.round(unidades * (0.1 + rnd() * 0.25)));
 			const terceras = otras.filter((o) => o.opcion_eleccion_id !== segunda.opcion_eleccion_id);
 			if (terceras.length > 0 && rnd() < 0.5) {
-				excepciones[sortea(terceras, rnd).nombre] = 1 + Math.floor(rnd() * 3);
+				excepciones[anota(sortea(terceras, rnd)).nombre] = 1 + Math.floor(rnd() * 3);
 			}
 		}
 		unidad[g.nombre] = { dominante: dominante.nombre, excepciones };

@@ -41,12 +41,24 @@
 			"jornada": 1,
 			"numero": 1,
 			"v_ini": 1,
-			"v_fin": 671
+			"v_fin": 196
 		},
 		{
 			"jornada": 1,
 			"numero": 2,
-			"v_ini": 672,
+			"v_ini": 197,
+			"v_fin": 492
+		},
+		{
+			"jornada": 1,
+			"numero": 3,
+			"v_ini": 493,
+			"v_fin": 719
+		},
+		{
+			"jornada": 1,
+			"numero": 4,
+			"v_ini": 720,
 			"v_fin": 995
 		},
 		{
@@ -114,7 +126,9 @@
 			"forma": "octava_real",
 			"arquitectura": "endecasilabica_consonante",
 			"unidades": 10,
-			"secuencia": {},
+			"secuencia": {
+				"Final acentual": "Esdrújulo"
+			},
 			"unidad": {
 				"Esquema de rima": {
 					"dominante": "ABABABCC",
@@ -136,7 +150,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 5
+						"Cruzada · abab": 3
 					}
 				}
 			}
@@ -165,9 +179,9 @@
 			"secuencia": {},
 			"unidad": {
 				"Esquema de rima": {
-					"dominante": "Abrazada · abba",
+					"dominante": "Cruzada · abab",
 					"excepciones": {
-						"Cruzada · abab": 17
+						"Abrazada · abba": 24
 					}
 				}
 			}
@@ -212,7 +226,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 5
+						"Cruzada · abab": 4
 					}
 				}
 			}
@@ -227,7 +241,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 84,
 			"secuencia": {
-				"Vocales de la asonancia": "i"
+				"Vocales de la asonancia": "a-o"
 			},
 			"unidad": {}
 		},
@@ -245,7 +259,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 9
+						"Cruzada · abab": 7
 					}
 				}
 			}
@@ -260,7 +274,7 @@
 			"arquitectura": "endecasilabica",
 			"unidades": 99,
 			"secuencia": {
-				"Organización en pareados": "Ocasionales",
+				"Organización en pareados": "Ninguna",
 				"Densidad de rima": "Ninguna"
 			},
 			"unidad": {}
@@ -303,9 +317,7 @@
 			"forma": "villancico",
 			"arquitectura": "estribillo_inicial",
 			"unidades": 1,
-			"secuencia": {
-				"Vocales de la asonancia": "e-a"
-			},
+			"secuencia": {},
 			"unidad": {
 				"Cabeza · Medida de los versos": {
 					"dominante": "Hexasílabo",
@@ -319,15 +331,15 @@
 					"dominante": "Mudanza en redondilla · abba · Consonante",
 					"excepciones": {}
 				},
-				"Enlace · Medida de los versos": {
-					"dominante": "Octosílabo",
-					"excepciones": {}
-				},
 				"Repetición del estribillo": {
-					"dominante": "Se repite entero",
+					"dominante": "Se repite solo en parte",
 					"excepciones": {}
 				},
 				"Vuelta · Medida de los versos": {
+					"dominante": "Hexasílabo",
+					"excepciones": {}
+				},
+				"Enlace · Medida de los versos": {
 					"dominante": "Octosílabo",
 					"excepciones": {}
 				}

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
 	import { errorDeCoherenciaDeRasgos } from './coherencia-rasgos';
+	import { preguntaAplica, tiposDeRimaAfirmados } from './regimen-respondido';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import SegmentedChoice from '$lib/components/ui/segmented-choice.svelte';
 	import type {
@@ -208,17 +209,61 @@
 	 * si estuviera declarada. La regla vive **una vez**, en el catálogo, así que el editor, la
 	 * ficha y el demarcador no pueden volver a separarse.
 	 */
+	/**
+	 * Los tipos de rima que afirma lo respondido, para las preguntas que dependen de ellos.
+	 *
+	 * Las vocales de la asonancia son hoy las únicas: obligatorias en cuanto la rima asuena,
+	 * inexistentes cuando rima en consonante. Lo declara el catálogo en `solo_si_tipo_rima_id` y lo
+	 * exige `guardar_anotacion_metrica`; aquí solo se obedece.
+	 */
+	const tiposDeRimaDichos = $derived(
+		tiposDeRimaAfirmados({
+			elecciones: draft.elecciones,
+			groups: props.catalog.domain.choiceGroups.filter(
+				(row: MetricCatalogDomainRow) => row.arquitectura_id === draft.arquitectura_id
+			),
+			options: props.catalog.domain.choiceOptions,
+			rhymePatterns: props.catalog.domain.rhymePatterns,
+			rhymeTypes: props.catalog.rhymeTypes ?? []
+		})
+	);
 	const choiceGroupsForDraft = $derived(
 		props.catalog.domain.choiceGroups
 			.filter(
 				(row: MetricCatalogDomainRow) =>
-					row.arquitectura_id === draft.arquitectura_id && row.activo
+					row.arquitectura_id === draft.arquitectura_id &&
+					row.activo &&
+					preguntaAplica(row, tiposDeRimaDichos)
 			)
 			.sort(
 				(a: MetricCatalogDomainRow, b: MetricCatalogDomainRow) =>
 					Number(a.orden ?? 999) - Number(b.orden ?? 999)
 			)
 	);
+	/**
+	 * **Una respuesta a una pregunta que ha dejado de aplicar se retira.**
+	 *
+	 * Quien declara las vocales y después corrige la rima a consonante dejaría un dato colgado
+	 * detrás de una pregunta que ya no se enseña, y la base rechazaría el guardado con un error que
+	 * desde la pantalla no habría manera de arreglar. Se quita al vuelo, que es lo que el editor
+	 * haría a mano si pudiera verlo.
+	 */
+	$effect(() => {
+		const condicionadas = props.catalog.domain.choiceGroups.filter(
+			(row: MetricCatalogDomainRow) =>
+				row.arquitectura_id === draft.arquitectura_id &&
+				row.solo_si_tipo_rima_id &&
+				!preguntaAplica(row, tiposDeRimaDichos)
+		);
+		if (condicionadas.length === 0) return;
+		const huerfanas = new Set(
+			condicionadas.map((row: MetricCatalogDomainRow) => String(row.grupo_eleccion_id))
+		);
+		const quedan = draft.elecciones.filter(
+			(choice: MetricChoiceDraft) => !huerfanas.has(choice.grupo_eleccion_id)
+		);
+		if (quedan.length !== draft.elecciones.length) draft.elecciones = quedan;
+	});
 	const sequenceChoiceGroups = $derived(
 		choiceGroupsForDraft.filter((row: MetricCatalogDomainRow) => row.alcance === 'secuencia')
 	);
@@ -466,8 +511,29 @@
 			selectedChoiceIds(groupId, null).length === 0 && !choiceTextValue(groupId, null).trim()
 		);
 	};
+	/**
+	 * **Una pregunta que depende de otra va detrás de ella.**
+	 *
+	 * Las de la secuencia se pintan arriba, antes del reparto, porque hablan del pasaje entero. Las
+	 * vocales de la asonancia también son de la secuencia, pero **no se pueden contestar hasta haber
+	 * dicho la rima**, que se responde más abajo: puestas arriba, aparecían encabezando la lista en
+	 * cuanto se elegía «asonante», por encima de la respuesta que las ha hecho aparecer. Bajan al
+	 * mismo sitio donde vive una licencia ya activada —después del reparto—, que es donde se lee como
+	 * lo que es: una consecuencia de lo que acabas de responder.
+	 */
+	const esCondicionadaPorLaRima = (group: MetricCatalogDomainRow) =>
+		Boolean(group.solo_si_tipo_rima_id);
 	const preguntasDeSecuencia = $derived(
-		sequenceChoiceGroups.filter((group: MetricCatalogDomainRow) => !esLicenciaDeSecuencia(group))
+		sequenceChoiceGroups.filter(
+			(group: MetricCatalogDomainRow) =>
+				!esLicenciaDeSecuencia(group) && !esCondicionadaPorLaRima(group)
+		)
+	);
+	/**
+	 * Las condicionadas que hoy aplican. `choiceGroupsForDraft` ya ha dejado fuera las que no.
+	 */
+	const condicionadasDeSecuencia = $derived(
+		sequenceChoiceGroups.filter(esCondicionadaPorLaRima)
 	);
 	/**
 	 * Una licencia activada sigue en el pie donde se añadió. Antes pasaba a
@@ -1708,7 +1774,9 @@
 							onChoicesChange={(choices) => (draft.elecciones = choices)}
 							onUnitsRemoved={removeStructuredReferences}
 							preguntasDeSecuencia={preguntasDeSecuencia.length > 0 ? camposDeLaSecuencia : undefined}
-							rasgosActivosDeSecuencia={licenciasActivasDeSecuencia.length > 0
+							rasgosActivosDeSecuencia={licenciasActivasDeSecuencia.length +
+								condicionadasDeSecuencia.length >
+							0
 								? licenciasActivasDeLaSecuencia
 								: undefined}
 							licenciasDeSecuencia={rasgosQueAdmite.length > 0 ? licenciasDeLaSecuencia : undefined}
@@ -2074,18 +2142,25 @@
 
 {#snippet licenciasActivasDeLaSecuencia()}
 	<div class="space-y-3">
-		{#each licenciasActivasDeSecuencia as group (String(group.grupo_eleccion_id))}
+		<!--
+			Las condicionadas van primero y **sin «Quitar»**: no se han añadido, las ha traído la
+			respuesta de rima, y son obligatorias mientras esa respuesta siga diciendo lo que dice.
+			Para hacerlas desaparecer se cambia la rima, que es de donde vienen.
+		-->
+		{#each [...condicionadasDeSecuencia, ...licenciasActivasDeSecuencia] as group (String(group.grupo_eleccion_id))}
 			<div class="flex items-start justify-between gap-3">
 				<div class="min-w-0 flex-1">
 					{@render campoDeLaSecuencia(group)}
 				</div>
-				<button
-					type="button"
-					class="link-action shrink-0 text-xs"
-					onclick={() => quitarLicenciaDeSecuencia(group)}
-				>
-					Quitar
-				</button>
+				{#if !esCondicionadaPorLaRima(group)}
+					<button
+						type="button"
+						class="link-action shrink-0 text-xs"
+						onclick={() => quitarLicenciaDeSecuencia(group)}
+					>
+						Quitar
+					</button>
+				{/if}
 			</div>
 		{/each}
 	</div>

@@ -41,12 +41,24 @@
 			"jornada": 1,
 			"numero": 1,
 			"v_ini": 1,
-			"v_fin": 481
+			"v_fin": 236
 		},
 		{
 			"jornada": 1,
 			"numero": 2,
-			"v_ini": 482,
+			"v_ini": 237,
+			"v_fin": 422
+		},
+		{
+			"jornada": 1,
+			"numero": 3,
+			"v_ini": 423,
+			"v_fin": 677
+		},
+		{
+			"jornada": 1,
+			"numero": 4,
+			"v_ini": 678,
 			"v_fin": 935
 		},
 		{
@@ -163,7 +175,9 @@
 			"forma": "pareado",
 			"arquitectura": "cualquier_medida",
 			"unidades": 1,
-			"secuencia": {},
+			"secuencia": {
+				"Vocales de la asonancia": "o-a"
+			},
 			"unidad": {
 				"Medida de los versos": {
 					"dominante": "Octosílabo",
@@ -184,7 +198,9 @@
 			"forma": "octava_real",
 			"arquitectura": "endecasilabica_consonante",
 			"unidades": 13,
-			"secuencia": {},
+			"secuencia": {
+				"Final acentual": "Esdrújulo"
+			},
 			"unidad": {
 				"Esquema de rima": {
 					"dominante": "ABABABCC",
@@ -373,7 +389,9 @@
 			"forma": "pareado",
 			"arquitectura": "cualquier_medida",
 			"unidades": 1,
-			"secuencia": {},
+			"secuencia": {
+				"Vocales de la asonancia": "e-a"
+			},
 			"unidad": {
 				"Medida de los versos": {
 					"dominante": "Heptasílabo",
@@ -454,8 +472,8 @@
 			"secuencia": {
 				"Organización en pareados": "Ocasionales",
 				"Dístico final": "Dístico final",
-				"Encadenamiento interior": "Encadenamiento interior",
-				"Densidad de rima": "Ninguna"
+				"Final acentual": "Esdrújulo",
+				"Densidad de rima": "Esporádica"
 			},
 			"unidad": {}
 		},
@@ -469,7 +487,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 36,
 			"secuencia": {
-				"Vocales de la asonancia": "e-o"
+				"Vocales de la asonancia": "e-e"
 			},
 			"unidad": {}
 		},
@@ -484,7 +502,7 @@
 			"unidades": 31,
 			"secuencia": {
 				"Organización en pareados": "Ocasionales",
-				"Densidad de rima": "Ninguna"
+				"Densidad de rima": "Esporádica"
 			},
 			"unidad": {}
 		},
@@ -502,7 +520,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 3
+						"Cruzada · abab": 6
 					}
 				}
 			}
@@ -517,7 +535,7 @@
 			"arquitectura": "octosilabica",
 			"unidades": 2,
 			"secuencia": {
-				"Vocales de la asonancia": "a-a"
+				"Vocales de la asonancia": "a-e"
 			},
 			"unidad": {}
 		},
@@ -535,7 +553,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 8
+						"Cruzada · abab": 7
 					}
 				}
 			}
@@ -552,7 +570,7 @@
 			"secuencia": {},
 			"unidad": {
 				"Primera quintilla · Esquema de rima": {
-					"dominante": "Tipología 2 · abbab",
+					"dominante": "Tipología 8 · abbba",
 					"excepciones": {}
 				},
 				"Segunda quintilla · Esquema de rima": {
@@ -623,7 +641,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 25
+						"Cruzada · abab": 16
 					}
 				}
 			}
@@ -700,9 +718,9 @@
 			"secuencia": {},
 			"unidad": {
 				"Esquema de rima": {
-					"dominante": "Tipología 3 · abaab",
+					"dominante": "Tipología 4 · aabab",
 					"excepciones": {
-						"Tipología 4 · aabab": 1
+						"Tipología 1 · ababa": 2
 					}
 				}
 			}
@@ -719,7 +737,7 @@
 			"secuencia": {},
 			"unidad": {
 				"Esquema de rima": {
-					"dominante": "Abrazada · abba",
+					"dominante": "Cruzada · abab",
 					"excepciones": {}
 				}
 			}
@@ -736,9 +754,9 @@
 			"secuencia": {},
 			"unidad": {
 				"Esquema de rima": {
-					"dominante": "Tipología 1 · ababa",
+					"dominante": "Tipología 2 · abbab",
 					"excepciones": {
-						"Tipología 5 · aabba": 6
+						"Tipología 1 · ababa": 5
 					}
 				}
 			}

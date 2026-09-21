@@ -39,6 +39,13 @@ const filas = query(`
 		g.permite_aplicar_global,
 		g.selecciones_min,
 		g.selecciones_max,
+		g.solo_si_tipo_rima_id,
+		-- Si alguna disposición de la arquitectura puede afirmar el régimen del que depende.
+		exists (
+			select 1 from public.esquemas_rima er
+			where er.arquitectura_id = a.arquitectura_id
+				and er.tipo_rima_id = g.solo_si_tipo_rima_id
+		) as regimen_admitido,
 		coalesce(s.slug, '') as seccion,
 		coalesce(s.repeticiones_max::text, 'inf') as seccion_repeticiones_max,
 		(
@@ -128,6 +135,13 @@ const DEFECTOS = [
 			Number(p.selecciones_min ?? 0) > 1 &&
 			Number(p.opciones) > 0 &&
 			Number(p.opciones_por_posicion) === 0
+	},
+	{
+		id: 'E6',
+		titulo: 'Condicionada a un régimen que su arquitectura no admite',
+		criterio:
+			'`solo_si_tipo_rima_id` hace que una pregunta exista solo cuando la rima respondida afirma ese régimen. Si la arquitectura no puede afirmarlo —porque fija otro arriba o porque ninguna de sus disposiciones lo lleva—, la pregunta **no se hace nunca**: no da error, simplemente desaparece sin que nadie lo note. Es el modo en que una condición se convierte en un dato que ya no se recoge.',
+		detectar: (p) => Boolean(p.solo_si_tipo_rima_id) && !p.regimen_admitido
 	}
 ];
 

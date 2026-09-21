@@ -149,7 +149,7 @@ Sin incidencias.
 | --- | --- |
 | Novena-lira · heterometrica_consonante | esquema_rima · rima · 0 opciones · alcance unidad |
 
-### E4 · Pregunta obligatoria que el editor no puede saltarse — 110
+### E4 · Pregunta obligatoria que el editor no puede saltarse — 120
 
 > Con `selecciones_min` mayor que cero la secuencia no se guarda sin responderla. Es legítimo, pero conviene tenerlas contadas: son el suelo de trabajo de cada forma.
 
@@ -188,21 +188,28 @@ Sin incidencias.
 | Novena-lira · heterometrica_consonante | esquema_rima · rima · 0 opciones · alcance unidad |
 | Novena-lira · heterometrica_consonante | medida_de_cada_verso · metro · 18 opciones · alcance unidad |
 | Octava aguda · decasilabica | esquema_rima · rima · 2 opciones · alcance unidad |
+| Octava aguda · decasilabica | vocales_asonancia · rasgo · 5 opciones · alcance secuencia |
 | Octava aguda · endecasilabica | esquema_rima · rima · 2 opciones · alcance unidad |
+| Octava aguda · endecasilabica | vocales_asonancia · rasgo · 5 opciones · alcance secuencia |
 | Octava aguda · heptasilabica | esquema_rima · rima · 2 opciones · alcance unidad |
+| Octava aguda · heptasilabica | vocales_asonancia · rasgo · 5 opciones · alcance secuencia |
 | Octava aguda · hexasilabica | esquema_rima · rima · 2 opciones · alcance unidad |
+| Octava aguda · hexasilabica | vocales_asonancia · rasgo · 5 opciones · alcance secuencia |
 | Octava aguda · octosilabica | esquema_rima · rima · 2 opciones · alcance unidad |
+| Octava aguda · octosilabica | vocales_asonancia · rasgo · 5 opciones · alcance secuencia |
 | Octava aguda · pentasilabica | esquema_rima · rima · 2 opciones · alcance unidad |
+| Octava aguda · pentasilabica | vocales_asonancia · rasgo · 5 opciones · alcance secuencia |
 | Octava real · endecasilabica_consonante | esquema_rima · rima · 1 opciones · alcance unidad |
 | Octava-lira · heterometrica_consonante | disposicion_rima · rima · 2 opciones · alcance unidad |
 | Octava-lira · heterometrica_consonante | medida_de_cada_verso · metro · 16 opciones · alcance unidad |
 | Oncena · quintilla_sextilla | esquema_rima · rima · 8 opciones · alcance unidad |
 | Oncena · quintilla_sextilla | esquema_rima · rima · 4 opciones · alcance unidad |
-| Oncena · sextilla_quintilla | esquema_rima · rima · 4 opciones · alcance unidad |
 | Oncena · sextilla_quintilla | esquema_rima · rima · 8 opciones · alcance unidad |
+| Oncena · sextilla_quintilla | esquema_rima · rima · 4 opciones · alcance unidad |
 | Pareado · alirado | medida_del_pareado · metro · 4 opciones · alcance unidad |
 | Pareado · cualquier_medida | medida_del_pareado · metro · 9 opciones · alcance unidad |
 | Pareado · cualquier_medida | tipo_de_rima · rima · 2 opciones · alcance unidad |
+| Pareado · cualquier_medida | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
 | Quintilla · heptasilabica | esquema_rima · rima · 8 opciones · alcance unidad |
 | Quintilla · hexasilabica | esquema_rima · rima · 8 opciones · alcance unidad |
 | Quintilla · octosilabica_consonante | esquema_rima · rima · 8 opciones · alcance unidad |
@@ -247,7 +254,9 @@ Sin incidencias.
 | Soneto · endecasilabica_consonante | esquema_tercetos · rima · 4 opciones · alcance unidad |
 | Terceto · endecasilabica_consonante | disposicion_rima · rima · 2 opciones · alcance unidad |
 | Terceto · hexasilabica | esquema_rima · rima · 4 opciones · alcance unidad |
+| Terceto · hexasilabica | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
 | Terceto · octosilabica | esquema_rima · rima · 4 opciones · alcance unidad |
+| Terceto · octosilabica | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
 | Versificación irregular · arte_mayor | medida_de_cada_verso · metro · 0 opciones · alcance secuencia |
 | Versificación irregular · arte_mayor | rima_observada · rima · 0 opciones · alcance secuencia |
 | Versificación irregular · arte_menor | medida_de_cada_verso · metro · 0 opciones · alcance secuencia |
@@ -258,6 +267,7 @@ Sin incidencias.
 | Villancico · estribillo_inicial | medida_cabeza · metro · 2 opciones · alcance unidad |
 | Villancico · estribillo_inicial | medida_mudanza · metro · 2 opciones · alcance unidad |
 | Villancico · estribillo_inicial | rima_mudanza · rima · 3 opciones · alcance unidad |
+| Villancico · estribillo_inicial | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
 | Villancico · estribillo_inicial | medida_enlace · metro · 2 opciones · alcance unidad |
 | Villancico · estribillo_inicial | medida_vuelta · metro · 2 opciones · alcance unidad |
 | Villancico · estribillo_inicial | represa_estribillo · repeticion · 2 opciones · alcance realizacion |
@@ -269,6 +279,12 @@ Sin incidencias.
 ### E5 · Pide más respuestas de las que su repertorio distingue — 0
 
 > Una pregunta que exige varias respuestas solo puede contestarse si sus opciones se distinguen entre sí, y lo que las distingue es la posición: «Verso 1 · Heptasílabo» y «Verso 2 · Endecasílabo» son dos respuestas, «Endecasílabo» marcado dos veces no es ninguna. Con el repertorio sin posiciones, **un pasaje isométrico no se puede anotar**: el editor no deja guardar y `guardar_anotacion_metrica` rechaza la secuencia entera, así que al recargar la respuesta ha desaparecido. Le pasó al pareado de cualquier medida entre el 22 y el 23 de septiembre de 2026: las opciones se derivan del esquema y se volvieron uniformes solas, pero `selecciones_min` es una columna guardada y se quedó en dos.
+
+Sin incidencias.
+
+### E6 · Condicionada a un régimen que su arquitectura no admite — 0
+
+> `solo_si_tipo_rima_id` hace que una pregunta exista solo cuando la rima respondida afirma ese régimen. Si la arquitectura no puede afirmarlo —porque fija otro arriba o porque ninguna de sus disposiciones lo lleva—, la pregunta **no se hace nunca**: no da error, simplemente desaparece sin que nadie lo note. Es el modo en que una condición se convierte en un dato que ya no se recoge.
 
 Sin incidencias.
 

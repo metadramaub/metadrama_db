@@ -59,24 +59,24 @@
 			"jornada": 2,
 			"numero": 1,
 			"v_ini": 952,
-			"v_fin": 979
+			"v_fin": 966
 		},
 		{
 			"jornada": 2,
 			"numero": 2,
-			"v_ini": 980,
-			"v_fin": 1106
+			"v_ini": 967,
+			"v_fin": 1115
 		},
 		{
 			"jornada": 2,
 			"numero": 3,
-			"v_ini": 1107,
-			"v_fin": 1147
+			"v_ini": 1116,
+			"v_fin": 1177
 		},
 		{
 			"jornada": 2,
 			"numero": 4,
-			"v_ini": 1148,
+			"v_ini": 1178,
 			"v_fin": 1687
 		},
 		{
@@ -95,12 +95,12 @@
 			"jornada": 3,
 			"numero": 2,
 			"v_ini": 2096,
-			"v_fin": 2664
+			"v_fin": 2573
 		},
 		{
 			"jornada": 3,
 			"numero": 3,
-			"v_ini": 2665,
+			"v_ini": 2574,
 			"v_fin": 2675
 		},
 		{
@@ -351,7 +351,7 @@
 			"unidades": 62,
 			"secuencia": {
 				"Organización en pareados": "Ninguna",
-				"Densidad de rima": "Esporádica"
+				"Densidad de rima": "Ninguna"
 			},
 			"unidad": {}
 		},
@@ -369,13 +369,13 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 10
+						"Cruzada · abab": 35
 					}
 				},
 				"Pie quebrado": {
 					"dominante": null,
 					"excepciones": {
-						"Verso 4 · Pentasílabo": 1
+						"Verso 1 · Tetrasílabo": 1
 					}
 				}
 			}
@@ -392,9 +392,10 @@
 			"secuencia": {},
 			"unidad": {
 				"Esquema de rima": {
-					"dominante": "Tipología 1 · ababa",
+					"dominante": "Tipología 7 · ababb",
 					"excepciones": {
-						"Tipología 2 · abbab": 6
+						"Tipología 1 · ababa": 6,
+						"Tipología 5 · aabba": 3
 					}
 				}
 			}
@@ -413,7 +414,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 3
+						"Cruzada · abab": 4
 					}
 				}
 			}
@@ -444,8 +445,7 @@
 				"Esquema de rima": {
 					"dominante": "Tipología 1 · ababa",
 					"excepciones": {
-						"Tipología 3 · abaab": 4,
-						"Tipología 5 · aabba": 1
+						"Tipología 2 · abbab": 3
 					}
 				}
 			}
@@ -464,7 +464,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 20
+						"Cruzada · abab": 17
 					}
 				}
 			}
@@ -478,12 +478,10 @@
 			"forma": "soneto",
 			"arquitectura": "endecasilabica_consonante",
 			"unidades": 1,
-			"secuencia": {
-				"Final acentual": "Esdrújulo"
-			},
+			"secuencia": {},
 			"unidad": {
 				"Tercetos · Esquema de rima": {
-					"dominante": "Tercetos de rima conclusiva · CDE DCE",
+					"dominante": "Tercetos de rima nuclear · CDC EDE",
 					"excepciones": {}
 				},
 				"Cuartetos · Esquema de rima": {
@@ -506,7 +504,7 @@
 				"Esquema de rima": {
 					"dominante": "Abrazada · abba",
 					"excepciones": {
-						"Cruzada · abab": 5
+						"Cruzada · abab": 8
 					}
 				}
 			}
@@ -574,10 +572,12 @@
 			"forma": "pareado",
 			"arquitectura": "cualquier_medida",
 			"unidades": 1,
-			"secuencia": {},
+			"secuencia": {
+				"Vocales de la asonancia": "a-e"
+			},
 			"unidad": {
 				"Medida de los versos": {
-					"dominante": "Pentasílabo",
+					"dominante": "Endecasílabo",
 					"excepciones": {}
 				},
 				"Esquema de rima": {
