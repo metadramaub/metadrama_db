@@ -279,11 +279,34 @@ function eleccionesDe(arq, seq, unidades, rnd) {
 // La escritura
 // --------------------------------------------------------------------------
 
+// `normalizado` es el nombre de ordenación, «Apellido, Nombre», no el slug: son cosas distintas y
+// el buscador de autores ordena por él. Sembrarlo con `metadrama_slugify` dejó a estos cuatro
+// descolgados del resto del catálogo hasta que se unificaron a mano.
 const AUTORES = [
-	{ clave: 'montalban', nombre: 'Juan Pérez de Montalbán', wikidata: 'Q3100564' },
-	{ clave: 'benavente', nombre: 'Luis Quiñones de Benavente', wikidata: 'Q1876516' },
-	{ clave: 'enciso', nombre: 'Diego Jiménez de Enciso', wikidata: 'Q5274715' },
-	{ clave: 'cueva', nombre: 'Juan de la Cueva', wikidata: 'Q164964' }
+	{
+		clave: 'montalban',
+		nombre: 'Juan Pérez de Montalbán',
+		normalizado: 'Pérez de Montalbán, Juan',
+		wikidata: 'Q3100564'
+	},
+	{
+		clave: 'benavente',
+		nombre: 'Luis Quiñones de Benavente',
+		normalizado: 'Quiñones de Benavente, Luis',
+		wikidata: 'Q1876516'
+	},
+	{
+		clave: 'enciso',
+		nombre: 'Diego Jiménez de Enciso',
+		normalizado: 'Jiménez de Enciso, Diego',
+		wikidata: 'Q5274715'
+	},
+	{
+		clave: 'cueva',
+		nombre: 'Juan de la Cueva',
+		normalizado: 'Cueva, Juan de la',
+		wikidata: 'Q164964'
+	}
 ];
 
 function limpiar() {
@@ -311,7 +334,7 @@ function sembrarAutores() {
 					insert into public.autores (nombre_completo, nombre_normalizado, wikidata_id, slug)
 					values (
 						${lit(autor.nombre)},
-						public.metadrama_slugify(${lit(autor.nombre)}),
+						${lit(autor.normalizado)},
 						${lit(autor.wikidata)},
 						public.next_autores_slug(${lit(autor.nombre)}, null)
 					)
