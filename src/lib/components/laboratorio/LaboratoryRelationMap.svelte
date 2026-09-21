@@ -2,15 +2,17 @@
 	import EChart from '$lib/components/charts/EChart.svelte';
 	import type { EChartsOption } from 'echarts';
 
+	type RelationPoint = {
+		id: string;
+		label: string;
+		x: number;
+		y: number;
+		color?: string;
+		detail: string;
+	};
+
 	const props = $props<{
-		points: Array<{
-			id: string;
-			label: string;
-			x: number;
-			y: number;
-			color?: string;
-			detail: string;
-		}>;
+		points: RelationPoint[];
 		xLabel: string;
 		yLabel: string;
 		ariaLabel: string;
@@ -24,7 +26,7 @@
 			.replaceAll('"', '&quot;');
 
 	const option = $derived.by((): EChartsOption => {
-		const data = props.points.map((point) => ({
+		const data = props.points.map((point: RelationPoint) => ({
 			value: [point.x, point.y],
 			label: point.label,
 			detail: point.detail,

@@ -40,8 +40,8 @@
 
 	const axisScale = $derived(
 		getLaboratoryAxisScale(props.metric, [
-			...props.groupA.rows.map((row) => row.value),
-			...props.groupB.rows.map((row) => row.value)
+			...props.groupA.rows.map((row: GroupRow) => row.value),
+			...props.groupB.rows.map((row: GroupRow) => row.value)
 		])
 	);
 	const axisValue = (value: number) => formatLaboratoryAxisTick(value, props.metric, axisScale);

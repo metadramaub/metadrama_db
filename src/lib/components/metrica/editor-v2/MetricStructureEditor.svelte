@@ -998,7 +998,7 @@
 	] as const;
 
 	const marcaDeUnidadEnLectura = $derived.by(() => {
-		const firmas = unidadesRaiz.map(({ unit }) => ({
+		const firmas = unidadesRaiz.map(({ unit }: { unit: MetricUnitDraft }) => ({
 			unitId: unit.realizacion_id,
 			firma: notacionDeLaUnidad(unit) ?? ''
 		}));
@@ -1009,7 +1009,7 @@
 		if (indicePorFirma.size <= 1) return new Map<string, string>();
 
 		return new Map(
-			firmas.flatMap(({ unitId, firma }) => {
+			firmas.flatMap(({ unitId, firma }: { unitId: string; firma: string }) => {
 				const indice = indicePorFirma.get(firma);
 				if (indice === undefined) return [];
 				return [[unitId, marcasDeLectura[indice % marcasDeLectura.length]] as const];

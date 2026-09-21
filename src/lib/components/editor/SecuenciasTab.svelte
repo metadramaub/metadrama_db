@@ -388,7 +388,7 @@
 	);
 	const estrofaSelectableIds = $derived.by(() => new Set(estrofaSelectableOptions.map((option) => option.termino_id)));
 	const formaDropdownItems = $derived.by(() =>
-		(props.catalogoMetrico?.forms ?? []).map((forma) => ({
+		(props.catalogoMetrico?.forms ?? []).map((forma: MetricCatalogForm) => ({
 			id: forma.forma_id,
 			label: forma.nombre
 		}))

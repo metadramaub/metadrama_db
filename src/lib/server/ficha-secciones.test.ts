@@ -22,7 +22,10 @@ function fullFicha(): PublicObraFichaPayload {
 			autor_ficha_publico: null,
 			autor_ficha_orcid_publico: null,
 			estado_term: 'publicado',
-			visible_publico: true
+			visible_publico: true,
+			sin_figuras_donaire: null,
+			sin_personajes_sobrenaturales: null,
+			sin_eventos_sobrenaturales: null
 		},
 		autoria: {
 			autores: [{ autor_id: 'a1', slug: 'autor', nombre_completo: 'Autor' }],

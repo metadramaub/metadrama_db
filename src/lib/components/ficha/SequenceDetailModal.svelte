@@ -3,8 +3,10 @@
 	import { ArrowLeft, ArrowRight, ChevronDown, X } from 'lucide-svelte';
 	import { portal } from '$lib/actions/portal';
 	import type {
+		PublicFichaCaracterizacionRango,
 		PublicFichaComentarioPublico,
 		PublicFichaEsquemaRima,
+		PublicFichaVariedad,
 		SequenceModalPayload
 	} from '$lib/types/public-ficha.types';
 	import { renderMarkdown } from '$lib/utils/markdown';
@@ -197,20 +199,24 @@
 	);
 	const metres = $derived(props.secuencia ? buildSequenceMetreCoverage(props.secuencia) : []);
 	const varieties = $derived.by(() => {
-		const names = new Set((props.secuencia?.variedades ?? []).map((row) => row.variedad_nombre));
+		const names = new Set(
+			(props.secuencia?.variedades ?? []).map((row: PublicFichaVariedad) => row.variedad_nombre)
+		);
 		return [...names];
 	});
 	const metricParts = $derived(props.secuencia ? buildMetricParts(props.secuencia) : []);
 	const features = $derived(props.secuencia ? buildFeatureGroups(props.secuencia) : []);
 	const deviations = $derived(props.secuencia?.desviaciones ?? []);
 	const enunciationRanges = $derived(
-		(props.secuencia?.caracterizaciones_rango ?? []).filter((item) =>
-			enunciationType(item.tipo_caracterizacion_rango_term) !== null
+		(props.secuencia?.caracterizaciones_rango ?? []).filter(
+			(item: PublicFichaCaracterizacionRango) =>
+				enunciationType(item.tipo_caracterizacion_rango_term) !== null
 		)
 	);
 	const otherRanges = $derived(
 		(props.secuencia?.caracterizaciones_rango ?? []).filter(
-			(item) => enunciationType(item.tipo_caracterizacion_rango_term) === null
+			(item: PublicFichaCaracterizacionRango) =>
+				enunciationType(item.tipo_caracterizacion_rango_term) === null
 		)
 	);
 	const hasObservedData = $derived(features.length > 0 || deviations.length > 0);
