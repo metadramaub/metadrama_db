@@ -26,8 +26,8 @@ allí que la migración no dejó ningún hueco.
 
 ## Qué te pido
 
-- 2 decisiones sobre pasajes cuyo número de versos no encaja con la forma que tienen asignada.
-- 20 respuestas, en 3 secuencias, a preguntas que el vocabulario anterior no recogía.
+- 3 decisiones sobre pasajes cuyo número de versos no encaja con la forma que tienen asignada.
+- 18 respuestas, en 2 secuencias, a preguntas que el vocabulario anterior no recogía.
 - 31 confirmaciones de respuestas que ya he rellenado yo.
 
 ## Pasajes que no encajan
@@ -37,6 +37,7 @@ Aparecen en la pestaña **Responder** del Excel, marcadas como *Decidir*.
 
 - **vv. 564–690** · Octava-lira · Heterométrica consonante. Sus 127 versos no encajan en una octava-lira heterométrica consonante, que se compone de unidades completas de 8 versos. Encajaría con 1 verso más (128) o con 7 versos menos (120). Las preguntas que dependen de cómo se reparta en estrofas te las haré cuando esto esté claro.
 - **vv. 1488–1502** · Soneto · Endecasílabo consonante. Sus 15 versos no encajan en un soneto endecasílabo consonante, que se compone de unidades completas de 14 versos. Encajaría con 13 versos más (28) o con 1 verso menos (14). Las preguntas que dependen de cómo se reparta en estrofas te las haré cuando esto esté claro.
+- **vv. 2022–2047** · Canción petrarquista · Regular de 13 versos. Sus 26 versos no se reparten en las partes que declara una canción petrarquista regular de 13 versos. Puede que el rango esté mal, que se trate de otra forma o que el catálogo no esté admitiendo algo que existe: dime lo que veas y lo consulto.
 
 ## Preguntas pendientes
 
@@ -44,7 +45,7 @@ Estas son las preguntas que hace el catálogo nuevo y que no he podido responder
 había anotado; hace falta mirar el texto. Están en la pestaña **Responder**.
 
 Si te extraña que se pregunte algo que creías haber anotado, la razón está en el término
-que elegiste en su día: estos pasajes se anotaron con la forma sin más —`octava_lira`, `quintilla`, `cancion_regular_abCabCcdeeDfF`—, y el
+que elegiste en su día: estos pasajes se anotaron con la forma sin más —`octava_lira`, `quintilla`—, y el
 vocabulario anterior no guardaba en ninguna parte el esquema de cada estrofa. No es que
 se haya perdido: es que nunca llegó a escribirse.
 En cambio, donde se eligió un término que ya lo decía —`endecasilabo_suelto_puro`, `octava_real_regular`, `redondilla_regular` y alguno más—, la respuesta se
@@ -53,10 +54,8 @@ deduce sola y solo hay que confirmarla.
 | Versos | Forma | Pregunta | Cómo contestar |
 | --- | --- | --- | --- |
 | 1642–1721 | Quintilla · Octosílaba consonante | Esquema de rima, en 16 estrofas (una fila por estrofa) | Elige en el desplegable |
-| 1979–2017 | Canción petrarquista · Regular de 13 versos | Remate o envío · Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») |
-| 1979–2017 | Canción petrarquista · Regular de 13 versos | Remate o envío · Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») |
-| 2022–2047 | Canción petrarquista · Regular de 13 versos | Remate o envío · Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») |
-| 2022–2047 | Canción petrarquista · Regular de 13 versos | Remate o envío · Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») |
+| 1979–2017 | Canción petrarquista · Regular de 13 versos | Remate o envío · Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11»). Solo si este pasaje lleva remate o envío; si no, déjalo en blanco |
+| 1979–2017 | Canción petrarquista · Regular de 13 versos | Remate o envío · Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B»). Solo si este pasaje lleva remate o envío; si no, déjalo en blanco |
 
 ## Respuestas ya rellenas
 
@@ -172,9 +171,9 @@ derivadas se deducen del término y aparecen en la pestaña Confirmar.
 | 29 | 1642–1721 | 80 | `quintilla` | Quintilla | Octosílaba consonante | — | — | **Falta:** Esquema de rima | — | directa |
 | 30 | 1722–1921 | 200 | `octava_real_regular` | Octava real | Endecasílaba consonante | — | — | lista | 25 derivadas | directa |
 | 31 | 1922–1978 | 57 | `endecasilabo_suelto_puro` | Endecasílabo suelto | Endecasílabo | — | — | lista | 3 derivadas | por ascendencia (endecasilabo_suelto) |
-| 32 | 1979–2017 | 39 | `cancion_regular_abCabCcdeeDfF` | Canción petrarquista | Regular de 13 versos | — | `evocacion_metrica` | **Falta:** Remate o envío · Medida de cada verso, Remate o envío · Esquema de rima observado | — | directa |
+| 32 | 1979–2017 | 39 | `cancion_regular_abCabCcdeeDfF` | Canción petrarquista | Regular de 13 versos | — | `evocacion_metrica` | lista | — | directa |
 | 33 | 2018–2021 | 4 | `endecasilabo_suelto_puro` | Endecasílabo suelto | Endecasílabo | — | — | lista | 3 derivadas | por ascendencia (endecasilabo_suelto) |
-| 34 | 2022–2047 | 26 | `cancion_regular_abCabCcdeeDfF` | Canción petrarquista | Regular de 13 versos | — | `evocacion_metrica` | **Falta:** Remate o envío · Medida de cada verso, Remate o envío · Esquema de rima observado | — | directa |
+| 34 | 2022–2047 | 26 | `cancion_regular_abCabCcdeeDfF` | Canción petrarquista | Regular de 13 versos | — | `evocacion_metrica` | no se reparte en sus partes | — | directa |
 | 35 | 2048–2227 | 180 | `endecasilabo_suelto_puro` | Endecasílabo suelto | Endecasílabo | — | — | lista | 3 derivadas | por ascendencia (endecasilabo_suelto) |
 | 36 | 2228–2355 | 128 | `octava_real_regular` | Octava real | Endecasílaba consonante | — | — | lista | 16 derivadas | directa |
 

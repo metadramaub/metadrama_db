@@ -267,9 +267,11 @@ export async function escribirExcel(obra, ruta, fecha) {
 			caracterizaciones: rangos(s.caracterizaciones),
 			estado: s.diagnostico
 				? `Revisar: ${s.diagnostico.texto}`
-				: s.faltan.length > 0
-					? `Falta: ${s.faltan.join(', ')}`
-					: s.estado,
+				: s.reparto_problema
+					? 'Revisar: no se reparte en las partes de su forma'
+					: s.faltan.length > 0
+						? `Falta: ${s.faltan.join(', ')}`
+						: s.estado,
 			propuesta:
 				[
 					s.anotadas > 0 ? `${s.anotadas} ${s.anotadas === 1 ? 'anotada' : 'anotadas'}` : null,

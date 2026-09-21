@@ -31,17 +31,25 @@ export function cargarCatalogo() {
 	const grupos = query(`
 		select
 			g.grupo_eleccion_id, g.arquitectura_id, g.nombre, g.dimension, g.alcance,
-			g.seccion_id, g.seccion_tratada_id, g.selecciones_min, g.selecciones_max
+			g.seccion_id, g.seccion_tratada_id, g.selecciones_min, g.selecciones_max,
+			g.solo_si_tipo_rima_id,
+			sec.nombre as seccion_nombre, sec.repeticiones_min as seccion_repeticiones_min
 		from public.grupos_eleccion_metrica_resueltos g
+		left join public.estructuras_secciones sec on sec.seccion_id = g.seccion_id
 		where g.activo
 		order by g.arquitectura_id, g.orden
 	`);
 
+	// El régimen de cada disposición viaja con la opción: es lo que decide si una pregunta
+	// condicionada —hoy las vocales de la asonancia— llega a hacerse.
 	const opciones = query(`
-		select opcion_eleccion_id, grupo_eleccion_id, nombre, orden, posicion_unidad
-		from public.opciones_eleccion_metrica
-		where activo
-		order by grupo_eleccion_id, orden, nombre
+		select
+			o.opcion_eleccion_id, o.grupo_eleccion_id, o.nombre, o.orden, o.posicion_unidad,
+			er.tipo_rima_id
+		from public.opciones_eleccion_metrica o
+		left join public.esquemas_rima er on er.esquema_rima_id = o.esquema_rima_id
+		where o.activo
+		order by o.grupo_eleccion_id, o.orden, o.nombre
 	`);
 
 	const porId = new Map();

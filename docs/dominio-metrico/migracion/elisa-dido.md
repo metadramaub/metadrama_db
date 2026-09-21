@@ -35,7 +35,7 @@ Estas son las preguntas que hace el catálogo nuevo y que no he podido responder
 había anotado; hace falta mirar el texto. Están en la pestaña **Responder**.
 
 Si te extraña que se pregunte algo que creías haber anotado, la razón está en el término
-que elegiste en su día: estos pasajes se anotaron con la forma sin más —`irregular_mixto`, `cancion_regular_abCabCcdeeDfF`, `irregular_arte_mayor`, `irregular_arte_menor`—, y el
+que elegiste en su día: estos pasajes se anotaron con la forma sin más —`irregular_mixto`, `irregular_arte_mayor`, `irregular_arte_menor`—, y el
 vocabulario anterior no guardaba en ninguna parte el esquema de cada estrofa. No es que
 se haya perdido: es que nunca llegó a escribirse.
 En cambio, donde se eligió un término que ya lo decía —`endecasilabo_suelto_puro`, `pareado_endecasilabo`—, la respuesta se
@@ -45,13 +45,13 @@ deduce sola y solo hay que confirmarla.
 | --- | --- | --- | --- |
 | 441–488 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») (son 48 versos) |
 | 441–488 | Versificación irregular · Mixta | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») (son 48 versos) |
-| 489–490 | Pareado · De cualquier medida | Medida de los versos · estrofa 1 (vv. 489–490) | Indica 2, en orden y separadas por punto y coma, eligiendo entre: Tetrasílabo · Pentasílabo · Hexasílabo · Heptasílabo · Octosílabo · Endecasílabo · Dodecasílabo compuesto 6 + 6 · Dodecasílabo · Alejandrino |
+| 489–490 | Pareado · Isométrico | Vocales de la asonancia | Elige en el desplegable |
 | 1041–1080 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») (son 40 versos) |
 | 1041–1080 | Versificación irregular · Mixta | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») (son 40 versos) |
 | 1081–1082 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») (son 2 versos) |
 | 1081–1082 | Versificación irregular · Mixta | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») (son 2 versos) |
-| 1481–1525 | Canción petrarquista · Regular de 13 versos | Remate o envío · Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») |
-| 1481–1525 | Canción petrarquista · Regular de 13 versos | Remate o envío · Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») |
+| 1481–1525 | Canción petrarquista · Regular de 13 versos | Remate o envío · Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11»). Solo si este pasaje lleva remate o envío; si no, déjalo en blanco |
+| 1481–1525 | Canción petrarquista · Regular de 13 versos | Remate o envío · Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B»). Solo si este pasaje lleva remate o envío; si no, déjalo en blanco |
 | 1876–1915 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») (son 40 versos) |
 | 1876–1915 | Versificación irregular · Mixta | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») (son 40 versos) |
 | 1916–1917 | Versificación irregular · De arte mayor | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») (son 2 versos) |
@@ -72,7 +72,7 @@ manera. Están en la pestaña **Confirmar**.
 | Versos | Forma | Pregunta | Respuesta | Vocabulario anterior |
 | --- | --- | --- | --- | --- |
 | 1–440 | Endecasílabo suelto · Endecasílabo | Varias respuestas | Densidad de rima: Ninguna; Dístico final: sí; Organización en pareados: Ninguna | endecasilabo_suelto_puro |
-| 489–490 | Pareado · De cualquier medida | Esquema de rima | aa · Consonante | pareado_endecasilabo |
+| 489–490 | Pareado · Isométrico | Varias respuestas | Esquema de rima: aa · Consonante; Medida de los versos: Endecasílabo | pareado_endecasilabo |
 | 491–1040 | Endecasílabo suelto · Endecasílabo | Varias respuestas | Densidad de rima: Ninguna; Dístico final: sí; Organización en pareados: Ninguna | endecasilabo_suelto_puro |
 | 1083–1480 | Endecasílabo suelto · Endecasílabo | Varias respuestas | Densidad de rima: Ninguna; Dístico final: sí; Organización en pareados: Ninguna | endecasilabo_suelto_puro |
 | 1526–1875 | Endecasílabo suelto · Endecasílabo | Varias respuestas | Densidad de rima: Ninguna; Dístico final: sí; Organización en pareados: Ninguna | endecasilabo_suelto_puro |
@@ -113,12 +113,12 @@ derivadas se deducen del término y aparecen en la pestaña Confirmar.
 | ---: | --- | ---: | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | 1–440 | 440 | `endecasilabo_suelto_puro` | Endecasílabo suelto | Endecasílabo | — | — | lista | 3 derivadas | por ascendencia (endecasilabo_suelto) |
 | 2 | 441–488 | 48 | `irregular_mixto` | Versificación irregular | Mixta | — | — | **Falta:** Medida de cada verso, Esquema de rima observado | — | directa |
-| 3 | 489–490 | 2 | `pareado_endecasilabo` | Pareado | De cualquier medida | — | — | **Falta:** Medida de los versos | 1 derivada | directa |
+| 3 | 489–490 | 2 | `pareado_endecasilabo` | Pareado | Isométrico | — | — | **Falta:** Vocales de la asonancia | 2 derivadas | directa |
 | 4 | 491–1040 | 550 | `endecasilabo_suelto_puro` | Endecasílabo suelto | Endecasílabo | — | — | lista | 3 derivadas | por ascendencia (endecasilabo_suelto) |
 | 5 | 1041–1080 | 40 | `irregular_mixto` | Versificación irregular | Mixta | — | — | **Falta:** Medida de cada verso, Esquema de rima observado | — | directa |
 | 6 | 1081–1082 | 2 | `irregular_mixto` | Versificación irregular | Mixta | — | — | **Falta:** Medida de cada verso, Esquema de rima observado | — | directa |
 | 7 | 1083–1480 | 398 | `endecasilabo_suelto_puro` | Endecasílabo suelto | Endecasílabo | — | — | lista | 3 derivadas | por ascendencia (endecasilabo_suelto) |
-| 8 | 1481–1525 | 45 | `cancion_regular_abCabCcdeeDfF` | Canción petrarquista | Regular de 13 versos | — | — | **Falta:** Remate o envío · Medida de cada verso, Remate o envío · Esquema de rima observado | — | directa |
+| 8 | 1481–1525 | 45 | `cancion_regular_abCabCcdeeDfF` | Canción petrarquista | Regular de 13 versos | — | — | lista | — | directa |
 | 9 | 1526–1875 | 350 | `endecasilabo_suelto_puro` | Endecasílabo suelto | Endecasílabo | — | — | lista | 3 derivadas | por ascendencia (endecasilabo_suelto) |
 | 10 | 1876–1915 | 40 | `irregular_mixto` | Versificación irregular | Mixta | — | — | **Falta:** Medida de cada verso, Esquema de rima observado | — | directa |
 | 11 | 1916–1917 | 2 | `irregular_arte_mayor` | Versificación irregular | De arte mayor | — | — | **Falta:** Medida de cada verso, Esquema de rima observado | — | directa |

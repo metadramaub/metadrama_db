@@ -53,7 +53,7 @@ deduce sola y solo hay que confirmarla.
 | --- | --- | --- | --- |
 | 1323–1326 | Redondilla · Octosílaba | Esquema de rima · 1 estrofa | Elige en el desplegable |
 | 1329–1368 | Quintilla · Octosílaba consonante | Esquema de rima, en 8 estrofas (una fila por estrofa) | Elige en el desplegable |
-| 1887–1888 | Pareado · De cualquier medida | Medida de los versos · estrofa 1 (vv. 1887–1888) | Indica 2, en orden y separadas por punto y coma, eligiendo entre: Tetrasílabo · Pentasílabo · Hexasílabo · Heptasílabo · Octosílabo · Endecasílabo · Dodecasílabo compuesto 6 + 6 · Dodecasílabo · Alejandrino |
+| 1887–1888 | Pareado · Isométrico | Vocales de la asonancia | Elige en el desplegable |
 
 ## Respuestas ya rellenas
 
@@ -82,7 +82,7 @@ manera. Están en la pestaña **Confirmar**.
 | 1469–1554 | Romance · Octosílabo | Vocales de la asonancia | e-o | romance_e-o |
 | 1555–1634 | Redondilla · Octosílaba | Esquema de rima | Abrazada · abba en las 20 estrofas | redondilla_regular |
 | 1635–1886 | Romance · Octosílabo | Vocales de la asonancia | e-a | romance_e-a |
-| 1887–1888 | Pareado · De cualquier medida | Esquema de rima | aa · Consonante | pareado_endecasilabo |
+| 1887–1888 | Pareado · Isométrico | Varias respuestas | Esquema de rima: aa · Consonante; Medida de los versos: Endecasílabo | pareado_endecasilabo |
 | 1889–2030 | Romance · Octosílabo | Vocales de la asonancia | e-e | romance_e-e |
 | 2141–2316 | Romance · Octosílabo | Vocales de la asonancia | e-e | romance_e-e |
 | 2317–2436 | Romance · Octosílabo | Vocales de la asonancia | o-o | romance_o-o |
@@ -142,7 +142,7 @@ derivadas se deducen del término y aparecen en la pestaña Confirmar.
 | 19 | 1469–1554 | 86 | `romance_e-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
 | 20 | 1555–1634 | 80 | `redondilla_regular` | Redondilla | Octosílaba | — | — | lista | 20 derivadas | directa |
 | 21 | 1635–1886 | 252 | `romance_e-a` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
-| 22 | 1887–1888 | 2 | `pareado_endecasilabo` | Pareado | De cualquier medida | — | — | **Falta:** Medida de los versos | 1 derivada | directa |
+| 22 | 1887–1888 | 2 | `pareado_endecasilabo` | Pareado | Isométrico | — | — | **Falta:** Vocales de la asonancia | 2 derivadas | directa |
 | 23 | 1889–2030 | 142 | `romance_e-e` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
 | 24 | 2031–2140 | 110 | `decima_espinela` | Décima | Espinela | — | — | lista | — | directa |
 | 25 | 2141–2316 | 176 | `romance_e-e` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |

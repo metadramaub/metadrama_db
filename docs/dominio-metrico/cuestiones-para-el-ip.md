@@ -8,7 +8,7 @@ porque se contradicen entre sí, o porque documentan algo y lo que falta por dec
 proyecto lo sigue. Lo que ya está en el catálogo, lo que es deuda técnica y lo que una fuente
 contesta sin que quede nada que elegir **no se guarda aquí**.
 
-## Las 66 preguntas, de un vistazo
+## Las 67 preguntas, de un vistazo
 
 **callan** · ninguna fuente lo resuelve · **chocan** · las fuentes se contradicen · **seguir** ·
 lo documentan y falta decidir si el catálogo las sigue. **▲** marca las que conviene resolver
@@ -21,6 +21,7 @@ antes de que se anote mucho con ellas, porque cambiarlas después obliga a revis
 |       | ·                                   | callan | [¿Se distinguen dos silvas solo por un valor de rasgo?](#3-se-distinguen-dos-silvas-solo-por-un-valor-de-rasgo-callan)                                                     |
 |       | Canción y canción sin rima          | seguir | [¿Las estancias de la canción sin rima repiten la distribución posicional?](#1-las-estancias-de-la-canción-sin-rima-repiten-la-distribución-posicional-seguir)             |
 |       | ·                                   | seguir | [Dos fuentes fijan la rima del eslabón y el catálogo no declara ninguna](#2-dos-fuentes-fijan-la-rima-del-eslabón-y-el-catálogo-no-declara-ninguna-seguir)                 |
+| **▲** | ·                                   | seguir | [El corpus tiene una canción de dos estancias y el catálogo pide tres](#3-el-corpus-tiene-una-canción-de-dos-estancias-y-el-catálogo-pide-tres-seguir)                     |
 |       | Villancico y zéjel                  | chocan | [¿La mudanza son dos miembros simétricos o una redondilla?](#1-la-mudanza-son-dos-miembros-simétricos-o-una-redondilla-chocan)                                             |
 |       | ·                                   | chocan | [¿Hasta dónde llega el estribillo?](#2-hasta-dónde-llega-el-estribillo-chocan)                                                                                             |
 |       | ·                                   | seguir | [¿Entran las mudanzas de seis versos?](#3-entran-las-mudanzas-de-seis-versos-seguir)                                                                                       |
@@ -215,6 +216,26 @@ la fronte. Hoy es observación de quien anota, no norma.
 
 **La cara técnica** ya está apuntada: falta dónde registrar la disposición observada cuando la norma
 no la fija ⇒ **A4**.
+
+### 3 · El corpus tiene una canción de dos estancias y el catálogo pide tres · **seguir**
+
+**Hoy** · las tres arquitecturas de canción exigen tres estancias como mínimo, decidido el 17 de
+septiembre de 2026 contra las seis fuentes.
+
+**Lo que hay anotado** · en *La gran Semíramis*, tercera jornada, dos pasajes seguidos de canción
+petrarquista regular: **vv. 1979–2017**, que son tres estancias justas de trece versos, y **vv.
+2022–2047**, que son dos. Entre los dos, cuatro endecasílabos sueltos —vv. 2018–2021—. El segundo
+pasaje **no se puede anotar**: sus veintiséis versos no se reparten en las partes de la forma, porque
+dos estancias no llegan al mínimo. Apareció al preparar la migración, al intentar repartirlo; ninguna
+regla de longitud lo ve, porque veintiséis es múltiplo de trece.
+
+**Decidir** · las dos lecturas llevan a sitios distintos y la primera la tiene que confirmar quien
+anotó la obra, a quien ya se le pregunta en su cuestionario:
+
+- **Es una sola canción de cinco estancias**, interrumpida por cuatro versos sueltos. Entonces no
+  falta nada en el catálogo y lo que hay que arreglar es la anotación: una secuencia, no dos.
+- **Son dos pasajes distintos y el segundo tiene dos estancias.** Entonces el catálogo no admite algo
+  que el corpus tiene, y el mínimo de tres estancias hay que revisarlo.
 
 ## Villancico y zéjel
 

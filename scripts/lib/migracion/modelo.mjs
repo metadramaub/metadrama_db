@@ -506,8 +506,28 @@ export function filasDeSecuencia(secuencia) {
 	// «la medida de la estrofa 7» sobre un reparto que sabemos falso es pedir un trabajo que luego
 	// hay que tirar. Y si además la forma puede ser otra —tiene menos versos que su mínimo—, no se
 	// le pregunta nada de esa forma.
-	const rangoEnDuda = Boolean(secuencia.diagnostico);
+	const rangoEnDuda = Boolean(secuencia.diagnostico) || Boolean(secuencia.reparto_problema);
 	const formaEnDuda = secuencia.diagnostico?.tipo === 'minimo';
+	// Un pasaje que no se reparte en las partes de su forma se pregunta igual que un rango que no
+	// cuadra: **puede ser el rango, puede ser otra forma, y puede ser que el catálogo no admita algo
+	// que existe.** Lo que no puede es anotarse sin saberlo.
+	if (!secuencia.diagnostico && secuencia.reparto_problema) {
+		responder.push({
+			...base,
+			clave: claveDecision(secuencia.secuencia_id),
+			tipo: 'decidir',
+			asunto:
+				`Sus ${secuencia.n_versos} versos no se reparten en las partes que declara ` +
+				`${conArticulo(secuencia)}. Puede que el rango esté mal, que se trate de otra forma o ` +
+				'que el catálogo no esté admitiendo algo que existe: dime lo que veas y lo consulto.',
+			propuesta: '',
+			formato: {
+				modo: 'lista',
+				lista: OPCIONES_DECISION,
+				ayuda: 'Elige en el desplegable y explícalo al lado'
+			}
+		});
+	}
 	if (secuencia.diagnostico) {
 		responder.push({
 			...base,
@@ -620,6 +640,12 @@ export function filasDeSecuencia(secuencia) {
 				pregunta.alcance === 'secuencia'
 					? ` (son ${secuencia.n_versos} versos)`
 					: '';
+			// Una pregunta sobre una parte que puede no estar —el remate de una canción— solo se
+			// contesta si el pasaje la lleva: en blanco no es una respuesta que falte.
+			const siLaLleva =
+				pregunta.seccion_id && Number(pregunta.seccion_repeticiones_min) === 0
+					? `. Solo si este pasaje lleva ${String(pregunta.seccion_nombre ?? 'esa parte').toLowerCase()}; si no, déjalo en blanco`
+					: '';
 			responder.push({
 				...base,
 				clave: claveRespuesta(secuencia.secuencia_id, pregunta.grupo_eleccion_id),
@@ -631,6 +657,7 @@ export function filasDeSecuencia(secuencia) {
 					ayuda:
 						formato.ayuda +
 						cuantosVersos +
+						siLaLleva +
 						(pregunta.alcance === 'unidad' && unidades.length > 1
 							? '. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta)'
 							: '')

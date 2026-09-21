@@ -330,7 +330,7 @@ function colocarRespuesta(pregunta, texto, realizacion, metros, pendientes, cont
 	return elecciones;
 }
 
-function eleccionesDeUnaRespuesta(pregunta, fila, unidades, metros, pendientes, contexto) {
+function eleccionesDeUnaRespuesta(pregunta, fila, unidades, metros, pendientes, avisos, contexto) {
 	const elecciones = [];
 	const destinos = destinosDe(pregunta, unidades);
 	const colocar = (texto, realizacion, donde) =>
@@ -349,11 +349,14 @@ function eleccionesDeUnaRespuesta(pregunta, fila, unidades, metros, pendientes, 
 	}
 
 	if (destinos.length === 0) {
-		pendientes.push(
-			pregunta.seccion_id
-				? `${contexto}: «${pregunta.nombre}» pregunta por una parte que este pasaje no tiene, según cómo se reparten sus versos.`
-				: `${contexto}: «${pregunta.nombre}» no tiene ninguna estrofa donde caer.`
-		);
+		// **Una parte que puede no estar no se exige.** El remate de una canción es opcional, y su
+		// medida solo es obligatoria si el pasaje lo lleva: la base lo comprueba así —recorre las
+		// realizaciones que existen— y aquí se hace igual. Lo que el pasaje no tiene se dice y se
+		// sigue; lo que debería tener y no tiene, para.
+		const opcional = pregunta.seccion_id && Number(pregunta.seccion_repeticiones_min) === 0;
+		const aviso = `${contexto}: «${pregunta.nombre}» pregunta por una parte que este pasaje no tiene, según cómo se reparten sus versos.`;
+		if (opcional) avisos.push(aviso);
+		else pendientes.push(aviso);
 		return elecciones;
 	}
 
@@ -742,6 +745,19 @@ export function planificarObra(obra, respuestas, catalogo, metros) {
 		for (const pregunta of preguntas) {
 			if (respondidas.has(pregunta.grupo_eleccion_id)) continue;
 			if (Number(pregunta.selecciones_min) < 1) continue;
+			// **Una parte que el pasaje no tiene no se pregunta.** El remate de una canción puede no
+			// estar, y entonces su medida no falta: no existe. La base lo mira igual, recorriendo las
+			// realizaciones que hay.
+			if (
+				destinosDe(pregunta, unidades).length === 0 &&
+				pregunta.seccion_id &&
+				Number(pregunta.seccion_repeticiones_min) === 0
+			) {
+				avisos.push(
+					`${contexto}: no lleva ${String(pregunta.seccion_nombre ?? 'esa parte').toLowerCase()}, así que «${pregunta.nombre}» no se pregunta.`
+				);
+				continue;
+			}
 
 			const porUnidad = destinosDe(pregunta, unidades)
 				.map((unidad) => ({
@@ -787,7 +803,7 @@ export function planificarObra(obra, respuestas, catalogo, metros) {
 				continue;
 			}
 			elecciones.push(
-				...eleccionesDeUnaRespuesta(pregunta, fila, unidades, metros, pendientes, contexto)
+				...eleccionesDeUnaRespuesta(pregunta, fila, unidades, metros, pendientes, avisos, contexto)
 			);
 		}
 

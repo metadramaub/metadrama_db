@@ -13,6 +13,8 @@
  */
 
 import { query } from '../consulta.mjs';
+import { cargarCatalogo } from '../metrica/catalogo.mjs';
+import { realizacionesDe } from '../metrica/realizaciones.mjs';
 import {
 	diagnosticar,
 	filasDeFusion,
@@ -76,11 +78,17 @@ const SQL_CUADROS = `
 	order by j.obra_id, c.v_ini
 `;
 
-/** Todas las preguntas activas de las arquitecturas propuestas, con sus opciones. */
+/**
+ * Todas las preguntas activas de las arquitecturas propuestas, con sus opciones y **con la parte
+ * que señalan**: hay preguntas obligatorias sobre partes que pueden no estar —la medida del remate
+ * de una canción—, y solo se preguntan si el pasaje lleva esa parte.
+ */
 const SQL_PREGUNTAS = `
 	select g.arquitectura_id, g.grupo_eleccion_id, g.nombre, g.alcance, g.dimension,
-		g.seccion_id, g.seccion_tratada_id, g.selecciones_min, g.selecciones_max, g.orden
+		g.seccion_id, g.seccion_tratada_id, g.selecciones_min, g.selecciones_max, g.orden,
+		sec.nombre as seccion_nombre, sec.repeticiones_min as seccion_repeticiones_min
 	from public.grupos_eleccion_metrica_resueltos g
+	left join public.estructuras_secciones sec on sec.seccion_id = g.seccion_id
 	where g.activo and g.arquitectura_id in (
 		select distinct p.arquitectura_propuesta_id from public.propuesta_metrica_secuencia p
 		where p.via <> 'sin_tipo' and p.arquitectura_propuesta_id is not null
@@ -160,6 +168,7 @@ export function cargarObras() {
 	const respuestas = query(SQL_RESPUESTAS);
 	const arquitecturas = query(SQL_ARQUITECTURAS);
 	const arquitecturasPorForma = agrupar(arquitecturas, 'forma_id');
+	const { porId: catalogoPorId } = cargarCatalogo();
 
 	const opcionesPorGrupo = agrupar(opciones, 'grupo_eleccion_id');
 	const preguntasPorArquitectura = new Map();
@@ -208,21 +217,38 @@ export function cargarObras() {
 				: null;
 		s.unidades = unidadesDe(s);
 		s.diagnostico = diagnosticar(s);
+		// **Lo que no se puede repartir en sus partes tampoco se puede anotar.** Una canción de
+		// veintiséis versos son dos estancias completas y la forma pide tres: el total encaja con la
+		// medida de la estancia, así que ninguna regla de longitud lo ve, y solo aparece al intentar
+		// repartirlo. Se pregunta como se pregunta un rango que no cuadra.
+		const arquitectura = catalogoPorId.get(s.arquitectura_propuesta_id);
+		s.reparto_problema = arquitectura
+			? (realizacionesDe(arquitectura, s.v_ini, s.v_fin).problema ?? null)
+			: null;
 
 		// Lo que el catálogo obliga a responder y la migración no sabe: nombre a nombre.
 		const respondidas = new Set(s.respuestas.map((r) => r.grupo_eleccion_id));
+		// Una pregunta sobre una parte que puede no estar no cuenta como hueco: si el pasaje no la
+		// lleva, no hay nada que responder.
 		s.faltan = s.preguntas
-			.filter((p) => Number(p.selecciones_min) >= 1 && !respondidas.has(p.grupo_eleccion_id))
+			.filter(
+				(p) =>
+					Number(p.selecciones_min) >= 1 &&
+					!respondidas.has(p.grupo_eleccion_id) &&
+					!(p.seccion_id && Number(p.seccion_repeticiones_min) === 0)
+			)
 			.map((p) => p.nombre);
 		s.anotadas = s.respuestas.filter((r) => r.origen === 'anotada').length;
 		s.derivadas = s.respuestas.filter((r) => r.origen === 'derivada').length;
 		s.estado = !s.arquitectura_propuesta_id
 			? 'sin arquitectura'
-			: s.faltan.length > 0
-				? 'incompleta'
-				: s.anotadas > 0
-					? 'lista · con anotación'
-					: 'lista';
+			: s.reparto_problema
+				? 'no se reparte en sus partes'
+				: s.faltan.length > 0
+					? 'incompleta'
+					: s.anotadas > 0
+						? 'lista · con anotación'
+						: 'lista';
 	}
 
 	const obras = [];
