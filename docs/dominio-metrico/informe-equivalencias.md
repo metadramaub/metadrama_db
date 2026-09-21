@@ -5,7 +5,7 @@
 > por qué faltan y las decisiones del IP viven en
 > [equivalencias-pendientes.md](./equivalencias-pendientes.md), que sí es prosa propia.
 
-Generado el 2026-09-19.
+Generado el 2026-09-21.
 
 ## Resumen
 
@@ -118,7 +118,7 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 | `novena_invertida` | arquitectura · Novena · Quintilla + redondilla | 0 | 0 |
 | `octava_real` | forma · Octava real | 0 | 12 |
 | `pareado_alirado` | arquitectura · Pareado · Alirado | 0 | 0 |
-| `pareado_de_arte_menor` | arquitectura · Pareado · De cualquier medida | 0 | 0 |
+| `pareado_de_arte_menor` | arquitectura · Pareado · Isométrico | 0 | 0 |
 | `quintilla_1_ababa` | esquema de rima · Tipología 1 | 0 | 18 |
 | `quintilla_2_abbab` | esquema de rima · Tipología 2 | 0 | 18 |
 | `quintilla_3_abaab` | esquema de rima · Tipología 3 | 0 | 18 |

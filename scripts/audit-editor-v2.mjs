@@ -44,7 +44,11 @@ const filas = query(`
 		(
 			select count(*) from public.opciones_eleccion_metrica o
 			where o.grupo_eleccion_id = g.grupo_eleccion_id
-		) as opciones
+		) as opciones,
+		(
+			select count(o.posicion_unidad) from public.opciones_eleccion_metrica o
+			where o.grupo_eleccion_id = g.grupo_eleccion_id
+		) as opciones_por_posicion
 	from public.formas_metricas f
 	left join public.arquitecturas_forma a on a.forma_id = f.forma_id and a.activo
 	left join public.grupos_eleccion_metrica_resueltos g
@@ -114,6 +118,16 @@ const DEFECTOS = [
 			'Con `selecciones_min` mayor que cero la secuencia no se guarda sin responderla. Es legítimo, pero conviene tenerlas contadas: son el suelo de trabajo de cada forma.',
 		detectar: (p) => Number(p.selecciones_min ?? 0) > 0,
 		informativo: true
+	},
+	{
+		id: 'E5',
+		titulo: 'Pide más respuestas de las que su repertorio distingue',
+		criterio:
+			'Una pregunta que exige varias respuestas solo puede contestarse si sus opciones se distinguen entre sí, y lo que las distingue es la posición: «Verso 1 · Heptasílabo» y «Verso 2 · Endecasílabo» son dos respuestas, «Endecasílabo» marcado dos veces no es ninguna. Con el repertorio sin posiciones, **un pasaje isométrico no se puede anotar**: el editor no deja guardar y `guardar_anotacion_metrica` rechaza la secuencia entera, así que al recargar la respuesta ha desaparecido. Le pasó al pareado de cualquier medida entre el 22 y el 23 de septiembre de 2026: las opciones se derivan del esquema y se volvieron uniformes solas, pero `selecciones_min` es una columna guardada y se quedó en dos.',
+		detectar: (p) =>
+			Number(p.selecciones_min ?? 0) > 1 &&
+			Number(p.opciones) > 0 &&
+			Number(p.opciones_por_posicion) === 0
 	}
 ];
 

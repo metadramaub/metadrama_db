@@ -124,18 +124,10 @@ decide si se admite o se parte en secuencias.
 que recorren el catálogo entero. La caché por revisión resolvió la mitad grande; queda materializar
 lo derivado —880 filas entre tres vistas— y medirlo con la caché puesta. *Cuando el editor V2 relaje
 la RLS de `catalogo_metrico_estado`, la llave de la caché dejará de bastar: habrá que añadirle la
-visibilidad.*
-
-**C2 · Seis respuestas del pareado no se pueden resolver, y una caché lo ocultaba.** Las dos
-medidas del pareado se preguntan **por posición**, y el editor guarda `posicion_unidad` 1 y 2; la
-opción que el catálogo ofrece —«Octosílabo»— no la lleva. `anotacion_elecciones_resueltas` empareja
-por posición, así que esas respuestas no resuelven a ninguna opción y `audit:anotaciones` las da por
-**fuera del repertorio**. El dato no se pierde: lo que no se puede es leer a qué opción contestan.
-Son seis, del 8 de septiembre, en *El padrino burlado* y *La monja de Ávila*. **Estuvieron ocultas
-hasta el 17 de septiembre de 2026**, cuando una migración subió la revisión, invalidó la caché y
-obligó a derivar las opciones otra vez: hasta entonces el informe firmaba «todo lo anotado encaja».
-*Va con C1: mientras lo derivado se cachee por revisión, un informe puede estar leyendo un catálogo
-que ya no existe.*
+visibilidad.* Y **mientras lo derivado se cachee por revisión, un informe puede estar leyendo un
+catálogo que ya no existe**: seis respuestas del pareado estuvieron fuera del repertorio y ocultas
+hasta que, el 17 de septiembre de 2026, una migración subió la revisión e invalidó la caché. Hasta
+entonces `audit:anotaciones` firmaba «todo lo anotado encaja».
 
 **C3 · Nadie proyecta una anotación a notación verso a verso**, y es lo que pide la estilometría. El
 editor ya la escribe, pero **vive en la pantalla**: no es un módulo puro, no recorre las desviaciones

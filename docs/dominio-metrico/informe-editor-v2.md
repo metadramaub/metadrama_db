@@ -1,6 +1,6 @@
 # Qué le pide el editor a cada forma
 
-Generado el 2026-09-18 desde la base enlazada.
+Generado el 2026-09-21 desde la base enlazada.
 
 ## 1 · Coste por forma
 
@@ -196,8 +196,8 @@ Sin incidencias.
 | Octava real · endecasilabica_consonante | esquema_rima · rima · 1 opciones · alcance unidad |
 | Octava-lira · heterometrica_consonante | disposicion_rima · rima · 2 opciones · alcance unidad |
 | Octava-lira · heterometrica_consonante | medida_de_cada_verso · metro · 16 opciones · alcance unidad |
-| Oncena · quintilla_sextilla | esquema_rima · rima · 4 opciones · alcance unidad |
 | Oncena · quintilla_sextilla | esquema_rima · rima · 8 opciones · alcance unidad |
+| Oncena · quintilla_sextilla | esquema_rima · rima · 4 opciones · alcance unidad |
 | Oncena · sextilla_quintilla | esquema_rima · rima · 4 opciones · alcance unidad |
 | Oncena · sextilla_quintilla | esquema_rima · rima · 8 opciones · alcance unidad |
 | Pareado · alirado | medida_del_pareado · metro · 4 opciones · alcance unidad |
@@ -265,6 +265,12 @@ Sin incidencias.
 | Zéjel · estribillo_y_coplas_monorrimas | medida_mudanza · metro · 2 opciones · alcance unidad |
 | Zéjel · estribillo_y_coplas_monorrimas | represa_estribillo · repeticion · 2 opciones · alcance realizacion |
 | Zéjel · estribillo_y_coplas_monorrimas | medida_vuelta · metro · 2 opciones · alcance unidad |
+
+### E5 · Pide más respuestas de las que su repertorio distingue — 0
+
+> Una pregunta que exige varias respuestas solo puede contestarse si sus opciones se distinguen entre sí, y lo que las distingue es la posición: «Verso 1 · Heptasílabo» y «Verso 2 · Endecasílabo» son dos respuestas, «Endecasílabo» marcado dos veces no es ninguna. Con el repertorio sin posiciones, **un pasaje isométrico no se puede anotar**: el editor no deja guardar y `guardar_anotacion_metrica` rechaza la secuencia entera, así que al recargar la respuesta ha desaparecido. Le pasó al pareado de cualquier medida entre el 22 y el 23 de septiembre de 2026: las opciones se derivan del esquema y se volvieron uniformes solas, pero `selecciones_min` es una columna guardada y se quedó en dos.
+
+Sin incidencias.
 
 ---
 

@@ -242,7 +242,7 @@ escribe(
 	'decide qué significa esa lista: si es `true`, la arquitectura admite *cualquiera* de ellas pero una'
 );
 escribe(
-	'sola cada vez —el pareado de cualquier medida es isosilábico—; si es `false`, las **combina** dentro'
+	'sola cada vez —el pareado isométrico mide igual sus dos versos—; si es `false`, las **combina** dentro'
 );
 escribe(
 	'de la unidad, como la silva alterna siete y once. Declararlo mal hace que el demarcador resuma el'

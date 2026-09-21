@@ -75,8 +75,8 @@ Dos casos concretos, que costaron encontrarse y conviene no volver a discutir:
 
 Y una distinción del metro que parece de detalle y decide un recorrido entero: **«admite cualquiera
 de estas medidas» no es «las mezcla»**. Un esquema de tipo `conjunto` enumera el repertorio, y
-`medida_uniforme` dice si dentro de la unidad se comparte una de ellas —el pareado de cualquier
-medida es isosilábico— o si se combinan —la silva alterna siete y once—. Declararlo mal resume el
+`medida_uniforme` dice si dentro de la unidad se comparte una de ellas —el pareado isométrico mide
+igual sus dos versos, sea cual sea la medida— o si se combinan —la silva alterna siete y once—. Declararlo mal resume el
 repertorio en «mixto», y entonces responder «arte mayor» **contradice** a la forma en la primera
 pregunta y la deja fuera del recorrido.
 

@@ -508,7 +508,7 @@ describe('rasgos de presencia', () => {
 
 describe('un conjunto uniforme admite cualquiera de sus medidas, no las mezcla', () => {
 	/**
-	 * El pareado «de cualquier medida» enumera ocho medidas —de tetrasílabo a alejandrino— y las
+	 * El pareado isométrico enumera nueve medidas —de tetrasílabo a alejandrino— y las
 	 * admite **una cada vez**: sus dos versos miden igual, y lo que no se sabe es cuál. Resumirlas en
 	 * «mixto» hacía que responder «arte mayor» lo contradijera con peso de definitoria, así que una
 	 * sucesión de pareados endecasílabos quedaba descartada en la primera pregunta.
