@@ -243,10 +243,9 @@ export function informeDeObra(obra, fecha) {
 			w(
 				`que elegiste en su día: estos pasajes se anotaron con la forma sin más —${conPregunta
 					.map((t) => `\`${t}\``)
-					.join(', ')}—, y el`
+					.join(', ')}—, sin`
 			);
-			w('vocabulario anterior no guardaba en ninguna parte el esquema de cada estrofa. No es que');
-			w('se haya perdido: es que nunca llegó a escribirse.');
+			w('elegir ningún subtipo, y nos hacen falta.');
 			if (conRespuesta.length > 0) {
 				const muestra = conRespuesta.slice(0, 3).map((t) => `\`${t}\``);
 				w(

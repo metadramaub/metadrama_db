@@ -48,9 +48,8 @@ Estas son las preguntas que hace el catálogo nuevo y que no he podido responder
 había anotado; hace falta mirar el texto. Están en la pestaña **Responder**.
 
 Si te extraña que se pregunte algo que creías haber anotado, la razón está en el término
-que elegiste en su día: estos pasajes se anotaron con la forma sin más —`redondilla`, `seguidilla`, `copla_real_de_pie_quebrado`, `romancillo_heptasilabo`, `copla_real_sin_quebrado`—, y el
-vocabulario anterior no guardaba en ninguna parte el esquema de cada estrofa. No es que
-se haya perdido: es que nunca llegó a escribirse.
+que elegiste en su día: estos pasajes se anotaron con la forma sin más —`redondilla`, `seguidilla`, `copla_real_de_pie_quebrado`, `romancillo_heptasilabo`, `copla_real_sin_quebrado`—, sin
+elegir ningún subtipo, y nos hacen falta.
 En cambio, donde se eligió un término que ya lo decía —`romance_i-a`, `romance_a-a`, `soneto_regular_ABBAABBACDCDCD` y alguno más—, la respuesta se
 deduce sola y solo hay que confirmarla.
 

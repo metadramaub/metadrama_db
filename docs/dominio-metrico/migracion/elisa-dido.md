@@ -35,9 +35,8 @@ Estas son las preguntas que hace el catálogo nuevo y que no he podido responder
 había anotado; hace falta mirar el texto. Están en la pestaña **Responder**.
 
 Si te extraña que se pregunte algo que creías haber anotado, la razón está en el término
-que elegiste en su día: estos pasajes se anotaron con la forma sin más —`irregular_mixto`, `irregular_arte_mayor`, `irregular_arte_menor`—, y el
-vocabulario anterior no guardaba en ninguna parte el esquema de cada estrofa. No es que
-se haya perdido: es que nunca llegó a escribirse.
+que elegiste en su día: estos pasajes se anotaron con la forma sin más —`irregular_mixto`, `irregular_arte_mayor`, `irregular_arte_menor`—, sin
+elegir ningún subtipo, y nos hacen falta.
 En cambio, donde se eligió un término que ya lo decía —`endecasilabo_suelto_puro`, `pareado_endecasilabo`—, la respuesta se
 deduce sola y solo hay que confirmarla.
 
