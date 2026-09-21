@@ -1238,10 +1238,16 @@
 					const posible = Number(opcion.metro_base_silabas);
 					if (Number.isFinite(posible) && posible > 0) base = posible;
 					if (!elegidas.includes(String(opcion.opcion_eleccion_id))) continue;
-					const posicion = Number(opcion.posicion_unidad);
+					// Otra vez el cero: `Number(null)` pasa por finito, así que preguntar por la
+					// posición con `isFinite` daba por posicional una respuesta que no lo es y le
+					// asignaba el verso 0, que no existe. Se mira el campo, no su número.
+					const posicion =
+						opcion.posicion_unidad === null || opcion.posicion_unidad === undefined
+							? null
+							: Number(opcion.posicion_unidad);
 					const silabas = Number(opcion.metro_silabas);
 					if (!Number.isFinite(silabas)) continue;
-					if (Number.isFinite(posicion)) {
+					if (posicion !== null && Number.isFinite(posicion)) {
 						medidas.set(posicion + desplazamiento, silabas);
 						continue;
 					}
