@@ -71,7 +71,7 @@ describe('catálogo público de formas', () => {
 		expect(resultado.map((item) => item.slug)).toEqual(['villancico', 'zejel']);
 	});
 
-	it('carga una ficha mediante una sola consulta e incluye sus repeticiones y fuentes', async () => {
+	it('carga una ficha con la jerarquía y el índice, e incluye sus repeticiones y fuentes', async () => {
 		const rpc = vi.fn().mockResolvedValue({
 			data: {
 				...detalleVacio,
@@ -115,10 +115,13 @@ describe('catálogo público de formas', () => {
 
 		const resultado = await loadPublicForm({ rpc }, 'villancico');
 
-		expect(rpc).toHaveBeenCalledOnce();
+		// Dos consultas y no más, lanzadas en paralelo: la jerarquía de la forma y el índice del
+		// catálogo, que hace falta entero para saber si otra forma **no emparentada** se llama igual.
+		expect(rpc).toHaveBeenCalledTimes(2);
 		expect(rpc).toHaveBeenCalledWith('get_forma_metrica_publica_jerarquica', {
 			p_slug: 'villancico'
 		});
+		expect(rpc).toHaveBeenCalledWith('get_catalogo_formas_publicas', undefined);
 		expect(resultado?.arquitecturas_[0].repeticiones).toEqual([
 			{
 				slug: 'represa_total',
