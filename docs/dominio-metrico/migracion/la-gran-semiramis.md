@@ -1,6 +1,6 @@
 # Migración métrica · La gran Semíramis
 
-Informe para Blanca Ballester Morell, generado el 2026-09-20. Leer antes de editar el Excel enviado por correo.
+Informe para Blanca Ballester Morell, generado el 2026-09-21. Leer antes de editar el Excel enviado por correo.
 
 ## De qué va esto
 
@@ -27,7 +27,7 @@ allí que la migración no dejó ningún hueco.
 ## Qué te pido
 
 - 2 decisiones sobre pasajes cuyo número de versos no encaja con la forma que tienen asignada.
-- 36 respuestas, en 4 secuencias, a preguntas que el vocabulario anterior no recogía.
+- 20 respuestas, en 3 secuencias, a preguntas que el vocabulario anterior no recogía.
 - 31 confirmaciones de respuestas que ya he rellenado yo.
 
 ## Pasajes que no encajan
@@ -35,8 +35,8 @@ allí que la migración no dejó ningún hueco.
 Son secuencias cuyo número de versos no se corresponde con la forma que tienen asignada.
 Aparecen en la pestaña **Responder** del Excel, marcadas como *Decidir*.
 
-- **vv. 564–690** · Octava-lira · Heterométrica consonante. Sus 127 versos no encajan en una octava-lira heterométrica consonante, que se compone de unidades completas de 8 versos. Encajaría con 1 verso más (128) o con 7 versos menos (120).
-- **vv. 1488–1502** · Soneto · Endecasílabo consonante. Sus 15 versos no encajan en un soneto endecasílabo consonante, que se compone de unidades completas de 14 versos. Encajaría con 13 versos más (28) o con 1 verso menos (14).
+- **vv. 564–690** · Octava-lira · Heterométrica consonante. Sus 127 versos no encajan en una octava-lira heterométrica consonante, que se compone de unidades completas de 8 versos. Encajaría con 1 verso más (128) o con 7 versos menos (120). Las preguntas que dependen de cómo se reparta en estrofas te las haré cuando esto esté claro.
+- **vv. 1488–1502** · Soneto · Endecasílabo consonante. Sus 15 versos no encajan en un soneto endecasílabo consonante, que se compone de unidades completas de 14 versos. Encajaría con 13 versos más (28) o con 1 verso menos (14). Las preguntas que dependen de cómo se reparta en estrofas te las haré cuando esto esté claro.
 
 ## Preguntas pendientes
 
@@ -52,8 +52,6 @@ deduce sola y solo hay que confirmarla.
 
 | Versos | Forma | Pregunta | Cómo contestar |
 | --- | --- | --- | --- |
-| 564–690 | Octava-lira · Heterométrica consonante | Esquema de rima · 15 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta) |
-| 564–690 | Octava-lira · Heterométrica consonante | Medida de cada verso, en 15 estrofas (una fila por estrofa) | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») |
 | 1642–1721 | Quintilla · Octosílaba consonante | Esquema de rima, en 16 estrofas (una fila por estrofa) | Elige en el desplegable |
 | 1979–2017 | Canción petrarquista · Regular de 13 versos | Remate o envío · Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») |
 | 1979–2017 | Canción petrarquista · Regular de 13 versos | Remate o envío · Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») |

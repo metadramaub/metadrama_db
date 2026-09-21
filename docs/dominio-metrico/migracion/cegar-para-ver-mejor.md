@@ -1,6 +1,6 @@
 # Migración métrica · Cegar para ver mejor
 
-Informe para Gabriel López, generado el 2026-09-20. Leer antes de editar el Excel enviado por correo.
+Informe para Gabriel López, generado el 2026-09-21. Leer antes de editar el Excel enviado por correo.
 
 ## De qué va esto
 

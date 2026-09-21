@@ -1,5 +1,5 @@
 {
-	"generado": "2026-09-20",
+	"generado": "2026-09-21",
 	"obras": [
 		{
 			"slug": "cegar-para-ver-mejor",
@@ -45,7 +45,7 @@
 			"excel": "el-caballero-de-olmedo.xlsx",
 			"secuencias": 46,
 			"decidir": 4,
-			"responder": 50,
+			"responder": 48,
 			"confirmar": 15,
 			"desviaciones": 52
 		},
@@ -69,7 +69,7 @@
 			"excel": "el-esclavo-del-demonio.xlsx",
 			"secuencias": 30,
 			"decidir": 2,
-			"responder": 35,
+			"responder": 34,
 			"confirmar": 22,
 			"desviaciones": 1
 		},
@@ -105,7 +105,7 @@
 			"excel": "la-gran-semiramis.xlsx",
 			"secuencias": 36,
 			"decidir": 2,
-			"responder": 36,
+			"responder": 20,
 			"confirmar": 31,
 			"desviaciones": 3
 		},
@@ -117,7 +117,7 @@
 			"excel": "la-tragedia-del-duque-de-berganza.xlsx",
 			"secuencias": 5,
 			"decidir": 2,
-			"responder": 3,
+			"responder": 2,
 			"confirmar": 2,
 			"desviaciones": 0
 		},

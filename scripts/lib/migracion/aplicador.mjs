@@ -174,6 +174,24 @@ const destinosDe = (pregunta, unidades) =>
 			: u.seccion_id === pregunta.seccion_id
 	);
 
+/**
+ * La unidad a la que pertenece una realización: su raíz, subiendo por los padres.
+ *
+ * **La clave del Excel habla de unidades.** Una pregunta que señala una sección —la primera
+ * quintilla de una copla real— se responde una vez por unidad, y la fila lleva el verso en que
+ * empieza la copla, no el de la quintilla. Sin esto, las respuestas de la segunda sección no
+ * casarían con ninguna fila y la secuencia quedaría pendiente sin motivo.
+ */
+function unidadDe(unidades, realizacion) {
+	let actual = realizacion;
+	while (actual?.realizacion_padre_id) {
+		const padre = unidades.find((u) => u.realizacion_id === actual.realizacion_padre_id);
+		if (!padre) break;
+		actual = padre;
+	}
+	return actual ?? realizacion;
+}
+
 /** La realización que cubre un verso: la unidad cuyo rango lo contiene. */
 function unidadEn(unidades, verso) {
 	return raicesDe(unidades).find((u) => u.v_ini <= verso && verso <= u.v_fin) ?? null;
@@ -246,15 +264,19 @@ function eleccionesDeLaPropuesta(partes, unidades, preguntasPorGrupo, avisos) {
  * lleva su posición dentro de la estrofa. El editor escribe las sílabas en orden, que es lo que el
  * informe le pide, y aquí se busca la opción de esa posición con ese metro.
  */
-function eleccionesPorPosicion(pregunta, texto, realizacionId, metros, pendientes, contexto) {
+function eleccionesPorPosicion(pregunta, texto, realizacion, metros, pendientes, contexto) {
 	const cifras = String(texto ?? '')
 		.split(/[\s,]+/)
 		.map((trozo) => Number(trozo))
 		.filter((numero) => Number.isFinite(numero) && numero > 0);
 	const posiciones = new Set((pregunta.opciones ?? []).map((o) => Number(o.posicion_unidad)));
-	if (cifras.length !== posiciones.size) {
+	// **Se piden tantas medidas como versos tiene la realización**, no como posiciones ofrece la
+	// pregunta: el remate de una canción admite hasta trece versos y puede tener seis. Una posición
+	// que la realización no tiene no se responde, y la base rechaza que se responda.
+	const esperadas = realizacion ? realizacion.v_fin - realizacion.v_ini + 1 : posiciones.size;
+	if (cifras.length !== esperadas) {
 		pendientes.push(
-			`${contexto}: «${pregunta.nombre}» pide ${posiciones.size} medidas y se han escrito ${cifras.length} («${texto}»).`
+			`${contexto}: «${pregunta.nombre}» pide ${esperadas} medidas y se han escrito ${cifras.length} («${texto}»).`
 		);
 		return [];
 	}
@@ -270,42 +292,51 @@ function eleccionesPorPosicion(pregunta, texto, realizacionId, metros, pendiente
 			);
 			return;
 		}
-		elecciones.push(eleccionDeOpcion(pregunta, opcion, realizacionId));
+		elecciones.push(eleccionDeOpcion(pregunta, opcion, realizacion?.realizacion_id ?? null));
 	});
 	return elecciones;
 }
 
-/** Una respuesta del Excel, colocada en las realizaciones a las que toca. */
+/**
+ * Una respuesta escrita, colocada en una realización: según lo que la pregunta admita, una medida
+ * por posición, un texto libre o una o varias opciones del repertorio.
+ *
+ * **Lo usan los dos caminos**, el de la fila por estrofa y el de la respuesta que vale para todas:
+ * una pregunta que admite dos respuestas —las dos medidas de un pareado— se contesta con punto y
+ * coma se conteste donde se conteste.
+ */
+function colocarRespuesta(pregunta, texto, realizacion, metros, pendientes, contexto, donde = '') {
+	const realizacionId = realizacion?.realizacion_id ?? null;
+	if ((pregunta.opciones ?? []).some((o) => o.posicion_unidad != null)) {
+		return eleccionesPorPosicion(pregunta, texto, realizacion, metros, pendientes, contexto);
+	}
+	if ((pregunta.opciones ?? []).length === 0) {
+		return [eleccionDeTexto(pregunta, texto, realizacionId)];
+	}
+	const elecciones = [];
+	// Una pregunta que admite varias respuestas se contesta separándolas con punto y coma.
+	const trozos =
+		Number(pregunta.selecciones_max ?? 1) > 1 ? texto.split(';').map((t) => t.trim()) : [texto];
+	for (const trozo of trozos.filter(Boolean)) {
+		const opcion = opcionPorNombre(pregunta, trozo);
+		if (!opcion) {
+			pendientes.push(
+				`${contexto}: «${trozo}» no es una de las opciones de «${pregunta.nombre}»${donde}.`
+			);
+			continue;
+		}
+		elecciones.push(eleccionDeOpcion(pregunta, opcion, realizacionId));
+	}
+	return elecciones;
+}
+
 function eleccionesDeUnaRespuesta(pregunta, fila, unidades, metros, pendientes, contexto) {
 	const elecciones = [];
 	const destinos = destinosDe(pregunta, unidades);
-	const porPosicion = (pregunta.opciones ?? []).some((o) => o.posicion_unidad != null);
-
-	const colocar = (texto, realizacionId, donde) => {
-		if (porPosicion) {
-			elecciones.push(
-				...eleccionesPorPosicion(pregunta, texto, realizacionId, metros, pendientes, contexto)
-			);
-			return;
-		}
-		if ((pregunta.opciones ?? []).length === 0) {
-			elecciones.push(eleccionDeTexto(pregunta, texto, realizacionId));
-			return;
-		}
-		// Una pregunta que admite varias respuestas se contesta separándolas con punto y coma.
-		const trozos =
-			Number(pregunta.selecciones_max ?? 1) > 1 ? texto.split(';').map((t) => t.trim()) : [texto];
-		for (const trozo of trozos.filter(Boolean)) {
-			const opcion = opcionPorNombre(pregunta, trozo);
-			if (!opcion) {
-				pendientes.push(
-					`${contexto}: «${trozo}» no es una de las opciones de «${pregunta.nombre}»${donde}.`
-				);
-				continue;
-			}
-			elecciones.push(eleccionDeOpcion(pregunta, opcion, realizacionId));
-		}
-	};
+	const colocar = (texto, realizacion, donde) =>
+		elecciones.push(
+			...colocarRespuesta(pregunta, texto, realizacion, metros, pendientes, contexto, donde)
+		);
 
 	const { excepciones, ilegibles } = leerExcepciones(fila.detalle);
 	for (const ilegible of ilegibles) {
@@ -318,7 +349,11 @@ function eleccionesDeUnaRespuesta(pregunta, fila, unidades, metros, pendientes, 
 	}
 
 	if (destinos.length === 0) {
-		pendientes.push(`${contexto}: «${pregunta.nombre}» no tiene ninguna estrofa donde caer.`);
+		pendientes.push(
+			pregunta.seccion_id
+				? `${contexto}: «${pregunta.nombre}» pregunta por una parte que este pasaje no tiene, según cómo se reparten sus versos.`
+				: `${contexto}: «${pregunta.nombre}» no tiene ninguna estrofa donde caer.`
+		);
 		return elecciones;
 	}
 
@@ -327,7 +362,7 @@ function eleccionesDeUnaRespuesta(pregunta, fila, unidades, metros, pendientes, 
 			excepciones.find((e) => e.v_ini <= unidad.v_ini && unidad.v_fin <= e.v_fin) ?? null;
 		colocar(
 			excepcion ? excepcion.respuesta : fila.respuesta,
-			unidad.realizacion_id,
+			unidad,
 			` (vv. ${unidad.v_ini}–${unidad.v_fin})`
 		);
 	}
@@ -712,38 +747,27 @@ export function planificarObra(obra, respuestas, catalogo, metros) {
 				.map((unidad) => ({
 					unidad,
 					fila: respuestas.get(
-						claveRespuestaUnidad(secuencia.secuencia_id, pregunta.grupo_eleccion_id, unidad.v_ini)
+						claveRespuestaUnidad(
+							secuencia.secuencia_id,
+							pregunta.grupo_eleccion_id,
+							unidadDe(unidades, unidad).v_ini
+						)
 					)
 				}))
 				.filter((entrada) => entrada.fila?.respuesta);
 
 			if (porUnidad.length > 0) {
 				for (const { unidad, fila } of porUnidad) {
-					// Una medida se contesta verso a verso aunque la fila sea de una sola estrofa.
-					if ((pregunta.opciones ?? []).some((o) => o.posicion_unidad != null)) {
-						elecciones.push(
-							...eleccionesPorPosicion(
-								pregunta,
-								fila.respuesta,
-								unidad.realizacion_id,
-								metros,
-								pendientes,
-								contexto
-							)
-						);
-						continue;
-					}
-					const opcion = opcionPorNombre(pregunta, fila.respuesta);
-					if (!opcion && (pregunta.opciones ?? []).length > 0) {
-						pendientes.push(
-							`${contexto}: «${fila.respuesta}» no es una opción de «${pregunta.nombre}» (vv. ${unidad.v_ini}–${unidad.v_fin}).`
-						);
-						continue;
-					}
 					elecciones.push(
-						opcion
-							? eleccionDeOpcion(pregunta, opcion, unidad.realizacion_id)
-							: eleccionDeTexto(pregunta, fila.respuesta, unidad.realizacion_id)
+						...colocarRespuesta(
+							pregunta,
+							fila.respuesta,
+							unidad,
+							metros,
+							pendientes,
+							contexto,
+							` (vv. ${unidad.v_ini}–${unidad.v_fin})`
+						)
 					);
 				}
 				const sinContestar = destinosDe(pregunta, unidades).length - porUnidad.length;

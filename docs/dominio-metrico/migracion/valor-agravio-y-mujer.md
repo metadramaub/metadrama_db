@@ -1,6 +1,6 @@
 # Migración métrica · Valor, agravio y mujer
 
-Informe para María Isabel Cuena, generado el 2026-09-20. Leer antes de editar el Excel enviado por correo.
+Informe para María Isabel Cuena, generado el 2026-09-21. Leer antes de editar el Excel enviado por correo.
 
 ## De qué va esto
 
@@ -37,10 +37,10 @@ allí que la migración no dejó ningún hueco.
 Son secuencias cuyo número de versos no se corresponde con la forma que tienen asignada.
 Aparecen en la pestaña **Responder** del Excel, marcadas como *Decidir*.
 
-- **vv. 237–463** · Romance · Octosílabo. Tiene 227 versos, y un romance octosílabo no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraré la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto.
-- **vv. 928–1182** · Romance · Octosílabo. Tiene 255 versos, y un romance octosílabo no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraré la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto.
-- **vv. 1267–1301** · Décima · Espinela. Sus 35 versos no encajan en una décima espinela, que se compone de unidades completas de 10 versos. Encajaría con 5 versos más (40) o con 5 versos menos (30).
-- **vv. 1839–2003** · Romance · Octosílabo. Tiene 165 versos, y un romance octosílabo no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraré la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto.
+- **vv. 237–463** · Romance · Octosílabo. Tiene 227 versos, y un romance octosílabo no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraré la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto. Las preguntas que dependen de cómo se reparta en estrofas te las haré cuando esto esté claro.
+- **vv. 928–1182** · Romance · Octosílabo. Tiene 255 versos, y un romance octosílabo no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraré la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto. Las preguntas que dependen de cómo se reparta en estrofas te las haré cuando esto esté claro.
+- **vv. 1267–1301** · Décima · Espinela. Sus 35 versos no encajan en una décima espinela, que se compone de unidades completas de 10 versos. Encajaría con 5 versos más (40) o con 5 versos menos (30). Las preguntas que dependen de cómo se reparta en estrofas te las haré cuando esto esté claro.
+- **vv. 1839–2003** · Romance · Octosílabo. Tiene 165 versos, y un romance octosílabo no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraré la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto. Las preguntas que dependen de cómo se reparta en estrofas te las haré cuando esto esté claro.
 
 ## Preguntas pendientes
 

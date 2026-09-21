@@ -1,6 +1,6 @@
 # Migración métrica · El conde de Sex
 
-Informe para Rosa Bono, generado el 2026-09-20. Leer antes de editar el Excel enviado por correo.
+Informe para Rosa Bono, generado el 2026-09-21. Leer antes de editar el Excel enviado por correo.
 
 ## De qué va esto
 
@@ -35,7 +35,7 @@ allí que la migración no dejó ningún hueco.
 Son secuencias cuyo número de versos no se corresponde con la forma que tienen asignada.
 Aparecen en la pestaña **Responder** del Excel, marcadas como *Decidir*.
 
-- **vv. 2905–3093** · Romance · Octosílabo. Tiene 189 versos, y un romance octosílabo no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraré la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto.
+- **vv. 2905–3093** · Romance · Octosílabo. Tiene 189 versos, y un romance octosílabo no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraré la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto. Las preguntas que dependen de cómo se reparta en estrofas te las haré cuando esto esté claro.
 
 ## Preguntas pendientes
 
@@ -53,7 +53,7 @@ deduce sola y solo hay que confirmarla.
 | --- | --- | --- | --- |
 | 1323–1326 | Redondilla · Octosílaba | Esquema de rima · 1 estrofa | Elige en el desplegable |
 | 1329–1368 | Quintilla · Octosílaba consonante | Esquema de rima, en 8 estrofas (una fila por estrofa) | Elige en el desplegable |
-| 1887–1888 | Pareado · De cualquier medida | Medida de los versos · estrofa 1 (vv. 1887–1888) | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») |
+| 1887–1888 | Pareado · De cualquier medida | Medida de los versos · estrofa 1 (vv. 1887–1888) | Indica 2, en orden y separadas por punto y coma, eligiendo entre: Tetrasílabo · Pentasílabo · Hexasílabo · Heptasílabo · Octosílabo · Endecasílabo · Dodecasílabo compuesto 6 + 6 · Dodecasílabo · Alejandrino |
 
 ## Respuestas ya rellenas
 

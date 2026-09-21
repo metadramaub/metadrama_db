@@ -445,7 +445,11 @@ export function formatoDeRespuesta(pregunta) {
 	const opciones = pregunta.opciones ?? [];
 	const porPosicion = opciones.some((o) => o.posicion_unidad != null);
 	const varias = Number(pregunta.selecciones_max ?? 1) > 1;
-	if (pregunta.dimension === 'metro' && (porPosicion || varias || opciones.length === 0)) {
+	// **Se pregunta lo que el catálogo sabe guardar.** Una medida se escribe en cifras cuando las
+	// opciones van por posición —cada verso de la lira tiene la suya— o cuando no hay repertorio;
+	// si el repertorio es una lista de metros sin posición, como en el pareado, escribir «11 11» no
+	// resolvería a ninguna opción y la respuesta se perdería: se eligen por nombre.
+	if (pregunta.dimension === 'metro' && (porPosicion || opciones.length === 0)) {
 		return Number(pregunta.selecciones_min) >= 1
 			? {
 					modo: 'medidas',
@@ -467,9 +471,14 @@ export function formatoDeRespuesta(pregunta) {
 	}
 	if (opciones.length === 0) return { modo: 'texto', ayuda: 'Escríbelo en texto libre' };
 	if (varias) {
+		// Cuántas hacen falta, que es lo primero que uno se pregunta al ver una lista larga.
+		const min = Number(pregunta.selecciones_min ?? 0);
+		const max = Number(pregunta.selecciones_max ?? 1);
+		const cuantas =
+			min === max ? `Indica ${min}, en orden y separadas` : `Indica hasta ${max}, separadas`;
 		return {
 			modo: 'varias',
-			ayuda: `Puedes indicar varias, separadas por punto y coma: ${opciones.map((o) => o.nombre).join(' · ')}`
+			ayuda: `${cuantas} por punto y coma, eligiendo entre: ${opciones.map((o) => o.nombre).join(' · ')}`
 		};
 	}
 	return { modo: 'lista', ayuda: 'Elige en el desplegable', lista: opciones.map((o) => o.nombre) };
@@ -491,12 +500,24 @@ export function filasDeSecuencia(secuencia) {
 	const base = { secuencia_id: secuencia.secuencia_id, versos, forma };
 
 	// --- Decisiones: el rango o las unidades no cuadran.
+	//
+	// **Lo que no cuadra se decide antes de preguntar nada más.** Las estrofas de una secuencia
+	// salen de repartir su rango, así que si el rango está en duda el reparto también: preguntar
+	// «la medida de la estrofa 7» sobre un reparto que sabemos falso es pedir un trabajo que luego
+	// hay que tirar. Y si además la forma puede ser otra —tiene menos versos que su mínimo—, no se
+	// le pregunta nada de esa forma.
+	const rangoEnDuda = Boolean(secuencia.diagnostico);
+	const formaEnDuda = secuencia.diagnostico?.tipo === 'minimo';
 	if (secuencia.diagnostico) {
 		responder.push({
 			...base,
 			clave: claveDecision(secuencia.secuencia_id),
 			tipo: 'decidir',
-			asunto: secuencia.diagnostico.texto,
+			asunto:
+				secuencia.diagnostico.texto +
+				(formaEnDuda
+					? ' Hasta saber esto no te pregunto nada más de este pasaje.'
+					: ' Las preguntas que dependen de cómo se reparta en estrofas te las haré cuando esto esté claro.'),
 			propuesta: '',
 			formato: {
 				modo: 'lista',
@@ -557,6 +578,8 @@ export function filasDeSecuencia(secuencia) {
 	);
 	const unidades = secuencia.unidades ?? [];
 	for (const pregunta of pendientes) {
+		if (formaEnDuda) continue;
+		if (rangoEnDuda && pregunta.alcance === 'unidad') continue;
 		const formato = formatoDeRespuesta(pregunta);
 		// Una fila por estrofa solo cuando son pocas **y la respuesta varía de verdad**: ocho
 		// tipologías de quintilla se eligen una a una; abba o abab en dieciséis redondillas se
@@ -567,12 +590,18 @@ export function filasDeSecuencia(secuencia) {
 			unidades.length <= UMBRAL_FILAS_POR_UNIDAD &&
 			(pregunta.opciones ?? []).length > 2;
 		if (porUnidad) {
+			// Una pregunta que señala una sección —«Primera quintilla»— se responde una vez por
+			// unidad, y la unidad es la estrofa entera: decir «estrofa 3» de una copla real que mide
+			// diez versos haría pensar que la quintilla son esos diez.
+			const nombreUnidad = pregunta.seccion_id
+				? String(secuencia.forma_propuesta ?? 'unidad').toLowerCase()
+				: 'estrofa';
 			unidades.forEach((u, i) => {
 				responder.push({
 					...base,
 					clave: claveRespuestaUnidad(secuencia.secuencia_id, pregunta.grupo_eleccion_id, u.v_ini),
 					tipo: 'responder',
-					asunto: `${pregunta.nombre} · estrofa ${i + 1} (vv. ${u.v_ini}–${u.v_fin})`,
+					asunto: `${pregunta.nombre} · ${nombreUnidad} ${i + 1} (vv. ${u.v_ini}–${u.v_fin})`,
 					propuesta: '',
 					formato,
 					pregunta: pregunta.nombre,
@@ -584,6 +613,13 @@ export function filasDeSecuencia(secuencia) {
 				pregunta.alcance === 'unidad' && unidades.length > 0
 					? ` · ${plural(unidades.length, 'estrofa', 'estrofas')}`
 					: '';
+			// Escribir la medida o el esquema de una secuencia entera es contar sus versos uno a
+			// uno: decir cuántos son evita que el editor se encuentre con la sorpresa a media celda.
+			const cuantosVersos =
+				(formato.modo === 'medidas' || formato.modo === 'esquema') &&
+				pregunta.alcance === 'secuencia'
+					? ` (son ${secuencia.n_versos} versos)`
+					: '';
 			responder.push({
 				...base,
 				clave: claveRespuesta(secuencia.secuencia_id, pregunta.grupo_eleccion_id),
@@ -594,6 +630,7 @@ export function filasDeSecuencia(secuencia) {
 					...formato,
 					ayuda:
 						formato.ayuda +
+						cuantosVersos +
 						(pregunta.alcance === 'unidad' && unidades.length > 1
 							? '. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones» (versos: respuesta)'
 							: '')
@@ -646,6 +683,10 @@ export function filasDeSecuencia(secuencia) {
 			destino: `No hay traducción prevista para «${c.termino}»; lo revisaré a mano`,
 			pide: 'confirmar'
 		};
+		// La tabla promete conservar la nota; donde no hay nota, no se promete.
+		const comoQueda = (c.observaciones ?? '').trim()
+			? destino.destino
+			: destino.destino.replace(', y se conserva tu nota', '');
 		desviaciones.push({
 			...base,
 			clave: claveDesviacion(c.caracterizacion_rango_id),
@@ -658,7 +699,7 @@ export function filasDeSecuencia(secuencia) {
 			versos: rango(Number(c.v_ini), Number(c.v_fin)),
 			secuenciaVersos: versos,
 			termino: c.termino,
-			asunto: destino.destino,
+			asunto: comoQueda,
 			observacion: c.observaciones ?? '',
 			formato:
 				destino.pide === 'silabas'

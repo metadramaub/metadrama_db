@@ -1,6 +1,6 @@
 # Migración métrica · El amor al uso
 
-Informe para Ana Vicente, generado el 2026-09-20. Leer antes de editar el Excel enviado por correo.
+Informe para Ana Vicente, generado el 2026-09-21. Leer antes de editar el Excel enviado por correo.
 
 ## De qué va esto
 

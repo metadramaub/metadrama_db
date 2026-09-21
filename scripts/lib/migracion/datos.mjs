@@ -79,7 +79,7 @@ const SQL_CUADROS = `
 /** Todas las preguntas activas de las arquitecturas propuestas, con sus opciones. */
 const SQL_PREGUNTAS = `
 	select g.arquitectura_id, g.grupo_eleccion_id, g.nombre, g.alcance, g.dimension,
-		g.selecciones_min, g.selecciones_max, g.orden
+		g.seccion_id, g.seccion_tratada_id, g.selecciones_min, g.selecciones_max, g.orden
 	from public.grupos_eleccion_metrica_resueltos g
 	where g.activo and g.arquitectura_id in (
 		select distinct p.arquitectura_propuesta_id from public.propuesta_metrica_secuencia p

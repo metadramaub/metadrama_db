@@ -1,6 +1,6 @@
 # Migración métrica · Elisa Dido
 
-Informe para Blanca Ballester Morell, generado el 2026-09-20. Leer antes de editar el Excel enviado por correo.
+Informe para Blanca Ballester Morell, generado el 2026-09-21. Leer antes de editar el Excel enviado por correo.
 
 ## De qué va esto
 
@@ -43,25 +43,25 @@ deduce sola y solo hay que confirmarla.
 
 | Versos | Forma | Pregunta | Cómo contestar |
 | --- | --- | --- | --- |
-| 441–488 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») |
-| 441–488 | Versificación irregular · Mixta | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») |
-| 489–490 | Pareado · De cualquier medida | Medida de los versos · estrofa 1 (vv. 489–490) | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») |
-| 1041–1080 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») |
-| 1041–1080 | Versificación irregular · Mixta | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») |
-| 1081–1082 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») |
-| 1081–1082 | Versificación irregular · Mixta | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») |
+| 441–488 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») (son 48 versos) |
+| 441–488 | Versificación irregular · Mixta | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») (son 48 versos) |
+| 489–490 | Pareado · De cualquier medida | Medida de los versos · estrofa 1 (vv. 489–490) | Indica 2, en orden y separadas por punto y coma, eligiendo entre: Tetrasílabo · Pentasílabo · Hexasílabo · Heptasílabo · Octosílabo · Endecasílabo · Dodecasílabo compuesto 6 + 6 · Dodecasílabo · Alejandrino |
+| 1041–1080 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») (son 40 versos) |
+| 1041–1080 | Versificación irregular · Mixta | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») (son 40 versos) |
+| 1081–1082 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») (son 2 versos) |
+| 1081–1082 | Versificación irregular · Mixta | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») (son 2 versos) |
 | 1481–1525 | Canción petrarquista · Regular de 13 versos | Remate o envío · Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») |
 | 1481–1525 | Canción petrarquista · Regular de 13 versos | Remate o envío · Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») |
-| 1876–1915 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») |
-| 1876–1915 | Versificación irregular · Mixta | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») |
-| 1916–1917 | Versificación irregular · De arte mayor | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») |
-| 1916–1917 | Versificación irregular · De arte mayor | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») |
-| 2256–2292 | Versificación irregular · De arte menor | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») |
-| 2256–2292 | Versificación irregular · De arte menor | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») |
-| 2334–2348 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») |
-| 2334–2348 | Versificación irregular · Mixta | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») |
-| 2349–2350 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») |
-| 2349–2350 | Versificación irregular · Mixta | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») |
+| 1876–1915 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») (son 40 versos) |
+| 1876–1915 | Versificación irregular · Mixta | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») (son 40 versos) |
+| 1916–1917 | Versificación irregular · De arte mayor | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») (son 2 versos) |
+| 1916–1917 | Versificación irregular · De arte mayor | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») (son 2 versos) |
+| 2256–2292 | Versificación irregular · De arte menor | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») (son 37 versos) |
+| 2256–2292 | Versificación irregular · De arte menor | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») (son 37 versos) |
+| 2334–2348 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») (son 15 versos) |
+| 2334–2348 | Versificación irregular · Mixta | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») (son 15 versos) |
+| 2349–2350 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») (son 2 versos) |
+| 2349–2350 | Versificación irregular · Mixta | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») (son 2 versos) |
 
 ## Respuestas ya rellenas
 
