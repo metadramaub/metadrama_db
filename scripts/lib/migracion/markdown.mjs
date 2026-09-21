@@ -132,21 +132,33 @@ export function informeDeObra(obra, fecha) {
 
 	w('## Tu obra en cifras');
 	w();
+	// **Lo que da cero no se cuenta.** Decir «0 subtipos estróficos, que se conservan sin cambios» es
+	// contar lo que no hay y prometerle algo encima.
+	const vias = [
+		cuenta.directa > 0 ? `${cuenta.directa} tienen equivalencia directa en el catálogo` : null,
+		cuenta.rasgo > 0
+			? `${cuenta.rasgo} llevan además un rasgo (la asonancia de un romance, por ejemplo)`
+			: null,
+		cuenta.ascendencia > 0
+			? `${cuenta.ascendencia} toman la forma del término padre porque el suyo no tiene equivalencia propia`
+			: null
+	].filter(Boolean);
 	w(
-		`- ${plural(secuencias.length, 'secuencia métrica', 'secuencias métricas')}. De ellas, ${cuenta.directa} tienen equivalencia directa en el`
+		`- ${plural(secuencias.length, 'secuencia métrica', 'secuencias métricas')}` +
+			(vias.length > 0
+				? `. De ellas, ${vias.slice(0, -1).join(', ')}${vias.length > 1 ? ' y ' : ''}${vias[vias.length - 1]}.`
+				: '.')
 	);
-	w(
-		`  catálogo, ${cuenta.rasgo} llevan además un rasgo (la asonancia de un romance, por ejemplo) y`
-	);
-	w(
-		`  ${cuenta.ascendencia} toman la forma del término padre porque el suyo no tiene equivalencia propia.`
-	);
-	w(
-		`- ${plural(obra.subtipos.length, 'subtipo estrófico', 'subtipos estróficos')} (las tipologías de quintilla, estrofa a estrofa), que se conservan sin cambios.`
-	);
-	w(
-		`- ${plural(obra.caracterizaciones.length, 'caracterización por rango', 'caracterizaciones por rango')}${obra.caracterizaciones.length === 1 ? ', que se convierte en una desviación o se mantiene como está.' : ', que se convierten en desviaciones o se mantienen como están.'}`
-	);
+	if (obra.subtipos.length > 0) {
+		w(
+			`- ${plural(obra.subtipos.length, 'subtipo estrófico', 'subtipos estróficos')} (las tipologías de quintilla, estrofa a estrofa), que se ${obra.subtipos.length === 1 ? 'conserva' : 'conservan'} sin cambios.`
+		);
+	}
+	if (obra.caracterizaciones.length > 0) {
+		w(
+			`- ${plural(obra.caracterizaciones.length, 'caracterización por rango', 'caracterizaciones por rango')}${obra.caracterizaciones.length === 1 ? ', que se convierte en una desviación o se mantiene como está.' : ', que se convierten en desviaciones o se mantienen como están.'}`
+		);
+	}
 	w();
 
 	w('## Qué te pido');
@@ -198,11 +210,11 @@ export function informeDeObra(obra, fecha) {
 	if (fundibles.length > 0) {
 		w('## Tramos que pasan a ser una sola secuencia');
 		w();
-		w('El vocabulario anterior obligaba a abrir una secuencia nueva cada vez que cambiaba el');
-		w('detalle de la estrofa, aunque el pasaje fuera el mismo. En el modelo nuevo eso se dice');
-		w('estrofa a estrofa, así que esos tramos vuelven a ser una secuencia. **Se hace salvo que me');
-		w('digas que no**, y por eso está en la pestaña **Confirmar**: contiguos, de la misma forma y');
-		w('sin cruzar jornada ni cuadro, son un solo pasaje.');
+		w(
+			'El modelo anterior obligaba a abrir una secuencia nueva cada vez que cambiaba el detalle de'
+		);
+		w('la estrofa aunque fuera el mismo pasaje, por error mío. Ahora está corregido y el tramo');
+		w('vuelve a ser una sola secuencia. Si está correcto, dices sí en **Confirmar**.');
 		w();
 		for (const tramo of fundibles) {
 			const desde = Number(tramo[0].v_ini);

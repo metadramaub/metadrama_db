@@ -18,10 +18,7 @@ allí que la migración no dejó ningún hueco.
 
 ## Tu obra en cifras
 
-- 26 secuencias métricas. De ellas, 18 tienen equivalencia directa en el
-  catálogo, 8 llevan además un rasgo (la asonancia de un romance, por ejemplo) y
-  0 toman la forma del término padre porque el suyo no tiene equivalencia propia.
-- 0 subtipos estróficos (las tipologías de quintilla, estrofa a estrofa), que se conservan sin cambios.
+- 26 secuencias métricas. De ellas, 18 tienen equivalencia directa en el catálogo y 8 llevan además un rasgo (la asonancia de un romance, por ejemplo).
 - 160 caracterizaciones por rango, que se convierten en desviaciones o se mantienen como están.
 
 ## Qué te pido
@@ -98,7 +95,7 @@ las que le tocan, sin dar una cifra. Están en la pestaña **Desviaciones**.
 | `hipometrico` | 41 | Pasa a ser una desviación de medida: el verso tiene menos sílabas de las que le tocan |
 | `rima_defectuosa` | 12 | Pasa a ser una desviación de rima, y se conserva tu nota |
 | `patron_alternativo` | 4 | Pasa a ser una desviación de rima, y se conserva tu nota |
-| `mayoria_agudas` | 1 | En un romance con asonancia en «a» el final agudo ya va implícito, así que no se registra aparte |
+| `mayoria_agudas` | 1 | La asonancia de este romance es en «a», así que el final agudo ya va implícito: no se registra aparte |
 
 ## Cómo rellenar el Excel
 

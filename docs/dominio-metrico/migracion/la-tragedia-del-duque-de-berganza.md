@@ -18,11 +18,7 @@ allí que la migración no dejó ningún hueco.
 
 ## Tu obra en cifras
 
-- 5 secuencias métricas. De ellas, 4 tienen equivalencia directa en el
-  catálogo, 1 llevan además un rasgo (la asonancia de un romance, por ejemplo) y
-  0 toman la forma del término padre porque el suyo no tiene equivalencia propia.
-- 0 subtipos estróficos (las tipologías de quintilla, estrofa a estrofa), que se conservan sin cambios.
-- 0 caracterizaciones por rango, que se convierten en desviaciones o se mantienen como están.
+- 5 secuencias métricas. De ellas, 4 tienen equivalencia directa en el catálogo y 1 llevan además un rasgo (la asonancia de un romance, por ejemplo).
 
 ## Qué te pido
 

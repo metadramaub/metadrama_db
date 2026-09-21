@@ -18,10 +18,7 @@ allí que la migración no dejó ningún hueco.
 
 ## Tu obra en cifras
 
-- 24 secuencias métricas. De ellas, 16 tienen equivalencia directa en el
-  catálogo, 8 llevan además un rasgo (la asonancia de un romance, por ejemplo) y
-  0 toman la forma del término padre porque el suyo no tiene equivalencia propia.
-- 0 subtipos estróficos (las tipologías de quintilla, estrofa a estrofa), que se conservan sin cambios.
+- 24 secuencias métricas. De ellas, 16 tienen equivalencia directa en el catálogo y 8 llevan además un rasgo (la asonancia de un romance, por ejemplo).
 - 7 caracterizaciones por rango, que se convierten en desviaciones o se mantienen como están.
 
 ## Qué te pido
@@ -32,11 +29,9 @@ allí que la migración no dejó ningún hueco.
 
 ## Tramos que pasan a ser una sola secuencia
 
-El vocabulario anterior obligaba a abrir una secuencia nueva cada vez que cambiaba el
-detalle de la estrofa, aunque el pasaje fuera el mismo. En el modelo nuevo eso se dice
-estrofa a estrofa, así que esos tramos vuelven a ser una secuencia. **Se hace salvo que me
-digas que no**, y por eso está en la pestaña **Confirmar**: contiguos, de la misma forma y
-sin cruzar jornada ni cuadro, son un solo pasaje.
+El modelo anterior obligaba a abrir una secuencia nueva cada vez que cambiaba el detalle de
+la estrofa aunque fuera el mismo pasaje, por error mío. Ahora está corregido y el tramo
+vuelve a ser una sola secuencia. Si está correcto, dices sí en **Confirmar**.
 
 - **vv. 169–378** · Sexteto-lira · Heterométrico consonante, hoy 4 secuencias.
 

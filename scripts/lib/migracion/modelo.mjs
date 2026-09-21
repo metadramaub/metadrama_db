@@ -47,12 +47,9 @@ export const DESTINO_CARACTERIZACION = {
 		pide: 'confirmar',
 		desviacion: { dimension: 'rima', relacion_norma: 'otra' }
 	},
-	mayoria_agudas: {
-		destino:
-			'En un romance con asonancia en «a» el final agudo ya va implícito, así que no se registra aparte',
-		pide: 'confirmar',
-		desviacion: null
-	},
+	// El texto de esta no sale de aquí: depende de la asonancia de la secuencia, y lo escribe
+	// `destinoDeMayoriaAgudas`. La entrada se queda para que el aplicador sepa que no escribe nada.
+	mayoria_agudas: { destino: '', pide: 'confirmar', desviacion: null },
 	mayoria_esdrujulas: {
 		destino: 'Pasa al rasgo «Final acentual», con el valor esdrújulo',
 		pide: 'confirmar',
@@ -709,10 +706,13 @@ export function filasDeSecuencia(secuencia) {
 
 	// --- Las caracterizaciones por rango, una a una.
 	for (const c of secuencia.caracterizaciones ?? []) {
-		const destino = DESTINO_CARACTERIZACION[c.termino] ?? {
-			destino: `No hay traducción prevista para «${c.termino}»; lo revisaré a mano`,
-			pide: 'confirmar'
-		};
+		const destino =
+			c.termino === 'mayoria_agudas'
+				? destinoDeMayoriaAgudas(secuencia)
+				: (DESTINO_CARACTERIZACION[c.termino] ?? {
+						destino: `No hay traducción prevista para «${c.termino}»; lo revisaré a mano`,
+						pide: 'confirmar'
+					});
 		// La tabla promete conservar la nota; donde no hay nota, no se promete.
 		const comoQueda = (c.observaciones ?? '').trim()
 			? destino.destino
@@ -741,6 +741,44 @@ export function filasDeSecuencia(secuencia) {
 	}
 
 	return { responder, confirmar, desviaciones };
+}
+
+/**
+ * Lo que la secuencia dice de su asonancia, si lo dice: «a», «e-o». Sale de la respuesta que el
+ * término legado ya traía, que es de donde salen todas las vocales de un romance.
+ */
+function asonanciaDe(secuencia) {
+	const fila = (secuencia.respuestas ?? []).find((r) => r.pregunta === 'Vocales de la asonancia');
+	return fila?.respuesta ?? null;
+}
+
+/**
+ * Cómo queda una mayoría de agudas, que **solo puede darse en un romance de una vocal**.
+ *
+ * Una asonancia de una vocal ya es aguda, así que anotarlo aparte era decir dos veces lo mismo y no
+ * hay nada que trasladar. Y una de dos vocales es llana: un romance llano no puede tener mayoría de
+ * finales agudos, porque entonces asonaría en la última vocal y sería el otro romance. Cuando eso
+ * aparece, lo que hay es una contradicción entre lo anotado y lo anotado, y se mira.
+ */
+function destinoDeMayoriaAgudas(secuencia) {
+	const asonancia = asonanciaDe(secuencia);
+	if (asonancia && asonancia.includes('-')) {
+		return {
+			destino:
+				`Anotaste mayoría de agudas en un romance con asonancia en «${asonancia}», y un romance ` +
+				'de asonancia llana no puede tenerla: si los finales son agudos, la asonancia sería en ' +
+				`«${asonancia.split('-')[1]}». Esto lo miramos juntos.`,
+			pide: 'confirmar',
+			desviacion: null
+		};
+	}
+	return {
+		destino: asonancia
+			? `La asonancia de este romance es en «${asonancia}», así que el final agudo ya va implícito: no se registra aparte`
+			: 'En un romance de una sola vocal el final agudo ya va implícito: no se registra aparte',
+		pide: 'confirmar',
+		desviacion: null
+	};
 }
 
 /**
