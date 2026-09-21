@@ -18,8 +18,6 @@ function evidencia(
 		dimension,
 		familiaCognitiva,
 		etiqueta,
-		pregunta: `Pregunta sobre ${etiqueta}`,
-		ayuda: '',
 		tipo: 'categoria',
 		valores: [{ clave, etiqueta }],
 		minimo: null,

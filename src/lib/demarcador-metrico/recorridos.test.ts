@@ -24,8 +24,6 @@ function evidencia(
 		dimension,
 		familiaCognitiva,
 		etiqueta: override.etiqueta ?? dimension,
-		pregunta: override.pregunta ?? dimension,
-		ayuda: override.ayuda ?? '',
 		tipo: override.tipo ?? 'categoria',
 		valores,
 		minimo: override.minimo ?? null,
@@ -235,6 +233,7 @@ describe('comprobar una hipótesis contrasta contra sus rivales, no contra el ca
 	const conRelaciones = (relaciones: CatalogoDemarcador['relaciones']): CatalogoDemarcador => ({
 		formas: [],
 		relaciones,
+		textos: {},
 		advertencias: [],
 		hipotesis: [
 			hipotesis('sextilla', 'Sextilla', 'Octosílaba', [

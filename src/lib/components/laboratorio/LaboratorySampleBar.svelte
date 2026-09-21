@@ -19,7 +19,10 @@
 	}>();
 
 	const verses = $derived(
-		props.works.reduce((sum, work) => sum + (work.metricas.total_versos ?? 0), 0)
+		props.works.reduce(
+			(sum: number, work: CorpusComparisonWork) => sum + (work.metricas.total_versos ?? 0),
+			0
+		)
 	);
 	const filtered = $derived(
 		props.selectedAuthors.length > 0 || props.dateFrom.length > 0 || props.dateTo.length > 0

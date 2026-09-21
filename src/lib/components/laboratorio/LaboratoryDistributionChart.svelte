@@ -8,8 +8,10 @@
 	import type { LaboratoryMetric } from '$lib/laboratorio/metricas';
 	import type { EChartsOption } from 'echarts';
 
+	type DistributionRow = { id: string; title: string; authors: string; value: number };
+
 	const props = $props<{
-		rows: Array<{ id: string; title: string; authors: string; value: number }>;
+		rows: DistributionRow[];
 		metric: LaboratoryMetric;
 		q1: number | null;
 		median: number | null;
@@ -28,13 +30,13 @@
 	const axisScale = $derived(
 		getLaboratoryAxisScale(
 			props.metric,
-			props.rows.map((row) => row.value)
+			props.rows.map((row: DistributionRow) => row.value)
 		)
 	);
 	const axisValue = (value: number) => formatLaboratoryAxisTick(value, props.metric, axisScale);
 
 	const option = $derived.by((): EChartsOption => {
-		const data = props.rows.map((row, index) => ({
+		const data = props.rows.map((row: DistributionRow, index: number) => ({
 			value: [row.value, ((index % 7) - 3) * 0.075],
 			id: row.id,
 			title: row.title,

@@ -951,10 +951,10 @@
 												<InternalCommentsPanel
 													obraId={props.obraId}
 													canComment={Boolean(props.canComment)}
-															title="Comentarios internos"
-															context={{ cuadro_id: editingCuadroId }}
-															focusComentarioId={props.focusComentarioId}
-															reloadKey={props.commentsReloadKey}
+													title="Comentarios internos"
+													context={{ cuadro_id: cuadro.cuadro_id }}
+													focusComentarioId={props.focusComentarioId}
+													reloadKey={props.commentsReloadKey}
 												/>
 											{/key}
 										</div>
