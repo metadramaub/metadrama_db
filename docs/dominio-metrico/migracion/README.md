@@ -15,11 +15,11 @@ devueltas van a [respuestas/](./respuestas/). El procedimiento completo está en
 | [La gran Semíramis](./la-gran-semiramis.md) | Blanca Ballester Morell | 36 | 22 | 0 | 14 | **3** | 18 | 31 |
 | [El esclavo del demonio](./el-esclavo-del-demonio.md) | Blanca Ballester Morell | 30 | 19 | 5 | 6 | **2** | 34 | 22 |
 | [La tragedia del duque de Berganza](./la-tragedia-del-duque-de-berganza.md) | María Rosa Álvarez Sellers | 5 | 4 | 1 | 0 | **2** | 2 | 2 |
-| [El conde de Sex](./el-conde-de-sex.md) | Rosa Bono | 28 | 11 | 17 | 0 | **1** | 10 | 25 |
+| [El conde de Sex](./el-conde-de-sex.md) | Rosa Bono | 28 | 11 | 17 | 0 | **1** | 9 | 25 |
 | [El mágico prodigioso](./el-magico-prodigioso.md) | Emma González Mesas | 21 | 13 | 8 | 0 | **1** | 3 | 15 |
 | [Dido y Eneas](./dido-y-eneas.md) | Gaston Gilabert | 24 | 16 | 8 | 0 | — | 64 | 18 |
-| [Elisa Dido](./elisa-dido.md) | Blanca Ballester Morell | 16 | 10 | 0 | 6 | — | 19 | 7 |
+| [Elisa Dido](./elisa-dido.md) | Blanca Ballester Morell | 16 | 10 | 0 | 6 | — | 18 | 7 |
 | [El amor al uso](./el-amor-al-uso.md) | Ana Vicente | 28 | 17 | 11 | 0 | — | 13 | 17 |
 | [Cegar para ver mejor](./cegar-para-ver-mejor.md) | Gabriel López | 3 | 2 | 1 | 0 | — | — | 3 |
 
-En total, 263 secuencias en 11 obras: 165 con equivalencia directa, 71 con un rasgo además de la forma y 27 que la heredan del término padre. A los editores se les piden 17 decisiones, 217 respuestas y 169 confirmaciones.
+En total, 263 secuencias en 11 obras: 165 con equivalencia directa, 71 con un rasgo además de la forma y 27 que la heredan del término padre. A los editores se les piden 17 decisiones, 215 respuestas y 169 confirmaciones.

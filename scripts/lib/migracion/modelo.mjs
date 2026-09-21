@@ -591,10 +591,24 @@ export function filasDeSecuencia(secuencia) {
 	// --- Lo que falta por responder, y lo que se pregunta además por el término legado.
 	const respondidas = new Set((secuencia.respuestas ?? []).map((r) => r.grupo_eleccion_id));
 	const extra = new Set(PREGUNTAS_EXTRA_POR_TERMINO[secuencia.termino_legado] ?? []);
+	// **Una pregunta condicionada al régimen de la rima solo se hace si puede tocar.** Si lo que ya
+	// está respondido dice que el pasaje rima en consonante, sus vocales de la asonancia no existen y
+	// no se preguntan; si la rima aún no se sabe, se pregunta diciendo de qué depende.
+	const regimenes = new Set(
+		(secuencia.respuestas ?? [])
+			.map((r) => r.tipo_rima_id)
+			.filter(Boolean)
+			.map(String)
+	);
 	const pendientes = (secuencia.preguntas ?? []).filter(
 		(p) =>
 			!respondidas.has(p.grupo_eleccion_id) &&
-			(Number(p.selecciones_min) >= 1 || extra.has(p.nombre))
+			(Number(p.selecciones_min) >= 1 || extra.has(p.nombre)) &&
+			!(
+				p.solo_si_tipo_rima_id &&
+				regimenes.size > 0 &&
+				!regimenes.has(String(p.solo_si_tipo_rima_id))
+			)
 	);
 	const unidades = secuencia.unidades ?? [];
 	for (const pregunta of pendientes) {

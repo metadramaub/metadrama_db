@@ -145,6 +145,38 @@ function opcionPorNombre(pregunta, texto) {
 	);
 }
 
+/**
+ * Los regímenes de rima que afirman las respuestas de una secuencia: las que ya traía la propuesta
+ * y las que salen de lo contestado en el Excel.
+ *
+ * Una respuesta lo dice eligiendo una disposición del catálogo, que lleva su tipo de rima. Se miran
+ * todas, las de la secuencia y las de cada estrofa: una tirada de pareados puede tener unos
+ * consonantes y otros asonantes, y entonces la asonancia sigue teniendo su dato que declarar.
+ */
+export function tiposDeRimaAfirmados(respuestasPropuesta, elecciones, preguntas) {
+	const tipoPorOpcion = new Map();
+	for (const pregunta of preguntas ?? []) {
+		for (const opcion of pregunta.opciones ?? []) {
+			if (opcion.tipo_rima_id) tipoPorOpcion.set(opcion.opcion_eleccion_id, opcion.tipo_rima_id);
+		}
+	}
+	const afirmados = new Set();
+	for (const respuesta of respuestasPropuesta ?? []) {
+		if (respuesta.tipo_rima_id) afirmados.add(String(respuesta.tipo_rima_id));
+	}
+	for (const eleccion of elecciones ?? []) {
+		const tipo = tipoPorOpcion.get(eleccion.opcion_eleccion_id);
+		if (tipo) afirmados.add(String(tipo));
+	}
+	return afirmados;
+}
+
+/** Si una pregunta condicionada aplica. **No saber no es saber que sí.** */
+export function preguntaAplica(pregunta, afirmados) {
+	if (!pregunta.solo_si_tipo_rima_id) return true;
+	return afirmados.has(String(pregunta.solo_si_tipo_rima_id));
+}
+
 /** El metro de un número de sílabas, para la desviación de medida que trae cifra. */
 export function metroDeSilabas(metros, silabas) {
 	const candidatos = (metros ?? []).filter((m) => Number(m.silabas) === Number(silabas));
@@ -742,9 +774,14 @@ export function planificarObra(obra, respuestas, catalogo, metros) {
 		const respondidas = new Set(
 			partes.flatMap((parte) => (parte.respuestas ?? []).map((r) => r.grupo_eleccion_id))
 		);
-		for (const pregunta of preguntas) {
-			if (respondidas.has(pregunta.grupo_eleccion_id)) continue;
-			if (Number(pregunta.selecciones_min) < 1) continue;
+		/**
+		 * Lo que hay que resolver de una pregunta, para poder hacerlo en dos vueltas.
+		 *
+		 * Las preguntas condicionadas al régimen de la rima —las vocales de la asonancia— se
+		 * resuelven después, cuando la rima ya está contestada: si se miraran a la vez, la condición
+		 * se evaluaría contra lo que aún no se ha leído.
+		 */
+		const resolverPregunta = (pregunta) => {
 			// **Una parte que el pasaje no tiene no se pregunta.** El remate de una canción puede no
 			// estar, y entonces su medida no falta: no existe. La base lo mira igual, recorriendo las
 			// realizaciones que hay.
@@ -756,7 +793,7 @@ export function planificarObra(obra, respuestas, catalogo, metros) {
 				avisos.push(
 					`${contexto}: no lleva ${String(pregunta.seccion_nombre ?? 'esa parte').toLowerCase()}, así que «${pregunta.nombre}» no se pregunta.`
 				);
-				continue;
+				return;
 			}
 
 			const porUnidad = destinosDe(pregunta, unidades)
@@ -792,7 +829,7 @@ export function planificarObra(obra, respuestas, catalogo, metros) {
 						`${contexto}: «${pregunta.nombre}» se preguntaba estrofa a estrofa y quedan ${sinContestar} sin contestar.`
 					);
 				}
-				continue;
+				return;
 			}
 
 			const fila =
@@ -800,11 +837,37 @@ export function planificarObra(obra, respuestas, catalogo, metros) {
 				respuestas.get(claveRespuestaPorNombre(secuencia.secuencia_id, pregunta.nombre));
 			if (!fila?.respuesta) {
 				pendientes.push(`${contexto}: falta la respuesta a «${pregunta.nombre}».`);
-				continue;
+				return;
 			}
 			elecciones.push(
 				...eleccionesDeUnaRespuesta(pregunta, fila, unidades, metros, pendientes, avisos, contexto)
 			);
+		};
+
+		const aplicables = preguntas.filter(
+			(pregunta) =>
+				!respondidas.has(pregunta.grupo_eleccion_id) && Number(pregunta.selecciones_min) >= 1
+		);
+		for (const pregunta of aplicables.filter((p) => !p.solo_si_tipo_rima_id)) {
+			resolverPregunta(pregunta);
+		}
+
+		// **Una pregunta condicionada se mide contra la rima que se haya afirmado**, venga de la
+		// propuesta o de lo que el editor acaba de contestar. No saber no es saber que sí: si la
+		// condición no se cumple, la respuesta sobra y la base la rechaza.
+		const afirmados = tiposDeRimaAfirmados(
+			partes.flatMap((parte) => parte.respuestas ?? []),
+			elecciones,
+			preguntas
+		);
+		for (const pregunta of aplicables.filter((p) => p.solo_si_tipo_rima_id)) {
+			if (!preguntaAplica(pregunta, afirmados)) {
+				avisos.push(
+					`${contexto}: «${pregunta.nombre}» solo se pregunta cuando la rima lo pide, y aquí no.`
+				);
+				continue;
+			}
+			resolverPregunta(pregunta);
 		}
 
 		const { desviaciones, conservadas } = desviacionesDe(

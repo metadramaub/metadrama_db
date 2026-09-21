@@ -15,6 +15,7 @@
 import { query } from '../consulta.mjs';
 import { cargarCatalogo } from '../metrica/catalogo.mjs';
 import { realizacionesDe } from '../metrica/realizaciones.mjs';
+import { preguntaAplica, tiposDeRimaAfirmados } from './aplicador.mjs';
 import {
 	diagnosticar,
 	filasDeFusion,
@@ -86,9 +87,11 @@ const SQL_CUADROS = `
 const SQL_PREGUNTAS = `
 	select g.arquitectura_id, g.grupo_eleccion_id, g.nombre, g.alcance, g.dimension,
 		g.seccion_id, g.seccion_tratada_id, g.selecciones_min, g.selecciones_max, g.orden,
+		g.solo_si_tipo_rima_id, tr.termino as solo_si_tipo_rima,
 		sec.nombre as seccion_nombre, sec.repeticiones_min as seccion_repeticiones_min
 	from public.grupos_eleccion_metrica_resueltos g
 	left join public.estructuras_secciones sec on sec.seccion_id = g.seccion_id
+	left join public.vocabularios tr on tr.termino_id = g.solo_si_tipo_rima_id
 	where g.activo and g.arquitectura_id in (
 		select distinct p.arquitectura_propuesta_id from public.propuesta_metrica_secuencia p
 		where p.via <> 'sin_tipo' and p.arquitectura_propuesta_id is not null
@@ -105,8 +108,10 @@ const SQL_ARQUITECTURAS = `
 `;
 
 const SQL_OPCIONES = `
-	select o.opcion_eleccion_id, o.grupo_eleccion_id, o.nombre, o.orden, o.posicion_unidad
+	select o.opcion_eleccion_id, o.grupo_eleccion_id, o.nombre, o.orden, o.posicion_unidad,
+		e.tipo_rima_id
 	from public.opciones_eleccion_metrica o
+	left join public.esquemas_rima e on e.esquema_rima_id = o.esquema_rima_id
 	where o.activo and o.grupo_eleccion_id in (
 		select g.grupo_eleccion_id from public.grupos_eleccion_metrica_resueltos g
 		where g.activo and g.arquitectura_id in (
@@ -123,9 +128,12 @@ const SQL_OPCIONES = `
  */
 const SQL_RESPUESTAS = `
 	select r.secuencia_id, r.grupo_eleccion_id, r.pregunta, r.opcion_eleccion_id, r.respuesta,
-		r.alcance, r.unidad_v_ini, r.unidad_v_fin, r.origen
+		r.alcance, r.unidad_v_ini, r.unidad_v_fin, r.origen,
+		e.tipo_rima_id
 	from public.propuesta_elecciones_secuencia r
 	join public.propuesta_metrica_secuencia p on p.secuencia_id = r.secuencia_id and p.via <> 'sin_tipo'
+	left join public.opciones_eleccion_metrica o on o.opcion_eleccion_id = r.opcion_eleccion_id
+	left join public.esquemas_rima e on e.esquema_rima_id = o.esquema_rima_id
 	order by r.secuencia_id, r.unidad_v_ini
 `;
 
@@ -229,13 +237,16 @@ export function cargarObras() {
 		// Lo que el catálogo obliga a responder y la migración no sabe: nombre a nombre.
 		const respondidas = new Set(s.respuestas.map((r) => r.grupo_eleccion_id));
 		// Una pregunta sobre una parte que puede no estar no cuenta como hueco: si el pasaje no la
-		// lleva, no hay nada que responder.
+		// lleva, no hay nada que responder. Tampoco la que depende de un régimen de rima que la
+		// secuencia no tiene: las vocales de la asonancia de un pasaje consonante no existen.
+		const afirmados = tiposDeRimaAfirmados(s.respuestas, [], s.preguntas);
 		s.faltan = s.preguntas
 			.filter(
 				(p) =>
 					Number(p.selecciones_min) >= 1 &&
 					!respondidas.has(p.grupo_eleccion_id) &&
-					!(p.seccion_id && Number(p.seccion_repeticiones_min) === 0)
+					!(p.seccion_id && Number(p.seccion_repeticiones_min) === 0) &&
+					!(p.solo_si_tipo_rima_id && afirmados.size > 0 && !preguntaAplica(p, afirmados))
 			)
 			.map((p) => p.nombre);
 		s.anotadas = s.respuestas.filter((r) => r.origen === 'anotada').length;

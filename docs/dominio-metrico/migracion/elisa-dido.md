@@ -26,7 +26,7 @@ allí que la migración no dejó ningún hueco.
 
 ## Qué te pido
 
-- 19 respuestas, en 10 secuencias, a preguntas que el vocabulario anterior no recogía.
+- 18 respuestas, en 9 secuencias, a preguntas que el vocabulario anterior no recogía.
 - 7 confirmaciones de respuestas que ya he rellenado yo.
 
 ## Preguntas pendientes
@@ -45,7 +45,6 @@ deduce sola y solo hay que confirmarla.
 | --- | --- | --- | --- |
 | 441–488 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») (son 48 versos) |
 | 441–488 | Versificación irregular · Mixta | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») (son 48 versos) |
-| 489–490 | Pareado · Isométrico | Vocales de la asonancia | Elige en el desplegable |
 | 1041–1080 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») (son 40 versos) |
 | 1041–1080 | Versificación irregular · Mixta | Esquema de rima observado | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») (son 40 versos) |
 | 1081–1082 | Versificación irregular · Mixta | Medida de cada verso | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») (son 2 versos) |
@@ -113,7 +112,7 @@ derivadas se deducen del término y aparecen en la pestaña Confirmar.
 | ---: | --- | ---: | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | 1–440 | 440 | `endecasilabo_suelto_puro` | Endecasílabo suelto | Endecasílabo | — | — | lista | 3 derivadas | por ascendencia (endecasilabo_suelto) |
 | 2 | 441–488 | 48 | `irregular_mixto` | Versificación irregular | Mixta | — | — | **Falta:** Medida de cada verso, Esquema de rima observado | — | directa |
-| 3 | 489–490 | 2 | `pareado_endecasilabo` | Pareado | Isométrico | — | — | **Falta:** Vocales de la asonancia | 2 derivadas | directa |
+| 3 | 489–490 | 2 | `pareado_endecasilabo` | Pareado | Isométrico | — | — | lista | 2 derivadas | directa |
 | 4 | 491–1040 | 550 | `endecasilabo_suelto_puro` | Endecasílabo suelto | Endecasílabo | — | — | lista | 3 derivadas | por ascendencia (endecasilabo_suelto) |
 | 5 | 1041–1080 | 40 | `irregular_mixto` | Versificación irregular | Mixta | — | — | **Falta:** Medida de cada verso, Esquema de rima observado | — | directa |
 | 6 | 1081–1082 | 2 | `irregular_mixto` | Versificación irregular | Mixta | — | — | **Falta:** Medida de cada verso, Esquema de rima observado | — | directa |

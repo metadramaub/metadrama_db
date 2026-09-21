@@ -10,6 +10,8 @@ import { describe, expect, it } from 'vitest';
 import {
 	confirma,
 	corregirLaObra,
+	preguntaAplica,
+	tiposDeRimaAfirmados,
 	leerExcepciones,
 	leerLaguna,
 	leerRango,
@@ -156,5 +158,40 @@ describe('corregirLaObra', () => {
 
 	it('sin correcciones devuelve la obra tal cual', () => {
 		expect(corregirLaObra(obra, [])).toBe(obra);
+	});
+});
+
+describe('las preguntas que dependen del régimen de la rima', () => {
+	const ASONANTE = 'tipo-asonante';
+	const CONSONANTE = 'tipo-consonante';
+	const preguntas = [
+		{
+			grupo_eleccion_id: 'rima',
+			dimension: 'rima',
+			opciones: [
+				{ opcion_eleccion_id: 'aa-cons', tipo_rima_id: CONSONANTE },
+				{ opcion_eleccion_id: 'aa-ason', tipo_rima_id: ASONANTE }
+			]
+		},
+		{ grupo_eleccion_id: 'vocales', solo_si_tipo_rima_id: ASONANTE, opciones: [] }
+	];
+	const vocales = preguntas[1];
+
+	it('lee el régimen de lo que ya traía la propuesta', () => {
+		const afirmados = tiposDeRimaAfirmados([{ tipo_rima_id: CONSONANTE }], [], preguntas);
+		expect(preguntaAplica(vocales, afirmados)).toBe(false);
+	});
+
+	it('y también de lo que el editor acaba de contestar', () => {
+		const afirmados = tiposDeRimaAfirmados([], [{ opcion_eleccion_id: 'aa-ason' }], preguntas);
+		expect(preguntaAplica(vocales, afirmados)).toBe(true);
+	});
+
+	it('no saber no es saber que sí', () => {
+		expect(preguntaAplica(vocales, tiposDeRimaAfirmados([], [], preguntas))).toBe(false);
+	});
+
+	it('una pregunta sin condición se hace siempre', () => {
+		expect(preguntaAplica(preguntas[0], new Set())).toBe(true);
 	});
 });
