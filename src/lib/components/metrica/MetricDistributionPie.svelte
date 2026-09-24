@@ -8,6 +8,8 @@
 		buildDistributionGroups,
 		formatMetricCount,
 		pluralizeMetricUnit,
+		type MetricDistributionArchitecture,
+		type MetricDistributionDimension,
 		type MetricDistributionGroup,
 		type MetricDistributionSequence,
 		type MetricDistributionValue
@@ -77,9 +79,39 @@
 		return props.valueMode === 'absolute' ? `${versos} vv.` : `${porcentaje.toFixed(2)}%`;
 	}
 
-	function featureLabel(item: MetricDistributionValue): string {
-		return `${item.versos} vv. en ${formatMetricCount(item)}`;
+	const porcentajeDe = (parte: number, total: number) =>
+		`${(total > 0 ? (parte / total) * 100 : 0).toFixed(2)}%`;
+
+	/**
+	 * Un valor de rasgo, en la escala en que se puede contar.
+	 *
+	 * **Los que caracterizan versos** —la asonancia— siguen el modo del perfil: porcentaje de los
+	 * versos de la arquitectura, o versos. **Los que se dicen de la secuencia entera** solo se cuentan
+	 * en secuencias, en los dos modos, como los esquemas: «la mayoría de sus versos riman» no dice
+	 * cuáles, y dar la suma de versos afirmaría de cada uno lo que solo se dijo del conjunto.
+	 */
+	function featureLabel(
+		item: MetricDistributionValue,
+		rasgo: MetricDistributionDimension,
+		arquitectura: MetricDistributionArchitecture
+	): string {
+		const secuencias = formatMetricCount(item);
+		if (rasgo.escala === 'verso') {
+			const medida =
+				props.valueMode === 'absolute'
+					? `${item.versos} vv.`
+					: porcentajeDe(item.versos, arquitectura.versos);
+			return `${medida} en ${secuencias}`;
+		}
+		if (item.cantidad === arquitectura.secuencias) return secuencias;
+		return `${item.cantidad} de ${arquitectura.secuencias} ${pluralizeMetricUnit('secuencia', arquitectura.secuencias)} · ${porcentajeDe(item.cantidad, arquitectura.secuencias)}`;
 	}
+
+	/** Los metros cubren versos: siguen el modo del perfil, como la asonancia. */
+	const metroLabel = (metro: MetricDistributionValue, arquitectura: MetricDistributionArchitecture) =>
+		props.valueMode === 'absolute'
+			? `${metro.versos} vv.`
+			: porcentajeDe(metro.versos, arquitectura.versos);
 
 	function schemeLabel(item: MetricDistributionValue, items: MetricDistributionValue[]): string {
 		const total = items
@@ -203,7 +235,7 @@
 													{#each rasgo.values as value (value.label)}
 														<li class="flex items-center justify-between gap-3 py-0.5 text-xs text-[color:var(--muted-foreground)]">
 															<span class="text-[color:var(--foreground)]">{value.label}</span>
-															<span>{featureLabel(value)}</span>
+															<span>{featureLabel(value, rasgo, arquitectura)}</span>
 														</li>
 													{/each}
 												</ul>
@@ -213,7 +245,7 @@
 										{#if arquitectura.metros.length > 0}
 											<p class="text-xs text-[color:var(--muted-foreground)]">
 												<span class="font-semibold uppercase tracking-[0.06em]">Metros:</span>
-												{arquitectura.metros.map((metro) => `${metro.label} (${metro.versos} vv.)`).join(' · ')}
+												{arquitectura.metros.map((metro) => `${metro.label} (${metroLabel(metro, arquitectura)})`).join(' · ')}
 											</p>
 										{/if}
 

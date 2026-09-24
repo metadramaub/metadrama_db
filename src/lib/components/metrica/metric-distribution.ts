@@ -20,6 +20,13 @@ export interface MetricDistributionValue {
 
 export interface MetricDistributionDimension {
 	label: string;
+	/**
+	 * En qué se cuenta el rasgo. `verso`: el valor caracteriza los versos que cubre, y se pueden
+	 * sumar y repartir en porcentaje. `secuencia`: es un juicio sobre la secuencia entera —«la
+	 * mayoría de sus versos riman», «acaba en esdrújulos»— y sumar sus versos sería afirmar de cada
+	 * verso lo que solo se dijo del conjunto.
+	 */
+	escala: 'verso' | 'secuencia';
 	values: MetricDistributionValue[];
 }
 
@@ -28,6 +35,8 @@ export interface MetricDistributionArchitecture {
 	slug: string | null;
 	versos: number;
 	porcentaje: number;
+	/** Secuencias de la arquitectura: el total contra el que se cuentan los rasgos de secuencia. */
+	secuencias: number;
 	esquemas: MetricDistributionValue[];
 	rasgos: MetricDistributionDimension[];
 	metros: MetricDistributionValue[];
@@ -169,32 +178,51 @@ function rhymeSchemes(sequences: MetricDistributionSequence[]): MetricDistributi
 	);
 }
 
-function featureDimensions(sequences: MetricDistributionSequence[]): MetricDistributionDimension[] {
-	const featureNames = new Set(
-		sequences.flatMap((sequence) => (sequence.rasgos ?? []).map((row) => row.rasgo_nombre))
-	);
+/**
+ * Los rasgos cuyo valor caracteriza verso a verso lo que cubre. **Solo la asonancia**: una tirada
+ * en é-o tiene en é-o cada uno de sus versos pares. Los demás rasgos del catálogo —densidad de rima,
+ * final acentual, organización en pareados, dístico final, encadenamiento interior, pie quebrado—
+ * se anotan sobre la secuencia entera, y sus versos no se pueden contar.
+ *
+ * El catálogo no lo declara: `observabilidad` y `tipo_valor` dicen otra cosa. Si entra un rasgo
+ * nuevo que se mida en versos, se añade aquí; si no, se cuenta en secuencias, que nunca falsea.
+ */
+const RASGOS_EN_VERSOS = new Set(['vocales_asonancia']);
 
-	return [...featureNames]
-		.map((feature): MetricDistributionDimension => {
-			const byValue = new Map<string, Map<string, number>>();
+function featureDimensions(sequences: MetricDistributionSequence[]): MetricDistributionDimension[] {
+	const features = new Map<string, string>();
+	for (const sequence of sequences) {
+		for (const row of sequence.rasgos ?? []) features.set(row.rasgo_slug, row.rasgo_nombre);
+	}
+
+	return [...features.entries()]
+		.map(([slug, feature]): MetricDistributionDimension => {
+			const escala = RASGOS_EN_VERSOS.has(slug) ? 'verso' : 'secuencia';
+			const byValue = new Map<string, { sequences: Set<string>; verses: Set<string> }>();
 			for (const sequence of sequences) {
-				for (const row of (sequence.rasgos ?? []).filter((item) => item.rasgo_nombre === feature)) {
-					const sequencesWithValue = byValue.get(row.valor_nombre) ?? new Map<string, number>();
-					sequencesWithValue.set(sequenceKey(sequence), sequence.n_versos);
-					byValue.set(row.valor_nombre, sequencesWithValue);
+				for (const row of (sequence.rasgos ?? []).filter((item) => item.rasgo_slug === slug)) {
+					const current = byValue.get(row.valor_nombre) ?? {
+						sequences: new Set<string>(),
+						verses: new Set<string>()
+					};
+					current.sequences.add(sequenceKey(sequence));
+					if (escala === 'verso') {
+						for (const key of coveredVerseKeys(sequence, row)) current.verses.add(key);
+					}
+					byValue.set(row.valor_nombre, current);
 				}
 			}
 			const values = [...byValue.entries()]
-				.map(([label, matchingSequences]): MetricDistributionValue => ({
+				.map(([label, { sequences: matching, verses }]): MetricDistributionValue => ({
 					label,
-					cantidad: matchingSequences.size,
+					cantidad: matching.size,
 					unidad: 'secuencia',
-					versos: [...matchingSequences.values()].reduce((total, value) => total + value, 0)
+					versos: verses.size
 				}))
 				.sort(
 					(a, b) => b.versos - a.versos || b.cantidad - a.cantidad || a.label.localeCompare(b.label, 'es')
 				);
-			return { label: feature, values };
+			return { label: feature, escala, values };
 		})
 		.sort((a, b) => a.label.localeCompare(b.label, 'es'));
 }
@@ -298,6 +326,7 @@ export function buildDistributionGroups(
 					slug: first.arquitectura_slug ?? null,
 					versos,
 					porcentaje: porcentaje(versos, slice.versos),
+					secuencias: new Set(architectureSequences.map(sequenceKey)).size,
 					esquemas: rhymeSchemes(architectureSequences),
 					rasgos: featureDimensions(architectureSequences),
 					metros: metres(architectureSequences),
