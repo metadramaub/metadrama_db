@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Tabs from '$lib/components/ui/tabs.svelte';
 	import Breadcrumb from '$lib/components/ui/Breadcrumb.svelte';
-	import CiteWorkButton from '$lib/components/ficha/CiteWorkButton.svelte';
+	import CitaDeFicha from '$lib/components/ficha/CitaDeFicha.svelte';
 	import MetricBarcode from '$lib/components/metrica/MetricBarcode.svelte';
 	import MetricScheme from '$lib/components/metrica/MetricScheme.svelte';
 	import MetricFormStrips from '$lib/components/metrica/MetricFormStrips.svelte';
@@ -672,13 +672,6 @@
 					<FichaAutoriaBlock autoria={ficha.autoria} showFuentes={showFuentes} />
 				{/if}
 			</div>
-
-			<CiteWorkButton
-				titulo={obra.titulo}
-				autorFicha={obra.autor_ficha_publico}
-				updatedAt={obra.updated_at}
-				obraSlug={obra.slug}
-			/>
 		</div>
 
 		{#if data.canSeeAllPublished && isEditorialPreview}
@@ -800,6 +793,13 @@
 				<div class="space-y-2 text-sm">{@html renderMarkdown(obra.edicion ?? '')}</div>
 			</div>
 		{/if}
+
+		<CitaDeFicha
+			titulo={obra.titulo}
+			autorFicha={obra.autor_ficha_publico}
+			updatedAt={obra.updated_at}
+			obraSlug={obra.slug}
+		/>
 	</header>
 
 	{#if tabs.length > 0}

@@ -30,6 +30,10 @@ describe('citaDelAnalisis', () => {
 		]);
 	});
 
+	it('sin fecha de consulta —en el servidor— la cita acaba en el año', () => {
+		expect(textoDe(citaDelAnalisis(procedencia)).endsWith('[https://versologia.metadrama.org/obras/el-magico-prodigioso], 2026.')).toBe(true);
+	});
+
 	it('sin editor, cita el análisis sin firma', () => {
 		const texto = textoDe(citaDelAnalisis({ ...procedencia, autorFicha: '  ' }, consulta));
 		expect(texto.startsWith('«Análisis')).toBe(true);

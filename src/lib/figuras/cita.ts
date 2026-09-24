@@ -30,6 +30,7 @@ export function anioDeFicha(actualizada: string | null | undefined): string {
 
 export const urlDeObra = (slug: string) => `${VERSOLOGIA.origen}/obras/${slug}`;
 
+/** Una fecha como se escribe en una cita, en la zona de quien consulta. */
 export function fechaLarga(fecha: Date): string {
 	return new Intl.DateTimeFormat('es-ES', { dateStyle: 'long' }).format(fecha);
 }
@@ -43,8 +44,11 @@ export function fechaLarga(fecha: Date): string {
  *
  * Entre corchetes va la ficha y no la portada: quien lee la cita tiene que poder llegar al dato.
  * Sin editor asignado se cita el análisis sin firma, que es lo que se hace con una obra anónima.
+ *
+ * **La fecha de consulta es la del día de quien consulta**, y por eso puede faltar: el servidor no
+ * sabe en qué zona está el lector, así que pinta la cita sin ella y el navegador la añade.
  */
-export function citaDelAnalisis(procedencia: ProcedenciaFigura, consulta: Date): Tramo[] {
+export function citaDelAnalisis(procedencia: ProcedenciaFigura, consulta?: Date): Tramo[] {
 	const autor = procedencia.autorFicha?.trim();
 	return [
 		...(autor ? [{ texto: `${autor}, ` }] : []),
@@ -53,7 +57,9 @@ export function citaDelAnalisis(procedencia: ProcedenciaFigura, consulta: Date):
 		{ texto: `», en ${VERSOLOGIA.responsables}, ` },
 		{ texto: VERSOLOGIA.titulo, cursiva: true },
 		{
-			texto: ` [${urlDeObra(procedencia.obraSlug)}], ${procedencia.anio} (consulta: ${fechaLarga(consulta)}).`
+			texto: ` [${urlDeObra(procedencia.obraSlug)}], ${procedencia.anio}${
+				consulta ? ` (consulta: ${fechaLarga(consulta)})` : ''
+			}.`
 		}
 	];
 }
