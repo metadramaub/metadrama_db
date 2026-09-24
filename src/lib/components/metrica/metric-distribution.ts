@@ -38,9 +38,21 @@ export interface MetricDistributionArchitecture {
 	/** Secuencias de la arquitectura: el total contra el que se cuentan los rasgos de secuencia. */
 	secuencias: number;
 	esquemas: MetricDistributionValue[];
+	/** Los rasgos que se cuentan en versos —la asonancia—, cada uno con sus valores. */
 	rasgos: MetricDistributionDimension[];
+	/** Los rasgos que se dicen de la secuencia entera, agrupados por la combinación de cada una. */
+	combinaciones: MetricDistributionCombination[];
 	metros: MetricDistributionValue[];
 	variedades: MetricDistributionValue[];
+}
+
+/**
+ * Un tipo de secuencia: la combinación de rasgos de secuencia que tiene, y cuántas la tienen.
+ * `rasgos` vacío son las secuencias sin ninguno marcado.
+ */
+export interface MetricDistributionCombination {
+	rasgos: { rasgo: string; valor: string | null }[];
+	secuencias: number;
 }
 
 export interface MetricDistributionGroup extends MetricDistributionSlice {
@@ -178,16 +190,63 @@ function rhymeSchemes(sequences: MetricDistributionSequence[]): MetricDistributi
 	);
 }
 
+const escalaDe = (row: PublicFichaRasgo): 'verso' | 'secuencia' =>
+	row.rasgo_escala === 'verso' ? 'verso' : 'secuencia';
+
+/**
+ * Los rasgos de secuencia, **agrupados por combinación** y no rasgo a rasgo.
+ *
+ * Cada secuencia tiene un valor de cada rasgo, y listarlos por separado desmontaba qué va con qué:
+ * en los endecasílabos sueltos de una obra con dos secuencias todo salía «1 de 2 · 50 %», y no se
+ * sabía si el final esdrújulo iba con la rima esporádica o con la otra. Agrupados, cada línea es un
+ * tipo de secuencia de la obra y las líneas suman las secuencias de la forma. Por eso cuentan
+ * también las que no tienen ningún rasgo marcado, siempre que alguna de la arquitectura lo tenga.
+ *
+ * Un rasgo de presencia —el dístico final, el encadenamiento— se nombra solo: «Dístico final»
+ * dice lo mismo que «Dístico final: presente».
+ */
+function featureCombinations(sequences: MetricDistributionSequence[]): MetricDistributionCombination[] {
+	const porSecuencia = new Map<string, { rasgo: string; valor: string | null }[]>();
+	for (const sequence of sequences) {
+		const rasgos = (sequence.rasgos ?? [])
+			.filter((row) => escalaDe(row) === 'secuencia')
+			.map((row) => ({
+				rasgo: row.rasgo_nombre,
+				valor: row.valor_slug === 'presente' ? null : row.valor_nombre
+			}));
+		const unicos = new Map(rasgos.map((item) => [`${item.rasgo}\t${item.valor ?? ''}`, item]));
+		porSecuencia.set(
+			sequenceKey(sequence),
+			[...unicos.values()].sort((a, b) => a.rasgo.localeCompare(b.rasgo, 'es'))
+		);
+	}
+	if (![...porSecuencia.values()].some((rasgos) => rasgos.length > 0)) return [];
+
+	const combinaciones = new Map<string, MetricDistributionCombination>();
+	for (const rasgos of porSecuencia.values()) {
+		const clave = rasgos.map((item) => `${item.rasgo}\t${item.valor ?? ''}`).join('\n');
+		const actual = combinaciones.get(clave) ?? { rasgos, secuencias: 0 };
+		actual.secuencias += 1;
+		combinaciones.set(clave, actual);
+	}
+	return [...combinaciones.values()].sort(
+		(a, b) =>
+			// Las secuencias sin rasgos, siempre al final: son el resto, no un tipo.
+			Number(a.rasgos.length === 0) - Number(b.rasgos.length === 0) ||
+			b.secuencias - a.secuencias ||
+			a.rasgos.length - b.rasgos.length
+	);
+}
+
 function featureDimensions(sequences: MetricDistributionSequence[]): MetricDistributionDimension[] {
 	// **La escala la dice el catálogo**, en cada respuesta (`rasgo_escala`). Sin ella —un JSON
 	// guardado antes de que existiera— se cuenta en secuencias, que es lo que nunca falsea.
+	// Solo los de verso: los de secuencia van en `featureCombinations`.
 	const features = new Map<string, { nombre: string; escala: 'verso' | 'secuencia' }>();
 	for (const sequence of sequences) {
 		for (const row of sequence.rasgos ?? []) {
-			features.set(row.rasgo_slug, {
-				nombre: row.rasgo_nombre,
-				escala: row.rasgo_escala === 'verso' ? 'verso' : 'secuencia'
-			});
+			if (escalaDe(row) !== 'verso') continue;
+			features.set(row.rasgo_slug, { nombre: row.rasgo_nombre, escala: 'verso' });
 		}
 	}
 
@@ -319,6 +378,7 @@ export function buildDistributionGroups(
 					secuencias: new Set(architectureSequences.map(sequenceKey)).size,
 					esquemas: rhymeSchemes(architectureSequences),
 					rasgos: featureDimensions(architectureSequences),
+					combinaciones: featureCombinations(architectureSequences),
 					metros: metres(architectureSequences),
 					variedades: varieties(architectureSequences)
 				};

@@ -9,7 +9,7 @@
 		formatMetricCount,
 		pluralizeMetricUnit,
 		type MetricDistributionArchitecture,
-		type MetricDistributionDimension,
+		type MetricDistributionCombination,
 		type MetricDistributionGroup,
 		type MetricDistributionSequence,
 		type MetricDistributionValue
@@ -85,29 +85,27 @@
 		`${(total > 0 ? (parte / total) * 100 : 0).toFixed(2)}%`;
 
 	/**
-	 * Un valor de rasgo, en la escala en que se puede contar.
-	 *
-	 * **Los que caracterizan versos** —la asonancia— siguen el modo del perfil: porcentaje de los
-	 * versos de la arquitectura, o versos. **Los que se dicen de la secuencia entera** solo se cuentan
-	 * en secuencias, en los dos modos, como los esquemas: «la mayoría de sus versos riman» no dice
-	 * cuáles, y dar la suma de versos afirmaría de cada uno lo que solo se dijo del conjunto.
+	 * Un valor de un rasgo de verso —la asonancia—: sigue el modo del perfil, porcentaje de los
+	 * versos de la arquitectura o versos, con las secuencias al lado.
 	 */
-	function featureLabel(
-		item: MetricDistributionValue,
-		rasgo: MetricDistributionDimension,
-		arquitectura: MetricDistributionArchitecture
-	): string {
-		const secuencias = formatMetricCount(item);
-		if (rasgo.escala === 'verso') {
-			const medida =
-				props.valueMode === 'absolute'
-					? `${item.versos} vv.`
-					: porcentajeDe(item.versos, arquitectura.versos);
-			return `${medida} en ${secuencias}`;
-		}
-		if (item.cantidad === arquitectura.secuencias) return secuencias;
-		return `${item.cantidad} de ${arquitectura.secuencias} ${pluralizeMetricUnit('secuencia', arquitectura.secuencias)} · ${porcentajeDe(item.cantidad, arquitectura.secuencias)}`;
+	function featureLabel(item: MetricDistributionValue, arquitectura: MetricDistributionArchitecture): string {
+		const medida =
+			props.valueMode === 'absolute'
+				? `${item.versos} vv.`
+				: porcentajeDe(item.versos, arquitectura.versos);
+		return `${medida} en ${formatMetricCount(item)}`;
 	}
+
+	/**
+	 * Un tipo de secuencia, por sus rasgos. **Los de secuencia no se cuentan uno a uno**: van por
+	 * combinación, para que se vea qué va con qué (ver `featureCombinations`).
+	 */
+	const combinacionLabel = (combinacion: MetricDistributionCombination) =>
+		combinacion.rasgos.length === 0
+			? 'Sin rasgos marcados'
+			: combinacion.rasgos
+					.map(({ rasgo, valor }) => (valor ? `${rasgo}: ${valor.toLocaleLowerCase('es')}` : rasgo))
+					.join(' · ');
 
 	/** Los metros cubren versos: siguen el modo del perfil, como la asonancia. */
 	const metroLabel = (metro: MetricDistributionValue, arquitectura: MetricDistributionArchitecture) =>
@@ -142,6 +140,7 @@
 	const tieneRespuestas = (arquitectura: MetricDistributionArchitecture) =>
 		arquitectura.esquemas.length > 0 ||
 		arquitectura.rasgos.length > 0 ||
+		arquitectura.combinaciones.length > 0 ||
 		arquitectura.metros.length > 0 ||
 		arquitectura.variedades.length > 0;
 
@@ -262,12 +261,26 @@
 													{#each rasgo.values as value (value.label)}
 														<li class="flex items-center justify-between gap-3 py-0.5 text-xs text-[color:var(--muted-foreground)]">
 															<span class="text-[color:var(--foreground)]">{value.label}</span>
-															<span>{featureLabel(value, rasgo, arquitectura)}</span>
+															<span>{featureLabel(value, arquitectura)}</span>
 														</li>
 													{/each}
 												</ul>
 											</div>
 										{/each}
+
+										{#if arquitectura.combinaciones.length > 0}
+											<div>
+												<p class="text-[0.68rem] font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">Rasgos</p>
+												<ul>
+													{#each arquitectura.combinaciones as combinacion, indice (indice)}
+														<li class="flex items-start justify-between gap-3 py-0.5 text-xs text-[color:var(--muted-foreground)]">
+															<span class="text-[color:var(--foreground)]">{combinacionLabel(combinacion)}</span>
+															<span class="shrink-0">{combinacion.secuencias} {pluralizeMetricUnit('secuencia', combinacion.secuencias)}</span>
+														</li>
+													{/each}
+												</ul>
+											</div>
+										{/if}
 
 										{#if arquitectura.metros.length > 0}
 											<p class="text-xs text-[color:var(--muted-foreground)]">

@@ -138,51 +138,70 @@ describe('buildDistributionGroups', () => {
 		]);
 	});
 
-	it('cuenta en secuencias, sin versos, los rasgos que se dicen de la secuencia entera', () => {
-		const densidad = (eleccion_id: string, valor_nombre: string): PublicFichaRasgo => ({
+	it('agrupa por combinación los rasgos que se dicen de la secuencia entera', () => {
+		const rasgo = (
+			eleccion_id: string,
+			rasgo_nombre: string,
+			valor_nombre: string,
+			valor_slug = valor_nombre.toLowerCase()
+		): PublicFichaRasgo => ({
 			...context,
 			eleccion_id,
 			realizacion_id: null,
 			realizacion_v_ini: null,
 			realizacion_v_fin: null,
-			rasgo_slug: 'densidad_de_rima',
-			rasgo_nombre: 'Densidad de rima',
+			rasgo_slug: rasgo_nombre,
+			rasgo_nombre,
 			rasgo_escala: 'secuencia',
-			valor_slug: valor_nombre,
+			valor_slug,
 			valor_nombre
 		});
+		const suelto = (secuencia_id: string, rasgos: PublicFichaRasgo[]) => ({
+			secuencia_id,
+			forma_nombre: 'Endecasílabo suelto',
+			arquitectura_nombre: 'Endecasílabo',
+			n_versos: 30,
+			rasgos
+		});
 		const [group] = buildDistributionGroups(
-			[{ forma: 'Silva', versos: 200, porcentaje: 100 }],
+			[{ forma: 'Endecasílabo suelto', versos: 120, porcentaje: 100 }],
 			[
-				{
-					secuencia_id: 's1',
-					forma_nombre: 'Silva',
-					arquitectura_nombre: 'Consonante de orden libre',
-					n_versos: 128,
-					rasgos: [densidad('d1', 'Mayoritaria')]
-				},
-				{
-					secuencia_id: 's2',
-					forma_nombre: 'Silva',
-					arquitectura_nombre: 'Consonante de orden libre',
-					n_versos: 72,
-					rasgos: [densidad('d2', 'Total')]
-				}
+				suelto('s1', [
+					rasgo('a', 'Densidad de rima', 'Esporádica'),
+					rasgo('b', 'Final acentual', 'Esdrújulo')
+				]),
+				suelto('s2', [rasgo('c', 'Densidad de rima', 'Ninguna')]),
+				suelto('s3', [
+					rasgo('d', 'Final acentual', 'Esdrújulo'),
+					rasgo('e', 'Densidad de rima', 'Esporádica')
+				]),
+				suelto('s4', [rasgo('f', 'Dístico final', 'Presente')]),
+				suelto('s5', [])
 			]
 		);
 
 		const [arquitectura] = group.arquitecturas;
-		expect(arquitectura.secuencias).toBe(2);
-		expect(arquitectura.rasgos).toEqual([
+		expect(arquitectura.rasgos).toEqual([]);
+		expect(arquitectura.combinaciones).toEqual([
 			{
-				label: 'Densidad de rima',
-				escala: 'secuencia',
-				values: [
-					{ label: 'Mayoritaria', cantidad: 1, unidad: 'secuencia', versos: 0 },
-					{ label: 'Total', cantidad: 1, unidad: 'secuencia', versos: 0 }
-				]
-			}
+				rasgos: [
+					{ rasgo: 'Densidad de rima', valor: 'Esporádica' },
+					{ rasgo: 'Final acentual', valor: 'Esdrújulo' }
+				],
+				secuencias: 2
+			},
+			{ rasgos: [{ rasgo: 'Densidad de rima', valor: 'Ninguna' }], secuencias: 1 },
+			{ rasgos: [{ rasgo: 'Dístico final', valor: null }], secuencias: 1 },
+			{ rasgos: [], secuencias: 1 }
 		]);
+	});
+
+	it('sin ningún rasgo de secuencia marcado, no hay combinaciones', () => {
+		const [group] = buildDistributionGroups(
+			[{ forma: 'Octava real', versos: 16, porcentaje: 100 }],
+			[{ secuencia_id: 'o1', forma_nombre: 'Octava real', arquitectura_nombre: 'Endecasílaba', n_versos: 16 }]
+		);
+		expect(group.arquitecturas[0].combinaciones).toEqual([]);
 	});
 
 	it('cuenta por separado las estancias repetidas de una canción', () => {

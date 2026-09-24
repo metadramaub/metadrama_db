@@ -116,6 +116,12 @@ de septiembre de 2026 al partir la canción, que era donde se veía.
 pasaje «mezclado» de 13, 13, 13, 14 y 15 versos en *El verdadero amante*. Cuando aparezca uno se
 decide si se admite o se parte en secuencias.
 
+**B13 · Nada impide anotar combinaciones de rasgos imposibles.** Una secuencia puede llevar
+«densidad de rima: ninguna» y «organización en pareados: ocasionales» a la vez, y sin rima no hay
+pareados. Salió en una obra de prueba (*El padrino burlado*, vv. 1761-1791), así que falla también
+el generador de `guion:pruebas`. Falta la restricción en el catálogo o en el editor V2, y que el
+generador la respete. El perfil agrupa ya los rasgos por combinación, y ahí se ven.
+
 ---
 
 ## C · Rendimiento y arquitectura
