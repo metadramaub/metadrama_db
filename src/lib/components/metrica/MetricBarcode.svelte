@@ -47,9 +47,15 @@
 
 	let activeTooltipId = $state<string | null>(null);
 	let hoveredId = $state<string | null>(null);
-	let compactTooltip = $state<{ id: string; title: string; x: number; y: number; color?: string | null } | null>(
-		null
-	);
+	let compactTooltip = $state<{
+		id: string;
+		title: string;
+		x: number;
+		y: number;
+		color?: string | null;
+		/** Hacia dónde se abre: centrado sobre la secuencia o, cerca de un borde, hacia dentro. */
+		alinear: 'centro' | 'izquierda' | 'derecha';
+	} | null>(null);
 	let lastPointerType = $state<string>('mouse');
 
 	// Secuencia "enfocada" (hover de puntero o tooltip táctil abierto). Cuando hay
@@ -80,7 +86,7 @@
 	// siete píxeles, que tapaban casi entera una secuencia corta. Ahora el trazo va en píxeles
 	// (`vector-effect: non-scaling-stroke`) y se ve porque asoma bastante por arriba y por abajo.
 	const markerOverhang = $derived(
-		props.compactMarkers ? Math.max(4, trackHeight * 0.28) : Math.max(12, trackHeight * 0.4)
+		props.compactMarkers ? Math.max(6, trackHeight * 0.45) : Math.max(12, trackHeight * 0.4)
 	);
 	const svgHeight = $derived(trackHeight + markerOverhang * 2);
 	const interactive = $derived(typeof props.onOpenSegment === 'function');
@@ -229,12 +235,16 @@
 		const target = event.currentTarget;
 		if (!(target instanceof Element)) return;
 		const rect = target.getBoundingClientRect();
+		const centro = rect.left + rect.width / 2;
+		const alinear =
+			centro < MEDIO_AVISO ? 'izquierda' : window.innerWidth - centro < MEDIO_AVISO ? 'derecha' : 'centro';
 		compactTooltip = {
 			id,
 			title,
-			x: rect.left + rect.width / 2,
+			x: alinear === 'izquierda' ? rect.left : alinear === 'derecha' ? rect.right : centro,
 			y: rect.top,
-			color
+			color,
+			alinear
 		};
 	}
 
@@ -270,20 +280,20 @@
 					{/if}
 					<rect x={item.x} y="0" width={item.width} height={trackHeight} fill={item.color}></rect>
 					{#if simpleTooltip}
+						<!-- Solo el ratón: sin manejadores de foco el navegador no lo vuelve enfocable, y al
+						     pulsar ya no le pinta su contorno. En la barra compacta la obra se abre desde la
+						     tarjeta, no desde cada secuencia. Y solo dentro de la barra: fuera están los cortes. -->
 						<rect
 							x={item.x}
-							y={-markerOverhang}
+							y="0"
 							width={item.width}
-							height={trackHeight + markerOverhang * 2}
+							height={trackHeight}
 							fill="transparent"
 							role="presentation"
 							aria-hidden="true"
 							onpointerenter={(event) =>
 								showCompactTooltip(`segment-${item.segment.id}`, segmentTitle(item.segment), event, item.color)}
 							onpointerleave={() => hideCompactTooltip(`segment-${item.segment.id}`)}
-							onfocus={(event) =>
-								showCompactTooltip(`segment-${item.segment.id}`, segmentTitle(item.segment), event, item.color)}
-							onblur={() => hideCompactTooltip(`segment-${item.segment.id}`)}
 						></rect>
 					{/if}
 
@@ -310,6 +320,7 @@
 					y1={-markerOverhang}
 					y2={trackHeight + markerOverhang}
 					stroke="var(--gray-500)"
+					pointer-events="none"
 					stroke-width={cuadroMarkerWidth}
 					stroke-dasharray="3 2"
 					vector-effect="non-scaling-stroke"
@@ -318,20 +329,6 @@
 						<title>{marker.title}</title>
 					{/if}
 				</line>
-				{#if simpleTooltip}
-					<line
-						x1={marker.x}
-						x2={marker.x}
-						y1={-markerOverhang}
-						y2={trackHeight + markerOverhang}
-						stroke="transparent"
-						stroke-width="2" role="presentation" aria-hidden="true"
-						onpointerenter={(event) => showCompactTooltip(`cuadro-${index}`, marker.title, event)}
-						onpointerleave={() => hideCompactTooltip(`cuadro-${index}`)}
-						onfocus={(event) => showCompactTooltip(`cuadro-${index}`, marker.title, event)}
-						onblur={() => hideCompactTooltip(`cuadro-${index}`)}
-					></line>
-				{/if}
 			{/each}
 
 			{#each jornadaMarkers as marker, index (`jornada-${index}`)}
@@ -341,6 +338,7 @@
 					y1={-markerOverhang}
 					y2={trackHeight + markerOverhang}
 					stroke="var(--gray-900)"
+					pointer-events="none"
 					stroke-width={jornadaMarkerWidth}
 					vector-effect="non-scaling-stroke"
 				>
@@ -348,20 +346,6 @@
 						<title>{marker.title}</title>
 					{/if}
 				</line>
-				{#if simpleTooltip}
-					<line
-						x1={marker.x}
-						x2={marker.x}
-						y1={-markerOverhang}
-						y2={trackHeight + markerOverhang}
-						stroke="transparent"
-						stroke-width="3" role="presentation" aria-hidden="true"
-						onpointerenter={(event) => showCompactTooltip(`jornada-${index}`, marker.title, event)}
-						onpointerleave={() => hideCompactTooltip(`jornada-${index}`)}
-						onfocus={(event) => showCompactTooltip(`jornada-${index}`, marker.title, event)}
-						onblur={() => hideCompactTooltip(`jornada-${index}`)}
-					></line>
-				{/if}
 			{/each}
 		</svg>
 
@@ -415,6 +399,9 @@
 				</div>
 			{/each}
 
+		{/if}
+
+		{#if interactive || simpleTooltip}
 			<!-- **El ratón encuentra el corte fuera de la barra**, en la parte de la raya que asoma por
 			     arriba y por abajo: dentro, la franja para acertarle tapaba el principio de la secuencia
 			     pegada al corte, y un soneto que abría jornada no había manera de pulsarlo. -->
@@ -454,7 +441,7 @@
 
 	{#if simpleTooltip && compactTooltip}
 		<div
-			class="pointer-events-none fixed z-[130] -translate-x-1/2 -translate-y-[calc(100%+6px)] border border-[color:var(--border)] bg-white px-2 py-1 text-[11px] leading-tight text-[color:var(--gray-900)] shadow-sm"
+			class={`pointer-events-none fixed z-[130] -translate-y-[calc(100%+6px)] ${compactTooltip.alinear === 'centro' ? '-translate-x-1/2' : compactTooltip.alinear === 'derecha' ? '-translate-x-full' : ''} border border-[color:var(--border)] bg-white px-2 py-1 text-[11px] leading-tight text-[color:var(--gray-900)] shadow-sm`}
 			style={`left:${compactTooltip.x}px;top:${compactTooltip.y}px;${compactTooltip.color ? `border-color:${compactTooltip.color};` : ''}`}
 		>
 			{compactTooltip.title}
