@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount, type Snippet } from 'svelte';
 	import { pushToast } from '$lib/stores/toast';
+	import { copiarAlPortapapeles } from '$lib/utils/portapapeles';
 
 	let {
 		title,
@@ -46,26 +47,8 @@
 	});
 
 	async function copyText(text: string, successMessage: string) {
-		try {
-			if (navigator.clipboard?.writeText) {
-				await navigator.clipboard.writeText(text);
-			} else {
-				const textArea = document.createElement('textarea');
-				textArea.value = text;
-				textArea.style.position = 'fixed';
-				textArea.style.opacity = '0';
-				document.body.appendChild(textArea);
-				textArea.select();
-				document.execCommand('copy');
-				textArea.remove();
-			}
-			pushToast('success', successMessage);
-		} catch (error) {
-			console.error(error);
-			pushToast('error', 'No se pudo copiar');
-		} finally {
-			if (formatMenu) formatMenu.open = false;
-		}
+		await copiarAlPortapapeles(text, successMessage);
+		if (formatMenu) formatMenu.open = false;
 	}
 
 	function download(text: string, extension: 'bib' | 'ris', label: string) {
