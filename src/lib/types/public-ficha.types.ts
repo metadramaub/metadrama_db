@@ -99,6 +99,11 @@ export interface PublicFichaRasgo extends PublicFichaRespuestaMetricaSeccion {
 	 * porque los JSON guardados antes de `20260924140000` no la traen hasta que se regeneran.
 	 */
 	rasgo_escala?: 'verso' | 'secuencia';
+	/**
+	 * `construccion`: dice cómo está hecha la secuencia. `capa`: se le añade encima —el final
+	 * acentual— y no cambia su tipo (`rasgos_metricos.naturaleza`, desde `20260924160000`).
+	 */
+	rasgo_naturaleza?: 'construccion' | 'capa';
 }
 
 /** La medida de los versos tal como se respondió, con cuántas estrofas la llevan. */

@@ -138,7 +138,7 @@ describe('buildDistributionGroups', () => {
 		]);
 	});
 
-	it('agrupa por combinación los rasgos que se dicen de la secuencia entera', () => {
+	it('agrupa por combinación los rasgos de construcción y cuenta aparte las capas', () => {
 		const rasgo = (
 			eleccion_id: string,
 			rasgo_nombre: string,
@@ -153,6 +153,7 @@ describe('buildDistributionGroups', () => {
 			rasgo_slug: rasgo_nombre,
 			rasgo_nombre,
 			rasgo_escala: 'secuencia',
+			rasgo_naturaleza: rasgo_nombre === 'Final acentual' ? 'capa' : 'construccion',
 			valor_slug,
 			valor_nombre
 		});
@@ -183,16 +184,17 @@ describe('buildDistributionGroups', () => {
 		const [arquitectura] = group.arquitecturas;
 		expect(arquitectura.rasgos).toEqual([]);
 		expect(arquitectura.combinaciones).toEqual([
-			{
-				rasgos: [
-					{ rasgo: 'Densidad de rima', valor: 'Esporádica' },
-					{ rasgo: 'Final acentual', valor: 'Esdrújulo' }
-				],
-				secuencias: 2
-			},
+			{ rasgos: [{ rasgo: 'Densidad de rima', valor: 'Esporádica' }], secuencias: 2 },
 			{ rasgos: [{ rasgo: 'Densidad de rima', valor: 'Ninguna' }], secuencias: 1 },
 			{ rasgos: [{ rasgo: 'Dístico final', valor: null }], secuencias: 1 },
 			{ rasgos: [], secuencias: 1 }
+		]);
+		expect(arquitectura.capas).toEqual([
+			{
+				label: 'Final acentual',
+				escala: 'secuencia',
+				values: [{ label: 'Esdrújulo', cantidad: 2, unidad: 'secuencia', versos: 0 }]
+			}
 		]);
 	});
 

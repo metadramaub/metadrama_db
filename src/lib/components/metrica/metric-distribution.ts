@@ -40,8 +40,10 @@ export interface MetricDistributionArchitecture {
 	esquemas: MetricDistributionValue[];
 	/** Los rasgos que se cuentan en versos —la asonancia—, cada uno con sus valores. */
 	rasgos: MetricDistributionDimension[];
-	/** Los rasgos que se dicen de la secuencia entera, agrupados por la combinación de cada una. */
+	/** Los rasgos de construcción de la secuencia, agrupados por la combinación de cada una. */
 	combinaciones: MetricDistributionCombination[];
+	/** Los rasgos de secuencia que son una capa —el final acentual—, contados aparte. */
+	capas: MetricDistributionDimension[];
 	metros: MetricDistributionValue[];
 	variedades: MetricDistributionValue[];
 }
@@ -193,6 +195,10 @@ function rhymeSchemes(sequences: MetricDistributionSequence[]): MetricDistributi
 const escalaDe = (row: PublicFichaRasgo): 'verso' | 'secuencia' =>
 	row.rasgo_escala === 'verso' ? 'verso' : 'secuencia';
 
+/** Un rasgo de secuencia que no dice cómo está hecha, sino algo que se le añade. */
+const esCapa = (row: PublicFichaRasgo) =>
+	escalaDe(row) === 'secuencia' && row.rasgo_naturaleza === 'capa';
+
 /**
  * Los rasgos de secuencia, **agrupados por combinación** y no rasgo a rasgo.
  *
@@ -204,12 +210,15 @@ const escalaDe = (row: PublicFichaRasgo): 'verso' | 'secuencia' =>
  *
  * Un rasgo de presencia —el dístico final, el encadenamiento— se nombra solo: «Dístico final»
  * dice lo mismo que «Dístico final: presente».
+ *
+ * **Solo entran los de construcción.** El final esdrújulo es una capa: un suelto con él no es otra
+ * clase de suelto, y va aparte en `featureLayers`.
  */
 function featureCombinations(sequences: MetricDistributionSequence[]): MetricDistributionCombination[] {
 	const porSecuencia = new Map<string, { rasgo: string; valor: string | null }[]>();
 	for (const sequence of sequences) {
 		const rasgos = (sequence.rasgos ?? [])
-			.filter((row) => escalaDe(row) === 'secuencia')
+			.filter((row) => escalaDe(row) === 'secuencia' && !esCapa(row))
 			.map((row) => ({
 				rasgo: row.rasgo_nombre,
 				valor: row.valor_slug === 'presente' ? null : row.valor_nombre
@@ -236,6 +245,34 @@ function featureCombinations(sequences: MetricDistributionSequence[]): MetricDis
 			b.secuencias - a.secuencias ||
 			a.rasgos.length - b.rasgos.length
 	);
+}
+
+/** Las capas —el final acentual—: cuántas secuencias de la arquitectura llevan cada valor. */
+function featureLayers(sequences: MetricDistributionSequence[]): MetricDistributionDimension[] {
+	const porRasgo = new Map<string, Map<string, Set<string>>>();
+	for (const sequence of sequences) {
+		for (const row of (sequence.rasgos ?? []).filter(esCapa)) {
+			const valores = porRasgo.get(row.rasgo_nombre) ?? new Map<string, Set<string>>();
+			const secuencias = valores.get(row.valor_nombre) ?? new Set<string>();
+			secuencias.add(sequenceKey(sequence));
+			valores.set(row.valor_nombre, secuencias);
+			porRasgo.set(row.rasgo_nombre, valores);
+		}
+	}
+	return [...porRasgo.entries()]
+		.map(([label, valores]): MetricDistributionDimension => ({
+			label,
+			escala: 'secuencia',
+			values: [...valores.entries()]
+				.map(([valor, secuencias]) => ({
+					label: valor,
+					cantidad: secuencias.size,
+					unidad: 'secuencia',
+					versos: 0
+				}))
+				.sort((a, b) => b.cantidad - a.cantidad || a.label.localeCompare(b.label, 'es'))
+		}))
+		.sort((a, b) => a.label.localeCompare(b.label, 'es'));
 }
 
 function featureDimensions(sequences: MetricDistributionSequence[]): MetricDistributionDimension[] {
@@ -379,6 +416,7 @@ export function buildDistributionGroups(
 					esquemas: rhymeSchemes(architectureSequences),
 					rasgos: featureDimensions(architectureSequences),
 					combinaciones: featureCombinations(architectureSequences),
+					capas: featureLayers(architectureSequences),
 					metros: metres(architectureSequences),
 					variedades: varieties(architectureSequences)
 				};
