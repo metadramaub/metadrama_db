@@ -59,17 +59,23 @@
 		return map;
 	});
 
-	const jornadaMarkers = $derived(
-		(props.jornadas ?? []).map((tramo: CatalogStructureTramo) => ({
+	/**
+	 * Los cortes dicen **lo que empieza** en ellos —«Jornada 2 · desde el v. 936»—, como en la ficha:
+	 * la barra añade el verso. Un cuadro que acaba donde acaba la jornada no lleva corte propio.
+	 */
+	/** Los cortes entre tramos consecutivos, nombrados por el tramo que abren. */
+	function cortesEntre(tramos: CatalogStructureTramo[] | null | undefined, nombre: string) {
+		const ordenados = [...(tramos ?? [])].sort((a, b) => a.i - b.i);
+		return ordenados.slice(0, -1).map((tramo, indice) => ({
 			verse: tramo.f,
-			title: `Jornada ${tramo.n} · vv. ${tramo.i}-${tramo.f}`
-		}))
-	);
+			title: `${nombre} ${ordenados[indice + 1].n}`
+		}));
+	}
+	const jornadaMarkers = $derived(cortesEntre(props.jornadas, 'Jornada'));
 	const cuadroMarkers = $derived(
-		(props.cuadros ?? []).map((tramo: CatalogStructureTramo) => ({
-			verse: tramo.f,
-			title: `Cuadro ${tramo.n} · vv. ${tramo.i}-${tramo.f}`
-		}))
+		cortesEntre(props.cuadros, 'Cuadro').filter(
+			(corte) => !jornadaMarkers.some((jornada) => jornada.verse === corte.verse)
+		)
 	);
 </script>
 
