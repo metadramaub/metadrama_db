@@ -514,11 +514,14 @@
 				? [{ etiqueta: 'Cambio de jornada', color: TINTA.tenue, muestra: 'linea' }]
 				: []
 	});
-	const figuraPendientes: Figura = {
+	const figuraPendientes = $derived<Figura>({
 		titulo: 'El peso de cada forma en cada jornada',
 		archivo: 'peso-de-cada-forma-por-jornada',
-		admiteGrises: true
-	};
+		admiteGrises: true,
+		// Las que van en gris no llevan nombre en el gráfico: los lleva la leyenda de la figura.
+		leyenda: () =>
+			pendientesMenores.map(({ forma }) => ({ etiqueta: forma, color: '#bdbdbd', muestra: 'linea' as const }))
+	});
 	const figuraTradiciones = $derived<Figura>({
 		titulo: 'Españolas e italianas por jornada',
 		archivo: 'tradiciones-por-jornada',
@@ -558,13 +561,30 @@
 	 * siguiente es una de las tres cosas que el gráfico viene a contestar.
 	 */
 	const pendientes = $derived(
-		ordenDeFormas.map(({ forma, colorKey }) => ({
+		// Sin «Sin forma anotada»: es un hueco de la anotación, no una forma cuyo peso cambie.
+		ordenDeFormas
+			.filter(({ colorKey }) => colorKey !== SIN_FORMA)
+			.map(({ forma, colorKey }) => ({
 			forma,
 			colorKey,
 			valores: perfilPorJornada(analizables).map(
 				(jornada) => jornada.formas.find((f) => f.colorKey === colorKey)?.porcentaje ?? 0
 			)
 		}))
+	);
+
+	/**
+	 * **Cinco formas en color y el resto en gris**, o todas. Con diez líneas entre el 0 y el 20 % no
+	 * se lee ninguna; las cinco que más pesan en la obra se nombran con holgura, y las demás siguen
+	 * ahí, en segundo plano, nombradas debajo. Solo se ofrece si hay más de cinco.
+	 */
+	const PENDIENTES_PRINCIPALES = 5;
+	let pendientesTodas = $state(false);
+	const pendientesDestacadas = $derived(
+		pendientesTodas || pendientes.length <= PENDIENTES_PRINCIPALES ? null : PENDIENTES_PRINCIPALES
+	);
+	const pendientesMenores = $derived(
+		pendientesDestacadas === null ? [] : pendientes.slice(pendientesDestacadas)
 	);
 
 	const evolucionDeLaObra = $derived(evolucionPorJornada(analizables));
@@ -1187,20 +1207,48 @@
 							Hace falta más de una jornada anotada para poder comparar.
 						</p>
 					{:else}
+						{#if pendientes.length > PENDIENTES_PRINCIPALES}
+							<div class="flex gap-2">
+								{#each [{ todas: false, etiqueta: `${PENDIENTES_PRINCIPALES} principales` }, { todas: true, etiqueta: 'Todas' }] as opcion (opcion.etiqueta)}
+									<button
+										type="button"
+										class={`border px-2 py-1 text-xs font-semibold ${pendientesTodas === opcion.todas ? 'border-[color:var(--gray-800)] bg-[color:var(--gray-800)] text-white' : 'border-[color:var(--border)] bg-white text-[color:var(--gray-800)]'}`}
+										onclick={() => (pendientesTodas = opcion.todas)}
+									>
+										{opcion.etiqueta}
+									</button>
+								{/each}
+							</div>
+						{/if}
 						<FiguraDescargable figura={figuraPendientes} procedencia={procedenciaFigura}>
 							<MetricSlopeChart
 								momentos={momentos}
 								series={pendientes}
 								colorByForma={colorByForma}
+								destacadas={pendientesDestacadas}
 								resaltada={hoveredForma?.forma ?? null}
 								onHoverForma={(forma) =>
 									(hoveredForma = forma ? { groupId: 'analisis', forma } : null)}
 							/>
+							{#if pendientesMenores.length > 0}
+								<p class="mt-2 text-xs text-[color:var(--muted-foreground)]">
+									En gris:
+									{#each pendientesMenores as menor, indice (menor.colorKey)}
+										{indice > 0 ? ', ' : ''}<span
+											class="cursor-default underline decoration-dotted underline-offset-2 hover:text-[color:var(--foreground)]"
+											role="presentation"
+											onpointerenter={() => (hoveredForma = { groupId: 'analisis', forma: menor.colorKey })}
+											onpointerleave={() => (hoveredForma = null)}>{menor.forma}</span
+										>
+									{/each}.
+								</p>
+							{/if}
 							{#snippet grafico({ paleta })}
 								<MetricSlopeChart
 									momentos={momentos}
 									series={pendientes}
 									colorByForma={colorByForma}
+									destacadas={pendientesDestacadas}
 									modo="figura"
 									{paleta}
 								/>

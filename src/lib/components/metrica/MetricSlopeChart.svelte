@@ -20,6 +20,12 @@
 	//   con tres grises y tres trazos no se repite ninguna hasta la décima.
 	// - Los estilos van como atributos, con los valores de `$lib/figuras/tema`: el SVG se descarga
 	//   tal cual. En modo `figura` el sello va de canto junto a las referencias de porcentaje.
+	// - **Cada nombre va unido a su línea por una guía** y lleva su cifra. Apilados para que no se
+	//   monten, los nombres quedaban lejos del final de su línea, y con doce colores parecidos no
+	//   había manera de saber cuál era cuál.
+	// - **Las formas menores pueden ir en segundo plano** (`destacadas`): en gris fino, sin nombre
+	//   al final, y nombradas aparte. Diez líneas entre el 0 y el 20 % no se leen; cinco, sí.
+	//   Al pasar por una se enciende con su color, su nombre y su valor en cada jornada.
 	import { scaleLinear, scalePoint } from 'd3-scale';
 	import type { MetricSlopeSeries } from './metric-display.types';
 	import { normalizeFormaKey } from '$lib/utils/metric-colors';
@@ -36,18 +42,23 @@
 		resaltada?: string | null;
 		modo?: 'pantalla' | 'figura';
 		paleta?: Paleta;
+		/** Cuántas formas, por orden de peso en la obra, van en color y con nombre. Sin él, todas. */
+		destacadas?: number | null;
 	}>();
 
 	const ALTO_UTIL = 300;
 	const MARGEN_SUP = 18;
 	const MARGEN_INF = 38;
-	const MARGEN_DER = 132; // Sitio para los nombres, que van a la derecha.
+	const MARGEN_DER = 230; // Sitio para la guía, el nombre y la cifra, que van a la derecha.
+	/** Dónde acaba la guía y empieza el nombre, desde el último momento. */
+	const SANGRIA_ETIQUETA = 34;
+	const GRIS_MENOR = '#bdbdbd';
 	/** Lo que se ensancha la figura por la izquierda para que quepa el sello de canto. */
 	const SITIO_SELLO = 18;
 
 	const figura = $derived(props.modo === 'figura');
 	const margenIzq = $derived(46 + (figura ? SITIO_SELLO : 0));
-	const ancho = $derived(760 + (figura ? SITIO_SELLO : 0));
+	const ancho = $derived(840 + (figura ? SITIO_SELLO : 0));
 	const alto = MARGEN_SUP + ALTO_UTIL + MARGEN_INF;
 	const resaltada = $derived(figura ? null : (props.resaltada ?? null));
 
@@ -85,9 +96,31 @@
 			])
 		)
 	);
-	const colorDe = (colorKey: string) => estilos.get(colorKey)?.color ?? TINTA.neutro;
+	/** Las formas en segundo plano: las que pasan del número de destacadas, por orden de peso. */
+	const menores = $derived(
+		new Set(
+			props.destacadas == null
+				? []
+				: props.series.slice(props.destacadas).map((serie: MetricSlopeSeries) => serie.colorKey)
+		)
+	);
+	/** Una menor se enciende al pasar por ella: color, grosor, nombre y valores. */
+	const enSegundoPlano = (colorKey: string) => menores.has(colorKey) && resaltada !== colorKey;
+	const colorDe = (colorKey: string) =>
+		enSegundoPlano(colorKey) ? GRIS_MENOR : (estilos.get(colorKey)?.color ?? TINTA.neutro);
 	const trazoDe = (colorKey: string) => estilos.get(colorKey)?.trazo || undefined;
 	const apagada = (colorKey: string) => resaltada !== null && resaltada !== colorKey;
+	/** Se pinta primero lo de fondo y al final lo resaltado, para que quede encima. */
+	const ordenDePintado = $derived(
+		[...props.series].sort(
+			(a: MetricSlopeSeries, b: MetricSlopeSeries) =>
+				Number(!menores.has(a.colorKey)) - Number(!menores.has(b.colorKey)) ||
+				Number(a.colorKey === resaltada) - Number(b.colorKey === resaltada)
+		)
+	);
+	const ultimo = $derived(props.momentos[props.momentos.length - 1]);
+	const valorFinal = (serie: MetricSlopeSeries) => serie.valores[serie.valores.length - 1] ?? 0;
+	const cifra = (valor: number) => `${valor.toFixed(2)}%`;
 
 	const trazo = (valores: (number | null)[]) =>
 		props.momentos
@@ -111,6 +144,7 @@
 		const SUELO = MARGEN_SUP + ALTO_UTIL;
 
 		const puestas = props.series
+			.filter((serie: MetricSlopeSeries) => !enSegundoPlano(serie.colorKey))
 			.map((serie: MetricSlopeSeries) => ({
 				serie,
 				valor: serie.valores[serie.valores.length - 1] ?? 0,
@@ -194,13 +228,14 @@
 			>
 		{/each}
 
-		{#each props.series as serie (serie.colorKey)}
+		{#each ordenDePintado as serie (serie.colorKey)}
+			{@const fondo = enSegundoPlano(serie.colorKey)}
 			<path
 				class:metric-slope__interactiva={!figura}
 				d={trazo(serie.valores)}
 				fill="none"
 				stroke={colorDe(serie.colorKey)}
-				stroke-width="2.5"
+				stroke-width={fondo ? 1.25 : 2.5}
 				stroke-linejoin="round"
 				stroke-dasharray={trazoDe(serie.colorKey)}
 				opacity={apagada(serie.colorKey) ? 0.15 : 1}
@@ -217,7 +252,7 @@
 				<circle
 					cx={x(momento)}
 					cy={y(valor)}
-					r={valor === 0 ? 3.5 : 4}
+					r={fondo ? 2.5 : valor === 0 ? 3.5 : 4}
 					fill={valor === 0 ? TINTA.fondo : colorDe(serie.colorKey)}
 					stroke={valor === 0 ? colorDe(serie.colorKey) : 'none'}
 					stroke-width={valor === 0 ? 1.5 : 0}
@@ -230,23 +265,56 @@
 			{/each}
 		{/each}
 
+		<!-- Al pasar por una forma, su valor en cada jornada, sobre cada punto. -->
+		{#if !figura && resaltada}
+			{@const serie = props.series.find((s: MetricSlopeSeries) => s.colorKey === resaltada)}
+			{#if serie}
+				{#each props.momentos as momento, i (momento)}
+					<text
+						x={x(momento)}
+						y={y(serie.valores[i] ?? 0) - 10}
+						font-size={CUERPO.menor}
+						font-weight="600"
+						fill={colorDe(serie.colorKey)}
+						stroke={TINTA.fondo}
+						stroke-width="3"
+						paint-order="stroke"
+						text-anchor="middle">{cifra(serie.valores[i] ?? 0)}</text
+					>
+				{/each}
+			{/if}
+		{/if}
+
 		{#each etiquetas as etiqueta (etiqueta.serie.colorKey)}
+			{@const xFinal = x(ultimo) ?? 0}
+			{@const yFinal = y(valorFinal(etiqueta.serie))}
+			<!-- La guía: del final de la línea al nombre, en su color. Sale recta unos píxeles y luego
+			     sube o baja hasta donde el nombre ha tenido sitio. -->
+			<path
+				d={`M${xFinal + 6},${yFinal} L${xFinal + 14},${yFinal} L${xFinal + SANGRIA_ETIQUETA - 5},${etiqueta.y}`}
+				fill="none"
+				stroke={colorDe(etiqueta.serie.colorKey)}
+				stroke-width="1"
+				opacity={apagada(etiqueta.serie.colorKey) ? 0.15 : 0.7}
+			/>
 			<!-- El nombre también resalta: es lo que la mano busca, más que la línea. En grises va en
 			     negro: un rótulo gris claro no se lee impreso. -->
 			<text
 				class:metric-slope__interactiva={!figura}
-				x={ancho - MARGEN_DER + 12}
+				x={xFinal + SANGRIA_ETIQUETA}
 				y={etiqueta.y}
 				font-size={CUERPO.referencia}
-				font-weight="600"
 				dominant-baseline="middle"
-				fill={props.paleta === 'grises' ? TINTA.texto : colorDe(etiqueta.serie.colorKey)}
 				opacity={apagada(etiqueta.serie.colorKey) ? 0.25 : 1}
 				role="presentation"
 				onmouseenter={figura ? undefined : () => props.onHoverForma?.(etiqueta.serie.colorKey)}
 				onmouseleave={figura ? undefined : () => props.onHoverForma?.(null)}
 			>
-				{etiqueta.serie.forma}
+				<tspan
+					font-weight="600"
+					fill={props.paleta === 'grises' ? TINTA.texto : colorDe(etiqueta.serie.colorKey)}
+					>{etiqueta.serie.forma}</tspan
+				><tspan fill={TINTA.secundario} dx="6">{cifra(etiqueta.valor)}</tspan>
 			</text>
 		{/each}
 
@@ -272,7 +340,7 @@
 	.metric-slope :global(svg) {
 		display: block;
 		width: 100%;
-		max-width: 44rem;
+		max-width: 52rem;
 		height: auto;
 	}
 
