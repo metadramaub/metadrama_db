@@ -15,6 +15,7 @@
 		type MetricDistributionValue
 	} from './metric-distribution';
 	import { normalizeFormaKey } from '$lib/utils/metric-colors';
+	import { SIN_FORMA } from '$lib/metrica/analisis-ficha';
 
 	const props = $props<{
 		items: MetricDistributionSlice[];
@@ -36,8 +37,13 @@
 	const groups = $derived.by((): MetricDistributionGroup[] => {
 		const slices = props.items.filter((i: MetricDistributionSlice) => i.versos > 0);
 		const built = buildDistributionGroups(slices, props.sequences ?? []);
+		// Lo que no tiene forma anotada va al final aunque pese más: es un hueco de la anotación, no
+		// una forma de la obra, y en cursiva y gris se lee como tal.
 		return built.sort(
-			(a, b) => b.versos - a.versos || a.forma.localeCompare(b.forma, 'es')
+			(a, b) =>
+				Number(a.forma === SIN_FORMA) - Number(b.forma === SIN_FORMA) ||
+				b.versos - a.versos ||
+				a.forma.localeCompare(b.forma, 'es')
 		);
 	});
 
@@ -128,14 +134,18 @@
 			? `${metro.versos} vv.`
 			: porcentajeDe(metro.versos, arquitectura.versos);
 
+	/**
+	 * Un esquema de rima, **en el modo del perfil**, como la asonancia y los metros: porcentaje de
+	 * las unidades que se cuentan, o cuántas de ellas. Los dos a la vez, unidos por un punto volado,
+	 * hacían la línea más larga que el dato.
+	 */
 	function schemeLabel(item: MetricDistributionValue, items: MetricDistributionValue[]): string {
 		const total = items
 			.filter((candidate) => candidate.unidad === item.unidad)
 			.reduce((sum, candidate) => sum + candidate.cantidad, 0);
+		if (props.valueMode === 'percent') return porcentajeDe(item.cantidad, total);
 		if (item.cantidad === total) return formatMetricCount(item);
-		const pluralUnit = pluralizeMetricUnit(item.unidad, total);
-		const share = total > 0 ? ((item.cantidad / total) * 100).toFixed(2) : '0.00';
-		return `${item.cantidad} de ${total} ${pluralUnit} · ${share}%`;
+		return `${item.cantidad} de ${total} ${pluralizeMetricUnit(item.unidad, total)}`;
 	}
 
 	/**
@@ -208,7 +218,13 @@
 			<ul class="divide-y divide-[color:var(--border)]">
 				{#each groups as item (item.forma)}
 					{@const nombrar = nombraArquitecturas(item)}
-					{@const hasDetails = nombrar ? item.arquitecturas.length > 0 : item.arquitecturas.some(tieneRespuestas)}
+					<!-- Con una sola arquitectura usada, su nombre va junto al de la forma y no abre nada:
+					     «Décima espinela» no pide desplegar para leer «Espinela» sola. Dentro solo se nombran
+					     cuando son varias, para repartirlas. -->
+					{@const enLinea = nombrar && item.arquitecturas.length === 1}
+					{@const nombrarDentro = nombrar && item.arquitecturas.length > 1}
+					{@const hasDetails = nombrarDentro || item.arquitecturas.some(tieneRespuestas)}
+					{@const sinForma = item.forma === SIN_FORMA}
 					<li
 						class="transition-opacity duration-100"
 						style:opacity={isDimmed(item) ? DIMMED_OPACITY : 1}
@@ -229,7 +245,10 @@
 									class="inline-block h-3 w-3 rounded-sm"
 									style={`background:${props.colorByForma[item.colorKey ?? item.forma] ?? '#9ca3af'};`}
 								></span>
-								<span class="font-medium">{item.forma}</span>
+								<span class={sinForma ? 'italic text-[color:var(--muted-foreground)]' : 'font-medium'}>{item.forma}</span>
+								{#if enLinea}
+									<span class="text-[color:var(--muted-foreground)]">{item.arquitecturas[0].label.toLocaleLowerCase('es')}</span>
+								{/if}
 								{#if hasDetails}
 									{#if expanded[item.forma]}
 										<ChevronDown class="h-3.5 w-3.5 text-[color:var(--muted-foreground)]" aria-hidden="true" />
@@ -247,12 +266,10 @@
 							<div class="mb-3 ml-5 space-y-4 border-l border-[color:var(--border)] pl-3">
 								{#each item.arquitecturas as arquitectura (arquitectura.slug ?? arquitectura.label)}
 									<section class="space-y-2 py-1">
-										{#if nombrar}
+										{#if nombrarDentro}
 											<div class="flex items-baseline justify-between gap-3 text-xs">
 												<h4 class="font-semibold text-[color:var(--foreground)]">{arquitectura.label}</h4>
-												{#if item.arquitecturas.length > 1}
-													<span class="text-[color:var(--muted-foreground)]">{valueLabel(arquitectura.versos, arquitectura.porcentaje)}</span>
-												{/if}
+												<span class="text-[color:var(--muted-foreground)]">{valueLabel(arquitectura.versos, arquitectura.porcentaje)}</span>
 											</div>
 										{/if}
 
@@ -284,7 +301,23 @@
 											</div>
 										{/each}
 
-										{#if arquitectura.combinaciones.length > 0}
+										{#if arquitectura.combinaciones.length === 1 && columnasDe(arquitectura.combinaciones).length <= 1}
+											<!-- Un solo rasgo y una sola combinación: una tabla de una celda no compara nada. -->
+											{@const unica = arquitectura.combinaciones[0]}
+											<ul>
+												<li class="flex items-center justify-between gap-3 py-0.5 text-xs">
+													<span>
+														{#if unica.rasgos[0]?.valor}
+															<span class="text-[color:var(--muted-foreground)]">{unica.rasgos[0].rasgo}:</span>
+															<span class="text-[color:var(--foreground)]">{unica.rasgos[0].valor.toLocaleLowerCase('es')}</span>
+														{:else}
+															<span class="text-[color:var(--foreground)]">{unica.rasgos[0]?.rasgo}</span>
+														{/if}
+													</span>
+													<span class="text-[color:var(--muted-foreground)]">{secuenciasDe(unica.secuencias)}</span>
+												</li>
+											</ul>
+										{:else if arquitectura.combinaciones.length > 0}
 											{@const columnas = columnasDe(arquitectura.combinaciones)}
 											<div>
 												<p class="text-[0.68rem] font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">Rasgos</p>
