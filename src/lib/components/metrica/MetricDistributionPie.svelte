@@ -122,6 +122,14 @@
 
 	const secuenciasDe = (n: number) => `${n} ${pluralizeMetricUnit('secuencia', n)}`;
 
+	/**
+	 * **Cuánto ocupan las secuencias de un tipo**, en el modo del perfil: porcentaje de los versos
+	 * de la forma, o versos. No son los versos que tienen el rasgo —«rima esporádica» no dice cuáles
+	 * riman—, sino la extensión de las secuencias; por eso la columna se llama así y no «Versos».
+	 */
+	const extension = (versos: number, arquitectura: MetricDistributionArchitecture) =>
+		props.valueMode === 'absolute' ? `${versos} vv.` : porcentajeDe(versos, arquitectura.versos);
+
 	/** Un valor de una capa, sobre las secuencias de la arquitectura. */
 	const capaLabel = (value: MetricDistributionValue, arquitectura: MetricDistributionArchitecture) =>
 		value.cantidad === arquitectura.secuencias
@@ -314,7 +322,7 @@
 															<span class="text-[color:var(--foreground)]">{unica.rasgos[0]?.rasgo}</span>
 														{/if}
 													</span>
-													<span class="text-[color:var(--muted-foreground)]">{secuenciasDe(unica.secuencias)}</span>
+													<span class="flex gap-4 text-[color:var(--muted-foreground)]"><span>{secuenciasDe(unica.secuencias)}</span><span class="w-14 text-right tabular-nums">{extension(unica.versos, arquitectura)}</span></span>
 												</li>
 											</ul>
 										{:else if arquitectura.combinaciones.length > 0}
@@ -327,7 +335,8 @@
 															{#each columnas as columna (columna)}
 																<th scope="col" class="py-0.5 pr-3 font-normal">{columna}</th>
 															{/each}
-															<th scope="col" class="py-0.5 text-right font-normal">Secuencias</th>
+															<th scope="col" class="py-0.5 pr-3 text-right font-normal">Secuencias</th>
+															<th scope="col" class="py-0.5 text-right font-normal">Extensión</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -342,7 +351,8 @@
 																		<td class="py-1 pr-3 text-[color:var(--foreground)]">{celda(combinacion, columna)}</td>
 																	{/each}
 																{/if}
-																<td class="py-1 text-right tabular-nums text-[color:var(--muted-foreground)]">{combinacion.secuencias}</td>
+																<td class="py-1 pr-3 text-right tabular-nums text-[color:var(--muted-foreground)]">{combinacion.secuencias}</td>
+																<td class="py-1 text-right tabular-nums text-[color:var(--muted-foreground)]">{extension(combinacion.versos, arquitectura)}</td>
 															</tr>
 														{/each}
 													</tbody>
@@ -358,7 +368,7 @@
 															<span class="text-[color:var(--muted-foreground)]">{capa.label}:</span>
 															<span class="text-[color:var(--foreground)]">{value.label.toLocaleLowerCase('es')}</span>
 														</span>
-														<span class="text-[color:var(--muted-foreground)]">{capaLabel(value, arquitectura)}</span>
+														<span class="flex gap-4 text-[color:var(--muted-foreground)]"><span>{capaLabel(value, arquitectura)}</span><span class="w-14 text-right tabular-nums">{extension(value.versos, arquitectura)}</span></span>
 													</li>
 												{/each}
 											</ul>

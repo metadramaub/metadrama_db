@@ -184,16 +184,16 @@ describe('buildDistributionGroups', () => {
 		const [arquitectura] = group.arquitecturas;
 		expect(arquitectura.rasgos).toEqual([]);
 		expect(arquitectura.combinaciones).toEqual([
-			{ rasgos: [{ rasgo: 'Densidad de rima', valor: 'Esporádica' }], secuencias: 2 },
-			{ rasgos: [{ rasgo: 'Densidad de rima', valor: 'Ninguna' }], secuencias: 1 },
-			{ rasgos: [{ rasgo: 'Dístico final', valor: null }], secuencias: 1 },
-			{ rasgos: [], secuencias: 1 }
+			{ rasgos: [{ rasgo: 'Densidad de rima', valor: 'Esporádica' }], secuencias: 2, versos: 60 },
+			{ rasgos: [{ rasgo: 'Densidad de rima', valor: 'Ninguna' }], secuencias: 1, versos: 30 },
+			{ rasgos: [{ rasgo: 'Dístico final', valor: null }], secuencias: 1, versos: 30 },
+			{ rasgos: [], secuencias: 1, versos: 30 }
 		]);
 		expect(arquitectura.capas).toEqual([
 			{
 				label: 'Final acentual',
 				escala: 'secuencia',
-				values: [{ label: 'Esdrújulo', cantidad: 2, unidad: 'secuencia', versos: 0 }]
+				values: [{ label: 'Esdrújulo', cantidad: 2, unidad: 'secuencia', versos: 60 }]
 			}
 		]);
 	});
