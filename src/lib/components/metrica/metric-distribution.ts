@@ -55,6 +55,12 @@ export interface MetricDistributionArchitecture {
 export interface MetricDistributionCombination {
 	rasgos: { rasgo: string; valor: string | null }[];
 	secuencias: number;
+	/**
+	 * Versos de esas secuencias: **su extensión, no los versos que tienen el rasgo**. «Rima
+	 * esporádica» no dice qué versos riman, pero sí cuánto ocupan las secuencias que la tienen, y
+	 * dos secuencias no pesan lo mismo si una es el doble de larga.
+	 */
+	versos: number;
 }
 
 export interface MetricDistributionGroup extends MetricDistributionSlice {
@@ -215,7 +221,10 @@ const esCapa = (row: PublicFichaRasgo) =>
  * clase de suelto, y va aparte en `featureLayers`.
  */
 function featureCombinations(sequences: MetricDistributionSequence[]): MetricDistributionCombination[] {
-	const porSecuencia = new Map<string, { rasgo: string; valor: string | null }[]>();
+	const porSecuencia = new Map<
+		string,
+		{ rasgos: { rasgo: string; valor: string | null }[]; versos: number }
+	>();
 	for (const sequence of sequences) {
 		const rasgos = (sequence.rasgos ?? [])
 			.filter((row) => escalaDe(row) === 'secuencia' && !esCapa(row))
@@ -224,18 +233,19 @@ function featureCombinations(sequences: MetricDistributionSequence[]): MetricDis
 				valor: row.valor_slug === 'presente' ? null : row.valor_nombre
 			}));
 		const unicos = new Map(rasgos.map((item) => [`${item.rasgo}\t${item.valor ?? ''}`, item]));
-		porSecuencia.set(
-			sequenceKey(sequence),
-			[...unicos.values()].sort((a, b) => a.rasgo.localeCompare(b.rasgo, 'es'))
-		);
+		porSecuencia.set(sequenceKey(sequence), {
+			rasgos: [...unicos.values()].sort((a, b) => a.rasgo.localeCompare(b.rasgo, 'es')),
+			versos: sequence.n_versos
+		});
 	}
-	if (![...porSecuencia.values()].some((rasgos) => rasgos.length > 0)) return [];
+	if (![...porSecuencia.values()].some(({ rasgos }) => rasgos.length > 0)) return [];
 
 	const combinaciones = new Map<string, MetricDistributionCombination>();
-	for (const rasgos of porSecuencia.values()) {
+	for (const { rasgos, versos } of porSecuencia.values()) {
 		const clave = rasgos.map((item) => `${item.rasgo}\t${item.valor ?? ''}`).join('\n');
-		const actual = combinaciones.get(clave) ?? { rasgos, secuencias: 0 };
+		const actual = combinaciones.get(clave) ?? { rasgos, secuencias: 0, versos: 0 };
 		actual.secuencias += 1;
+		actual.versos += versos;
 		combinaciones.set(clave, actual);
 	}
 	return [...combinaciones.values()].sort(
@@ -247,14 +257,17 @@ function featureCombinations(sequences: MetricDistributionSequence[]): MetricDis
 	);
 }
 
-/** Las capas —el final acentual—: cuántas secuencias de la arquitectura llevan cada valor. */
+/**
+ * Las capas —el final acentual—: cuántas secuencias de la arquitectura llevan cada valor, y su
+ * extensión en `versos`: los de esas secuencias, como en las combinaciones.
+ */
 function featureLayers(sequences: MetricDistributionSequence[]): MetricDistributionDimension[] {
-	const porRasgo = new Map<string, Map<string, Set<string>>>();
+	const porRasgo = new Map<string, Map<string, Map<string, number>>>();
 	for (const sequence of sequences) {
 		for (const row of (sequence.rasgos ?? []).filter(esCapa)) {
-			const valores = porRasgo.get(row.rasgo_nombre) ?? new Map<string, Set<string>>();
-			const secuencias = valores.get(row.valor_nombre) ?? new Set<string>();
-			secuencias.add(sequenceKey(sequence));
+			const valores = porRasgo.get(row.rasgo_nombre) ?? new Map<string, Map<string, number>>();
+			const secuencias = valores.get(row.valor_nombre) ?? new Map<string, number>();
+			secuencias.set(sequenceKey(sequence), sequence.n_versos);
 			valores.set(row.valor_nombre, secuencias);
 			porRasgo.set(row.rasgo_nombre, valores);
 		}
@@ -268,7 +281,7 @@ function featureLayers(sequences: MetricDistributionSequence[]): MetricDistribut
 					label: valor,
 					cantidad: secuencias.size,
 					unidad: 'secuencia',
-					versos: 0
+					versos: [...secuencias.values()].reduce((total, versos) => total + versos, 0)
 				}))
 				.sort((a, b) => b.cantidad - a.cantidad || a.label.localeCompare(b.label, 'es'))
 		}))
