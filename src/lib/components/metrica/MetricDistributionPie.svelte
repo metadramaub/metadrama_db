@@ -97,15 +97,30 @@
 	}
 
 	/**
-	 * Un tipo de secuencia, por sus rasgos. **Los de secuencia no se cuentan uno a uno**: van por
-	 * combinación, para que se vea qué va con qué (ver `featureCombinations`).
+	 * **Las combinaciones van en tabla**: una columna por rasgo y una fila por tipo de secuencia.
+	 * Escritas en línea —«Densidad de rima: ninguna · Pareados: ocasionales»— no se distinguía qué
+	 * era rasgo y qué valor, y el punto volado no separaba nada. En la tabla el rasgo va arriba una
+	 * vez, y en cada fila solo su valor.
 	 */
-	const combinacionLabel = (combinacion: MetricDistributionCombination) =>
-		combinacion.rasgos.length === 0
-			? 'Sin rasgos marcados'
-			: combinacion.rasgos
-					.map(({ rasgo, valor }) => (valor ? `${rasgo}: ${valor.toLocaleLowerCase('es')}` : rasgo))
-					.join(' · ');
+	const columnasDe = (combinaciones: MetricDistributionCombination[]) =>
+		[...new Set(combinaciones.flatMap((c) => c.rasgos.map((r) => r.rasgo)))].sort((a, b) =>
+			a.localeCompare(b, 'es')
+		);
+
+	/** El valor de un rasgo en una combinación: el suyo, «sí» si es de presencia, o nada. */
+	function celda(combinacion: MetricDistributionCombination, rasgo: string): string {
+		const encontrado = combinacion.rasgos.find((r) => r.rasgo === rasgo);
+		if (!encontrado) return '—';
+		return encontrado.valor ? encontrado.valor.toLocaleLowerCase('es') : 'sí';
+	}
+
+	const secuenciasDe = (n: number) => `${n} ${pluralizeMetricUnit('secuencia', n)}`;
+
+	/** Un valor de una capa, sobre las secuencias de la arquitectura. */
+	const capaLabel = (value: MetricDistributionValue, arquitectura: MetricDistributionArchitecture) =>
+		value.cantidad === arquitectura.secuencias
+			? secuenciasDe(value.cantidad)
+			: `${value.cantidad} de ${secuenciasDe(arquitectura.secuencias)}`;
 
 	/** Los metros cubren versos: siguen el modo del perfil, como la asonancia. */
 	const metroLabel = (metro: MetricDistributionValue, arquitectura: MetricDistributionArchitecture) =>
@@ -141,6 +156,7 @@
 		arquitectura.esquemas.length > 0 ||
 		arquitectura.rasgos.length > 0 ||
 		arquitectura.combinaciones.length > 0 ||
+		arquitectura.capas.length > 0 ||
 		arquitectura.metros.length > 0 ||
 		arquitectura.variedades.length > 0;
 
@@ -269,18 +285,51 @@
 										{/each}
 
 										{#if arquitectura.combinaciones.length > 0}
+											{@const columnas = columnasDe(arquitectura.combinaciones)}
 											<div>
 												<p class="text-[0.68rem] font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">Rasgos</p>
-												<ul>
-													{#each arquitectura.combinaciones as combinacion, indice (indice)}
-														<li class="flex items-start justify-between gap-3 py-0.5 text-xs text-[color:var(--muted-foreground)]">
-															<span class="text-[color:var(--foreground)]">{combinacionLabel(combinacion)}</span>
-															<span class="shrink-0">{combinacion.secuencias} {pluralizeMetricUnit('secuencia', combinacion.secuencias)}</span>
-														</li>
-													{/each}
-												</ul>
+												<table class="mt-1 w-full text-xs">
+													<thead>
+														<tr class="text-left text-[color:var(--muted-foreground)]">
+															{#each columnas as columna (columna)}
+																<th scope="col" class="py-0.5 pr-3 font-normal">{columna}</th>
+															{/each}
+															<th scope="col" class="py-0.5 text-right font-normal">Secuencias</th>
+														</tr>
+													</thead>
+													<tbody>
+														{#each arquitectura.combinaciones as combinacion, indice (indice)}
+															<tr class="border-t border-[color:var(--border)]">
+																{#if combinacion.rasgos.length === 0}
+																	<td colspan={columnas.length} class="py-1 pr-3 italic text-[color:var(--muted-foreground)]">
+																		Sin rasgos marcados
+																	</td>
+																{:else}
+																	{#each columnas as columna (columna)}
+																		<td class="py-1 pr-3 text-[color:var(--foreground)]">{celda(combinacion, columna)}</td>
+																	{/each}
+																{/if}
+																<td class="py-1 text-right tabular-nums text-[color:var(--muted-foreground)]">{combinacion.secuencias}</td>
+															</tr>
+														{/each}
+													</tbody>
+												</table>
 											</div>
 										{/if}
+
+										{#each arquitectura.capas as capa (capa.label)}
+											<ul>
+												{#each capa.values as value (value.label)}
+													<li class="flex items-center justify-between gap-3 py-0.5 text-xs">
+														<span>
+															<span class="text-[color:var(--muted-foreground)]">{capa.label}:</span>
+															<span class="text-[color:var(--foreground)]">{value.label.toLocaleLowerCase('es')}</span>
+														</span>
+														<span class="text-[color:var(--muted-foreground)]">{capaLabel(value, arquitectura)}</span>
+													</li>
+												{/each}
+											</ul>
+										{/each}
 
 										{#if arquitectura.metros.length > 0}
 											<p class="text-xs text-[color:var(--muted-foreground)]">

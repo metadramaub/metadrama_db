@@ -754,6 +754,7 @@ desviación.
 | Repetición métrica o léxica              | `repeticiones_metricas` · `repeticion_posiciones`                                                   |
 | Rasgo                                    | `rasgos_metricos` · `rasgo_valores` · `arquitectura_rasgos`                                         |
 | En qué se cuenta un rasgo                | `rasgos_metricos.escala_recuento`                                                                   |
+| Si un rasgo construye o se añade         | `rasgos_metricos.naturaleza`                                                                        |
 | Elección                                 | `grupos_eleccion_metrica` · `opciones_eleccion_metrica` (vista derivada)                            |
 | Norma declarada por el pasaje            | `grupos_eleccion_metrica.define_norma` · `estructuras_secciones.primera_realizacion_define_patron`  |
 | Denominación                             | `denominaciones_metricas`                                                                           |
@@ -771,6 +772,12 @@ posición—. `secuencia`: es un juicio sobre la secuencia entera —densidad de
 organización en pareados, dístico final, encadenamiento interior— y solo se cuentan secuencias.
 Sumar los versos de un rasgo de secuencia afirmaría de cada verso lo que solo se dijo del conjunto.
 Un rasgo nuevo tiene que declararla: la columna no tiene valor por defecto.
+
+**Y dice si construye la secuencia o se le añade** (`naturaleza`, obligatoria desde el mismo día).
+`construccion`: describe cómo está hecha —densidad de rima, organización en pareados, dístico final,
+encadenamiento interior, asonancia, pie quebrado—, y la combinación de estos es el tipo de la
+secuencia. `capa`: se añade encima sin cambiar su tipo —el final acentual—. En la octava aguda el
+final agudo es definitorio, pero de esa arquitectura: el rasgo sigue siendo una capa.
 
 Dos avisos de vocabulario. **Combinación** significa en la tradición hispánica la estrofa
 misma —Domínguez Caparrós titula así el capítulo dedicado a las estrofas castellanas— y
