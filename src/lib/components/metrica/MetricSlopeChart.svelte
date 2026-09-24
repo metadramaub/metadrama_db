@@ -20,9 +20,10 @@
 	//   con tres grises y tres trazos no se repite ninguna hasta la décima.
 	// - Los estilos van como atributos, con los valores de `$lib/figuras/tema`: el SVG se descarga
 	//   tal cual. En modo `figura` el sello va de canto junto a las referencias de porcentaje.
-	// - **Cada nombre va unido a su línea por una guía** y lleva su cifra. Apilados para que no se
-	//   monten, los nombres quedaban lejos del final de su línea, y con doce colores parecidos no
-	//   había manera de saber cuál era cuál.
+	// - **Cada nombre va unido a su línea por una guía.** Apilados para que no se monten, los nombres
+	//   quedaban lejos del final de su línea, y con doce colores parecidos no había manera de saber
+	//   cuál era cuál. **Sin cifra al lado**: sería la de la última jornada, que en un gráfico que
+	//   compara jornadas no dice nada; las tres salen al pasar por la forma.
 	// - **Las formas menores pueden ir en segundo plano** (`destacadas`): en gris fino, sin nombre
 	//   al final, y nombradas aparte. Diez líneas entre el 0 y el 20 % no se leen; cinco, sí.
 	//   Al pasar por una se enciende con su color, su nombre y su valor en cada jornada.
@@ -49,7 +50,7 @@
 	const ALTO_UTIL = 300;
 	const MARGEN_SUP = 18;
 	const MARGEN_INF = 38;
-	const MARGEN_DER = 230; // Sitio para la guía, el nombre y la cifra, que van a la derecha.
+	const MARGEN_DER = 190; // Sitio para la guía y el nombre, que van a la derecha.
 	/** Dónde acaba la guía y empieza el nombre, desde el último momento. */
 	const SANGRIA_ETIQUETA = 34;
 	const GRIS_MENOR = '#bdbdbd';
@@ -314,7 +315,7 @@
 					font-weight="600"
 					fill={props.paleta === 'grises' ? TINTA.texto : colorDe(etiqueta.serie.colorKey)}
 					>{etiqueta.serie.forma}</tspan
-				><tspan fill={TINTA.secundario} dx="6">{cifra(etiqueta.valor)}</tspan>
+				>
 			</text>
 		{/each}
 
