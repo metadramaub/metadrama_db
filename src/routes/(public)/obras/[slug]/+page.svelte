@@ -15,7 +15,13 @@
 	import MetricPhenomenaIndex from '$lib/components/metrica/MetricPhenomenaIndex.svelte';
 	import MetricEvolution from '$lib/components/metrica/MetricEvolution.svelte';
 	import MetricAnalysisHeading from '$lib/components/metrica/MetricAnalysisHeading.svelte';
-	import DiagramExportControls from '$lib/components/metrica/DiagramExportControls.svelte';
+	import MetricBarcodeFigura, { type FilaDeBarras } from '$lib/components/metrica/MetricBarcodeFigura.svelte';
+	import MetricDistributionPieFigura from '$lib/components/metrica/MetricDistributionPieFigura.svelte';
+	import { leyendaDeTradiciones } from '$lib/components/metrica/MetricTraditionSplit.svelte';
+	import FiguraDescargable from '$lib/components/figuras/FiguraDescargable.svelte';
+	import { anioDeFicha } from '$lib/figuras/cita';
+	import { TINTA } from '$lib/figuras/tema';
+	import type { FiguraDescargable as Figura, ItemLeyenda, ProcedenciaFigura } from '$lib/figuras/tipos';
 	import StructureOutline from '$lib/components/metrica/StructureOutline.svelte';
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
 	import SequenceDetailModal from '$lib/components/ficha/SequenceDetailModal.svelte';
@@ -92,11 +98,6 @@
 	// ('obra' o el id de jornada) para que en modo por-jornadas solo ilumine el
 	// barcode/pie de esa jornada, no los de las demás.
 	let hoveredForma = $state<{ groupId: string; forma: string } | null>(null);
-	let barcodeExportTarget = $state<HTMLDivElement | null>(null);
-	let pieExportTarget = $state<HTMLDivElement | null>(null);
-	let stripsExportTarget = $state<HTMLDivElement | null>(null);
-	let slopeExportTarget = $state<HTMLDivElement | null>(null);
-	let traditionExportTarget = $state<HTMLDivElement | null>(null);
 
 	function formaForGroup(groupId: string): string | null {
 		return hoveredForma && hoveredForma.groupId === groupId ? hoveredForma.forma : null;
@@ -369,23 +370,104 @@
 	const ordenDeFormas = $derived(
 		perfilDeFormas(analizables).map((peso) => ({ forma: peso.forma, colorKey: peso.colorKey }))
 	);
-	const diagramLegend = $derived(
+
+	// --- Gráficos descargables ---
+	// Cada gráfico dice qué es y qué admite; lo que se descarga lo pinta él mismo en modo figura.
+	// La cita y la licencia las pone `FiguraDescargable` a partir de esta procedencia.
+	const procedenciaFigura = $derived<ProcedenciaFigura>({
+		obraTitulo: obra.titulo,
+		obraSlug: obra.slug,
+		autorFicha: obra.autor_ficha_publico ?? null,
+		anio: anioDeFicha(obra.updated_at),
+		actualizada: obra.updated_at
+	});
+	const leyendaDeFormas = $derived<ItemLeyenda[]>(
 		ordenDeFormas.map(({ forma, colorKey }) => ({
-			label: forma,
+			etiqueta: forma,
 			color: colorByForma[colorKey] ?? colorForForma({ slug: colorKey, tipoForma: null })
 		}))
 	);
-	const traditionLegend = $derived([
-		{ label: 'Españolas', color: colorForForma({ slug: null, tipoForma: 'forma_espanola' }) },
-		{ label: 'Italianas', color: colorForForma({ slug: null, tipoForma: 'forma_italiana' }) },
-		{ label: 'Sin tradición', color: colorForForma({ slug: null, tipoForma: null }) }
-	]);
-	const exportMeta = (title: string, suffix: string, legend = diagramLegend) => ({
-		title,
-		workTitle: obra.titulo,
-		permalink: `/obras/${obra.slug}`,
-		filename: `${obra.slug}-${suffix}`,
-		legend
+	const figuraCodigoDeBarras = $derived.by((): Figura => {
+		const porJornadas = metricViewMode === 'por_jornadas';
+		const cortes: ItemLeyenda[] = [
+			...(!porJornadas && jornadaMarkers.length > 0
+				? [{ etiqueta: 'Cambio de jornada', color: TINTA.texto, muestra: 'linea' as const }]
+				: []),
+			...(cuadros.length > 0
+				? [{ etiqueta: 'Cambio de cuadro', color: TINTA.tenue, muestra: 'linea-discontinua' as const }]
+				: [])
+		];
+		return {
+			titulo: porJornadas ? 'Código de barras métrico por jornadas' : 'Código de barras métrico',
+			archivo: porJornadas ? 'codigo-de-barras-por-jornadas' : 'codigo-de-barras',
+			admiteGrises: false,
+			leyenda: () => [...leyendaDeFormas, ...cortes]
+		};
+	});
+	const filasDeBarras = $derived.by((): FilaDeBarras[] =>
+		metricViewMode === 'obra_completa'
+			? [
+					{
+						etiqueta: 'Obra completa',
+						desde: 1,
+						hasta: totalVersos,
+						segmentos: barSegments,
+						cortesJornada: jornadaMarkers,
+						cortesCuadro: cuadroMarkers,
+						jornadas:
+							jornadas.length > 1
+								? jornadas.map((jornada) => ({
+										etiqueta: `Jornada ${jornada.jornada_num}`,
+										desde: jornada.v_ini,
+										hasta: jornada.v_fin
+									}))
+								: []
+					}
+				]
+			: jornadas.map((jornada) => ({
+					etiqueta: `Jornada ${jornada.jornada_num}`,
+					desde: jornada.v_ini,
+					hasta: jornada.v_fin,
+					segmentos: segmentsByJornada.get(jornada.jornada_id) ?? [],
+					cortesCuadro: cuadroMarkersByJornada.get(jornada.jornada_id) ?? []
+				}))
+	);
+	const figuraPerfil = $derived<Figura>(
+		metricViewMode === 'por_jornadas'
+			? { titulo: 'Perfil métrico por jornadas', archivo: 'perfil-metrico-por-jornadas', admiteGrises: false }
+			: { titulo: 'Perfil métrico', archivo: 'perfil-metrico', admiteGrises: false }
+	);
+	const gruposDelPerfil = $derived(
+		metricViewMode === 'por_jornadas'
+			? metricProfilesByJornada.map((perfil) => ({
+					titulo: `Jornada ${perfil.jornada.jornada_num}`,
+					items: perfil.distribution
+				}))
+			: [{ titulo: null, items: distribucionFormasSlices }]
+	);
+	const figuraFranjas = $derived<Figura>({
+		titulo: 'Dónde cae cada forma',
+		archivo: 'donde-cae-cada-forma',
+		admiteGrises: true,
+		leyenda: () =>
+			jornadas.length > 1
+				? [{ etiqueta: 'Cambio de jornada', color: TINTA.tenue, muestra: 'linea' }]
+				: []
+	});
+	const figuraPendientes: Figura = {
+		titulo: 'El peso de cada forma en cada jornada',
+		archivo: 'peso-de-cada-forma-por-jornada',
+		admiteGrises: true
+	};
+	const figuraTradiciones = $derived<Figura>({
+		titulo: 'Españolas e italianas por jornada',
+		archivo: 'tradiciones-por-jornada',
+		admiteGrises: true,
+		leyenda: ({ paleta }) =>
+			leyendaDeTradiciones(
+				paleta,
+				tradiciones.some((fila) => fila.sinTradicion.porcentaje > 0)
+			)
 	});
 	const evolucion = $derived(
 		perfilPorJornada(analizables).map((jornada) => ({
@@ -595,7 +677,7 @@
 				titulo={obra.titulo}
 				autorFicha={obra.autor_ficha_publico}
 				updatedAt={obra.updated_at}
-				obraPath={`/obras/${obra.slug}`}
+				obraSlug={obra.slug}
 			/>
 		</div>
 
@@ -765,101 +847,102 @@
 						</div>
 					</div>
 
-					<div bind:this={barcodeExportTarget}>
 					{#if secuenciasOrdenadas.length === 0}
 						<p class="text-sm text-[color:var(--muted-foreground)]">
 							No hay secuencias métricas registradas para esta obra.
 						</p>
-					{:else if metricViewMode === 'obra_completa'}
-						<MetricBarcode
-							segments={barSegments}
-							totalVerses={totalVersos}
-							jornadaMarkers={jornadaMarkers}
-							cuadroMarkers={cuadroMarkers}
-							colorByForma={colorByForma}
-							onOpenSegment={openSequenceModal}
-							highlightedForma={formaForGroup('obra')}
-							showSubsegments
-						/>
-						<div class="mt-2 flex flex-wrap items-center gap-4 text-xs text-[color:var(--muted-foreground)]">
-							<span class="inline-flex items-center gap-2">
-								<span class="inline-block h-3 w-[2px] bg-[color:var(--gray-900)]"></span>
-								Corte de jornada
-							</span>
-							<span class="inline-flex items-center gap-2">
-								<span class="inline-block h-3 w-3 border-l border-dashed border-[color:var(--gray-500)]"></span>
-								Corte de cuadro
-							</span>
-						</div>
 					{:else}
-						<div class="space-y-5">
-							{#each jornadas as jornada (jornada.jornada_id)}
-								<div>
-									<h3 class="mb-2 text-sm font-semibold">
-										Jornada {jornada.jornada_num} (vv. {jornada.v_ini}-{jornada.v_fin})
-									</h3>
-									<MetricBarcode
-										segments={segmentsByJornada.get(jornada.jornada_id) ?? []}
-										totalVerses={totalVersos}
-										rangeStart={jornada.v_ini}
-										rangeEnd={jornada.v_fin}
-										cuadroMarkers={cuadroMarkersByJornada.get(jornada.jornada_id) ?? []}
-										colorByForma={colorByForma}
-										onOpenSegment={openSequenceModal}
-										highlightedForma={formaForGroup(jornada.jornada_id)}
-										showSubsegments
-									/>
+						<FiguraDescargable figura={figuraCodigoDeBarras} procedencia={procedenciaFigura}>
+							{#if metricViewMode === 'obra_completa'}
+								<MetricBarcode
+									segments={barSegments}
+									totalVerses={totalVersos}
+									jornadaMarkers={jornadaMarkers}
+									cuadroMarkers={cuadroMarkers}
+									colorByForma={colorByForma}
+									onOpenSegment={openSequenceModal}
+									highlightedForma={formaForGroup('obra')}
+									showSubsegments
+								/>
+								<div class="mt-2 flex flex-wrap items-center gap-4 text-xs text-[color:var(--muted-foreground)]">
+									<span class="inline-flex items-center gap-2">
+										<span class="inline-block h-3 w-[2px] bg-[color:var(--gray-900)]"></span>
+										Corte de jornada
+									</span>
+									<span class="inline-flex items-center gap-2">
+										<span class="inline-block h-3 w-3 border-l border-dashed border-[color:var(--gray-500)]"></span>
+										Corte de cuadro
+									</span>
 								</div>
-							{/each}
-						</div>
-					{/if}
-					</div>
-					{#if secuenciasOrdenadas.length > 0}
-						<DiagramExportControls
-							target={barcodeExportTarget}
-							meta={exportMeta(
-								metricViewMode === 'obra_completa' ? 'Código de barras métrico' : 'Código de barras por jornadas',
-								metricViewMode === 'obra_completa' ? 'codigo-de-barras' : 'codigo-de-barras-por-jornadas'
-							)}
-						/>
+							{:else}
+								<div class="space-y-5">
+									{#each jornadas as jornada (jornada.jornada_id)}
+										<div>
+											<h3 class="mb-2 text-sm font-semibold">
+												Jornada {jornada.jornada_num} (vv. {jornada.v_ini}-{jornada.v_fin})
+											</h3>
+											<MetricBarcode
+												segments={segmentsByJornada.get(jornada.jornada_id) ?? []}
+												totalVerses={totalVersos}
+												rangeStart={jornada.v_ini}
+												rangeEnd={jornada.v_fin}
+												cuadroMarkers={cuadroMarkersByJornada.get(jornada.jornada_id) ?? []}
+												colorByForma={colorByForma}
+												onOpenSegment={openSequenceModal}
+												highlightedForma={formaForGroup(jornada.jornada_id)}
+												showSubsegments
+											/>
+										</div>
+									{/each}
+								</div>
+							{/if}
+							{#snippet grafico()}
+								<MetricBarcodeFigura filas={filasDeBarras} colorByForma={colorByForma} />
+							{/snippet}
+						</FiguraDescargable>
 					{/if}
 				</div>
 
-				<div bind:this={pieExportTarget}>
-				{#if metricViewMode === 'obra_completa'}
-					<MetricDistributionPie
-						items={distribucionFormasSlices}
-						sequences={secuenciasOrdenadas}
-						colorByForma={colorByForma}
-						valueMode={pieValueMode}
-						highlightedForma={formaForGroup('obra')}
-						onHoverForma={(forma) => (hoveredForma = forma ? { groupId: 'obra', forma } : null)}
-					/>
-				{:else}
-					<div class="space-y-5">
-						{#each metricProfilesByJornada as profile (profile.jornada.jornada_id)}
-							<MetricDistributionPie
-								title={`Perfil métrico · Jornada ${profile.jornada.jornada_num}`}
-								items={profile.distribution}
-								sequences={profile.sequences}
+				{#snippet perfilEnPantalla()}
+					{#if metricViewMode === 'obra_completa'}
+						<MetricDistributionPie
+							items={distribucionFormasSlices}
+							sequences={secuenciasOrdenadas}
+							colorByForma={colorByForma}
+							valueMode={pieValueMode}
+							highlightedForma={formaForGroup('obra')}
+							onHoverForma={(forma) => (hoveredForma = forma ? { groupId: 'obra', forma } : null)}
+						/>
+					{:else}
+						<div class="space-y-5">
+							{#each metricProfilesByJornada as profile (profile.jornada.jornada_id)}
+								<MetricDistributionPie
+									title={`Perfil métrico · Jornada ${profile.jornada.jornada_num}`}
+									items={profile.distribution}
+									sequences={profile.sequences}
+									colorByForma={colorByForma}
+									valueMode={pieValueMode}
+									highlightedForma={formaForGroup(profile.jornada.jornada_id)}
+									onHoverForma={(forma) =>
+										(hoveredForma = forma ? { groupId: profile.jornada.jornada_id, forma } : null)}
+								/>
+							{/each}
+						</div>
+					{/if}
+				{/snippet}
+				{#if secuenciasOrdenadas.length > 0}
+					<FiguraDescargable figura={figuraPerfil} procedencia={procedenciaFigura}>
+						{@render perfilEnPantalla()}
+						{#snippet grafico()}
+							<MetricDistributionPieFigura
+								grupos={gruposDelPerfil}
 								colorByForma={colorByForma}
 								valueMode={pieValueMode}
-								highlightedForma={formaForGroup(profile.jornada.jornada_id)}
-								onHoverForma={(forma) =>
-									(hoveredForma = forma ? { groupId: profile.jornada.jornada_id, forma } : null)}
 							/>
-						{/each}
-					</div>
-				{/if}
-				</div>
-				{#if secuenciasOrdenadas.length > 0}
-					<DiagramExportControls
-						target={pieExportTarget}
-						meta={exportMeta(
-							metricViewMode === 'obra_completa' ? 'Perfil métrico' : 'Perfil métrico por jornadas',
-							metricViewMode === 'obra_completa' ? 'perfil-metrico' : 'perfil-metrico-por-jornadas'
-						)}
-					/>
+						{/snippet}
+					</FiguraDescargable>
+				{:else}
+					{@render perfilEnPantalla()}
 				{/if}
 			</section>
 		{/if}
@@ -953,7 +1036,7 @@
 						title="Dónde cae cada forma"
 						description="En qué punto de la obra aparece cada forma. Las líneas verticales son los cambios de jornada."
 					/>
-					<div bind:this={stripsExportTarget}>
+					<FiguraDescargable figura={figuraFranjas} procedencia={procedenciaFigura}>
 						<MetricFormStrips
 							filas={franjas}
 							totalVersos={totalVersos}
@@ -964,11 +1047,17 @@
 							onHoverForma={(forma) =>
 								(hoveredForma = forma ? { groupId: 'analisis', forma } : null)}
 						/>
-					</div>
-					<DiagramExportControls
-						target={stripsExportTarget}
-						meta={exportMeta('Dónde cae cada forma', 'distribucion-de-formas')}
-					/>
+						{#snippet grafico({ paleta })}
+							<MetricFormStrips
+								filas={franjas}
+								totalVersos={totalVersos}
+								colorByForma={colorByForma}
+								jornadas={jornadas.map((jornada) => jornada.v_ini)}
+								modo="figura"
+								{paleta}
+							/>
+						{/snippet}
+					</FiguraDescargable>
 				</div>
 
 				<!--
@@ -988,7 +1077,7 @@
 							Hace falta más de una jornada anotada para poder comparar.
 						</p>
 					{:else}
-						<div bind:this={slopeExportTarget}>
+						<FiguraDescargable figura={figuraPendientes} procedencia={procedenciaFigura}>
 							<MetricSlopeChart
 								momentos={momentos}
 								series={pendientes}
@@ -997,11 +1086,16 @@
 								onHoverForma={(forma) =>
 									(hoveredForma = forma ? { groupId: 'analisis', forma } : null)}
 							/>
-						</div>
-						<DiagramExportControls
-							target={slopeExportTarget}
-							meta={exportMeta('Cómo cambia cada forma', 'evolucion-de-formas')}
-						/>
+							{#snippet grafico({ paleta })}
+								<MetricSlopeChart
+									momentos={momentos}
+									series={pendientes}
+									colorByForma={colorByForma}
+									modo="figura"
+									{paleta}
+								/>
+							{/snippet}
+						</FiguraDescargable>
 					{/if}
 				</div>
 
@@ -1014,13 +1108,12 @@
 						<!-- Sin tabla al lado: el gráfico da la cifra dentro de cada tramo —a dos
 						     decimales, como todo porcentaje del proyecto— y repetirla en columnas no
 						     añadía nada. -->
-						<div bind:this={traditionExportTarget}>
+						<FiguraDescargable figura={figuraTradiciones} procedencia={procedenciaFigura}>
 							<MetricTraditionSplit puntos={repartoDeTradiciones} />
-						</div>
-						<DiagramExportControls
-							target={traditionExportTarget}
-							meta={exportMeta('Españolas e italianas', 'tradiciones-por-jornada', traditionLegend)}
-						/>
+							{#snippet grafico({ paleta })}
+								<MetricTraditionSplit puntos={repartoDeTradiciones} modo="figura" {paleta} />
+							{/snippet}
+						</FiguraDescargable>
 					</div>
 				{/if}
 

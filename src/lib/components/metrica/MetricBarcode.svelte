@@ -5,6 +5,7 @@
 	import { ArrowRight } from 'lucide-svelte';
 	import type { MetricBarSegment } from './metric-display.types';
 	import { normalizeFormaKey } from '$lib/utils/metric-colors';
+	import { subsegmentosVisibles } from './barcode-subsegmentos';
 
 	interface PositionedSegment {
 		segment: MetricBarSegment;
@@ -144,21 +145,6 @@
 		return Math.max(0, Math.min(100, x));
 	}
 
-	// Formas cuyas subdivisiones no se dibujan: en una tirada de quintillas el
-	// desglose interno es tan menudo que confunde, y se sobreentiende que va
-	// dividida en quintillas.
-	const SUBSEGMENT_HIDDEN_FORMS = new Set(['quintilla']);
-
-	function hasHiddenSubsegments(segment: MetricBarSegment) {
-		const key = normalizeFormaKey(segment.colorKey ?? segment.forma);
-		return SUBSEGMENT_HIDDEN_FORMS.has(key);
-	}
-
-	function visibleSubsegments(segment: MetricBarSegment) {
-		if (hasHiddenSubsegments(segment)) return [];
-		return (segment.subsegments ?? []).filter((sub) => sub.v_ini > segment.v_ini);
-	}
-
 	function segmentTitle(segment: MetricBarSegment) {
 		if (props.compactMarkers) {
 			return `${segment.label} · vv. ${segment.v_ini}-${segment.v_fin}`;
@@ -255,7 +241,7 @@
 					{/if}
 
 					{#if props.showSubsegments && item.segment.subsegments && item.segment.subsegments.length > 0}
-						{#each visibleSubsegments(item.segment) as sub (sub.id)}
+						{#each subsegmentosVisibles(item.segment) as sub (sub.id)}
 							<line
 								x1={subsegmentX(item.segment, sub)}
 								x2={subsegmentX(item.segment, sub)}

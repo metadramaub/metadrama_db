@@ -1,9 +1,8 @@
 <script lang="ts">
 	// Pie de distribución de formas REUTILIZABLE. Consume MetricDistributionSlice.
 	// Leyenda desplegable: forma → arquitectura → respuestas observadas.
-	import EChart from '$lib/components/charts/EChart.svelte';
 	import { ChevronDown, ChevronRight } from 'lucide-svelte';
-	import type { EChartsOption } from 'echarts';
+	import MetricDonut from './MetricDonut.svelte';
 	import type { MetricDistributionSlice } from './metric-display.types';
 	import {
 		buildDistributionGroups,
@@ -42,14 +41,36 @@
 		return normalizeFormaKey(item.colorKey ?? item.forma);
 	}
 
-	// Forma resaltada desde fuera (hover en el barcode), normalizada.
+	// **Rosquilla, lista y código de barras van juntos.** Pasar por una forma en la rosquilla o en
+	// la lista la ilumina en los tres sitios y apaga el resto. El resalte llega de fuera
+	// (`highlightedForma`); el propio sirve cuando quien usa el componente no lo devuelve.
+	let sobrevolada = $state<string | null>(null);
 	const highlightedFormaKey = $derived(
-		props.highlightedForma ? normalizeFormaKey(props.highlightedForma) : null
+		props.highlightedForma ? normalizeFormaKey(props.highlightedForma) : sobrevolada
 	);
 	const DIMMED_OPACITY = 0.35;
+	const isDimmed = (item: MetricDistributionSlice) =>
+		highlightedFormaKey !== null && groupKey(item) !== highlightedFormaKey;
 
-	function isDimmed(item: MetricDistributionSlice) {
-		return highlightedFormaKey !== null && groupKey(item) !== highlightedFormaKey;
+	function hoverForma(item: MetricDistributionSlice | null) {
+		sobrevolada = item ? groupKey(item) : null;
+		props.onHoverForma?.(item ? (item.colorKey ?? item.forma) : null);
+	}
+
+	// El aviso de un sector: forma, versos y porcentaje, lo mismo que daba el de ECharts. En HTML y
+	// no con `<title>`, que tarda un segundo en salir y no deja poner la forma en negrita.
+	let rosquilla = $state<HTMLDivElement | null>(null);
+	let aviso = $state<{ item: MetricDistributionGroup; x: number; y: number } | null>(null);
+
+	/** El sector se reconoce por su clave normalizada; hacia fuera se avisa con la del color. */
+	function hoverSector(clave: string | null, evento?: PointerEvent) {
+		const item = clave ? (groups.find((group) => groupKey(group) === clave) ?? null) : null;
+		if (item?.forma !== aviso?.item.forma) hoverForma(item);
+		const caja = rosquilla?.getBoundingClientRect();
+		aviso =
+			item && evento && caja
+				? { item, x: evento.clientX - caja.left, y: evento.clientY - caja.top }
+				: null;
 	}
 
 	function valueLabel(versos: number, porcentaje: number): string {
@@ -74,64 +95,13 @@
 		expanded = { ...expanded, [forma]: !expanded[forma] };
 	}
 
-	const chartOption = $derived.by((): EChartsOption => {
-		const colors = groups.map((item) => props.colorByForma[item.colorKey ?? item.forma] ?? '#9ca3af');
-		return {
-			color: colors,
-			aria: {
-				enabled: true
-			},
-			tooltip: {
-				trigger: 'item',
-				confine: true,
-				textStyle: {
-					fontSize: 11,
-					lineHeight: 16
-				},
-				formatter: (params: unknown) => {
-					const data = (params as { data?: MetricDistributionGroup }).data;
-					if (!data) return '';
-					return [
-						`<strong>${data.forma}</strong>`,
-						`Versos: ${data.versos}`,
-						`Porcentaje: ${data.porcentaje.toFixed(2)}%`
-					].join('<br />');
-				}
-			},
-			series: [
-				{
-					name: 'Perfil métrico',
-					type: 'pie',
-					radius: ['42%', '76%'],
-					center: ['50%', '50%'],
-					avoidLabelOverlap: true,
-					minAngle: 2,
-					itemStyle: {
-						borderColor: '#ffffff',
-						borderWidth: 1
-					},
-					label: {
-						show: false
-					},
-					labelLine: {
-						show: false
-					},
-					emphasis: {
-						scale: true,
-						scaleSize: 4
-					},
-					data: groups.map((item) => ({
-						...item,
-						name: item.forma,
-						value: item.versos,
-						itemStyle: {
-							opacity: isDimmed(item) ? DIMMED_OPACITY : 1
-						}
-					}))
-				}
-			]
-		};
-	});
+	const sectores = $derived(
+		groups.map((item) => ({
+			clave: groupKey(item),
+			valor: item.versos,
+			color: props.colorByForma[item.colorKey ?? item.forma] ?? '#9ca3af'
+		}))
+	);
 </script>
 
 <section class="space-y-3">
@@ -146,28 +116,42 @@
 		<p class="text-sm text-[color:var(--muted-foreground)]">Sin distribución métrica disponible.</p>
 	{:else}
 		<div class="grid gap-6 md:grid-cols-[14rem_1fr] md:items-start">
-			<EChart
-				option={chartOption}
-				height="14rem"
-				class="mx-auto max-w-56"
-				renderer="svg"
-				ariaLabel="Distribución de formas métricas"
-			/>
+			<div class="relative mx-auto h-56 w-56" bind:this={rosquilla}>
+				<MetricDonut
+					sectores={sectores}
+					class="block h-56 w-56"
+					resaltada={highlightedFormaKey}
+					onHover={hoverSector}
+				/>
+				{#if aviso}
+					<div
+						class="pointer-events-none absolute z-10 w-max max-w-[14rem] border border-[color:var(--border)] bg-white px-2 py-1.5 text-[11px] leading-4 text-[color:var(--gray-800)] shadow-sm"
+						style={`left:${aviso.x + 12}px;top:${aviso.y + 12}px;`}
+						role="tooltip"
+					>
+						<strong class="block text-[color:var(--gray-900)]">{aviso.item.forma}</strong>
+						Versos: {aviso.item.versos}<br />
+						Porcentaje: {aviso.item.porcentaje.toFixed(2)}%
+					</div>
+				{/if}
+			</div>
 
 			<ul class="divide-y divide-[color:var(--border)]">
 				{#each groups as item (item.forma)}
 					{@const hasDetails = item.arquitecturas.length > 0}
 					<li
-						onpointerenter={() => props.onHoverForma?.(item.colorKey ?? item.forma)}
-						onpointerleave={() => props.onHoverForma?.(null)}
+						class="transition-opacity duration-100"
+						style:opacity={isDimmed(item) ? DIMMED_OPACITY : 1}
+						onpointerenter={() => hoverForma(item)}
+						onpointerleave={() => hoverForma(null)}
 					>
 						<button
 							type="button"
 							class="flex w-full items-center justify-between gap-3 py-2 text-left text-sm"
 							class:cursor-default={!hasDetails}
 							onclick={() => hasDetails && toggle(item.forma)}
-							onfocus={() => props.onHoverForma?.(item.colorKey ?? item.forma)}
-							onblur={() => props.onHoverForma?.(null)}
+							onfocus={() => hoverForma(item)}
+							onblur={() => hoverForma(null)}
 							aria-expanded={hasDetails ? Boolean(expanded[item.forma]) : undefined}
 						>
 							<span class="flex items-center gap-2">

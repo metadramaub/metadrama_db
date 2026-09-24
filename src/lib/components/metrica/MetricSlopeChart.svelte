@@ -1,5 +1,5 @@
 <script lang="ts">
-	// Cómo cambia cada forma de una jornada a otra. REUTILIZABLE.
+	// Cómo cambia cada forma de una jornada a otra. REUTILIZABLE y descargable.
 	//
 	// **Es el gráfico del cambio, no el de la composición.** De qué está hecha cada jornada lo dice
 	// el apilado; lo que aquí se ve es si una forma sube, baja o aparece, que en un apilado es
@@ -15,9 +15,17 @@
 	//   Con doce formas, rotularlas todas es una maraña.
 	// - **Una forma que no está en una jornada vale cero y se dibuja**, porque «aparece en la II» es
 	//   una de las tres cosas que este gráfico viene a contestar.
+	// - **En blanco y negro, gris y trazo.** Cada forma va rotulada al final de su línea, así que el
+	//   color no hace falta para saber cuál es cuál; pero donde se cruzan hay que poder seguirlas, y
+	//   con tres grises y tres trazos no se repite ninguna hasta la décima.
+	// - Los estilos van como atributos, con los valores de `$lib/figuras/tema`: el SVG se descarga
+	//   tal cual. En modo `figura` el sello va de canto junto a las referencias de porcentaje.
 	import { scaleLinear, scalePoint } from 'd3-scale';
 	import type { MetricSlopeSeries } from './metric-display.types';
 	import { normalizeFormaKey } from '$lib/utils/metric-colors';
+	import SelloFigura from '$lib/components/figuras/SelloFigura.svelte';
+	import { CUERPO, TINTA, trazoEnGrises } from '$lib/figuras/tema';
+	import type { Paleta } from '$lib/figuras/tipos';
 
 	const props = $props<{
 		/** Los momentos, en orden: las jornadas. */
@@ -26,16 +34,22 @@
 		colorByForma: Record<string, string>;
 		onHoverForma?: (colorKey: string | null) => void;
 		resaltada?: string | null;
+		modo?: 'pantalla' | 'figura';
+		paleta?: Paleta;
 	}>();
 
-	const ANCHO = 760;
 	const ALTO_UTIL = 300;
 	const MARGEN_SUP = 18;
 	const MARGEN_INF = 38;
-	const MARGEN_IZQ = 46;
 	const MARGEN_DER = 132; // Sitio para los nombres, que van a la derecha.
+	/** Lo que se ensancha la figura por la izquierda para que quepa el sello de canto. */
+	const SITIO_SELLO = 18;
 
+	const figura = $derived(props.modo === 'figura');
+	const margenIzq = $derived(46 + (figura ? SITIO_SELLO : 0));
+	const ancho = $derived(760 + (figura ? SITIO_SELLO : 0));
 	const alto = MARGEN_SUP + ALTO_UTIL + MARGEN_INF;
+	const resaltada = $derived(figura ? null : (props.resaltada ?? null));
 
 	const maximo = $derived(
 		Math.max(
@@ -54,11 +68,26 @@
 	const x = $derived(
 		scalePoint<string>()
 			.domain(props.momentos)
-			.range([MARGEN_IZQ, ANCHO - MARGEN_DER])
+			.range([margenIzq, ancho - MARGEN_DER])
 	);
 
-	const colorDe = (colorKey: string) =>
-		props.colorByForma[normalizeFormaKey(colorKey)] ?? 'var(--muted-foreground)';
+	/** Color y trazo de cada serie, según la paleta. */
+	const estilos = $derived(
+		new Map<string, { color: string; trazo: string }>(
+			props.series.map((serie: MetricSlopeSeries, indice: number): [string, { color: string; trazo: string }] => [
+				serie.colorKey,
+				props.paleta === 'grises'
+					? trazoEnGrises(indice)
+					: {
+							color: props.colorByForma[normalizeFormaKey(serie.colorKey)] ?? TINTA.neutro,
+							trazo: ''
+						}
+			])
+		)
+	);
+	const colorDe = (colorKey: string) => estilos.get(colorKey)?.color ?? TINTA.neutro;
+	const trazoDe = (colorKey: string) => estilos.get(colorKey)?.trazo || undefined;
+	const apagada = (colorKey: string) => resaltada !== null && resaltada !== colorKey;
 
 	const trazo = (valores: (number | null)[]) =>
 		props.momentos
@@ -115,30 +144,39 @@
 	);
 </script>
 
-<figure class="metric-slope">
-	<svg viewBox={`0 0 ${ANCHO} ${alto}`} role="img" aria-label="Cambio de cada forma por jornadas">
+{#snippet lienzo()}
+	<svg
+		viewBox={`0 0 ${ancho} ${alto}`}
+		role="img"
+		aria-label="Cambio de cada forma por jornadas"
+		data-figura={figura ? '' : undefined}
+	>
 		{#each menudas as valor (valor)}
 			<line
-				class="metric-slope__guia metric-slope__guia--menuda"
-				x1={MARGEN_IZQ - 6}
-				x2={ANCHO - MARGEN_DER + 6}
+				x1={margenIzq - 6}
+				x2={ancho - MARGEN_DER + 6}
 				y1={y(valor)}
 				y2={y(valor)}
+				stroke={TINTA.guia}
+				stroke-width="1"
+				opacity="0.4"
 			/>
 		{/each}
 
 		{#each referencias as valor (valor)}
 			<line
-				class="metric-slope__guia"
-				x1={MARGEN_IZQ - 6}
-				x2={ANCHO - MARGEN_DER + 6}
+				x1={margenIzq - 6}
+				x2={ancho - MARGEN_DER + 6}
 				y1={y(valor)}
 				y2={y(valor)}
+				stroke={TINTA.guia}
+				stroke-width="1"
 			/>
 			<text
-				class="metric-slope__referencia"
-				x={MARGEN_IZQ - 10}
+				x={margenIzq - 10}
 				y={y(valor)}
+				font-size={CUERPO.referencia}
+				fill={TINTA.secundario}
 				text-anchor="end"
 				dominant-baseline="middle">{valor}%</text
 			>
@@ -146,23 +184,29 @@
 
 		{#each props.momentos as momento (momento)}
 			<text
-				class="metric-slope__momento"
 				x={x(momento)}
 				y={MARGEN_SUP + ALTO_UTIL + 24}
-				text-anchor="middle">{momento}</text
+				font-size={CUERPO.rotulo}
+				font-weight="600"
+				fill={TINTA.secundario}
+				letter-spacing="0.4"
+				text-anchor="middle">{momento.toLocaleUpperCase('es')}</text
 			>
 		{/each}
 
 		{#each props.series as serie (serie.colorKey)}
-			{@const apagada = props.resaltada && props.resaltada !== serie.colorKey}
 			<path
-				class="metric-slope__linea"
+				class:metric-slope__interactiva={!figura}
 				d={trazo(serie.valores)}
+				fill="none"
 				stroke={colorDe(serie.colorKey)}
-				opacity={apagada ? 0.15 : 1}
+				stroke-width="2.5"
+				stroke-linejoin="round"
+				stroke-dasharray={trazoDe(serie.colorKey)}
+				opacity={apagada(serie.colorKey) ? 0.15 : 1}
 				role="presentation"
-				onmouseenter={() => props.onHoverForma?.(serie.colorKey)}
-				onmouseleave={() => props.onHoverForma?.(null)}
+				onmouseenter={figura ? undefined : () => props.onHoverForma?.(serie.colorKey)}
+				onmouseleave={figura ? undefined : () => props.onHoverForma?.(null)}
 			>
 				<title>{serie.forma}</title>
 			</path>
@@ -174,10 +218,10 @@
 					cx={x(momento)}
 					cy={y(valor)}
 					r={valor === 0 ? 3.5 : 4}
-					fill={valor === 0 ? 'var(--background, #fff)' : colorDe(serie.colorKey)}
+					fill={valor === 0 ? TINTA.fondo : colorDe(serie.colorKey)}
 					stroke={valor === 0 ? colorDe(serie.colorKey) : 'none'}
 					stroke-width={valor === 0 ? 1.5 : 0}
-					opacity={apagada ? 0.15 : 1}
+					opacity={apagada(serie.colorKey) ? 0.15 : 1}
 				>
 					<title>
 						{serie.forma}, {momento}: {valor === 0 ? 'no aparece' : `${valor.toFixed(2)} %`}
@@ -187,71 +231,52 @@
 		{/each}
 
 		{#each etiquetas as etiqueta (etiqueta.serie.colorKey)}
-			<!-- El nombre también resalta: es lo que la mano busca, más que la línea. -->
+			<!-- El nombre también resalta: es lo que la mano busca, más que la línea. En grises va en
+			     negro: un rótulo gris claro no se lee impreso. -->
 			<text
-				class="metric-slope__nombre"
-				x={ANCHO - MARGEN_DER + 12}
+				class:metric-slope__interactiva={!figura}
+				x={ancho - MARGEN_DER + 12}
 				y={etiqueta.y}
+				font-size={CUERPO.referencia}
+				font-weight="600"
 				dominant-baseline="middle"
-				fill={colorDe(etiqueta.serie.colorKey)}
-				opacity={props.resaltada && props.resaltada !== etiqueta.serie.colorKey ? 0.25 : 1}
+				fill={props.paleta === 'grises' ? TINTA.texto : colorDe(etiqueta.serie.colorKey)}
+				opacity={apagada(etiqueta.serie.colorKey) ? 0.25 : 1}
 				role="presentation"
-				onmouseenter={() => props.onHoverForma?.(etiqueta.serie.colorKey)}
-				onmouseleave={() => props.onHoverForma?.(null)}
+				onmouseenter={figura ? undefined : () => props.onHoverForma?.(etiqueta.serie.colorKey)}
+				onmouseleave={figura ? undefined : () => props.onHoverForma?.(null)}
 			>
 				{etiqueta.serie.forma}
 			</text>
 		{/each}
+
+		{#if figura}
+			<SelloFigura x={12} y={MARGEN_SUP + ALTO_UTIL} vertical />
+		{/if}
 	</svg>
-</figure>
+{/snippet}
+
+{#if figura}
+	{@render lienzo()}
+{:else}
+	<figure class="metric-slope">
+		{@render lienzo()}
+	</figure>
+{/if}
 
 <style>
 	.metric-slope {
 		margin: 0;
 	}
 
-	.metric-slope svg {
+	.metric-slope :global(svg) {
 		display: block;
 		width: 100%;
 		max-width: 44rem;
 		height: auto;
 	}
 
-	.metric-slope__linea {
-		fill: none;
-		stroke-width: 2.5;
-		stroke-linejoin: round;
-	}
-
-	.metric-slope__guia {
-		stroke: var(--border);
-		stroke-width: 1;
-	}
-
-	.metric-slope__guia--menuda {
-		opacity: 0.4;
-	}
-
-	.metric-slope__nombre,
-	.metric-slope__linea {
+	.metric-slope__interactiva {
 		cursor: default;
-	}
-
-	.metric-slope__referencia {
-		font-size: 12px;
-		fill: var(--muted-foreground);
-	}
-
-	.metric-slope__momento {
-		font-size: 13px;
-		font-weight: 600;
-		fill: var(--muted-foreground);
-		text-transform: uppercase;
-		letter-spacing: 0.4px;
-	}
-
-	.metric-slope__nombre {
-		font-size: 12px;
-		font-weight: 600;
 	}
 </style>
