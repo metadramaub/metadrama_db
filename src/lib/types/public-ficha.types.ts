@@ -94,6 +94,11 @@ export interface PublicFichaRasgo extends PublicFichaRespuestaMetricaSeccion {
 	rasgo_nombre: string;
 	valor_slug: string;
 	valor_nombre: string;
+	/**
+	 * En qué se cuenta el rasgo, según el catálogo (`rasgos_metricos.escala_recuento`). Opcional
+	 * porque los JSON guardados antes de `20260924140000` no la traen hasta que se regeneran.
+	 */
+	rasgo_escala?: 'verso' | 'secuencia';
 }
 
 /** La medida de los versos tal como se respondió, con cuántas estrofas la llevan. */
