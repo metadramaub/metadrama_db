@@ -9,8 +9,9 @@
 	// **La vista previa es el archivo.** Se compone la figura, se enseña como imagen, y de esa misma
 	// composición sale el SVG y se rasteriza el PNG. No hay una figura para mirar y otra que baja.
 	import { tick, type Snippet } from 'svelte';
-	import { Check, Copy, Download, LoaderCircle, X } from 'lucide-svelte';
+	import { Copy, Download, LoaderCircle, X } from 'lucide-svelte';
 	import { creditoDeFigura, VERSOLOGIA } from '$lib/figuras/cita';
+	import { copiarAlPortapapeles } from '$lib/utils/portapapeles';
 	import type { FiguraCompuesta } from '$lib/figuras/componer';
 	import {
 		blobPng,
@@ -48,7 +49,6 @@
 	let preparando = $state(true);
 	let descargando = $state<'png' | 'svg' | null>(null);
 	let error = $state('');
-	let citaCopiada = $state(false);
 
 	$effect(() => {
 		const previo = document.activeElement instanceof HTMLElement ? document.activeElement : null;
@@ -127,16 +127,6 @@
 			error = causa instanceof Error ? causa.message : 'No se pudo descargar la figura.';
 		} finally {
 			descargando = null;
-		}
-	}
-
-	async function copiarCita() {
-		try {
-			await navigator.clipboard.writeText(credito.cita);
-			citaCopiada = true;
-			setTimeout(() => (citaCopiada = false), 2200);
-		} catch {
-			error = 'No se pudo copiar la cita. Puedes seleccionarla y copiarla a mano.';
 		}
 	}
 
@@ -294,13 +284,9 @@
 				<button
 					type="button"
 					class="mt-3 inline-flex items-center gap-1.5 border border-[color:var(--border)] bg-white px-2 py-1 text-xs font-semibold text-[color:var(--gray-800)] hover:bg-[color:var(--gray-50)]"
-					onclick={copiarCita}
+					onclick={() => copiarAlPortapapeles(credito.cita)}
 				>
-					{#if citaCopiada}
-						<Check class="h-3.5 w-3.5" aria-hidden="true" /> Cita copiada
-					{:else}
-						<Copy class="h-3.5 w-3.5" aria-hidden="true" /> Copiar la cita
-					{/if}
+					<Copy class="h-3.5 w-3.5" aria-hidden="true" /> Copiar la cita
 				</button>
 			</section>
 
@@ -312,8 +298,7 @@
 					Uso
 				</h3>
 				<p class="mt-2">
-					Puedes usarlo con fines académicos, citando la fuente. Puedes traducirlo o adaptarlo a tu
-					maqueta sin alterar los datos, indicando «Adaptado de…». Para un uso comercial,
+					Puedes usarlo con fines académicos, citando la fuente. Para un uso comercial,
 					<a
 						class="font-semibold text-[color:var(--primary)] underline decoration-1 underline-offset-2"
 						href="/contacto">escríbenos</a
