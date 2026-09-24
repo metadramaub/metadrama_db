@@ -2763,6 +2763,7 @@ export type Database = {
           fecha_fin_trad: number | null
           fecha_inicio_metadrama: number | null
           fecha_inicio_trad: number | null
+          fecha_publicacion: string | null
           fuente_fecha: string | null
           genero_id: string | null
           obra_id: string
@@ -2791,6 +2792,7 @@ export type Database = {
           fecha_fin_trad?: number | null
           fecha_inicio_metadrama?: number | null
           fecha_inicio_trad?: number | null
+          fecha_publicacion?: string | null
           fuente_fecha?: string | null
           genero_id?: string | null
           obra_id?: string
@@ -2819,6 +2821,7 @@ export type Database = {
           fecha_fin_trad?: number | null
           fecha_inicio_metadrama?: number | null
           fecha_inicio_trad?: number | null
+          fecha_publicacion?: string | null
           fuente_fecha?: string | null
           genero_id?: string | null
           obra_id?: string

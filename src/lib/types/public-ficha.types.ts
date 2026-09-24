@@ -213,6 +213,11 @@ export interface PublicObraFichaPayload {
 		sin_figuras_donaire: boolean | null;
 		sin_personajes_sobrenaturales: boolean | null;
 		sin_eventos_sobrenaturales: boolean | null;
+		/**
+		 * La primera vez que la obra pasó a publicada; no cambia al republicarla. Opcional porque
+		 * los JSON guardados antes de `20260924100000` no la traen hasta que se regeneran.
+		 */
+		fecha_publicacion?: string | null;
 	};
 	autoria: {
 		autores: PublicFichaAutor[];
