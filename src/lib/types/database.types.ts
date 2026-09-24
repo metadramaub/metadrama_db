@@ -3095,6 +3095,7 @@ export type Database = {
           created_at: string
           demarcable: boolean
           descripcion: string | null
+          escala_recuento: string
           nombre: string
           observabilidad: string
           rasgo_id: string
@@ -3107,6 +3108,7 @@ export type Database = {
           created_at?: string
           demarcable?: boolean
           descripcion?: string | null
+          escala_recuento: string
           nombre: string
           observabilidad?: string
           rasgo_id?: string
@@ -3119,6 +3121,7 @@ export type Database = {
           created_at?: string
           demarcable?: boolean
           descripcion?: string | null
+          escala_recuento?: string
           nombre?: string
           observabilidad?: string
           rasgo_id?: string

@@ -178,27 +178,21 @@ function rhymeSchemes(sequences: MetricDistributionSequence[]): MetricDistributi
 	);
 }
 
-/**
- * Los rasgos cuyo valor caracteriza verso a verso lo que cubre. **Solo la asonancia**: una tirada
- * en é-o tiene en é-o cada uno de sus versos pares. Y una tirada tiene una sola asonancia —si cambia,
- * el editor cierra la secuencia y abre otra—, así que sus versos son los de la secuencia. Los demás rasgos del catálogo —densidad de rima,
- * final acentual, organización en pareados, dístico final, encadenamiento interior, pie quebrado—
- * se anotan sobre la secuencia entera, y sus versos no se pueden contar.
- *
- * El catálogo no lo declara: `observabilidad` y `tipo_valor` dicen otra cosa. Si entra un rasgo
- * nuevo que se mida en versos, se añade aquí; si no, se cuenta en secuencias, que nunca falsea.
- */
-const RASGOS_EN_VERSOS = new Set(['vocales_asonancia']);
-
 function featureDimensions(sequences: MetricDistributionSequence[]): MetricDistributionDimension[] {
-	const features = new Map<string, string>();
+	// **La escala la dice el catálogo**, en cada respuesta (`rasgo_escala`). Sin ella —un JSON
+	// guardado antes de que existiera— se cuenta en secuencias, que es lo que nunca falsea.
+	const features = new Map<string, { nombre: string; escala: 'verso' | 'secuencia' }>();
 	for (const sequence of sequences) {
-		for (const row of sequence.rasgos ?? []) features.set(row.rasgo_slug, row.rasgo_nombre);
+		for (const row of sequence.rasgos ?? []) {
+			features.set(row.rasgo_slug, {
+				nombre: row.rasgo_nombre,
+				escala: row.rasgo_escala === 'verso' ? 'verso' : 'secuencia'
+			});
+		}
 	}
 
 	return [...features.entries()]
-		.map(([slug, feature]): MetricDistributionDimension => {
-			const escala = RASGOS_EN_VERSOS.has(slug) ? 'verso' : 'secuencia';
+		.map(([slug, { nombre: feature, escala }]): MetricDistributionDimension => {
 			const byValue = new Map<string, Map<string, number>>();
 			for (const sequence of sequences) {
 				for (const row of (sequence.rasgos ?? []).filter((item) => item.rasgo_slug === slug)) {

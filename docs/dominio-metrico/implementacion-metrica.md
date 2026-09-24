@@ -753,6 +753,7 @@ desviación.
 | Sección                                  | `estructuras_secciones`                                                                             |
 | Repetición métrica o léxica              | `repeticiones_metricas` · `repeticion_posiciones`                                                   |
 | Rasgo                                    | `rasgos_metricos` · `rasgo_valores` · `arquitectura_rasgos`                                         |
+| En qué se cuenta un rasgo                | `rasgos_metricos.escala_recuento`                                                                   |
 | Elección                                 | `grupos_eleccion_metrica` · `opciones_eleccion_metrica` (vista derivada)                            |
 | Norma declarada por el pasaje            | `grupos_eleccion_metrica.define_norma` · `estructuras_secciones.primera_realizacion_define_patron`  |
 | Denominación                             | `denominaciones_metricas`                                                                           |
@@ -762,6 +763,14 @@ desviación.
 | Realización de la unidad y sus secciones | `anotacion_realizaciones`                                                                      |
 | Respuesta registrada                     | `anotacion_elecciones`                                                                         |
 | Desviación                               | `anotacion_desviaciones`                                                                       |
+
+**Cada rasgo dice en qué se cuenta** (`escala_recuento`, obligatoria desde el 24 de septiembre de
+2026). `verso`: su valor caracteriza los versos que cubre y se puede sumar en versos —la asonancia,
+que cuenta los versos de la tirada, y el pie quebrado, anotado verso a verso como metro con
+posición—. `secuencia`: es un juicio sobre la secuencia entera —densidad de rima, final acentual,
+organización en pareados, dístico final, encadenamiento interior— y solo se cuentan secuencias.
+Sumar los versos de un rasgo de secuencia afirmaría de cada verso lo que solo se dijo del conjunto.
+Un rasgo nuevo tiene que declararla: la columna no tiene valor por defecto.
 
 Dos avisos de vocabulario. **Combinación** significa en la tradición hispánica la estrofa
 misma —Domínguez Caparrós titula así el capítulo dedicado a las estrofas castellanas— y

@@ -102,6 +102,7 @@ describe('buildDistributionGroups', () => {
 			realizacion_v_fin: null,
 			rasgo_slug: 'vocales_asonancia',
 			rasgo_nombre: 'Vocales de la asonancia',
+			rasgo_escala: 'verso',
 			valor_slug: valor_nombre,
 			valor_nombre
 		});
@@ -146,6 +147,7 @@ describe('buildDistributionGroups', () => {
 			realizacion_v_fin: null,
 			rasgo_slug: 'densidad_de_rima',
 			rasgo_nombre: 'Densidad de rima',
+			rasgo_escala: 'secuencia',
 			valor_slug: valor_nombre,
 			valor_nombre
 		});
