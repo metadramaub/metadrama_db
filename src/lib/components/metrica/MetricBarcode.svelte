@@ -80,7 +80,7 @@
 	// siete píxeles, que tapaban casi entera una secuencia corta. Ahora el trazo va en píxeles
 	// (`vector-effect: non-scaling-stroke`) y se ve porque asoma bastante por arriba y por abajo.
 	const markerOverhang = $derived(
-		props.compactMarkers ? Math.max(4, trackHeight * 0.28) : Math.max(8, trackHeight * 0.3)
+		props.compactMarkers ? Math.max(4, trackHeight * 0.28) : Math.max(12, trackHeight * 0.4)
 	);
 	const svgHeight = $derived(trackHeight + markerOverhang * 2);
 	const interactive = $derived(typeof props.onOpenSegment === 'function');
@@ -415,24 +415,27 @@
 				</div>
 			{/each}
 
-			<!-- Los cortes, por encima de las secuencias: una franja invisible más ancha que la raya,
-			     para poder acertarle, que al pasar dice qué empieza y en qué verso. -->
+			<!-- **El ratón encuentra el corte fuera de la barra**, en la parte de la raya que asoma por
+			     arriba y por abajo: dentro, la franja para acertarle tapaba el principio de la secuencia
+			     pegada al corte, y un soneto que abría jornada no había manera de pulsarlo. -->
 			{#each cortesConClave as marker (marker.clave)}
-				<div
-					class="absolute z-40 w-3 -translate-x-1/2 cursor-default"
-					style={`left:${marker.x}%;top:-${markerOverhang}px;height:${svgHeight}px;`}
-					role="presentation"
-					onpointerenter={() => (corteActivo = marker.clave)}
-					onpointerleave={() => (corteActivo = null)}
-				>
-					{#if corteActivo === marker.clave}
-						<div
-							class={`pointer-events-none absolute top-0 w-max -translate-y-[110%] border border-[color:var(--border)] bg-white px-2 py-1 text-[11px] leading-tight text-[color:var(--gray-900)] shadow-sm ${alineacionAviso(marker.x)}`}
-						>
-							{avisoDeCorte(marker)}
-						</div>
-					{/if}
-				</div>
+				{#each ['arriba', 'abajo'] as lado (lado)}
+					<div
+						class="absolute z-40 w-3 -translate-x-1/2 cursor-default"
+						style={`left:${marker.x}%;height:${markerOverhang}px;${lado === 'arriba' ? `top:-${markerOverhang}px;` : 'top:100%;'}`}
+						role="presentation"
+						onpointerenter={() => (corteActivo = marker.clave)}
+						onpointerleave={() => (corteActivo = null)}
+					></div>
+				{/each}
+				{#if corteActivo === marker.clave}
+					<div
+						class={`pointer-events-none absolute z-40 w-max border border-[color:var(--border)] bg-white px-2 py-1 text-[11px] leading-tight text-[color:var(--gray-900)] shadow-sm ${alineacionAviso(marker.x)}`}
+						style={`bottom:calc(100% + ${markerOverhang + 4}px);${alineacionAviso(marker.x) === 'left-1/2 -translate-x-1/2' ? `left:${marker.x}%;` : ''}`}
+					>
+						{avisoDeCorte(marker)}
+					</div>
+				{/if}
 			{/each}
 		{/if}
 

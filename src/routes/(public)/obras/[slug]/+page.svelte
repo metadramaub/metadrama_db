@@ -950,7 +950,7 @@
 							{#if metricViewMode === 'obra_completa'}
 								<!-- El margen de arriba es el sitio de los versos de los cortes, que salen al pasar por
 								     la leyenda: sin él se montaban sobre los controles de la vista. -->
-								<div class="mt-9"></div>
+								<div class="mt-10"></div>
 								<MetricBarcode
 									segments={barSegments}
 									totalVerses={totalVersos}
@@ -962,7 +962,7 @@
 									markerLabels={cortesALaVista}
 									showSubsegments
 								/>
-								<div class="mt-2 flex flex-wrap items-center gap-4 text-xs text-[color:var(--muted-foreground)]">
+								<div class="mt-5 flex flex-wrap items-center gap-4 text-xs text-[color:var(--muted-foreground)]">
 									<span
 										class="inline-flex cursor-default items-center gap-2 hover:text-[color:var(--foreground)]"
 										role="presentation"
@@ -986,7 +986,7 @@
 								<div class="space-y-5">
 									{#each jornadas as jornada (jornada.jornada_id)}
 										<div>
-											<h3 class="mb-2 text-sm font-semibold">
+											<h3 class="mb-4 text-sm font-semibold">
 												Jornada {jornada.jornada_num} (vv. {jornada.v_ini}-{jornada.v_fin})
 											</h3>
 											<MetricBarcode
