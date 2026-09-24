@@ -2,10 +2,10 @@
 	// Bloque de autoría de la ficha pública (reutilizable). Encapsula autoría
 	// principal, autores no ambiguos, autoría por jornadas y fuentes de atribución.
 	//
-	// **La autoría principal es la línea de autor, bajo el título**, como en la portada de un libro:
-	// después del título es lo segundo que se pregunta de una obra. Antes era un «Autoría: …» del
-	// cuerpo del texto, con menos peso que la datación, y ni siquiera enlazaba al autor. Cada nombre
-	// lleva ahora a su ficha, también dentro de una colaboración o de una autoría en discusión.
+	// **La autoría abre la fila de datos de la obra, con su etiqueta y un punto más grande** que el
+	// resto: es lo segundo que se pregunta de una obra, después del título. Suelta bajo el título se
+	// probó y no se sabía si el nombre era el del autor o el del editor. Cada nombre lleva a su ficha,
+	// también dentro de una colaboración o de una autoría en discusión.
 	import { renderMarkdown } from '$lib/utils/markdown';
 	import { formatPublicAutoriaGroup, formatPublicAutoriaProposal } from '$lib/utils/autoria-format';
 	import type {
@@ -91,7 +91,7 @@
 	{/if}
 {/snippet}
 
-<p class="mt-3 text-lg font-semibold leading-snug text-[color:var(--gray-900)] md:text-xl">
+<p class="text-base font-semibold leading-snug text-[color:var(--gray-900)] md:text-lg">
 	{#if !grupoPrincipal || grupoPrincipal.propuestas.length === 0}
 		<span class="font-normal text-[color:var(--muted-foreground)]">Autoría no identificada</span>
 	{:else if grupoPrincipal.propuestas.length === 1}

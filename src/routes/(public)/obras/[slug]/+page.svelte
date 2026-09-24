@@ -685,12 +685,9 @@
 		<div class="flex flex-wrap items-start justify-between gap-4 border-b border-[color:var(--border)] pb-4">
 			<div class="min-w-0 flex-1">
 				<h1 class="font-display text-3xl text-[color:var(--gray-900)] md:text-4xl">{obra.titulo}</h1>
+				<!-- Las variantes son parte del título: van pegadas a él y en cursiva, no como una nota. -->
 				{#if variantesLabel}
-					<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">{variantesLabel}</p>
-				{/if}
-
-				{#if showAutoria}
-					<FichaAutoriaBlock autoria={ficha.autoria} showFuentes={showFuentes} />
+					<p class="mt-1 text-base italic text-[color:var(--gray-700)] md:text-lg">{variantesLabel}</p>
 				{/if}
 			</div>
 		</div>
@@ -708,7 +705,20 @@
 			</div>
 		{/if}
 
-		<dl class="mt-4 grid gap-x-6 gap-y-4 text-sm md:grid-cols-3">
+		<!-- **Contraste en vez de líneas.** Los datos de la obra van un punto más grandes que el resto de
+		     la cabecera y el bloque de la ficha, en pequeño y gris: con todo al mismo tamaño la
+		     cabecera se leía plana. -->
+		<dl class="mt-5 grid gap-x-6 gap-y-5 text-base md:grid-cols-2 lg:grid-cols-[minmax(0,1.3fr)_repeat(3,minmax(0,1fr))]">
+			{#if showAutoria}
+				<div>
+					<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+						Autoría
+					</dt>
+					<dd class="mt-1">
+						<FichaAutoriaBlock autoria={ficha.autoria} showFuentes={showFuentes} />
+					</dd>
+				</div>
+			{/if}
 			<div>
 				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
 					Datación
@@ -784,18 +794,21 @@
 		     qué género, cuánto mide y cómo está partida—; esto, el trabajo sobre ella: quién la anotó,
 		     desde cuándo está publicada, sobre qué edición y cómo se cita. Antes el editor y la fecha
 		     iban en la misma rejilla que la datación, como si fueran datos de la obra. -->
-		<section class="mt-5 border-t border-[color:var(--border)] pt-4" aria-labelledby="ficha-sobre">
+		<section
+			class="mt-8 border-t border-[color:var(--border)] pt-5 text-[color:var(--gray-700)]"
+			aria-labelledby="ficha-sobre"
+		>
 			<h2 id="ficha-sobre" class="text-[10px] font-semibold tracking-[0.18em] text-[color:var(--primary)]">
 				LA FICHA
 			</h2>
 			{#if obra.autor_ficha_publico || publicadaLabel}
-				<dl class="mt-3 flex flex-wrap gap-x-8 gap-y-3 text-sm">
+				<dl class="mt-2 flex flex-wrap gap-x-8 gap-y-2 text-sm">
 					{#if obra.autor_ficha_publico}
 						<div>
 							<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
 								Editor a cargo
 							</dt>
-							<dd class="mt-1 flex items-center gap-2 font-semibold">
+							<dd class="mt-0.5 flex items-center gap-2 font-medium">
 								<span>{obra.autor_ficha_publico}</span>
 								{#if editorOrcidHref}
 									<a
@@ -817,7 +830,7 @@
 							<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
 								Publicada
 							</dt>
-							<dd class="mt-1 font-semibold">{publicadaLabel}</dd>
+							<dd class="mt-0.5 font-medium">{publicadaLabel}</dd>
 							{#if actualizadaLabel}
 								<dd class="text-xs text-[color:var(--muted-foreground)]">Actualizada el {actualizadaLabel}</dd>
 							{/if}
@@ -827,11 +840,11 @@
 			{/if}
 
 			{#if (obra.edicion ?? '').trim().length > 0}
-				<div class="mt-4">
-					<div class="mb-1 text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+				<div class="mt-3">
+					<div class="mb-0.5 text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
 						Edición base usada
 					</div>
-					<div class="space-y-2 text-sm">{@html renderMarkdown(obra.edicion ?? '')}</div>
+					<div class="space-y-2 text-xs leading-5">{@html renderMarkdown(obra.edicion ?? '')}</div>
 				</div>
 			{/if}
 
