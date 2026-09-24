@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { ChevronRight } from 'lucide-svelte';
 	import Tabs from '$lib/components/ui/tabs.svelte';
 	import Breadcrumb from '$lib/components/ui/Breadcrumb.svelte';
 	import CitaDeFicha from '$lib/components/ficha/CitaDeFicha.svelte';
@@ -707,7 +708,7 @@
 			</div>
 		{/if}
 
-		<dl class="mt-4 grid gap-x-6 gap-y-4 text-sm md:grid-cols-2 xl:grid-cols-4">
+		<dl class="mt-4 grid gap-x-6 gap-y-4 text-sm md:grid-cols-3">
 			<div>
 				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
 					Datación
@@ -736,39 +737,45 @@
 			</div>
 			<div>
 				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-					Total de versos
+					Extensión
 				</dt>
-				<dd class="mt-1 font-semibold">{totalVersos} vv.</dd>
-			</div>
-			<div>
-				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-					Estructura
-				</dt>
-				<!-- **El dato es el botón.** Los recuentos que ya están ahí abren el desglose, así que no
-				     hace falta ni un enlace debajo ni que la cabecera crezca: se pincha lo que se
-				     pregunta. Cómo está partida la obra es un dato de la obra, no del verso, y por eso
+				<!-- **El total y cómo está partido van juntos**: los dos contestan cuánto mide la obra, y
+				     suelto el total de versos ocupaba una columna para un solo número.
+				     **El desglose es el botón**, y lo dice su flecha: sin ella el recuento no parecía
+				     pulsable. Cómo está partida la obra es un dato de la obra, no del verso, y por eso
 				     vive aquí y no en el esquema métrico. -->
-				<dd class="mt-1 flex flex-wrap gap-2">
-					{#each estructuraItems as item}
-						{#if estructuraJornadas.length > 0}
-							<button
-								type="button"
-								class="group border-l-2 border-[color:var(--gray-800)] bg-[color:var(--gray-50)] px-2 py-1 text-left hover:bg-[color:var(--gray-100)]"
-								title="Ver el desglose en jornadas y cuadros"
-								onclick={() => (estructuraAbierta = true)}
-							>
-								<span class="font-semibold underline decoration-[color:var(--border)] underline-offset-2 group-hover:decoration-current">
-									{item.value}
+				<dd class="mt-1 font-semibold">{totalVersos} vv.</dd>
+				<dd class="mt-1">
+					{#if estructuraJornadas.length > 0}
+						<button
+							type="button"
+							class="group inline-flex items-center gap-1.5 border-l-2 border-[color:var(--gray-800)] bg-[color:var(--gray-50)] px-2 py-1 text-left hover:bg-[color:var(--gray-100)]"
+							title="Ver el desglose en jornadas y cuadros"
+							onclick={() => (estructuraAbierta = true)}
+						>
+							{#each estructuraItems as item, indice (item.label)}
+								{#if indice > 0}<span class="text-[color:var(--muted-foreground)]">·</span>{/if}
+								<span>
+									<span class="font-semibold">{item.value}</span>
+									<span class="text-xs text-[color:var(--muted-foreground)]">{item.label}</span>
 								</span>
-								<span class="text-xs text-[color:var(--muted-foreground)]">{item.label}</span>
-							</button>
-						{:else}
-							<span class="border-l-2 border-[color:var(--border)] bg-[color:var(--gray-50)] px-2 py-1">
-								<span class="font-semibold">{item.value}</span>
-								<span class="text-xs text-[color:var(--muted-foreground)]">{item.label}</span>
-							</span>
-						{/if}
-					{/each}
+							{/each}
+							<ChevronRight
+								class="h-3.5 w-3.5 text-[color:var(--muted-foreground)] transition-transform group-hover:translate-x-0.5 group-hover:text-[color:var(--foreground)]"
+								aria-hidden="true"
+							/>
+						</button>
+					{:else}
+						<span class="inline-flex items-center gap-1.5 border-l-2 border-[color:var(--border)] bg-[color:var(--gray-50)] px-2 py-1">
+							{#each estructuraItems as item, indice (item.label)}
+								{#if indice > 0}<span class="text-[color:var(--muted-foreground)]">·</span>{/if}
+								<span>
+									<span class="font-semibold">{item.value}</span>
+									<span class="text-xs text-[color:var(--muted-foreground)]">{item.label}</span>
+								</span>
+							{/each}
+						</span>
+					{/if}
 				</dd>
 			</div>
 		</dl>
