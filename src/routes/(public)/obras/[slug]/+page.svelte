@@ -382,6 +382,35 @@
 			.sort((a, b) => a.v_ini - b.v_ini)
 			.map((cuadro, indice) => ({ numero: indice + 1, v_ini: cuadro.v_ini, v_fin: cuadro.v_fin }))
 	);
+	/**
+	 * Los cortes del código de barras de pantalla, **con lo que empieza en cada uno**: al pasar por
+	 * la raya se lee «Jornada 2 · desde el v. 1011», que es como se cita. Los cuadros se numeran de
+	 * corrido, como en el resto de la ficha. Un cuadro que acaba donde acaba la jornada no lleva raya
+	 * propia: ahí ya está la de la jornada.
+	 */
+	const rayasDeJornada = $derived(
+		jornadas
+			.slice(0, -1)
+			.map((jornada, indice) => ({
+				verse: jornada.v_fin,
+				title: `Jornada ${jornadas[indice + 1].jornada_num}`
+			}))
+			.filter((corte) => corte.verse > 0 && corte.verse < totalVersos)
+	);
+	const rayasDeCuadro = $derived(
+		cuadrosConRango
+			.slice(0, -1)
+			.map((cuadro) => ({ verse: cuadro.v_fin, title: `Cuadro ${cuadro.numero + 1}` }))
+			.filter(
+				(corte) =>
+					corte.verse > 0 &&
+					corte.verse < totalVersos &&
+					!rayasDeJornada.some((jornada) => jornada.verse === corte.verse)
+			)
+	);
+	/** Qué cortes enseñan su verso encima de la barra: los de la leyenda por la que se pasa. */
+	let cortesALaVista = $state<'jornada' | 'cuadro' | null>(null);
+
 	const analizables = $derived(secuenciasToAnalizables(secuenciasOrdenadas));
 	const tecnica = $derived(fichaTecnica(analizables));
 	const secuenciasPorFormaDeLaObra = $derived(secuenciasPorForma(analizables));
@@ -919,22 +948,36 @@
 					{:else}
 						<FiguraDescargable figura={figuraCodigoDeBarras} procedencia={procedenciaFigura}>
 							{#if metricViewMode === 'obra_completa'}
+								<!-- El margen de arriba es el sitio de los versos de los cortes, que salen al pasar por
+								     la leyenda: sin él se montaban sobre los controles de la vista. -->
+								<div class="mt-9"></div>
 								<MetricBarcode
 									segments={barSegments}
 									totalVerses={totalVersos}
-									jornadaMarkers={jornadaMarkers}
-									cuadroMarkers={cuadroMarkers}
+									jornadaMarkers={rayasDeJornada}
+									cuadroMarkers={rayasDeCuadro}
 									colorByForma={colorByForma}
 									onOpenSegment={openSequenceModal}
 									highlightedForma={formaForGroup('obra')}
+									markerLabels={cortesALaVista}
 									showSubsegments
 								/>
 								<div class="mt-2 flex flex-wrap items-center gap-4 text-xs text-[color:var(--muted-foreground)]">
-									<span class="inline-flex items-center gap-2">
+									<span
+										class="inline-flex cursor-default items-center gap-2 hover:text-[color:var(--foreground)]"
+										role="presentation"
+										onpointerenter={() => (cortesALaVista = 'jornada')}
+										onpointerleave={() => (cortesALaVista = null)}
+									>
 										<span class="inline-block h-3 w-[2px] bg-[color:var(--gray-900)]"></span>
 										Corte de jornada
 									</span>
-									<span class="inline-flex items-center gap-2">
+									<span
+										class="inline-flex cursor-default items-center gap-2 hover:text-[color:var(--foreground)]"
+										role="presentation"
+										onpointerenter={() => (cortesALaVista = 'cuadro')}
+										onpointerleave={() => (cortesALaVista = null)}
+									>
 										<span class="inline-block h-3 w-3 border-l border-dashed border-[color:var(--gray-500)]"></span>
 										Corte de cuadro
 									</span>
@@ -951,7 +994,7 @@
 												totalVerses={totalVersos}
 												rangeStart={jornada.v_ini}
 												rangeEnd={jornada.v_fin}
-												cuadroMarkers={cuadroMarkersByJornada.get(jornada.jornada_id) ?? []}
+												cuadroMarkers={rayasDeCuadro}
 												colorByForma={colorByForma}
 												onOpenSegment={openSequenceModal}
 												highlightedForma={formaForGroup(jornada.jornada_id)}

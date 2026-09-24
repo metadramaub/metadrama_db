@@ -19,6 +19,8 @@
 	interface PositionedMarker {
 		x: number;
 		title: string;
+		/** Primer verso de lo que empieza en el corte: así se cita una jornada o un cuadro. */
+		desde: number;
 	}
 
 	const props = $props<{
@@ -39,6 +41,8 @@
 		compactMarkers?: boolean;
 		/** Forma (slug/colorKey) a resaltar desde fuera (p.ej. hover en la leyenda). */
 		highlightedForma?: string | null;
+		/** Enseña encima de la barra el verso de cada corte de ese tipo (al pasar por la leyenda). */
+		markerLabels?: 'jornada' | 'cuadro' | null;
 	}>();
 
 	let activeTooltipId = $state<string | null>(null);
@@ -71,15 +75,17 @@
 	const viewStart = $derived(props.rangeStart ?? 1);
 	const viewEnd = $derived(props.rangeEnd ?? Math.max(props.totalVerses, viewStart));
 	const trackHeight = $derived(props.trackHeight ?? 30);
-	// Las líneas de jornada/cuadro sobresalen por arriba y abajo del track para
-	// que destaquen sobre los segmentos. El SVG reserva ese margen vertical.
+	// **Los cortes son finos y sobresalen, en vez de gruesos.** El `viewBox` mide 100 de ancho y se
+	// estira al de la pantalla, así que un trazo en sus unidades se estiraba con él: 0,6 eran unos
+	// siete píxeles, que tapaban casi entera una secuencia corta. Ahora el trazo va en píxeles
+	// (`vector-effect: non-scaling-stroke`) y se ve porque asoma bastante por arriba y por abajo.
 	const markerOverhang = $derived(
-		props.compactMarkers ? Math.max(4, trackHeight * 0.28) : Math.max(3, trackHeight * 0.18)
+		props.compactMarkers ? Math.max(4, trackHeight * 0.28) : Math.max(8, trackHeight * 0.3)
 	);
 	const svgHeight = $derived(trackHeight + markerOverhang * 2);
 	const interactive = $derived(typeof props.onOpenSegment === 'function');
-	const cuadroMarkerWidth = $derived(props.compactMarkers ? 0.25 : 0.3);
-	const jornadaMarkerWidth = $derived(props.compactMarkers ? 0.4 : 0.6);
+	const cuadroMarkerWidth = $derived(props.compactMarkers ? 1 : 1);
+	const jornadaMarkerWidth = $derived(props.compactMarkers ? 1.5 : 2);
 	const simpleTooltip = $derived(props.showNativeTitles === true && !interactive);
 	const xScale = $derived.by(() =>
 		scaleLinear().domain([viewStart, viewEnd + 1]).range([0, 100]).clamp(true)
@@ -120,7 +126,8 @@
 			.map(
 				(m: MetricBarMarker): PositionedMarker => ({
 					x: xScale(markerVerse(m) + 1),
-					title: markerTitle(m, 'Corte de jornada')
+					title: markerTitle(m, 'Corte de jornada'),
+					desde: markerVerse(m) + 1
 				})
 			)
 	);
@@ -130,10 +137,49 @@
 			.map(
 				(m: MetricBarMarker): PositionedMarker => ({
 					x: xScale(markerVerse(m) + 1),
-					title: markerTitle(m, 'Corte de cuadro')
+					title: markerTitle(m, 'Corte de cuadro'),
+					desde: markerVerse(m) + 1
 				})
 			)
 	);
+
+	// **Los avisos no se salen de la pantalla.** Centrados sobre la secuencia, en los extremos de la
+	// barra se cortaban por la izquierda o por la derecha. Se mide la barra y, si el aviso centrado
+	// no cabe, se alinea con el borde de la secuencia que da hacia dentro.
+	let anchoPista = $state(0);
+	const MEDIO_AVISO = 136;
+	function alineacionAviso(centro: number): string {
+		const px = (centro / 100) * anchoPista;
+		if (anchoPista > 0 && px < MEDIO_AVISO) return 'left-0';
+		if (anchoPista > 0 && anchoPista - px < MEDIO_AVISO) return 'right-0';
+		return 'left-1/2 -translate-x-1/2';
+	}
+
+	/** Lo que dice un corte al pasar por él: qué empieza y en qué verso. */
+	const avisoDeCorte = (marker: PositionedMarker) => `${marker.title} · desde el v. ${marker.desde}`;
+	let corteActivo = $state<string | null>(null);
+	/**
+	 * Los versos de los cortes, **en dos alturas cuando no caben**. Dos cuadros a once versos uno de
+	 * otro se escribían uno encima del otro; ahora el segundo sube un piso. Con más de dos juntos se
+	 * vuelve al primero, que para entonces ya ha quedado atrás.
+	 */
+	const ANCHO_ETIQUETA = 44;
+	const etiquetasDeCortes = $derived.by(() => {
+		const cortes = props.markerLabels === 'jornada' ? jornadaMarkers : props.markerLabels === 'cuadro' ? cuadroMarkers : [];
+		const ultimos = [-Infinity, -Infinity];
+		return [...cortes]
+			.sort((a: PositionedMarker, b: PositionedMarker) => a.x - b.x)
+			.map((corte: PositionedMarker) => {
+				const px = (corte.x / 100) * anchoPista;
+				const piso = px - ultimos[0] >= ANCHO_ETIQUETA ? 0 : px - ultimos[1] >= ANCHO_ETIQUETA ? 1 : 0;
+				ultimos[piso] = px;
+				return { ...corte, piso };
+			});
+	});
+	const cortesConClave = $derived([
+		...jornadaMarkers.map((m: PositionedMarker) => ({ ...m, clave: `j${m.desde}` })),
+		...cuadroMarkers.map((m: PositionedMarker) => ({ ...m, clave: `c${m.desde}` }))
+	]);
 
 	function open(id: string) {
 		activeTooltipId = null;
@@ -202,6 +248,7 @@
 	<div
 		class="relative z-20 w-full overflow-visible border border-[color:var(--border)] bg-[color:var(--gray-100)]"
 		style={`height:${trackHeight}px;`}
+		bind:clientWidth={anchoPista}
 	>
 		<svg
 			class="metric-bar-svg block w-full"
@@ -248,7 +295,8 @@
 								y1="0"
 								y2={trackHeight}
 								stroke="rgba(255,255,255,0.65)"
-								stroke-width="0.25"
+								stroke-width="1"
+								vector-effect="non-scaling-stroke"
 							></line>
 						{/each}
 					{/if}
@@ -263,7 +311,8 @@
 					y2={trackHeight + markerOverhang}
 					stroke="var(--gray-500)"
 					stroke-width={cuadroMarkerWidth}
-					stroke-dasharray="1 1"
+					stroke-dasharray="3 2"
+					vector-effect="non-scaling-stroke"
 				>
 					{#if props.showNativeTitles && !simpleTooltip}
 						<title>{marker.title}</title>
@@ -293,6 +342,7 @@
 					y2={trackHeight + markerOverhang}
 					stroke="var(--gray-900)"
 					stroke-width={jornadaMarkerWidth}
+					vector-effect="non-scaling-stroke"
 				>
 					{#if props.showNativeTitles && !simpleTooltip}
 						<title>{marker.title}</title>
@@ -333,7 +383,7 @@
 					></button>
 
 					<div
-						class={`pointer-events-auto absolute left-1/2 top-0 z-40 w-64 -translate-x-1/2 -translate-y-[110%] border border-[color:var(--border)] bg-white p-2 text-[11px] leading-tight shadow-sm group-hover:block group-focus-within:block ${activeTooltipId === item.segment.id ? 'block' : 'hidden'}`}
+						class={`pointer-events-auto absolute top-0 z-40 w-64 -translate-y-[110%] ${alineacionAviso(item.x + item.width / 2)} border border-[color:var(--border)] bg-white p-2 text-[11px] leading-tight shadow-sm group-hover:block group-focus-within:block ${activeTooltipId === item.segment.id ? 'block' : 'hidden'}`}
 					>
 						<div class="flex items-start justify-between gap-2">
 							<div class="min-w-0">
@@ -363,6 +413,38 @@
 						</div>
 					</div>
 				</div>
+			{/each}
+
+			<!-- Los cortes, por encima de las secuencias: una franja invisible más ancha que la raya,
+			     para poder acertarle, que al pasar dice qué empieza y en qué verso. -->
+			{#each cortesConClave as marker (marker.clave)}
+				<div
+					class="absolute z-40 w-3 -translate-x-1/2 cursor-default"
+					style={`left:${marker.x}%;top:-${markerOverhang}px;height:${svgHeight}px;`}
+					role="presentation"
+					onpointerenter={() => (corteActivo = marker.clave)}
+					onpointerleave={() => (corteActivo = null)}
+				>
+					{#if corteActivo === marker.clave}
+						<div
+							class={`pointer-events-none absolute top-0 w-max -translate-y-[110%] border border-[color:var(--border)] bg-white px-2 py-1 text-[11px] leading-tight text-[color:var(--gray-900)] shadow-sm ${alineacionAviso(marker.x)}`}
+						>
+							{avisoDeCorte(marker)}
+						</div>
+					{/if}
+				</div>
+			{/each}
+		{/if}
+
+		<!-- Al pasar por la leyenda, el verso de cada corte de ese tipo, encima de su raya. -->
+		{#if props.markerLabels}
+			{#each etiquetasDeCortes as marker (marker.desde)}
+				<span
+					class="pointer-events-none absolute z-40 -translate-x-1/2 whitespace-nowrap bg-[color:var(--background)] px-0.5 text-[10px] font-semibold tabular-nums text-[color:var(--gray-900)]"
+					style={`left:${marker.x}%;bottom:calc(100% + ${markerOverhang + 2 + marker.piso * 13}px);`}
+				>
+					v. {marker.desde}
+				</span>
 			{/each}
 		{/if}
 	</div>
