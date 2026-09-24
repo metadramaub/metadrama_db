@@ -98,6 +98,8 @@ describe('buildDistributionGroups', () => {
 			...context,
 			eleccion_id,
 			realizacion_id: null,
+			realizacion_v_ini: null,
+			realizacion_v_fin: null,
 			rasgo_slug: 'vocales_asonancia',
 			rasgo_nombre: 'Vocales de la asonancia',
 			valor_slug: valor_nombre,
@@ -126,9 +128,56 @@ describe('buildDistributionGroups', () => {
 		expect(group.arquitecturas[0].rasgos).toEqual([
 			{
 				label: 'Vocales de la asonancia',
+				escala: 'verso',
 				values: [
 					{ label: 'a-e', cantidad: 1, unidad: 'secuencia', versos: 144 },
 					{ label: 'e-o', cantidad: 1, unidad: 'secuencia', versos: 94 }
+				]
+			}
+		]);
+	});
+
+	it('cuenta en secuencias, sin versos, los rasgos que se dicen de la secuencia entera', () => {
+		const densidad = (eleccion_id: string, valor_nombre: string): PublicFichaRasgo => ({
+			...context,
+			eleccion_id,
+			realizacion_id: null,
+			realizacion_v_ini: null,
+			realizacion_v_fin: null,
+			rasgo_slug: 'densidad_de_rima',
+			rasgo_nombre: 'Densidad de rima',
+			valor_slug: valor_nombre,
+			valor_nombre
+		});
+		const [group] = buildDistributionGroups(
+			[{ forma: 'Silva', versos: 200, porcentaje: 100 }],
+			[
+				{
+					secuencia_id: 's1',
+					forma_nombre: 'Silva',
+					arquitectura_nombre: 'Consonante de orden libre',
+					n_versos: 128,
+					rasgos: [densidad('d1', 'Mayoritaria')]
+				},
+				{
+					secuencia_id: 's2',
+					forma_nombre: 'Silva',
+					arquitectura_nombre: 'Consonante de orden libre',
+					n_versos: 72,
+					rasgos: [densidad('d2', 'Total')]
+				}
+			]
+		);
+
+		const [arquitectura] = group.arquitecturas;
+		expect(arquitectura.secuencias).toBe(2);
+		expect(arquitectura.rasgos).toEqual([
+			{
+				label: 'Densidad de rima',
+				escala: 'secuencia',
+				values: [
+					{ label: 'Mayoritaria', cantidad: 1, unidad: 'secuencia', versos: 0 },
+					{ label: 'Total', cantidad: 1, unidad: 'secuencia', versos: 0 }
 				]
 			}
 		]);
