@@ -65,12 +65,15 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	 */
 	const isPublished = estadoTerm?.data?.termino?.trim().toLowerCase() === 'publicado';
 	let fichaGuardada: PublicObraFichaPayload | null = null;
+	/** Cuándo cambió por última vez lo publicado. Solo existe si la ficha sale de su artefacto. */
+	let datosActualizados: string | null = null;
 	if (isPublished) {
 		const artifact = await loadPublicArtifact<ObraFichaArtifactPayload>(
 			locals.supabase,
 			publicArtifactKeys.obraFicha(obraId)
 		);
 		fichaGuardada = artifact?.payload.ficha ?? null;
+		datosActualizados = fichaGuardada ? (artifact?.contentChangedAt ?? null) : null;
 
 		if (!fichaGuardada) {
 			const fallback = await locals.supabase
@@ -129,6 +132,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		viewerScope: obraScope,
 		canSeeAllPublished: includeHidden,
 		sectionVisibility: visibility,
+		datosActualizados,
 		ficha
 	};
 };

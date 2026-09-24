@@ -31,8 +31,13 @@ lectura/escritura y no otra remodelación de los datos.
 `alcance` es `publico` o `completo`. En los índices y fichas también determina quién puede leer; en
 `corpus_comparativas` describe solo el universo estadístico y **ambas variantes son privadas**. Cada
 payload declara `schema_version`; la fila conserva además
-`generado_en` y `sucio`. Marcar un artefacto como sucio no borra la última versión coherente: la web
-puede seguir sirviéndola mientras termina la actualización.
+`generado_en`, `contenido_cambiado_en` y `sucio`. Marcar un artefacto como sucio no borra la última
+versión coherente: la web puede seguir sirviéndola mientras termina la actualización.
+
+`generado_en` se mueve en cada recálculo, y la cola recalcula todas las obras publicadas cada vez.
+`contenido_cambiado_en` solo se mueve cuando el payload guardado es distinto del anterior: es la
+fecha que la ficha enseña como «actualizada» y la del «datos a…» de sus gráficos. Cambiar el
+contrato —añadir un campo a todas las fichas— la mueve en todas.
 
 La lectura de SvelteKit está centralizada en `src/lib/server/public-artifacts.ts` y los contratos
 de aplicación, en `src/lib/types/public-artifacts.types.ts`. Una página no debe construir claves a
