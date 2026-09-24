@@ -27,6 +27,8 @@
 		onHoverForma?: (forma: string | null) => void;
 		/** Secuencias para construir el desglose del dominio (opcional). */
 		sequences?: MetricDistributionSequence[];
+		/** Cuántas arquitecturas tiene cada forma en el catálogo, por slug (la clave de color). */
+		arquitecturasPorForma?: Record<string, number>;
 	}>();
 
 	let expanded = $state<Record<string, boolean>>({});
@@ -123,6 +125,26 @@
 		return `${item.cantidad} de ${total} ${pluralUnit} · ${share}%`;
 	}
 
+	/**
+	 * **La arquitectura se nombra solo cuando distingue algo.** Si la forma no tiene más que una en
+	 * el catálogo —la lira, el soneto, el romance—, «Heptasílaba y endecasílaba» dentro de la lira
+	 * repite lo que ya dice «lira», y lo que haya debajo cuelga directamente de la forma. Tampoco se
+	 * nombra la de una secuencia sin forma, que se llama igual que ella. Si la forma tiene varias y
+	 * la obra usa una, se nombra —dice cuál de ellas es—, pero sin el 100 % que no informa.
+	 */
+	function nombraArquitecturas(item: MetricDistributionGroup): boolean {
+		if (item.arquitecturas.length !== 1) return true;
+		const [unica] = item.arquitecturas;
+		if (unica.label === item.forma) return false;
+		return props.arquitecturasPorForma?.[item.colorKey ?? item.forma] !== 1;
+	}
+
+	const tieneRespuestas = (arquitectura: MetricDistributionArchitecture) =>
+		arquitectura.esquemas.length > 0 ||
+		arquitectura.rasgos.length > 0 ||
+		arquitectura.metros.length > 0 ||
+		arquitectura.variedades.length > 0;
+
 	function toggle(forma: string) {
 		expanded = { ...expanded, [forma]: !expanded[forma] };
 	}
@@ -170,7 +192,8 @@
 
 			<ul class="divide-y divide-[color:var(--border)]">
 				{#each groups as item (item.forma)}
-					{@const hasDetails = item.arquitecturas.length > 0}
+					{@const nombrar = nombraArquitecturas(item)}
+					{@const hasDetails = nombrar ? item.arquitecturas.length > 0 : item.arquitecturas.some(tieneRespuestas)}
 					<li
 						class="transition-opacity duration-100"
 						style:opacity={isDimmed(item) ? DIMMED_OPACITY : 1}
@@ -209,10 +232,14 @@
 							<div class="mb-3 ml-5 space-y-4 border-l border-[color:var(--border)] pl-3">
 								{#each item.arquitecturas as arquitectura (arquitectura.slug ?? arquitectura.label)}
 									<section class="space-y-2 py-1">
-										<div class="flex items-baseline justify-between gap-3 text-xs">
-											<h4 class="font-semibold text-[color:var(--foreground)]">{arquitectura.label}</h4>
-											<span class="text-[color:var(--muted-foreground)]">{valueLabel(arquitectura.versos, arquitectura.porcentaje)}</span>
-										</div>
+										{#if nombrar}
+											<div class="flex items-baseline justify-between gap-3 text-xs">
+												<h4 class="font-semibold text-[color:var(--foreground)]">{arquitectura.label}</h4>
+												{#if item.arquitecturas.length > 1}
+													<span class="text-[color:var(--muted-foreground)]">{valueLabel(arquitectura.versos, arquitectura.porcentaje)}</span>
+												{/if}
+											</div>
+										{/if}
 
 										{#if arquitectura.esquemas.length > 0}
 											<div>

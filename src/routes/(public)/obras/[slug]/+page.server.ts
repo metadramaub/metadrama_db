@@ -122,6 +122,39 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		comentarios_publicos: (comentariosResp.data ?? []) as unknown as PublicFichaComentarioPublico[]
 	} satisfies PublicObraFichaPayload;
 
+	/**
+	 * Cuántas arquitecturas tiene en el catálogo cada forma de la obra. El perfil no enseña la
+	 * arquitectura de una forma que solo tiene una —«Heptasílaba y endecasílaba» dentro de la lira
+	 * no dice nada—, y eso no lo sabe la ficha: es del catálogo, y se lee de él para que siga al día
+	 * sin recalcular fichas. Si el catálogo no se puede leer, el perfil lo enseña todo, como antes.
+	 */
+	const formaSlugs = [
+		...new Set(
+			(baseFicha.metrica?.secuencias ?? [])
+				.map((secuencia) => secuencia.forma_slug)
+				.filter((slug): slug is string => Boolean(slug))
+		)
+	];
+	const arquitecturasPorForma: Record<string, number> = {};
+	if (formaSlugs.length > 0) {
+		const formas = await locals.supabase
+			.from('formas_metricas')
+			.select('forma_id,slug')
+			.in('slug', formaSlugs);
+		const idsPorForma = new Map((formas.data ?? []).map((forma) => [forma.forma_id, forma.slug]));
+		if (idsPorForma.size > 0) {
+			const arquitecturas = await locals.supabase
+				.from('arquitecturas_forma')
+				.select('forma_id')
+				.eq('activo', true)
+				.in('forma_id', [...idsPorForma.keys()]);
+			for (const { forma_id } of arquitecturas.data ?? []) {
+				const slug = idsPorForma.get(forma_id);
+				if (slug) arquitecturasPorForma[slug] = (arquitecturasPorForma[slug] ?? 0) + 1;
+			}
+		}
+	}
+
 	// Recorta los bloques cuya sección esté apagada o restringida para el scope
 	// EFECTIVO de esta obra. El dato no sale del servidor (no es solo {#if}).
 	const sections = await loadPublicSections(locals);
@@ -133,6 +166,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		canSeeAllPublished: includeHidden,
 		sectionVisibility: visibility,
 		datosActualizados,
+		arquitecturasPorForma,
 		ficha
 	};
 };
