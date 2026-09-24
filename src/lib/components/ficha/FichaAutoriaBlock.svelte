@@ -1,15 +1,17 @@
 <script lang="ts">
 	// Bloque de autoría de la ficha pública (reutilizable). Encapsula autoría
 	// principal, autores no ambiguos, autoría por jornadas y fuentes de atribución.
+	//
+	// **La autoría principal es la línea de autor, bajo el título**, como en la portada de un libro:
+	// después del título es lo segundo que se pregunta de una obra. Antes era un «Autoría: …» del
+	// cuerpo del texto, con menos peso que la datación, y ni siquiera enlazaba al autor. Cada nombre
+	// lleva ahora a su ficha, también dentro de una colaboración o de una autoría en discusión.
 	import { renderMarkdown } from '$lib/utils/markdown';
-	import {
-		collectUnambiguousPublicAuthors,
-		formatPublicAutoriaGroup,
-		formatPublicAutoriaProposal
-	} from '$lib/utils/autoria-format';
+	import { formatPublicAutoriaGroup, formatPublicAutoriaProposal } from '$lib/utils/autoria-format';
 	import type {
 		PublicFichaAtribucionAutoria,
 		PublicFichaAtribucionEvidencia,
+		PublicFichaAutor,
 		PublicFichaGrupoAutoria,
 		PublicObraFichaPayload
 	} from '$lib/types/public-ficha.types';
@@ -34,13 +36,12 @@
 			.sort((a: PublicFichaGrupoAutoria, b: PublicFichaGrupoAutoria) => (a.jornada_num ?? 0) - (b.jornada_num ?? 0))
 	);
 
-	const autoriaPrincipalLabel = $derived.by(() => {
-		const unambiguous = gruposGlobales.find((g: PublicFichaGrupoAutoria) => g.propuestas.length === 1);
-		if (unambiguous) return formatPublicAutoriaGroup(unambiguous);
-		if (gruposGlobales.length > 0) return formatPublicAutoriaGroup(gruposGlobales[0]);
-		return '';
-	});
-	const autoresNoAmbiguos = $derived(collectUnambiguousPublicAuthors(gruposGlobales));
+	/** El grupo que da la línea de autor: el que no está en discusión, si lo hay. */
+	const grupoPrincipal = $derived<PublicFichaGrupoAutoria | null>(
+		gruposGlobales.find((g: PublicFichaGrupoAutoria) => g.propuestas.length === 1) ??
+			gruposGlobales[0] ??
+			null
+	);
 
 	const fuentes = $derived.by((): FuenteRow[] =>
 		grupos
@@ -71,22 +72,37 @@
 	}
 </script>
 
-<div class="mt-3 flex flex-wrap items-center gap-2 text-sm">
-	<span class="font-semibold text-[color:var(--gray-900)]">Autoría:</span>
-	{#if !autoriaPrincipalLabel && autoresNoAmbiguos.length === 0}
-		<span class="text-[color:var(--muted-foreground)]">Autoría no identificada</span>
-	{:else if autoresNoAmbiguos.length > 0 && !autoriaPrincipalLabel}
-		{#each autoresNoAmbiguos as autor, index (autor.autor_id)}
-			{#if index > 0}<span class="text-[color:var(--muted-foreground)]">·</span>{/if}
-			<a class="underline-offset-2 hover:underline" href={`/autores/${autor.slug}`}>
-				{autor.nombre_completo}
-			</a>
-		{/each}
-	{:else}
-		<span>{autoriaPrincipalLabel}</span>
-	{/if}
-</div>
+{#snippet nombres(autores: PublicFichaAutor[])}
+	{#each autores as autor, indice (autor.autor_id)}
+		{#if indice > 0}{indice === autores.length - 1 ? ' y ' : ', '}{/if}<a
+			class="underline decoration-[color:var(--border)] underline-offset-4 hover:decoration-current"
+			href={`/autores/${autor.slug}`}>{autor.nombre_completo}</a
+		>
+	{/each}
+{/snippet}
 
+{#snippet propuesta(p: PublicFichaAtribucionAutoria)}
+	{#if p.composicion_autoria_term === 'desconocida' || p.autores.length === 0}
+		{formatPublicAutoriaProposal(p)}
+	{:else if p.composicion_autoria_term === 'colaborada'}
+		colaboración de {@render nombres(p.autores)}
+	{:else}
+		{@render nombres(p.autores)}
+	{/if}
+{/snippet}
+
+<p class="mt-3 text-lg font-semibold leading-snug text-[color:var(--gray-900)] md:text-xl">
+	{#if !grupoPrincipal || grupoPrincipal.propuestas.length === 0}
+		<span class="font-normal text-[color:var(--muted-foreground)]">Autoría no identificada</span>
+	{:else if grupoPrincipal.propuestas.length === 1}
+		<span class="first-letter:uppercase inline-block">{@render propuesta(grupoPrincipal.propuestas[0])}</span>
+	{:else}
+		<span class="font-normal text-[color:var(--muted-foreground)]">Autoría en discusión:</span>
+		{#each grupoPrincipal.propuestas as p, indice (p.atribucion_id)}
+			{#if indice > 0}<span class="font-normal text-[color:var(--muted-foreground)]">, o </span>{/if}{@render propuesta(p)}
+		{/each}
+	{/if}
+</p>
 {#if gruposJornadas.length > 0}
 	<div class="mt-3 border-l-2 border-[color:var(--border)] pl-3 text-sm">
 		<div class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
