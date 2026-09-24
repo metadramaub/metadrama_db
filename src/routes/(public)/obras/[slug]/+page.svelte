@@ -55,7 +55,6 @@
 		PublicFichaSinopsisMetricaSecuencia,
 		PublicFichaDistribucionForma
 	} from '$lib/types/public-ficha.types';
-	import { formatRelative } from '$lib/utils/formatters';
 	import { renderMarkdown } from '$lib/utils/markdown';
 	import { colorForForma } from '$lib/utils/metric-colors';
 	import { buildPhenomenaIndex } from '$lib/metrica/phenomena-index';
@@ -171,11 +170,16 @@
 		if (/^https?:\/\//i.test(editorOrcid)) return editorOrcid;
 		return `https://orcid.org/${editorOrcid}`;
 	});
-	const updatedAtAbsolute = $derived.by(() => {
-		if (!obra.updated_at) return 'sin fecha';
-		const date = new Date(obra.updated_at);
-		if (Number.isNaN(date.valueOf())) return 'sin fecha';
-		return new Intl.DateTimeFormat('es-ES', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+	/**
+	 * Cuándo se publicó, solo el día: la hora se guarda, pero al lector no le dice nada. En la hora de
+	 * Madrid, que es la del proyecto, y para que el servidor y el navegador escriban el mismo día.
+	 * Sin fecha —una vista previa, o un JSON anterior a la columna— no se enseña nada.
+	 */
+	const publicadaLabel = $derived.by(() => {
+		if (!obra.fecha_publicacion) return null;
+		const date = new Date(obra.fecha_publicacion);
+		if (Number.isNaN(date.valueOf())) return null;
+		return new Intl.DateTimeFormat('es-ES', { dateStyle: 'long', timeZone: 'Europe/Madrid' }).format(date);
 	});
 
 	// Colores por forma (compartidos entre barcode y pie). Clave = slug estable de
@@ -753,53 +757,65 @@
 			</div>
 		</dl>
 
-		<dl class="mt-4 flex flex-wrap gap-x-6 gap-y-3 border-t border-[color:var(--border)] pt-3 text-sm">
-			{#if obra.autor_ficha_publico}
-				<div>
-					<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-						Editor a cargo
-					</dt>
-					<dd class="mt-1 flex items-center gap-2 font-semibold">
-						<span>{obra.autor_ficha_publico}</span>
-						{#if editorOrcidHref}
-							<a
-								class="inline-flex items-center text-[color:var(--muted-foreground)] transition-colors hover:text-[color:var(--foreground)]"
-								href={editorOrcidHref}
-								target="_blank"
-								rel="noreferrer"
-								aria-label={`ORCID de ${obra.autor_ficha_publico}`}
-							>
-								<OrcidIcon size={15} />
-								<span class="sr-only">ORCID</span>
-							</a>
-						{/if}
-					</dd>
+		<!-- **La obra arriba, la ficha abajo.** Lo de encima describe la comedia —quién, cuándo, de
+		     qué género, cuánto mide y cómo está partida—; esto, el trabajo sobre ella: quién la anotó,
+		     desde cuándo está publicada, sobre qué edición y cómo se cita. Antes el editor y la fecha
+		     iban en la misma rejilla que la datación, como si fueran datos de la obra. -->
+		<section class="mt-5 border-t border-[color:var(--border)] pt-4" aria-labelledby="ficha-sobre">
+			<h2 id="ficha-sobre" class="text-[10px] font-semibold tracking-[0.18em] text-[color:var(--primary)]">
+				LA FICHA
+			</h2>
+			{#if obra.autor_ficha_publico || publicadaLabel}
+				<dl class="mt-3 flex flex-wrap gap-x-8 gap-y-3 text-sm">
+					{#if obra.autor_ficha_publico}
+						<div>
+							<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+								Editor a cargo
+							</dt>
+							<dd class="mt-1 flex items-center gap-2 font-semibold">
+								<span>{obra.autor_ficha_publico}</span>
+								{#if editorOrcidHref}
+									<a
+										class="inline-flex items-center text-[color:var(--muted-foreground)] transition-colors hover:text-[color:var(--foreground)]"
+										href={editorOrcidHref}
+										target="_blank"
+										rel="noreferrer"
+										aria-label={`ORCID de ${obra.autor_ficha_publico}`}
+									>
+										<OrcidIcon size={15} />
+										<span class="sr-only">ORCID</span>
+									</a>
+								{/if}
+							</dd>
+						</div>
+					{/if}
+					{#if publicadaLabel}
+						<div>
+							<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+								Publicada
+							</dt>
+							<dd class="mt-1 font-semibold">{publicadaLabel}</dd>
+						</div>
+					{/if}
+				</dl>
+			{/if}
+
+			{#if (obra.edicion ?? '').trim().length > 0}
+				<div class="mt-4">
+					<div class="mb-1 text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+						Edición base usada
+					</div>
+					<div class="space-y-2 text-sm">{@html renderMarkdown(obra.edicion ?? '')}</div>
 				</div>
 			{/if}
-			<div>
-				<dt class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-					Última modificación
-				</dt>
-				<dd class="mt-1 font-semibold">{updatedAtAbsolute}</dd>
-				<dd class="text-xs text-[color:var(--muted-foreground)]">{formatRelative(obra.updated_at)}</dd>
-			</div>
-		</dl>
 
-		{#if (obra.edicion ?? '').trim().length > 0}
-			<div class="mt-4 border-t border-[color:var(--border)] pt-4">
-				<div class="mb-1 text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-					Edición base usada
-				</div>
-				<div class="space-y-2 text-sm">{@html renderMarkdown(obra.edicion ?? '')}</div>
-			</div>
-		{/if}
-
-		<CitaDeFicha
-			titulo={obra.titulo}
-			autorFicha={obra.autor_ficha_publico}
-			updatedAt={obra.updated_at}
-			obraSlug={obra.slug}
-		/>
+			<CitaDeFicha
+				titulo={obra.titulo}
+				autorFicha={obra.autor_ficha_publico}
+				updatedAt={obra.updated_at}
+				obraSlug={obra.slug}
+			/>
+		</section>
 	</header>
 
 	{#if tabs.length > 0}
