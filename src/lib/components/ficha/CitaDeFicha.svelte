@@ -3,7 +3,8 @@
 	//
 	// **Se lee sin pulsar nada y se copia con un clic.** Antes era un botón negro junto al título
 	// que copiaba una cita que no se veía: pesaba más que el propio título y había que pegarla para
-	// saber qué decía. Ahora va en el bloque «La ficha», con el tono de «Edición base usada», y el
+	// saber qué decía. Ahora va en el bloque «La ficha», en pequeño y gris como el resto del bloque —es
+	// el párrafo más largo de la cabecera y no puede pesar más que la obra—, y el
 	// aviso de copiado es un toast, para que el botón no cambie de tamaño al pulsarlo.
 	//
 	// La cita es la de «Cómo citar un análisis específico», la misma que lleva cada gráfico.
@@ -38,8 +39,8 @@
 	);
 </script>
 
-<div class="mt-4">
-	<div class="mb-1 flex items-center justify-between gap-3">
+<div class="mt-3">
+	<div class="mb-0.5 flex items-center justify-between gap-3">
 		<span class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
 			Cómo citar esta ficha
 		</span>
@@ -52,7 +53,7 @@
 			Copiar
 		</button>
 	</div>
-	<p class="text-sm leading-6 text-[color:var(--gray-700)]">
+	<p class="text-xs leading-5 text-[color:var(--gray-600)]">
 		{#each cita as tramo, indice (indice)}
 			{#if tramo.cursiva}<em>{tramo.texto}</em>{:else}{tramo.texto}{/if}
 		{/each}
