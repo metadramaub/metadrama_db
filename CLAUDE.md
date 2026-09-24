@@ -74,6 +74,10 @@ especificación de cómo se espera que se anote.
 - Orden laboratorio → selección → ficha e ideas ya acordadas:
   [docs/plan-comparativas-corpus.md](docs/plan-comparativas-corpus.md)
 - Dónde vive cada dato hoy, dato a dato: [docs/mapa-precomputacion.md](docs/mapa-precomputacion.md)
+- **Gráficos descargables:** `src/lib/figuras/` (tema visual, cita, composición, PNG con
+  metadatos) y `src/lib/components/figuras/` (el icono y el modal). Un gráfico se hace
+  descargable pintándose en SVG con d3 y atributos del tema —no clases—, con un modo `figura` que
+  marca su `<svg data-figura>`, y envolviéndolo en `FiguraDescargable`. La ficha ya no usa ECharts.
 
 ### 3. Dominio métrico nuevo — en construcción
 

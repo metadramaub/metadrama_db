@@ -214,9 +214,22 @@ repaso de enlaces. Dos desajustes esperan ese día: `terceto/endecasilabica_cons
 cómo nombrar la única arquitectura del endecasílabo suelto, que ya lo dice todo en el nombre de su
 forma.
 
-**D5 · La exportación en grises, para imprimir.** La de color existe; doce formas no se distinguen
-por tono en papel, así que la versión impresa pide trama —rayado, punteado— y los nombres fuera, en
-diagonal, unidos a su tramo por una línea de guía.
+**D5 · Blanco y negro para el código de barras y el perfil.** Las franjas, las pendientes y las
+tradiciones ya se descargan en grises, porque llevan el nombre escrito junto a lo que nombran. En
+estos dos lo único que distingue una forma es su color: doce formas en papel piden trama —rayado,
+punteado— y los nombres fuera, en diagonal, unidos a su tramo por una línea de guía. El modal ya
+tiene la opción; basta con que el gráfico declare `admiteGrises`.
+
+**D9 · La cita no invierte el nombre del editor.** `/como-citarnos` escribe «González Mesas,
+Emma», pero `editores` solo guarda `nombre_completo`, y adivinar dónde acaba el nombre falla con
+«José María» o «de la Fuente». La cita de la ficha y la de cada gráfico van en orden natural hasta
+que haya apellidos en la base.
+
+**D10 · El laboratorio sigue en ECharts.** La ficha pintaba el perfil con ECharts y ya no: todos
+sus gráficos son SVG con d3 y se descargan por `$lib/figuras`. El laboratorio y la miniatura del
+perfil en `/autores` (`MiniMetricDonut`) siguen con ECharts, y sus gráficos no se pueden
+descargar. Pasarlos al mismo sistema es rehacerlos con `MetricDonut` y los tokens de
+`$lib/figuras/tema`.
 
 **D6 · Estados vacíos y cobertura parcial**, en métrica, jornadas, sinopsis y anotaciones: qué
 enseña la ficha de una obra a medio anotar.
