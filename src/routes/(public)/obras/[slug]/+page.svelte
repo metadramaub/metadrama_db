@@ -129,8 +129,18 @@
 	const cuadros = $derived.by(() =>
 		[...ficha.estructura.cuadros].sort((a, b) => a.v_ini - b.v_ini || a.cuadro_num - b.cuadro_num)
 	);
+	/**
+	 * Una secuencia sin forma anotada no se llama como el término interno que la base le pone por
+	 * defecto («sin_estrofa»): se dice lo que es, con el mismo nombre que ya le da el análisis.
+	 */
 	const secuenciasOrdenadas = $derived.by(() =>
-		[...ficha.metrica.secuencias].sort((a, b) => a.v_ini - b.v_ini)
+		[...ficha.metrica.secuencias]
+			.map((secuencia) =>
+				secuencia.forma_slug
+					? secuencia
+					: { ...secuencia, forma_nombre: SIN_FORMA, arquitectura_nombre: SIN_FORMA }
+			)
+			.sort((a, b) => a.v_ini - b.v_ini)
 	);
 	const resolvedPublicSequences = $derived.by(() =>
 		resolveSequenceStructures({ secuencias: secuenciasOrdenadas, jornadas, cuadros })
@@ -204,7 +214,7 @@
 	const colorByForma = $derived.by(() => {
 		const map: Record<string, string> = {};
 		for (const item of ficha.metrica.distribucion_formas) {
-			const key = item.forma_slug ?? item.forma;
+			const key = item.forma_slug ?? SIN_FORMA;
 			if (!map[key]) map[key] = colorForForma({ slug: key, tipoForma: item.forma_tipo_forma });
 		}
 		for (const secuencia of secuenciasOrdenadas) {
@@ -217,8 +227,8 @@
 	// Slices de la distribución obra-completa con clave de color (slug) explícita.
 	const distribucionFormasSlices = $derived.by(() =>
 		ficha.metrica.distribucion_formas.map((item: PublicFichaDistribucionForma) => ({
-			forma: item.forma,
-			colorKey: item.forma_slug ?? item.forma,
+			forma: item.forma_slug ? item.forma : SIN_FORMA,
+			colorKey: item.forma_slug ?? SIN_FORMA,
 			versos: item.versos,
 			porcentaje: item.porcentaje
 		}))
@@ -964,6 +974,7 @@
 							items={distribucionFormasSlices}
 							sequences={secuenciasOrdenadas}
 							colorByForma={colorByForma}
+							arquitecturasPorForma={data.arquitecturasPorForma}
 							valueMode={pieValueMode}
 							highlightedForma={formaForGroup('obra')}
 							onHoverForma={(forma) => (hoveredForma = forma ? { groupId: 'obra', forma } : null)}
@@ -976,6 +987,7 @@
 									items={profile.distribution}
 									sequences={profile.sequences}
 									colorByForma={colorByForma}
+									arquitecturasPorForma={data.arquitecturasPorForma}
 									valueMode={pieValueMode}
 									highlightedForma={formaForGroup(profile.jornada.jornada_id)}
 									onHoverForma={(forma) =>
