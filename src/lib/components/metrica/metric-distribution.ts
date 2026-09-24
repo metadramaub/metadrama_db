@@ -180,7 +180,8 @@ function rhymeSchemes(sequences: MetricDistributionSequence[]): MetricDistributi
 
 /**
  * Los rasgos cuyo valor caracteriza verso a verso lo que cubre. **Solo la asonancia**: una tirada
- * en é-o tiene en é-o cada uno de sus versos pares. Los demás rasgos del catálogo —densidad de rima,
+ * en é-o tiene en é-o cada uno de sus versos pares. Y una tirada tiene una sola asonancia —si cambia,
+ * el editor cierra la secuencia y abre otra—, así que sus versos son los de la secuencia. Los demás rasgos del catálogo —densidad de rima,
  * final acentual, organización en pareados, dístico final, encadenamiento interior, pie quebrado—
  * se anotan sobre la secuencia entera, y sus versos no se pueden contar.
  *
@@ -198,26 +199,21 @@ function featureDimensions(sequences: MetricDistributionSequence[]): MetricDistr
 	return [...features.entries()]
 		.map(([slug, feature]): MetricDistributionDimension => {
 			const escala = RASGOS_EN_VERSOS.has(slug) ? 'verso' : 'secuencia';
-			const byValue = new Map<string, { sequences: Set<string>; verses: Set<string> }>();
+			const byValue = new Map<string, Map<string, number>>();
 			for (const sequence of sequences) {
 				for (const row of (sequence.rasgos ?? []).filter((item) => item.rasgo_slug === slug)) {
-					const current = byValue.get(row.valor_nombre) ?? {
-						sequences: new Set<string>(),
-						verses: new Set<string>()
-					};
-					current.sequences.add(sequenceKey(sequence));
-					if (escala === 'verso') {
-						for (const key of coveredVerseKeys(sequence, row)) current.verses.add(key);
-					}
-					byValue.set(row.valor_nombre, current);
+					const matching = byValue.get(row.valor_nombre) ?? new Map<string, number>();
+					matching.set(sequenceKey(sequence), sequence.n_versos);
+					byValue.set(row.valor_nombre, matching);
 				}
 			}
 			const values = [...byValue.entries()]
-				.map(([label, { sequences: matching, verses }]): MetricDistributionValue => ({
+				.map(([label, matching]): MetricDistributionValue => ({
 					label,
 					cantidad: matching.size,
 					unidad: 'secuencia',
-					versos: verses.size
+					versos:
+						escala === 'verso' ? [...matching.values()].reduce((total, versos) => total + versos, 0) : 0
 				}))
 				.sort(
 					(a, b) => b.versos - a.versos || b.cantidad - a.cantidad || a.label.localeCompare(b.label, 'es')
