@@ -628,8 +628,11 @@
 
 	<div class="mb-4">
 		<Tabs tabs={tabs} active={currentTab} onChange={handleTabChange}>
+			<!-- **El botón ocupa su sitio aunque la pestaña no guarde.** Si no se pinta, la fila pierde
+			     su altura y las pestañas saltan al cambiar de una a otra. Oculto e `inert`, ni se ve ni se
+			     alcanza con el tabulador. -->
 			{#snippet actions()}
-				{#if showGeneralSave}
+				<span class:invisible={!showGeneralSave} inert={!showGeneralSave} aria-hidden={!showGeneralSave}>
 					<Button
 						variant="success"
 						onclick={requestGeneralSave}
@@ -639,7 +642,7 @@
 					>
 						Guardar
 					</Button>
-				{/if}
+				</span>
 			{/snippet}
 		</Tabs>
 	</div>
