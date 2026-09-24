@@ -1,40 +1,31 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
+	// La cita de la ficha es la de «Cómo citar un análisis específico», la misma que lleva cada
+	// gráfico descargado: dos citas distintas de lo mismo se acaban copiando las dos.
+	import { anioDeFicha, citaDelAnalisis, textoDe } from '$lib/figuras/cita';
 
 	const props = $props<{
 		titulo: string;
 		autorFicha: string | null;
 		updatedAt: string | null;
-		obraPath: string;
+		obraSlug: string;
 	}>();
 
 	let copied = $state(false);
 	let copyError = $state<string | null>(null);
 	let timer: ReturnType<typeof setTimeout> | null = null;
 
-	function yearLabel(): string {
-		if (!props.updatedAt) return 's. f.';
-		const date = new Date(props.updatedAt);
-		if (Number.isNaN(date.valueOf())) return 's. f.';
-		return String(date.getUTCFullYear());
-	}
-
-	function accessDateLabel(): string {
-		return new Intl.DateTimeFormat('es-ES', {
-			day: '2-digit',
-			month: '2-digit',
-			year: 'numeric'
-		}).format(new Date());
-	}
-
-	function obraUrl(): string {
-		if (!browser) return props.obraPath;
-		return `${window.location.origin}${props.obraPath}`;
-	}
-
 	function citationText(): string {
-		const autor = (props.autorFicha ?? '').trim() || 'Autoría de ficha no indicada';
-		return `Análisis versológio de *${props.titulo}* en versologia.metadrama.ub. ${autor}. (${yearLabel()}). METADRAMA DB. Responsables del proyecto: Gastón Gilabert y David Merino Recalde. ${obraUrl()} (Consulta: ${accessDateLabel()}).`;
+		return textoDe(
+			citaDelAnalisis(
+				{
+					obraTitulo: props.titulo,
+					obraSlug: props.obraSlug,
+					autorFicha: props.autorFicha,
+					anio: anioDeFicha(props.updatedAt)
+				},
+				new Date()
+			)
+		);
 	}
 
 	async function copyToClipboard() {
