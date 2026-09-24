@@ -4,6 +4,8 @@ import type { Database } from '$lib/types/database.types';
 export type PublicArtifact<T> = {
 	payload: T;
 	generatedAt: string;
+	/** Cuándo cambió por última vez lo que dice. No se mueve al recalcular sin cambios. */
+	contentChangedAt: string;
 	stale: boolean;
 	version: number;
 };
@@ -22,7 +24,7 @@ export async function loadPublicArtifact<T>(
 ): Promise<PublicArtifact<T> | null> {
 	const { data, error } = await supabase
 		.from('artefactos_publicos')
-		.select('payload,generado_en,sucio,version_esquema')
+		.select('payload,generado_en,contenido_cambiado_en,sucio,version_esquema')
 		.eq('clave', key)
 		.maybeSingle();
 
@@ -35,6 +37,7 @@ export async function loadPublicArtifact<T>(
 	return {
 		payload: data.payload as T,
 		generatedAt: data.generado_en,
+		contentChangedAt: data.contenido_cambiado_en,
 		stale: data.sucio,
 		version: data.version_esquema
 	};

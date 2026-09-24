@@ -781,6 +781,7 @@ export type Database = {
         Row: {
           alcance: string
           clave: string
+          contenido_cambiado_en: string
           entidad_id: string | null
           generado_en: string
           payload: Json
@@ -791,6 +792,7 @@ export type Database = {
         Insert: {
           alcance?: string
           clave: string
+          contenido_cambiado_en?: string
           entidad_id?: string | null
           generado_en?: string
           payload: Json
@@ -801,6 +803,7 @@ export type Database = {
         Update: {
           alcance?: string
           clave?: string
+          contenido_cambiado_en?: string
           entidad_id?: string | null
           generado_en?: string
           payload?: Json

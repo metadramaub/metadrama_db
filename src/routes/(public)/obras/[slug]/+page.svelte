@@ -171,15 +171,31 @@
 		return `https://orcid.org/${editorOrcid}`;
 	});
 	/**
-	 * Cuándo se publicó, solo el día: la hora se guarda, pero al lector no le dice nada. En la hora de
-	 * Madrid, que es la del proyecto, y para que el servidor y el navegador escriban el mismo día.
-	 * Sin fecha —una vista previa, o un JSON anterior a la columna— no se enseña nada.
+	 * Un día de la vida de la ficha, sin hora: se guarda, pero al lector no le dice nada. En la hora
+	 * de Madrid, que es la del proyecto, y para que el servidor y el navegador escriban el mismo día.
 	 */
-	const publicadaLabel = $derived.by(() => {
-		if (!obra.fecha_publicacion) return null;
-		const date = new Date(obra.fecha_publicacion);
+	function diaDeLaFicha(iso: string | null | undefined): string | null {
+		if (!iso) return null;
+		const date = new Date(iso);
 		if (Number.isNaN(date.valueOf())) return null;
 		return new Intl.DateTimeFormat('es-ES', { dateStyle: 'long', timeZone: 'Europe/Madrid' }).format(date);
+	}
+	/**
+	 * La versión que se cita: la del último cambio publicado; si no la hay, la publicación; y en una
+	 * vista previa, la última escritura en la obra. De aquí sale el año de la cita.
+	 */
+	const fechaDeLaVersion = $derived(
+		data.datosActualizados ?? obra.fecha_publicacion ?? obra.updated_at
+	);
+	/** Sin fecha —una vista previa, o un JSON anterior a la columna— no se enseña nada. */
+	const publicadaLabel = $derived(diaDeLaFicha(obra.fecha_publicacion));
+	/**
+	 * La última vez que cambió lo publicado, del artefacto y no de `updated_at`, que no se mueve con
+	 * la anotación. Solo se dice si cae en otro día que la publicación.
+	 */
+	const actualizadaLabel = $derived.by(() => {
+		const dia = diaDeLaFicha(data.datosActualizados);
+		return dia && dia !== publicadaLabel ? dia : null;
 	});
 
 	// Colores por forma (compartidos entre barcode y pie). Clave = slug estable de
@@ -382,8 +398,8 @@
 		obraTitulo: obra.titulo,
 		obraSlug: obra.slug,
 		autorFicha: obra.autor_ficha_publico ?? null,
-		anio: anioDeFicha(obra.updated_at),
-		actualizada: obra.updated_at
+		anio: anioDeFicha(fechaDeLaVersion),
+		actualizada: data.datosActualizados
 	});
 	const leyendaDeFormas = $derived<ItemLeyenda[]>(
 		ordenDeFormas.map(({ forma, colorKey }) => ({
@@ -795,6 +811,9 @@
 								Publicada
 							</dt>
 							<dd class="mt-1 font-semibold">{publicadaLabel}</dd>
+							{#if actualizadaLabel}
+								<dd class="text-xs text-[color:var(--muted-foreground)]">Actualizada el {actualizadaLabel}</dd>
+							{/if}
 						</div>
 					{/if}
 				</dl>
@@ -812,7 +831,7 @@
 			<CitaDeFicha
 				titulo={obra.titulo}
 				autorFicha={obra.autor_ficha_publico}
-				updatedAt={obra.updated_at}
+				updatedAt={fechaDeLaVersion}
 				obraSlug={obra.slug}
 			/>
 		</section>
