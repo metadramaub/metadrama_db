@@ -285,9 +285,11 @@ describe('comprobar una hipótesis contrasta contra sus rivales, no contra el ca
 			catalogo.hipotesis[2],
 			new Set()
 		);
-		expect(discrepancias.map((d) => d.dimension)).toEqual(['rima:tipo']);
-		expect(discrepancias[0].observable).toBe(true);
-		expect(discrepancias[0].respondida).toBe(false);
+		// La rima, que las dos declaran distinta, y la extensión, que solo declara la sextilla: el
+		// romance no dice nada de su longitud, así que siete versos contradicen a una y no a la otra.
+		expect(discrepancias.map((d) => d.dimension)).toEqual(['rima:tipo', 'extension:versos']);
+		expect(discrepancias.every((d) => d.observable)).toBe(true);
+		expect(discrepancias.every((d) => !d.respondida)).toBe(true);
 	});
 
 	const preguntaRima: PreguntaDemarcador = {

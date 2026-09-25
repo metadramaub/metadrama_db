@@ -3,6 +3,7 @@
 		crearRespuesta,
 		elegirPregunta,
 		ordenarFormas,
+		VENTAJA_SUFICIENTE,
 		veredictoDeHipotesis
 	} from '$lib/demarcador-metrico/motor';
 	import DemarcadorResultCard from '$lib/components/demarcador/DemarcadorResultCard.svelte';
@@ -83,7 +84,7 @@
 			: respuestasConcluyentes >= 3 &&
 				extensionResuelta &&
 				(formasOrdenadas[0]?.arquitecturas[0]?.coincidencias ?? 0) >= 2 &&
-				diferenciaPrincipal >= 0.75
+				diferenciaPrincipal >= VENTAJA_SUFICIENTE
 	);
 	const recorridoDetenido = $derived(
 		Boolean(modo && (resultadoSuficiente || !pregunta) && !afinamientoSolicitado)
@@ -167,7 +168,7 @@
 		const primera = formas[0];
 		const segunda = formas[1];
 		const diferencia = primera.puntuacion - segunda.puntuacion;
-		if (diferencia < 0.75) {
+		if (diferencia < VENTAJA_SUFICIENTE) {
 			return `${primera.formaNombre} y ${segunda.formaNombre} siguen muy próximas: las respuestas todavía no permiten distinguirlas con claridad.`;
 		}
 		const detallesSegunda = new Map(
@@ -507,11 +508,11 @@
 						{respuestas.length === 0
 							? 'Todavía sin resultados'
 							: resultadoSuficiente
-								? 'Formas con mejor encaje'
+								? 'Formas más probables'
 								: 'Candidatas según tus respuestas'}
 					</h2>
 					<p class="mt-2 text-sm leading-6 text-[color:var(--muted-foreground)]">
-						Al principio se muestran candidatas, no conclusiones. Los grados de encaje aparecen cuando hay evidencias suficientes para compararlas.
+						Al principio se muestran candidatas, no conclusiones. Cada forma dice dos cosas: cómo queda frente a las demás y si encaja con su propia norma.
 					</p>
 					{#if comparacionPrincipal}
 						<p class="mt-3 border-l-2 border-[color:var(--foreground)] pl-3 text-sm leading-6">
@@ -584,7 +585,9 @@
 		</section>
 		<section class="border-t border-[color:var(--border)] pt-5">
 			<h3 class="font-semibold text-[color:var(--foreground)]">Interpretar la orientación</h3>
-			<p class="mt-1">Con pocas respuestas se muestran «Candidatas», porque una coincidencia general todavía dice poco. Los grados de encaje aparecen cuando se reúnen más evidencias y tienen en cuenta la distancia respecto de las demás formas. Una variante, una excepción o un fragmento incompleto pueden cambiar la lectura.</p>
+			<p class="mt-1">Con pocas respuestas se muestran «Candidatas», porque una coincidencia general todavía dice poco. Después cada forma lleva dos indicaciones distintas.</p>
+			<p class="mt-2">La primera la compara con las demás: «La más probable» cuando aventaja claramente a la siguiente, «Empatada en cabeza» cuando las respuestas todavía no las separan y «Menos probable» cuando otra va por delante. No es un porcentaje.</p>
+			<p class="mt-2">La segunda la mira a ella sola: «Encaja» si nada de lo respondido la contradice, «Encaja con desviación» si solo difieren la extensión o algo que su norma no fija, y «No encaja» si el pasaje rompe algo que su norma fija. Una forma puede encajar del todo e ir por detrás de otra que también encaja. Una variante, una excepción o un fragmento incompleto pueden cambiar la lectura.</p>
 		</section>
 	</div>
 </PublicHelpDialog>
