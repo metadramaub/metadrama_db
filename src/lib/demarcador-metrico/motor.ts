@@ -440,15 +440,32 @@ function preguntasPosibles(
 		dimension: string
 	): EvidenciaNormativa | null => {
 		const evidencia = evidenciaDe(candidata, dimension);
-		if (
-			!evidencia ||
-			dimension !== 'metro:exacto' ||
-			typeof uniformidadMetroRespondida !== 'string'
-		) {
-			return evidencia;
-		}
-		const buscaVarias = uniformidadMetroRespondida === 'varias_medidas';
-		const valores = evidencia.valores.filter((valor) => valor.clave.includes('+') === buscaVarias);
+		if (!evidencia || dimension !== 'metro:exacto') return evidencia;
+		const buscaVarias =
+			typeof uniformidadMetroRespondida === 'string'
+				? uniformidadMetroRespondida === 'varias_medidas'
+				: null;
+		/**
+		 * **Las medidas se filtran por el arte respondido, no solo las formas.** Filtrar las formas
+		 * bastaba mientras cada una era de un solo arte. El pareado isométrico admite las dos —del
+		 * tetrasílabo al alejandrino—, así que entra con «arte mayor» y traía consigo el 4, el 5, el 6,
+		 * el 7 y el 8.
+		 */
+		const encajaConElArte = (clave: string) => {
+			if (typeof grupoMetroRespondido !== 'string') return true;
+			const medidas = clave.split('+').map(Number);
+			const menor = medidas.some((medida) => medida <= 8);
+			const mayor = medidas.some((medida) => medida > 8);
+			if (grupoMetroRespondido === 'arte_menor') return menor && !mayor;
+			if (grupoMetroRespondido === 'arte_mayor') return mayor && !menor;
+			return menor && mayor;
+		};
+		const valores = evidencia.valores.filter(
+			(valor) =>
+				(buscaVarias === null || valor.clave.includes('+') === buscaVarias) &&
+				encajaConElArte(valor.clave)
+		);
+		if (valores.length === evidencia.valores.length) return evidencia;
 		return valores.length > 0 ? { ...evidencia, valores } : null;
 	};
 	for (const candidata of hipotesis) {
