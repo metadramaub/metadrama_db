@@ -22,9 +22,9 @@ prueba: valen para comprobar cálculo y presentación, no para sostener resultad
 → [plan de comparativas](./plan-comparativas-corpus.md)
 
 **2 · Migrar las secuencias ya anotadas.** 263, en 11 obras de 8 editores. Los informes y los
-Excel que cada editor rellena **están generados** desde el 19 de septiembre de 2026; falta
-enviarlos, escribir el aplicador que lee las respuestas y migrar obra por obra. **Hasta que se
-haga, esas obras no tienen perfil.**
+Excel que cada editor rellena **están enviados** y el aplicador que lee las respuestas está
+escrito; falta que vuelvan los Excel y migrar obra por obra. **Hasta que se haga, esas obras no
+tienen perfil.**
 → [plan de migración](./dominio-metrico/plan-migracion-anotaciones.md) ·
 [informes y cuestionarios](./dominio-metrico/migracion/) ·
 estado con `npm run equivalencias:informe`
@@ -39,12 +39,11 @@ deshace— y las once obras la pasan con respuestas de prueba. Falta: **aplicar 
 `migracion_secuencias`**, que está escrita y sin aplicar, y migrar cada obra cuando vuelva su Excel.
 → [plan, §5](./dominio-metrico/plan-migracion-anotaciones.md)
 
-**A2 · Enviar los cuestionarios y recoger las respuestas.** El informe de cada obra se lee en
-`/dashboard/migracion/<obra>`, que solo ven admin, el IP y el editor asignado; falta **mandar por
-correo el Excel** de [migracion/cuestionarios/](./dominio-metrico/migracion/cuestionarios/) a cada
-uno de los 8 editores, avisando de que no toque la obra desde que lo devuelve hasta que se le
-confirma la migración. Las respuestas van a `migracion/respuestas/`, versionadas. Lo que un editor
-no tenga claro lo pregunta antes de contestar.
+**A2 · Recoger las respuestas.** Los Excel de
+[migracion/cuestionarios/](./dominio-metrico/migracion/cuestionarios/) **ya se mandaron** a los 8
+editores; a 25 de septiembre de 2026 no ha vuelto ninguno. Cada uno lee el informe de su obra en
+`/dashboard/migracion/<obra>` y no debe tocarla desde que devuelve el Excel hasta que se le confirma
+la migración. Las respuestas van a `migracion/respuestas/`, versionadas, según llegan.
 
 **A4 · Las preguntas que la serie alirada no tiene.** La novena-lira no tiene dónde registrar la
 disposición que se vea, ni la décima cuando no sea la documentada. (La canción ya no está aquí: la
