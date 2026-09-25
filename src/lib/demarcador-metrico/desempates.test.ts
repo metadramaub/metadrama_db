@@ -421,3 +421,30 @@ describe('en el desempate de un contraste se pregunta lo que falta', () => {
 		expect(veredicto.estado).toBe('indecidible');
 	});
 });
+
+describe('la medida que se ofrece es la del arte respondido', () => {
+	it('con arte mayor, el pareado de las dos artes no trae medidas de arte menor', () => {
+		const catalogo = catalogoDe([
+			hipotesis('pareado', [
+				evidencia('metro:grupo', 'metro', ['arte_menor', 'arte_mayor'], { orden: 1 }),
+				evidencia('metro:exacto', 'metro', ['4', '8', '11', '14'], {
+					observabilidad: 'especializada',
+					orden: 40
+				}),
+				extension(2)
+			]),
+			hipotesis('soneto', [
+				evidencia('metro:grupo', 'metro', ['arte_mayor'], { orden: 1 }),
+				evidencia('metro:exacto', 'metro', ['11'], { observabilidad: 'especializada', orden: 40 }),
+				extension(14)
+			])
+		]);
+		const siguiente = elegirPregunta(
+			catalogo,
+			[crearRespuesta(pregunta('metro:grupo', 'metro'), 'arte_mayor', 'Arte mayor')],
+			'guiado'
+		);
+		expect(siguiente?.dimension).toBe('metro:exacto');
+		expect(siguiente?.opciones.map((opcion) => opcion.clave)).toEqual(['11', '14']);
+	});
+});
