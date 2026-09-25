@@ -8,6 +8,7 @@ import type {
 	InterpretacionLongitud,
 	Discrepancia,
 	DetalleCompatibilidad,
+	EncajeForma,
 	ModoDemarcador,
 	ModalidadEvidencia,
 	ObservabilidadEvidencia,
@@ -31,8 +32,31 @@ const FIABILIDAD: Record<ObservabilidadEvidencia, number> = {
 	derivada: 0
 };
 
+/**
+ * La ventaja que separa a la primera de las demás: con ella el recorrido se detiene, la primera
+ * destaca y las que quedan a menos se consideran empatadas con ella.
+ */
+export const VENTAJA_SUFICIENTE = 0.75;
+
+/**
+ * Por debajo de esto, dos puntuaciones empatan: es el orden de los desempates que no son evidencia,
+ * como el de la arquitectura principal.
+ */
+const MARGEN_EMPATE = 0.1;
+
 const MAX_OPCIONES = 7;
 const MAX_OPCIONES_METRO_EXACTO = 12;
+const MAX_OPCIONES_AGRUPACION = 12;
+
+/**
+ * La respuesta de quien no ve grupos regulares. No la declara ninguna forma —las series no tienen
+ * unidad que agrupar—, así que contradice a todas las estrofas y deja intactas las series, que es
+ * lo que hacía el «no» de las antiguas preguntas de sí o no por cada tamaño.
+ */
+const SIN_AGRUPACION: ValorEvidencia = {
+	clave: 'ninguno',
+	etiqueta: 'No se distinguen grupos regulares'
+};
 
 const OPCIONES_GRUPO_METRO: ValorEvidencia[] = [
 	{ clave: 'arte_menor', etiqueta: 'Arte menor' },
@@ -177,7 +201,12 @@ export function puntuarHipotesis(
 	hipotesis: HipotesisMetrica,
 	respuestas: RespuestaDemarcador[]
 ): HipotesisPuntuada {
-	let puntuacion = hipotesis.arquitecturaPrincipal ? 0.05 : 0;
+	// Un desempate, no una probabilidad previa: a favor de la arquitectura principal y en contra de
+	// la que el catálogo llama excepcional, que no debe ganarle un empate a la regular. La endecha
+	// real de cinco versos empataba con la lira en todo lo que se pregunta.
+	let puntuacion =
+		(hipotesis.arquitecturaPrincipal ? 0.05 : 0) -
+		(hipotesis.arquitecturaModalidad === 'excepcional' ? 0.05 : 0);
 	let coincidencias = 0;
 	let contradicciones = 0;
 	let interpretacionLongitud: InterpretacionLongitud | null = null;
@@ -198,8 +227,22 @@ export function puntuarHipotesis(
 		}
 		const pesos = PESO_MODALIDAD[evidencia.modalidad];
 		const fiabilidad = FIABILIDAD[evidencia.observabilidad];
+		if (coincide(evidencia, respuesta.valor) && evidencia.soloContradice) {
+			detalles.push({
+				dimension: respuesta.dimension,
+				etiqueta: evidencia.etiqueta,
+				estado: 'sin_datos',
+				peso: 0
+			});
+			continue;
+		}
 		if (coincide(evidencia, respuesta.valor)) {
-			const peso = pesos.coincide * fiabilidad;
+			const modalidadValor =
+				typeof respuesta.valor === 'string'
+					? evidencia.modalidadPorValor?.[respuesta.valor]
+					: undefined;
+			const peso =
+				(modalidadValor ? PESO_MODALIDAD[modalidadValor].coincide : pesos.coincide) * fiabilidad;
 			puntuacion += peso;
 			coincidencias += 1;
 			if (typeof respuesta.valor === 'number') {
@@ -238,6 +281,23 @@ export function puntuarHipotesis(
 	};
 }
 
+/**
+ * El encaje de una arquitectura con lo respondido, sin mirar a las demás formas.
+ *
+ * La extensión no cuenta como contradicción de la norma sino como desviación: el demarcador ya
+ * explica las longitudes regulares vecinas, y una laguna o un verso de más no hacen de un soneto
+ * otra cosa.
+ */
+export function encajeDe(puntuada: HipotesisPuntuada): EncajeForma {
+	const contradicciones = puntuada.detalles.filter((detalle) => detalle.estado === 'contradice');
+	if (contradicciones.length === 0) return 'pleno';
+	const rompeNorma = contradicciones.some((detalle) => {
+		if (detalle.dimension === 'extension:versos') return false;
+		return evidenciaDe(puntuada.hipotesis, detalle.dimension)?.modalidad === 'definitoria';
+	});
+	return rompeNorma ? 'contradice' : 'con_desviacion';
+}
+
 export function ordenarFormas(
 	catalogo: CatalogoDemarcador,
 	respuestas: RespuestaDemarcador[]
@@ -262,6 +322,7 @@ export function ordenarFormas(
 				formaDefinicion: mejor.hipotesis.formaDefinicion,
 				puntuacion: mejor.puntuacion,
 				nivel: 'posible' as FormaPuntuada['nivel'],
+				encaje: encajeDe(mejor),
 				arquitecturas: ordenadas
 			};
 		})
@@ -280,9 +341,9 @@ export function ordenarFormas(
 		const nivel: FormaPuntuada['nivel'] =
 			respuestasConcluyentes < 3
 				? 'candidata'
-				: index === 0 && forma.arquitecturas[0].coincidencias >= 2 && ventajaPrincipal >= 0.75
+				: index === 0 && forma.arquitecturas[0].coincidencias >= 2 && ventajaPrincipal >= VENTAJA_SUFICIENTE
 					? 'alto'
-					: distancia <= 0.75
+					: distancia < VENTAJA_SUFICIENTE
 						? 'medio'
 						: 'bajo';
 		return { ...forma, nivel };
@@ -315,7 +376,18 @@ function preguntasPosibles(
 	modo: ModoDemarcador,
 	formaObjetivoId: string | null,
 	/** Enunciado de cada dimensión: vive una vez en el catálogo, no en cada evidencia. */
-	textos: Record<string, TextoDimension> = {}
+	textos: Record<string, TextoDimension> = {},
+	/**
+	 * De dónde salen las **opciones**, si no es del mismo campo que decide la pregunta.
+	 *
+	 * La pregunta se elige por lo que separa a las que van en cabeza, pero lo que se ofrece para
+	 * responder tiene que alcanzar a más: si la forma verdadera se ha quedado un momento detrás y su
+	 * respuesta no está en la lista, ya no hay manera de devolverla arriba. Seis pareados con la
+	 * sextilla y el terceto en cabeza preguntaban «¿en grupos de cuántos?» sin ofrecer «de 2 en 2».
+	 */
+	hipotesisOpciones: HipotesisMetrica[] = hipotesis,
+	/** Si el campo son las pocas formas que empatan en cabeza. */
+	desempate = false
 ): PreguntaDemarcador[] {
 	const respondidas = new Set(respuestas.map((respuesta) => respuesta.dimension));
 	const familiasDesconocidas = new Set(
@@ -330,6 +402,10 @@ function preguntasPosibles(
 	const uniformidadMetroRespondida = respuestas.find(
 		(respuesta) => respuesta.dimension === 'metro:uniformidad' && respuesta.valor !== 'desconocido'
 	)?.valor;
+	const extensionRespondida = (() => {
+		const valor = respuestas.find((respuesta) => respuesta.dimension === 'extension:versos')?.valor;
+		return typeof valor === 'number' ? valor : null;
+	})();
 	const uniformidadMetroOmitida = respuestas.some(
 		(respuesta) => respuesta.dimension === 'metro:uniformidad' && respuesta.valor === 'desconocido'
 	);
@@ -343,11 +419,14 @@ function preguntasPosibles(
 	 * verdad distingue un romance de una sextilla. La pregunta que nadie puede contestar desplazaba
 	 * a la que resuelve.
 	 *
-	 * Se queda **solo para el modo hipótesis**, donde quien la usa ya trae una forma en la cabeza y
-	 * confirmar su orden interno sí añade algo.
+	 * Se queda para el modo hipótesis, donde quien la usa ya trae una forma en la cabeza y confirmar
+	 * su orden interno sí añade algo, **y para el desempate**: cuando solo quedan dos o tres formas
+	 * en cabeza, sus opciones ya no nombran el catálogo sino esas pocas —«dos quintillas» o
+	 * «redondilla, enlace y redondilla»—, y elegir entre ellas es mirar dónde se parte la estrofa. Sin
+	 * eso, la décima y la copla real se quedaban empatadas hasta agotar el recorrido.
 	 */
 	const ordenInternoFueraDeLugar = (dimension: string) =>
-		dimension === 'estructura:orden' && modo === 'guiado';
+		dimension === 'estructura:orden' && modo === 'guiado' && !desempate;
 
 	/**
 	 * Y en cualquier modo: si ya se ha dicho que **no hay secciones internas**, preguntar cuál se
@@ -407,7 +486,7 @@ function preguntasPosibles(
 		if (dimension === 'metro:exacto' && uniformidadMetroOmitida) continue;
 		if (dimension === 'estructura:orden' && (ordenInternoFueraDeLugar(dimension) || sinSeccionesDeclaradas))
 			continue;
-		const candidatasDimension = hipotesis.filter((candidata) => {
+		const admiteCandidata = (candidata: HipotesisMetrica) => {
 			const dependeDelGrupo = dimension === 'metro:uniformidad' || dimension === 'metro:exacto';
 			if (!dependeDelGrupo) return true;
 			if (
@@ -428,11 +507,31 @@ function preguntasPosibles(
 				return false;
 			}
 			return evidenciaParaPregunta(candidata, dimension) !== null;
-		});
+		};
+		const candidatasDimension = hipotesis.filter(admiteCandidata);
 		const evidenciasDimension = candidatasDimension
 			.map((candidata) => evidenciaParaPregunta(candidata, dimension))
 			.filter((evidencia): evidencia is EvidenciaNormativa => evidencia !== null);
 		if (evidenciasDimension.length === 0) continue;
+		const evidenciasAmplias =
+			hipotesisOpciones === hipotesis
+				? evidenciasDimension
+				: [...new Set([...hipotesis, ...hipotesisOpciones])]
+						.filter(admiteCandidata)
+						.map((candidata) => evidenciaParaPregunta(candidata, dimension))
+						.filter((evidencia): evidencia is EvidenciaNormativa => evidencia !== null);
+		// Si abrirlas las hace ilegibles —más de las que caben—, se ofrecen las del campo que decide:
+		// vale más una lista corta que ninguna pregunta.
+		const clavesAmplias = new Set(
+			evidenciasAmplias.flatMap((evidencia) => evidencia.valores.map((valor) => valor.clave))
+		);
+		const evidenciasOpciones =
+			dimension === 'estructura:orden' ||
+			(dimension !== 'metro:exacto' &&
+			dimension !== 'estructura:agrupacion' &&
+				clavesAmplias.size > MAX_OPCIONES)
+				? evidenciasDimension
+				: evidenciasAmplias;
 		const modelo = [...evidenciasDimension].sort((a, b) => a.orden - b.orden)[0];
 		const grupos = new Map<string, number>();
 		const arquitecturasPorForma = new Map<string, number>();
@@ -457,7 +556,7 @@ function preguntasPosibles(
 		if (grupos.size < 2) continue;
 
 		const opcionesPorClave = new Map<string, ValorEvidencia>();
-		for (const evidencia of evidenciasDimension) {
+		for (const evidencia of evidenciasOpciones) {
 			for (const valor of evidencia.valores) opcionesPorClave.set(valor.clave, valor);
 		}
 		const opciones =
@@ -465,13 +564,26 @@ function preguntasPosibles(
 				? OPCIONES_GRUPO_METRO
 				: dimension === 'metro:uniformidad'
 					? OPCIONES_UNIFORMIDAD_METRO
-					: modelo.tipo === 'booleano'
+					: dimension === 'estructura:agrupacion'
 						? [
-								{ clave: 'si', etiqueta: 'Sí' },
-								{ clave: 'no', etiqueta: 'No' }
+								// Un grupo más largo que el pasaje no se puede ver en él.
+								...[...opcionesPorClave.values()]
+									.filter((valor) => extensionRespondida === null || Number(valor.clave) <= extensionRespondida)
+									.sort((a, b) => Number(a.clave) - Number(b.clave)),
+								SIN_AGRUPACION
 							]
-						: [...opcionesPorClave.values()];
-		const maximoOpciones = dimension === 'metro:exacto' ? MAX_OPCIONES_METRO_EXACTO : MAX_OPCIONES;
+						: modelo.tipo === 'booleano'
+							? [
+									{ clave: 'si', etiqueta: 'Sí' },
+									{ clave: 'no', etiqueta: 'No' }
+								]
+							: [...opcionesPorClave.values()];
+		const maximoOpciones =
+			dimension === 'metro:exacto'
+				? MAX_OPCIONES_METRO_EXACTO
+				: dimension === 'estructura:agrupacion'
+					? MAX_OPCIONES_AGRUPACION + 1
+					: MAX_OPCIONES;
 		if (modelo.tipo !== 'numero' && (opciones.length < 2 || opciones.length > maximoOpciones))
 			continue;
 
@@ -541,7 +653,9 @@ function preguntasPosibles(
 					: (textos[dimension]?.ayuda ?? ''),
 			tipo: modelo.tipo,
 			opciones:
-				dimension === 'metro:grupo' || dimension === 'metro:uniformidad'
+				dimension === 'metro:grupo' ||
+				dimension === 'metro:uniformidad' ||
+				dimension === 'estructura:agrupacion'
 					? opciones
 					: opciones.sort((a, b) => a.etiqueta.localeCompare(b.etiqueta, 'es', { numeric: true })),
 			observabilidad: modelo.observabilidad,
@@ -657,6 +771,11 @@ export function rivalesDe(
  * mucho que sea definitoria de las dos. Para la extensión se comparan las congruencias, que es lo
  * que `clavePredicha` resume.
  *
+ * **Y cuando solo una de las dos declara la dimensión, también la hay.** La sextina se agrupa de seis
+ * en seis y el endecasílabo suelto no dice nada de grupos: «no se distinguen grupos regulares»
+ * contradice a una y deja intacta a la otra, así que las separa. Contando solo lo que declaraban las
+ * dos, el contraste se daba por indecidible con esa pregunta sin hacer.
+ *
  * Se devuelven también las **no observables** y las **ya respondidas**, porque sirven para explicar:
  * «lo que las separaría es X, y X no se puede ver en este pasaje» es un resultado, no un silencio.
  */
@@ -666,9 +785,23 @@ export function discrepanciasEntre(
 	respondidas: Set<string>
 ): Discrepancia[] {
 	const discrepancias: Discrepancia[] = [];
+	const soloDeUna = (evidencia: EvidenciaNormativa) =>
+		discrepancias.push({
+			dimension: evidencia.dimension,
+			etiqueta: evidencia.etiqueta,
+			familiaCognitiva: evidencia.familiaCognitiva,
+			observable: evidencia.observabilidad !== 'derivada',
+			respondida: respondidas.has(evidencia.dimension)
+		});
+	for (const evidencia of b.evidencias) {
+		if (!evidenciaDe(a, evidencia.dimension)) soloDeUna(evidencia);
+	}
 	for (const evidencia of a.evidencias) {
 		const otra = evidenciaDe(b, evidencia.dimension);
-		if (!otra) continue;
+		if (!otra) {
+			soloDeUna(evidencia);
+			continue;
+		}
 		const separa =
 			evidencia.tipo === 'numero' || otra.tipo === 'numero'
 				? clavePredicha(evidencia) !== clavePredicha(otra)
@@ -761,9 +894,19 @@ export function veredictoDeHipotesis(
 	 * necesita agotarlas es el empate: decir «no se pueden distinguir» solo es honesto cuando no
 	 * queda ninguna pregunta que las separase.
 	 */
-	if (concluyentes >= 3 && ventaja >= 0.75) return { ...base, pendientes, estado: 'sostenida' };
+	if (concluyentes >= 3 && ventaja >= VENTAJA_SUFICIENTE) return { ...base, pendientes, estado: 'sostenida' };
+	/**
+	 * **Y cuando ya no queda nada que las separe, gana la que va delante.** Si lo único que distinguía
+	 * a la octava real de la aguda —cómo se distribuye la rima— cae del lado de la hipótesis, llamarlo
+	 * «indecidible» porque la ventaja no llega a la de un recorrido abierto es negar lo que se acaba de
+	 * responder: se ha decidido, por poco. Indecidible es el empate de verdad.
+	 */
 	if (concluyentes >= 3 && pendientes.length === 0) {
-		return { ...base, pendientes, estado: 'indecidible' };
+		return {
+			...base,
+			pendientes,
+			estado: ventaja > MARGEN_EMPATE ? 'sostenida' : 'indecidible'
+		};
 	}
 	return { ...base, pendientes, estado: 'en_curso' };
 }
@@ -781,12 +924,32 @@ export function elegirPregunta(
 	// efecto llega más lejos que el orden: las opciones de cada pregunta se juntan de las candidatas
 	// que la declaran, así que estrechar el campo estrecha también las respuestas ofrecidas —«¿qué
 	// organización interna reconoces?» deja de listar siete organizaciones de formas ajenas.
+	/**
+	 * **Cuando varias van en cabeza, se pregunta por lo que las separa a ellas.**
+	 *
+	 * Las doce primeras seguían mandando aunque solo dos estuvieran empatadas arriba, y entonces la
+	 * pregunta la elegían las diez de detrás: una décima empatada con la copla real se iba a «¿grupos
+	 * sucesivos de tres versos y un serventesio?», que es del terceto encadenado, y el recorrido se
+	 * agotaba sin separarlas. Peor aún, la pregunta que las separa —cómo se distribuye la rima— no
+	 * llegaba a hacerse, porque con doce formas juntaba más opciones de las que caben en pantalla.
+	 *
+	 * Van en cabeza las que están a menos de la ventaja que el recorrido exige para detenerse. Si
+	 * solo hay una, el campo sigue siendo el de las doce: lo que falta entonces es confirmar que
+	 * aventaja a las demás, no desempatar.
+	 */
+	const enCabeza =
+		respuestas.length === 0 || formasOrdenadas.length === 0
+			? []
+			: formasOrdenadas.filter(
+					(forma) => formasOrdenadas[0].puntuacion - forma.puntuacion < VENTAJA_SUFICIENTE
+				);
+	const hipotesisDe = (formas: FormaPuntuada[]) =>
+		formas.flatMap((forma) => forma.arquitecturas.map((item) => item.hipotesis));
+	const campoAmplio =
+		respuestas.length === 0 ? catalogo.hipotesis : hipotesisDe(formasOrdenadas.slice(0, 12));
 	const campoAbierto =
-		respuestas.length === 0
-			? catalogo.hipotesis
-			: formasOrdenadas
-					.slice(0, 12)
-					.flatMap((forma) => forma.arquitecturas.map((item) => item.hipotesis));
+		enCabeza.length >= 2 && enCabeza.length <= 12 ? hipotesisDe(enCabeza) : campoAmplio;
+	const desempate = enCabeza.length >= 2 && enCabeza.length <= 3;
 	/**
 	 * **Una hipótesis refutada deja de gobernar el recorrido.**
 	 *
@@ -795,10 +958,11 @@ export function elegirPregunta(
 	 * «¿cuál es, entonces?», que es clasificación abierta. Se pasa al campo y al criterio del
 	 * recorrido guiado, sin decírselo al motor dos veces.
 	 */
-	const refutada =
+	const veredicto =
 		modo === 'hipotesis' && formaObjetivoId
-			? veredictoDeHipotesis(catalogo, formaObjetivoId, respuestas).estado === 'refutada'
-			: false;
+			? veredictoDeHipotesis(catalogo, formaObjetivoId, respuestas)
+			: null;
+	const refutada = veredicto?.estado === 'refutada';
 	const modoEfectivo: ModoDemarcador = refutada ? 'guiado' : modo;
 	const objetivoEfectivo = refutada ? null : formaObjetivoId;
 
@@ -820,7 +984,9 @@ export function elegirPregunta(
 		respuestas,
 		modoEfectivo,
 		objetivoEfectivo,
-		catalogo.textos ?? {}
+		catalogo.textos ?? {},
+		candidatas === campoAbierto ? campoAmplio : candidatas,
+		candidatas === campoAbierto && desempate
 	);
 	if (preguntas.length === 0 && candidatas !== campoAbierto) {
 		preguntas = preguntasPosibles(
@@ -828,8 +994,54 @@ export function elegirPregunta(
 			respuestas,
 			modoEfectivo,
 			objetivoEfectivo,
+			catalogo.textos,
+			campoAmplio,
+			desempate
+		);
+	}
+	// Y lo mismo con las que van en cabeza: si nada las separa, se pregunta por lo que las separa
+	// de las de detrás, que es lo que queda por confirmar.
+	if (preguntas.length === 0 && campoAbierto !== campoAmplio) {
+		preguntas = preguntasPosibles(
+			campoAmplio,
+			respuestas,
+			modoEfectivo,
+			objetivoEfectivo,
 			catalogo.textos
 		);
+	}
+	/**
+	 * **En el desempate de un contraste, se pregunta lo que falta.**
+	 *
+	 * El veredicto sabe qué discrepancia queda entre la hipótesis y su rival —entre la octava real y
+	 * la aguda, cómo se distribuye la rima—, pero la pregunta no llegaba a hacerse: calculada contra
+	 * todos los rivales juntaba más esquemas de los que caben y se descartaba, y el recorrido gastaba
+	 * las preguntas que le quedaban en rasgos que no separaban a nadie. Con tres respuestas
+	 * concluyentes, que es cuando el veredicto empieza a poder decidir, se pregunta la discrepancia
+	 * pendiente con las opciones de las dos formas en juego.
+	 */
+	if (
+		modoEfectivo === 'hipotesis' &&
+		objetivoEfectivo &&
+		veredicto?.estado === 'en_curso' &&
+		veredicto.rival &&
+		veredicto.pendientes.length > 0 &&
+		respuestas.filter((respuesta) => respuesta.valor !== 'desconocido').length >= 3
+	) {
+		const faltan = new Set(veredicto.pendientes.map((discrepancia) => discrepancia.dimension));
+		const rivalId = veredicto.rival.formaId;
+		const pendiente =
+			preguntas.find((pregunta) => faltan.has(pregunta.dimension)) ??
+			preguntasPosibles(
+				catalogo.hipotesis.filter(
+					(item) => item.formaId === objetivoEfectivo || item.formaId === rivalId
+				),
+				respuestas,
+				modoEfectivo,
+				objetivoEfectivo,
+				catalogo.textos ?? {}
+			).find((pregunta) => faltan.has(pregunta.dimension));
+		if (pendiente) return pendiente;
 	}
 	if (respuestas.length === 0 && modoEfectivo === 'guiado') {
 		return (
@@ -884,9 +1096,22 @@ export function crearRespuesta(
 	};
 }
 
+/**
+ * La posición frente a las demás, dicha como probabilidad relativa.
+ *
+ * No es un porcentaje: el demarcador ordena por compatibilidad y dice si la primera destaca, si
+ * comparte cabeza o si va por detrás. Lo que antes se llamaba «encaje alto, medio o bajo» es esto;
+ * el encaje de verdad, el de la forma con su propia norma, lo dice `etiquetaEncaje`.
+ */
 export function etiquetaNivel(nivel: FormaPuntuada['nivel']): string {
 	if (nivel === 'candidata') return 'Candidata';
-	if (nivel === 'alto') return 'Encaje alto';
-	if (nivel === 'medio') return 'Encaje medio';
-	return 'Encaje bajo';
+	if (nivel === 'alto') return 'La más probable';
+	if (nivel === 'medio') return 'Empatada en cabeza';
+	return 'Menos probable';
+}
+
+export function etiquetaEncaje(encaje: EncajeForma): string {
+	if (encaje === 'pleno') return 'Encaja';
+	if (encaje === 'con_desviacion') return 'Encaja con desviación';
+	return 'No encaja';
 }

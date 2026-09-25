@@ -33,6 +33,14 @@ function modalidad(
 			: fallback;
 }
 
+/** De más a menos fuerte: el orden en que una modalidad se impone a otra. */
+const ORDEN_MODALIDAD: Record<ModalidadEvidencia, number> = {
+	definitoria: 0,
+	habitual: 1,
+	admitida: 2,
+	excepcional: 3
+};
+
 function observabilidad(value: unknown): ObservabilidadEvidencia {
 	return value === 'especializada' || value === 'derivada' ? value : 'directa';
 }
@@ -91,7 +99,9 @@ function evidenciaBase(
 		residuo: override.residuo ?? null,
 		desplazamientos: override.desplazamientos ?? null,
 		reglaLongitud: override.reglaLongitud ?? null,
+		soloContradice: override.soloContradice ?? false,
 		modalidad: override.modalidad ?? 'definitoria',
+		modalidadPorValor: override.modalidadPorValor ?? null,
 		observabilidad: override.observabilidad ?? 'directa',
 		coste: override.coste ?? 0.3,
 		orden: override.orden ?? 50,
@@ -220,6 +230,37 @@ function etiquetaEstructura(sections: Row[]): string | null {
 			: ordered;
 	if (visible.length < 2) return null;
 	return visible.map((section) => section.nombre?.trim() || section.tipo_seccion).join(' + ');
+}
+
+/**
+ * Los versos que suman las partes obligatorias de una arquitectura, bajando por las secciones hijas
+ * cuando una sección no dice su extensión. `null` si alguna parte obligatoria no se puede medir.
+ */
+function minimoDeSecciones(sections: Row[]): number | null {
+	const hijas = (padre: unknown) =>
+		sections
+			.filter((section) => section.seccion_padre_id === padre)
+			.sort((a, b) => Number(a.orden ?? 0) - Number(b.orden ?? 0));
+	const suma = (grupo: Row[]): number | null => {
+		let total = 0;
+		for (const section of grupo) {
+			const veces = Number(section.repeticiones_min ?? 0);
+			if (veces === 0) continue;
+			const propio = minimoDe(section);
+			if (propio === null) return null;
+			total += propio * veces;
+		}
+		return total;
+	};
+	const minimoDe = (section: Row): number | null => {
+		if (section.versos_min !== null && section.versos_min !== undefined) {
+			return Number(section.versos_min);
+		}
+		const suyas = hijas(section.seccion_id);
+		return suyas.length > 0 ? suma(suyas) : null;
+	};
+	const raiz = hijas(null).concat(hijas(undefined));
+	return raiz.length > 0 ? suma(raiz) : null;
 }
 
 function familiaEleccion(dimension: string): EvidenciaNormativa['familiaCognitiva'] {
@@ -605,6 +646,42 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 		}
 
 		const lengthRule = lengthRuleByArchitecture.get(architecture.arquitectura_id);
+		/**
+		 * **Lo que no tiene regla de longitud tiene, al menos, un mínimo.**
+		 *
+		 * El zéjel, el villancico y la canción no dan regla —sus secciones miden lo que quieren—, y
+		 * sin evidencia de extensión el demarcador no podía decir nada de ellos: un pasaje de dos
+		 * versos dejaba al zéjel en segundo puesto, detrás solo del pareado. Pero sus partes
+		 * obligatorias suman algo, y menos de eso no es la forma entera: un zéjel pide cabeza, mudanza
+		 * y vuelta, cinco versos como poco. Solo se usa cuando no hay regla ni unidad, y no impone
+		 * congruencia: admite cualquier extensión desde ahí, así que casi no suma al coincidir y sí
+		 * resta cuando el pasaje se queda corto.
+		 */
+		const minimoPorSecciones =
+			!lengthRule && architecture.unidad_versos_min === null && architecture.unidad_versos_max === null
+				? minimoDeSecciones(sectionsByArchitecture.get(architecture.arquitectura_id) ?? [])
+				: null;
+		if (minimoPorSecciones !== null && minimoPorSecciones > 1) {
+			agregarEvidencia(
+				evidencias,
+				evidenciaBase({
+					dimension: 'extension:versos',
+					familiaCognitiva: 'extension',
+					etiqueta: 'Extensión del pasaje',
+					pregunta: '¿Cuántos versos abarca el pasaje que quieres identificar?',
+					ayuda:
+						'Cuenta todo el fragmento seleccionado. Puede contener una sola unidad o varias; el demarcador comprobará si se divide regularmente.',
+					tipo: 'numero',
+					minimo: minimoPorSecciones,
+					reglaLongitud: `al menos ${minimoPorSecciones} versos, lo que suman sus partes obligatorias`,
+					soloContradice: true,
+					observabilidad: 'directa',
+					coste: 0.28,
+					orden: 8,
+					fuente: 'seccion'
+				})
+			);
+		}
 		if (
 			lengthRule ||
 			architecture.unidad_versos_min !== null ||
@@ -633,18 +710,51 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 				})
 			);
 		}
-		if (unitVerses !== null && unitVerses > 1 && formLevel !== 'serie') {
+		/**
+		 * **Una sola pregunta por la agrupación, con el tamaño como respuesta.**
+		 *
+		 * Era una pregunta de sí o no por cada tamaño —«¿se distinguen grupos de 8?», «¿de 6?»,
+		 * «¿de 2?»—, y cada una solo movía a las formas de ese tamaño. Seis pareados pasaban por
+		 * «grupos de 8: no» y «grupos de 6: no» antes de llegar a los de 2, si llegaban: el recorrido
+		 * se agotaba con el pareado empatado con el terceto y la sextilla, que encajan igual con seis
+		 * versos. Preguntando **cuántos** una sola respuesta separa todos los tamaños a la vez, y «no se
+		 * distinguen» sigue contradiciendo a toda estrofa, que es lo que hacía el «no» de antes.
+		 */
+		// Las estrofas, por su unidad. Una composición no se lee en grupos iguales: quien mira un
+		// soneto ve cuatro, cuatro, tres y tres, y responder «no se distinguen grupos regulares» lo
+		// contradecía.
+		//
+		// Y las series **cuyo metro repite un ciclo de medidas distintas**, por ese ciclo. Una serie no
+		// tiene unidad, pero la endecha real cierra cada cuatro heptasílabos con un endecasílabo y eso
+		// se ve: sin declararlo, empataba con la silva hasta agotar el recorrido, porque las dos mezclan
+		// siete y once. El romance y el endecasílabo suelto repiten una sola medida y no declaran nada.
+		const cicloMetricoVisible = (() => {
+			if (formLevel !== 'serie') return null;
+			const ciclos = ((metricPatternsResponse.data ?? []) as Row[])
+				.filter(
+					(pattern) =>
+						pattern.arquitectura_id === architecture.arquitectura_id &&
+						!pattern.seccion_id &&
+						pattern.tipo_secuencia === 'ciclo'
+				)
+				.map((pattern) => metricPositionsByPattern.get(pattern.esquema_metrico_id) ?? [])
+				.filter((posiciones) => new Set(posiciones.map((position) => silabasDe(position.metro_id))).size > 1)
+				.map((posiciones) => new Set(posiciones.map((position) => Number(position.posicion))).size);
+			return ciclos.length === 1 && ciclos[0] > 1 ? ciclos[0] : null;
+		})();
+		const agrupacion =
+			formLevel === 'estrofa' && unitVerses !== null && unitVerses > 1 ? unitVerses : cicloMetricoVisible;
+		if (agrupacion !== null) {
 			agregarEvidencia(
 				evidencias,
 				evidenciaBase({
-					dimension: `estructura:agrupacion:${unitVerses}`,
+					dimension: 'estructura:agrupacion',
 					familiaCognitiva: 'estructura',
-					etiqueta: `Grupos de ${unitVerses} versos`,
-					pregunta: `¿Se distinguen grupos regulares de ${unitVerses} versos dentro del pasaje?`,
+					etiqueta: 'Agrupación de los versos',
+					pregunta: '¿En grupos de cuántos versos se articula el pasaje?',
 					ayuda:
-						'No necesitas nombrar la estrofa: comprueba únicamente si las fronteras se repiten a esa distancia.',
-					tipo: 'booleano',
-					valores: [valor('si', 'Sí')],
+						'Fíjate en dónde se cierra la rima o en los blancos de la edición: no necesitas nombrar la estrofa. Si el pasaje es una sola estrofa, el grupo es el pasaje entero.',
+					valores: [valor(String(agrupacion), `De ${agrupacion} en ${agrupacion}`)],
 					observabilidad: 'directa',
 					coste: 0.2,
 					orden: 9,
@@ -653,15 +763,59 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			);
 		}
 
-		const rhymeTypeId =
-			architecture.tipo_rima_id ??
-			rhymePatternsByArchitecture
-				.get(architecture.arquitectura_id)
-				?.find((pattern) => pattern.tipo_rima_id)?.tipo_rima_id;
+		/**
+		 * **Todos los tipos de rima que admite la arquitectura, no el del primer esquema.**
+		 *
+		 * Cuando la arquitectura no fija su tipo, lo dicen sus esquemas, y puede que digan más de uno:
+		 * el pareado isométrico rima en consonante **o** en asonante, y lo mismo el terceto de arte
+		 * menor, las seis octavas agudas y los dos villancicos. Tomar el primero que apareciera era
+		 * quedarse con uno al azar —la RPC no ordena los esquemas—, y al pareado le tocó la asonancia:
+		 * un pareado consonante quedaba **contradicho con peso de definitoria** y perdía contra el
+		 * zéjel en su propio terreno, dos versos. Se ordenan para que el resultado no dependa del
+		 * orden en que la base devuelva las filas.
+		 */
+		const rhymeTypeIds: string[] = architecture.tipo_rima_id
+			? [architecture.tipo_rima_id]
+			: [
+					...new Set(
+						(rhymePatternsByArchitecture.get(architecture.arquitectura_id) ?? [])
+							.map((pattern) => pattern.tipo_rima_id)
+							.filter((id): id is string => Boolean(id))
+					)
+				].sort();
 		let rhymeTypeLabel: string | null = null;
-		if (rhymeTypeId) {
-			const vocabulary = vocabularyById.get(rhymeTypeId);
-			rhymeTypeLabel = etiquetaVocabulario(vocabulary, rhymeTypeId);
+		if (rhymeTypeIds.length > 0) {
+			const rhymeTypeValues = rhymeTypeIds.map((id) => {
+				const vocabulary = vocabularyById.get(id);
+				return valor(vocabulary?.termino ?? id, etiquetaVocabulario(vocabulary, id));
+			});
+			/**
+			 * Y cada tipo pesa lo que pesa su esquema. El que la norma prefiere vale entero; los que
+			 * solo admite, lo que diga su modalidad. El pareado rima en consonante y en asonante con la
+			 * misma modalidad, así que los dos valen entero; la octava aguda rima en consonante por
+			 * norma y en asonante como variante admitida, y un «asonante» no puede darle lo mismo que a
+			 * un romance.
+			 */
+			const modalidadPorTipo = new Map<string, ModalidadEvidencia>();
+			if (!architecture.tipo_rima_id) {
+				for (const pattern of rhymePatternsByArchitecture.get(architecture.arquitectura_id) ?? []) {
+					if (!pattern.tipo_rima_id) continue;
+					const actual = modalidadPorTipo.get(pattern.tipo_rima_id);
+					const nueva = modalidad(pattern.modalidad);
+					if (!actual || ORDEN_MODALIDAD[nueva] < ORDEN_MODALIDAD[actual]) {
+						modalidadPorTipo.set(pattern.tipo_rima_id, nueva);
+					}
+				}
+			}
+			const mejorRango = Math.min(
+				...[...modalidadPorTipo.values()].map((item) => ORDEN_MODALIDAD[item])
+			);
+			const modalidadPorValor: Record<string, ModalidadEvidencia> = {};
+			for (const [id, item] of modalidadPorTipo) {
+				if (ORDEN_MODALIDAD[item] === mejorRango) continue;
+				modalidadPorValor[vocabularyById.get(id)?.termino ?? id] = item;
+			}
+			rhymeTypeLabel = rhymeTypeValues.map((item) => item.etiqueta).join(' o ');
 			agregarEvidencia(
 				evidencias,
 				evidenciaBase({
@@ -671,9 +825,8 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 					pregunta: '¿Qué relación de rima predomina?',
 					ayuda:
 						'En la asonancia coinciden las vocales finales; en la consonancia coinciden vocales y consonantes.',
-					valores: [
-						valor(vocabulary?.termino ?? rhymeTypeId, etiquetaVocabulario(vocabulary, rhymeTypeId))
-					],
+					valores: rhymeTypeValues,
+					modalidadPorValor: Object.keys(modalidadPorValor).length > 0 ? modalidadPorValor : null,
 					// **Directa, no especializada.** Distinguir asonante de consonante lo hace cualquiera
 					// que lea el pasaje en voz alta, y declararla especializada la penalizaba un 35 % en
 					// todos los recorridos: quedaba la última justo cuando es la que separa el romance de
@@ -711,7 +864,10 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 					etiqueta: 'Distribución de la rima',
 					pregunta: '¿Cómo se distribuyen los versos rimados y sueltos?',
 					ayuda: 'Las letras iguales representan rimas iguales y el guion un verso suelto.',
-					valores: [valor(pattern.slug ?? pattern.esquema_rima_id, label)],
+					// **La clave es la notación, no el esquema.** Con el slug del esquema, dos
+					// arquitecturas que escriben igual su rima —la redondilla octosílaba y la heptasílaba,
+					// las dos `abba`— ofrecían dos opciones idénticas, y elegir una contradecía a la otra.
+					valores: [valor(label, label)],
 					modalidad: modalidad(pattern.modalidad),
 					observabilidad: 'especializada',
 					coste: 0.6,
@@ -803,7 +959,14 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 				ayuda:
 					'Busca cambios claros de organización, estrofas con funciones distintas o una división repetida.',
 				tipo: 'booleano',
-				valores: [valor(structureLabel ? 'si' : 'no', structureLabel ? 'Sí' : 'No')],
+				// **Una serie no tiene partes, aunque el catálogo la modele por secciones.** La cadena
+				// de tercetos y su serventesio son secciones para el catálogo, pero quien lee tercetos
+				// encadenados responde que no hay partes, y eso lo contradecía con peso de definitoria:
+				// perdía contra la silva en cuanto se preguntaba. Lo que articula una serie lo pregunta
+				// `estructura:serie`.
+				valores: [
+					structureLabel && formLevel !== 'serie' ? valor('si', 'Sí') : valor('no', 'No')
+				],
 				observabilidad: 'directa',
 				coste: 0.26,
 				orden: 20,
@@ -1047,6 +1210,7 @@ export async function cargarCatalogoDemarcador(client: unknown): Promise<Catalog
 			arquitecturaNombre: architecture.nombre,
 			arquitecturaDescripcion: architecture.descripcion?.trim() || null,
 			arquitecturaPrincipal: Boolean(architecture.principal),
+			arquitecturaModalidad: modalidad(architecture.modalidad, 'habitual'),
 			unidadVersos: unitVerses,
 			presentacion: {
 				rejilla,

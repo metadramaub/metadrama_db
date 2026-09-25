@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { etiquetaNivel } from '$lib/demarcador-metrico/motor';
+	import { etiquetaEncaje, etiquetaNivel } from '$lib/demarcador-metrico/motor';
 	import MetricPositionGrid from '$lib/components/metrica/MetricPositionGrid.svelte';
 	import type {
 		DesviacionLongitud,
@@ -70,12 +70,15 @@
 					</p>
 				</div>
 				<div class="flex shrink-0 flex-col items-end gap-1.5">
+					<!-- Dos cosas distintas, y por eso dos etiquetas: cómo queda frente a las demás y
+					     cuánto se aparta de su propia norma. Un pareado sin ninguna contradicción puede ir
+					     por detrás de otra forma, y llamarlo «encaje bajo» decía lo que no es. -->
 					<span class="border border-[color:var(--border)] px-2 py-1 text-xs font-medium">
 						{etiquetaNivel(forma.nivel)}
 					</span>
-					{#if arquitectura.desviacionLongitud}
-						<span class="text-xs text-[color:var(--muted-foreground)]">Extensión con desviación</span>
-					{/if}
+					<span class="text-xs text-[color:var(--muted-foreground)]">
+						{etiquetaEncaje(forma.encaje)}
+					</span>
 				</div>
 			</div>
 

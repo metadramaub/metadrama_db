@@ -30,6 +30,24 @@ export type EvidenciaNormativa = {
 	desplazamientos: number[] | null;
 	reglaLongitud: string | null;
 	modalidad: ModalidadEvidencia;
+	/**
+	 * Lo que pesa **cada valor** cuando coincide, si no pesan todos lo mismo.
+	 *
+	 * La modalidad de la evidencia dice cuánto importa que la respuesta caiga dentro de lo previsto;
+	 * esto dice cuánto vale acertar con cada valor. La endecha real admite rima consonante, pero su
+	 * norma es la asonancia: un «consonante» no la contradice y tampoco puede valerle lo mismo que a
+	 * una forma que solo rima en consonante. Sin entrada, el valor pesa lo que la evidencia.
+	 */
+	modalidadPorValor?: Record<string, ModalidadEvidencia> | null;
+	/**
+	 * Una condición necesaria, no un indicio: **no suma al cumplirse y resta al romperse**.
+	 *
+	 * Es el mínimo de extensión de una composición sin regla de longitud. Que un pasaje de treinta
+	 * versos llegue a los quince que pide la canción no dice que sea una canción —le pasa a casi
+	 * todo—, pero uno de dos versos no puede serlo. Contada como coincidencia entera, la canción le
+	 * ganaba a la silva por haber declarado un mínimo que la silva no declara.
+	 */
+	soloContradice?: boolean;
 	observabilidad: ObservabilidadEvidencia;
 	coste: number;
 	orden: number;
@@ -48,6 +66,8 @@ export type HipotesisMetrica = {
 	arquitecturaNombre: string;
 	arquitecturaDescripcion: string | null;
 	arquitecturaPrincipal: boolean;
+	/** La modalidad de la arquitectura dentro de su forma: una excepcional no gana un empate. */
+	arquitecturaModalidad?: ModalidadEvidencia;
 	unidadVersos: number | null;
 	presentacion: PresentacionArquitectura;
 	evidencias: EvidenciaNormativa[];
@@ -230,12 +250,29 @@ export type VeredictoHipotesis = {
 	nota: string | null;
 };
 
+/**
+ * **Cuánto se aparta el pasaje de la norma de una forma**, mirándola a ella sola.
+ *
+ * Es lo contrario de `nivel`, que compara formas entre sí: un pareado puede encajar del todo y quedar
+ * por detrás de otra forma que también encaja. Juntas en una sola etiqueta, las dos cosas se
+ * confundían: la pantalla llamaba «encaje bajo» a una forma sin ninguna contradicción solo porque
+ * otra iba delante.
+ *
+ * - `pleno`: nada de lo respondido la contradice.
+ * - `con_desviacion`: la contradice solo la extensión, o algo que su norma no fija. Es la forma
+ *   posible con una laguna, un verso de más o una variante.
+ * - `contradice`: el pasaje rompe algo que su norma fija.
+ */
+export type EncajeForma = 'pleno' | 'con_desviacion' | 'contradice';
+
 export type FormaPuntuada = {
 	formaId: string;
 	formaSlug: string;
 	formaNombre: string;
 	formaDefinicion: string | null;
 	puntuacion: number;
+	/** Cómo queda frente a las demás: se lee como probabilidad relativa, no como encaje. */
 	nivel: 'candidata' | 'alto' | 'medio' | 'bajo';
+	encaje: EncajeForma;
 	arquitecturas: HipotesisPuntuada[];
 };

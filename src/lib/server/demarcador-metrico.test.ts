@@ -385,12 +385,14 @@ describe('proyección del catálogo para el demarcador', () => {
 		expect(soneto?.presentacion.rejilla?.celdas.map((celda) => celda.medida?.silabas)).toEqual(
 			Array.from({ length: 14 }, () => '11')
 		);
-		expect(soneto?.evidencias).toContainEqual(
-			expect.objectContaining({ dimension: 'estructura:agrupacion:14' })
+		// Una composición no se lee en grupos iguales —quien mira un soneto ve cuatro, cuatro, tres y
+		// tres—, así que no declara agrupación: «no se distinguen grupos regulares» la contradecía.
+		expect(soneto?.evidencias.some((item) => item.dimension === 'estructura:agrupacion')).toBe(
+			false
 		);
 		// El enunciado ya no viaja con cada evidencia: vive una vez, indexado por dimensión.
-		expect(catalogo.textos['estructura:agrupacion:14']?.pregunta).toBe(
-			'¿Se distinguen grupos regulares de 14 versos dentro del pasaje?'
+		expect(catalogo.textos['extension:versos']?.pregunta).toBe(
+			'¿Cuántos versos abarca el pasaje que quieres identificar?'
 		);
 	});
 
@@ -563,5 +565,187 @@ describe('un conjunto uniforme admite cualquiera de sus medidas, no las mezcla',
 		const hipotesis = catalogo.hipotesis.find((item) => item.arquitecturaId === 'romance-8');
 		const exacto = hipotesis?.evidencias.find((e) => e.dimension === 'metro:exacto');
 		expect(exacto?.valores.map((v) => v.clave).sort()).toEqual(['11', '8']);
+	});
+});
+
+describe('lo que el demarcador saca del catálogo para no castigar a quien encaja', () => {
+	/**
+	 * Cinco arquitecturas pequeñas, cada una con uno de los casos que hacían perder al pareado o
+	 * empatar sin remedio: dos tipos de rima en los esquemas, una variante admitida, dos estrofas que
+	 * escriben igual su rima, una serie de ciclo métrico y una composición sin regla de longitud.
+	 */
+	const formas = ['pareado', 'octava', 'redondilla', 'endecha', 'zejel'].map((id) => ({
+		forma_id: id,
+		slug: id,
+		nombre: id,
+		definicion: null,
+		tipo_registro: 'forma'
+	}));
+	const arquitectura = (
+		arquitectura_id: string,
+		forma_id: string,
+		unidad: number | null,
+		modalidad = 'habitual'
+	) => ({
+		arquitectura_id,
+		forma_id,
+		slug: arquitectura_id,
+		nombre: arquitectura_id,
+		descripcion: null,
+		principal: modalidad === 'habitual',
+		modalidad,
+		tipo_rima_id: null,
+		unidad_versos_min: unidad,
+		unidad_versos_max: unidad
+	});
+	const rima = (
+		esquema_rima_id: string,
+		arquitectura_id: string,
+		tipo_rima_id: string,
+		modalidad: string,
+		notacion: string
+	) => ({
+		esquema_rima_id,
+		arquitectura_id,
+		slug: esquema_rima_id,
+		nombre: null,
+		notacion,
+		tipo_rima_id,
+		tipo_secuencia: 'secuencia',
+		seccion_id: null,
+		modalidad
+	});
+	const datos = {
+		...payload,
+		forms: formas,
+		architectures: [
+			arquitectura('pareado-iso', 'pareado', 2),
+			arquitectura('octava-aguda', 'octava', 8),
+			arquitectura('redondilla-8', 'redondilla', 4),
+			arquitectura('redondilla-7', 'redondilla', 4, 'admitida'),
+			arquitectura('endecha-5', 'endecha', null, 'excepcional'),
+			arquitectura('zejel-1', 'zejel', null)
+		],
+		metricPatterns: [
+			{
+				esquema_metrico_id: 'metro-endecha',
+				arquitectura_id: 'endecha-5',
+				seccion_id: null,
+				tipo_secuencia: 'ciclo',
+				medida_uniforme: null
+			}
+		],
+		metricPositions: [1, 2, 3, 4, 5].map((posicion) => ({
+			esquema_metrico_id: 'metro-endecha',
+			metro_id: posicion === 5 ? 'm11' : 'm7',
+			posicion,
+			alternativa: 1,
+			opcional: false
+		})),
+		metricOptions: [],
+		metres: [
+			{ metro_id: 'm7', slug: 'heptasilabo', nombre: 'Heptasílabo', silabas: 7 },
+			{ metro_id: 'm11', slug: 'endecasilabo', nombre: 'Endecasílabo', silabas: 11 }
+		],
+		rhymePatterns: [
+			rima('pareado-as', 'pareado-iso', 'asonante', 'admitida', 'aa'),
+			rima('pareado-co', 'pareado-iso', 'consonante', 'admitida', 'aa'),
+			rima('octava-as', 'octava-aguda', 'asonante', 'admitida', '---a---a'),
+			rima('octava-co', 'octava-aguda', 'consonante', 'habitual', '---a---a'),
+			rima('redondilla-8-abba', 'redondilla-8', 'consonante', 'habitual', 'abba'),
+			rima('redondilla-7-abba', 'redondilla-7', 'consonante', 'habitual', 'abba')
+		],
+		sections: [
+			// Cabeza de uno o dos versos, y un ciclo que no dice su extensión: la dicen sus hijas.
+			{ seccion_id: 'z-cabeza', arquitectura_id: 'zejel-1', seccion_padre_id: null, tipo_seccion: 'estribillo', nombre: 'Cabeza', orden: 1, versos_min: 1, versos_max: 2, repeticiones_min: 1, repeticiones_max: 1 },
+			{ seccion_id: 'z-ciclo', arquitectura_id: 'zejel-1', seccion_padre_id: null, tipo_seccion: 'ciclo', nombre: 'Copla', orden: 2, versos_min: null, versos_max: null, repeticiones_min: 1, repeticiones_max: null },
+			{ seccion_id: 'z-mudanza', arquitectura_id: 'zejel-1', seccion_padre_id: 'z-ciclo', tipo_seccion: 'mudanza', nombre: 'Mudanza', orden: 1, versos_min: 3, versos_max: 3, repeticiones_min: 1, repeticiones_max: 1 },
+			{ seccion_id: 'z-vuelta', arquitectura_id: 'zejel-1', seccion_padre_id: 'z-ciclo', tipo_seccion: 'vuelta', nombre: 'Vuelta', orden: 2, versos_min: 1, versos_max: 1, repeticiones_min: 1, repeticiones_max: 1 },
+			{ seccion_id: 'z-represa', arquitectura_id: 'zejel-1', seccion_padre_id: 'z-ciclo', tipo_seccion: 'estribillo', nombre: 'Represa', orden: 3, versos_min: 1, versos_max: 2, repeticiones_min: 0, repeticiones_max: 1 }
+		]
+	};
+	const cliente = {
+		rpc: async () => ({ data: datos, error: null }),
+		from: (table: string) => ({
+			select: async () => ({
+				data:
+					table === 'formas_metricas'
+						? [
+								{ forma_id: 'pareado', nivel_estructural: 'estrofa' },
+								{ forma_id: 'octava', nivel_estructural: 'estrofa' },
+								{ forma_id: 'redondilla', nivel_estructural: 'estrofa' },
+								{ forma_id: 'endecha', nivel_estructural: 'serie' },
+								{ forma_id: 'zejel', nivel_estructural: 'composicion' }
+							]
+						: [],
+				error: null
+			})
+		})
+	};
+	const evidenciaDe = async (arquitecturaId: string, dimension: string) => {
+		const catalogo = await cargarCatalogoDemarcador(cliente);
+		return catalogo.hipotesis
+			.find((item) => item.arquitecturaId === arquitecturaId)
+			?.evidencias.find((item) => item.dimension === dimension);
+	};
+
+	it('junta todos los tipos de rima de los esquemas, y no se queda con el primero', async () => {
+		const tipo = await evidenciaDe('pareado-iso', 'rima:tipo');
+		expect(tipo?.valores.map((item) => item.clave)).toEqual(['asonante', 'consonante']);
+		// Los dos con la misma modalidad: los dos valen entero.
+		expect(tipo?.modalidadPorValor ?? null).toBeNull();
+	});
+
+	it('da a la variante admitida el peso de su esquema, no el de la norma', async () => {
+		const tipo = await evidenciaDe('octava-aguda', 'rima:tipo');
+		expect(tipo?.valores.map((item) => item.clave)).toEqual(['asonante', 'consonante']);
+		expect(tipo?.modalidadPorValor).toEqual({ asonante: 'admitida' });
+	});
+
+	it('pregunta la agrupación una vez, con el tamaño como respuesta', async () => {
+		const agrupacion = await evidenciaDe('pareado-iso', 'estructura:agrupacion');
+		expect(agrupacion?.tipo).toBe('categoria');
+		expect(agrupacion?.valores).toEqual([{ clave: '2', etiqueta: 'De 2 en 2' }]);
+	});
+
+	it('agrupa una serie por su ciclo métrico cuando el ciclo mezcla medidas', async () => {
+		const agrupacion = await evidenciaDe('endecha-5', 'estructura:agrupacion');
+		expect(agrupacion?.valores.map((item) => item.clave)).toEqual(['5']);
+	});
+
+	it('da a dos esquemas que se escriben igual la misma clave', async () => {
+		const [octosilaba, heptasilaba] = await Promise.all([
+			evidenciaDe('redondilla-8', 'rima:distribucion'),
+			evidenciaDe('redondilla-7', 'rima:distribucion')
+		]);
+		expect(octosilaba?.valores.map((item) => item.clave)).toEqual(['abba']);
+		expect(heptasilaba?.valores.map((item) => item.clave)).toEqual(['abba']);
+	});
+
+	it('saca de las secciones el mínimo de una composición sin regla, y solo para restar', async () => {
+		const extension = await evidenciaDe('zejel-1', 'extension:versos');
+		// Cabeza de uno, mudanza de tres y vuelta de uno; la represa puede faltar.
+		expect(extension).toMatchObject({ minimo: 5, maximo: null, modulo: null, soloContradice: true });
+	});
+
+	it('lleva la modalidad de la arquitectura hasta la hipótesis', async () => {
+		const catalogo = await cargarCatalogoDemarcador(cliente);
+		expect(
+			catalogo.hipotesis.find((item) => item.arquitecturaId === 'endecha-5')?.arquitecturaModalidad
+		).toBe('excepcional');
+	});
+});
+
+describe('una serie no tiene partes aunque el catálogo la modele por secciones', () => {
+	it('el terceto encadenado responde que no a las secciones internas', async () => {
+		const catalogo = await cargarCatalogoDemarcador(client);
+		const cadena = catalogo.hipotesis.find((item) => item.arquitecturaId === 'cadena-11');
+		expect(
+			cadena?.evidencias.find((item) => item.dimension === 'estructura:secciones')?.valores
+		).toEqual([{ clave: 'no', etiqueta: 'No' }]);
+		// Su articulación la sigue preguntando la serie con cierre.
+		expect(cadena?.evidencias.some((item) => item.dimension.startsWith('estructura:serie:'))).toBe(
+			true
+		);
 	});
 });
