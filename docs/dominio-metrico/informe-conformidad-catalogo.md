@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-09-21 08:55
+Generado: 2026-10-14 19:58
 
-Inventario: 47 formas y 2 tramos sin forma · 97 configuraciones · 99 patrones métricos · 167 patrones de rima · 80 secciones · 136 grupos de elección · 1040 opciones · 7 rasgos.
+Inventario: 47 formas y 2 tramos sin forma · 97 configuraciones · 99 patrones métricos · 167 patrones de rima · 80 secciones · 137 grupos de elección · 1042 opciones · 7 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -175,7 +175,7 @@ Sin incidencias.
 | sextilla_enlazada | serie | 1 | sí | posiciones | patrón único | 0 | — |
 | sextina | composicion | 3 | sí | posiciones | sin patrón | 0 | — |
 | sextina_estrofa | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
-| silva | serie | 5 | sí | configuracion, conjunto, posiciones | patrón único | 4 | secuencia |
+| silva | serie | 5 | sí | configuracion, conjunto, posiciones | patrón único | 5 | secuencia |
 | soneto | composicion | 1 | sí | posiciones | elección | 3 | secuencia, unidad |
 | terceto | estrofa | 3 | sí | configuracion, posiciones | elección | 6 | secuencia, unidad |
 | terceto_encadenado | serie | 2 | sí | configuracion, posiciones | patrón único | 0 | — |

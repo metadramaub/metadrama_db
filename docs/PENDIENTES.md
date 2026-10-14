@@ -56,6 +56,11 @@ guarda un esquema local por sección y al reunirlas renumera la segunda con letr
 enlace existe, lo borra. **Un caso así no se debe migrar ni guardar: hay que detener la anotación.**
 Hace falta declarar equivalencias de clase entre secciones, o una disposición global de la unidad.
 
+**A6 · Revisar la organización en pareados de *Adonis y Venus*, vv. 2021–2094.** La silva consonante
+de orden libre deja de dar «Predominantes» por hecho y pregunta «Predominantes» o «Regulares».
+La densidad ya está anotada como total; falta confirmar cuánto organizan los pareados la serie.
+El IP avisará al editor. No se asigna una respuesta automáticamente.
+
 ---
 
 ## B · El catálogo y su modelo

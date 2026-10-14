@@ -53,5 +53,10 @@ export function errorDeCoherenciaDeRasgos(
 	if (densidad === 'ninguna' && pareados !== null && pareados !== 'ninguna') {
 		return 'Con densidad de rima «ninguna» no puede haber pareados intercalados: el dístico final no cuenta, pero los pareados sí riman. Revisa una de las dos respuestas.';
 	}
+	// «Regulares» habla de la organización de toda la serie, no de la alternancia de medidas:
+	// una silva de orden libre puede rimar enteramente en pareados sin repetir 7–11.
+	if (pareados === 'regulares' && densidad !== null && densidad !== 'total') {
+		return 'Si los pareados organizan toda la serie, la densidad de rima debe ser «Total»: todos sus versos riman. Revisa una de las dos respuestas.';
+	}
 	return null;
 }
