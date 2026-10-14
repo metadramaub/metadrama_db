@@ -702,6 +702,12 @@ la arquitectura sin cabeza, la secuencia inicial agrupa la primera copla y la pr
 del estribillo; la continuación agrupa los ciclos posteriores sin convertir esos contenedores en
 partes métricas nuevas.
 
+Desde el 14 de octubre de 2026, el conjunto métrico de la arquitectura activa del villancico
+admite los seis metros catalogados de arte menor, de tres a ocho sílabas. Las preguntas de
+cabeza, mudanza, enlace y vuelta conservan una respuesta por parte (`medida_uniforme = true`,
+`selecciones_min = selecciones_max = 1`). La ampliación conserva los identificadores de las
+opciones de seis y ocho sílabas y no modifica las anotaciones ni la arquitectura retirada.
+
 ### Estrofa con variedades · sexteto-lira
 
 ```mermaid

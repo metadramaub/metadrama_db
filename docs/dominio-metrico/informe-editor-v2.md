@@ -265,12 +265,12 @@ Sin incidencias.
 | Versificación irregular · mixta | medida_de_cada_verso · metro · 0 opciones · alcance secuencia |
 | Versificación irregular · mixta | rima_observada · rima · 0 opciones · alcance secuencia |
 | Verso aislado · cualquier_medida | medida_de_cada_verso · metro · 0 opciones · alcance secuencia |
-| Villancico · estribillo_inicial | medida_cabeza · metro · 2 opciones · alcance unidad |
-| Villancico · estribillo_inicial | medida_mudanza · metro · 2 opciones · alcance unidad |
+| Villancico · estribillo_inicial | medida_cabeza · metro · 6 opciones · alcance unidad |
+| Villancico · estribillo_inicial | medida_mudanza · metro · 6 opciones · alcance unidad |
 | Villancico · estribillo_inicial | rima_mudanza · rima · 3 opciones · alcance unidad |
 | Villancico · estribillo_inicial | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
-| Villancico · estribillo_inicial | medida_enlace · metro · 2 opciones · alcance unidad |
-| Villancico · estribillo_inicial | medida_vuelta · metro · 2 opciones · alcance unidad |
+| Villancico · estribillo_inicial | medida_enlace · metro · 6 opciones · alcance unidad |
+| Villancico · estribillo_inicial | medida_vuelta · metro · 6 opciones · alcance unidad |
 | Villancico · estribillo_inicial | represa_estribillo · repeticion · 2 opciones · alcance realizacion |
 | Zéjel · estribillo_y_coplas_monorrimas | medida_cabeza · metro · 2 opciones · alcance unidad |
 | Zéjel · estribillo_y_coplas_monorrimas | medida_mudanza · metro · 2 opciones · alcance unidad |

@@ -61,6 +61,11 @@ de orden libre deja de dar «Predominantes» por hecho y pregunta «Predominante
 La densidad ya está anotada como total; falta confirmar cuánto organizan los pareados la serie.
 El IP avisará al editor. No se asigna una respuesta automáticamente.
 
+**A7 · Corregir las medidas del villancico de *Adonis y Venus*, vv. 852–871.** El editor ya está
+avisado de la ampliación a los metros de arte menor catalogados (3–8 sílabas), una medida por
+parte. Las respuestas anteriores se conservan hasta que él revise el pasaje; no son confirmación
+de que las medidas anotadas sean correctas.
+
 ---
 
 ## B · El catálogo y su modelo
