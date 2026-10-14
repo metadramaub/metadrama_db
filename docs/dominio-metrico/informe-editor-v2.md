@@ -1,6 +1,6 @@
 # Qué le pide el editor a cada forma
 
-Generado el 2026-09-21 desde la base enlazada.
+Generado el 2026-10-14 desde la base enlazada.
 
 ## 1 · Coste por forma
 
@@ -72,7 +72,7 @@ Generado el 2026-09-21 desde la base enlazada.
 | Sextilla | pie_quebrado | 0 | 2 | 2 | 0 |
 | Sextilla | tetrasilabica | 0 | 1 | 1 | 0 |
 | Silva | arromanzada | 1 | 0 | 0 | 0 |
-| Silva | consonante_irregular | 1 | 0 | 0 | 0 |
+| Silva | consonante_irregular | 2 | 0 | 0 | 0 |
 | Silva | endecasilabica | 1 | 0 | 0 | 0 |
 | Silva | libre | 1 | 0 | 0 | 0 |
 | Soneto | endecasilabica_consonante | 1 | 2 | 1 | 1 |
@@ -149,7 +149,7 @@ Sin incidencias.
 | --- | --- |
 | Novena-lira · heterometrica_consonante | esquema_rima · rima · 0 opciones · alcance unidad |
 
-### E4 · Pregunta obligatoria que el editor no puede saltarse — 120
+### E4 · Pregunta obligatoria que el editor no puede saltarse — 121
 
 > Con `selecciones_min` mayor que cero la secuencia no se guarda sin responderla. Es legítimo, pero conviene tenerlas contadas: son el suelo de trabajo de cada forma.
 
@@ -204,8 +204,8 @@ Sin incidencias.
 | Octava-lira · heterometrica_consonante | medida_de_cada_verso · metro · 16 opciones · alcance unidad |
 | Oncena · quintilla_sextilla | esquema_rima · rima · 8 opciones · alcance unidad |
 | Oncena · quintilla_sextilla | esquema_rima · rima · 4 opciones · alcance unidad |
-| Oncena · sextilla_quintilla | esquema_rima · rima · 8 opciones · alcance unidad |
 | Oncena · sextilla_quintilla | esquema_rima · rima · 4 opciones · alcance unidad |
+| Oncena · sextilla_quintilla | esquema_rima · rima · 8 opciones · alcance unidad |
 | Pareado · alirado | medida_del_pareado · metro · 4 opciones · alcance unidad |
 | Pareado · cualquier_medida | medida_del_pareado · metro · 9 opciones · alcance unidad |
 | Pareado · cualquier_medida | tipo_de_rima · rima · 2 opciones · alcance unidad |
@@ -248,6 +248,7 @@ Sin incidencias.
 | Sextilla · tetrasilabica | esquema_rima · rima · 0 opciones · alcance unidad |
 | Silva · arromanzada | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
 | Silva · consonante_irregular | densidad_de_rima · rasgo · 2 opciones · alcance secuencia |
+| Silva · consonante_irregular | organizacion_en_pareados · rasgo · 2 opciones · alcance secuencia |
 | Silva · endecasilabica | organizacion_en_pareados · rasgo · 2 opciones · alcance secuencia |
 | Silva · libre | densidad_de_rima · rasgo · 2 opciones · alcance secuencia |
 | Soneto · endecasilabica_consonante | esquema_cuartetos · rima · 2 opciones · alcance unidad |

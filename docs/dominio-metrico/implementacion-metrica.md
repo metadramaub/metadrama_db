@@ -131,6 +131,15 @@ Cuando la norma no fija qué versos riman, hacen falta dos medidas independiente
 Son independientes: una silva libre rima casi todo **sin** formar pareados, y un endecasílabo
 suelto con algún dístico intercalado forma pareados **sin apenas** rimar.
 
+**La silva consonante de orden libre pregunta el grado de organización en pareados** desde el
+14 de octubre de 2026: `predominantes` es habitual y `regulares`, admitido. El segundo significa
+que toda la serie está formada por pareados, sin exigir la alternancia fija 7–11 de la silva
+consonante regular. En ese caso la densidad debe ser `total`; lo comprueban el editor V2 y un
+disparador diferido de `anotacion_elecciones`. Los valores compartidos describen el rasgo en
+general; las ayudas que cambian la clasificación pertenecen a la arquitectura correspondiente.
+Las anotaciones anteriores no reciben una respuesta automática: conservan sus datos y queda
+pendiente la nueva pregunta obligatoria.
+
 **La densidad se declara solo donde la norma deja el reparto abierto**, y se calcula en los demás
 casos por dos caminos: desde las posiciones del propio esquema —el romance rima la mitad de sus
 versos porque su ciclo `[----]…` lo fija— o desde las secciones que reutilizan otra forma —la

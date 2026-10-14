@@ -10,15 +10,23 @@ const traits = [
 const traitValues = [
 	{ valor_id: 'v-ninguna', rasgo_id: 'r-dens', slug: 'ninguna' },
 	{ valor_id: 'v-espor', rasgo_id: 'r-dens', slug: 'esporadica' },
+	{ valor_id: 'v-mayor', rasgo_id: 'r-dens', slug: 'mayoritaria' },
+	{ valor_id: 'v-total', rasgo_id: 'r-dens', slug: 'total' },
 	{ valor_id: 'v-par-ninguna', rasgo_id: 'r-par', slug: 'ninguna' },
 	{ valor_id: 'v-par-ocas', rasgo_id: 'r-par', slug: 'ocasionales' },
+	{ valor_id: 'v-par-pred', rasgo_id: 'r-par', slug: 'predominantes' },
+	{ valor_id: 'v-par-reg', rasgo_id: 'r-par', slug: 'regulares' },
 	{ valor_id: 'v-dist', rasgo_id: 'r-dist', slug: 'presente' }
 ] as MetricCatalogDomainRow[];
 const options = [
 	{ opcion_eleccion_id: 'o-ninguna', valor_rasgo_id: 'v-ninguna' },
 	{ opcion_eleccion_id: 'o-espor', valor_rasgo_id: 'v-espor' },
+	{ opcion_eleccion_id: 'o-mayor', valor_rasgo_id: 'v-mayor' },
+	{ opcion_eleccion_id: 'o-total', valor_rasgo_id: 'v-total' },
 	{ opcion_eleccion_id: 'o-par-ninguna', valor_rasgo_id: 'v-par-ninguna' },
 	{ opcion_eleccion_id: 'o-par-ocas', valor_rasgo_id: 'v-par-ocas' },
+	{ opcion_eleccion_id: 'o-par-pred', valor_rasgo_id: 'v-par-pred' },
+	{ opcion_eleccion_id: 'o-par-reg', valor_rasgo_id: 'v-par-reg' },
 	{ opcion_eleccion_id: 'o-dist', valor_rasgo_id: 'v-dist' }
 ] as MetricCatalogDomainRow[];
 const sec = (id: string) => ({ realizacion_id: null, opcion_eleccion_id: id });
@@ -49,5 +57,27 @@ describe('coherencia entre rasgos de la secuencia', () => {
 				options, traitValues, traits
 			)
 		).toBeNull();
+	});
+
+	it('rima total con pareados regulares vale aunque las medidas sean de orden libre', () => {
+		expect(errorDeCoherenciaDeRasgos(
+			[sec('o-total'), sec('o-par-reg')], options, traitValues, traits
+		)).toBeNull();
+	});
+
+	it.each(['o-mayor', 'o-espor'])('pareados regulares no admiten densidad %s', (densidad) => {
+		expect(errorDeCoherenciaDeRasgos(
+			[sec(densidad), sec('o-par-reg')], options, traitValues, traits
+		)).toMatch(/densidad de rima debe ser «Total»/);
+	});
+
+	it.each(['o-mayor', 'o-total'])('pareados predominantes admiten densidad %s', (densidad) => {
+		expect(errorDeCoherenciaDeRasgos(
+			[sec(densidad), sec('o-par-pred')], options, traitValues, traits
+		)).toBeNull();
+	});
+
+	it('elegir pareados regulares no inventa la respuesta de densidad que falta', () => {
+		expect(errorDeCoherenciaDeRasgos([sec('o-par-reg')], options, traitValues, traits)).toBeNull();
 	});
 });
