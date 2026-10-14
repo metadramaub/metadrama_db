@@ -338,7 +338,7 @@ if (hallazgos.length === 0) {
 	}
 }
 
-const texto = lineas.join('\n') + '\n';
+const texto = lineas.join('\n').trimEnd() + '\n';
 
 if (opciones.markdown) {
 	writeFileSync(opciones.markdown, texto, 'utf-8');
