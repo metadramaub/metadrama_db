@@ -13,9 +13,8 @@ devueltas van a [respuestas/](./respuestas/). El procedimiento completo está en
 | [El caballero de Olmedo](./el-caballero-de-olmedo.md) | María Isabel Cuena | 46 | 33 | 12 | 1 | **4** | 30 | 15 |
 | [Valor, agravio y mujer](./valor-agravio-y-mujer.md) | María Isabel Cuena | 26 | 18 | 8 | 0 | **4** | 11 | 14 |
 | [La gran Semíramis](./la-gran-semiramis.md) | Blanca Ballester Morell | 36 | 22 | 0 | 14 | **3** | 7 | 31 |
-| [La tragedia del duque de Berganza](./la-tragedia-del-duque-de-berganza.md) | María Rosa Álvarez Sellers | 5 | 4 | 1 | 0 | **2** | 3 | 2 |
 | [El esclavo del demonio](./el-esclavo-del-demonio.md) | Blanca Ballester Morell | 30 | 19 | 5 | 6 | **2** | 2 | 22 |
 | [Elisa Dido](./elisa-dido.md) | Blanca Ballester Morell | 16 | 10 | 0 | 6 | — | 18 | 7 |
 | [Dido y Eneas](./dido-y-eneas.md) | Gaston Gilabert | 24 | 16 | 8 | 0 | — | 6 | 18 |
 
-En total, 183 secuencias en 7 obras: 122 con equivalencia directa, 34 con un rasgo además de la forma y 27 que la heredan del término padre. A los editores se les piden 15 decisiones, 77 respuestas y 109 confirmaciones.
+En total, 178 secuencias en 6 obras: 118 con equivalencia directa, 33 con un rasgo además de la forma y 27 que la heredan del término padre. A los editores se les piden 13 decisiones, 74 respuestas y 107 confirmaciones.

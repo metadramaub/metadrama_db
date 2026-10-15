@@ -35,3 +35,5 @@ con rollback antes de aplicar, incluidas las restricciones diferidas. Resultado 
 dos secuencias de redondillas; no son respuestas perdidas ni se rellenan por inferencia.
 Comparadas las anotaciones, sus unidades y elecciones con el plan. Verificados los originales
 archivados y la conservación de todos los datos de las tres secuencias y de las otras 136 obras.
+La auditoría final registra esas 30 preguntas de rima, además de los ocho avisos previos de
+otras obras. La repetición del script reconoce las tres anotaciones y no las sobrescribe.

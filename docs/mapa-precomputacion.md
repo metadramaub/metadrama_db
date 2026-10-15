@@ -35,9 +35,9 @@ después los de autor y al final los índices y comparativas globales.
 | filas en `obras_resumen` | 21 |
 | artefactos JSON | 38 |
 | artefactos pendientes de actualizar | 0 |
-| secuencias | 772 |
-| secuencias con anotación del catálogo nuevo | 572 |
-| secuencias que aún hablan el vocabulario legado | 263 |
+| secuencias | 770 |
+| secuencias con anotación del catálogo nuevo | 575 |
+| secuencias que aún hablan el vocabulario legado | 261 |
 
 ## Qué guarda `obras_resumen`
 
@@ -131,7 +131,7 @@ Lo que tiene filas y no llega a ninguna de las dos superficies está anotado y n
 |---|--:|---|:--:|
 | Rasgos observados (asonancia, densidad de rima, final acentual) | 244 | — | sí |
 | Metro elegido por unidad | 107 | `metros_presentes` | sí |
-| Esquema de rima elegido por unidad | 6122 | `subtipos_presentes` | sí |
+| Esquema de rima elegido por unidad | 6130 | `subtipos_presentes` | sí |
 | Variedad elegida dentro de una arquitectura | 17 | — | sí |
 | Desviaciones (lagunas, hipométricos, rima ajena) | 43 | — | sí |
 | Partes de la unidad (estancia, mudanza, sirima) | 853 | — | **no** |
@@ -139,7 +139,7 @@ Lo que tiene filas y no llega a ninguna de las dos superficies está anotado y n
 | Versos partidos | 308 | `tiene_versos_partidos` | sí |
 | Inaugura espacio | 171 | `tiene_cambio_espacio` | sí |
 | Evento sobrenatural | 60 | `tiene_evento_sobrenatural` | sí |
-| Género de quienes intervienen | 755 | — | sí |
+| Género de quienes intervienen | 753 | — | sí |
 | Intervención de figuras de donaire | 174 | `intervencion_donaire` | sí |
 | Intervención de personajes sobrenaturales | 100 | `intervencion_sobrenaturales` | sí |
 

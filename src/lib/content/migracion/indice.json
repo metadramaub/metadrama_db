@@ -62,18 +62,6 @@
 			"desviaciones": 3
 		},
 		{
-			"slug": "la-tragedia-del-duque-de-berganza",
-			"obra_id": "9e7ec815-e9ae-4912-afa4-6b2a72ad93b2",
-			"titulo": "La tragedia del duque de Berganza",
-			"editor": "María Rosa Álvarez Sellers",
-			"excel": "la-tragedia-del-duque-de-berganza.xlsx",
-			"secuencias": 5,
-			"decidir": 2,
-			"responder": 3,
-			"confirmar": 2,
-			"desviaciones": 0
-		},
-		{
 			"slug": "valor-agravio-y-mujer",
 			"obra_id": "c464c237-35e5-4c40-a97e-83b58cb49079",
 			"titulo": "Valor, agravio y mujer",

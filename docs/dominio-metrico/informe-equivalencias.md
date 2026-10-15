@@ -11,16 +11,16 @@ Generado el 2026-10-15.
 
 - **123 términos** en `vocabularios.categoria = 'estrofa_tipo'`.
 - **102 declaran su destino** en el catálogo nuevo; **21 no**.
-- **183 secuencias con vocabulario legado aún sin anotación V2**, todas con forma propuesta. Son las que hay que migrar. Las ya migradas conservan el término anterior como rastro y no entran en este recuento.
+- **178 secuencias con vocabulario legado aún sin anotación V2**, todas con forma propuesta. Son las que hay que migrar. Las ya migradas conservan el término anterior como rastro y no entran en este recuento.
 - Otras **509 no lo tienen** y quedan fuera de este informe: 492 ya están anotadas con el editor V2 y el resto no declara forma ninguna. La equivalencia va solo del término viejo al catálogo nuevo, así que a estas no les hace falta.
-- **13 tienen la longitud incompatible** con la arquitectura propuesta. No es un fallo de la equivalencia: es la anotación de la obra, y se revisa en [migracion/](./migracion/).
+- **11 tienen la longitud incompatible** con la arquitectura propuesta. No es un fallo de la equivalencia: es la anotación de la obra, y se revisa en [migracion/](./migracion/).
 
 ### Cómo se resuelve cada secuencia
 
 | Vía | Secuencias | Qué significa |
 | --- | ---: | --- |
-| `directa` | 122 | El término declara su destino, o lo declara algo que cuelga de él |
-| `rasgo` | 34 | El término se disolvió en un rasgo y la forma la da su ascendiente |
+| `directa` | 118 | El término declara su destino, o lo declara algo que cuelga de él |
+| `rasgo` | 33 | El término se disolvió en un rasgo y la forma la da su ascendiente |
 | `ascendencia` | 27 | El término no declara destino; lo hereda de un ascendiente |
 
 ## Términos sin destino declarado
@@ -48,7 +48,7 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 | `octava_real_de_esdrujulos` | `octava_real` | 0 | 12 |
 | `pareado_hexasilabo` | `pareado_de_arte_menor` | 0 | 0 |
 | `pareado_octosilabo` | `pareado_de_arte_menor` | 0 | 0 |
-| `redondilla_cruzada` | `redondilla` | 0 | 63 |
+| `redondilla_cruzada` | `redondilla` | 0 | 62 |
 | `sexteto_lira_de_esdrujulos` | `sexteto_lira` | 0 | 5 |
 | `soneto_de_esdrújulos` | `soneto` | 0 | 9 |
 | `terceto_de_esdrujulos` | `terceto` | 0 | 7 |
@@ -57,40 +57,40 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 
 | Término legado | Destino en el catálogo | Propias | Familia |
 | --- | --- | ---: | ---: |
-| `redondilla` | forma · Redondilla | **37** | 63 |
-| `redondilla_regular` | arquitectura · Redondilla · Octosílaba | **26** | 63 |
-| `romance_e-o` | valor de rasgo · e-o | **20** | 71 |
+| `redondilla` | forma · Redondilla | **36** | 62 |
+| `redondilla_regular` | arquitectura · Redondilla · Octosílaba | **26** | 62 |
+| `romance_e-o` | valor de rasgo · e-o | **20** | 70 |
 | `decima_espinela` | arquitectura · Décima · Espinela | **18** | 18 |
 | `quintilla` | forma · Quintilla | **18** | 18 |
 | `octava_real_regular` | arquitectura · Octava real · Endecasílaba consonante | **12** | 12 |
 | `silva_de_consonantes_irregular` | arquitectura · Silva · Consonante de orden libre | **11** | 12 |
-| `romance_a-e` | valor de rasgo · a-e | **9** | 71 |
-| `romance_e-a` | valor de rasgo · e-a | **8** | 71 |
-| `romance_a-o` | valor de rasgo · a-o | **7** | 71 |
+| `romance_a-e` | valor de rasgo · a-e | **8** | 70 |
+| `romance_e-a` | valor de rasgo · e-a | **8** | 70 |
+| `romance_a-o` | valor de rasgo · a-o | **7** | 70 |
 | `soneto_regular_ABBAABBACDCDCD` | esquema de rima · Tercetos de rima cruzada | **7** | 9 |
 | `terceto_encadenado` | forma · Terceto encadenado | **7** | 7 |
 | `irregular_mixto` | arquitectura · Versificación irregular · Mixta | **6** | 9 |
-| `romance_a-a` | valor de rasgo · a-a | **6** | 71 |
-| `romance_e-e` | valor de rasgo · e-e | **5** | 71 |
+| `romance_a-a` | valor de rasgo · a-a | **6** | 70 |
+| `romance_e-e` | valor de rasgo · e-e | **5** | 70 |
 | `cancion_regular_abCabCcdeeDfF` | arquitectura · Canción petrarquista · Regular de 13 versos | **3** | 3 |
-| `romance_i-o` | valor de rasgo · i-o | **3** | 71 |
-| `romance_o-o` | valor de rasgo · o-o | **3** | 71 |
+| `romance_i-o` | valor de rasgo · i-o | **3** | 70 |
+| `romance_o-o` | valor de rasgo · o-o | **3** | 70 |
 | `seguidilla` | forma · Seguidilla | **3** | 3 |
 | `copla_real_sin_quebrado` | arquitectura · Copla real · Octosílaba consonante | **2** | 3 |
 | `pareado_endecasilabo` | forma · Pareado | **2** | 2 |
-| `romance_o-a` | valor de rasgo · o-a | **2** | 71 |
-| `romance_o-e` | valor de rasgo · o-e | **2** | 71 |
+| `romance_o-a` | valor de rasgo · o-a | **2** | 70 |
+| `romance_o-e` | valor de rasgo · o-e | **2** | 70 |
 | `sexteto_lira_a1_aBaBcC` | variedad · A1 · aBaBcC | **2** | 5 |
 | `irregular` | forma · Versificación irregular | **1** | 9 |
 | `irregular_arte_mayor` | arquitectura · Versificación irregular · De arte mayor | **1** | 9 |
 | `irregular_arte_menor` | arquitectura · Versificación irregular · De arte menor | **1** | 9 |
 | `octava_lira` | forma · Octava-lira | **1** | 1 |
-| `romance_a` | valor de rasgo · a | **1** | 71 |
-| `romance_i-a` | valor de rasgo · i-a | **1** | 71 |
-| `romance_i-e` | valor de rasgo · i-e | **1** | 71 |
-| `romance_o` | valor de rasgo · o | **1** | 71 |
-| `romance_u-e` | valor de rasgo · u-e | **1** | 71 |
-| `romance_u-o` | valor de rasgo · u-o | **1** | 71 |
+| `romance_a` | valor de rasgo · a | **1** | 70 |
+| `romance_i-a` | valor de rasgo · i-a | **1** | 70 |
+| `romance_i-e` | valor de rasgo · i-e | **1** | 70 |
+| `romance_o` | valor de rasgo · o | **1** | 70 |
+| `romance_u-e` | valor de rasgo · u-e | **1** | 70 |
+| `romance_u-o` | valor de rasgo · u-o | **1** | 70 |
 | `romancillo_heptasilabo` | arquitectura · Romancillo · Heptasílabo | **1** | 1 |
 | `sexteto_lira_a2_AbaBcC` | variedad · A2 · AbaBcC | **1** | 5 |
 | `sexteto_lira_a3_abaBcC` | variedad · A3 · abaBcC | **1** | 5 |
@@ -126,14 +126,14 @@ Un término sin uso propio dentro de una familia muy usada toca una zona delicad
 | `quintilla_6_abbaa` | esquema de rima · Tipología 6 | 0 | 18 |
 | `quintilla_7_ababb` | esquema de rima · Tipología 7 | 0 | 18 |
 | `quintilla_8_abbba` | esquema de rima · Tipología 8 | 0 | 18 |
-| `redondilla_doble_abbaacca` | arquitectura · Redondilla · Doble enlazada | 0 | 63 |
-| `redondilla_heptasilaba` | arquitectura · Redondilla · Heptasílaba | 0 | 63 |
-| `redondilla_hexasilaba` | arquitectura · Redondilla · Hexasílaba | 0 | 63 |
-| `romance` | forma · Romance | 0 | 71 |
-| `romance_e` | valor de rasgo · e | 0 | 71 |
+| `redondilla_doble_abbaacca` | arquitectura · Redondilla · Doble enlazada | 0 | 62 |
+| `redondilla_heptasilaba` | arquitectura · Redondilla · Heptasílaba | 0 | 62 |
+| `redondilla_hexasilaba` | arquitectura · Redondilla · Hexasílaba | 0 | 62 |
+| `romance` | forma · Romance | 0 | 70 |
+| `romance_e` | valor de rasgo · e | 0 | 70 |
 | `romance_heroico` | forma · Romance heroico | 0 | 0 |
-| `romance_i` | valor de rasgo · i | 0 | 71 |
-| `romance_u-a` | valor de rasgo · u-a | 0 | 71 |
+| `romance_i` | valor de rasgo · i | 0 | 70 |
+| `romance_u-a` | valor de rasgo · u-a | 0 | 70 |
 | `romancillo` | forma · Romancillo | 0 | 1 |
 | `romancillo_hexasilabo` | arquitectura · Romancillo · Hexasílabo | 0 | 1 |
 | `sexta_rima` | denominación · Sexta rima | 0 | 0 |
