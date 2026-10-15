@@ -36,7 +36,7 @@ después los de autor y al final los índices y comparativas globales.
 | artefactos JSON | 38 |
 | artefactos pendientes de actualizar | 0 |
 | secuencias | 772 |
-| secuencias con anotación del catálogo nuevo | 569 |
+| secuencias con anotación del catálogo nuevo | 572 |
 | secuencias que aún hablan el vocabulario legado | 263 |
 
 ## Qué guarda `obras_resumen`
@@ -129,9 +129,9 @@ Lo que tiene filas y no llega a ninguna de las dos superficies está anotado y n
 
 | dato | filas hoy | columna del resumen | en la ficha |
 |---|--:|---|:--:|
-| Rasgos observados (asonancia, densidad de rima, final acentual) | 243 | — | sí |
+| Rasgos observados (asonancia, densidad de rima, final acentual) | 244 | — | sí |
 | Metro elegido por unidad | 107 | `metros_presentes` | sí |
-| Esquema de rima elegido por unidad | 6045 | `subtipos_presentes` | sí |
+| Esquema de rima elegido por unidad | 6122 | `subtipos_presentes` | sí |
 | Variedad elegida dentro de una arquitectura | 17 | — | sí |
 | Desviaciones (lagunas, hipométricos, rima ajena) | 43 | — | sí |
 | Partes de la unidad (estancia, mudanza, sirima) | 853 | — | **no** |

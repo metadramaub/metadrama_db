@@ -4,7 +4,7 @@ Generado por `npm run audit:anotaciones`. Una respuesta no guarda a qué pregunt
 contesta: dice qué afirma, y la pregunta se deriva al leerla. Este informe busca dónde
 esa derivación ya no llega, que es como se pierde un dato sin que nadie lo note.
 
-**569 anotaciones** —569 dentro de una obra, repartidas por 21—, con 6440 respuestas y 43 desviaciones.
+**572 anotaciones** —572 dentro de una obra, repartidas por 22—, con 6518 respuestas y 43 desviaciones.
 
 ## Resumen
 
