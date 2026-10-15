@@ -5,7 +5,7 @@
 	import CitaDeFicha from '$lib/components/ficha/CitaDeFicha.svelte';
 	import MetricBarcode from '$lib/components/metrica/MetricBarcode.svelte';
 	import MusicNote from '$lib/components/metrica/MusicNote.svelte';
-	import { rangosCantados } from '$lib/components/metrica/barcode-canto';
+	import { rangosCantados, resumenCanto } from '$lib/components/metrica/barcode-canto';
 	import MetricScheme from '$lib/components/metrica/MetricScheme.svelte';
 	import MetricFormStrips from '$lib/components/metrica/MetricFormStrips.svelte';
 	import MetricSlopeChart from '$lib/components/metrica/MetricSlopeChart.svelte';
@@ -308,7 +308,8 @@
 				jornada,
 				sequences,
 				distribution: buildMetricDistribution(sequences),
-				summary: fichaTecnica(secuenciasToAnalizables(sequences))
+				summary: fichaTecnica(secuenciasToAnalizables(sequences)),
+				canto: resumenCanto(secuenciasToAnalizables(sequences))
 			};
 		})
 	);
@@ -422,6 +423,7 @@
 
 	const analizables = $derived(secuenciasToAnalizables(secuenciasOrdenadas));
 	const cantosDeLaObra = $derived(rangosCantados(analizables));
+	const cantoDelPerfil = $derived(resumenCanto(analizables));
 	const cantosVisibles = $derived(mostrarCanto ? cantosDeLaObra : []);
 
 	const tecnica = $derived(fichaTecnica(analizables));
@@ -513,9 +515,10 @@
 		metricViewMode === 'por_jornadas'
 			? metricProfilesByJornada.map((perfil) => ({
 					titulo: `Jornada ${perfil.jornada.jornada_num}`,
-					items: perfil.distribution
+					items: perfil.distribution,
+					canto: perfil.canto
 				}))
-			: [{ titulo: null, items: distribucionFormasSlices }]
+			: [{ titulo: null, items: distribucionFormasSlices, canto: cantoDelPerfil }]
 	);
 	const figuraFranjas = $derived<Figura>({
 		titulo: 'Dónde cae cada forma',
@@ -1054,6 +1057,7 @@
 					{#if metricViewMode === 'obra_completa'}
 						<MetricDistributionPie
 							items={distribucionFormasSlices}
+							canto={cantoDelPerfil}
 							sequences={secuenciasOrdenadas}
 							colorByForma={colorByForma}
 							arquitecturasPorForma={data.arquitecturasPorForma}
@@ -1067,6 +1071,7 @@
 								<MetricDistributionPie
 									title={`Perfil métrico · Jornada ${profile.jornada.jornada_num}`}
 									items={profile.distribution}
+									canto={profile.canto}
 									sequences={profile.sequences}
 									colorByForma={colorByForma}
 									arquitecturasPorForma={data.arquitecturasPorForma}

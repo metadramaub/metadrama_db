@@ -3,7 +3,8 @@
 	// Leyenda desplegable: forma → arquitectura → respuestas observadas.
 	import { ChevronDown, ChevronRight } from 'lucide-svelte';
 	import MetricDonut from './MetricDonut.svelte';
-	import type { MetricDistributionSlice } from './metric-display.types';
+	import MusicNote from './MusicNote.svelte';
+	import type { MetricCantoSummary, MetricDistributionSlice } from './metric-display.types';
 	import {
 		buildDistributionGroups,
 		formatMetricCount,
@@ -22,6 +23,7 @@
 		colorByForma: Record<string, string>;
 		valueMode: 'percent' | 'absolute';
 		title?: string;
+		canto?: MetricCantoSummary;
 		/** Forma (slug/colorKey) a resaltar desde fuera (p.ej. hover en el barcode). */
 		highlightedForma?: string | null;
 		/** Notifica la forma sobrevolada en la leyenda (null al salir). */
@@ -33,6 +35,7 @@
 	}>();
 
 	let expanded = $state<Record<string, boolean>>({});
+	const formasConCanto = $derived(new Set(props.canto?.formas.map(normalizeFormaKey) ?? []));
 
 	const groups = $derived.by((): MetricDistributionGroup[] => {
 		const slices = props.items.filter((i: MetricDistributionSlice) => i.versos > 0);
@@ -253,6 +256,9 @@
 									class="inline-block h-3 w-3 rounded-sm"
 									style={`background:${props.colorByForma[item.colorKey ?? item.forma] ?? '#9ca3af'};`}
 								></span>
+								{#if formasConCanto.has(groupKey(item))}
+									<span title="Contiene versos cantados" class="inline-flex shrink-0"><MusicNote size={14} /><span class="sr-only">Contiene versos cantados.</span></span>
+								{/if}
 								<span class={sinForma ? 'italic text-[color:var(--muted-foreground)]' : 'font-medium'}>{item.forma}</span>
 								{#if enLinea}
 									<span class="text-[color:var(--muted-foreground)]">{item.arquitecturas[0].label.toLocaleLowerCase('es')}</span>
@@ -393,6 +399,12 @@
 						{/if}
 					</li>
 				{/each}
+				{#if props.canto}
+					<li class="mt-3 flex items-center justify-between gap-3 border-t border-[color:var(--border)] pt-3 text-sm">
+						<span class="inline-flex items-center gap-2"><MusicNote size={14} /> Versos cantados</span>
+						<span class="tabular-nums text-[color:var(--muted-foreground)]">{valueLabel(props.canto.versos, props.canto.porcentaje)}</span>
+					</li>
+				{/if}
 			</ul>
 		</div>
 	{/if}
