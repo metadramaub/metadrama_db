@@ -1,0 +1,246 @@
+{
+  "obra": "el-magico-prodigioso",
+  "fecha": "2026-10-15",
+  "responsable": "fc61b25d-f171-4848-93d8-ea923501f7a7",
+  "total_versos_original": 3143,
+  "secuencias": {
+    "2d3b84d1-9437-4fa0-9be5-e3c3d48cc3f0": {
+      "origen": {
+        "v_ini": 1201,
+        "v_fin": 1246,
+        "termino_legado": "silva_de_consonantes_irregular"
+      },
+      "arquitectura_id": "f6cf4487-2aa9-452f-98f1-22b8569d7673",
+      "arquitectura_nombre": "Consonante de orden libre",
+      "elecciones": {
+        "f00368cc-c4d9-47f8-a1d4-85bb20193e2c": "Total",
+        "00c3da83-55b5-47c5-90dd-bc41ba8c3ea6": "Regulares"
+      },
+      "motivo": "Correcciones de Emma en Confirmar H6 y H9, incluida la referencia a 2029–2190; confirmadas por el IP: orden libre con pareados regulares y densidad total."
+    },
+    "f86862f5-c764-45b5-bd83-81894e5171d5": {
+      "origen": {
+        "v_ini": 1419,
+        "v_fin": 1478,
+        "termino_legado": "silva_de_consonantes_irregular"
+      },
+      "arquitectura_id": "f6cf4487-2aa9-452f-98f1-22b8569d7673",
+      "arquitectura_nombre": "Consonante de orden libre",
+      "elecciones": {
+        "f00368cc-c4d9-47f8-a1d4-85bb20193e2c": "Total",
+        "00c3da83-55b5-47c5-90dd-bc41ba8c3ea6": "Regulares"
+      },
+      "motivo": "Correcciones de Emma en Confirmar H6 y H9, incluida la referencia a 2029–2190; confirmadas por el IP: orden libre con pareados regulares y densidad total."
+    },
+    "5371f2e7-80cb-48de-9095-a7c12edd5088": {
+      "origen": {
+        "v_ini": 2029,
+        "v_fin": 2190,
+        "termino_legado": "silva_de_consonantes_regular"
+      },
+      "arquitectura_id": "f6cf4487-2aa9-452f-98f1-22b8569d7673",
+      "arquitectura_nombre": "Consonante de orden libre",
+      "elecciones": {
+        "f00368cc-c4d9-47f8-a1d4-85bb20193e2c": "Total",
+        "00c3da83-55b5-47c5-90dd-bc41ba8c3ea6": "Regulares"
+      },
+      "motivo": "Correcciones de Emma en Confirmar H6 y H9, incluida la referencia a 2029–2190; confirmadas por el IP: orden libre con pareados regulares y densidad total."
+    }
+  },
+  "respuestas_revisadas": [
+    {
+      "clave": "C|2d3b84d1-9437-4fa0-9be5-e3c3d48cc3f0",
+      "esperado": {
+        "respuesta": "No es así (lo corrijo al lado)",
+        "detalle": "Silva consonante regular",
+        "comentario": "Es una silva regular en cuanto a la rima, pues alterna los pareados. Pero irregular en cuanto a la medida de los versos ya que no alterna los heptasílabos con los endecasílabos. Pasa lo mismo en la secuencia de los versos 2029-2190. Lo marqué como silva de consonantes regular, pero tampoco alterna de manera regular los heptaílabos y los endecasílbos."
+      },
+      "usar": {
+        "respuesta": "Es correcto",
+        "detalle": ""
+      },
+      "motivo": "La corrección se aplica mediante la arquitectura de orden libre y las dos elecciones revisadas."
+    },
+    {
+      "clave": "C|f86862f5-c764-45b5-bd83-81894e5171d5",
+      "esperado": {
+        "respuesta": "No es así (lo corrijo al lado)",
+        "detalle": "Silva consonante regular",
+        "comentario": "Es una silva regular en cuanto a la rima, pues alterna los pareados. Pero irregular en cuanto a la medida de los versos ya que no alterna los heptasílabos con los endecasílabos."
+      },
+      "usar": {
+        "respuesta": "Es correcto",
+        "detalle": ""
+      },
+      "motivo": "La corrección se aplica mediante la arquitectura de orden libre y las dos elecciones revisadas."
+    },
+    {
+      "clave": "Q|3835e214-e184-405a-9bae-4ccaf273e008|Medida de cada verso",
+      "esperado": {
+        "respuesta": "8 8 8 8 8 8 8 8 8 8 8",
+        "detalle": "Esta estrofa se corresponde con estribillo + septilla + estribillo",
+        "comentario": "En la comedia estos versos se cantan."
+      },
+      "usar": {
+        "detalle": ""
+      },
+      "motivo": "Los once octosílabos se conservan; la explicación describe el conjunto, no excepciones por rango."
+    },
+    {
+      "clave": "Q|3835e214-e184-405a-9bae-4ccaf273e008|Esquema de rima observado",
+      "esperado": {
+        "respuesta": "00 abbaacc 00",
+        "detalle": "El \"0\" se corresponde con la rima del estribillo. En ambos casos coincide, así que, si separa en 3 secuencias distintas dividiendo cada uno de los estribillos, el esquema sería: aa / abbaacc / aa",
+        "comentario": ""
+      },
+      "usar": {
+        "respuesta": "aabccbbddaa",
+        "detalle": ""
+      },
+      "motivo": "El IP confirma una sola secuencia 2+7+2. Se traduce 00 abbaacc 00 conservando las clases de rima."
+    },
+    {
+      "clave": "D|98d0cd0c-851b-4302-b733-4df7548159e7",
+      "esperado": {
+        "respuesta": "No es así (lo corrijo al lado)",
+        "comentario": "Los versos que aparecen en la columna \"Versos\" no se corresponden con los de la \"Secuencia\", que sí tiene los versos correctos de esta parte cantada."
+      },
+      "usar": {
+        "respuesta": "Es correcto"
+      },
+      "motivo": "Se corrige el rango cantado a 2191–2201, como indica Emma."
+    }
+  ],
+  "correcciones": [
+    {
+      "tipo": "renumerar",
+      "secuencia_id": "38cd4af3-e1a8-4061-819c-cb59b33850aa",
+      "desde": 2280,
+      "faltan": 2,
+      "descripcion": "Insertar dos posiciones tras los tres versos conservados: ababa aca[][] bdbbd. Confirmado por el IP; total final 3145."
+    },
+    {
+      "tipo": "subtipo",
+      "secuencia_id": "38cd4af3-e1a8-4061-819c-cb59b33850aa",
+      "id": "1d541cb5-8f7d-4682-8f48-d5e471277e6c",
+      "origen": {
+        "secuencia_id": "38cd4af3-e1a8-4061-819c-cb59b33850aa",
+        "v_ini": 2277,
+        "v_fin": 2279
+      },
+      "v_ini": 2277,
+      "v_fin": 2281,
+      "descripcion": "Completar el rango de la quintilla con dos posiciones ausentes al final."
+    },
+    {
+      "tipo": "caracterizacion",
+      "secuencia_id": "3835e214-e184-405a-9bae-4ccaf273e008",
+      "id": "98d0cd0c-851b-4302-b733-4df7548159e7",
+      "origen": {
+        "secuencia_id": "3835e214-e184-405a-9bae-4ccaf273e008",
+        "v_ini": 2190,
+        "v_fin": 2200,
+        "observaciones": null
+      },
+      "v_ini": 2191,
+      "v_fin": 2201,
+      "descripcion": "Corregir el rango cantado completo."
+    },
+    {
+      "tipo": "caracterizacion",
+      "secuencia_id": "38cd4af3-e1a8-4061-819c-cb59b33850aa",
+      "id": "9918dbff-5d7f-447f-8737-618be80c6c39",
+      "origen": {
+        "secuencia_id": "38cd4af3-e1a8-4061-819c-cb59b33850aa",
+        "v_ini": 2277,
+        "v_fin": 2279,
+        "observaciones": "Wardropper (p. 140) señala que la falta de los dos versos de esta quintilla se da en todas las versiones del siglo XVII."
+      },
+      "v_ini": 2280,
+      "v_fin": 2281,
+      "descripcion": "Localizar únicamente las dos posiciones perdidas, 2280–2281."
+    },
+    {
+      "tipo": "texto",
+      "tabla": "secuencias_metricas",
+      "id": "c9880767-fa7a-4c2a-a8bc-a95ab7e4dd67",
+      "secuencia_id": "c9880767-fa7a-4c2a-a8bc-a95ab7e4dd67",
+      "original": "Sale Cipriano asombrado y tras él, acechando, Clarín. El primero se queja de que los conjuros no le están funcionando y no consigue invocar a Justina. El criado, elaborando los conjuros a su manera, tampoco consigue que aparezca Livia. Cipriano quiere volver a intentarlo y consigue invocar a una figura de Justina, que aparece «con manto, como turbada, por una puerta» (2482acot). Esta falsa figura —ya que el Demonio no ha conseguido a la real— se presenta ante Cipriano, quien encadena interrogaciones con el discurso de ella, quien da por cumplido el encantamiento ya que ha venido ante él y se marcha de su vista para ir al monte. Cipriano entonces la sigue. Clarín se queda «turbado, dando vueltas con miedo» (2482acot) y solo hace alusión al olor a humo que desprendía la figura, detalle que considera causa de sus labores en una cocina llena de humo. El criado ve que vuelven y se esconde. Entra Cipriano «trayendo abrazada una persona cubierta con manto y con vestido parecido al de Justina» (2524acot), quiere entonces descubrirle el rostro, pero en su lugar aparece un cadáver. Él se espanta y el esqueleto desparece. Aparece Clarín de su escondite y se abraza a su amo, quien quiere ir a buscar a la sombra, pero no lo quiere acompañar su criado. Aparece el Demonio preguntando a los cielos por qué no le dejan usar sus ciencias. Cipriano lo llama y Clarín se marcha atemorizado. Entonces Cipriano le recrimina a su maestro que le ha engañado pues con sus conjuros, «solo fantasmas hallo / adonde hermosuras busco» (v. 2613-2614). El demonio se excusa diciendo que lo que ha sucedido es fuerza de causa mayor y que procurará entregarle a Justina por otros medios. Sin embargo, Cipriano rechaza el ofrecimiento y quiere que le devuelva la cédula que firmó ya que no ha cumplido con su palabra y el contrato es ahora nulo. El Demonio lo niega pues ha conseguido entregarle a Justina y desvela que lo que ha sucedido ha sido obra de un prodigio superior. Ante la insistencia de Cipriano, el Demonio, temblando, termina confesando que se debe al Dios que se encarga de Justina, que es un Dios con el poder de todos. Cipriano entonces le pregunta por qué se ha encargado este Dios de amparar a Justina y el Demonio, reticente, le explica que lo ha hecho por proteger el honor de ella limpio y puro. Cipriano sigue insistiendo en conocer la identidad de ese Dios sumamente bondadoso y con un poder absoluto, pues puede que se trate de aquel que lleva años buscando, y el Demonio le termina confesando que se trata del Dios de los cristianos, pero nada puede hacer con él pues es ahora vasallo suyo dado que su firma sigue estando en su poder. Cipriano se enfada y pretende dañarle con una espada, aunque en vano. El Demonio le confiesa su verdadera identidad y entonces Cipriano se reconoce esclavo del demonio, pero atisba cierta esperanza al conocer la justicia y el poder absoluto del otro Dios. En nombre del Dios de los cristianos, Cipriano se lanza a luchar contra el Demonio y se marchan cada uno por su puerta.",
+      "texto": "Sale Cipriano asombrado y tras él, acechando, Clarín. El primero se queja de que los conjuros no le están funcionando y no consigue invocar a Justina. El criado, elaborando los conjuros a su manera, tampoco consigue que aparezca Livia. Cipriano quiere volver a intentarlo y consigue invocar a una figura de Justina, que aparece «con manto, como turbada, por una puerta» (2484acot). Esta falsa figura —ya que el Demonio no ha conseguido a la real— se presenta ante Cipriano, quien encadena interrogaciones con el discurso de ella, quien da por cumplido el encantamiento ya que ha venido ante él y se marcha de su vista para ir al monte. Cipriano entonces la sigue. Clarín se queda «turbado, dando vueltas con miedo» (2484acot) y solo hace alusión al olor a humo que desprendía la figura, detalle que considera causa de sus labores en una cocina llena de humo. El criado ve que vuelven y se esconde. Entra Cipriano «trayendo abrazada una persona cubierta con manto y con vestido parecido al de Justina» (2526acot), quiere entonces descubrirle el rostro, pero en su lugar aparece un cadáver. Él se espanta y el esqueleto desparece. Aparece Clarín de su escondite y se abraza a su amo, quien quiere ir a buscar a la sombra, pero no lo quiere acompañar su criado. Aparece el Demonio preguntando a los cielos por qué no le dejan usar sus ciencias. Cipriano lo llama y Clarín se marcha atemorizado. Entonces Cipriano le recrimina a su maestro que le ha engañado pues con sus conjuros, «solo fantasmas hallo / adonde hermosuras busco» (v. 2615-2616). El demonio se excusa diciendo que lo que ha sucedido es fuerza de causa mayor y que procurará entregarle a Justina por otros medios. Sin embargo, Cipriano rechaza el ofrecimiento y quiere que le devuelva la cédula que firmó ya que no ha cumplido con su palabra y el contrato es ahora nulo. El Demonio lo niega pues ha conseguido entregarle a Justina y desvela que lo que ha sucedido ha sido obra de un prodigio superior. Ante la insistencia de Cipriano, el Demonio, temblando, termina confesando que se debe al Dios que se encarga de Justina, que es un Dios con el poder de todos. Cipriano entonces le pregunta por qué se ha encargado este Dios de amparar a Justina y el Demonio, reticente, le explica que lo ha hecho por proteger el honor de ella limpio y puro. Cipriano sigue insistiendo en conocer la identidad de ese Dios sumamente bondadoso y con un poder absoluto, pues puede que se trate de aquel que lleva años buscando, y el Demonio le termina confesando que se trata del Dios de los cristianos, pero nada puede hacer con él pues es ahora vasallo suyo dado que su firma sigue estando en su poder. Cipriano se enfada y pretende dañarle con una espada, aunque en vano. El Demonio le confiesa su verdadera identidad y entonces Cipriano se reconoce esclavo del demonio, pero atisba cierta esperanza al conocer la justicia y el poder absoluto del otro Dios. En nombre del Dios de los cristianos, Cipriano se lanza a luchar contra el Demonio y se marchan cada uno por su puerta.",
+      "descripcion": "Actualizar solo las referencias de versos de esta edición posteriores a la laguna."
+    },
+    {
+      "tipo": "texto",
+      "tabla": "secuencias_metricas",
+      "id": "dbe7f958-09c5-4444-9087-8d82fd40d0e2",
+      "secuencia_id": "dbe7f958-09c5-4444-9087-8d82fd40d0e2",
+      "original": "Lelio, a su vuelta, explica que se trata de Cipriano, que tras muchos días desaparecido ha vuelto a Antioquía loco. Aparece entonces medio desnudo alegando que nunca él se ha visto más cuerdo y que los locos son ellos. A continuación, relata todo lo sucedido: el abandono de sus estudios, el naufragio del que ha sido su huésped y maestro, su año aprendiendo magia y sus vanos intentos de conseguir a Justina, pues ella se debe al gran Dios de los cristianos. Termina declarando que está dispuesto a sufrir cualquier martirio ya que con ello pretende borrar la cédula con el Diablo y se confiesa cristiano. Se deja caer boca abajo y el Gobernador, pisándole, le pide que se levante. Al punto sacan presa a Justina y el Gobernador decreta que se vean morir el uno al otro. Se marchan sin mirarla el Gobernador, Lelio y Floro. Solos, ella confunde a Cipriano, todavía tendido en el suelo, con un muerto. Este se levanta y, aunque al principio parecen reconocerse, ambos coinciden en que se trata de un fingimiento y que por ello se seguirán la corriente. Por ello, declaran que ya no se piensan ni se buscan. Cipriano le pregunta qué delito ha cometido y ella lo explica. Ambos se dan ánimos mutuos para confiar en el poder del perdón de Dios. Aparece Fabio con Clarín, Moscón y Livia, que los trae presos con sus amos. Tras ello, sale un criado anunciando que el Gobernador llama a Justina y a Cipriano, quienes no muestran temor a la muerte. Se marchan y cuando se quedan solos los criados, Clarín aprovecha para modificar el pacto inicial: ya que él ha desaparecido un año y Moscón ha estado con Livia, ahora deberá pasar un año junto a ella. Sin embargo, Livia no está de acuerdo porque lo ha llorado los días que le correspondían. Se ponen a discutir sobre los turnos, y un gran ruido de tempestad los interrumpe seguido de la entrada de varios alborotados. Creen que la casa se les ha venido abajo. Sale entonces Fabio contando que apenas han ejecutado a Cipriano y a Justina ha aparecido una gran tormenta. Al momento, sale el Demonio sobre una sierpe y relata todo lo que él ha cometido por orden del mismo Dios. Así, restituye el honor de Justina, pues se declara autor del engaño del balcón, y manifiesta que ha dejado libre a Cipriano ya que ha borrado con la sangre de su cuello la cédula que firmaron. Ambos, ahora, viven en el «sacro solio de Dios» (v. 3125). A continuación, se cae y se hunde desapareciendo. Lelio, Floro, Livia y Moscón se quedan sorprendidos y asombrados. Sin embargo, el Gobernador cree que se trata de un encanto que Cipriano, el mágico, ha hecho a su muerte. Florio, Lelio, Clarín y Moscón no aciertan a discernir de quién ha sido obra, pero concluyen en afirmar que, si se trata del mágico, es ahora «el mágico de los cielos» (v. 3140).",
+      "texto": "Lelio, a su vuelta, explica que se trata de Cipriano, que tras muchos días desaparecido ha vuelto a Antioquía loco. Aparece entonces medio desnudo alegando que nunca él se ha visto más cuerdo y que los locos son ellos. A continuación, relata todo lo sucedido: el abandono de sus estudios, el naufragio del que ha sido su huésped y maestro, su año aprendiendo magia y sus vanos intentos de conseguir a Justina, pues ella se debe al gran Dios de los cristianos. Termina declarando que está dispuesto a sufrir cualquier martirio ya que con ello pretende borrar la cédula con el Diablo y se confiesa cristiano. Se deja caer boca abajo y el Gobernador, pisándole, le pide que se levante. Al punto sacan presa a Justina y el Gobernador decreta que se vean morir el uno al otro. Se marchan sin mirarla el Gobernador, Lelio y Floro. Solos, ella confunde a Cipriano, todavía tendido en el suelo, con un muerto. Este se levanta y, aunque al principio parecen reconocerse, ambos coinciden en que se trata de un fingimiento y que por ello se seguirán la corriente. Por ello, declaran que ya no se piensan ni se buscan. Cipriano le pregunta qué delito ha cometido y ella lo explica. Ambos se dan ánimos mutuos para confiar en el poder del perdón de Dios. Aparece Fabio con Clarín, Moscón y Livia, que los trae presos con sus amos. Tras ello, sale un criado anunciando que el Gobernador llama a Justina y a Cipriano, quienes no muestran temor a la muerte. Se marchan y cuando se quedan solos los criados, Clarín aprovecha para modificar el pacto inicial: ya que él ha desaparecido un año y Moscón ha estado con Livia, ahora deberá pasar un año junto a ella. Sin embargo, Livia no está de acuerdo porque lo ha llorado los días que le correspondían. Se ponen a discutir sobre los turnos, y un gran ruido de tempestad los interrumpe seguido de la entrada de varios alborotados. Creen que la casa se les ha venido abajo. Sale entonces Fabio contando que apenas han ejecutado a Cipriano y a Justina ha aparecido una gran tormenta. Al momento, sale el Demonio sobre una sierpe y relata todo lo que él ha cometido por orden del mismo Dios. Así, restituye el honor de Justina, pues se declara autor del engaño del balcón, y manifiesta que ha dejado libre a Cipriano ya que ha borrado con la sangre de su cuello la cédula que firmaron. Ambos, ahora, viven en el «sacro solio de Dios» (v. 3127). A continuación, se cae y se hunde desapareciendo. Lelio, Floro, Livia y Moscón se quedan sorprendidos y asombrados. Sin embargo, el Gobernador cree que se trata de un encanto que Cipriano, el mágico, ha hecho a su muerte. Florio, Lelio, Clarín y Moscón no aciertan a discernir de quién ha sido obra, pero concluyen en afirmar que, si se trata del mágico, es ahora «el mágico de los cielos» (v. 3142).",
+      "descripcion": "Actualizar solo las referencias de versos de esta edición posteriores a la laguna."
+    },
+    {
+      "tipo": "texto",
+      "tabla": "comentarios_internos",
+      "id": "f0214d2d-ef3e-4a7d-9992-e3c69e6f08bb",
+      "secuencia_id": "3835e214-e184-405a-9bae-4ccaf273e008",
+      "original": "No he considerado la secuencia métrica 17 (vv. 2190-2200) un nuevo cuadro ya que el escenario no se queda vacío y el demonio con un conjuro invoca a Justina , trasladando la acción de la secuencia métrica siguiente al aposento de Justina.",
+      "texto": "No he considerado la secuencia métrica 17 (vv. 2191-2201) un nuevo cuadro ya que el escenario no se queda vacío y el demonio con un conjuro invoca a Justina , trasladando la acción de la secuencia métrica siguiente al aposento de Justina.",
+      "descripcion": "Corregir la referencia al canto en el comentario editorial; conservar su visibilidad."
+    }
+  ],
+  "caracterizaciones": {
+    "9707d571-d786-4d13-88f5-2c840a3ea552": {
+      "origen": {
+        "secuencia_id": "38cd4af3-e1a8-4061-819c-cb59b33850aa",
+        "termino": "cantado",
+        "v_ini": 2211,
+        "v_fin": 2211,
+        "observaciones": "La parte cantada se corresponde con la segunda mitad del verso partido (\"Amor, amor.\")"
+      },
+      "excel": {
+        "respuesta": "Es correcto"
+      },
+      "destino": "comentario",
+      "motivo": "Explicación de la mitad cantada a comentario público; se conserva el canto.",
+      "comentario_publico": {
+        "texto": "La parte cantada se corresponde con la segunda mitad del verso partido (\"Amor, amor.\")"
+      }
+    },
+    "bf587b79-09bb-4356-a3c3-67d28bdba672": {
+      "origen": {
+        "secuencia_id": "38cd4af3-e1a8-4061-819c-cb59b33850aa",
+        "termino": "cantado",
+        "v_ini": 2246,
+        "v_fin": 2246,
+        "observaciones": "La parte cantada se corresponde con la segunda mitad del verso partido (\"Amor, amor.\")"
+      },
+      "excel": {
+        "respuesta": "Es correcto"
+      },
+      "destino": "comentario",
+      "motivo": "Explicación de la mitad cantada a comentario público; se conserva el canto.",
+      "comentario_publico": {
+        "texto": "La parte cantada se corresponde con la segunda mitad del verso partido (\"Amor, amor.\")"
+      }
+    },
+    "9918dbff-5d7f-447f-8737-618be80c6c39": {
+      "origen": {
+        "secuencia_id": "38cd4af3-e1a8-4061-819c-cb59b33850aa",
+        "termino": "laguna",
+        "v_ini": 2277,
+        "v_fin": 2279,
+        "observaciones": "Wardropper (p. 140) señala que la falta de los dos versos de esta quintilla se da en todas las versiones del siglo XVII."
+      },
+      "excel": {
+        "respuesta": "Es correcto"
+      },
+      "destino": "mixta",
+      "motivo": "Dato estructural a desviación; referencia bibliográfica al comentario público.",
+      "comentario_publico": {
+        "texto": "Wardropper (p. 140) señala que la falta de los dos versos de esta quintilla se da en todas las versiones del siglo XVII.",
+        "v_ini": 2277,
+        "v_fin": 2281
+      }
+    }
+  }
+}
