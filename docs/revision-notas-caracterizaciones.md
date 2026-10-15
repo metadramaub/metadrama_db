@@ -1,10 +1,10 @@
 # Propuesta de destino de las observaciones de caracterizaciones
 
-Estado: **aplicación parcial realizada el 15 de octubre de 2026**. Se han trasladado las seis notas de prueba y la de Adonis y Venus a comentarios públicos de sus secuencias, con el rango al principio y el editor asignado como autor. También se han resuelto las siete notas de El amor al uso al migrar sus 28 secuencias. La columna permanece en la base y todos los textos originales se conservan, en las filas pendientes o en el rastro de lo ya migrado. Quedan 59 notas reales de seis obras para sus Excel; la laguna de El mágico prodigioso se resolverá entonces.
+Estado: **aplicación parcial realizada el 15 de octubre de 2026**. Se han trasladado las seis notas de prueba y la de Adonis y Venus a comentarios públicos de sus secuencias, con el rango al principio y el editor asignado como autor. También se han resuelto las siete notas de El amor al uso y las tres de El mágico prodigioso al migrar esas obras. La columna permanece en la base y todos los textos originales se conservan, en las filas pendientes o en el rastro de lo ya migrado. Quedan 56 notas reales de cinco obras para sus Excel.
 
 El formulario ya no permite escribir observaciones en las caracterizaciones. La descripción de desviaciones muestra la ayuda aprobada para distinguir datos y comentarios críticos. La guía y el generador de obras de prueba siguen ese criterio.
 
-Los traslados aplicados quedan registrados en `traslados_observaciones_caracterizacion`, tabla privada que conserva el origen completo y el ID del comentario. La ficha omite la nota junto a la caracterización solo cuando existe ese registro. Repetir el traslado no duplica ni sobrescribe el comentario, aunque se haya editado o borrado después. Si cambia el origen, el proceso se detiene para revisarlo.
+Los traslados de pruebas y Adonis quedan registrados en `traslados_observaciones_caracterizacion`, tabla privada que conserva el origen completo y el ID del comentario. La ficha omite la nota junto a la caracterización cuando existe ese registro. En las obras migradas desde Excel, los originales y los destinos se archivan en `migracion_secuencias.respuestas.traslados` antes de limpiar la nota o retirar la caracterización convertida. Los comentarios nuevos conservan su ID en ese rastro. Repetir el aplicador no sobrescribe ni duplica las secuencias ya anotadas en V2.
 
 Aplicado mediante `20261015120000_traslada_las_notas_de_prueba_a_comentarios.sql` y `20261015121000_traslada_la_nota_de_adonis_y_venus.sql`, con copia completa, snapshot y ensayos con rollback. Las guardas ejecutan los lectores de ficha y comentarios y comprueban la conservación de las caracterizaciones originales.
 
@@ -34,7 +34,7 @@ La descripción de una desviación sirve para completar lo que no cubran sus sel
 | Valor, agravio y mujer | María Isabel Cuena | 0 | 16 | 0 | 2 | 0 | 18 |
 | **Total real** | | **4** | **50** | **9** | **3** | **1** | **67** |
 
-El recuento refleja la revisión inicial. Están resueltas la nota de Adonis y Venus, las seis de prueba y las siete de El amor al uso. Quedan 59 notas reales en seis obras.
+El recuento refleja la revisión inicial. Están resueltas la nota de Adonis y Venus, las seis de prueba, las siete de El amor al uso y las tres de El mágico prodigioso. Quedan 56 notas reales en cinco obras.
 
 ## Cómo encajarlo con la migración de obras
 
@@ -48,12 +48,12 @@ El recuento refleja la revisión inicial. Están resueltas la nota de Adonis y V
 6. En una fusión, trasladar también los comentarios ya existentes antes de borrar las filas absorbidas. El aplicador mueve ahora comentarios, subtipos y caracterizaciones; la FK de comentarios tiene borrado en cascada.
 7. Antes de aplicar: copia, snapshot y ensayo íntegro con rollback. Las notas que dependan de la migración métrica se trasladan al migrar su obra; no completar respuestas métricas no recibidas. Las secuencias que ya tienen anotación V2 se tratan sin esperar un Excel.
 
-Adonis y Venus tenía anotaciones V2 y su nota se trasladó sin migrar su métrica. El amor al uso ya tiene sus 28 anotaciones y sus 28 filas en migracion_secuencias. Las otras obras de este dictamen siguen pendientes de migración métrica.
+Adonis y Venus tenía anotaciones V2 y su nota se trasladó sin migrar su métrica. El amor al uso y El mágico prodigioso tienen sus anotaciones y su rastro en migracion_secuencias. Las otras obras de este dictamen siguen pendientes de migración métrica.
 
 ### Orden de aplicación
 
 - **Ya anotadas con V2:** traslado realizado para Adonis y Venus, canto de vv. 1229–1287 dentro de la secuencia 1229–1306. Comentario público firmado por Gaston Gilabert, con el rango al principio y sin alterar el canto.
-- **Pendientes de migración métrica:** trasladar sus notas en la misma operación que la obra, cuando se procese su Excel. Quedan 59 notas reales en seis obras. Así se respetan las rectificaciones del editor, las renumeraciones y las fusiones y no se crean descripciones de desviaciones que aún no existen.
+- **Pendientes de migración métrica:** trasladar sus notas en la misma operación que la obra, cuando se procese su Excel. Quedan 56 notas reales en cinco obras. Así se respetan las rectificaciones del editor, las renumeraciones y las fusiones y no se crean descripciones de desviaciones que aún no existen.
 - **Nuevas anotaciones:** aplicar el formulario sin Observaciones en las caracterizaciones por rango y la ayuda aprobada en desviaciones. La columna y los textos históricos pendientes permanecen en la base para el aplicador, aunque el formulario no permita crear nuevas notas en ella.
 - **Pruebas:** las seis notas ya están trasladadas. Cinco pertenecen a secuencias con anotación V2 y una a una secuencia sin ella; ninguna requiere crear una desviación.
 
@@ -81,6 +81,20 @@ detecta desajustes de esta obra. Repetir el aplicador la reconoce como completad
 Estas comprobaciones validan el traslado de lo recibido y de las resoluciones aprobadas; la
 revisión filológica final corresponde a la editora.
 
+### Verificación realizada
+
+Aplicadas **21 anotaciones V2**, con **263 unidades, 175 respuestas y una desviación**.
+La comparación del snapshot anterior con el posterior comprueba todos los rangos, respuestas,
+realizaciones, notas originales, comentarios públicos y autorías. Se conservan las **52 filas
+legadas de subtipos**, con sus identificadores y los rangos corregidos. La comprobación detectó
+que el disparador antiguo las había borrado al renumerar la secuencia; se restauraron desde la
+copia previa y se añadió al aplicador su conservación y verificación transaccional. Una prueba
+SQL con rollback reprodujo el borrado y confirmó la recuperación de las 52 filas.
+
+Las anotaciones de las otras 130 obras comparadas permanecen iguales. Durante el intervalo
+cambiaron las asignaciones editoriales de El castigo sin venganza y El mayordomo de la duquesa
+de Amalfi, datos ajenos a esta migración; esos cambios se conservaron.
+
 ### Comprobación en el editor
 
 Abrir **Obras → El amor al uso → Secuencias**. La obra sigue en borrador.
@@ -93,6 +107,41 @@ Abrir **Obras → El amor al uso → Secuencias**. La obra sigue en borrador.
 | 2117–2156 | Quintillas con ababa como respuesta general y aabba en la primera, vv. 2117–2121. |
 | vv. 2917–2918 y 2983–2984 | Metros observados 7 y 11 respectivamente, seleccionados; descripciones vacías. |
 | 1348–1407, 2545–2612 y 2621–2644 | Silva consonante de orden libre; pareados Predominantes por indicación del IP, pendientes de revisión por Ana. |
+
+## Migración de El mágico prodigioso
+
+Excel recibido como el-magico-prodigioso_EG_V2.xlsx, normalizado a
+respuestas/el-magico-prodigioso.xlsx sin modificar el contenido. Las interpretaciones y decisiones
+aprobadas se conservan aparte en el-magico-prodigioso.resoluciones.json. El Excel contiene 23 claves.
+
+- Las silvas de **1201–1246, 1419–1478 y 2029–2190** pasan a **Consonante de orden libre**, con
+  **pareados Regulares** y **densidad Total**. Emma corrige las dos primeras en Confirmar H6 y H9
+  y menciona expresamente la tercera en H6. Su término legado, silva_de_consonantes_regular, se
+  conserva como evidencia, sin imponerlo a la anotación nueva.
+- El canto ocupa **2191–2201**, corrigiendo la marca 2190–2200. Se conserva una sola secuencia de
+  Versificación irregular de arte menor, con once octosílabos y esquema **aabccbbddaa**, traducción
+  de 00 abbaacc 00 aprobada por el IP. Los estribillos comparten clase de rima; no se divide en
+  tres secuencias. Las explicaciones de las columnas de detalle no se tratan como excepciones.
+- El IP sitúa los dos versos ausentes después de los tres conservados de la quintilla:
+  **ababa aca[][] bdbbd**. La quintilla ocupa **2277–2281**; la desviación de estructura, relación
+  falta, solo **2280–2281**. El antiguo v. 2280 pasa al 2282 y los siguientes se desplazan dos
+  posiciones. La secuencia de quintillas queda en **2202–2461**, con 52 unidades completas de
+  cinco posiciones. La obra termina en **3145**. Se ajustan también jornadas y cuadros afectados.
+- Las notas de canto de **2211 y 2246** y la referencia a **Wardropper, p. 140** pasan a tres
+  comentarios públicos firmados por **Emma González Mesas**, con sus referencias al principio.
+  El comentario bibliográfico se refiere a la quintilla **2277–2281**; la descripción de la
+  desviación queda vacía porque el selector y su rango ya recogen el dato. Se conservan los
+  originales completos en el rastro y se retira únicamente la caracterización legada de laguna.
+- Se corrigen las referencias a versos posteriores al salto en dos sinopsis y la referencia
+  2190–2200 del comentario interno sobre el canto. Se conserva su visibilidad. Los números de
+  los vv. 3132 y 3133 citados expresamente para la edición de Wardropper no se desplazan.
+
+### Comprobación en el editor
+
+La obra conserva **21 secuencias**, sin fusiones ni divisiones. Revisar las tres silvas, el canto
+2191–2201, la quintilla 2277–2281 y la laguna 2280–2281. Los tres pasajes finales quedan en
+**2462–2763, 2764–2863 y 2864–3145**. Comprobar los tres comentarios públicos de la secuencia
+2202–2461 y que las marcas de canto permanecen sin notas duplicadas.
 
 ## Localización de los comentarios públicos
 
@@ -490,13 +539,11 @@ Origen: `9918dbff-5d7f-447f-8737-618be80c6c39`. Secuencia actual: vv. 2202–245
 
 > Wardropper (p. 140) señala que la falta de los dos versos de esta quintilla se da en todas las versiones del siglo XVII.
 
-**Propuesta: Separar dato y comentario.** La laguna es el dato estructural; la comparación de testimonios y la referencia bibliográfica van al comentario público. El rango guardado abarca tres posiciones y la nota habla de dos versos: resolver con el Excel antes de trasladar.
+**Destino aplicado: Separar dato y comentario.** La comparación de testimonios y la referencia bibliográfica van al comentario público de vv. 2277–2281. El IP confirma dos posiciones ausentes al final de la quintilla: la desviación estructural ocupa 2280–2281. El origen 2277–2279 y su nota quedan archivados en el rastro.
 
-**Texto para la desviación, propuesto:**
+**Desviación:** estructura, falta, vv. 2280–2281, sin descripción redundante.
 
-> Faltan dos versos en esta quintilla. Propuesta pendiente de conciliar con el rango 2277–2279.
-
-**Texto para el comentario público, propuesto:**
+**Texto del comentario público, precedido de «Vv. 2277–2281»:**
 
 > Wardropper (p. 140) señala que la falta de los dos versos de esta quintilla se da en todas las versiones del siglo XVII.
 

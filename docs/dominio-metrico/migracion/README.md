@@ -15,10 +15,9 @@ devueltas van a [respuestas/](./respuestas/). El procedimiento completo está en
 | [La gran Semíramis](./la-gran-semiramis.md) | Blanca Ballester Morell | 36 | 22 | 0 | 14 | **3** | 7 | 31 |
 | [La tragedia del duque de Berganza](./la-tragedia-del-duque-de-berganza.md) | María Rosa Álvarez Sellers | 5 | 4 | 1 | 0 | **2** | 3 | 2 |
 | [El esclavo del demonio](./el-esclavo-del-demonio.md) | Blanca Ballester Morell | 30 | 19 | 5 | 6 | **2** | 2 | 22 |
-| [El mágico prodigioso](./el-magico-prodigioso.md) | Emma González Mesas | 21 | 13 | 8 | 0 | **1** | 5 | 15 |
 | [El conde de Sex](./el-conde-de-sex.md) | Rosa Bono | 28 | 11 | 17 | 0 | **1** | 3 | 25 |
 | [Elisa Dido](./elisa-dido.md) | Blanca Ballester Morell | 16 | 10 | 0 | 6 | — | 18 | 7 |
 | [Dido y Eneas](./dido-y-eneas.md) | Gaston Gilabert | 24 | 16 | 8 | 0 | — | 6 | 18 |
 | [Cegar para ver mejor](./cegar-para-ver-mejor.md) | Gabriel López | 3 | 2 | 1 | 0 | — | — | 3 |
 
-En total, 235 secuencias en 10 obras: 148 con equivalencia directa, 60 con un rasgo además de la forma y 27 que la heredan del término padre. A los editores se les piden 17 decisiones, 85 respuestas y 152 confirmaciones.
+En total, 214 secuencias en 9 obras: 135 con equivalencia directa, 52 con un rasgo además de la forma y 27 que la heredan del término padre. A los editores se les piden 16 decisiones, 80 respuestas y 137 confirmaciones.

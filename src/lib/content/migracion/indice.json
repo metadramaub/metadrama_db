@@ -62,18 +62,6 @@
 			"desviaciones": 1
 		},
 		{
-			"slug": "el-magico-prodigioso",
-			"obra_id": "61cb3d77-169a-4217-833b-2eb4c1e8d365",
-			"titulo": "El mágico prodigioso",
-			"editor": "Emma González Mesas",
-			"excel": "el-magico-prodigioso.xlsx",
-			"secuencias": 21,
-			"decidir": 1,
-			"responder": 5,
-			"confirmar": 15,
-			"desviaciones": 4
-		},
-		{
 			"slug": "elisa-dido",
 			"obra_id": "0d055db5-61a8-4cc3-a015-5ab7b53720c2",
 			"titulo": "Elisa Dido",
