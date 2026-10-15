@@ -82,3 +82,6 @@ Reglas de cada tipo:
 - En **cantado**, puedes marcar un solo verso (`v_ini` = `v_fin`) o un rango.
 - En **evocación métrica**, la caracterización nace por defecto abarcando el rango completo de la secuencia —la evocación suele afectarla entera—, pero puedes acotarla si empieza o acaba dentro de ella.
 - Toda caracterización debe quedar **dentro del rango de versos** de su secuencia.
+
+Cuando hay algún pasaje **Cantado**, se enciende la nota musical en la lista de secuencias.
+La marca se actualiza al guardar o borrar la caracterización, sin recargar la página.

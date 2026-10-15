@@ -12,8 +12,9 @@
 	import MessagesSquare from 'lucide-svelte/icons/messages-square';
 	import MoonStar from 'lucide-svelte/icons/moon-star';
 	import TriangleAlert from 'lucide-svelte/icons/triangle-alert';
-	import UsersRound from 'lucide-svelte/icons/users-round';
-	import { formatGenerosIntervinientes } from '$lib/utils/generos-intervinientes';
+	import Venus from 'lucide-svelte/icons/venus';
+	import Music from 'lucide-svelte/icons/music';
+	import { indicadorIntervencionFemenina } from '$lib/utils/generos-intervinientes';
 	import Pencil from 'lucide-svelte/icons/pencil';
 	import Slash from 'lucide-svelte/icons/slash';
 	import Trash2 from 'lucide-svelte/icons/trash-2';
@@ -641,6 +642,14 @@
 		return `${que[0].toUpperCase()}${que.slice(1)}: ${valor === 'exclusiva' ? 'intervención exclusiva' : 'intervención compartida'}`;
 	}
 
+	function actualizarCanto(secuenciaId: string, tieneCanto: boolean) {
+		const actual = secuencias.find((s) => s.secuencia_id === secuenciaId);
+		if (!actual || actual.tiene_pasajes_cantados === tieneCanto) return;
+		secuencias = secuencias.map((s) => s.secuencia_id === secuenciaId
+			? { ...s, tiene_pasajes_cantados: tieneCanto } : s);
+		emitSecuenciasChange(secuencias);
+	}
+
 	function sortSecuencias(items: EditorSecuenciaRow[]) {
 		return [...items].sort((a, b) => a.v_ini - b.v_ini);
 	}
@@ -952,6 +961,8 @@
 		// checklist de revisión seguía contando pendientes hasta que se recargaba la página.
 		const filaGuardada: EditorSecuenciaRow = {
 			...savedSecuencia,
+			tiene_pasajes_cantados:
+				secuencias.find((item) => item.secuencia_id === savedId)?.tiene_pasajes_cantados ?? false,
 			tiene_anotacion_metrica:
 				secuencias.find((item) => item.secuencia_id === savedId)?.tiene_anotacion_metrica ?? false
 		};
@@ -1670,9 +1681,14 @@
 												MessagesSquare
 											)}
 											{@render caracterizacion(
-												secuencia.generos_intervinientes?.length ? 'si' : 'pendiente',
-												`Género de quienes intervienen: ${formatGenerosIntervinientes(secuencia.generos_intervinientes)}`,
-												UsersRound
+												indicadorIntervencionFemenina(secuencia.generos_intervinientes).estado,
+												indicadorIntervencionFemenina(secuencia.generos_intervinientes).titulo,
+												Venus
+											)}
+											{@render caracterizacion(
+												secuencia.tiene_pasajes_cantados ? 'si' : 'pendiente',
+												secuencia.tiene_pasajes_cantados ? 'Con pasajes cantados' : 'Sin pasajes cantados anotados',
+												Music
 											)}
 											{@render caracterizacion(
 												estadoDeIntervencion(secuencia.intervencion_figuras_donaire),
@@ -1981,7 +1997,7 @@
 	fueron con él sin que nadie lo notara: la anotación perdió el sitio donde se discute, que es
 	justo lo que un equipo editorial necesita a mano mientras anota.
 -->
-{#snippet caracterizacion(estado: EstadoDeCaracterizacion, titulo: string, Icono: typeof UsersRound)}
+{#snippet caracterizacion(estado: EstadoDeCaracterizacion, titulo: string, Icono: typeof Venus)}
 	<!-- El «no» se dibuja tachado con una barra encima del icono, en el color del texto atenuado;
 	     el «sin responder» queda tenue y sin barra. Así el hueco y la negativa no se confunden. -->
 	<span
@@ -2017,6 +2033,7 @@
 			opciones={props.caracterizacionRangoOptions}
 			readOnly={props.readOnly}
 			onMetricaDirty={props.onMetricaDirty}
+			onCantoChange={actualizarCanto}
 		/>
 
 		<CaracterizacionesDeLaSecuencia
