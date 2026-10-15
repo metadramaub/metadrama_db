@@ -1,3 +1,7 @@
+import {
+	GENEROS_INTERVINIENTES,
+	formatGenerosIntervinientes
+} from '$lib/utils/generos-intervinientes';
 import { enunciationType, type EnunciationType } from './enunciation';
 
 export interface PhenomenonSequence {
@@ -16,7 +20,7 @@ export interface PhenomenonSequence {
 	desviaciones: unknown[];
 	versos_partidos: boolean | null;
 	inaugura_espacio: boolean | null;
-	intervencion_personajes_femeninos: string | null;
+	generos_intervinientes: string[] | null;
 	intervencion_figuras_donaire: string | null;
 	intervencion_personajes_sobrenaturales: string | null;
 	evento_sobrenatural: boolean | null;
@@ -149,7 +153,11 @@ const GROUPS: GroupSpec[] = [
 		id: 'intervenciones',
 		label: 'Intervención de personajes',
 		ramas: [
-			{ id: 'personajes_femeninos', label: 'Personajes femeninos', facetas: INTERVENCION },
+			{
+				id: 'generos_intervinientes',
+				label: 'Género de quienes intervienen',
+				facetas: GENEROS_INTERVINIENTES.map(({ id, label }) => ({ id, label, positiva: true }))
+			},
 			{
 				id: 'figuras_donaire',
 				label: 'Figuras de donaire',
@@ -207,8 +215,6 @@ function facetOf(branchId: string, sequence: PhenomenonSequence): string | null 
 			return booleanFacet(sequence.inaugura_espacio);
 		case 'eventos_sobrenaturales':
 			return booleanFacet(sequence.evento_sobrenatural);
-		case 'personajes_femeninos':
-			return intervencionFacet(sequence.intervencion_personajes_femeninos);
 		case 'figuras_donaire':
 			return intervencionFacet(sequence.intervencion_figuras_donaire);
 		case 'personajes_sobrenaturales':
@@ -240,11 +246,7 @@ function groupByForm(entries: { forma: string; colorKey: string; item: Phenomeno
 	}
 	return [...forms.values()]
 		.map((form) => ({ ...form, items: [...form.items].sort((a, b) => a.v_ini - b.v_ini) }))
-		.sort(
-			(a, b) =>
-				b.items.length - a.items.length ||
-				a.forma.localeCompare(b.forma, 'es')
-		);
+		.sort((a, b) => b.items.length - a.items.length || a.forma.localeCompare(b.forma, 'es'));
 }
 
 export function buildPhenomenaIndex(
@@ -308,20 +310,27 @@ export function buildPhenomenaIndex(
 			for (const branch of group.ramas) {
 				if (branch.facetas === PRESENCIA) continue;
 				if (branch.declaracion && declarations[branch.declaracion]) continue;
-				const facetId = facetOf(branch.id, sequence);
-				if (!facetId) {
+				const facetIds =
+					branch.id === 'generos_intervinientes'
+						? (sequence.generos_intervinientes ?? [])
+						: [facetOf(branch.id, sequence)].filter((id): id is string => id !== null);
+				if (facetIds.length === 0) {
 					pendientes.set(branch.id, (pendientes.get(branch.id) ?? 0) + 1);
-					continue;
 				}
-				const spec = branch.facetas.find((facet) => facet.id === facetId);
-				if (!spec) continue;
-				add(group.id, branch.id, facetId, spec.positiva, sequence, {
-					id: `${sequence.secuencia_id}:${branch.id}`,
-					secuencia_id: sequence.secuencia_id,
-					v_ini: sequence.v_ini,
-					v_fin: sequence.v_fin,
-					detalle: null
-				});
+				for (const facetId of facetIds) {
+					const spec = branch.facetas.find((facet) => facet.id === facetId);
+					if (!spec) continue;
+					add(group.id, branch.id, facetId, spec.positiva, sequence, {
+						id: `${sequence.secuencia_id}:${branch.id}`,
+						secuencia_id: sequence.secuencia_id,
+						v_ini: sequence.v_ini,
+						v_fin: sequence.v_fin,
+						detalle:
+							branch.id === 'generos_intervinientes'
+								? formatGenerosIntervinientes(sequence.generos_intervinientes)
+								: null
+					});
+				}
 			}
 		}
 	}
@@ -351,7 +360,12 @@ export function buildPhenomenaIndex(
 					nota: declarada ? (branch.nota ?? null) : null
 				};
 			})
-			.filter((branch) => branch.declarada || branch.facetas.length > 0);
+			.filter(
+				(branch) =>
+					branch.declarada ||
+					branch.facetas.length > 0 ||
+					(branch.id === 'generos_intervinientes' && branch.pendientes > 0)
+			);
 
 		return {
 			id: group.id,

@@ -232,15 +232,23 @@ export const LABORATORY_METRICS: LaboratoryMetric[] = [
 		fractionUnit: 'secuencias',
 		caution: PRESENCE_CAUTION
 	}),
-	phenomenon('intervencion_femenina', {
-		group: 'Fenómenos',
-		label: 'Intervención de personajes femeninos',
-		description: 'Secuencias con intervención exclusiva o compartida de personajes femeninos.',
-		measurement: 'categoria_secuencia',
-		unit: 'porcentaje',
-		denominator: 'Secuencias respondidas',
-		fractionUnit: 'secuencias'
-	}),
+	...[
+		{ id: 'masculina', label: 'Masculino' },
+		{ id: 'femenina', label: 'Femenino' },
+		{ id: 'indeterminada', label: 'Indeterminado' }
+	].map(({ id, label }) =>
+		phenomenon(`intervencion_${id}`, {
+			group: 'Fenómenos',
+			label: `Género de quienes intervienen: ${label.toLowerCase()}`,
+			description: `Secuencias donde se ha seleccionado «${label}» para quienes hablan o cantan.`,
+			measurement: 'categoria_secuencia',
+			unit: 'porcentaje',
+			denominator: 'Secuencias con el género respondido',
+			fractionUnit: 'secuencias',
+			caution:
+				'Una secuencia puede incluir varios géneros. Sus porcentajes pueden sumar más del 100 %. Indeterminado es una respuesta; los pendientes no entran en el denominador.'
+		})
+	),
 	phenomenon('intervencion_donaire', {
 		group: 'Fenómenos',
 		label: 'Intervención de figuras de donaire',
@@ -310,8 +318,7 @@ export function getLaboratoryMetricHelp(metric: LaboratoryMetric): LaboratoryMet
 	if (metric.measurement === 'presencia_secuencia') {
 		return {
 			unitLabel: 'Porcentaje de secuencias',
-			explanation:
-				'Cada secuencia respondida cuenta una vez, con independencia de su longitud.'
+			explanation: 'Cada secuencia respondida cuenta una vez, con independencia de su longitud.'
 		};
 	}
 	if (metric.measurement === 'categoria_secuencia') {

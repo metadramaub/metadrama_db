@@ -134,8 +134,16 @@ export const secuenciaInputSchema = z
 		estrofa_tipo_id: z.string().uuid('Estrofa no válida').nullable().default(null),
 		inaugura_espacio: z.boolean().nullable().default(null),
 		versos_partidos: z.boolean().nullable().default(null),
-		intervencion_personajes_femeninos: z
-			.enum(['sin_intervencion', 'exclusiva', 'compartida'])
+		generos_intervinientes: z
+			.array(z.enum(['masculino', 'femenino', 'indeterminado']))
+			.min(1)
+			.max(3)
+			.refine((values) => new Set(values).size === values.length, 'No repitas géneros')
+			.transform((values) =>
+				['masculino', 'femenino', 'indeterminado'].filter((value) =>
+					values.includes(value as (typeof values)[number])
+				)
+			)
 			.nullable(),
 		intervencion_figuras_donaire: z
 			.enum(['sin_intervencion', 'exclusiva', 'compartida'])

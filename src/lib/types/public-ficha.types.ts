@@ -145,7 +145,7 @@ export interface PublicFichaSecuencia {
 	nivel_estructural: string | null;
 	inaugura_espacio: boolean | null;
 	versos_partidos: boolean | null;
-	intervencion_personajes_femeninos: string | null;
+	generos_intervinientes: string[] | null;
 	intervencion_figuras_donaire: string | null;
 	intervencion_personajes_sobrenaturales: string | null;
 	evento_sobrenatural: boolean | null;

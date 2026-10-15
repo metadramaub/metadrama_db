@@ -39,7 +39,7 @@ const SQL_SECUENCIAS = `
 		p.longitud_compatible, p.motivo_revision,
 		a.unidad_versos_min, a.unidad_versos_max,
 		s.sinopsis, s.inaugura_espacio, s.versos_partidos, s.evento_sobrenatural,
-		s.intervencion_personajes_femeninos, s.intervencion_figuras_donaire,
+		s.generos_intervinientes, s.intervencion_figuras_donaire,
 		s.intervencion_personajes_sobrenaturales,
 		r.minimo_versos, r.modulo_versos, r.residuo_versos, r.desplazamientos, r.explicacion,
 		r.origen as regla_origen

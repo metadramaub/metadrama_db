@@ -64,7 +64,7 @@ type SecuenciaChecklistData = {
 	tiene_anotacion_metrica?: boolean;
 	inaugura_espacio: boolean | null;
 	versos_partidos: boolean | null;
-	intervencion_personajes_femeninos: string | null;
+	generos_intervinientes: string[] | null;
 	intervencion_figuras_donaire: string | null;
 	intervencion_personajes_sobrenaturales: string | null;
 	evento_sobrenatural: boolean | null;
@@ -106,7 +106,7 @@ function hasPendingSequenceFields(secuencia: SecuenciaChecklistData): boolean {
 		!secuencia.tiene_anotacion_metrica ||
 		secuencia.inaugura_espacio === null ||
 		secuencia.versos_partidos === null ||
-		secuencia.intervencion_personajes_femeninos === null ||
+		!secuencia.generos_intervinientes?.length ||
 		secuencia.intervencion_figuras_donaire === null ||
 		secuencia.intervencion_personajes_sobrenaturales === null ||
 		secuencia.evento_sobrenatural === null

@@ -12,7 +12,8 @@
 	import MessagesSquare from 'lucide-svelte/icons/messages-square';
 	import MoonStar from 'lucide-svelte/icons/moon-star';
 	import TriangleAlert from 'lucide-svelte/icons/triangle-alert';
-	import Venus from 'lucide-svelte/icons/venus';
+	import UsersRound from 'lucide-svelte/icons/users-round';
+	import { formatGenerosIntervinientes } from '$lib/utils/generos-intervinientes';
 	import Pencil from 'lucide-svelte/icons/pencil';
 	import Slash from 'lucide-svelte/icons/slash';
 	import Trash2 from 'lucide-svelte/icons/trash-2';
@@ -294,7 +295,7 @@
 		estrofa_tipo_id: string;
 		inaugura_espacio: boolean | null;
 		versos_partidos: boolean | null;
-		intervencion_personajes_femeninos: IntervencionValue | null;
+		generos_intervinientes: string[] | null;
 		intervencion_figuras_donaire: IntervencionValue | null;
 		intervencion_personajes_sobrenaturales: IntervencionValue | null;
 		evento_sobrenatural: boolean | null;
@@ -443,7 +444,7 @@
 			estrofa_tipo_id: '',
 			inaugura_espacio: null,
 			versos_partidos: null,
-			intervencion_personajes_femeninos: null,
+			generos_intervinientes: null,
 			intervencion_figuras_donaire: null,
 			intervencion_personajes_sobrenaturales: null,
 			evento_sobrenatural: null,
@@ -746,7 +747,7 @@
 			estrofa_tipo_id: source.estrofa_tipo_id,
 			inaugura_espacio: source.inaugura_espacio,
 			versos_partidos: source.versos_partidos,
-			intervencion_personajes_femeninos: source.intervencion_personajes_femeninos,
+			generos_intervinientes: source.generos_intervinientes,
 			intervencion_figuras_donaire: source.intervencion_figuras_donaire,
 			intervencion_personajes_sobrenaturales: source.intervencion_personajes_sobrenaturales,
 			evento_sobrenatural: source.evento_sobrenatural,
@@ -807,7 +808,7 @@
 			estrofa_tipo_id: toSelectableEstrofaId(secuencia.estrofa_tipo_id),
 			inaugura_espacio: secuencia.inaugura_espacio,
 			versos_partidos: secuencia.versos_partidos,
-			intervencion_personajes_femeninos: secuencia.intervencion_personajes_femeninos as IntervencionValue | null,
+			generos_intervinientes: secuencia.generos_intervinientes,
 			intervencion_figuras_donaire: secuencia.intervencion_figuras_donaire as IntervencionValue | null,
 			intervencion_personajes_sobrenaturales:
 				secuencia.intervencion_personajes_sobrenaturales as IntervencionValue | null,
@@ -972,8 +973,8 @@
 			estrofa_tipo_id: toSelectableEstrofaId(savedSecuencia.estrofa_tipo_id),
 			inaugura_espacio: savedSecuencia.inaugura_espacio,
 			versos_partidos: savedSecuencia.versos_partidos,
-			intervencion_personajes_femeninos:
-				savedSecuencia.intervencion_personajes_femeninos as IntervencionValue | null,
+			generos_intervinientes:
+				savedSecuencia.generos_intervinientes,
 			intervencion_figuras_donaire:
 				savedSecuencia.intervencion_figuras_donaire as IntervencionValue | null,
 			intervencion_personajes_sobrenaturales:
@@ -1098,7 +1099,7 @@
 	const caracterizacionesRespondidas = $derived.by(() => {
 		let hechas = 0;
 		for (const valor of [
-			form.intervencion_personajes_femeninos,
+			form.generos_intervinientes,
 			form.intervencion_figuras_donaire,
 			form.intervencion_personajes_sobrenaturales
 		]) {
@@ -1420,7 +1421,7 @@
 	$effect(() => {
 		const open = sidebarOpen;
 		const readOnly = props.readOnly;
-		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.intervencion_personajes_femeninos}|${form.intervencion_figuras_donaire}|${form.intervencion_personajes_sobrenaturales}|${form.evento_sobrenatural}|${form.sinopsis}|${editingId}`;
+		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.generos_intervinientes}|${form.intervencion_figuras_donaire}|${form.intervencion_personajes_sobrenaturales}|${form.evento_sobrenatural}|${form.sinopsis}|${editingId}`;
 		void track;
 
 		if (!open || readOnly) {
@@ -1669,9 +1670,9 @@
 												MessagesSquare
 											)}
 											{@render caracterizacion(
-												estadoDeIntervencion(secuencia.intervencion_personajes_femeninos),
-												tituloDeIntervencion('personajes femeninos', secuencia.intervencion_personajes_femeninos),
-												Venus
+												secuencia.generos_intervinientes?.length ? 'si' : 'pendiente',
+												`Género de quienes intervienen: ${formatGenerosIntervinientes(secuencia.generos_intervinientes)}`,
+												UsersRound
 											)}
 											{@render caracterizacion(
 												estadoDeIntervencion(secuencia.intervencion_figuras_donaire),
@@ -1980,7 +1981,7 @@
 	fueron con él sin que nadie lo notara: la anotación perdió el sitio donde se discute, que es
 	justo lo que un equipo editorial necesita a mano mientras anota.
 -->
-{#snippet caracterizacion(estado: EstadoDeCaracterizacion, titulo: string, Icono: typeof Venus)}
+{#snippet caracterizacion(estado: EstadoDeCaracterizacion, titulo: string, Icono: typeof UsersRound)}
 	<!-- El «no» se dibuja tachado con una barra encima del icono, en el color del texto atenuado;
 	     el «sin responder» queda tenue y sin barra. Así el hueco y la negativa no se confunden. -->
 	<span
@@ -2020,7 +2021,7 @@
 
 		<CaracterizacionesDeLaSecuencia
 			valores={{
-				intervencion_personajes_femeninos: form.intervencion_personajes_femeninos,
+				generos_intervinientes: form.generos_intervinientes,
 				intervencion_figuras_donaire: form.intervencion_figuras_donaire,
 				intervencion_personajes_sobrenaturales: form.intervencion_personajes_sobrenaturales,
 				versos_partidos: form.versos_partidos,

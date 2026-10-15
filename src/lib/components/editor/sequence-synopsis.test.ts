@@ -17,8 +17,9 @@ function createSecuencia(overrides: Partial<SecuenciaRow> = {}): SecuenciaRow {
 		estrofa_tipo_id: overrides.estrofa_tipo_id ?? 'estrofa-1',
 		inaugura_espacio: overrides.inaugura_espacio ?? false,
 		versos_partidos: overrides.versos_partidos ?? false,
-		intervencion_personajes_femeninos:
-			overrides.intervencion_personajes_femeninos ?? 'sin_intervencion',
+		intervencion_personajes_femeninos: null,
+		generos_intervinientes:
+			overrides.generos_intervinientes ?? ['masculino'],
 		intervencion_figuras_donaire:
 			overrides.intervencion_figuras_donaire ?? 'sin_intervencion',
 		evento_sobrenatural: overrides.evento_sobrenatural ?? false,
