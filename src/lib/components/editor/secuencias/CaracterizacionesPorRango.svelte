@@ -5,7 +5,6 @@
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
-	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import type { Tables } from '$lib/types/database.types';
 	import { displayTerm } from '$lib/utils/vocabulario';
@@ -37,7 +36,6 @@
 		tipo_caracterizacion_rango_id: string;
 		v_ini: number;
 		v_fin: number;
-		observaciones: string;
 	};
 
 	type Opcion = Pick<
@@ -81,8 +79,7 @@
 	let form = $state<FormState>({
 		tipo_caracterizacion_rango_id: '',
 		v_ini: 1,
-		v_fin: 1,
-		observaciones: ''
+		v_fin: 1
 	});
 
 	function ordenar(lista: CaracterizacionRangoItem[]) {
@@ -203,8 +200,7 @@
 		return {
 			tipo_caracterizacion_rango_id: idPorDefecto(),
 			v_ini: Number(props.rango.v_ini) || 1,
-			v_fin: Number(props.rango.v_ini) || 1,
-			observaciones: ''
+			v_fin: Number(props.rango.v_ini) || 1
 		};
 	}
 
@@ -324,8 +320,7 @@
 		form = {
 			tipo_caracterizacion_rango_id: caracterizacion.tipo_caracterizacion_rango_id,
 			v_ini: caracterizacion.v_ini,
-			v_fin: caracterizacion.v_fin,
-			observaciones: caracterizacion.observaciones ?? ''
+			v_fin: caracterizacion.v_fin
 		};
 		modalAbierto = true;
 	}
@@ -353,8 +348,7 @@
 			body: JSON.stringify({
 				tipo_caracterizacion_rango_id: form.tipo_caracterizacion_rango_id,
 				v_ini: Number(form.v_ini),
-				v_fin: Number(form.v_fin),
-				observaciones: form.observaciones.trim() || null
+				v_fin: Number(form.v_fin)
 			})
 		});
 		guardando = false;
@@ -556,25 +550,7 @@
 					</p>
 				{/if}
 
-				<label class="form-field">
-					<span class="form-label">
-						<span class="form-label-with-help">
-							Observaciones
-							<FieldHelpTooltip
-								text="Este contenido se publica en la ficha pública de la obra."
-								label="Visibilidad pública de observaciones de la caracterización"
-							/>
-						</span>
-					</span>
-					<MarkdownEditorLite
-						rows={3}
-						class="mt-1"
-						minHeightClass="min-h-24"
-						value={form.observaciones}
-						disabled={props.readOnly || guardando}
-						onChange={(siguiente: string) => (form = { ...form, observaciones: siguiente })}
-					/>
-				</label>
+				<p class="form-help">Para dejar una explicación o un comentario crítico, usa «Comentarios» de la secuencia. Si debe publicarse, elige «Observación pública» y marca «Visible en ficha pública».</p>
 			</div>
 			<div class="mt-4 flex justify-end gap-2">
 				<Button variant="secondary" onclick={cerrarModales}>Cancelar</Button>

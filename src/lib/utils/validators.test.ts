@@ -211,10 +211,21 @@ describe('validators', () => {
 		const result = secuenciaCaracterizacionRangoInputSchema.safeParse({
 			tipo_caracterizacion_rango_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
 			v_ini: 56,
-			v_fin: 56,
-			observaciones: 'irregularidad puntual'
+			v_fin: 56
 		});
 		expect(result.success).toBe(true);
+	});
+
+	it('las caracterizaciones no aceptan notas ni generan un nulo que borre las históricas', () => {
+		const payload = {
+			tipo_caracterizacion_rango_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
+			v_ini: 56,
+			v_fin: 56
+		};
+		expect(secuenciaCaracterizacionRangoInputSchema.parse(payload)).toEqual(payload);
+		expect(secuenciaCaracterizacionRangoInputSchema.safeParse({
+			...payload, observaciones: 'Una nota nueva'
+		}).success).toBe(false);
 	});
 
 	it('rejects secuencia caracterizacion por rango payload when v_ini is greater than v_fin', () => {

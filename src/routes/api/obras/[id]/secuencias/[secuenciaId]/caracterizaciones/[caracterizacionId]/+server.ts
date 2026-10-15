@@ -212,8 +212,7 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 		.update({
 			tipo_caracterizacion_rango_id: parsed.data.tipo_caracterizacion_rango_id,
 			v_ini: parsed.data.v_ini,
-			v_fin: parsed.data.v_fin,
-			observaciones: parsed.data.observaciones
+			v_fin: parsed.data.v_fin
 		})
 		.eq('secuencia_id', params.secuenciaId)
 		.eq('caracterizacion_rango_id', params.caracterizacionId)

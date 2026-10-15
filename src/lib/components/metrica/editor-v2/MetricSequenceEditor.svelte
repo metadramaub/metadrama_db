@@ -2034,12 +2034,13 @@
 								/>
 							</label>
 							<label class="form-field sm:col-span-2 xl:col-span-6">
-								<span class="form-label">Descripción de la diferencia (recomendada)</span>
+								<span class="form-label">Descripción de la diferencia (solo datos)</span>
 								<textarea
 									class="min-h-20 w-full border border-[color:var(--border)] p-2"
-									placeholder="Aclara la diferencia si hace falta para leerla después"
+									placeholder="Describe el dato que no quede recogido en los campos anteriores"
 									bind:value={deviation.observaciones}
 								></textarea>
+								<p class="form-help">Describe el dato métrico que no quede recogido en los campos anteriores. La interpretación y el comentario crítico deben ir en «Comentarios» de esta secuencia, con el tipo «Observación pública».</p>
 							</label>
 							</div>
 						</div>

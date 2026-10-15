@@ -67,7 +67,7 @@ Cada desviación declara:
 - **Relación con la norma**: qué le pasa (menos que la norma, más que la norma, otra cosa, o que directamente falta).
 - Lo observado, cuando aplica (por ejemplo, qué metro tiene realmente el verso).
 - El rango de versos al que afecta, dentro del rango de la secuencia.
-- Una descripción, para dar contexto (recomendable, no obligatoria).
+- **Descripción de la diferencia (solo datos)**: completa lo que no quede recogido en los selectores. Si has seleccionado el metro observado, no hace falta repetirlo en texto. La interpretación y el comentario crítico van en **Comentarios** de la secuencia, con el tipo **Observación pública**.
 
 Por ejemplo, para registrar una **laguna**: dimensión **Estructura**, relación **Falta**, y como rango los versos que faltan; no hace falta indicar nada como "lo observado", salvo que quieras dar más información sobre la laguna en la descripción.
 
@@ -97,7 +97,7 @@ Hoy se pueden crear caracterizaciones de tres tipos:
 > [!IMPORTANT]
 > Un verso hipométrico o hipermétrico, una rima defectuosa, un patrón alternativo o una laguna no se anotan aquí: se declaran como desviación, arriba. Si ves alguna fila con un tipo distinto de estos tres, es de antes del cambio: puedes corregirla o borrarla, pero no crear una nueva igual.
 
-Cada caracterización incluye tipo, verso inicial y verso final (que puede ser el mismo, si se trata de un solo verso), y unas observaciones específicas —cualquier dato extra que quieras añadir; será público, y admite [Markdown](/dashboard/guia/ref-markdown).
+Cada caracterización incluye tipo, verso inicial y verso final (que puede ser el mismo, si se trata de un solo verso). Para explicar o comentar el pasaje, utiliza **Comentarios** de la secuencia. Si debe aparecer en la ficha pública, elige el tipo **Observación pública** y marca **Visible en ficha pública**.
 
 Reglas de cada tipo:
 

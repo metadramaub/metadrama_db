@@ -165,9 +165,9 @@ export const secuenciaCaracterizacionRangoInputSchema = z
 	.object({
 		tipo_caracterizacion_rango_id: z.string().uuid('Tipo de caracterizacion requerido'),
 		v_ini: z.number().int().positive(),
-		v_fin: z.number().int().positive(),
-		observaciones: z.string().trim().nullable().optional().default(null)
+		v_fin: z.number().int().positive()
 	})
+	.strict()
 	.refine((input) => input.v_ini <= input.v_fin, {
 		message: 'El verso inicial no puede ser mayor que el final',
 		path: ['v_ini']
