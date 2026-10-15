@@ -1,0 +1,147 @@
+{
+  "obra": "el-amor-al-uso",
+  "fecha": "2026-10-15",
+  "criterios": "docs/revision-notas-caracterizaciones.md",
+  "respuestas_adicionales": [
+    {
+      "clave": "Q|716246ac-1904-43bd-aafc-7e7857b528f3|Organización en pareados",
+      "respuesta": "Predominantes",
+      "origen": "indicacion_ip",
+      "motivo": "Indicación de David del 15-10-2026. El IP consultará a Ana para que revise y cambie esta respuesta si corresponde.",
+      "v_ini": 1348,
+      "v_fin": 1407
+    },
+    {
+      "clave": "Q|5490c3bc-ae58-4677-acdd-64c99ed1b271|Organización en pareados",
+      "respuesta": "Predominantes",
+      "origen": "indicacion_ip",
+      "motivo": "Indicación de David del 15-10-2026. El IP consultará a Ana para que revise y cambie esta respuesta si corresponde.",
+      "v_ini": 2545,
+      "v_fin": 2612
+    },
+    {
+      "clave": "Q|cca642bc-e1cb-4d34-9478-7702f6f4f7fb|Organización en pareados",
+      "respuesta": "Predominantes",
+      "origen": "indicacion_ip",
+      "motivo": "Indicación de David del 15-10-2026. El IP consultará a Ana para que revise y cambie esta respuesta si corresponde.",
+      "v_ini": 2621,
+      "v_fin": 2644
+    }
+  ],
+  "caracterizaciones": {
+    "732f37e1-235f-4ab9-9a26-9defa3763bf0": {
+      "origen": {
+        "secuencia_id": "a06c1b45-e4b0-4b7f-a129-ad53eaba1724",
+        "termino": "rima_defectuosa",
+        "v_ini": 1082,
+        "v_fin": 1082,
+        "observaciones": "La rima es \"-asa\", pero en este verso se usa \"-oso\" (\"enfadoso\")."
+      },
+      "excel": {
+        "respuesta": "No es así (lo corrijo al lado)",
+        "comentario": "La rima no es defectuosa. Mi comentario venía de una edición que al final no es la que he usado como texto base, en la que pone \"enfadoso\", pero es en realidad \"enfadado\", por lo que cuadra con la rima de la quintilla, que es \"ababa\"."
+      },
+      "destino": "rectificacion",
+      "motivo": "La editora retira el defecto: el texto base dice «enfadado», que rima en la quintilla."
+    },
+    "ace1b329-4aa4-40d0-ade6-436a70823995": {
+      "origen": {
+        "secuencia_id": "57b01c76-5905-461e-8d6d-82c0c073fb16",
+        "termino": "rima_defectuosa",
+        "v_ini": 1202,
+        "v_fin": 1202,
+        "observaciones": "La rima del romance es e-e, pero este verso acaba con \"voy\"."
+      },
+      "excel": {
+        "respuesta": "Es correcto"
+      },
+      "destino": "desviacion",
+      "motivo": "Conservar el dato técnico de rima como descripción de la desviación.",
+      "descripcion": "La rima del romance es e-e, pero este verso acaba con \"voy\"."
+    },
+    "e67efe83-d102-4099-a702-2fa0037cb642": {
+      "origen": {
+        "secuencia_id": "679afceb-22f3-47b7-9a56-8a5272501c24",
+        "termino": "cantado",
+        "v_ini": 1948,
+        "v_fin": 1948,
+        "observaciones": "El verso acaba en \"veo\", lo cual no sigue la rima en i-o del romance."
+      },
+      "excel": {
+        "respuesta": "Es correcto"
+      },
+      "destino": "desviacion",
+      "motivo": "La nota describe una diferencia de rima; se conserva además la caracterización de canto.",
+      "descripcion": "El verso acaba en \"veo\", lo cual no sigue la rima en i-o del romance.",
+      "conservar_caracterizacion": true,
+      "desviacion": {
+        "dimension": "rima",
+        "relacion_norma": "otra"
+      }
+    },
+    "f64ecbc8-351b-48fb-9fbd-f1d3e5a08360": {
+      "origen": {
+        "secuencia_id": "437d9695-2126-4e51-a18f-c7af326218cd",
+        "termino": "hipometrico",
+        "v_ini": 2917,
+        "v_fin": 2917,
+        "observaciones": "Verso heptasílabo"
+      },
+      "excel": {
+        "respuesta": "Es correcto"
+      },
+      "destino": "desviacion",
+      "motivo": "El metro exacto ya consta en la nota original; se registra en el selector sin repetir la descripción.",
+      "silabas": 7,
+      "descripcion": null
+    },
+    "be231df4-c5ae-4ccf-9678-c4405332a620": {
+      "origen": {
+        "secuencia_id": "437d9695-2126-4e51-a18f-c7af326218cd",
+        "termino": "hipermetrico",
+        "v_ini": 2918,
+        "v_fin": 2918,
+        "observaciones": "Verso endecasílabo"
+      },
+      "excel": {
+        "respuesta": "Es correcto"
+      },
+      "destino": "desviacion",
+      "motivo": "El metro exacto ya consta en la nota original; se registra en el selector sin repetir la descripción.",
+      "silabas": 11,
+      "descripcion": null
+    },
+    "7d2d13c4-969e-4714-a0a3-0128405b12f3": {
+      "origen": {
+        "secuencia_id": "8e065577-150b-4064-aeec-7c0f1ba9ced2",
+        "termino": "hipometrico",
+        "v_ini": 2983,
+        "v_fin": 2983,
+        "observaciones": "Verso heptasílabo"
+      },
+      "excel": {
+        "respuesta": "Es correcto"
+      },
+      "destino": "desviacion",
+      "motivo": "El metro exacto ya consta en la nota original; se registra en el selector sin repetir la descripción.",
+      "silabas": 7,
+      "descripcion": null
+    },
+    "9285fc5a-0196-42da-abb1-dead86452129": {
+      "origen": {
+        "secuencia_id": "8e065577-150b-4064-aeec-7c0f1ba9ced2",
+        "termino": "hipermetrico",
+        "v_ini": 2984,
+        "v_fin": 2984,
+        "observaciones": "Verso endecasílabo"
+      },
+      "excel": {
+        "respuesta": "Es correcto"
+      },
+      "destino": "desviacion",
+      "motivo": "El metro exacto ya consta en la nota original; se registra en el selector sin repetir la descripción.",
+      "silabas": 11,
+      "descripcion": null
+    }
+  }
+}
