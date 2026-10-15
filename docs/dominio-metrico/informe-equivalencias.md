@@ -11,7 +11,7 @@ Generado el 2026-10-15.
 
 - **123 términos** en `vocabularios.categoria = 'estrofa_tipo'`.
 - **102 declaran su destino** en el catálogo nuevo; **21 no**.
-- **186 secuencias con vocabulario legado aún sin anotación V2**, todas con forma propuesta. Son las que hay que migrar. Las ya migradas conservan el término anterior como rastro y no entran en este recuento.
+- **183 secuencias con vocabulario legado aún sin anotación V2**, todas con forma propuesta. Son las que hay que migrar. Las ya migradas conservan el término anterior como rastro y no entran en este recuento.
 - Otras **509 no lo tienen** y quedan fuera de este informe: 492 ya están anotadas con el editor V2 y el resto no declara forma ninguna. La equivalencia va solo del término viejo al catálogo nuevo, así que a estas no les hace falta.
 - **13 tienen la longitud incompatible** con la arquitectura propuesta. No es un fallo de la equivalencia: es la anotación de la obra, y se revisa en [migracion/](./migracion/).
 
@@ -19,8 +19,8 @@ Generado el 2026-10-15.
 
 | Vía | Secuencias | Qué significa |
 | --- | ---: | --- |
-| `directa` | 124 | El término declara su destino, o lo declara algo que cuelga de él |
-| `rasgo` | 35 | El término se disolvió en un rasgo y la forma la da su ascendiente |
+| `directa` | 122 | El término declara su destino, o lo declara algo que cuelga de él |
+| `rasgo` | 34 | El término se disolvió en un rasgo y la forma la da su ascendiente |
 | `ascendencia` | 27 | El término no declara destino; lo hereda de un ascendiente |
 
 ## Términos sin destino declarado

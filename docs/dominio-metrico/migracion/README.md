@@ -17,6 +17,5 @@ devueltas van a [respuestas/](./respuestas/). El procedimiento completo está en
 | [El esclavo del demonio](./el-esclavo-del-demonio.md) | Blanca Ballester Morell | 30 | 19 | 5 | 6 | **2** | 2 | 22 |
 | [Elisa Dido](./elisa-dido.md) | Blanca Ballester Morell | 16 | 10 | 0 | 6 | — | 18 | 7 |
 | [Dido y Eneas](./dido-y-eneas.md) | Gaston Gilabert | 24 | 16 | 8 | 0 | — | 6 | 18 |
-| [Cegar para ver mejor](./cegar-para-ver-mejor.md) | Gabriel López | 3 | 2 | 1 | 0 | — | — | 3 |
 
-En total, 186 secuencias en 8 obras: 124 con equivalencia directa, 35 con un rasgo además de la forma y 27 que la heredan del término padre. A los editores se les piden 15 decisiones, 77 respuestas y 112 confirmaciones.
+En total, 183 secuencias en 7 obras: 122 con equivalencia directa, 34 con un rasgo además de la forma y 27 que la heredan del término padre. A los editores se les piden 15 decisiones, 77 respuestas y 109 confirmaciones.
