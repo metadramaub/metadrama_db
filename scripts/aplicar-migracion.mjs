@@ -32,7 +32,8 @@
  * sigue teniendo los versos que el informe dijo.
  */
 
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -41,6 +42,7 @@ import { cargarCatalogo } from './lib/metrica/catalogo.mjs';
 import { cargarObras } from './lib/migracion/datos.mjs';
 import { planificarObra } from './lib/migracion/aplicador.mjs';
 import { leerRespuestas } from './lib/migracion/respuestas.mjs';
+import { incorporarRespuestasAdicionales } from './lib/migracion/resoluciones.mjs';
 
 const RAIZ = fileURLToPath(new URL('..', import.meta.url));
 const RESPUESTAS = join(RAIZ, 'docs', 'dominio-metrico', 'migracion', 'respuestas');
@@ -95,6 +97,14 @@ function guionDe(obra, plan, opciones) {
 			`${pendientes.length} quedan pendientes · ${plan.correcciones.length} correcciones.`
 	);
 	w();
+	if (resoluciones?.respuestas_adicionales?.length) {
+		w('## Respuestas complementarias del IP');
+		w();
+		for (const fila of resoluciones.respuestas_adicionales) {
+			w(`- **${fila.v_ini}–${fila.v_fin}**: ${fila.respuesta}. ${fila.motivo}`);
+		}
+		w();
+	}
 
 	w('## Correcciones a las tablas legadas');
 	w();
@@ -114,6 +124,11 @@ function guionDe(obra, plan, opciones) {
 				`${anotacion.resultado === 'fundida' ? ' · fundida' : ''}`
 		);
 		for (const aviso of anotacion.avisos ?? []) w(`  - ${aviso}`);
+		for (const traslado of anotacion.traslados ?? []) {
+			w(
+				`  - Nota vv. ${traslado.origen.v_ini}–${traslado.origen.v_fin}: ${traslado.resolucion.destino}. ${traslado.resolucion.motivo ?? ''}`
+			);
+		}
 	}
 	if (anotadas.length === 0) w('Nada.');
 	w();
@@ -204,6 +219,8 @@ function sentenciasDeCorreccion(obraId, correccion) {
 			 where secuencia_id in (${absorbidas});`,
 			`update public.secuencias_caracterizaciones_rango set secuencia_id = ${superviviente}::uuid
 			 where secuencia_id in (${absorbidas});`,
+			`update public.comentarios_internos set secuencia_id = ${superviviente}::uuid
+			 where secuencia_id in (${absorbidas});`,
 			`update public.secuencias_metricas
 			 set v_fin = ${correccion.v_fin},
 				 n_versos = ${correccion.v_fin - correccion.v_ini + 1},
@@ -231,7 +248,16 @@ function sentenciaDeRastro(obraId, anotacion, correcciones, editorId) {
 		forma: secuencia.forma_propuesta,
 		arquitectura: secuencia.arquitectura_propuesta,
 		anotadas: secuencia.anotadas,
-		derivadas: secuencia.derivadas
+		derivadas: secuencia.derivadas,
+		fuentes,
+		excel_y_complementos: [...respuestasLeidas.values()].filter((fila) => {
+			const ids = fila.clave.split('|');
+			return (
+				ids.includes(secuencia.secuencia_id) ||
+				(anotacion.traslados ?? []).some((t) => ids.includes(t.origen.caracterizacion_rango_id))
+			);
+		}),
+		traslados: anotacion.traslados ?? []
 	};
 	return `
 		insert into public.migracion_secuencias (
@@ -285,6 +311,15 @@ console.log('Leyendo la base…');
 const obras = cargarObras();
 const obra = obras.find((o) => o.slug === opciones.obra);
 if (!obra) {
+	const completada = scalar(`select count(*) > 0 from public.anotaciones_metricas a
+		join public.secuencias_metricas s using(secuencia_id) join public.obras o using(obra_id)
+		where o.slug = ${lit(opciones.obra)}`);
+	if (completada) {
+		console.log(
+			'La obra ya está anotada en V2 y no tiene secuencias legadas pendientes. No se modifica nada.'
+		);
+		process.exit(0);
+	}
 	console.error(
 		`«${opciones.obra}» no tiene secuencias legadas que migrar. Las que hay: ${obras.map((o) => o.slug).join(', ')}`
 	);
@@ -296,10 +331,46 @@ const metros = query('select metro_id, nombre, silabas from public.metros where 
 
 console.log(`Leyendo ${ruta}…`);
 const { respuestas, avisos } = await leerRespuestas(ruta);
+const respuestasLeidas = respuestas;
 for (const aviso of avisos) console.warn(`  ${aviso}`);
+if (avisos.length > 0) throw new Error('Resolver los avisos del Excel antes de migrar.');
 console.log(`  ${respuestas.size} respuestas con clave.`);
 
-const plan = planificarObra(obra, respuestas, catalogo, metros);
+const rutaResoluciones = join(RESPUESTAS, `${opciones.obra}.resoluciones.json`);
+const resoluciones = existsSync(rutaResoluciones)
+	? JSON.parse(readFileSync(rutaResoluciones, 'utf8'))
+	: null;
+if (resoluciones && resoluciones.obra !== obra.slug)
+	throw new Error('Las resoluciones son de otra obra.');
+incorporarRespuestasAdicionales(respuestas, resoluciones?.respuestas_adicionales ?? []);
+const huella = (fichero) => createHash('sha256').update(readFileSync(fichero)).digest('hex');
+const fuentes = {
+	excel: { archivo: ruta, sha256: huella(ruta) },
+	resoluciones: resoluciones
+		? { archivo: rutaResoluciones, sha256: huella(rutaResoluciones) }
+		: null
+};
+
+// Una segunda pasada completa solo lo pendiente; nunca sobrescribe lo ya revisado en V2.
+const existentes = query(`select a.secuencia_id from public.anotaciones_metricas a
+	join public.secuencias_metricas s using (secuencia_id) where s.obra_id = ${lit(obra.obra_id)}::uuid`);
+const idsExistentes = new Set(existentes.map((a) => a.secuencia_id));
+const yaAnotadas = idsExistentes.size;
+if (obra.fundibles.some((tramo) => tramo.some((s) => idsExistentes.has(s.secuencia_id)))) {
+	throw new Error('Una fusión toca secuencias ya anotadas en V2; resolverla por separado.');
+}
+obra.secuencias = obra.secuencias.filter((s) => !idsExistentes.has(s.secuencia_id));
+if (obra.secuencias.length === 0) {
+	console.log('Todas las secuencias ya están anotadas en V2. No se modifica nada.');
+	process.exit(0);
+}
+const plan = planificarObra(
+	obra,
+	respuestas,
+	catalogo,
+	metros,
+	resoluciones?.caracterizaciones ?? {}
+);
 const anotadas = plan.anotaciones.filter((a) => a.resultado !== 'pendiente');
 const pendientes = plan.anotaciones.filter((a) => a.resultado === 'pendiente');
 
@@ -331,12 +402,6 @@ if (!editorId) {
 	console.error('La obra no tiene editor asignado: sin identidad no se puede anotar.');
 	process.exit(1);
 }
-const yaAnotadas = Number(
-	scalar(`select count(*)
-		from public.anotaciones_metricas a
-		join public.secuencias_metricas s using (secuencia_id)
-		where s.obra_id = ${lit(obra.obra_id)}::uuid`)
-);
 if (yaAnotadas > 0 && plan.correcciones.some((c) => c.tipo === 'renumerar')) {
 	console.error(
 		`La obra tiene ${yaAnotadas} secuencias ya anotadas y el plan renumera la obra: una renumeración las desplazaría sin que nadie las revise. Hay que resolverlo a mano.`
@@ -372,8 +437,44 @@ if (snapshot.status !== 0) {
 }
 
 function sentenciasDeLaObra() {
+	const traslados = anotadas.flatMap((a) => a.traslados ?? []);
+	const origenes = traslados.map((t) => t.origen);
+	const ids = anotadas.map((a) => `${lit(a.secuencia.secuencia_id)}::uuid`).join(', ');
 	return [
 		identidad,
+		// Bloquea los orígenes y verifica que nadie los haya cambiado desde la lectura.
+		`select 1 from public.obras where obra_id = ${lit(obra.obra_id)}::uuid for update;`,
+		`select 1 from public.secuencias_metricas where obra_id = ${lit(obra.obra_id)}::uuid for update;`,
+		`select 1 from public.secuencias_caracterizaciones_rango r
+		 join public.secuencias_metricas s using(secuencia_id)
+		 where s.obra_id = ${lit(obra.obra_id)}::uuid for update of r;`,
+		`do $guardas$ begin
+		 if exists (select 1 from jsonb_array_elements(${lit(
+				JSON.stringify(
+					obra.secuencias.map((s) => ({
+						secuencia_id: s.secuencia_id,
+						v_ini: s.v_ini,
+						v_fin: s.v_fin,
+						n_versos: s.n_versos,
+						sinopsis: s.sinopsis,
+						generos_intervinientes: s.generos_intervinientes,
+						inaugura_espacio: s.inaugura_espacio,
+						versos_partidos: s.versos_partidos,
+						evento_sobrenatural: s.evento_sobrenatural
+					}))
+				)
+			)}::jsonb) e left join public.secuencias_metricas s
+		   on s.secuencia_id = (e->>'secuencia_id')::uuid
+		   where s.secuencia_id is null or not (to_jsonb(s) @> e)) then
+		   raise exception 'Ha cambiado una secuencia desde la lectura; no se migra'; end if;
+		 if exists (select 1 from public.anotaciones_metricas where secuencia_id in (${ids})) then
+		   raise exception 'Alguna secuencia se ha anotado desde que se leyó la obra'; end if;
+		 if exists (select 1 from jsonb_array_elements(${lit(JSON.stringify(origenes))}::jsonb) e
+		   left join public.secuencias_caracterizaciones_rango r
+		     on r.caracterizacion_rango_id = (e->>'caracterizacion_rango_id')::uuid
+		   where to_jsonb(r) is distinct from (e->'origen_original')) then
+		   raise exception 'Ha cambiado una caracterización revisada; no se migra'; end if;
+		 end; $guardas$;`,
 		...plan.correcciones.flatMap((correccion) => sentenciasDeCorreccion(obra.obra_id, correccion)),
 		...anotadas.map(
 			(anotacion) =>
@@ -381,7 +482,32 @@ function sentenciasDeLaObra() {
 		),
 		...plan.anotaciones.map((anotacion) =>
 			sentenciaDeRastro(obra.obra_id, anotacion, plan.correcciones, editorId)
-		)
+		),
+		// El origen completo ya está en el rastro. Solo se retiran filas convertidas;
+		// el canto se mantiene y pierde únicamente la nota ya trasladada a desviación.
+		...traslados.flatMap((t) =>
+			t.retirar_caracterizacion
+				? [
+						`delete from public.secuencias_caracterizaciones_rango
+			    where caracterizacion_rango_id = ${lit(t.origen.caracterizacion_rango_id)}::uuid;`
+					]
+				: t.limpiar_observaciones
+					? [
+							`update public.secuencias_caracterizaciones_rango set observaciones = null
+				    where caracterizacion_rango_id = ${lit(t.origen.caracterizacion_rango_id)}::uuid;`
+						]
+					: []
+		),
+		`do $guardas$ begin
+		 if exists (select 1 from jsonb_array_elements(${lit(JSON.stringify(traslados))}::jsonb) e
+		   where not exists (select 1 from public.migracion_secuencias m,
+		     jsonb_array_elements(m.respuestas->'traslados') t
+		     where m.obra_id = ${lit(obra.obra_id)}::uuid and t = e)) then
+		   raise exception 'Falta el origen o la decisión en el rastro de las notas'; end if;
+		 if (select count(*) from public.anotaciones_metricas a join public.secuencias_metricas s using(secuencia_id)
+		   where s.obra_id = ${lit(obra.obra_id)}::uuid) <> ${yaAnotadas + anotadas.length} then
+		   raise exception 'El recuento final no coincide con el plan'; end if;
+		 end; $guardas$;`
 	];
 }
 

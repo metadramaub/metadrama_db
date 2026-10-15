@@ -134,6 +134,8 @@ function leerVias() {
 			count(*) filter (where longitud_compatible = false) as longitud_incompatible
 		from propuesta_metrica_secuencia
 		where via <> 'sin_tipo'
+		  and not exists (select 1 from anotaciones_metricas a
+		    where a.secuencia_id = propuesta_metrica_secuencia.secuencia_id)
 		group by 1
 		order by n desc
 	`);
@@ -199,7 +201,7 @@ function construirInforme() {
 	w(`- **${terminos.length} términos** en \`vocabularios.categoria = 'estrofa_tipo'\`.`);
 	w(`- **${conDestino.length} declaran su destino** en el catálogo nuevo; **${sinDestino.length} no**.`);
 	w(
-		`- **${totalSecuencias} secuencias con vocabulario legado**, todas con forma propuesta. Son las que hay que migrar.`
+		`- **${totalSecuencias} secuencias con vocabulario legado aún sin anotación V2**, todas con forma propuesta. Son las que hay que migrar. Las ya migradas conservan el término anterior como rastro y no entran en este recuento.`
 	);
 	if (Number(fuera.n) > 0) {
 		w(
