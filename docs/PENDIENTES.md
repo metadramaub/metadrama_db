@@ -217,6 +217,11 @@ recorrido no avanza— y presentar las dos lecturas de una misma extensión como
 de 14» frente a «dos septetos de 7», que no compiten por lo mismo. *El veredicto de tres salidas ya
 está en el motor y solo se pinta al detenerse el recorrido.*
 
+**C11 · Unificar los modales en un componente común donde compartan estructura y comportamiento.**
+Centralizar el fondo, el portal, el cierre, la gestión del foco y el scroll interior, manteniendo
+las variantes que necesite cada contenido. Revisar tanto la web pública como el editor y el
+dashboard; partir de `src/lib/actions/portal.ts` y de los componentes actuales de modal.
+
 **C8 · El desglose del autor se queda en dos niveles**, y **filtrar por rasgo o por esquema pide otro
 selector**: hoy es «formas + subtipos anidados» en un control único que no aguanta lo que viene.
 
