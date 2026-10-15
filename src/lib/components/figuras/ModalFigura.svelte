@@ -143,7 +143,7 @@
 </div>
 
 <div
-	class="fixed inset-0 z-[120] flex items-start justify-center overflow-y-auto bg-black/40 p-4 md:items-center"
+	class="fixed inset-0 z-[120] flex items-center justify-center overflow-hidden bg-black/40 p-4"
 	role="presentation"
 	onclick={(evento) => {
 		if (evento.target === evento.currentTarget) props.onClose();
@@ -151,13 +151,13 @@
 >
 	<div
 		bind:this={dialogo}
-		class="w-full max-w-5xl border border-[color:var(--border)] bg-white shadow-lg outline-none"
+		class="flex max-h-[calc(100dvh-2rem)] w-full max-w-5xl flex-col overflow-hidden border border-[color:var(--border)] bg-white shadow-lg outline-none"
 		role="dialog"
 		aria-modal="true"
 		aria-labelledby={idTitulo}
 		tabindex="-1"
 	>
-		<header class="flex items-start justify-between gap-4 border-b border-[color:var(--border)] px-5 py-4">
+		<header class="flex shrink-0 items-start justify-between gap-4 border-b border-[color:var(--border)] px-5 py-4">
 			<div class="min-w-0">
 				<p class="text-[10px] font-semibold tracking-[0.18em] text-[color:var(--primary)]">DESCARGAR EL GRÁFICO</p>
 				<h2 id={idTitulo} class="mt-1 text-lg font-semibold">{props.figura.titulo}</h2>
@@ -172,148 +172,150 @@
 			</button>
 		</header>
 
-		<div class="grid gap-6 p-5 lg:grid-cols-[minmax(0,1fr)_18rem]">
-			<figure class="m-0">
-				<div
-					class="flex min-h-[16rem] items-center justify-center border border-[color:var(--border)] bg-[color:var(--gray-100)] p-3"
-				>
-					{#if vistaPrevia}
-						<img
-							src={vistaPrevia}
-							alt={`Vista previa: ${props.figura.titulo}`}
-							class="block max-h-[60vh] w-auto max-w-full bg-white shadow-sm"
-							class:opacity-60={preparando}
-						/>
-					{:else if !error}
-						<LoaderCircle class="h-5 w-5 animate-spin text-[color:var(--muted-foreground)]" aria-hidden="true" />
-						<span class="sr-only">Preparando la vista previa</span>
-					{/if}
-				</div>
-			</figure>
-
-			<div class="space-y-6">
-				<fieldset>
-					<legend class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-						Color
-					</legend>
-					<div class="mt-2 grid grid-cols-2">
-						{#each opcionesDePaleta as opcion (opcion.valor)}
-							{@const desactivada = opcion.valor === 'grises' && !props.figura.admiteGrises}
-							<label
-								class={`flex cursor-pointer items-center justify-center border px-2 py-1.5 text-xs font-semibold ${
-									paleta === opcion.valor
-										? 'border-[color:var(--gray-800)] bg-[color:var(--gray-800)] text-white'
-										: 'border-[color:var(--border)] bg-white text-[color:var(--gray-800)]'
-								} ${desactivada ? 'cursor-not-allowed opacity-40' : ''}`}
-							>
-								<input
-									class="sr-only"
-									type="radio"
-									name={`${idTitulo}-paleta`}
-									value={opcion.valor}
-									bind:group={paleta}
-									disabled={desactivada}
-								/>
-								{opcion.etiqueta}
-							</label>
-						{/each}
-					</div>
-					{#if !props.figura.admiteGrises}
-						<p class="mt-2 text-xs text-[color:var(--muted-foreground)]">
-							Solo en color para distinguir correctamente los datos.
-						</p>
-					{/if}
-				</fieldset>
-
-				<div>
-					<p class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-						Formato
-					</p>
-					<div class="mt-2 space-y-2">
-						<button
-							type="button"
-							class="flex w-full items-center justify-between gap-3 border border-[color:var(--gray-800)] bg-[color:var(--gray-800)] px-3 py-2 text-left text-white hover:bg-[color:var(--gray-700)] disabled:opacity-50"
-							disabled={!compuesta || preparando || descargando !== null}
-							onclick={() => bajar('png')}
-						>
-							<span>
-								<span class="block text-sm font-semibold">PNG</span>
-								<span class="block text-xs text-white/75">Alta resolución (300 ppp)</span>
-							</span>
-							{#if descargando === 'png'}
-								<LoaderCircle class="h-4 w-4 animate-spin" aria-hidden="true" />
-							{:else}
-								<Download class="h-4 w-4" aria-hidden="true" />
-							{/if}
-						</button>
-						<button
-							type="button"
-							class="flex w-full items-center justify-between gap-3 border border-[color:var(--gray-800)] bg-white px-3 py-2 text-left text-[color:var(--gray-900)] hover:bg-[color:var(--gray-50)] disabled:opacity-50"
-							disabled={!compuesta || preparando || descargando !== null}
-							onclick={() => bajar('svg')}
-						>
-							<span>
-								<span class="block text-sm font-semibold">SVG</span>
-								<span class="block text-xs text-[color:var(--muted-foreground)]">Vectorial</span>
-							</span>
-							{#if descargando === 'svg'}
-								<LoaderCircle class="h-4 w-4 animate-spin" aria-hidden="true" />
-							{:else}
-								<Download class="h-4 w-4" aria-hidden="true" />
-							{/if}
-						</button>
-					</div>
-				</div>
-
-				{#if error}
-					<p class="text-xs text-[color:var(--danger)]" role="alert">{error}</p>
-				{/if}
-			</div>
-		</div>
-
-		<div class="grid gap-6 border-t border-[color:var(--border)] p-5 md:grid-cols-2">
-			<section>
-				<h3 class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-					Cómo citarlo
-				</h3>
-				<p class="mt-2 text-sm leading-6 text-[color:var(--gray-800)]">
-					{#each credito.pie[0].slice(1) as tramo, indice (indice)}
-						{#if tramo.cursiva}<em>{tramo.texto}</em>{:else}{tramo.texto}{/if}
-					{/each}
-				</p>
-				<button
-					type="button"
-					class="mt-3 inline-flex items-center gap-1.5 border border-[color:var(--border)] bg-white px-2 py-1 text-xs font-semibold text-[color:var(--gray-800)] hover:bg-[color:var(--gray-50)]"
-					onclick={() => copiarAlPortapapeles(credito.cita)}
-				>
-					<Copy class="h-3.5 w-3.5" aria-hidden="true" /> Copiar la cita
-				</button>
-			</section>
-
-			<!-- **El uso académico se permite expresamente**, por encima de la licencia: CC no tiene
-			     excepción académica, y un artículo en una revista de editorial comercial queda en terreno
-			     gris con NC. Lo comercial de verdad —un libro de venta— pide permiso firmado. -->
-			<section class="text-sm leading-6 text-[color:var(--gray-800)]">
-				<h3 class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
-					Uso
-				</h3>
-				<p class="mt-2">
-					Puedes usarlo con fines académicos, citando la fuente. Para un uso comercial,
-					<a
-						class="font-semibold text-[color:var(--primary)] underline decoration-1 underline-offset-2"
-						href="/contacto">escríbenos</a
-					>.
-				</p>
-				<p class="mt-2 text-xs text-[color:var(--muted-foreground)]">
-					Licencia
-					<a
-						class="font-semibold text-[color:var(--primary)] underline decoration-1 underline-offset-2"
-						href={VERSOLOGIA.licenciaUrl}
-						target="_blank"
-						rel="noreferrer noopener">{VERSOLOGIA.licencia}</a
+		<div class="min-h-0 overflow-y-auto overscroll-contain">
+			<div class="grid gap-6 p-5 lg:grid-cols-[minmax(0,1fr)_18rem]">
+				<figure class="m-0">
+					<div
+						class="flex min-h-[16rem] items-center justify-center border border-[color:var(--border)] bg-[color:var(--gray-100)] p-3"
 					>
-				</p>
-			</section>
+						{#if vistaPrevia}
+							<img
+								src={vistaPrevia}
+								alt={`Vista previa: ${props.figura.titulo}`}
+								class="block max-h-[60vh] w-auto max-w-full bg-white shadow-sm"
+								class:opacity-60={preparando}
+							/>
+						{:else if !error}
+							<LoaderCircle class="h-5 w-5 animate-spin text-[color:var(--muted-foreground)]" aria-hidden="true" />
+							<span class="sr-only">Preparando la vista previa</span>
+						{/if}
+					</div>
+				</figure>
+
+				<div class="space-y-6">
+					<fieldset>
+						<legend class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+							Color
+						</legend>
+						<div class="mt-2 grid grid-cols-2">
+							{#each opcionesDePaleta as opcion (opcion.valor)}
+								{@const desactivada = opcion.valor === 'grises' && !props.figura.admiteGrises}
+								<label
+									class={`flex cursor-pointer items-center justify-center border px-2 py-1.5 text-xs font-semibold ${
+										paleta === opcion.valor
+											? 'border-[color:var(--gray-800)] bg-[color:var(--gray-800)] text-white'
+											: 'border-[color:var(--border)] bg-white text-[color:var(--gray-800)]'
+									} ${desactivada ? 'cursor-not-allowed opacity-40' : ''}`}
+								>
+									<input
+										class="sr-only"
+										type="radio"
+										name={`${idTitulo}-paleta`}
+										value={opcion.valor}
+										bind:group={paleta}
+										disabled={desactivada}
+									/>
+									{opcion.etiqueta}
+								</label>
+							{/each}
+						</div>
+						{#if !props.figura.admiteGrises}
+							<p class="mt-2 text-xs text-[color:var(--muted-foreground)]">
+								Solo en color para distinguir correctamente los datos.
+							</p>
+						{/if}
+					</fieldset>
+
+					<div>
+						<p class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+							Formato
+						</p>
+						<div class="mt-2 space-y-2">
+							<button
+								type="button"
+								class="flex w-full items-center justify-between gap-3 border border-[color:var(--gray-800)] bg-[color:var(--gray-800)] px-3 py-2 text-left text-white hover:bg-[color:var(--gray-700)] disabled:opacity-50"
+								disabled={!compuesta || preparando || descargando !== null}
+								onclick={() => bajar('png')}
+							>
+								<span>
+									<span class="block text-sm font-semibold">PNG</span>
+									<span class="block text-xs text-white/75">Alta resolución (300 ppp)</span>
+								</span>
+								{#if descargando === 'png'}
+									<LoaderCircle class="h-4 w-4 animate-spin" aria-hidden="true" />
+								{:else}
+									<Download class="h-4 w-4" aria-hidden="true" />
+								{/if}
+							</button>
+							<button
+								type="button"
+								class="flex w-full items-center justify-between gap-3 border border-[color:var(--gray-800)] bg-white px-3 py-2 text-left text-[color:var(--gray-900)] hover:bg-[color:var(--gray-50)] disabled:opacity-50"
+								disabled={!compuesta || preparando || descargando !== null}
+								onclick={() => bajar('svg')}
+							>
+								<span>
+									<span class="block text-sm font-semibold">SVG</span>
+									<span class="block text-xs text-[color:var(--muted-foreground)]">Vectorial</span>
+								</span>
+								{#if descargando === 'svg'}
+									<LoaderCircle class="h-4 w-4 animate-spin" aria-hidden="true" />
+								{:else}
+									<Download class="h-4 w-4" aria-hidden="true" />
+								{/if}
+							</button>
+						</div>
+					</div>
+
+					{#if error}
+						<p class="text-xs text-[color:var(--danger)]" role="alert">{error}</p>
+					{/if}
+				</div>
+			</div>
+
+			<div class="grid gap-6 border-t border-[color:var(--border)] p-5 md:grid-cols-2">
+				<section>
+					<h3 class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+						Cómo citarlo
+					</h3>
+					<p class="mt-2 text-sm leading-6 text-[color:var(--gray-800)]">
+						{#each credito.pie[0].slice(1) as tramo, indice (indice)}
+							{#if tramo.cursiva}<em>{tramo.texto}</em>{:else}{tramo.texto}{/if}
+						{/each}
+					</p>
+					<button
+						type="button"
+						class="mt-3 inline-flex items-center gap-1.5 border border-[color:var(--border)] bg-white px-2 py-1 text-xs font-semibold text-[color:var(--gray-800)] hover:bg-[color:var(--gray-50)]"
+						onclick={() => copiarAlPortapapeles(credito.cita)}
+					>
+						<Copy class="h-3.5 w-3.5" aria-hidden="true" /> Copiar la cita
+					</button>
+				</section>
+
+				<!-- **El uso académico se permite expresamente**, por encima de la licencia: CC no tiene
+				     excepción académica, y un artículo en una revista de editorial comercial queda en terreno
+				     gris con NC. Lo comercial de verdad —un libro de venta— pide permiso firmado. -->
+				<section class="text-sm leading-6 text-[color:var(--gray-800)]">
+					<h3 class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+						Uso
+					</h3>
+					<p class="mt-2">
+						Puedes usarlo con fines académicos, citando la fuente. Para un uso comercial,
+						<a
+							class="font-semibold text-[color:var(--primary)] underline decoration-1 underline-offset-2"
+							href="/contacto">escríbenos</a
+						>.
+					</p>
+					<p class="mt-2 text-xs text-[color:var(--muted-foreground)]">
+						Licencia
+						<a
+							class="font-semibold text-[color:var(--primary)] underline decoration-1 underline-offset-2"
+							href={VERSOLOGIA.licenciaUrl}
+							target="_blank"
+							rel="noreferrer noopener">{VERSOLOGIA.licencia}</a
+						>
+					</p>
+				</section>
+			</div>
 		</div>
 	</div>
 </div>
