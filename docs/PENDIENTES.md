@@ -225,7 +225,8 @@ selector**: hoy es «formas + subtipos anidados» en un control único que no ag
 ## D · La ficha pública
 
 **D11 · Elegir la representación del canto en «De un vistazo».** Al activar «Canto» se comparan
-temporalmente tres códigos de barras: origen común con curvas, pista paralela y marcas agrupadas.
+temporalmente tres pistas paralelas sin agrupaciones: marcas compactas, dos carriles alternos y
+puntos para versos sueltos con extremos para los rangos.
 Comprobar obra completa, jornadas y exportación; tras elegir, retirar la comparación y las variantes
 descartadas. Implementación compartida en `CantoDiagram.svelte` y `canto-diagrama.ts`.
 
