@@ -232,7 +232,7 @@
 			? 'Sinopsis y notas'
 			: synopsis.length > 0
 				? 'Sinopsis'
-				: 'Notas públicas'
+				: 'Notas'
 	);
 </script>
 
@@ -484,14 +484,10 @@
 
 							{#if publicComments.length > 0}
 								<section>
-									<h4 class="mb-2 font-semibold">{synopsis ? 'Aclaraciones públicas' : 'Notas públicas'}</h4>
 									<div class="space-y-3">
 										{#each publicComments as comment (comment.comentario_id)}
 											<div class="border-l-2 border-[color:var(--border)] pl-3">
 												<div class="space-y-1">{@html renderMarkdown(comment.comentario)}</div>
-												{#if comment.nombre_editor}
-													<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">Autoría de ficha: {comment.nombre_editor}</p>
-												{/if}
 											</div>
 										{/each}
 									</div>
