@@ -72,6 +72,13 @@ incluye las ocho obras reales, sus responsables y los versos donde empezar. El I
 cuando esté desplegado el nuevo formulario; la conversión no confirma el género de esas voces.
 → [lista y criterios de revisión](./revision-generos-intervinientes.md)
 
+**A9 · Trasladar las notas al migrar cada obra.** Quedan 66 observaciones de caracterizaciones en
+siete obras reales, con destinos revisados por el IP. Aplicar cada decisión al procesar su Excel,
+respetando correcciones y renumeraciones. Antes de fusionar secuencias, corregir el aplicador para
+trasladar sus comentarios existentes: el borrado actual podría eliminarlos en cascada. La columna
+y los originales se conservan; el formulario ya no admite nuevas notas en ella.
+→ [dictamen y procedimiento](./revision-notas-caracterizaciones.md)
+
 ---
 
 ## B · El catálogo y su modelo
