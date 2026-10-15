@@ -1,0 +1,21 @@
+{
+	"obra": "cegar-para-ver-mejor",
+	"fecha": "2026-10-15",
+	"total_versos_original": 2903,
+	"procedencia": "No se envió Excel a Gabriel. Se lee el cuestionario original sin rellenar y se trasladan solo los datos métricos legados por autorización expresa de David, sin atribuir al editor respuestas ni una nueva revisión.",
+	"secuencias": {
+		"5177c237-5629-40b7-9dbf-219fa510dbc4": {
+			"origen": { "v_ini": 1, "v_fin": 244, "termino_legado": "redondilla_regular" },
+			"motivo": "Traslado literal del término legado a 61 redondillas abba, autorizado por David; sin nueva confirmación de Gabriel. Se conservan los campos de personajes pendientes de revisión."
+		},
+		"c4f271ef-7951-46f7-b905-f98b3c3dbc5d": {
+			"origen": { "v_ini": 245, "v_fin": 420, "termino_legado": "romance_a-e" },
+			"motivo": "Traslado literal del romance octosílabo con asonancia a-e, autorizado por David; sin nueva confirmación de Gabriel."
+		},
+		"2e692d0d-c2bf-405a-9be5-845567343422": {
+			"origen": { "v_ini": 421, "v_fin": 484, "termino_legado": "redondilla_regular" },
+			"motivo": "Traslado literal del término legado a 16 redondillas abba, autorizado por David; sin nueva confirmación de Gabriel."
+		}
+	},
+	"conservacion": "La obra mantiene 2903 versos y su estructura completa. Solo hay secuencias anotadas hasta 484; no se inventan las restantes ni se elimina ninguna secuencia. Se conservan sinopsis y todos los datos de personajes."
+}
