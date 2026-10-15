@@ -1,5 +1,5 @@
 {
-	"generado": "2026-09-21",
+	"generado": "2026-10-15",
 	"obras": [
 		{
 			"slug": "cegar-para-ver-mejor",
@@ -26,18 +26,6 @@
 			"desviaciones": 7
 		},
 		{
-			"slug": "el-amor-al-uso",
-			"obra_id": "09479a39-0349-4470-9fba-49394954862c",
-			"titulo": "El amor al uso",
-			"editor": "Ana Vicente",
-			"excel": "el-amor-al-uso.xlsx",
-			"secuencias": 28,
-			"decidir": 0,
-			"responder": 6,
-			"confirmar": 17,
-			"desviaciones": 7
-		},
-		{
 			"slug": "el-caballero-de-olmedo",
 			"obra_id": "3b14aa61-97d6-4d2b-88f0-fb3ebc644d0a",
 			"titulo": "El caballero de Olmedo",
@@ -57,7 +45,7 @@
 			"excel": "el-conde-de-sex.xlsx",
 			"secuencias": 28,
 			"decidir": 1,
-			"responder": 2,
+			"responder": 3,
 			"confirmar": 25,
 			"desviaciones": 0
 		},
@@ -81,7 +69,7 @@
 			"excel": "el-magico-prodigioso.xlsx",
 			"secuencias": 21,
 			"decidir": 1,
-			"responder": 3,
+			"responder": 5,
 			"confirmar": 15,
 			"desviaciones": 4
 		},
@@ -129,7 +117,7 @@
 			"excel": "valor-agravio-y-mujer.xlsx",
 			"secuencias": 26,
 			"decidir": 4,
-			"responder": 6,
+			"responder": 11,
 			"confirmar": 14,
 			"desviaciones": 160
 		}

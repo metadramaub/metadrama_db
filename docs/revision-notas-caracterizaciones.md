@@ -1,6 +1,6 @@
 # Propuesta de destino de las observaciones de caracterizaciones
 
-Estado: **aplicación parcial realizada el 15 de octubre de 2026**. Se han trasladado las seis notas de prueba y la de Adonis y Venus a comentarios públicos de sus secuencias, con el rango al principio y el editor asignado como autor. La columna y los 73 textos originales permanecen intactos en la base. Las otras 66 notas reales se tratarán obra por obra al procesar sus Excel; la laguna de El mágico prodigioso se resolverá entonces.
+Estado: **aplicación parcial realizada el 15 de octubre de 2026**. Se han trasladado las seis notas de prueba y la de Adonis y Venus a comentarios públicos de sus secuencias, con el rango al principio y el editor asignado como autor. También se han resuelto las siete notas de El amor al uso al migrar sus 28 secuencias. La columna permanece en la base y todos los textos originales se conservan, en las filas pendientes o en el rastro de lo ya migrado. Quedan 59 notas reales de seis obras para sus Excel; la laguna de El mágico prodigioso se resolverá entonces.
 
 El formulario ya no permite escribir observaciones en las caracterizaciones. La descripción de desviaciones muestra la ayuda aprobada para distinguir datos y comentarios críticos. La guía y el generador de obras de prueba siguen ese criterio.
 
@@ -34,42 +34,65 @@ La descripción de una desviación sirve para completar lo que no cubran sus sel
 | Valor, agravio y mujer | María Isabel Cuena | 0 | 16 | 0 | 2 | 0 | 18 |
 | **Total real** | | **4** | **50** | **9** | **3** | **1** | **67** |
 
-El recuento refleja la revisión inicial. La nota de Adonis y Venus y las seis de prueba, revisadas al final como C, ya están trasladadas. Quedan 66 notas reales en siete obras.
+El recuento refleja la revisión inicial. Están resueltas la nota de Adonis y Venus, las seis de prueba y las siete de El amor al uso. Quedan 59 notas reales en seis obras.
 
 ## Cómo encajarlo con la migración de obras
 
-1. Mantener intacta la columna observaciones y los textos originales durante la migración. El campo está retirado del formulario; los datos históricos siguen disponibles para el aplicador.
+1. Conservar la columna observaciones durante la migración. El campo está retirado del formulario; los datos históricos pendientes siguen disponibles para el aplicador. Antes de retirar una caracterización convertida o limpiar una nota trasladada, guardar su fila original completa y la resolución en el rastro de migración.
 2. Registrar cada destino por caracterizacion_rango_id y huella del texto. Si el texto cambia después de la revisión, detener ese traslado y volver a revisarlo. No clasificar por palabras o por longitud durante la aplicación.
 3. Conservar los Excel enviados y recibidos. El lector identifica las filas por Clave, incluida D|<caracterizacion_rango_id>; no es necesario volver a enviarlos para esta clasificación. Las correcciones que haya escrito el editor prevalecen sobre la propuesta inicial y se resuelven explícitamente.
 4. Al migrar cada obra, resolver primero sus respuestas, correcciones, renumeraciones y fusiones. E se guarda en el selector correspondiente, sin repetirlo en la descripción; D va al texto de la desviación; C crea un comentario de tipo observacion_publica, visible en ficha pública; M separa dato y comentario; R aplica la rectificación aprobada. En una enunciativa, el traslado del comentario no elimina la caracterización.
 5. Los comentarios llevan como autor al editor asignado, según la indicación del IP. Se vinculan a la secuencia y comienzan con el verso o rango definitivo escrito en el propio texto, por ejemplo «**V. 22.** …» o «**Vv. 354–355.** …». Conservar el ID y el texto originales en el rastro y evitar duplicados al repetir el proceso.
 
    Si una renumeración afecta a referencias de versos dentro del texto de la nota, revisarlas antes de trasladarlo. No sustituir cifras automáticamente: también hay páginas bibliográficas y otros números. Conservar la redacción original y su numeración en el rastro.
-6. Corregir la fusión de secuencias para trasladar también los comentarios ya existentes antes de borrar las filas absorbidas: actualmente solo se trasladan subtipos y caracterizaciones y la FK de comentarios tiene borrado en cascada.
+6. En una fusión, trasladar también los comentarios ya existentes antes de borrar las filas absorbidas. El aplicador mueve ahora comentarios, subtipos y caracterizaciones; la FK de comentarios tiene borrado en cascada.
 7. Antes de aplicar: copia, snapshot y ensayo íntegro con rollback. Las notas que dependan de la migración métrica se trasladan al migrar su obra; no completar respuestas métricas no recibidas. Las secuencias que ya tienen anotación V2 se tratan sin esperar un Excel.
 
-La base tiene vacía migracion_secuencias. Entre estas obras reales, Adonis y Venus ya tiene anotaciones V2; las demás no. Su nota de canto se ha trasladado sin migrar de nuevo su métrica.
+Adonis y Venus tenía anotaciones V2 y su nota se trasladó sin migrar su métrica. El amor al uso ya tiene sus 28 anotaciones y sus 28 filas en migracion_secuencias. Las otras obras de este dictamen siguen pendientes de migración métrica.
 
 ### Orden de aplicación
 
 - **Ya anotadas con V2:** traslado realizado para Adonis y Venus, canto de vv. 1229–1287 dentro de la secuencia 1229–1306. Comentario público firmado por Gaston Gilabert, con el rango al principio y sin alterar el canto.
-- **Pendientes de migración métrica:** trasladar sus notas en la misma operación que la obra, cuando se procese su Excel. Son las otras 66 notas reales, en siete obras. Así se respetan las rectificaciones del editor, las renumeraciones y las fusiones y no se crean descripciones de desviaciones que aún no existen.
+- **Pendientes de migración métrica:** trasladar sus notas en la misma operación que la obra, cuando se procese su Excel. Quedan 59 notas reales en seis obras. Así se respetan las rectificaciones del editor, las renumeraciones y las fusiones y no se crean descripciones de desviaciones que aún no existen.
 - **Nuevas anotaciones:** aplicar el formulario sin Observaciones en las caracterizaciones por rango y la ayuda aprobada en desviaciones. La columna y los textos históricos pendientes permanecen en la base para el aplicador, aunque el formulario no permita crear nuevas notas en ella.
 - **Pruebas:** las seis notas ya están trasladadas. Cinco pertenecen a secuencias con anotación V2 y una a una secuencia sin ella; ninguna requiere crear una desviación.
 
 Las tres notas mixtas quedan aprobadas para separar dato y comentario. La pausa de El caballero de Olmedo (vv. 478–480) se conservará como desviación con la nota íntegra, por indicación del IP. El encaje de su dimensión se revisará al migrar esa obra; no se asignará rima automáticamente solo por el nombre legado patron_alternativo.
 
-## Prueba con El amor al uso
+## Migración de El amor al uso
 
-Excel recibido: docs/dominio-metrico/migracion/respuestas/migracion_amor al uso_completado AV.xlsx. Se ha leído sin modificarlo. El lector reconoce 30 claves y no informa duplicados ni errores de lectura.
+El archivo recibido como migracion_amor al uso_completado AV.xlsx se renombró a docs/dominio-metrico/migracion/respuestas/el-amor-al-uso.xlsx, sin modificar su contenido. El lector reconoce 30 claves y no informa duplicados ni errores de lectura.
 
-La simulación del aplicador actual prepara 24 de 28 secuencias, sin correcciones estructurales, y deja cuatro pendientes: la rectificación del v. 1082 y Organización en pareados en vv. 1348–1407, 2545–2612 y 2621–2644. El cuestionario es anterior a la nueva pregunta: falta recoger esas tres respuestas, no regenerar todo el Excel.
+Migración aplicada el 15 de octubre de 2026: **28 de 28 secuencias**, sin renumeraciones ni fusiones. La lectura inicial dejaba cuatro pendientes: la rectificación del v. 1082, resuelta expresamente según el Excel, y Organización en pareados en vv. 1348–1407, 2545–2612 y 2621–2644. Las tres silvas se guardaron como **Predominantes por indicación del IP**, que consultará a Ana para su revisión; esas respuestas no estaban en el cuestionario recibido.
 
-En el v. 1082, la editora indica que el defecto procedía de otra edición y lo descarta para el texto base utilizado. El aplicador actual deja la secuencia pendiente por no interpretar correcciones libres; debe recibir una resolución explícita para ese ID, no una regla que acepte cualquier «No es así». Su explicación del Excel se conserva como evidencia editorial y no se publica automáticamente.
+En el v. 1082, la editora indica que el defecto procedía de otra edición y lo descarta para el texto base utilizado. Se retiró la caracterización sin crear desviación ni comentario público. La resolución comprueba el ID, el texto original y la respuesta exacta; no es una regla que acepte cualquier «No es así». Su explicación queda como evidencia editorial en el rastro.
 
-En el v. 1948, el aplicador actual conserva Cantado pero no crea una desviación de rima, pese al contenido de la nota. La propuesta D de esta revisión requiere añadir ese destino de forma explícita manteniendo el canto.
+En el v. 1948 se conserva Cantado y se crea la desviación de rima con su nota técnica. La observación junto al canto se limpia para no duplicarla. La del v. 1202 se conserva como descripción de la desviación de rima correspondiente.
 
-Las notas «Verso heptasílabo» de los vv. 2917 y 2983 se registrarán como metro observado heptasílabo. Las notas «Verso endecasílabo» de los vv. 2918 y 2984, como metro observado endecasílabo. Las cuatro descripciones quedarán vacías: el texto no añade nada al valor del selector. El Excel deja las sílabas sin rellenar, pero estos valores constan expresamente en la anotación original y no requieren inferirlos.
+Las notas «Verso heptasílabo» de los vv. 2917 y 2983 se registraron como metro observado heptasílabo. Las notas «Verso endecasílabo» de los vv. 2918 y 2984, como metro observado endecasílabo. Las cuatro descripciones quedan vacías: el texto no añade nada al selector. El Excel dejaba las sílabas sin rellenar, pero los valores constaban expresamente en las notas originales.
+
+Las siete decisiones están en respuestas/el-amor-al-uso.resoluciones.json, junto al Excel intacto. El rastro de cada secuencia guarda las respuestas relevantes, las fuentes y sus huellas SHA-256, los originales completos de las notas y sus destinos. Las seis caracterizaciones retiradas del catálogo se eliminaron después de archivar ese origen; el canto se conserva. El aplicador no sobrescribe secuencias que ya tengan anotación V2.
+
+La comparación con el snapshot anterior confirma rangos, estructura, subtipos, sinopsis, géneros y comentarios sin cambios. Las demás obras mantienen sus datos editoriales; el recálculo público solo actualizó la fecha de sus resúmenes. La excepción **aabba** de la quintilla de vv. 2117–2121 se trasladó desde el Excel frente al **ababa** general del pasaje.
+
+El cotejo completo entre el plan y la base coincide en **28 secuencias, 204 unidades, 168
+respuestas y seis desviaciones**, con Ana Vicente como autora. La auditoría del catálogo no
+detecta desajustes de esta obra. Repetir el aplicador la reconoce como completada y no escribe.
+Estas comprobaciones validan el traslado de lo recibido y de las resoluciones aprobadas; la
+revisión filológica final corresponde a la editora.
+
+### Comprobación en el editor
+
+Abrir **Obras → El amor al uso → Secuencias**. La obra sigue en borrador.
+
+| Secuencia o versos | Resultado que debe verse |
+|---|---|
+| 1043–1117; v. 1082 | Quintillas sin la antigua marca de rima defectuosa; no se crea una desviación en 1082. |
+| v. 1202 | Desviación de rima con la nota técnica sobre «voy» frente a e-e. |
+| v. 1948 | Cantado y desviación de rima con la nota sobre «veo» frente a i-o; la nota no se repite junto al canto. |
+| 2117–2156 | Quintillas con ababa como respuesta general y aabba en la primera, vv. 2117–2121. |
+| vv. 2917–2918 y 2983–2984 | Metros observados 7 y 11 respectivamente, seleccionados; descripciones vacías. |
+| 1348–1407, 2545–2612 y 2621–2644 | Silva consonante de orden libre; pareados Predominantes por indicación del IP, pendientes de revisión por Ana. |
 
 ## Localización de los comentarios públicos
 

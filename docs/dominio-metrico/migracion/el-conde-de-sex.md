@@ -1,6 +1,6 @@
 # Migración métrica · El conde de Sex
 
-Informe para Rosa Bono, generado el 2026-09-21. Leer antes de editar el Excel enviado por correo.
+Informe para Rosa Bono, generado el 2026-10-15. Leer antes de editar el Excel enviado por correo.
 
 ## De qué va esto
 
@@ -23,7 +23,7 @@ allí que la migración no dejó ningún hueco.
 ## Qué te pido
 
 - 1 decisión sobre pasajes cuyo número de versos no encaja con la forma que tienen asignada.
-- 2 respuestas, en 2 secuencias, a preguntas que el vocabulario anterior no recogía.
+- 3 respuestas, en 3 secuencias, a preguntas que el vocabulario anterior no recogía.
 - 25 confirmaciones de respuestas que ya he rellenado yo.
 
 ## Pasajes que no encajan
@@ -46,6 +46,7 @@ deduce sola y solo hay que confirmarla.
 
 | Versos | Forma | Pregunta | Cómo contestar |
 | --- | --- | --- | --- |
+| 115–240 | Silva · Consonante de orden libre | Organización en pareados | Elige en el desplegable |
 | 1323–1326 | Redondilla · Octosílaba | Esquema de rima · 1 estrofa | Elige en el desplegable |
 | 1329–1368 | Quintilla · Octosílaba consonante | Esquema de rima · 8 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», una detrás de otra y separadas por punto y coma, como «191-194: abab; 203-206: abab» |
 
@@ -109,7 +110,7 @@ derivadas se deducen del término y aparecen en la pestaña Confirmar.
 | # | Versos | v | Vocabulario anterior | Forma | Arquitectura | Subtipos | Caracterizaciones | Estado | Propuesta | Vía |
 | ---: | --- | ---: | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | 1–114 | 114 | `romance_a-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
-| 2 | 115–240 | 126 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | — | lista | 1 derivada | directa |
+| 2 | 115–240 | 126 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | — | **Falta:** Organización en pareados | 1 derivada | directa |
 | 3 | 241–292 | 52 | `romance_a-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
 | 4 | 293–364 | 72 | `redondilla_regular` | Redondilla | Octosílaba | — | — | lista | 18 derivadas | directa |
 | 5 | 365–816 | 452 | `romance_i-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |

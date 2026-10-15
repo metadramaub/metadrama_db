@@ -1,6 +1,6 @@
 # Migración métrica · Valor, agravio y mujer
 
-Informe para María Isabel Cuena, generado el 2026-09-21. Leer antes de editar el Excel enviado por correo.
+Informe para María Isabel Cuena, generado el 2026-10-15. Leer antes de editar el Excel enviado por correo.
 
 ## De qué va esto
 
@@ -24,7 +24,7 @@ allí que la migración no dejó ningún hueco.
 ## Qué te pido
 
 - 4 decisiones sobre pasajes cuyo número de versos no encaja con la forma que tienen asignada.
-- 6 respuestas, en 6 secuencias, a preguntas que el vocabulario anterior no recogía.
+- 11 respuestas, en 11 secuencias, a preguntas que el vocabulario anterior no recogía.
 - 14 confirmaciones de respuestas que ya he rellenado yo.
 - 143 versos hipométricos o hipermétricos en los que puedes indicar el número de sílabas si lo tienes a mano. Es opcional.
 - 5 caracterizaciones que conviene que revises, porque su traducción al modelo nuevo no es automática.
@@ -56,6 +56,11 @@ deduce sola y solo hay que confirmarla.
 | 728–819 | Redondilla · Octosílaba | Esquema de rima · 23 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», una detrás de otra y separadas por punto y coma, como «191-194: abab; 203-206: abab» |
 | 888–927 | Redondilla · Octosílaba | Esquema de rima · 10 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», una detrás de otra y separadas por punto y coma, como «191-194: abab; 203-206: abab» |
 | 1263–1266 | Redondilla · Octosílaba | Esquema de rima · 1 estrofa | Elige en el desplegable |
+| 1596–1690 | Silva · Consonante de orden libre | Organización en pareados | Elige en el desplegable |
+| 1711–1714 | Silva · Consonante de orden libre | Organización en pareados | Elige en el desplegable |
+| 1735–1738 | Silva · Consonante de orden libre | Organización en pareados | Elige en el desplegable |
+| 1759–1762 | Silva · Consonante de orden libre | Organización en pareados | Elige en el desplegable |
+| 1783–1838 | Silva · Consonante de orden libre | Organización en pareados | Elige en el desplegable |
 | 2004–2075 | Redondilla · Octosílaba | Esquema de rima · 18 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», una detrás de otra y separadas por punto y coma, como «191-194: abab; 203-206: abab» |
 | 2418–2537 | Redondilla · Octosílaba | Esquema de rima · 30 estrofas | Elige en el desplegable. La respuesta vale para todas las estrofas; las que sean distintas, en «Excepciones», una detrás de otra y separadas por punto y coma, como «191-194: abab; 203-206: abab» |
 
@@ -134,18 +139,18 @@ derivadas se deducen del término y aparecen en la pestaña Confirmar.
 | 10 | 1263–1266 | 4 | `redondilla` | Redondilla | Octosílaba | — | — | **Falta:** Esquema de rima | — | directa |
 | 11 | 1267–1301 | 35 | `decima_espinela` | Décima | Espinela | — | `patron_alternativo` (1276–1291)<br>`rima_defectuosa` (1276–1291) | **Revisar:** Sus 35 versos no encajan en una décima espinela, que se compone de unidades completas de 10 versos. Encajaría con 5 versos más (40) o con 5 versos menos (30). | — | directa |
 | 12 | 1302–1595 | 294 | `romance_a-e` | Romance | Octosílabo | — | `hipometrico` (1307)<br>`patron_alternativo` (1311–1314)<br>`hipermetrico` (1328)<br>`hipometrico` (1385)<br>`hipometrico` (1394)<br>`hipermetrico` (1395)<br>`hipermetrico` (1402)<br>`hipometrico` (1447)<br>`hipermetrico` (1451)<br>`rima_defectuosa` (1457)<br>`hipermetrico` (1486)<br>`hipermetrico` (1498)<br>`hipometrico` (1503)<br>`rima_defectuosa` (1523)<br>`hipermetrico` (1582)<br>`hipometrico` (1585)<br>`hipermetrico` (1588) | lista | 1 derivada | rasgo + forma del padre |
-| 13 | 1596–1690 | 95 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | `hipermetrico` (1596)<br>`hipermetrico` (1604)<br>`hipermetrico` (1605)<br>`hipermetrico` (1616)<br>`hipermetrico` (1617)<br>`hipermetrico` (1643)<br>`hipometrico` (1651)<br>`hipermetrico` (1653)<br>`hipermetrico` (1653)<br>`hipermetrico` (1657)<br>`hipermetrico` (1664)<br>`hipermetrico` (1670)<br>`rima_defectuosa` (1686) | lista | 1 derivada | directa |
+| 13 | 1596–1690 | 95 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | `hipermetrico` (1596)<br>`hipermetrico` (1604)<br>`hipermetrico` (1605)<br>`hipermetrico` (1616)<br>`hipermetrico` (1617)<br>`hipermetrico` (1643)<br>`hipometrico` (1651)<br>`hipermetrico` (1653)<br>`hipermetrico` (1653)<br>`hipermetrico` (1657)<br>`hipermetrico` (1664)<br>`hipermetrico` (1670)<br>`rima_defectuosa` (1686) | **Falta:** Organización en pareados | 1 derivada | directa |
 | 14 | 1691–1710 | 20 | `decima_espinela` | Décima | Espinela | — | `hipermetrico` (1701)<br>`hipermetrico` (1704) | lista | — | directa |
-| 15 | 1711–1714 | 4 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | — | lista | 1 derivada | directa |
+| 15 | 1711–1714 | 4 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | — | **Falta:** Organización en pareados | 1 derivada | directa |
 | 16 | 1715–1734 | 20 | `decima_espinela` | Décima | Espinela | — | `hipometrico` (1723) | lista | — | directa |
-| 17 | 1735–1738 | 4 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | `hipermetrico` (1737) | lista | 1 derivada | directa |
+| 17 | 1735–1738 | 4 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | `hipermetrico` (1737) | **Falta:** Organización en pareados | 1 derivada | directa |
 | 18 | 1739–1758 | 20 | `decima_espinela` | Décima | Espinela | — | `hipermetrico` (1751) | lista | — | directa |
-| 19 | 1759–1762 | 4 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | — | lista | 1 derivada | directa |
+| 19 | 1759–1762 | 4 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | — | **Falta:** Organización en pareados | 1 derivada | directa |
 | 20 | 1763–1782 | 20 | `decima_espinela` | Décima | Espinela | — | `hipometrico` (1767)<br>`hipometrico` (1772) | lista | — | directa |
-| 21 | 1783–1838 | 56 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | `hipermetrico` (1794)<br>`hipermetrico` (1811)<br>`hipometrico` (1813) | lista | 1 derivada | directa |
+| 21 | 1783–1838 | 56 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | `hipermetrico` (1794)<br>`hipermetrico` (1811)<br>`hipometrico` (1813) | **Falta:** Organización en pareados | 1 derivada | directa |
 | 22 | 1839–2003 | 165 | `romance_a-e` | Romance | Octosílabo | — | `hipermetrico` (1896)<br>`hipometrico` (1954)<br>`hipermetrico` (1964)<br>`hipermetrico` (1980)<br>`hipermetrico` (1981)<br>`hipermetrico` (2001) | **Revisar:** Tiene 165 versos, y un romance octosílabo no puede tener un número impar: en algún punto falta o sobra un verso. Hay que localizarlo y decir si se trata de una laguna, en cuyo caso renumeraré la obra a partir de ahí, o de un error en el rango, en cuyo caso hace falta el rango correcto. | 1 derivada | rasgo + forma del padre |
 | 23 | 2004–2075 | 72 | `redondilla` | Redondilla | Octosílaba | — | `hipermetrico` (2016)<br>`hipometrico` (2027)<br>`hipometrico` (2031)<br>`hipermetrico` (2071) | **Falta:** Esquema de rima | — | directa |
 | 24 | 2076–2417 | 342 | `romance_i-o` | Romance | Octosílabo | — | `hipometrico` (2101)<br>`hipermetrico` (2121)<br>`hipometrico` (2158)<br>`hipometrico` (2165)<br>`hipermetrico` (2212)<br>`hipermetrico` (2214)<br>`hipometrico` (2220)<br>`hipermetrico` (2250)<br>`hipermetrico` (2260)<br>`hipermetrico` (2264)<br>`hipermetrico` (2270)<br>`hipermetrico` (2271)<br>`hipometrico` (2287)<br>`hipermetrico` (2290)<br>`hipermetrico` (2298)<br>`hipermetrico` (2318)<br>`hipermetrico` (2328)<br>`hipometrico` (2334)<br>`hipermetrico` (2343)<br>`hipermetrico` (2353)<br>`hipometrico` (2370)<br>`hipometrico` (2376)<br>`hipometrico` (2381) | lista | 1 derivada | rasgo + forma del padre |
 | 25 | 2418–2537 | 120 | `redondilla` | Redondilla | Octosílaba | — | `hipermetrico` (2418)<br>`hipermetrico` (2459)<br>`hipermetrico` (2489)<br>`hipermetrico` (2505)<br>`hipermetrico` (2530) | **Falta:** Esquema de rima | — | directa |
-| 26 | 2538–2757 | 220 | `romance_e-o` | Romance | Octosílabo | — | `hipometrico` (2542)<br>`hipermetrico` (2548)<br>`hipometrico` (2558)<br>`hipermetrico` (2568)<br>`hipometrico` (2574)<br>`hipermetrico` (2584)<br>`hipometrico` (2585)<br>`hipermetrico` (2589)<br>`hipermetrico` (2590)<br>`hipermetrico` (2595)<br>`hipermetrico` (2616)<br>`hipermetrico` (2638)<br>`hipometrico` (2647)<br>`hipermetrico` (2653)<br>`hipometrico` (2653)<br>`hipermetrico` (2654)<br>`hipermetrico` (2660)<br>`hipermetrico` (2666)<br>`hipermetrico` (2671)<br>`hipermetrico` (2679)<br>`hipermetrico` (2687)<br>`hipermetrico` (2693)<br>`hipermetrico` (2723)<br>`hipermetrico` (2724)<br>`hipermetrico` (2726)<br>`hipermetrico` (2730)<br>`hipermetrico` (2732)<br>`hipermetrico` (2735) | lista | 1 derivada | rasgo + forma del padre |
+| 26 | 2538–2757 | 220 | `romance_e-o` | Romance | Octosílabo | — | `hipometrico` (2542)<br>`hipermetrico` (2548)<br>`hipometrico` (2558)<br>`hipermetrico` (2568)<br>`hipometrico` (2574)<br>`hipermetrico` (2584)<br>`hipometrico` (2585)<br>`hipermetrico` (2589)<br>`hipermetrico` (2590)<br>`hipermetrico` (2595)<br>`hipermetrico` (2616)<br>`hipermetrico` (2638)<br>`hipometrico` (2647)<br>`hipometrico` (2653)<br>`hipermetrico` (2653)<br>`hipermetrico` (2654)<br>`hipermetrico` (2660)<br>`hipermetrico` (2666)<br>`hipermetrico` (2671)<br>`hipermetrico` (2679)<br>`hipermetrico` (2687)<br>`hipermetrico` (2693)<br>`hipermetrico` (2723)<br>`hipermetrico` (2724)<br>`hipermetrico` (2726)<br>`hipermetrico` (2730)<br>`hipermetrico` (2732)<br>`hipermetrico` (2735) | lista | 1 derivada | rasgo + forma del padre |
 

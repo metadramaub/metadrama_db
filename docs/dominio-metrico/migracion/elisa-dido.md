@@ -1,6 +1,6 @@
 # Migración métrica · Elisa Dido
 
-Informe para Blanca Ballester Morell, generado el 2026-09-21. Leer antes de editar el Excel enviado por correo.
+Informe para Blanca Ballester Morell, generado el 2026-10-15. Leer antes de editar el Excel enviado por correo.
 
 ## De qué va esto
 

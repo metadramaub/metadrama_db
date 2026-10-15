@@ -1,6 +1,6 @@
 # Migración métrica · La tragedia del duque de Berganza
 
-Informe para María Rosa Álvarez Sellers, generado el 2026-09-21. Leer antes de editar el Excel enviado por correo.
+Informe para María Rosa Álvarez Sellers, generado el 2026-10-15. Leer antes de editar el Excel enviado por correo.
 
 ## De qué va esto
 

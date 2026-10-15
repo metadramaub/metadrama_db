@@ -21,10 +21,9 @@ interpretables, antes de proyectar una selección pequeña a las fichas. Las 11 
 prueba: valen para comprobar cálculo y presentación, no para sostener resultados.
 → [plan de comparativas](./plan-comparativas-corpus.md)
 
-**2 · Migrar las secuencias ya anotadas.** 263, en 11 obras de 8 editores. Los informes y los
-Excel que cada editor rellena **están generados** desde el 19 de septiembre de 2026; falta
-enviarlos, escribir el aplicador que lee las respuestas y migrar obra por obra. **Hasta que se
-haga, esas obras no tienen perfil.**
+**2 · Migrar las secuencias ya anotadas.** Continuar obra por obra al recibir sus Excel.
+El aplicador y los cuestionarios están escritos; las obras pendientes figuran en los informes
+generados. **Hasta que se migren, esas obras no tienen perfil.**
 → [plan de migración](./dominio-metrico/plan-migracion-anotaciones.md) ·
 [informes y cuestionarios](./dominio-metrico/migracion/) ·
 estado con `npm run equivalencias:informe`
@@ -35,8 +34,8 @@ estado con `npm run equivalencias:informe`
 
 **A1 · Migrar obra por obra.** El aplicador está escrito —`npm run migracion:aplicar -- --obra
 <slug>`, con `--simular` y con `--simular --ensayar`, que ejecuta la transacción entera y la
-deshace— y las once obras la pasan con respuestas de prueba. Falta: **aplicar la migración que crea
-`migracion_secuencias`**, que está escrita y sin aplicar, y migrar cada obra cuando vuelva su Excel.
+deshace—. Falta migrar cada obra cuando vuelva su Excel, con las resoluciones particulares de sus
+notas y correcciones. La tabla `migracion_secuencias` ya está aplicada.
 → [plan, §5](./dominio-metrico/plan-migracion-anotaciones.md)
 
 **A2 · Enviar los cuestionarios y recoger las respuestas.** El informe de cada obra se lee en
@@ -72,12 +71,15 @@ incluye las ocho obras reales, sus responsables y los versos donde empezar. El I
 cuando esté desplegado el nuevo formulario; la conversión no confirma el género de esas voces.
 → [lista y criterios de revisión](./revision-generos-intervinientes.md)
 
-**A9 · Trasladar las notas al migrar cada obra.** Quedan 66 observaciones de caracterizaciones en
-siete obras reales, con destinos revisados por el IP. Aplicar cada decisión al procesar su Excel,
-respetando correcciones y renumeraciones. Antes de fusionar secuencias, corregir el aplicador para
-trasladar sus comentarios existentes: el borrado actual podría eliminarlos en cascada. La columna
-y los originales se conservan; el formulario ya no admite nuevas notas en ella.
+**A9 · Trasladar las notas al migrar cada obra.** Quedan 59 observaciones de caracterizaciones en
+seis obras reales, con destinos revisados por el IP. Aplicar cada decisión al procesar su Excel,
+respetando correcciones y renumeraciones. La columna se conserva y los originales de lo ya
+migrado quedan en el rastro; el formulario no admite nuevas notas en ella.
 → [dictamen y procedimiento](./revision-notas-caracterizaciones.md)
+
+**A10 · Revisar los pareados de *El amor al uso*.** Las silvas de vv. 1348–1407, 2545–2612 y
+2621–2644 se migraron como «Predominantes» por indicación del IP. Este preguntará a Ana Vicente
+para que confirme o cambie la respuesta en el editor. No proceden de una respuesta del Excel.
 
 ---
 
