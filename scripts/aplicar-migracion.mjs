@@ -202,6 +202,26 @@ function sentenciasDeRenumeracion(obraId, correccion) {
 
 function sentenciasDeCorreccion(obraId, correccion) {
 	if (correccion.tipo === 'renumerar') return sentenciasDeRenumeracion(obraId, correccion);
+	if (correccion.tipo === 'cierre_obra') {
+		return [
+			`do $cierre$ declare n integer; begin
+		 update public.obras set total_versos = ${Number(correccion.v_fin)}
+		 where obra_id = ${lit(obraId)}::uuid and total_versos = ${Number(correccion.v_fin_original)};
+		 get diagnostics n = row_count;
+		 if n <> 1 then raise exception 'Ha cambiado el total de la obra'; end if;
+		 update public.jornadas set v_fin = ${Number(correccion.v_fin)}
+		 where jornada_id = ${lit(correccion.jornada_id)}::uuid and obra_id = ${lit(obraId)}::uuid
+		 and v_fin = ${Number(correccion.v_fin_original)};
+		 get diagnostics n = row_count;
+		 if n <> 1 then raise exception 'Ha cambiado el final de la jornada'; end if;
+		 update public.cuadros set v_fin = ${Number(correccion.v_fin)}
+		 where cuadro_id = ${lit(correccion.cuadro_id)}::uuid and jornada_id = ${lit(correccion.jornada_id)}::uuid
+		 and v_fin = ${Number(correccion.v_fin_original)};
+		 get diagnostics n = row_count;
+		 if n <> 1 then raise exception 'Ha cambiado el final del cuadro'; end if;
+		 end; $cierre$;`
+		];
+	}
 	if (['subtipo', 'caracterizacion'].includes(correccion.tipo)) {
 		const tabla =
 			correccion.tipo === 'subtipo'
