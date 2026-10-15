@@ -175,8 +175,7 @@ export const POST: RequestHandler = async ({ locals, params, request }) => {
 			secuencia_id: params.secuenciaId,
 			tipo_caracterizacion_rango_id: parsed.data.tipo_caracterizacion_rango_id,
 			v_ini: parsed.data.v_ini,
-			v_fin: parsed.data.v_fin,
-			observaciones: parsed.data.observaciones
+			v_fin: parsed.data.v_fin
 		})
 		.select(
 			'caracterizacion_rango_id,secuencia_id,tipo_caracterizacion_rango_id,v_ini,v_fin,observaciones,tipo_caracterizacion_rango:vocabularios(termino_id,termino,termino_padre_id)'

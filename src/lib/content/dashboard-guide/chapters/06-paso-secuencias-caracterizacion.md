@@ -52,6 +52,14 @@ Las secuencias nuevas empiezan con estas caracterizaciones en **Pendiente**. Est
 
 La pestaña **Revisión** indica cuántas secuencias conservan algún campo pendiente. Debes resolverlos todos antes de avanzar a `vista_previa`, `listo_para_publicar` o `publicado`.
 
+## Comentarios de la secuencia
+
+En **Comentarios** puedes escribir aclaraciones sobre cualquier aspecto de la secuencia, incluidos los personajes, los pasajes cantados y la interpretación de una particularidad métrica. Si te refieres a versos concretos, puedes indicarlos al principio del texto: **«V. 22.»** o **«Vv. 354–355.»**.
+
+Para publicar un comentario, selecciona el tipo **Observación pública** y marca **Visible en ficha pública**. Con solo elegir el tipo, el comentario permanece privado. Las dudas de trabajo o las conversaciones entre editores pueden mantenerse como comentarios internos.
+
+La descripción de una desviación métrica se utiliza para el dato que no cubran sus selectores. El comentario crítico se escribe aquí.
+
 ## Sinopsis argumental
 
 La sinopsis argumental admite [Markdown](/dashboard/guia/ref-markdown).
