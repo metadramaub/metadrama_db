@@ -66,6 +66,12 @@ avisado de la ampliación a los metros de arte menor catalogados (3–8 sílabas
 parte. Las respuestas anteriores se conservan hasta que él revise el pasaje; no son confirmación
 de que las medidas anotadas sean correctas.
 
+**A8 · Revisar los géneros de quienes intervienen.** Tras convertir las respuestas antiguas,
+los editores deben comprobar los pasajes con canto, personajes sobrenaturales y coros. La lista
+incluye las ocho obras reales, sus responsables y los versos donde empezar. El IP les avisará
+cuando esté desplegado el nuevo formulario; la conversión no confirma el género de esas voces.
+→ [lista y criterios de revisión](./revision-generos-intervinientes.md)
+
 ---
 
 ## B · El catálogo y su modelo

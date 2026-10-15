@@ -127,7 +127,21 @@ Estas no dependen de la forma, sino de rangos `v_ini`–`v_fin` declarados sobre
 
 ### 1.6 Contexto dramático
 
-- **`intervencion_femenina` / `intervencion_donaire` / `intervencion_sobrenaturales`**: el enum real
+- **`generos_intervinientes`**: conjunto por secuencia de `masculino`, `femenino` e
+  `indeterminado`, de una a tres selecciones distintas. `NULL` es pendiente. Indeterminado incluye
+  personajes sin género definido y voces cuyo género no permite identificar el texto; cuenta como
+  respuesta. Se refiere a habla o canto, también de coros y voces colectivas, no a presencia escénica.
+  El análisis y el laboratorio ofrecen `intervencion_masculina`, `intervencion_femenina` e
+  `intervencion_indeterminada`: secuencias que seleccionan cada género / secuencias con respuesta.
+  Las categorías se solapan; los porcentajes pueden sumar más del 100 %. El recuento `no` significa
+  que ese género no está seleccionado, sin inferir una ausencia a partir de voces indeterminadas.
+  Exclusiva significa que solo se seleccionó ese género; compartida, que también se seleccionó otro.
+  No se funden las selecciones de toda la obra para atribuir coexistencia dentro de una secuencia.
+- **`intervencion_femenina` en `obras_resumen`** es una proyección heredada de compatibilidad,
+  no la fuente de las nuevas consultas de género. La columna anterior de secuencia se conserva
+  durante el despliegue: femenino solo → exclusiva; femenino y otro → compartida; masculino solo →
+  sin intervención; indeterminado sin femenino o pendiente → `NULL`.
+- **`intervencion_donaire` / `intervencion_sobrenaturales`**: el enum real
   es **por secuencia** (`sin_intervencion | exclusiva | compartida`). Agregado a nivel de obra: si
   coexisten `exclusiva` y `compartida` → **`mixta`**; si solo una → esa; si ninguna →
   `sin_intervencion`. (No existen 'ninguna' ni 'mixta' a nivel de secuencia; 'mixta' es solo el

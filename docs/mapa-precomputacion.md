@@ -5,7 +5,7 @@
 > no puede saber —para qué sirve cada columna y quién la lee— vive en `scripts/informe-precomputacion.mjs`,
 > y una columna que nadie haya descrito sale marcada como **sin describir**.
 
-Regenerado el 16 de septiembre de 2026.
+Regenerado el 15 de octubre de 2026.
 
 ## Las cuatro capas
 
@@ -30,13 +30,13 @@ después los de autor y al final los índices y comparativas globales.
 
 | | |
 |---|--:|
-| obras | 108 |
-| obras publicadas | 11 |
+| obras | 131 |
+| obras publicadas | 12 |
 | filas en `obras_resumen` | 21 |
-| artefactos JSON | 36 |
+| artefactos JSON | 38 |
 | artefactos pendientes de actualizar | 0 |
-| secuencias | 717 |
-| secuencias con anotación del catálogo nuevo | 453 |
+| secuencias | 772 |
+| secuencias con anotación del catálogo nuevo | 492 |
 | secuencias que aún hablan el vocabulario legado | 263 |
 
 ## Qué guarda `obras_resumen`
@@ -60,7 +60,7 @@ después los de autor y al final los índices y comparativas globales.
 | `variaciones_presentes` | ARRAY | filtro | buscador |
 | `tiene_versos_partidos` | boolean | bandera | buscador |
 | `tiene_cambio_espacio` | boolean | bandera | buscador |
-| `intervencion_femenina` | text | agregado de la pregunta por secuencia | buscador |
+| `intervencion_femenina` | text | proyección heredada de compatibilidad; los géneros activos viven en generos_intervinientes | compatibilidad |
 | `intervencion_donaire` | text | agregado de la pregunta por secuencia | buscador |
 | `intervencion_sobrenaturales` | text | agregado de la pregunta por secuencia | buscador |
 | `metrica_sucia` | boolean | control: hay que recomputar | dashboard |
@@ -100,19 +100,20 @@ después los de autor y al final los índices y comparativas globales.
 | `payload` | jsonb | documento JSON servido como unidad | rutas públicas o laboratorio privado |
 | `sucio` | boolean | hay cambios posteriores; se conserva la última versión coherente | cola y diagnóstico |
 | `generado_en` | timestamp with time zone | momento en que se reemplazó el artefacto | cola y diagnóstico |
+| `contenido_cambiado_en` | timestamp with time zone | **sin describir** | — |
 
 | contrato | alcance | acceso | artefactos | tamaño de los payloads | sucios |
 |---|---|---|--:|--:|--:|
-| `autor_ficha` | completo | admin/IP | 4 | 16.0 KiB | 0 |
-| `autor_ficha` | publico | público según RLS | 4 | 16.0 KiB | 0 |
+| `autor_ficha` | completo | admin/IP | 4 | 17.0 KiB | 0 |
+| `autor_ficha` | publico | público según RLS | 4 | 17.0 KiB | 0 |
 | `autores_indice` | completo | admin/IP | 1 | 1.8 KiB | 0 |
 | `autores_indice` | publico | público según RLS | 1 | 1.8 KiB | 0 |
-| `corpus_comparativas` | completo | admin/IP | 1 | 25.5 KiB | 0 |
-| `corpus_comparativas` | publico | admin/IP | 1 | 25.5 KiB | 0 |
-| `obra_analisis` | publico | público según RLS | 11 | 590.4 KiB | 0 |
-| `obra_ficha` | publico | público según RLS | 11 | 841.9 KiB | 0 |
-| `obras_indice` | completo | admin/IP | 1 | 14.9 KiB | 0 |
-| `obras_indice` | publico | público según RLS | 1 | 14.9 KiB | 0 |
+| `corpus_comparativas` | completo | admin/IP | 1 | 30.2 KiB | 0 |
+| `corpus_comparativas` | publico | admin/IP | 1 | 30.2 KiB | 0 |
+| `obra_analisis` | publico | público según RLS | 12 | 631.8 KiB | 0 |
+| `obra_ficha` | publico | público según RLS | 12 | 904.0 KiB | 0 |
+| `obras_indice` | completo | admin/IP | 1 | 16.5 KiB | 0 |
+| `obras_indice` | publico | público según RLS | 1 | 16.5 KiB | 0 |
 
 ## Qué devuelve la ficha
 
@@ -120,7 +121,7 @@ Ejecutada sobre la obra con más secuencias anotadas.
 
 Bloques: `obra`, `autoria`, `metrica`, `estructura`, `sinopsis_metrica`, `comentarios_publicos`.
 
-Y de cada secuencia: `v_fin`, `v_ini`, `metros`, `rasgos`, `n_versos`, `sinopsis`, `cuadro_id`, `cuadro_num`, `forma_slug`, `jornada_id`, `tipo_forma`, `variedades`, `jornada_num`, `desviaciones`, `forma_nombre`, `secuencia_id`, `esquemas_rima`, `arquitectura_id`, `cuadro_continua`, `versos_partidos`, `inaugura_espacio`, `arquitectura_slug`, `nivel_estructural`, `arquitectura_nombre`, `evento_sobrenatural`, `caracterizaciones_rango`, `intervencion_figuras_donaire`, `intervencion_personajes_femeninos`, `intervencion_personajes_sobrenaturales`.
+Y de cada secuencia: `v_fin`, `v_ini`, `metros`, `rasgos`, `n_versos`, `sinopsis`, `cuadro_id`, `cuadro_num`, `forma_slug`, `jornada_id`, `tipo_forma`, `variedades`, `jornada_num`, `desviaciones`, `forma_nombre`, `secuencia_id`, `esquemas_rima`, `arquitectura_id`, `cuadro_continua`, `versos_partidos`, `inaugura_espacio`, `arquitectura_slug`, `nivel_estructural`, `arquitectura_nombre`, `evento_sobrenatural`, `generos_intervinientes`, `caracterizaciones_rango`, `intervencion_figuras_donaire`, `intervencion_personajes_femeninos`, `intervencion_personajes_sobrenaturales`.
 
 ## Lo que se puede registrar, y dónde aparece
 
@@ -128,19 +129,19 @@ Lo que tiene filas y no llega a ninguna de las dos superficies está anotado y n
 
 | dato | filas hoy | columna del resumen | en la ficha |
 |---|--:|---|:--:|
-| Rasgos observados (asonancia, densidad de rima, final acentual) | 185 | — | sí |
-| Metro elegido por unidad | 446 | `metros_presentes` | sí |
-| Esquema de rima elegido por unidad | 5163 | `subtipos_presentes` | sí |
-| Variedad elegida dentro de una arquitectura | 3 | — | sí |
-| Desviaciones (lagunas, hipométricos, rima ajena) | 8 | — | sí |
-| Partes de la unidad (estancia, mudanza, sirima) | 830 | — | **no** |
-| Caracterizaciones por rango (cantado, prosa, evocación) | 242 | `pct_cantado` | sí |
-| Versos partidos | 279 | `tiene_versos_partidos` | sí |
-| Inaugura espacio | 167 | `tiene_cambio_espacio` | sí |
-| Evento sobrenatural | 44 | `tiene_evento_sobrenatural` | sí |
-| Intervención de personajes femeninos | 588 | `intervencion_femenina` | sí |
-| Intervención de figuras de donaire | 162 | `intervencion_donaire` | sí |
-| Intervención de personajes sobrenaturales | 80 | `intervencion_sobrenaturales` | sí |
+| Rasgos observados (asonancia, densidad de rima, final acentual) | 193 | — | sí |
+| Metro elegido por unidad | 106 | `metros_presentes` | sí |
+| Esquema de rima elegido por unidad | 5637 | `subtipos_presentes` | sí |
+| Variedad elegida dentro de una arquitectura | 17 | — | sí |
+| Desviaciones (lagunas, hipométricos, rima ajena) | 36 | — | sí |
+| Partes de la unidad (estancia, mudanza, sirima) | 712 | — | **no** |
+| Caracterizaciones por rango (cantado, prosa, evocación) | 257 | `pct_cantado` | sí |
+| Versos partidos | 308 | `tiene_versos_partidos` | sí |
+| Inaugura espacio | 171 | `tiene_cambio_espacio` | sí |
+| Evento sobrenatural | 60 | `tiene_evento_sobrenatural` | sí |
+| Género de quienes intervienen | 755 | — | sí |
+| Intervención de figuras de donaire | 174 | `intervencion_donaire` | sí |
+| Intervención de personajes sobrenaturales | 100 | `intervencion_sobrenaturales` | sí |
 
 ## Comprobaciones
 

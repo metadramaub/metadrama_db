@@ -49,6 +49,15 @@ forma, transiciones, fenómenos, enunciación y extremos de jornada. Conservan s
 analizable y la ausencia de respuesta. Los ceros entran cuando la ausencia es un valor —una forma o
 una transición no aparecen—; una pregunta sin responder no se convierte en `No`.
 
+Desde la migración de géneros, la ficha añade `generos_intervinientes` (array o `null`) a cada
+secuencia; los hechos de análisis añaden el mismo array cuando está respondido. Se conservan
+las claves anteriores de compatibilidad, de modo que es una ampliación aditiva de los contratos
+de ficha V1 y análisis/comparativas V2. El análisis añade los indicadores de intervención masculina
+e indeterminada y calcula los tres géneros con el mismo denominador de secuencias respondidas.
+La regeneración de fichas, análisis, índices y comparativas se ejecuta en la transacción de la
+migración. Los consumidores activos usan el conjunto; no reconstruyen géneros desde el indicador
+femenino heredado.
+
 La matriz no se entregará a la ficha. Cuando el laboratorio haya validado qué referencias ayudan a
 leer una obra se generará una proyección pública pequeña por obra. El orden y las ideas de
 presentación están en [plan-comparativas-corpus.md](plan-comparativas-corpus.md).
