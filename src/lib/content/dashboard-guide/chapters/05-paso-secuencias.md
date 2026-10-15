@@ -26,7 +26,7 @@ Cada fila muestra el rango de versos, la forma y su arquitectura, el resumen de 
 
 En las caracterizaciones, un icono **encendido** indica una respuesta afirmativa; **tachado**, una negativa; y **atenuado**, que el campo está sin responder. El símbolo femenino se enciende cuando se ha seleccionado **femenino** en el campo de género. Con **masculino** solo aparece tachado; si hay voces **indeterminadas** sin femenino, queda atenuado y la ayuda indica «sin determinar», sin afirmar ausencia femenina.
 
-La nota musical, el triángulo, el documento y el bocadillo de comentario están atenuados cuando no hay anotaciones de ese tipo. La nota musical se actualiza al añadir, modificar o eliminar los pasajes cantados.
+La nota musical, el triángulo, el documento y el bocadillo de comentario están atenuados cuando no hay anotaciones de ese tipo.
 
 Al final de la fila, el **lápiz** abre la edición de la secuencia; el **ojo** permite consultarla en modo de lectura; y la **papelera** permite eliminarla cuando tienes permiso de edición.
 
