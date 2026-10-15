@@ -64,6 +64,14 @@ presentación están en [plan-comparativas-corpus.md](plan-comparativas-corpus.m
 
 ## Flujo de actualización
 
+Las notas históricas trasladadas a comentarios se registran en la tabla privada
+`traslados_observaciones_caracterizacion`. `ficha_publica_base_json` conserva la caracterización,
+pero devuelve su `observaciones` como `null` cuando existe ese rastro, para mostrar la nota solo en
+`comentarios_publicos`. Las notas pendientes de traslado conservan su representación anterior.
+No cambia el contrato de ficha. Los textos originales permanecen en la tabla de rangos y en el
+rastro; si se elimina el comentario, la nota antigua no reaparece. La primera migración de
+traslado regenera los artefactos publicados con `recompute_all()`.
+
 1. La interfaz pide a `plan_recompute_datos_publicos` la lista de obras y autores.
 2. Cada paso de obra reconstruye `obras_resumen` y, en la misma petición, sus artefactos de ficha y
    análisis.

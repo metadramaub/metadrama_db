@@ -3524,6 +3524,48 @@ export type Database = {
           },
         ]
       }
+      traslados_observaciones_caracterizacion: {
+        Row: {
+          caracterizacion_rango_id: string
+          comentario_id: string
+          obra_id: string
+          origen: Json
+          trasladado_en: string
+          trasladado_por: string
+        }
+        Insert: {
+          caracterizacion_rango_id: string
+          comentario_id: string
+          obra_id: string
+          origen: Json
+          trasladado_en?: string
+          trasladado_por: string
+        }
+        Update: {
+          caracterizacion_rango_id?: string
+          comentario_id?: string
+          obra_id?: string
+          origen?: Json
+          trasladado_en?: string
+          trasladado_por?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "traslados_observaciones_caracterizacion_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "traslados_observaciones_caracterizacion_trasladado_por_fkey"
+            columns: ["trasladado_por"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       variedades_arquitectura: {
         Row: {
           activo: boolean
@@ -4201,6 +4243,10 @@ export type Database = {
         Returns: string
       }
       resumen_estadistico_json: { Args: { p_valores: number[] }; Returns: Json }
+      trasladar_observaciones_a_comentarios: {
+        Args: { p_caracterizaciones: string[]; p_responsable: string }
+        Returns: number
+      }
       validar_estructura_anotacion: {
         Args: { p_secuencia_id: string }
         Returns: undefined

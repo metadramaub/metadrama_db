@@ -78,6 +78,11 @@ _Cómo se registra_
     rimas, estructuras, repeticiones y rasgos ya normalizados: no hay vocabulario paralelo.
 16. **Las caracterizaciones no métricas por rango** —cantado, prosa, laguna— se conservan en su
     dominio general.
+    El formulario registra tipo y versos, sin observaciones. Las explicaciones se escriben en
+    comentarios de la secuencia; la descripción de una desviación admite solo datos que sus
+    selectores no recojan. La columna histórica se conserva para la migración por obra, con el
+    [destino revisado de cada nota](../revision-notas-caracterizaciones.md). Los traslados a
+    comentarios mantienen autoría y versos, conservan el origen y evitan duplicarlo en la ficha.
 
 _Qué se guarda y qué se calcula_
 
