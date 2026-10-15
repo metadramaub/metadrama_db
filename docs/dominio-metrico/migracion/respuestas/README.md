@@ -16,3 +16,7 @@ Las resoluciones pueden interpretar correcciones en prosa, cambiar arquitectura 
 localizar una laguna y ajustar rangos y referencias textuales. Cada modificación comprueba el
 origen esperado. Para trasladar notas a comentarios públicos se indica un responsable admin/IP;
 la autoría sigue siendo del editor asignado y los IDs nuevos quedan en el rastro.
+
+Si el IP autoriza trasladar lo ya anotado sin enviar un Excel, se documenta esa procedencia
+en las resoluciones. Se utiliza el cuestionario original sin rellenar mediante `--respuestas`,
+sin crear un supuesto Excel devuelto ni atribuir confirmaciones nuevas al editor.
