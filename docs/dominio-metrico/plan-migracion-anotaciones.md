@@ -91,7 +91,10 @@ Las relaciones son las que la base admite: `metro` acepta `menor_que_norma`, `ma
    Excel va por correo, porque es lo que hay que devolver. Lo que el editor no tenga claro lo
    pregunta; no deja respuestas a medias.
 3. **Recibir.** El Excel devuelto se guarda en [migracion/respuestas/](./migracion/respuestas/) y
-   se versiona: es el rastro de lo que se decidió.
+   se versiona: es el rastro de lo que se decidió. Se normaliza su nombre a `<slug>.xlsx`
+   sin alterar el contenido. Las resoluciones particulares se guardan aparte en
+   `<slug>.resoluciones.json`, con el origen esperado y la respuesta exacta que las sustenta.
+   Las respuestas complementarias del IP conservan su procedencia y motivo.
 4. **Aplicar.** `npm run migracion:aplicar -- --obra <slug>` lee la vista y el Excel, y con
    `--simular` escribe un guion legible en `backups/migracion/` sin tocar la base; añadiendo
    `--ensayar` ejecuta además la transacción entera **y la deshace**, que es lo único que dice si
@@ -101,12 +104,22 @@ Las relaciones son las que la base admite: `metro` acepta `menor_que_norma`, `ma
    Deja constancia en `migracion_secuencias` (secuencia, anotación, término legado, respuestas,
    correcciones, fecha) e informa de lo que rechazó y de lo que sigue sin respuesta.
 
+   Las notas requieren un destino revisado. Se archivan su fila original completa y la decisión
+   antes de retirar una caracterización convertida o limpiar una nota trasladada; la columna se
+   conserva para las obras pendientes. Los datos técnicos van a selectores o a la descripción de
+   la desviación. Una nota pendiente de clasificación bloquea esa secuencia. Al repetir el
+   aplicador se omiten las secuencias que ya tienen V2, para conservar su revisión posterior.
+
    **Lo que no se entiende no se aplica.** Una laguna cuya localización no se lee en la prosa del
    editor, una confirmación corregida a mano, una respuesta que no nombra ninguna opción: esas
    secuencias quedan sin anotar, con su motivo escrito, y las demás de la obra se migran igual.
 5. **Cerrar.** Recuento (secuencias legadas con anotación nueva = total), `npm run
    audit:anotaciones`, recompute. El editor revisa cada secuencia en el dashboard y comprueba que
    la migración no dejó ningún hueco.
+
+   `npm run migracion:informe -- --sin-excel` actualiza los informes y el índice del dashboard
+   sin reescribir los cuestionarios ya enviados. Las secuencias que tienen V2 dejan de figurar
+   como pendientes aunque conserven `estrofa_tipo_id` como evidencia.
 
 Las reglas de equivalencia viven en **un solo sitio**, la vista `propuesta_metrica_secuencia`, y
 las respuestas que el término ya contenía en `propuesta_elecciones_secuencia`. Las consultan por
@@ -144,6 +157,6 @@ retiraron en julio de 2026. Lo que falta, y añade el aplicador, es el rastro po
 | --- | --- |
 | Reclasificar mal una entrada usada | La equivalencia vive en la vista y el informe la enseña; lo derivado se confirma |
 | Perder lo anotado estrofa a estrofa | Las unidades salen de los subtipos; copia y snapshot antes de cada obra |
-| Inventar precisión | Sílabas solo si el editor las da; relaciones cualitativas si no |
+| Inventar precisión | Sílabas solo si constan expresamente en el Excel o en la nota original revisada; relaciones cualitativas si no |
 | Renumerar mal una obra | La renumeración sale de una respuesta explícita, se simula antes y se comprueba contra jornadas y cuadros |
 | Migrar mientras alguien edita | No hay pausa de edición (comprobado el 19 de septiembre de 2026): se avisa al editor de que no toque la obra desde que devuelve el Excel hasta que se le confirma la migración, y la obra se escribe en una sola transacción |

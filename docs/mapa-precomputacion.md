@@ -36,7 +36,7 @@ después los de autor y al final los índices y comparativas globales.
 | artefactos JSON | 38 |
 | artefactos pendientes de actualizar | 0 |
 | secuencias | 772 |
-| secuencias con anotación del catálogo nuevo | 492 |
+| secuencias con anotación del catálogo nuevo | 520 |
 | secuencias que aún hablan el vocabulario legado | 263 |
 
 ## Qué guarda `obras_resumen`
@@ -110,8 +110,8 @@ después los de autor y al final los índices y comparativas globales.
 | `autores_indice` | publico | público según RLS | 1 | 1.8 KiB | 0 |
 | `corpus_comparativas` | completo | admin/IP | 1 | 30.2 KiB | 0 |
 | `corpus_comparativas` | publico | admin/IP | 1 | 30.2 KiB | 0 |
-| `obra_analisis` | publico | público según RLS | 12 | 631.8 KiB | 0 |
-| `obra_ficha` | publico | público según RLS | 12 | 904.0 KiB | 0 |
+| `obra_analisis` | publico | público según RLS | 12 | 631.6 KiB | 0 |
+| `obra_ficha` | publico | público según RLS | 12 | 905.2 KiB | 0 |
 | `obras_indice` | completo | admin/IP | 1 | 16.5 KiB | 0 |
 | `obras_indice` | publico | público según RLS | 1 | 16.5 KiB | 0 |
 
@@ -129,13 +129,13 @@ Lo que tiene filas y no llega a ninguna de las dos superficies está anotado y n
 
 | dato | filas hoy | columna del resumen | en la ficha |
 |---|--:|---|:--:|
-| Rasgos observados (asonancia, densidad de rima, final acentual) | 193 | — | sí |
+| Rasgos observados (asonancia, densidad de rima, final acentual) | 210 | — | sí |
 | Metro elegido por unidad | 106 | `metros_presentes` | sí |
-| Esquema de rima elegido por unidad | 5637 | `subtipos_presentes` | sí |
+| Esquema de rima elegido por unidad | 5788 | `subtipos_presentes` | sí |
 | Variedad elegida dentro de una arquitectura | 17 | — | sí |
-| Desviaciones (lagunas, hipométricos, rima ajena) | 36 | — | sí |
-| Partes de la unidad (estancia, mudanza, sirima) | 712 | — | **no** |
-| Caracterizaciones por rango (cantado, prosa, evocación) | 257 | `pct_cantado` | sí |
+| Desviaciones (lagunas, hipométricos, rima ajena) | 42 | — | sí |
+| Partes de la unidad (estancia, mudanza, sirima) | 743 | — | **no** |
+| Caracterizaciones por rango (cantado, prosa, evocación) | 251 | `pct_cantado` | sí |
 | Versos partidos | 308 | `tiene_versos_partidos` | sí |
 | Inaugura espacio | 171 | `tiene_cambio_espacio` | sí |
 | Evento sobrenatural | 60 | `tiene_evento_sobrenatural` | sí |

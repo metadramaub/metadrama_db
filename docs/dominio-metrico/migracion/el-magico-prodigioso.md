@@ -1,6 +1,6 @@
 # Migración métrica · El mágico prodigioso
 
-Informe para Emma González Mesas, generado el 2026-09-21. Leer antes de editar el Excel enviado por correo.
+Informe para Emma González Mesas, generado el 2026-10-15. Leer antes de editar el Excel enviado por correo.
 
 ## De qué va esto
 
@@ -25,7 +25,7 @@ allí que la migración no dejó ningún hueco.
 ## Qué te pido
 
 - 1 decisión sobre pasajes cuyo número de versos no encaja con la forma que tienen asignada.
-- 3 respuestas, en 1 secuencia, a preguntas que el vocabulario anterior no recogía.
+- 5 respuestas, en 3 secuencias, a preguntas que el vocabulario anterior no recogía.
 - 15 confirmaciones de respuestas que ya he rellenado yo.
 
 ## Pasajes que no encajan
@@ -42,6 +42,8 @@ había anotado; hace falta mirar el texto. Están en la pestaña **Responder**.
 
 | Versos | Forma | Pregunta | Cómo contestar |
 | --- | --- | --- | --- |
+| 1201–1246 | Silva · Consonante de orden libre | Organización en pareados | Elige en el desplegable |
+| 1419–1478 | Silva · Consonante de orden libre | Organización en pareados | Elige en el desplegable |
 | 2191–2201 | Versificación irregular | El término «irregular» no dice qué arquitectura de «Versificación irregular» es. Indica cuál; las demás preguntas de este pasaje van debajo. | Elige en el desplegable |
 | 2191–2201 | Versificación irregular | Medida de cada verso · del mismo pasaje, sea cual sea su arquitectura | Escribe el número de sílabas de cada verso, en orden y separados por espacios («7 11 7 7 11») |
 | 2191–2201 | Versificación irregular | Esquema de rima observado · del mismo pasaje, sea cual sea su arquitectura | Escribe una letra por verso, en mayúscula si es de arte mayor y un guion si el verso queda suelto («aBab-B») |
@@ -113,10 +115,10 @@ derivadas se deducen del término y aparecen en la pestaña Confirmar.
 | 4 | 777–886 | 110 | `decima_espinela` | Décima | Espinela | — | — | lista | — | directa |
 | 5 | 887–1032 | 146 | `romance_e-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
 | 6 | 1033–1200 | 168 | `redondilla_regular` | Redondilla | Octosílaba | — | — | lista | 42 derivadas | directa |
-| 7 | 1201–1246 | 46 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | — | lista | 1 derivada | directa |
+| 7 | 1201–1246 | 46 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | — | **Falta:** Organización en pareados | 1 derivada | directa |
 | 8 | 1247–1294 | 48 | `redondilla_regular` | Redondilla | Octosílaba | — | — | lista | 12 derivadas | directa |
 | 9 | 1295–1418 | 124 | `romance_o-o` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
-| 10 | 1419–1478 | 60 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | — | lista | 1 derivada | directa |
+| 10 | 1419–1478 | 60 | `silva_de_consonantes_irregular` | Silva | Consonante de orden libre | — | — | **Falta:** Organización en pareados | 1 derivada | directa |
 | 11 | 1479–1570 | 92 | `redondilla_regular` | Redondilla | Octosílaba | — | — | lista | 23 derivadas | directa |
 | 12 | 1571–1780 | 210 | `romance_a-e` | Romance | Octosílabo | — | — | lista | 1 derivada | rasgo + forma del padre |
 | 13 | 1781–1800 | 20 | `redondilla_regular` | Redondilla | Octosílaba | — | — | lista | 5 derivadas | directa |
