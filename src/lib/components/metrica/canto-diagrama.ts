@@ -1,41 +1,42 @@
 import { colocarCantos, type CantoMarker } from './barcode-canto';
 
-export type CantoStyle = 'abanico' | 'pista' | 'grupos';
+export type CantoStyle = 'pista' | 'carriles' | 'hitos';
 
-/** Agrupa solo para dibujar y pulsar: todos los rangos y sus secuencias siguen disponibles. */
-export function diagramaDeCanto(markers: CantoMarker[], desde: number, hasta: number, width: number, style: CantoStyle, figure = false) {
-	const items = colocarCantos(markers, desde, hasta, width).items.sort((a, b) => a.targetX - b.targetX);
-	const groups: { id: string; x: number; items: typeof items }[] = [];
-	for (const item of items) {
-		const previous = groups.at(-1);
-		if (previous && item.targetX - previous.items.at(-1)!.targetX < 22) {
-			previous.items.push(item);
-			previous.x = previous.items.reduce((sum, i) => sum + i.targetX, 0) / previous.items.length;
-		} else groups.push({ id: item.id, x: item.targetX, items: [item] });
-	}
-	const columns = Math.max(1, Math.floor(width / 190));
-	const columnWidth = width / columns;
-	const captions: { x: number; y: number; text: string }[] = [];
-	let captionHeight = 0;
-	if (figure && groups.length) {
-		const bottoms = Array<number>(columns).fill(24);
-		groups.forEach((group, index) => {
-			const column = bottoms.indexOf(Math.min(...bottoms));
-			const words = `${index + 1}: ${group.items.map((i) => i.label).join('; ')}`.split(' ');
-			const lines: string[] = [''];
-			for (const word of words) {
-				const last = lines.length - 1;
-				if (lines[last] && (lines[last].length + word.length + 1) * 6 > columnWidth - 12) lines.push(word);
-				else lines[last] += `${lines[last] ? ' ' : ''}${word}`;
-			}
-			for (const line of lines) {
-				captions.push({ x: column * columnWidth + 3, y: bottoms[column] + 12, text: line });
-				bottoms[column] += 15;
-			}
-			bottoms[column] += 3;
-		});
-		captionHeight = Math.max(0, ...bottoms) + (groups.length ? 8 : 0);
-	}
-	const diagramHeight = groups.length ? (style === 'abanico' ? 72 : 44) : 0;
-	return { groups, captions, captionHeight, height: captionHeight + diagramHeight };
+/** Cada anotación conserva su centro y su extensión en el eje de versos. */
+export function diagramaDeCanto(
+	markers: CantoMarker[], desde: number, hasta: number, width: number,
+	style: CantoStyle, figure = false
+) {
+	const visible = colocarCantos(markers, desde, hasta, width).items
+		.sort((a, b) => a.targetX - b.targetX);
+	const items = visible.map((item, index) => {
+		const start = (item.v_ini - desde) / Math.max(1, hasta - desde + 1) * width;
+		const end = (item.v_fin + 1 - desde) / Math.max(1, hasta - desde + 1) * width;
+		// El mínimo hace visible un verso suelto, centrado en su posición, sin moverla.
+		const drawWidth = Math.max(3, end - start);
+		return { ...item, start, end, drawStart: item.targetX - drawWidth / 2,
+			drawWidth, rail: style === 'carriles' ? index % 2 : 0 };
+	});
+	const positioned = items.map((item) => {
+		const siblings = items.filter((other) => other.rail === item.rail);
+		const index = siblings.findIndex((other) => other.id === item.id);
+		// Las zonas de ratón no se pisan: cada marca mantiene también su propio foco de teclado.
+		const previous = siblings[index - 1];
+		const next = siblings[index + 1];
+		return { ...item,
+			hitLeft: Math.max(0, item.drawStart - 4, previous ? (previous.targetX + item.targetX) / 2 : 0),
+			hitRight: Math.min(width, item.drawStart + item.drawWidth + 4, next ? (next.targetX + item.targetX) / 2 : width)
+		};
+	});
+	const columns = Math.max(1, Math.floor(width / 180));
+	// En el archivo se escriben los versos, sin identificadores ni cantidades sobre las marcas.
+	const captions = figure ? items.map((item, index) => ({
+		x: index % columns * (width / columns) + 3,
+		y: 35 + Math.floor(index / columns) * 15,
+		text: item.label
+	})) : [];
+	const captionHeight = captions.length ? 28 + Math.ceil(captions.length / columns) * 15 : 0;
+	const rails = style === 'carriles' ? 2 : 1;
+	return { items: positioned, captions, captionHeight, rails,
+		height: items.length ? captionHeight + 32 + (rails - 1) * 14 : 0 };
 }

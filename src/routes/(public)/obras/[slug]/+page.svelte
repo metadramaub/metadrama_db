@@ -426,9 +426,9 @@
 	const cantosVisibles = $derived(mostrarCanto ? cantosDeLaObra : []);
 	// Comparación temporal de las tres propuestas de representación del canto.
 	const variantesCanto: { id: CantoStyle; label: string }[] = [
-		{ id: 'abanico', label: '1. Origen común · líneas curvas' },
-		{ id: 'pista', label: '2. Pista paralela · versos y rangos' },
-		{ id: 'grupos', label: '3. Marcas cortas · pasajes agrupados' }
+		{ id: 'pista', label: '1. Pista única · marcas compactas' },
+		{ id: 'carriles', label: '2. Dos carriles · marcas alternas' },
+		{ id: 'hitos', label: '3. Puntos y rangos · extremos visibles' }
 	];
 	const tecnica = $derived(fichaTecnica(analizables));
 	const secuenciasPorFormaDeLaObra = $derived(secuenciasPorForma(analizables));
@@ -989,7 +989,7 @@
 							No hay secuencias métricas registradas para esta obra.
 						</p>
 					{:else}
-						{#each mostrarCanto ? variantesCanto : variantesCanto.slice(1, 2) as variante (variante.id)}
+						{#each mostrarCanto ? variantesCanto : variantesCanto.slice(0, 1) as variante (variante.id)}
 							<div class="space-y-3">
 								{#if mostrarCanto}<h3 class="text-sm font-semibold">{variante.label}</h3>{/if}
 								<FiguraDescargable figura={mostrarCanto ? { ...figuraCodigoDeBarras, titulo: `${figuraCodigoDeBarras.titulo} · ${variante.label}`, archivo: `${figuraCodigoDeBarras.archivo}-${variante.id}` } : figuraCodigoDeBarras} procedencia={procedenciaFigura}>
