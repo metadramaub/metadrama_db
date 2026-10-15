@@ -145,7 +145,7 @@ La obra conserva **21 secuencias**, sin fusiones ni divisiones. Revisar las tres
 
 ## Localización de los comentarios públicos
 
-Actualmente los comentarios pueden vincularse a una secuencia, pero no tienen un rango de versos propio. En la ficha pública aparecen dentro del detalle de esa secuencia, bajo «Aclaraciones públicas» o «Notas públicas», y también en la pestaña «Observaciones». Esta reúne las aclaraciones por secuencia, en orden de versos, con su forma, autoría y acceso al detalle; conserva además las observaciones generales de la obra. Se respeta la visibilidad de la sección de comentarios públicos.
+Actualmente los comentarios pueden vincularse a una secuencia, pero no tienen un rango de versos propio. En la ficha pública aparecen dentro del detalle de esa secuencia y también en la pestaña «Observaciones». Esta los reúne por secuencia, en orden de versos, con su forma y acceso al detalle; las observaciones generales llevan la referencia «Toda la ficha» con la misma presentación. No se repite la autoría de ficha ni se distingue entre público y privado en los rótulos del lector. Se respeta la visibilidad de la sección de comentarios públicos.
 
 **Criterio acordado:** mantener el mismo modelo de comentario público para toda la secuencia. No añadir selectores ni campos de versos a los comentarios. Si una nota se refiere a uno o pocos versos, indicarlos al principio de su texto. En el traslado se añadirá ese prefijo utilizando el rango que ya tiene la caracterización, después de resolver las renumeraciones.
 
