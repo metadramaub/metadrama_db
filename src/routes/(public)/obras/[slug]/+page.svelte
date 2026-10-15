@@ -303,7 +303,8 @@
 			return {
 				jornada,
 				sequences,
-				distribution: buildMetricDistribution(sequences)
+				distribution: buildMetricDistribution(sequences),
+				summary: fichaTecnica(secuenciasToAnalizables(sequences))
 			};
 		})
 	);
@@ -926,44 +927,37 @@
 	{#if activeTab === 'estructura'}
 		{#if showMetrica}
 			<section class="space-y-6">
-				<MetricWorkSummary summary={tecnica} />
-				<div class="space-y-3">
-					<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
-						<div class="flex flex-wrap items-center gap-2">
-							<button
-								type="button"
-								class={`border px-3 py-2 text-xs font-semibold tracking-[0.05em] ${metricViewMode === 'obra_completa' ? 'border-[color:var(--gray-800)] bg-[color:var(--gray-800)] text-white' : 'border-[color:var(--border)] bg-white text-[color:var(--gray-800)]'}`}
-								onclick={() => (metricViewMode = 'obra_completa')}
-							>
-								Obra completa
-							</button>
-							<button
-								type="button"
-								class={`border px-3 py-2 text-xs font-semibold tracking-[0.05em] ${metricViewMode === 'por_jornadas' ? 'border-[color:var(--gray-800)] bg-[color:var(--gray-800)] text-white' : 'border-[color:var(--border)] bg-white text-[color:var(--gray-800)]'}`}
-								onclick={() => (metricViewMode = 'por_jornadas')}
-							>
-								Por jornadas
-							</button>
-						</div>
-						<div class="flex flex-wrap items-center gap-2">
-							<span class="text-xs text-[color:var(--muted-foreground)]">Perfil métrico:</span>
-							<button
-								type="button"
-								class={`border px-2 py-1 text-xs font-semibold ${pieValueMode === 'percent' ? 'border-[color:var(--gray-800)] bg-[color:var(--gray-800)] text-white' : 'border-[color:var(--border)] bg-white text-[color:var(--gray-800)]'}`}
-								onclick={() => (pieValueMode = 'percent')}
-							>
-								%
-							</button>
-							<button
-								type="button"
-								class={`border px-2 py-1 text-xs font-semibold ${pieValueMode === 'absolute' ? 'border-[color:var(--gray-800)] bg-[color:var(--gray-800)] text-white' : 'border-[color:var(--border)] bg-white text-[color:var(--gray-800)]'}`}
-								onclick={() => (pieValueMode = 'absolute')}
-							>
-								Nº versos
-							</button>
-						</div>
+				<div class="flex flex-wrap items-center gap-2" role="group" aria-label="Vista de De un vistazo">
+					<button
+						type="button"
+						class={`rounded-full border px-3 py-1.5 text-xs font-semibold tracking-[0.05em] ${metricViewMode === 'obra_completa' ? 'border-[color:var(--gray-800)] bg-[color:var(--gray-800)] text-white' : 'border-[color:var(--border)] bg-white text-[color:var(--gray-800)]'}`}
+						aria-pressed={metricViewMode === 'obra_completa'}
+						onclick={() => (metricViewMode = 'obra_completa')}
+					>
+						Obra completa
+					</button>
+					<button
+						type="button"
+						class={`rounded-full border px-3 py-1.5 text-xs font-semibold tracking-[0.05em] ${metricViewMode === 'por_jornadas' ? 'border-[color:var(--gray-800)] bg-[color:var(--gray-800)] text-white' : 'border-[color:var(--border)] bg-white text-[color:var(--gray-800)]'}`}
+						aria-pressed={metricViewMode === 'por_jornadas'}
+						onclick={() => (metricViewMode = 'por_jornadas')}
+					>
+						Por jornadas
+					</button>
+				</div>
+				{#if metricViewMode === 'obra_completa'}
+					<MetricWorkSummary summary={tecnica} />
+				{:else}
+					<div class="space-y-3">
+						{#each metricProfilesByJornada as profile (profile.jornada.jornada_id)}
+							<MetricWorkSummary
+								summary={profile.summary}
+								title={`Jornada ${profile.jornada.jornada_num} (vv. ${profile.jornada.v_ini}–${profile.jornada.v_fin})`}
+							/>
+						{/each}
 					</div>
-
+				{/if}
+				<div class="space-y-3">
 					{#if secuenciasOrdenadas.length === 0}
 						<p class="text-sm text-[color:var(--muted-foreground)]">
 							No hay secuencias métricas registradas para esta obra.
@@ -1063,20 +1057,41 @@
 						</div>
 					{/if}
 				{/snippet}
-				{#if secuenciasOrdenadas.length > 0}
-					<FiguraDescargable figura={figuraPerfil} procedencia={procedenciaFigura}>
+				<div class="space-y-3">
+					<div class="flex flex-wrap items-center gap-2" role="group" aria-label="Valores del perfil métrico">
+						<span class="text-xs text-[color:var(--muted-foreground)]">Perfil métrico:</span>
+						<button
+							type="button"
+							class={`border px-2 py-1 text-xs font-semibold ${pieValueMode === 'percent' ? 'border-[color:var(--gray-800)] bg-[color:var(--gray-800)] text-white' : 'border-[color:var(--border)] bg-white text-[color:var(--gray-800)]'}`}
+							aria-pressed={pieValueMode === 'percent'}
+							onclick={() => (pieValueMode = 'percent')}
+						>
+							%
+						</button>
+						<button
+							type="button"
+							class={`border px-2 py-1 text-xs font-semibold ${pieValueMode === 'absolute' ? 'border-[color:var(--gray-800)] bg-[color:var(--gray-800)] text-white' : 'border-[color:var(--border)] bg-white text-[color:var(--gray-800)]'}`}
+							aria-pressed={pieValueMode === 'absolute'}
+							onclick={() => (pieValueMode = 'absolute')}
+						>
+							Nº versos
+						</button>
+					</div>
+					{#if secuenciasOrdenadas.length > 0}
+						<FiguraDescargable figura={figuraPerfil} procedencia={procedenciaFigura}>
+							{@render perfilEnPantalla()}
+							{#snippet grafico()}
+								<MetricDistributionPieFigura
+									grupos={gruposDelPerfil}
+									colorByForma={colorByForma}
+									valueMode={pieValueMode}
+								/>
+							{/snippet}
+						</FiguraDescargable>
+					{:else}
 						{@render perfilEnPantalla()}
-						{#snippet grafico()}
-							<MetricDistributionPieFigura
-								grupos={gruposDelPerfil}
-								colorByForma={colorByForma}
-								valueMode={pieValueMode}
-							/>
-						{/snippet}
-					</FiguraDescargable>
-				{:else}
-					{@render perfilEnPantalla()}
-				{/if}
+					{/if}
+				</div>
 			</section>
 		{/if}
 	{:else if activeTab === 'esquema'}

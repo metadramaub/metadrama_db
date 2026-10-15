@@ -262,6 +262,36 @@ describe('caracterizacionesDeLaObra', () => {
 });
 
 describe('fichaTecnica', () => {
+	it('calcula los extremos y la densidad sobre los versos de la jornada seleccionada', () => {
+		const jornada = OBRA.filter((s) => s.jornada_num === 2).reverse();
+		const original = [...jornada];
+		const resumen = fichaTecnica(jornada);
+		expect(resumen).toMatchObject({
+			versos: 120,
+			secuencias: 2,
+			formasDistintas: 2,
+			mediaPorSecuencia: 60,
+			abre: 'Octava real',
+			cierra: 'Redondilla'
+		});
+		expect(resumen.densidad).toBeCloseTo(100 / 60);
+		expect(resumen.secuenciaMasLarga?.v_ini).toBe(201);
+		expect(resumen.secuenciaMasCorta?.v_ini).toBe(161);
+		expect(jornada).toEqual(original);
+	});
+
+	it('admite jornadas sin secuencias o sin formas anotadas', () => {
+		expect(fichaTecnica([])).toMatchObject({
+			secuencias: 0, formasDistintas: 0, mediaPorSecuencia: 0,
+			diversidad: 0, densidad: 0, abre: null, cierra: null,
+			secuenciaMasLarga: null, secuenciaMasCorta: null
+		});
+		expect(fichaTecnica(OBRA.filter((s) => s.jornada_num === 3))).toMatchObject({
+			secuencias: 1, formasDistintas: 0, diversidad: 0,
+			densidad: 5, abre: SIN_FORMA, cierra: SIN_FORMA
+		});
+	});
+
 	it('resume la obra y dice con qué abre y con qué cierra', () => {
 		const t = fichaTecnica(OBRA);
 		expect(t).toMatchObject({

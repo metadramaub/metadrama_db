@@ -22,12 +22,12 @@
 		cierra: string | null;
 	}
 
-	const props = $props<{ summary: TechnicalSummary }>();
+	const props = $props<{ summary: TechnicalSummary; title?: string }>();
 
 	const numero = (valor: number) =>
 		valor.toLocaleString('es', { maximumFractionDigits: 2 });
 
-	/** Las seis cifras, en el orden en que se preguntan. La unidad va pegada al número. */
+	/** Las cinco cifras, en el orden en que se preguntan. La unidad va pegada al número. */
 	const cifras = $derived([
 		{ etiqueta: 'Secuencias', valor: String(props.summary.secuencias) },
 		{ etiqueta: 'Formas distintas', valor: String(props.summary.formasDistintas) },
@@ -40,16 +40,13 @@
 		`${s.v_ini === s.v_fin ? `v. ${s.v_ini}` : `vv. ${s.v_ini}–${s.v_fin}`} · ${s.n_versos} ${s.n_versos === 1 ? 'v.' : 'vv.'}`;
 </script>
 
-<!--
-	**Es un resumen y tiene que ocupar como un resumen.** En rejilla de celdas con borde ocupaba
-	media pantalla antes de llegar al primer gráfico, que es lo contrario de lo que hace falta arriba
-	de la ficha. Ahora son dos líneas: los números en una y las formas que la enmarcan en otra.
--->
 <section
 	class="border border-[color:var(--border)] bg-white px-4 py-3 sm:px-5"
-	aria-labelledby="metric-summary-title"
+	aria-label={props.title ? `Resumen métrico · ${props.title}` : 'Resumen métrico'}
 >
-	<h2 id="metric-summary-title" class="sr-only">Resumen métrico</h2>
+	{#if props.title}
+		<h3 class="mb-3 text-sm font-semibold">{props.title}</h3>
+	{/if}
 
 	<dl class="flex flex-wrap items-baseline gap-x-5 gap-y-1.5 text-sm">
 		{#each cifras as cifra (cifra.etiqueta)}
