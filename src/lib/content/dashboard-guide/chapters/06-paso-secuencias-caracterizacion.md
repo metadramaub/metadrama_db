@@ -46,7 +46,7 @@ Tres marcas más sobre la secuencia:
 
 - **Versos partidos** (`pendiente/no/sí`): selecciona "sí" si hay versos partidos entre intervenciones de distintos personajes.
 - **Inaugura espacio** (`pendiente/no/sí`): selecciona "sí" si el inicio de la secuencia coincide, de forma evidente, con un cambio de espacio escénico.
-- **Evento sobrenatural** (`pendiente/no/sí`): selecciona "sí" si en la secuencia ocurre un milagro, una aparición o una transformación. Ocurre aunque no hable ningún personaje sobrenatural, y por eso se pregunta aparte de la intervención de personajes. Si has marcado en **Antes de anotar** que la obra no tiene eventos sobrenaturales, este campo aparece ya resuelto en "no" y bloqueado.
+- **Evento sobrenatural** (`pendiente/no/sí`): selecciona "sí" si en la secuencia ocurre un milagro, una aparición, una transformación o un sueño premonitorio. Ocurre aunque no hable ningún personaje sobrenatural, y por eso se pregunta aparte de la intervención de personajes. Si has marcado en **Antes de anotar** que la obra no tiene eventos sobrenaturales, este campo aparece ya resuelto en "no" y bloqueado.
 
 Las secuencias nuevas empiezan con estas caracterizaciones en **Pendiente**. Este estado permite guardar la secuencia y deja visible que el dato todavía debe revisarse.
 

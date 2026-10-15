@@ -164,7 +164,7 @@
 			etiqueta: 'Eventos sobrenaturales',
 			casilla: 'No ocurren en esta obra',
 			ayuda:
-				'Un milagro, una aparición, una transformación. Ocurren aunque no hable ningún personaje sobrenatural, y por eso se preguntan aparte.',
+				'Un milagro, una aparición, una transformación o un sueño premonitorio. Ocurren aunque no hable ningún personaje sobrenatural, y por eso se preguntan aparte.',
 			loDeclaran: (secuencia) => secuencia.evento_sobrenatural === true
 		}
 	];
