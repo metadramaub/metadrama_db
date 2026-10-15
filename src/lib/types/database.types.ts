@@ -3342,6 +3342,7 @@ export type Database = {
           created_at: string
           estrofa_tipo_id: string | null
           evento_sobrenatural: boolean | null
+          generos_intervinientes: string[] | null
           inaugura_espacio: boolean | null
           intervencion_figuras_donaire: string | null
           intervencion_personajes_femeninos: string | null
@@ -3359,6 +3360,7 @@ export type Database = {
           created_at?: string
           estrofa_tipo_id?: string | null
           evento_sobrenatural?: boolean | null
+          generos_intervinientes?: string[] | null
           inaugura_espacio?: boolean | null
           intervencion_figuras_donaire?: string | null
           intervencion_personajes_femeninos?: string | null
@@ -3376,6 +3378,7 @@ export type Database = {
           created_at?: string
           estrofa_tipo_id?: string | null
           evento_sobrenatural?: boolean | null
+          generos_intervinientes?: string[] | null
           inaugura_espacio?: boolean | null
           intervencion_figuras_donaire?: string | null
           intervencion_personajes_femeninos?: string | null
@@ -3995,6 +3998,14 @@ export type Database = {
           v_ini: number
         }[]
       }
+      generos_desde_intervencion_femenina: {
+        Args: { valor: string }
+        Returns: string[]
+      }
+      generos_intervinientes_validos: {
+        Args: { valores: string[] }
+        Returns: boolean
+      }
       get_autor_publico: { Args: { p_slug: string }; Returns: Json }
       get_autores_listado_publico: { Args: never; Returns: Json }
       get_catalogo_formas_publicas: { Args: never; Returns: Json }
@@ -4031,6 +4042,10 @@ export type Database = {
           p_version_esquema?: number
         }
         Returns: undefined
+      }
+      intervencion_femenina_desde_generos: {
+        Args: { valores: string[] }
+        Returns: string
       }
       longitud_encaja_en_regla: {
         Args: {
@@ -4089,6 +4104,10 @@ export type Database = {
           valor_rasgo_id: string
           variedad_id: string
         }[]
+      }
+      ordenar_generos_intervinientes: {
+        Args: { valores: string[] }
+        Returns: string[]
       }
       perfil_artefacto_obra_rango: {
         Args: {
