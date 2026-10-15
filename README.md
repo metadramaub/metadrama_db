@@ -23,6 +23,8 @@ tras una contraseña global mientras el proyecto no se abre.
 - **[docs/arquitectura-artefactos-publicos.md](docs/arquitectura-artefactos-publicos.md)** — cómo se
   materializan fichas, índices y comparativas como JSON y cómo podrá trasladarse ese almacenamiento
   a R2 sin cambiar los contratos.
+- **[docs/importador-metrico/README.md](docs/importador-metrico/README.md)** — proyecto del importador
+  de ediciones críticas: fichas mínimas, metodología, piloto y hoja de ruta.
 
 El resto de este archivo cubre el arranque y la operativa de la base de datos.
 

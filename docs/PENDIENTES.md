@@ -30,6 +30,16 @@ estado con `npm run equivalencias:informe`
 
 ---
 
+## Proyecto de importador métrico
+
+**Preparar el piloto de fichas mínimas desde ediciones críticas.** Empezar por el contrato de datos
+y las extracciones revisadas de las fotografías, inventariar equivalencias y candidatas y ensayar
+incertidumbre antes de adaptar la base compartida. Trabajo en `main`, con archivos locales y sin
+escrituras del piloto en Supabase. La documentación inicial está creada; el piloto no se ha ejecutado.
+→ [proyecto, metodología y hoja de ruta](./importador-metrico/README.md)
+
+---
+
 ## A · Bloquean la migración de las secuencias
 
 **A1 · Migrar obra por obra.** El aplicador está escrito —`npm run migracion:aplicar -- --obra

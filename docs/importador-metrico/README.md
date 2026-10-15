@@ -1,0 +1,80 @@
+# Importador de esquemas métricos de ediciones críticas
+
+Este proyecto permitirá incorporar a Versología fichas mínimas a partir de fotografías de las
+sinopsis métricas de ediciones críticas. Su finalidad es construir un corpus fechado para estudiar
+el perfil métrico de un autor y situar obras con ficha completa respecto a ese corpus. Las fichas
+mínimas no se publicarán individualmente; sus datos podrán contribuir a comparaciones y agregados
+publicables cuando la cobertura y la incertidumbre permitan sostenerlos.
+
+Este directorio conserva el diseño y el procedimiento de trabajo. **Todavía no hay importador,
+cambios de esquema ni experimentos ejecutados como parte de este proyecto.** La documentación
+no describe capacidades ya disponibles en la plataforma.
+
+## Lectura y organización
+
+| Documento | Contenido |
+| --- | --- |
+| [Metodología](./metodologia.md) | Acuerdos sobre fuentes, identificación, equivalencias, incertidumbre y comparabilidad |
+| [Hoja de ruta](./hoja-de-ruta.md) | Etapas, resultados necesarios, decisiones abiertas e integración técnica |
+| [Piloto](./piloto/README.md) | Materiales disponibles, referencias revisadas y procedimiento de los ensayos |
+
+El pendiente activo se mantiene en [PENDIENTES](../PENDIENTES.md), la lista común del repositorio.
+Estos documentos desarrollan el proyecto; no crean otra lista general de tareas. Cuando se tomen
+decisiones, se actualiza la sección correspondiente y se conserva su razón en el historial de Git.
+Las propuestas abiertas no se presentan como acuerdos.
+
+## Alcance acordado
+
+- La persona obtiene fotografías y metadatos, incluidas fechas y su fuente. Utiliza una IA externa
+  con un prompt preparado y pega su resultado en el futuro importador del dashboard.
+- El núcleo mínimo comprende identidad de la obra, autoría, edición base, datación con fuente,
+  jornadas y secuencias con rangos e identificación métrica hasta donde llegue la evidencia.
+- Se acepta lo declarado por la edición base. Comprobar errores filológicos de las ediciones no
+  forma parte del piloto. Sí se comprueban la fidelidad de la extracción y su interpretación en
+  nuestro catálogo.
+- Un cambio de forma implica un cambio de secuencia: A → B → A produce tres secuencias.
+- Algunas declaraciones permiten identificar arquitectura o rasgos; otras solo forma. Lo que no
+  se puede identificar queda pendiente, conservando la denominación de la edición.
+- Personajes, sinopsis y caracterizaciones ajenas al análisis métrico quedan fuera del piloto.
+- Una ficha mínima debe poder asignarse después a un editor como punto de partida opcional para
+  una ficha completa, con revisión y ampliación explícitas.
+- Se ensayarán los datos y las equivalencias antes de construir toda la infraestructura.
+
+## Orientación técnica por validar
+
+Se propone conservar un modelo común de obras, jornadas y secuencias, con niveles de anotación y
+evidencia explícitos, y un registro auxiliar de fuentes e importaciones. Las medidas compartidas
+deberían tener una sola definición para fichas mínimas y completas. El esquema concreto se decidirá
+después del piloto: este documento no autoriza relajar validaciones ni aplicar migraciones.
+
+La profundidad de una ficha, su estado editorial, su verificación, su visibilidad y sus usos
+analíticos son dimensiones distintas. El diseño debe permitir combinarlas sin duplicar corpora ni
+introducir una excepción particular para cada pantalla.
+
+## Forma de trabajo en el repositorio
+
+Se trabaja en `main`, conforme a la preferencia del responsable del proyecto y a la práctica del
+repositorio. Las mejoras habituales de la web continúan en esa misma rama. No se considera necesaria
+una rama de larga duración para la documentación ni para el piloto con archivos locales.
+
+Hay una sola base Supabase compartida. Una rama de Git no aísla sus datos, funciones ni esquema.
+Durante el piloto se usarán archivos y cálculos locales; cualquier consulta necesaria al catálogo
+será de solo lectura. Los ensayos de extracción y sensibilidad no escribirán en la base compartida.
+
+La futura integración se dividirá en cambios pequeños y compatibles, evitando modificar a la vez
+el editor, la persistencia y todos los consumidores. Antes de cambiar archivos se revisará el estado
+del trabajo y, antes de una migración, el esquema vivo. Se respetarán las copias y verificaciones
+exigidas por [CLAUDE.md](../../CLAUDE.md) y [README.md](../../README.md). Una migración aplicada no
+se reescribe. Si una fase llegase a justificar otra rama, se conversará antes de cambiar esta forma
+de trabajo; no se abrirá como requisito automático.
+
+## Relación con el resto del proyecto
+
+- [Dominio métrico](../dominio-metrico/README.md): catálogo y contratos de la anotación detallada.
+- [Metodología del perfil](../metodologia-perfil-metrico.md): definición de las medidas existentes.
+- [Comparativas del corpus](../plan-comparativas-corpus.md): laboratorio y selección de resultados
+  para fichas. Sus universos deberán ampliarse de forma explícita al integrar el corpus mínimo.
+- [Artefactos públicos](../arquitectura-artefactos-publicos.md): persistencia y permisos de las
+  proyecciones. Un agregado autorizado no implica hacer consultables las fichas mínimas de origen.
+- [Exportador del catálogo](../../scripts/variacion-simulacion/README.md): posible base para el
+  vocabulario versionado que acompañará al prompt, sin inventar equivalencias ni probabilidades.

@@ -220,6 +220,9 @@ contraseña global comprobada en `src/hooks.server.ts`, que redirige a `/acceso`
 - [docs/revision-de-vocabularios.md](docs/revision-de-vocabularios.md) — los tres sitios
   donde viven hoy los vocabularios y el inventario de los 60 enums en `CHECK`. Anotado, sin
   decidir: se revisa cuando el dominio métrico pase a `main`.
+- [docs/importador-metrico/README.md](docs/importador-metrico/README.md) — diseño del importador de
+  ediciones críticas y corpus mínimo: acuerdos, piloto y hoja de ruta. Se trabaja en `main`; el
+  piloto usa archivos locales y no escribe en la base compartida.
 - `README.md` — arranque, migraciones y backups.
 
 ## Convenciones
