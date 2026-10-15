@@ -1,6 +1,6 @@
 # Propuesta de destino de las observaciones de caracterizaciones
 
-Estado: **propuesta pendiente de aprobación**. Lectura de la base y del Excel recibido realizada el 15 de octubre de 2026. No se ha trasladado ni vaciado ninguna observación y la columna permanece en la base.
+Estado: **destinos revisados con el IP; aplicación pendiente por obra**. Lectura de la base y del Excel recibido realizada el 15 de octubre de 2026. No se ha trasladado ni vaciado ninguna observación y la columna permanece en la base. La laguna de El mágico prodigioso se resolverá con el Excel de esa obra.
 
 ## Criterio de revisión
 
@@ -21,12 +21,12 @@ La descripción de una desviación sirve para completar lo que no cubran sus sel
 | Adonis y Venus | Gaston Gilabert | 0 | 0 | 1 | 0 | 0 | 1 |
 | Dido y Eneas | Gaston Gilabert | 0 | 2 | 0 | 0 | 0 | 2 |
 | El amor al uso | Ana Vicente | 4 | 2 | 0 | 0 | 1 | 7 |
-| El caballero de Olmedo | María Isabel Cuena | 0 | 29 | 3 | 0 | 0 | 32 |
+| El caballero de Olmedo | María Isabel Cuena | 0 | 30 | 2 | 0 | 0 | 32 |
 | El esclavo del demonio | Blanca Ballester Morell | 0 | 0 | 1 | 0 | 0 | 1 |
 | El mágico prodigioso | Emma González Mesas | 0 | 0 | 2 | 1 | 0 | 3 |
 | La gran Semíramis | Blanca Ballester Morell | 0 | 0 | 3 | 0 | 0 | 3 |
 | Valor, agravio y mujer | María Isabel Cuena | 0 | 16 | 0 | 2 | 0 | 18 |
-| **Total real** | | **4** | **49** | **10** | **3** | **1** | **67** |
+| **Total real** | | **4** | **50** | **9** | **3** | **1** | **67** |
 
 Las seis notas de obras de prueba se revisan al final y se proponen como C. Son independientes del recuento real.
 
@@ -40,9 +40,18 @@ Las seis notas de obras de prueba se revisan al final y se proponen como C. Son 
 
    Si una renumeración afecta a referencias de versos dentro del texto de la nota, revisarlas antes de trasladarlo. No sustituir cifras automáticamente: también hay páginas bibliográficas y otros números. Conservar la redacción original y su numeración en el rastro.
 6. Corregir la fusión de secuencias para trasladar también los comentarios ya existentes antes de borrar las filas absorbidas: actualmente solo se trasladan subtipos y caracterizaciones y la FK de comentarios tiene borrado en cascada.
-7. Antes de aplicar: copia, snapshot y ensayo íntegro con rollback. No mover notas de obras pendientes por adelantado ni completar respuestas métricas no recibidas.
+7. Antes de aplicar: copia, snapshot y ensayo íntegro con rollback. Las notas que dependan de la migración métrica se trasladan al migrar su obra; no completar respuestas métricas no recibidas. Las secuencias que ya tienen anotación V2 se tratan sin esperar un Excel.
 
 La base tiene vacía migracion_secuencias. Entre estas obras reales, Adonis y Venus ya tiene anotaciones V2; las demás no. Su nota de canto puede tratarse aparte cuando se apruebe el traslado, sin migrar de nuevo su métrica.
+
+### Orden de aplicación
+
+- **Ya anotadas con V2:** trasladar ahora sus notas con el criterio revisado, sin esperar cuestionarios. En las obras reales hay una: Adonis y Venus, canto de vv. 1229–1287 dentro de la secuencia 1229–1306. Se convertirá en comentario público firmado por Gaston Gilabert, con el rango escrito al principio y sin alterar la caracterización de canto.
+- **Pendientes de migración métrica:** trasladar sus notas en la misma operación que la obra, cuando se procese su Excel. Son las otras 66 notas reales, en siete obras. Así se respetan las rectificaciones del editor, las renumeraciones y las fusiones y no se crean descripciones de desviaciones que aún no existen.
+- **Nuevas anotaciones:** aplicar el formulario sin Observaciones en las caracterizaciones por rango y la ayuda aprobada en desviaciones. La columna y los textos históricos pendientes permanecen en la base para el aplicador, aunque el formulario no permita crear nuevas notas en ella.
+- **Pruebas:** las seis notas pueden trasladarse sin esperar Excel, por tratarse de contenido de prueba. Cinco pertenecen a secuencias con anotación V2 y una a una secuencia sin ella; ninguna requiere crear una desviación.
+
+Las tres notas mixtas quedan aprobadas para separar dato y comentario. La pausa de El caballero de Olmedo (vv. 478–480) se conservará como desviación con la nota íntegra, por indicación del IP. El encaje de su dimensión se revisará al migrar esa obra; no se asignará rima automáticamente solo por el nombre legado patron_alternativo.
 
 ## Prueba con El amor al uso
 
@@ -200,7 +209,7 @@ Origen: `a6332da3-dfd9-43b0-b85f-8def48d6dba5`. Secuencia actual: vv. 461–490.
 
 > Esta décima espinela incorpora una pausa sintáctica justo antes de este grupo de versos, que es el final de la misma.
 
-**Propuesta: Comentario público.** Observación de pausa sintáctica en una décima. No convertir automáticamente el antiguo patron_alternativo en una desviación de rima: la nota no describe una diferencia de rima. Revisar el encaje métrico al migrar la obra.
+**Propuesta: Dato de desviación.** El IP considera la pausa un patrón alternativo y decide conservarla como desviación con esta explicación íntegra. Revisar la dimensión concreta al migrar la obra; el nombre legado patron_alternativo no obliga a clasificarla automáticamente como diferencia de rima.
 
 #### 16. vv. 503–516 · evocacion_metrica
 
