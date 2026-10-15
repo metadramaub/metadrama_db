@@ -3,6 +3,26 @@
 // página concreta, para poder usarlos en ficha, catálogo y ficha de autor.
 // Cada consumidor adapta sus datos a estas formas mínimas.
 
+/** Cifras y extremos de una obra o de un subconjunto de sus secuencias. */
+export interface MetricSummary {
+	secuencias: number;
+	formasDistintas: number;
+	mediaPorSecuencia: number;
+	diversidad: number;
+	densidad: number;
+	abre: string | null;
+	cierra: string | null;
+	secuenciaMasLarga: MetricSummarySequence | null;
+	secuenciaMasCorta: MetricSummarySequence | null;
+}
+
+export interface MetricSummarySequence {
+	forma: string | null;
+	v_ini: number;
+	v_fin: number;
+	n_versos: number;
+}
+
 /** Un segmento métrico dibujable en el código de barras. */
 export interface MetricBarSegment {
 	/** Identificador único (para keys y para el callback de apertura). */
