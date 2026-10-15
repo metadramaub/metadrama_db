@@ -124,6 +124,11 @@ Las relaciones son las que la base admite: `metro` acepta `menor_que_norma`, `ma
    **Lo que no se entiende no se aplica.** Una laguna cuya localización no se lee en la prosa del
    editor, una confirmación corregida a mano, una respuesta que no nombra ninguna opción: esas
    secuencias quedan sin anotar, con su motivo escrito, y las demás de la obra se migran igual.
+   **Excepción autorizada para Berganza:** el IP pidió conservar dos redondillas con rima
+   pendiente. El script específico `scripts/migrar-berganza.mjs` inserta sus anotaciones V2 y
+   unidades sin elecciones, con resultado pendiente en el rastro, sin cambiar las validaciones
+   del guardado editorial. La auditoría debe mostrar esas preguntas sin contestar. El mismo
+   traslado archiva y elimina las dos secuencias finales por indicación expresa del IP.
 5. **Cerrar.** Recuento (secuencias legadas con anotación nueva = total), `npm run
    audit:anotaciones`, recompute. El editor revisa cada secuencia en el dashboard y comprueba que
    la migración no dejó ningún hueco.

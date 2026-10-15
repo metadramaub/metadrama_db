@@ -1,0 +1,45 @@
+{
+	"obra": "la-tragedia-del-duque-de-berganza",
+	"fecha": "2026-10-15",
+	"obra_id": "9e7ec815-e9ae-4912-afa4-6b2a72ad93b2",
+	"total_versos_original": 876,
+	"procedencia": "Autorización expresa de David. No se envió Excel ni se atribuyen respuestas nuevas a María Rosa. Conservar las tres primeras secuencias y eliminar las dos últimas.",
+	"conservar": [
+		{
+			"id": "854d52fa-5d57-40ea-ac33-4bef0dd96970",
+			"v_ini": 1,
+			"v_fin": 64,
+			"termino": "redondilla",
+			"rima_pendiente": true
+		},
+		{
+			"id": "151c5105-862e-48b6-825a-e20445c82444",
+			"v_ini": 65,
+			"v_fin": 128,
+			"termino": "octava_real_regular",
+			"rima_pendiente": false
+		},
+		{
+			"id": "1db4c67d-051e-4270-b4ff-0259cd2111ae",
+			"v_ini": 129,
+			"v_fin": 184,
+			"termino": "redondilla",
+			"rima_pendiente": true
+		}
+	],
+	"eliminar": [
+		{
+			"id": "9ce642d1-ceff-4153-91d3-780de74c7b70",
+			"v_ini": 185,
+			"v_fin": 197,
+			"termino": "romance_a-e"
+		},
+		{
+			"id": "41a84c24-6f43-493b-8982-56f17523cda4",
+			"v_ini": 198,
+			"v_fin": 199,
+			"termino": "redondilla"
+		}
+	],
+	"criterio": "No inventar esquemas para las redondillas; conservar su forma y sus 16 y 14 estrofas. Las ocho octavas conservan ABABABCC. No modificar personajes, sinopsis, estructura ni el total de 876 versos. Archivar las filas completas eliminadas en el rastro de la tercera secuencia."
+}
