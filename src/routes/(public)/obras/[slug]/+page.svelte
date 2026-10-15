@@ -27,6 +27,7 @@
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
 	import SequenceDetailModal from '$lib/components/ficha/SequenceDetailModal.svelte';
 	import FichaAutoriaBlock from '$lib/components/ficha/FichaAutoriaBlock.svelte';
+	import FichaObservaciones from '$lib/components/ficha/FichaObservaciones.svelte';
 	import InlineNotePopover from '$lib/components/ui/inline-note-popover.svelte';
 	import OrcidIcon from '$lib/components/icons/OrcidIcon.svelte';
 	import SequenceSynopsisView from '$lib/components/editor/SequenceSynopsisView.svelte';
@@ -358,6 +359,9 @@
 	const selectedSequenceComments = $derived.by(() =>
 		selectedSequenceId ? (comentariosPorSecuencia.get(selectedSequenceId) ?? []) : []
 	);
+	const secuenciasDeAclaraciones = $derived.by(() =>
+		[...new Map([...sinopsisMetricaSequences, ...secuenciasOrdenadas].map((s) => [s.secuencia_id, s])).values()]
+	);
 
 	function openSequenceModal(id: string) {
 		selectedSequenceId = id;
@@ -686,7 +690,6 @@
 		}))
 	);
 
-	const hasObservaciones = $derived((obra.observaciones ?? '').trim().length > 0);
 	const hasBibliografia = $derived((obra.bibliografia ?? '').trim().length > 0);
 	// **La estructura son jornadas y cuadros.** El recuento de secuencias métricas estaba aquí y no
 	// pertenece: cómo está partida la obra es un dato de la obra, y en cuántas tiradas está
@@ -1339,14 +1342,13 @@
 		{/if}
 	{:else if activeTab === 'observaciones'}
 		{#if showObservaciones}
-			<section class="space-y-3 border-t border-[color:var(--border)] pt-4">
-				<h2 class="text-lg font-semibold">Observaciones</h2>
-				{#if hasObservaciones}
-					<div class="space-y-2 text-sm leading-7">{@html renderMarkdown(obra.observaciones ?? '')}</div>
-				{:else}
-					<p class="text-sm text-[color:var(--muted-foreground)]">Sin observaciones publicadas.</p>
-				{/if}
-			</section>
+			<FichaObservaciones
+				observaciones={obra.observaciones}
+				comentarios={showComentarios ? comentariosPublicos : []}
+				secuencias={secuenciasDeAclaraciones}
+				canOpenSequence={(id) => secuenciasOrdenadas.some((s) => s.secuencia_id === id)}
+				onOpenSequence={openSequenceModal}
+			/>
 		{/if}
 	{:else if activeTab === 'bibliografia'}
 		{#if showBibliografia}
