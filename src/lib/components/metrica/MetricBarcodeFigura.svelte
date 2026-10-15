@@ -36,14 +36,14 @@
 	import { CORTE_CUADRO, CUERPO, TINTA } from '$lib/figuras/tema';
 	import { subsegmentosVisibles } from './barcode-subsegmentos';
 	import CantoDiagram from './CantoDiagram.svelte';
+	import MusicNote from './MusicNote.svelte';
 	import type { CantoMarker } from './barcode-canto';
-	import { diagramaDeCanto, type CantoStyle } from './canto-diagrama';
+	import { diagramaDeCanto } from './canto-diagrama';
 
 	const props = $props<{
 		filas: FilaDeBarras[];
 		colorByForma: Record<string, string>;
 		cantoMarkers?: CantoMarker[];
-		cantoStyle?: CantoStyle;
 	}>();
 
 	const ANCHO = 1000;
@@ -62,7 +62,7 @@
 		let y = 0;
 		return props.filas.map((fila: FilaDeBarras) => {
 			const arriba = y;
-			const cantos = diagramaDeCanto(props.cantoMarkers ?? [], fila.desde, fila.hasta, ANCHO - DER - IZQ, props.cantoStyle ?? 'pista', true);
+			const cantos = diagramaDeCanto(props.cantoMarkers ?? [], fila.desde, fila.hasta, ANCHO - DER - IZQ);
 			const altoCantos = cantos.height;
 			y += altoDeFila(fila) + altoCantos + ENTRE_FILAS;
 			const cantoTop = arriba + (fila.jornadas?.length ? ROTULOS : 0);
@@ -71,7 +71,7 @@
 				.domain([fila.desde, fila.hasta + 1])
 				.range([IZQ, ANCHO - DER])
 				.clamp(true);
-			return { fila, arriba, cantoTop, barra, escala, marcas: escala.ticks(8).filter((v) => v >= fila.desde && v <= fila.hasta) };
+			return { fila, arriba, cantoTop, hayCanto: cantos.items.length > 0, barra, escala, marcas: escala.ticks(8).filter((v) => v >= fila.desde && v <= fila.hasta) };
 		});
 	});
 	const alto = $derived(
@@ -95,9 +95,13 @@
 	aria-label="Código de barras métrico"
 	data-figura=""
 >
-	{#each colocadas as { fila, arriba, cantoTop, barra, escala, marcas }, indice (fila.etiqueta)}
+	{#each colocadas as { fila, arriba, cantoTop, hayCanto, barra, escala, marcas }, indice (fila.etiqueta)}
 		{@const pie = barra + BARRA + SOBRESALE + 3}
-		<CantoDiagram markers={props.cantoMarkers ?? []} desde={fila.desde} hasta={fila.hasta} width={ANCHO - DER - IZQ} x={IZQ} y={cantoTop} style={props.cantoStyle} figure />
+		{#if hayCanto}
+			<MusicNote x={IZQ - 87} y={cantoTop + 5} size={13} />
+			<text x={IZQ - 67} y={cantoTop + 16} font-size="11" fill={TINTA.secundario}>Canto</text>
+		{/if}
+		<CantoDiagram markers={props.cantoMarkers ?? []} desde={fila.desde} hasta={fila.hasta} width={ANCHO - DER - IZQ} x={IZQ} y={cantoTop} figure />
 
 		{#each fila.jornadas ?? [] as jornada (jornada.etiqueta)}
 			{@const ancho = escala(jornada.hasta + 1) - escala(jornada.desde)}
