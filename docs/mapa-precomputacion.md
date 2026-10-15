@@ -34,9 +34,9 @@ después los de autor y al final los índices y comparativas globales.
 | obras publicadas | 12 |
 | filas en `obras_resumen` | 21 |
 | artefactos JSON | 38 |
-| artefactos pendientes de actualizar | 6 |
+| artefactos pendientes de actualizar | 0 |
 | secuencias | 772 |
-| secuencias con anotación del catálogo nuevo | 541 |
+| secuencias con anotación del catálogo nuevo | 569 |
 | secuencias que aún hablan el vocabulario legado | 263 |
 
 ## Qué guarda `obras_resumen`
@@ -106,14 +106,14 @@ después los de autor y al final los índices y comparativas globales.
 |---|---|---|--:|--:|--:|
 | `autor_ficha` | completo | admin/IP | 4 | 17.0 KiB | 0 |
 | `autor_ficha` | publico | público según RLS | 4 | 17.0 KiB | 0 |
-| `autores_indice` | completo | admin/IP | 1 | 1.8 KiB | 1 |
-| `autores_indice` | publico | público según RLS | 1 | 1.8 KiB | 1 |
-| `corpus_comparativas` | completo | admin/IP | 1 | 30.2 KiB | 1 |
-| `corpus_comparativas` | publico | admin/IP | 1 | 30.2 KiB | 1 |
+| `autores_indice` | completo | admin/IP | 1 | 1.8 KiB | 0 |
+| `autores_indice` | publico | público según RLS | 1 | 1.8 KiB | 0 |
+| `corpus_comparativas` | completo | admin/IP | 1 | 30.2 KiB | 0 |
+| `corpus_comparativas` | publico | admin/IP | 1 | 30.2 KiB | 0 |
 | `obra_analisis` | publico | público según RLS | 12 | 631.6 KiB | 0 |
 | `obra_ficha` | publico | público según RLS | 12 | 905.2 KiB | 0 |
-| `obras_indice` | completo | admin/IP | 1 | 16.5 KiB | 1 |
-| `obras_indice` | publico | público según RLS | 1 | 16.5 KiB | 1 |
+| `obras_indice` | completo | admin/IP | 1 | 16.5 KiB | 0 |
+| `obras_indice` | publico | público según RLS | 1 | 16.5 KiB | 0 |
 
 ## Qué devuelve la ficha
 
@@ -129,12 +129,12 @@ Lo que tiene filas y no llega a ninguna de las dos superficies está anotado y n
 
 | dato | filas hoy | columna del resumen | en la ficha |
 |---|--:|---|:--:|
-| Rasgos observados (asonancia, densidad de rima, final acentual) | 224 | — | sí |
-| Metro elegido por unidad | 106 | `metros_presentes` | sí |
-| Esquema de rima elegido por unidad | 5947 | `subtipos_presentes` | sí |
+| Rasgos observados (asonancia, densidad de rima, final acentual) | 243 | — | sí |
+| Metro elegido por unidad | 107 | `metros_presentes` | sí |
+| Esquema de rima elegido por unidad | 6045 | `subtipos_presentes` | sí |
 | Variedad elegida dentro de una arquitectura | 17 | — | sí |
 | Desviaciones (lagunas, hipométricos, rima ajena) | 43 | — | sí |
-| Partes de la unidad (estancia, mudanza, sirima) | 812 | — | **no** |
+| Partes de la unidad (estancia, mudanza, sirima) | 853 | — | **no** |
 | Caracterizaciones por rango (cantado, prosa, evocación) | 250 | `pct_cantado` | sí |
 | Versos partidos | 308 | `tiene_versos_partidos` | sí |
 | Inaugura espacio | 171 | `tiene_cambio_espacio` | sí |

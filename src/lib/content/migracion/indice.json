@@ -38,18 +38,6 @@
 			"desviaciones": 52
 		},
 		{
-			"slug": "el-conde-de-sex",
-			"obra_id": "1a3f8f49-930a-4d3b-b69f-d5240c2c4d1e",
-			"titulo": "El conde de Sex",
-			"editor": "Rosa Bono",
-			"excel": "el-conde-de-sex.xlsx",
-			"secuencias": 28,
-			"decidir": 1,
-			"responder": 3,
-			"confirmar": 25,
-			"desviaciones": 0
-		},
-		{
 			"slug": "el-esclavo-del-demonio",
 			"obra_id": "443d1994-5ded-436e-a89f-54dcd538d732",
 			"titulo": "El esclavo del demonio",
