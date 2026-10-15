@@ -39,9 +39,10 @@ const SALIDA_POR_DEFECTO = fileURLToPath(
 const CONTENIDO = fileURLToPath(new URL('../src/lib/content/migracion', import.meta.url));
 
 function parseArguments(argv) {
-	const options = { salida: SALIDA_POR_DEFECTO };
+	const options = { salida: SALIDA_POR_DEFECTO, sinExcel: false };
 	for (let index = 0; index < argv.length; index += 1) {
 		if (argv[index] === '--salida') options.salida = argv[index + 1] ?? options.salida;
+		if (argv[index] === '--sin-excel') options.sinExcel = true;
 	}
 	return options;
 }
@@ -64,7 +65,7 @@ for (const fichero of readdirSync(CONTENIDO)) {
 }
 // Un Excel abierto en Excel está bloqueado en Windows: se avisa y se sigue con los demás.
 const bloqueados = new Set();
-for (const fichero of readdirSync(cuestionarios)) {
+for (const fichero of options.sinExcel ? [] : readdirSync(cuestionarios)) {
 	if (!/\.xlsx$/.test(fichero)) continue;
 	try {
 		rmSync(join(cuestionarios, fichero));
@@ -81,7 +82,7 @@ for (const obra of obras) {
 	const markdown = informeDeObra(obra, fecha);
 	writeFileSync(join(options.salida, `${obra.slug}.md`), `${markdown}\n`, 'utf-8');
 	writeFileSync(join(CONTENIDO, `${obra.slug}.html`), `${fragmentoDeInforme(markdown)}\n`, 'utf-8');
-	if (!bloqueados.has(`${obra.slug}.xlsx`)) {
+	if (!options.sinExcel && !bloqueados.has(`${obra.slug}.xlsx`)) {
 		await escribirExcel(obra, join(cuestionarios, `${obra.slug}.xlsx`), fecha);
 	}
 

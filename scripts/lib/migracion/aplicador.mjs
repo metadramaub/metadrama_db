@@ -422,14 +422,46 @@ function eleccionesDeUnaRespuesta(pregunta, fila, unidades, metros, pendientes, 
 // Las desviaciones que salen de las caracterizaciones
 // ---------------------------------------------------------------------------
 
-function desviacionesDe(partes, respuestas, metros, avisos, pendientes) {
+export function desviacionesDe(partes, respuestas, metros, avisos, pendientes, resoluciones = {}) {
 	const desviaciones = [];
 	const conservadas = [];
+	const traslados = [];
 	for (const parte of partes) {
 		for (const caracterizacion of parte.caracterizaciones ?? []) {
 			const destino = DESTINO_CARACTERIZACION[caracterizacion.termino];
 			const fila = respuestas.get(claveDesviacion(caracterizacion.caracterizacion_rango_id));
 			const donde = `«${caracterizacion.termino}» de ${caracterizacion.v_ini}–${caracterizacion.v_fin}`;
+			const resolucion = resoluciones[caracterizacion.caracterizacion_rango_id];
+			if (resolucion) {
+				for (const campo of ['secuencia_id', 'termino', 'v_ini', 'v_fin', 'observaciones']) {
+					if (caracterizacion[campo] !== resolucion.origen[campo]) {
+						throw new Error(`Ha cambiado ${donde}: revisar la resolución (${campo}).`);
+					}
+				}
+				for (const [campo, esperado] of Object.entries(resolucion.excel)) {
+					if (fila?.[campo] !== esperado) {
+						throw new Error(`Ha cambiado la respuesta del Excel para ${donde}: ${campo}.`);
+					}
+				}
+				if (!['rectificacion', 'desviacion'].includes(resolucion.destino)) {
+					throw new Error(`Destino no implementado para ${donde}; requiere revisión.`);
+				}
+				if (resolucion.destino === 'rectificacion' && confirma(fila) !== false) {
+					throw new Error(`La rectificación de ${donde} necesita la respuesta negativa revisada.`);
+				}
+				if (resolucion.destino === 'desviacion' && confirma(fila) === false) {
+					throw new Error(`La respuesta negativa de ${donde} requiere otra resolución.`);
+				}
+			}
+			if (resolucion?.destino === 'rectificacion') {
+				traslados.push({ origen: caracterizacion, resolucion, retirar_caracterizacion: true });
+				avisos.push(`Rectificación aplicada en ${donde}: ${resolucion.motivo}`);
+				continue;
+			}
+			if (caracterizacion.observaciones?.trim() && !resolucion) {
+				pendientes.push(`La nota de ${donde} necesita un destino revisado antes de migrarse.`);
+				continue;
+			}
 
 			// **Lo que el editor no da por bueno no se escribe**, diga lo que diga la tabla: la
 			// corrección viene en prosa y eso se mira a mano. Vale para las tres clases de fila,
@@ -447,14 +479,19 @@ function desviacionesDe(partes, respuestas, metros, avisos, pendientes) {
 				conservadas.push(caracterizacion);
 				continue;
 			}
-			if (!destino.desviacion) {
+			if (!destino.desviacion && !resolucion) {
 				// Las enunciativas se quedan donde están, y lo que el catálogo ya recoge de otra
 				// manera —la asonancia de un romance en «a»— no se escribe dos veces.
 				conservadas.push(caracterizacion);
 				continue;
 			}
-			const silabas = destino.pide === 'silabas' ? leerSilabas(fila?.silabas) : null;
+			const diferencia = resolucion?.desviacion ?? destino.desviacion;
+			const silabas =
+				resolucion?.silabas ?? (destino.pide === 'silabas' ? leerSilabas(fila?.silabas) : null);
 			const metro = silabas ? metroDeSilabas(metros, silabas) : null;
+			if (resolucion?.silabas && !metro) {
+				throw new Error(`No existe el metro de ${silabas} sílabas aprobado para ${donde}.`);
+			}
 			if (silabas && !metro) {
 				avisos.push(
 					`El verso ${caracterizacion.v_ini} se dice de ${silabas} sílabas y el catálogo no tiene ese metro: la desviación se registra sin cifra.`
@@ -462,20 +499,30 @@ function desviacionesDe(partes, respuestas, metros, avisos, pendientes) {
 			}
 			desviaciones.push({
 				realizacion_id: null,
-				dimension: destino.desviacion.dimension,
-				relacion_norma: destino.desviacion.relacion_norma,
+				dimension: diferencia.dimension,
+				relacion_norma: diferencia.relacion_norma,
 				v_ini: Number(caracterizacion.v_ini),
 				v_fin: Number(caracterizacion.v_fin),
-				observaciones: caracterizacion.observaciones ?? null,
+				observaciones: resolucion
+					? (resolucion.descripcion ?? null)
+					: (caracterizacion.observaciones ?? null),
 				metro_observado_id: metro?.metro_id ?? null,
 				esquema_rima_observado_id: null,
 				seccion_observada_id: null,
 				repeticion_observada_id: null,
 				valor_rasgo_observado_id: null
 			});
+			const conservar = resolucion?.conservar_caracterizacion === true;
+			if (conservar) conservadas.push(caracterizacion);
+			traslados.push({
+				origen: caracterizacion,
+				resolucion: resolucion ?? { destino: 'desviacion', desviacion: diferencia },
+				retirar_caracterizacion: !conservar,
+				limpiar_observaciones: conservar && Boolean(caracterizacion.observaciones?.trim())
+			});
 		}
 	}
-	return { desviaciones, conservadas };
+	return { desviaciones, conservadas, traslados };
 }
 
 // ---------------------------------------------------------------------------
@@ -634,7 +681,7 @@ function decidirSobreElRango(secuencia, respuestas, correcciones) {
  * `catalogo` es un mapa `arquitectura_id -> { forma_id, unidad_versos_min, unidad_versos_max,
  * secciones }`, y `metros` la tabla de metros. Los dos se leen de la base antes de llamar aquí.
  */
-export function planificarObra(obra, respuestas, catalogo, metros) {
+export function planificarObra(obra, respuestas, catalogo, metros, resoluciones = {}) {
 	const correcciones = [];
 	const pendientesObra = [];
 	const anotaciones = [];
@@ -876,12 +923,13 @@ export function planificarObra(obra, respuestas, catalogo, metros) {
 			resolverPregunta(pregunta);
 		}
 
-		const { desviaciones, conservadas } = desviacionesDe(
+		const { desviaciones, conservadas, traslados } = desviacionesDe(
 			partes,
 			respuestas,
 			metros,
 			avisos,
-			pendientes
+			pendientes,
+			resoluciones
 		);
 
 		if (pendientes.length > 0) {
@@ -899,6 +947,7 @@ export function planificarObra(obra, respuestas, catalogo, metros) {
 			resultado: fusion ? 'fundida' : 'anotada',
 			avisos,
 			conservadas,
+			traslados,
 			datos: {
 				anotacion_id: null,
 				escenario_id: null,

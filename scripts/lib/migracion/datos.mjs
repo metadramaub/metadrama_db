@@ -50,6 +50,7 @@ const SQL_SECUENCIAS = `
 	left join public.arquitecturas_forma a on a.arquitectura_id = p.arquitectura_propuesta_id
 	left join public.arquitecturas_reglas_longitud r on r.arquitectura_id = p.arquitectura_propuesta_id
 	where p.via <> 'sin_tipo'
+	  and not exists (select 1 from public.anotaciones_metricas an where an.secuencia_id = p.secuencia_id)
 	order by o.titulo, p.v_ini
 `;
 
@@ -62,8 +63,7 @@ const SQL_SUBTIPOS = `
 `;
 
 const SQL_CARACTERIZACIONES = `
-	select scr.caracterizacion_rango_id, scr.secuencia_id, v.termino, scr.v_ini, scr.v_fin,
-		scr.observaciones
+	select scr.*, to_jsonb(scr) as origen_original, v.termino
 	from public.secuencias_caracterizaciones_rango scr
 	join public.propuesta_metrica_secuencia p on p.secuencia_id = scr.secuencia_id and p.via <> 'sin_tipo'
 	left join public.vocabularios v on v.termino_id = scr.tipo_caracterizacion_rango_id
