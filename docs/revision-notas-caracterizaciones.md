@@ -4,26 +4,27 @@ Estado: **propuesta pendiente de aprobación**. Lectura de la base y del Excel r
 
 ## Criterio de revisión
 
-- **D — Dato de desviación:** cita del verso, medida, rima observada, diferencia de patrón o condición técnica local de escansión. Una explicación técnica puede ocupar varias frases y seguir siendo dato.
+- **E — Dato estructurado:** información que puede registrarse íntegramente en los selectores de la desviación. Elegir el valor y dejar la descripción vacía; no crear un comentario público que lo repita.
+- **D — Descripción de la desviación:** cita del verso, rima observada, diferencia de patrón o condición técnica local de escansión que no quede recogida en los selectores. Una explicación técnica puede ocupar varias frases y seguir siendo dato.
 - **C — Comentario público:** interpretación, relación con la acción, discusión de ediciones o bibliografía y explicaciones de canto/prosa/evocación que no describen una desviación.
 - **M — Mixta:** separar el dato de la explicación crítica. Los textos propuestos se muestran para aprobarlos antes de escribirlos.
 - **R — Rectificación:** la respuesta recibida invalida la nota anterior. No publicar la nota descartada ni crear una desviación a partir de ella.
 
-Las lecturas técnicas para completar el cómputo o la rima —acentuación de «Vayasé» o «cíclope», diéresis en «suave», «descuido» o «ruinas»— se proponen como D mientras solo expliquen la escansión local. Esto no autoriza a corregir el texto base ni a dar esas lecturas por documentadas en una edición. Las afirmaciones sobre pronunciación histórica, elección de edición o efecto dramático se separan como comentario.
+Las lecturas técnicas para completar el cómputo o la rima —acentuación de «Vayasé» o «cíclope», diéresis en «suave», «descuido» o «ruinas»— se proponen como D mientras solo expliquen la escansión local. Esto no autoriza a corregir el texto base ni a dar esas lecturas por documentadas en una edición. Una explicación mínima de la lectura utilizada, como la del v. 800 de El caballero de Olmedo, queda íntegra en la desviación. Las hipótesis sobre pronunciación histórica, la discusión crítica de ediciones o el efecto dramático se separan como comentario.
 
 ## Recuento por obra
 
-| Obra | Editor | D | C | M | R | Total |
-|---|---|---:|---:|---:|---:|---:|
-| Adonis y Venus | Gaston Gilabert | 0 | 1 | 0 | 0 | 1 |
-| Dido y Eneas | Gaston Gilabert | 2 | 0 | 0 | 0 | 2 |
-| El amor al uso | Ana Vicente | 6 | 0 | 0 | 1 | 7 |
-| El caballero de Olmedo | María Isabel Cuena | 28 | 3 | 1 | 0 | 32 |
-| El esclavo del demonio | Blanca Ballester Morell | 0 | 1 | 0 | 0 | 1 |
-| El mágico prodigioso | Emma González Mesas | 0 | 2 | 1 | 0 | 3 |
-| La gran Semíramis | Blanca Ballester Morell | 0 | 3 | 0 | 0 | 3 |
-| Valor, agravio y mujer | María Isabel Cuena | 16 | 0 | 2 | 0 | 18 |
-| **Total real** | | **52** | **10** | **4** | **1** | **67** |
+| Obra | Editor | E | D | C | M | R | Total |
+|---|---|---:|---:|---:|---:|---:|---:|
+| Adonis y Venus | Gaston Gilabert | 0 | 0 | 1 | 0 | 0 | 1 |
+| Dido y Eneas | Gaston Gilabert | 0 | 2 | 0 | 0 | 0 | 2 |
+| El amor al uso | Ana Vicente | 4 | 2 | 0 | 0 | 1 | 7 |
+| El caballero de Olmedo | María Isabel Cuena | 0 | 29 | 3 | 0 | 0 | 32 |
+| El esclavo del demonio | Blanca Ballester Morell | 0 | 0 | 1 | 0 | 0 | 1 |
+| El mágico prodigioso | Emma González Mesas | 0 | 0 | 2 | 1 | 0 | 3 |
+| La gran Semíramis | Blanca Ballester Morell | 0 | 0 | 3 | 0 | 0 | 3 |
+| Valor, agravio y mujer | María Isabel Cuena | 0 | 16 | 0 | 2 | 0 | 18 |
+| **Total real** | | **4** | **49** | **10** | **3** | **1** | **67** |
 
 Las seis notas de obras de prueba se revisan al final y se proponen como C. Son independientes del recuento real.
 
@@ -32,7 +33,7 @@ Las seis notas de obras de prueba se revisan al final y se proponen como C. Son 
 1. Mantener intacta la columna observaciones y los textos originales mientras se aprueba esta propuesta. Retirar el campo del formulario y admitir datos históricos son decisiones distintas.
 2. Registrar cada destino por caracterizacion_rango_id y huella del texto. Si el texto cambia después de la revisión, detener ese traslado y volver a revisarlo. No clasificar por palabras o por longitud durante la aplicación.
 3. Conservar los Excel enviados y recibidos. El lector identifica las filas por Clave, incluida D|<caracterizacion_rango_id>; no es necesario volver a enviarlos para esta clasificación. Las correcciones que haya escrito el editor prevalecen sobre la propuesta inicial y se resuelven explícitamente.
-4. Al migrar cada obra, resolver primero sus respuestas, correcciones, renumeraciones y fusiones. D va al texto de la desviación correspondiente; C crea un comentario de tipo observacion_publica, visible en ficha pública; M hace ambas cosas; R aplica la rectificación aprobada. En una enunciativa, el traslado del comentario no elimina la caracterización.
+4. Al migrar cada obra, resolver primero sus respuestas, correcciones, renumeraciones y fusiones. E se guarda en el selector correspondiente, sin repetirlo en la descripción; D va al texto de la desviación; C crea un comentario de tipo observacion_publica, visible en ficha pública; M separa dato y comentario; R aplica la rectificación aprobada. En una enunciativa, el traslado del comentario no elimina la caracterización.
 5. Los comentarios llevan como autor al editor asignado, según la indicación del IP. El encabezado identifica el tipo y el rango definitivo. Conservar el ID y el texto originales en el rastro y evitar duplicados al repetir el proceso.
 
    Si una renumeración afecta a referencias de versos dentro del texto de la nota, revisarlas antes de trasladarlo. No sustituir cifras automáticamente: también hay páginas bibliográficas y otros números. Conservar la redacción original y su numeración en el rastro.
@@ -50,6 +51,16 @@ La simulación del aplicador actual prepara 24 de 28 secuencias, sin correccione
 En el v. 1082, la editora indica que el defecto procedía de otra edición y lo descarta para el texto base utilizado. El aplicador actual deja la secuencia pendiente por no interpretar correcciones libres; debe recibir una resolución explícita para ese ID, no una regla que acepte cualquier «No es así». Su explicación del Excel se conserva como evidencia editorial y no se publica automáticamente.
 
 En el v. 1948, el aplicador actual conserva Cantado pero no crea una desviación de rima, pese al contenido de la nota. La propuesta D de esta revisión requiere añadir ese destino de forma explícita manteniendo el canto.
+
+Las notas «Verso heptasílabo» de los vv. 2917 y 2983 se registrarán como metro observado heptasílabo. Las notas «Verso endecasílabo» de los vv. 2918 y 2984, como metro observado endecasílabo. Las cuatro descripciones quedarán vacías: el texto no añade nada al valor del selector. El Excel deja las sílabas sin rellenar, pero estos valores constan expresamente en la anotación original y no requieren inferirlos.
+
+## Localización de los comentarios públicos
+
+Actualmente los comentarios pueden vincularse a una secuencia, pero no tienen un rango de versos propio. En la ficha pública aparecen dentro del detalle de esa secuencia, bajo «Aclaraciones públicas» o «Notas públicas».
+
+**Propuesta pendiente de aprobación:** admitir un rango opcional dentro de la secuencia para los comentarios localizados. Mostrar, por ejemplo, **«V. 22 · Rima y pronunciación»** o **«Vv. 354–355 · Rima y aparte»**, junto al texto y la autoría. Los comentarios generales de la secuencia quedarían sin rango. Así el texto crítico se consulta junto a la secuencia y conserva su localización precisa.
+
+Un encabezado escrito a mano permitiría mostrar los versos con el modelo actual, pero no conservaría un anclaje estructurado que pueda comprobarse o ajustarse al renumerar. No se ha añadido ningún campo ni cambiado la presentación.
 
 ## Ayuda aprobada para la desviación
 
@@ -121,7 +132,7 @@ Origen: `f64ecbc8-351b-48fb-9fbd-f1d3e5a08360`. Secuencia actual: vv. 2801–292
 
 > Verso heptasílabo
 
-**Propuesta: Dato de desviación.** Cita del verso, medida o condición local de escansión. Conservar como dato de la desviación de metro, sin inventar sílabas no declaradas.
+**Propuesta: Dato estructurado.** Seleccionar metro observado **heptasílabo (7)** y dejar la descripción vacía. No crear comentario público. Conservar el texto original en el rastro.
 
 #### 8. v. 2918 · hipermetrico
 
@@ -129,7 +140,7 @@ Origen: `be231df4-c5ae-4ccf-9678-c4405332a620`. Secuencia actual: vv. 2801–292
 
 > Verso endecasílabo
 
-**Propuesta: Dato de desviación.** Cita del verso, medida o condición local de escansión. Conservar como dato de la desviación de metro, sin inventar sílabas no declaradas.
+**Propuesta: Dato estructurado.** Seleccionar metro observado **endecasílabo (11)** y dejar la descripción vacía. No crear comentario público. Conservar el texto original en el rastro.
 
 #### 9. v. 2983 · hipometrico
 
@@ -137,7 +148,7 @@ Origen: `7d2d13c4-969e-4714-a0a3-0128405b12f3`. Secuencia actual: vv. 2975–305
 
 > Verso heptasílabo
 
-**Propuesta: Dato de desviación.** Cita del verso, medida o condición local de escansión. Conservar como dato de la desviación de metro, sin inventar sílabas no declaradas.
+**Propuesta: Dato estructurado.** Seleccionar metro observado **heptasílabo (7)** y dejar la descripción vacía. No crear comentario público. Conservar el texto original en el rastro.
 
 #### 10. v. 2984 · hipermetrico
 
@@ -145,7 +156,7 @@ Origen: `9285fc5a-0196-42da-abb1-dead86452129`. Secuencia actual: vv. 2975–305
 
 > Verso endecasílabo
 
-**Propuesta: Dato de desviación.** Cita del verso, medida o condición local de escansión. Conservar como dato de la desviación de metro, sin inventar sílabas no declaradas.
+**Propuesta: Dato estructurado.** Seleccionar metro observado **endecasílabo (11)** y dejar la descripción vacía. No crear comentario público. Conservar el texto original en el rastro.
 
 ### El caballero de Olmedo — María Isabel Cuena
 
@@ -243,15 +254,7 @@ Origen: `89a1371d-07e6-4c3d-86c4-449a1d77d9f0`. Secuencia actual: vv. 787–885.
 
 > «a las rejas de tu güerto»; en la edición que manejo está marcado con diéresis, pero si no se rompe el diptongo, es octosílabo y, por tanto, regular.
 
-**Propuesta: Separar dato y comentario.** Distinguir la lectura marcada en la edición de la alternativa que propone la editora. No regularizar automáticamente el verso.
-
-**Texto para la desviación, propuesto:**
-
-> «a las rejas de tu güerto»: la edición utilizada marca diéresis.
-
-**Texto para el comentario público, propuesto:**
-
-> Sin romper el diptongo, el verso es octosílabo y, por tanto, regular.
+**Propuesta: Dato de desviación.** Conservar la nota íntegra como explicación técnica mínima de la escansión. No separar ni crear un comentario público. No modificar automáticamente la lectura del verso.
 
 #### 23. v. 842 · hipometrico
 
