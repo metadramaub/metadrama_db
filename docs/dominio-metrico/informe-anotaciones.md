@@ -4,13 +4,13 @@ Generado por `npm run audit:anotaciones`. Una respuesta no guarda a qué pregunt
 contesta: dice qué afirma, y la pregunta se deriva al leerla. Este informe busca dónde
 esa derivación ya no llega, que es como se pierde un dato sin que nadie lo note.
 
-**572 anotaciones** —572 dentro de una obra, repartidas por 22—, con 6518 respuestas y 43 desviaciones.
+**575 anotaciones** —575 dentro de una obra, repartidas por 23—, con 6526 respuestas y 43 desviaciones.
 
 ## Resumen
 
 | qué pasa | cuántas | qué significa |
 |---|---|---|
-| pregunta obligatoria sin responder | 8 | lo anotado se lee, pero se ha quedado corto |
+| pregunta obligatoria sin responder | 38 | lo anotado se lee, pero se ha quedado corto |
 
 ## Pregunta obligatoria sin responder
 
@@ -23,4 +23,34 @@ esa derivación ya no llega, que es como se pierde un dato sin que nadie lo note
 | El rey perseguido (prueba) | 1928–1935 | Silva · Consonante de orden libre | Organización en pareados | David Merino Recalde | 2026-09-18 |
 | El rey perseguido (prueba) | 1940–1953 | Silva · Consonante de orden libre | Organización en pareados | David Merino Recalde | 2026-09-18 |
 | El rey perseguido (prueba) | 2444–2447 | Silva · Consonante de orden libre | Organización en pareados | David Merino Recalde | 2026-09-18 |
+| La tragedia del duque de Berganza | 1–64 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 1–64 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 1–64 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 1–64 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 1–64 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 1–64 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 1–64 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 1–64 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 1–64 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 1–64 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 1–64 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 1–64 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 1–64 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 1–64 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 1–64 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 1–64 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 129–184 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 129–184 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 129–184 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 129–184 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 129–184 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 129–184 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 129–184 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 129–184 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 129–184 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 129–184 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 129–184 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 129–184 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 129–184 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
+| La tragedia del duque de Berganza | 129–184 | Redondilla · Octosílaba | Esquema de rima | María Rosa Álvarez Sellers | 2026-10-15 |
 | Prueba | 76–88 | Villancico · Estribillo inicial | Vocales de la asonancia | David Merino Recalde | 2026-09-02 |
