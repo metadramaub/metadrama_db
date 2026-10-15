@@ -33,4 +33,6 @@ export type EditorSecuenciaRow = Pick<
 	 * fila con la respuesta de la API —que devuelve la tabla a secas— tiene que volver a ponerla.
 	 */
 	tiene_anotacion_metrica?: boolean;
+	/** Dato derivado de las caracterizaciones por rango; no es una columna de secuencias. */
+	tiene_pasajes_cantados?: boolean;
 };

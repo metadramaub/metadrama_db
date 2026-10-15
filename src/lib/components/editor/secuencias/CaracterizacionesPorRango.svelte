@@ -9,6 +9,7 @@
 	import { pushToast } from '$lib/stores/toast';
 	import type { Tables } from '$lib/types/database.types';
 	import { displayTerm } from '$lib/utils/vocabulario';
+	import { enunciationType } from '$lib/metrica/enunciation';
 
 	/**
 	 * Las caracterizaciones por rango de una secuencia: prosa, versos cantados, lagunas, hipometría.
@@ -61,6 +62,7 @@
 		 * así que la página necesita enterarse por su cuenta de que hay datos públicos por rehacer.
 		 */
 		onMetricaDirty?: () => void;
+		onCantoChange?: (secuenciaId: string, tieneCanto: boolean) => void;
 	}>();
 
 	let items = $state<CaracterizacionRangoItem[]>([]);
@@ -85,6 +87,13 @@
 
 	function ordenar(lista: CaracterizacionRangoItem[]) {
 		return [...lista].sort((a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin);
+	}
+
+	function notificarCanto() {
+		if (props.secuenciaId) props.onCantoChange?.(
+			props.secuenciaId,
+			items.some((item) => enunciationType(item.tipo_caracterizacion_rango_term) === 'cantado')
+		);
 	}
 
 	function ordenarOpciones(opciones: Opcion[]) {
@@ -240,7 +249,9 @@
 		}
 
 		const carga = await respuesta.json().catch(() => ({ items: [] }));
+		if (id !== peticion) return;
 		items = ordenar((carga.items ?? []) as CaracterizacionRangoItem[]);
+		notificarCanto();
 	}
 
 	function validar(avisar = true) {
@@ -372,6 +383,7 @@
 		);
 
 		cerrarModales();
+		notificarCanto();
 		props.onMetricaDirty?.();
 		pushToast('success', editando ? 'Caracterización actualizada' : 'Caracterización creada');
 	}
@@ -391,6 +403,7 @@
 				return;
 			}
 			items = items.filter((row) => row.caracterizacion_rango_id !== caracterizacionId);
+			notificarCanto();
 			borrandoId = null;
 			props.onMetricaDirty?.();
 			pushToast('success', 'Caracterización eliminada');

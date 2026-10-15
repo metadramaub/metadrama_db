@@ -1,4 +1,6 @@
 import type { PageServerLoad } from './$types';
+import { error as httpError } from '@sveltejs/kit';
+import { enunciationType } from '$lib/metrica/enunciation';
 import { countAutoriaGroupsWithProposals } from '$lib/server/autoria';
 import { getObraContext } from '$lib/server/auth';
 import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
@@ -114,12 +116,26 @@ export const load: PageServerLoad = async ({ locals, params, depends }) => {
 	 * Son tablas pequeñas y se filtran por las secuencias de esta obra, no por todas.
 	 */
 	const idsDeSecuencias = secuencias.map((fila) => fila.secuencia_id);
-	const anotacionesResp = idsDeSecuencias.length
-		? await locals.supabase
+	const cantadoId = vocabularios.find(
+		(v) => v.categoria === 'caracterizacion_rango' && enunciationType(v.termino) === 'cantado'
+	)?.termino_id;
+	const [anotacionesResp, cantadosResp] = await Promise.all([
+		idsDeSecuencias.length
+			? locals.supabase
 				.from('anotaciones_metricas')
 				.select('*')
 				.in('secuencia_id', idsDeSecuencias)
-		: { data: [] };
+			: { data: [] },
+		idsDeSecuencias.length && cantadoId
+			? locals.supabase
+				.from('secuencias_caracterizaciones_rango')
+				.select('secuencia_id')
+				.eq('tipo_caracterizacion_rango_id', cantadoId)
+				.in('secuencia_id', idsDeSecuencias)
+			: { data: [], error: null }
+	]);
+	if (cantadosResp.error) throw httpError(500, 'No se pudieron cargar los pasajes cantados.');
+	const secuenciasCantadas = new Set((cantadosResp.data ?? []).map((fila) => fila.secuencia_id));
 	const idsDeAnotaciones = (anotacionesResp.data ?? []).map(
 		(fila: { anotacion_id: string }) => fila.anotacion_id
 	);
@@ -172,6 +188,7 @@ export const load: PageServerLoad = async ({ locals, params, depends }) => {
 		 */
 		secuencias: secuencias.map((fila) => ({
 			...fila,
+			tiene_pasajes_cantados: secuenciasCantadas.has(fila.secuencia_id),
 			tiene_anotacion_metrica: anotacionMetrica.secuencias.some(
 				(anotacion: { secuencia_id: string | null }) =>
 					anotacion.secuencia_id === fila.secuencia_id

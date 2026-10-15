@@ -35,6 +35,18 @@ Si has marcado en **Antes de anotar** que la obra no tiene figuras de donaire o 
 > [!NOTE]
 > Por **figura de donaire** entendemos el personaje subalterno (típicamente el criado o gracioso) que contrasta con los amos y funciona como contrapunto de la acción principal. Es un criterio de tipo de personaje, lo relevante es su papel subalterno y no es necesario juzgar su comicidad.
 
+## Iconos en la lista de secuencias
+
+En la lista de secuencias, el **símbolo femenino (♀)** sigue indicando intervención femenina:
+se enciende cuando has seleccionado **femenino**, tanto si es exclusivo como si se combina con
+otros géneros. Con **masculino** solo aparece tachado. Si hay voces **indeterminadas** sin femenino,
+queda atenuado y la ayuda indica «sin determinar»; no afirma ausencia femenina. Cuando el campo
+está sin responder también queda atenuado, pero la ayuda dice «sin responder».
+
+La **nota musical (♪)** se enciende cuando la secuencia contiene al menos un pasaje anotado como
+**Cantado**, aunque sea un único verso. Se actualiza al añadir, modificar o eliminar esas
+caracterizaciones. Atenuada significa que no hay pasajes cantados anotados.
+
 ## Otras caracterizaciones
 
 Tres marcas más sobre la secuencia:
