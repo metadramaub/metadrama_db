@@ -125,6 +125,12 @@ Estas no dependen de la forma, sino de rangos `v_ini`–`v_fin` declarados sobre
   rasgo del catálogo nuevo. Así que este array mezcla dos vocabularios mientras dure la migración, y
   se vaciará de irregularidades cuando termine.
 
+Las observaciones históricas de caracterizaciones se trasladan según su contenido: datos a los
+selectores o a la descripción de la desviación; interpretación a comentarios públicos de la
+secuencia, con los versos al principio del texto. El formulario de caracterizaciones ya no admite
+notas. La columna original se conserva durante la migración y no participa en estos indicadores.
+El [dictamen por nota](./revision-notas-caracterizaciones.md) recoge las decisiones y su aplicación.
+
 ### 1.6 Contexto dramático
 
 - **`generos_intervinientes`**: conjunto por secuencia de `masculino`, `femenino` e

@@ -97,6 +97,7 @@ function cargarVocabulario() {
 		caracterizaciones,
 		estado_publicado: termino('estado', 'publicado'),
 		estado_vista_previa: termino('estado', 'vista_previa'),
+		observacion_publica: termino('tipo_comentario', 'observacion_publica'),
 		tipo_tradicional: termino('tipo_atribucion', 'tradicional'),
 		modalidad_unica: termino('modalidad_atribucion', 'unica'),
 		composicion_individual: termino('composicion_autoria', 'individual')
@@ -162,7 +163,9 @@ function eleccionesDe(arq, seq, unidades, rnd) {
 				g.alcance === 'secuencia'
 					? [null]
 					: unidades.filter((u) =>
-							g.seccion_id === null ? u.realizacion_padre_id === null : u.seccion_id === g.seccion_id
+							g.seccion_id === null
+								? u.realizacion_padre_id === null
+								: u.seccion_id === g.seccion_id
 						);
 			for (const destino of destinos) {
 				const versos = destino ? destino.v_fin - destino.v_ini + 1 : seq.versos;
@@ -414,9 +417,13 @@ function aplicar(guion, autores, catalogo, vocabulario, admin) {
 		const secuenciaId = crypto.randomUUID();
 		const rnd = azar(semillaDe(`${titulo}#${seq.orden}`));
 		const combinacionesGenero = [
-			['masculino'], ['femenino'], ['indeterminado'],
-			['masculino', 'femenino'], ['masculino', 'indeterminado'],
-			['femenino', 'indeterminado'], ['masculino', 'femenino', 'indeterminado']
+			['masculino'],
+			['femenino'],
+			['indeterminado'],
+			['masculino', 'femenino'],
+			['masculino', 'indeterminado'],
+			['femenino', 'indeterminado'],
+			['masculino', 'femenino', 'indeterminado']
 		];
 		const sentencias = [
 			`insert into public.secuencias_metricas (secuencia_id, obra_id, v_ini, v_fin, n_versos, inaugura_espacio, versos_partidos, generos_intervinientes, intervencion_figuras_donaire, intervencion_personajes_sobrenaturales, evento_sobrenatural, sinopsis)
@@ -429,11 +436,20 @@ function aplicar(guion, autores, catalogo, vocabulario, admin) {
 				${seq.orden % 9 === 0},
 				${lit(`Pasaje ${seq.orden}. ${lorem(2, seq.orden)}`)}
 			 );`,
-			...(seq.caracterizaciones ?? []).map(
-				(c) =>
-					`insert into public.secuencias_caracterizaciones_rango (secuencia_id, tipo_caracterizacion_rango_id, v_ini, v_fin, observaciones)
-					 values (${lit(secuenciaId)}::uuid, ${lit(vocabulario.caracterizaciones[c.tipo])}::uuid, ${c.v_ini}, ${c.v_fin}, ${lit(c.observaciones)});`
-			)
+			...(seq.caracterizaciones ?? []).flatMap((c) => {
+				const rango = c.v_ini === c.v_fin ? `V. ${c.v_ini}.` : `Vv. ${c.v_ini}–${c.v_fin}.`;
+				return [
+					`insert into public.secuencias_caracterizaciones_rango (secuencia_id, tipo_caracterizacion_rango_id, v_ini, v_fin)
+					 values (${lit(secuenciaId)}::uuid, ${lit(vocabulario.caracterizaciones[c.tipo])}::uuid, ${c.v_ini}, ${c.v_fin});`,
+					...(c.observaciones?.trim()
+						? [
+								`insert into public.comentarios_internos (obra_id, secuencia_id, user_id, comentario, tipo_comentario_id, visible_publico, publicado_por, publicado_at)
+						 values (${lit(obraId)}::uuid, ${lit(secuenciaId)}::uuid, ${lit(admin)}::uuid,
+						 ${lit(`**${rango}**\n\n${c.observaciones}`)}, ${lit(vocabulario.observacion_publica)}::uuid, true, ${lit(admin)}::uuid, now());`
+							]
+						: [])
+				];
+			})
 		];
 
 		const arq = seq.forma ? catalogo.get(`${seq.forma}/${seq.arquitectura}`) : null;
