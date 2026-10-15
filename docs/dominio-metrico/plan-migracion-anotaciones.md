@@ -117,6 +117,9 @@ Las relaciones son las que la base admite: `metro` acepta `menor_que_norma`, `ma
    guardados en el rastro. Una renumeración puede incluir ajustes explícitos de los rangos de
    una estrofa o caracterización y de referencias escritas en sinopsis o comentarios; se
    comprueban los rangos y textos originales antes de escribir.
+   Si se corrige el último rango de la obra, una resolución de cierre puede ajustar también
+   su total y el final de la jornada y cuadro correspondientes, comprobando sus IDs y finales
+   originales. Esa corrección no desplaza los versos anteriores.
 
    **Lo que no se entiende no se aplica.** Una laguna cuya localización no se lee en la prosa del
    editor, una confirmación corregida a mano, una respuesta que no nombra ninguna opción: esas

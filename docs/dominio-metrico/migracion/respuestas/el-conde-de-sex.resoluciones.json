@@ -1,0 +1,27 @@
+{
+	"obra": "el-conde-de-sex",
+	"fecha": "2026-10-15",
+	"total_versos_original": 3093,
+	"respuestas_adicionales": [
+		{
+			"clave": "Q|a9633596-d00f-4951-9296-5543d5f42dd5|Organización en pareados",
+			"respuesta": "Predominantes",
+			"origen": "indicacion_ip",
+			"motivo": "David confirma pareados predominantes a partir de la densidad Mayoritaria que Rosa ha ratificado. Se conserva la silva consonante de orden libre y esa densidad.",
+			"v_ini": 115,
+			"v_fin": 240
+		}
+	],
+	"correcciones": [
+		{
+			"tipo": "cierre_obra",
+			"secuencia_id": "ecce2c2a-1692-41a3-9788-d9f498297c03",
+			"v_fin_original": 3093,
+			"v_fin": 3092,
+			"jornada_id": "60dd5df4-79d4-4c16-ae80-abc0dc87504f",
+			"cuadro_id": "35d850ac-de0e-418d-9d02-419a8fc369b1",
+			"descripcion": "Ajustar el total de la obra y el final de la tercera jornada y su último cuadro a 3092, conforme a la corrección del último romance en Responder H2. No se desplazan los versos anteriores."
+		}
+	],
+	"criterio_canto": "Por indicación de David, no añadir Cantado en 1301–1304 ni en otros pasajes. Rosa revisará la marca en el editor; se conservan la sinopsis y el comentario interno existentes."
+}
