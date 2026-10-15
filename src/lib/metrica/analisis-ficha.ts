@@ -396,7 +396,8 @@ export function caracterizacionesDeLaObra(secuencias: SecuenciaAnalizable[]) {
 }
 
 /**
- * Los números de la obra, dichos de una vez.
+ * Resumen de un conjunto de secuencias: una obra completa o una jornada.
+ * Fuente común de las cifras de «De un vistazo» y la evolución de «Análisis».
  *
  * Incluye la forma que la abre y la que la cierra, que es de lo que más se comenta en la
  * bibliografía y hasta ahora había que ir a buscar al código de barras.
@@ -448,15 +449,15 @@ export function fichaTecnica(secuencias: SecuenciaAnalizable[]) {
  * sobre un corpus está por decidir.
  */
 export function evolucionPorJornada(secuencias: SecuenciaAnalizable[]) {
-	return perfilPorJornada(secuencias).map(({ jornada, versos, formas }) => {
-		const suyas = secuencias.filter((s) => s.jornada_num === jornada);
+	return perfilPorJornada(secuencias).map(({ jornada }) => {
+		const resumen = fichaTecnica(secuencias.filter((s) => s.jornada_num === jornada));
 		return {
 			jornada,
-			secuencias: suyas.length,
-			versos,
-			longitudMedia: suyas.length > 0 ? Math.round(versos / suyas.length) : 0,
-			formasDistintas: formas.filter((f) => f.colorKey !== SIN_FORMA).length,
-			numeroEfectivo: Math.round(numeroEfectivoDeFormas(suyas) * 100) / 100
+			secuencias: resumen.secuencias,
+			versos: resumen.versos,
+			longitudMedia: resumen.mediaPorSecuencia,
+			formasDistintas: resumen.formasDistintas,
+			numeroEfectivo: Math.round(resumen.diversidad * 100) / 100
 		};
 	});
 }
