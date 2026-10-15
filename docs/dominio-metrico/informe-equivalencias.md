@@ -11,17 +11,16 @@ Generado el 2026-10-15.
 
 - **123 términos** en `vocabularios.categoria = 'estrofa_tipo'`.
 - **102 declaran su destino** en el catálogo nuevo; **21 no**.
-- **235 secuencias con vocabulario legado aún sin anotación V2**, todas con forma propuesta. Son las que hay que migrar. Las ya migradas conservan el término anterior como rastro y no entran en este recuento.
+- **214 secuencias con vocabulario legado aún sin anotación V2**, todas con forma propuesta. Son las que hay que migrar. Las ya migradas conservan el término anterior como rastro y no entran en este recuento.
 - Otras **509 no lo tienen** y quedan fuera de este informe: 492 ya están anotadas con el editor V2 y el resto no declara forma ninguna. La equivalencia va solo del término viejo al catálogo nuevo, así que a estas no les hace falta.
-- De las que hay que migrar, 1 no propone arquitectura: es un tramo sin forma, que no la tiene por diseño.
-- **15 tienen la longitud incompatible** con la arquitectura propuesta. No es un fallo de la equivalencia: es la anotación de la obra, y se revisa en [migracion/](./migracion/).
+- **14 tienen la longitud incompatible** con la arquitectura propuesta. No es un fallo de la equivalencia: es la anotación de la obra, y se revisa en [migracion/](./migracion/).
 
 ### Cómo se resuelve cada secuencia
 
 | Vía | Secuencias | Qué significa |
 | --- | ---: | --- |
-| `directa` | 148 | El término declara su destino, o lo declara algo que cuelga de él |
-| `rasgo` | 60 | El término se disolvió en un rasgo y la forma la da su ascendiente |
+| `directa` | 135 | El término declara su destino, o lo declara algo que cuelga de él |
+| `rasgo` | 52 | El término se disolvió en un rasgo y la forma la da su ascendiente |
 | `ascendencia` | 27 | El término no declara destino; lo hereda de un ascendiente |
 
 ## Términos sin destino declarado
