@@ -72,9 +72,7 @@
 	{#each items as item, indice (item.colorKey ?? item.forma)}
 		{@const base = y + indice * fila + cuerpo}
 		<rect x={x} y={base - 10} width="11" height="11" fill={colorDe(item)} />
-		{@const cantada = canto?.formas.some((forma) => normalizeFormaKey(forma) === normalizeFormaKey(item.colorKey ?? item.forma))}
-		{#if cantada}<MusicNote x={x + 17} y={base - 11} size={12} />{/if}
-		<text x={x + (cantada ? 35 : 18)} y={base} font-size={cuerpo} fill={TINTA.texto}>{item.forma}</text>
+		<text x={x + 18} y={base} font-size={cuerpo} fill={TINTA.texto}>{item.forma}</text>
 		<text
 			x={derecha}
 			y={base}

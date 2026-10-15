@@ -35,6 +35,9 @@
 	}>();
 
 	let expanded = $state<Record<string, boolean>>({});
+	let cantoBajoPuntero = $state(false);
+	let cantoConFoco = $state(false);
+	const resaltarCanto = $derived(cantoBajoPuntero || cantoConFoco);
 	const formasConCanto = $derived(new Set(props.canto?.formas.map(normalizeFormaKey) ?? []));
 
 	const groups = $derived.by((): MetricDistributionGroup[] => {
@@ -63,7 +66,8 @@
 	);
 	const DIMMED_OPACITY = 0.35;
 	const isDimmed = (item: MetricDistributionSlice) =>
-		highlightedFormaKey !== null && groupKey(item) !== highlightedFormaKey;
+		resaltarCanto ? !formasConCanto.has(groupKey(item)) :
+			highlightedFormaKey !== null && groupKey(item) !== highlightedFormaKey;
 
 	function hoverForma(item: MetricDistributionSlice | null) {
 		sobrevolada = item ? groupKey(item) : null;
@@ -226,7 +230,7 @@
 				{/if}
 			</div>
 
-			<ul class="divide-y divide-[color:var(--border)]">
+			<ul>
 				{#each groups as item (item.forma)}
 					{@const nombrar = nombraArquitecturas(item)}
 					<!-- Con una sola arquitectura usada, su nombre va junto al de la forma y no abre nada:
@@ -256,9 +260,7 @@
 									class="inline-block h-3 w-3 rounded-sm"
 									style={`background:${props.colorByForma[item.colorKey ?? item.forma] ?? '#9ca3af'};`}
 								></span>
-								{#if formasConCanto.has(groupKey(item))}
-									<span title="Contiene versos cantados" class="inline-flex shrink-0"><MusicNote size={14} /><span class="sr-only">Contiene versos cantados.</span></span>
-								{/if}
+
 								<span class={sinForma ? 'italic text-[color:var(--muted-foreground)]' : 'font-medium'}>{item.forma}</span>
 								{#if enLinea}
 									<span class="text-[color:var(--muted-foreground)]">{item.arquitecturas[0].label.toLocaleLowerCase('es')}</span>
@@ -400,9 +402,21 @@
 					</li>
 				{/each}
 				{#if props.canto}
-					<li class="mt-3 flex items-center justify-between gap-3 border-t border-[color:var(--border)] pt-3 text-sm">
-						<span class="inline-flex items-center gap-2"><MusicNote size={14} /> Versos cantados</span>
-						<span class="tabular-nums text-[color:var(--muted-foreground)]">{valueLabel(props.canto.versos, props.canto.porcentaje)}</span>
+					<li class="relative mt-3 border-t border-[color:var(--border)] pt-3">
+						<button
+							type="button"
+							class="flex w-full items-center justify-between gap-3 text-left text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+							onpointerenter={() => (cantoBajoPuntero = true)}
+							onpointerleave={() => (cantoBajoPuntero = false)}
+							onfocus={() => (cantoConFoco = true)}
+							onblur={() => (cantoConFoco = false)}
+						>
+							<span class="inline-flex items-center gap-2"><MusicNote size={14} /> Versos cantados<span class="sr-only">. Resaltar las formas que contienen algún verso cantado.</span></span>
+							<span class="tabular-nums text-[color:var(--muted-foreground)]">{valueLabel(props.canto.versos, props.canto.porcentaje)}</span>
+						</button>
+						{#if resaltarCanto}
+							<span role="tooltip" class="pointer-events-none absolute left-0 top-full z-20 mt-1 border border-[color:var(--border)] bg-white px-2 py-1 text-xs shadow-sm">Formas que contienen algún verso cantado</span>
+						{/if}
 					</li>
 				{/if}
 			</ul>
