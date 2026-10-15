@@ -74,7 +74,7 @@
 	>
 		<div>
 			<p class="text-[11px] font-semibold tracking-[0.18em] text-[color:var(--primary)]">
-				CÓDIGO DE BARRAS MÉTRICO
+				DIAGRAMA MÉTRICO
 			</p>
 			<h2 class="font-display mt-3 max-w-lg text-3xl leading-tight md:text-4xl">
 				La secuencia métrica de una obra

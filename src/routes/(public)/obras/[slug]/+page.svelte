@@ -472,8 +472,8 @@
 				: [])
 		];
 		return {
-			titulo: porJornadas ? 'Código de barras métrico por jornadas' : 'Código de barras métrico',
-			archivo: porJornadas ? 'codigo-de-barras-por-jornadas' : 'codigo-de-barras',
+			titulo: porJornadas ? 'Diagrama métrico por jornadas' : 'Diagrama métrico',
+			archivo: porJornadas ? 'diagrama-metrico-por-jornadas' : 'diagrama-metrico',
 			admiteGrises: false,
 			leyenda: () => [...leyendaDeFormas, ...cortes]
 		};

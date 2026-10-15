@@ -276,7 +276,7 @@
 			viewBox={`0 ${-markerOverhang} 100 ${svgHeight}`}
 			preserveAspectRatio="none"
 			role="img"
-			aria-label="Código de barras métrico"
+			aria-label="Diagrama métrico"
 		>
 			{#each positionedSegments as item (item.segment.id)}
 				<g
