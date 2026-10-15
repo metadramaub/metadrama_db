@@ -1,6 +1,12 @@
 # Propuesta de destino de las observaciones de caracterizaciones
 
-Estado: **destinos revisados con el IP; aplicación pendiente por obra**. Lectura de la base y del Excel recibido realizada el 15 de octubre de 2026. No se ha trasladado ni vaciado ninguna observación y la columna permanece en la base. La laguna de El mágico prodigioso se resolverá con el Excel de esa obra.
+Estado: **aplicación parcial realizada el 15 de octubre de 2026**. Se han trasladado las seis notas de prueba y la de Adonis y Venus a comentarios públicos de sus secuencias, con el rango al principio y el editor asignado como autor. La columna y los 73 textos originales permanecen intactos en la base. Las otras 66 notas reales se tratarán obra por obra al procesar sus Excel; la laguna de El mágico prodigioso se resolverá entonces.
+
+El formulario ya no permite escribir observaciones en las caracterizaciones. La descripción de desviaciones muestra la ayuda aprobada para distinguir datos y comentarios críticos. La guía y el generador de obras de prueba siguen ese criterio.
+
+Los traslados aplicados quedan registrados en `traslados_observaciones_caracterizacion`, tabla privada que conserva el origen completo y el ID del comentario. La ficha omite la nota junto a la caracterización solo cuando existe ese registro. Repetir el traslado no duplica ni sobrescribe el comentario, aunque se haya editado o borrado después. Si cambia el origen, el proceso se detiene para revisarlo.
+
+Aplicado mediante `20261015120000_traslada_las_notas_de_prueba_a_comentarios.sql` y `20261015121000_traslada_la_nota_de_adonis_y_venus.sql`, con copia completa, snapshot y ensayos con rollback. Las guardas ejecutan los lectores de ficha y comentarios y comprueban la conservación de las caracterizaciones originales.
 
 ## Criterio de revisión
 
@@ -28,11 +34,11 @@ La descripción de una desviación sirve para completar lo que no cubran sus sel
 | Valor, agravio y mujer | María Isabel Cuena | 0 | 16 | 0 | 2 | 0 | 18 |
 | **Total real** | | **4** | **50** | **9** | **3** | **1** | **67** |
 
-Las seis notas de obras de prueba se revisan al final y se proponen como C. Son independientes del recuento real.
+El recuento refleja la revisión inicial. La nota de Adonis y Venus y las seis de prueba, revisadas al final como C, ya están trasladadas. Quedan 66 notas reales en siete obras.
 
 ## Cómo encajarlo con la migración de obras
 
-1. Mantener intacta la columna observaciones y los textos originales mientras se aprueba esta propuesta. Retirar el campo del formulario y admitir datos históricos son decisiones distintas.
+1. Mantener intacta la columna observaciones y los textos originales durante la migración. El campo está retirado del formulario; los datos históricos siguen disponibles para el aplicador.
 2. Registrar cada destino por caracterizacion_rango_id y huella del texto. Si el texto cambia después de la revisión, detener ese traslado y volver a revisarlo. No clasificar por palabras o por longitud durante la aplicación.
 3. Conservar los Excel enviados y recibidos. El lector identifica las filas por Clave, incluida D|<caracterizacion_rango_id>; no es necesario volver a enviarlos para esta clasificación. Las correcciones que haya escrito el editor prevalecen sobre la propuesta inicial y se resuelven explícitamente.
 4. Al migrar cada obra, resolver primero sus respuestas, correcciones, renumeraciones y fusiones. E se guarda en el selector correspondiente, sin repetirlo en la descripción; D va al texto de la desviación; C crea un comentario de tipo observacion_publica, visible en ficha pública; M separa dato y comentario; R aplica la rectificación aprobada. En una enunciativa, el traslado del comentario no elimina la caracterización.
@@ -42,14 +48,14 @@ Las seis notas de obras de prueba se revisan al final y se proponen como C. Son 
 6. Corregir la fusión de secuencias para trasladar también los comentarios ya existentes antes de borrar las filas absorbidas: actualmente solo se trasladan subtipos y caracterizaciones y la FK de comentarios tiene borrado en cascada.
 7. Antes de aplicar: copia, snapshot y ensayo íntegro con rollback. Las notas que dependan de la migración métrica se trasladan al migrar su obra; no completar respuestas métricas no recibidas. Las secuencias que ya tienen anotación V2 se tratan sin esperar un Excel.
 
-La base tiene vacía migracion_secuencias. Entre estas obras reales, Adonis y Venus ya tiene anotaciones V2; las demás no. Su nota de canto puede tratarse aparte cuando se apruebe el traslado, sin migrar de nuevo su métrica.
+La base tiene vacía migracion_secuencias. Entre estas obras reales, Adonis y Venus ya tiene anotaciones V2; las demás no. Su nota de canto se ha trasladado sin migrar de nuevo su métrica.
 
 ### Orden de aplicación
 
-- **Ya anotadas con V2:** trasladar ahora sus notas con el criterio revisado, sin esperar cuestionarios. En las obras reales hay una: Adonis y Venus, canto de vv. 1229–1287 dentro de la secuencia 1229–1306. Se convertirá en comentario público firmado por Gaston Gilabert, con el rango escrito al principio y sin alterar la caracterización de canto.
+- **Ya anotadas con V2:** traslado realizado para Adonis y Venus, canto de vv. 1229–1287 dentro de la secuencia 1229–1306. Comentario público firmado por Gaston Gilabert, con el rango al principio y sin alterar el canto.
 - **Pendientes de migración métrica:** trasladar sus notas en la misma operación que la obra, cuando se procese su Excel. Son las otras 66 notas reales, en siete obras. Así se respetan las rectificaciones del editor, las renumeraciones y las fusiones y no se crean descripciones de desviaciones que aún no existen.
 - **Nuevas anotaciones:** aplicar el formulario sin Observaciones en las caracterizaciones por rango y la ayuda aprobada en desviaciones. La columna y los textos históricos pendientes permanecen en la base para el aplicador, aunque el formulario no permita crear nuevas notas en ella.
-- **Pruebas:** las seis notas pueden trasladarse sin esperar Excel, por tratarse de contenido de prueba. Cinco pertenecen a secuencias con anotación V2 y una a una secuencia sin ella; ninguna requiere crear una desviación.
+- **Pruebas:** las seis notas ya están trasladadas. Cinco pertenecen a secuencias con anotación V2 y una a una secuencia sin ella; ninguna requiere crear una desviación.
 
 Las tres notas mixtas quedan aprobadas para separar dato y comentario. La pausa de El caballero de Olmedo (vv. 478–480) se conservará como desviación con la nota íntegra, por indicación del IP. El encaje de su dimensión se revisará al migrar esa obra; no se asignará rima automáticamente solo por el nombre legado patron_alternativo.
 
