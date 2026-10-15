@@ -11,3 +11,8 @@ resoluciones aprobadas sobre notas o correcciones particulares se guardan aparte
 `<obra>.resoluciones.json`: origen esperado, respuesta recibida y destino acordado. También
 admite respuestas complementarias del IP, con procedencia y motivo; no se atribuyen al Excel.
 El aplicador comprueba los originales y registra ambas fuentes y sus huellas en la base.
+
+Las resoluciones pueden interpretar correcciones en prosa, cambiar arquitectura o elecciones,
+localizar una laguna y ajustar rangos y referencias textuales. Cada modificación comprueba el
+origen esperado. Para trasladar notas a comentarios públicos se indica un responsable admin/IP;
+la autoría sigue siendo del editor asignado y los IDs nuevos quedan en el rastro.

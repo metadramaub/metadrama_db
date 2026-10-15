@@ -95,6 +95,9 @@ Las relaciones son las que la base admite: `metro` acepta `menor_que_norma`, `ma
    sin alterar el contenido. Las resoluciones particulares se guardan aparte en
    `<slug>.resoluciones.json`, con el origen esperado y la respuesta exacta que las sustenta.
    Las respuestas complementarias del IP conservan su procedencia y motivo.
+   Las correcciones en prosa que se hayan revisado pueden declarar una respuesta efectiva
+   distinta, una arquitectura o elecciones concretas; se conservan aparte de las respuestas
+   originales y se comprueba que estas no hayan cambiado.
 4. **Aplicar.** `npm run migracion:aplicar -- --obra <slug>` lee la vista y el Excel, y con
    `--simular` escribe un guion legible en `backups/migracion/` sin tocar la base; añadiendo
    `--ensayar` ejecuta además la transacción entera **y la deshace**, que es lo único que dice si
@@ -109,6 +112,11 @@ Las relaciones son las que la base admite: `metro` acepta `menor_que_norma`, `ma
    conserva para las obras pendientes. Los datos técnicos van a selectores o a la descripción de
    la desviación. Una nota pendiente de clasificación bloquea esa secuencia. Al repetir el
    aplicador se omiten las secuencias que ya tienen V2, para conservar su revisión posterior.
+   Una nota crítica puede pasar a comentario público, o separarse de su dato métrico. Los
+   comentarios llevan autoría del editor y responsable de publicación admin/IP, con sus IDs
+   guardados en el rastro. Una renumeración puede incluir ajustes explícitos de los rangos de
+   una estrofa o caracterización y de referencias escritas en sinopsis o comentarios; se
+   comprueban los rangos y textos originales antes de escribir.
 
    **Lo que no se entiende no se aplica.** Una laguna cuya localización no se lee en la prosa del
    editor, una confirmación corregida a mano, una respuesta que no nombra ninguna opción: esas
@@ -144,7 +152,11 @@ retiraron en julio de 2026. Lo que falta, y añade el aplicador, es el rastro po
 1. Igual número de secuencias antes y después, salvo las fusiones decididas.
 2. Igualdad exacta de obra, `v_ini`, `v_fin` y `n_versos`, salvo las correcciones decididas.
 3. Toda asignación legada puede trazarse hasta su anotación nueva.
-4. Todo subtipo conserva su rango como estrofa.
+4. Todo subtipo conserva su rango como estrofa, con los ajustes aprobados. También se conserva
+   la fila legada completa: el disparador antiguo elimina los subtipos al actualizar el rango
+   de su secuencia. El aplicador comprueba y bloquea los originales antes de corregir, repone
+   las filas con los rangos previstos después de corregir o fusionar y verifica su identidad,
+   contenido y recuento dentro de la misma transacción.
 5. Un verso legado marcado solo como hipométrico no recibe un número de sílabas inventado.
 6. Una secuencia sin desviaciones se interpreta como conforme con su norma.
 7. Ninguna proyección pública consulta ya la jerarquía de `estrofa_tipo` —ya es así desde el 7 de

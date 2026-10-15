@@ -433,8 +433,9 @@ export function desviacionesDe(partes, respuestas, metros, avisos, pendientes, r
 			const donde = `«${caracterizacion.termino}» de ${caracterizacion.v_ini}–${caracterizacion.v_fin}`;
 			const resolucion = resoluciones[caracterizacion.caracterizacion_rango_id];
 			if (resolucion) {
+				const revisado = { ...caracterizacion, ...caracterizacion.origen_original };
 				for (const campo of ['secuencia_id', 'termino', 'v_ini', 'v_fin', 'observaciones']) {
-					if (caracterizacion[campo] !== resolucion.origen[campo]) {
+					if (revisado[campo] !== resolucion.origen[campo]) {
 						throw new Error(`Ha cambiado ${donde}: revisar la resolución (${campo}).`);
 					}
 				}
@@ -443,7 +444,7 @@ export function desviacionesDe(partes, respuestas, metros, avisos, pendientes, r
 						throw new Error(`Ha cambiado la respuesta del Excel para ${donde}: ${campo}.`);
 					}
 				}
-				if (!['rectificacion', 'desviacion'].includes(resolucion.destino)) {
+				if (!['rectificacion', 'desviacion', 'comentario', 'mixta'].includes(resolucion.destino)) {
 					throw new Error(`Destino no implementado para ${donde}; requiere revisión.`);
 				}
 				if (resolucion.destino === 'rectificacion' && confirma(fila) !== false) {
@@ -452,6 +453,31 @@ export function desviacionesDe(partes, respuestas, metros, avisos, pendientes, r
 				if (resolucion.destino === 'desviacion' && confirma(fila) === false) {
 					throw new Error(`La respuesta negativa de ${donde} requiere otra resolución.`);
 				}
+			}
+			const comentario = resolucion?.comentario_publico
+				? {
+						comentario_id: crypto.randomUUID(),
+						comentario: `**${
+							(resolucion.comentario_publico.v_ini ?? caracterizacion.v_ini) ===
+							(resolucion.comentario_publico.v_fin ?? caracterizacion.v_fin)
+								? `V. ${resolucion.comentario_publico.v_ini ?? caracterizacion.v_ini}.`
+								: `Vv. ${resolucion.comentario_publico.v_ini ?? caracterizacion.v_ini}–${resolucion.comentario_publico.v_fin ?? caracterizacion.v_fin}.`
+						}**\n\n${resolucion.comentario_publico.texto}`
+					}
+				: null;
+			if (['comentario', 'mixta'].includes(resolucion?.destino) && !comentario) {
+				throw new Error(`Falta el texto público aprobado para ${donde}.`);
+			}
+			if (resolucion?.destino === 'comentario') {
+				conservadas.push(caracterizacion);
+				traslados.push({
+					origen: caracterizacion,
+					resolucion,
+					comentario,
+					retirar_caracterizacion: false,
+					limpiar_observaciones: true
+				});
+				continue;
 			}
 			if (resolucion?.destino === 'rectificacion') {
 				traslados.push({ origen: caracterizacion, resolucion, retirar_caracterizacion: true });
@@ -517,6 +543,7 @@ export function desviacionesDe(partes, respuestas, metros, avisos, pendientes, r
 			traslados.push({
 				origen: caracterizacion,
 				resolucion: resolucion ?? { destino: 'desviacion', desviacion: diferencia },
+				...(comentario ? { comentario } : {}),
 				retirar_caracterizacion: !conservar,
 				limpiar_observaciones: conservar && Boolean(caracterizacion.observaciones?.trim())
 			});
@@ -545,7 +572,12 @@ export function corregirLaObra(obra, correcciones) {
 	const renumeraciones = [...correcciones.filter((c) => c.tipo === 'renumerar')].sort(
 		(a, b) => a.desde - b.desde
 	);
-	if (rangos.length === 0 && renumeraciones.length === 0) return obra;
+	if (
+		!rangos.length &&
+		!renumeraciones.length &&
+		!correcciones.some((c) => ['subtipo', 'caracterizacion'].includes(c.tipo))
+	)
+		return obra;
 
 	let acumulado = 0;
 	const saltos = renumeraciones.map((correccion) => {
@@ -577,13 +609,22 @@ export function corregirLaObra(obra, correcciones) {
 		const corregida = porRango.get(secuencia.secuencia_id);
 		const v_ini = corregida ? corregida.v_ini : desplazar(Number(secuencia.v_ini));
 		const v_fin = corregida ? corregida.v_fin : desplazar(Number(secuencia.v_fin));
+		const rangoEspecifico = (fila, tipo, campo) => {
+			const movida = mover(fila);
+			const ajuste = correcciones.find((c) => c.tipo === tipo && c.id === fila[campo]);
+			return ajuste ? { ...movida, v_ini: ajuste.v_ini, v_fin: ajuste.v_fin } : movida;
+		};
 		return {
 			...secuencia,
 			v_ini,
 			v_fin,
 			n_versos: v_fin - v_ini + 1,
-			subtipos: (secuencia.subtipos ?? []).map(mover),
-			caracterizaciones: (secuencia.caracterizaciones ?? []).map(mover),
+			subtipos: (secuencia.subtipos ?? []).map((s) =>
+				rangoEspecifico(s, 'subtipo', 'subtipo_secuencia_id')
+			),
+			caracterizaciones: (secuencia.caracterizaciones ?? []).map((s) =>
+				rangoEspecifico(s, 'caracterizacion', 'caracterizacion_rango_id')
+			),
 			respuestas: (secuencia.respuestas ?? []).map((respuesta) =>
 				respuesta.unidad_v_ini == null
 					? respuesta
@@ -681,8 +722,15 @@ function decidirSobreElRango(secuencia, respuestas, correcciones) {
  * `catalogo` es un mapa `arquitectura_id -> { forma_id, unidad_versos_min, unidad_versos_max,
  * secciones }`, y `metros` la tabla de metros. Los dos se leen de la base antes de llamar aquí.
  */
-export function planificarObra(obra, respuestas, catalogo, metros, resoluciones = {}) {
-	const correcciones = [];
+export function planificarObra(
+	obra,
+	respuestas,
+	catalogo,
+	metros,
+	resoluciones = {},
+	aprobadas = []
+) {
+	const correcciones = structuredClone(aprobadas);
 	const pendientesObra = [];
 	const anotaciones = [];
 	const bloqueadas = new Map();
@@ -690,6 +738,12 @@ export function planificarObra(obra, respuestas, catalogo, metros, resoluciones 
 	// --- 1 · Lo que el editor decidió sobre los rangos que no cuadran.
 	for (const secuencia of obra.secuencias) {
 		if (!secuencia.diagnostico) continue;
+		if (
+			correcciones.some(
+				(c) => c.secuencia_id === secuencia.secuencia_id && ['renumerar', 'rango'].includes(c.tipo)
+			)
+		)
+			continue;
 		const motivo = decidirSobreElRango(secuencia, respuestas, correcciones);
 		if (motivo) bloqueadas.set(secuencia.secuencia_id, motivo);
 	}
@@ -965,5 +1019,11 @@ export function planificarObra(obra, respuestas, catalogo, metros, resoluciones 
 		});
 	}
 
-	return { correcciones, anotaciones, pendientes: pendientesObra };
+	const subtipos = corregida.secuencias.flatMap((s) =>
+		(s.subtipos ?? []).map((t) => ({
+			...t,
+			secuencia_id: absorbidas.get(s.secuencia_id) ?? s.secuencia_id
+		}))
+	);
+	return { correcciones, anotaciones, pendientes: pendientesObra, subtipos };
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { desviacionesDe } from './aplicador.mjs';
-import { incorporarRespuestasAdicionales } from './resoluciones.mjs';
+import { corregirLaObra, desviacionesDe } from './aplicador.mjs';
+import { incorporarRespuestasAdicionales, prepararResoluciones } from './resoluciones.mjs';
 
 const metros = [{ metro_id: 'hepta', nombre: 'Heptasílabo', silabas: 7 }];
 const origen = {
@@ -132,5 +132,141 @@ describe('respuestas complementarias del IP', () => {
 		expect(() => incorporarRespuestasAdicionales(new Map(), [{ ...fila, origen: '' }])).toThrow(
 			'origen'
 		);
+	});
+});
+
+describe('correcciones particulares antes de planificar', () => {
+	it('corrige arquitectura y respuestas en una copia y conserva lo que escribió la editora', () => {
+		const obra = {
+			secuencias: [
+				{
+					secuencia_id: 's',
+					v_ini: 1,
+					respuestas: [{ grupo_eleccion_id: 'densidad', respuesta: 'Mayoritaria' }]
+				}
+			]
+		};
+		const respuestas = new Map([['C|s', { respuesta: 'No es así', comentario: 'Orden libre' }]]);
+		const preparada = prepararResoluciones(
+			obra,
+			respuestas,
+			{
+				respuestas_revisadas: [
+					{
+						clave: 'C|s',
+						esperado: { respuesta: 'No es así', comentario: 'Orden libre' },
+						usar: { respuesta: 'Es correcto' },
+						motivo: 'Revisión del IP'
+					}
+				],
+				secuencias: {
+					s: {
+						origen: { v_ini: 1 },
+						arquitectura_id: 'libre',
+						arquitectura_nombre: 'Orden libre',
+						elecciones: { densidad: 'Total' },
+						motivo: 'Rima total confirmada'
+					}
+				}
+			},
+			new Map([['libre', {}]])
+		);
+		expect(obra.secuencias[0].respuestas).toHaveLength(1);
+		expect(respuestas.get('C|s').respuesta).toBe('No es así');
+		expect(preparada.obra.secuencias[0]).toMatchObject({
+			arquitectura_propuesta_id: 'libre',
+			respuestas: []
+		});
+		expect(preparada.respuestas.get('R|s|densidad').respuesta).toBe('Total');
+		expect(preparada.respuestas.get('C|s').respuesta).toBe('Es correcto');
+	});
+	it('rechaza una respuesta que cambió después de revisarse', () => {
+		expect(() =>
+			prepararResoluciones(
+				{ secuencias: [] },
+				new Map([['C|s', { respuesta: 'Es correcto' }]]),
+				{
+					respuestas_revisadas: [
+						{ clave: 'C|s', esperado: { respuesta: 'No es así' }, usar: {}, motivo: 'Revisión' }
+					]
+				},
+				new Map()
+			)
+		).toThrow('Ha cambiado');
+	});
+	it('inserta los dos huecos al final de la quintilla sin mover los versos anteriores', () => {
+		const obra = {
+			secuencias: [
+				{
+					secuencia_id: 's',
+					v_ini: 2202,
+					v_fin: 2459,
+					subtipos: [
+						{ subtipo_secuencia_id: 'q', v_ini: 2277, v_fin: 2279 },
+						{ subtipo_secuencia_id: 'q2', v_ini: 2280, v_fin: 2284 }
+					],
+					caracterizaciones: [{ caracterizacion_rango_id: 'laguna', v_ini: 2277, v_fin: 2279 }]
+				},
+				{ secuencia_id: 'posterior', v_ini: 2460, v_fin: 2761 }
+			]
+		};
+		const corregida = corregirLaObra(obra, [
+			{ tipo: 'renumerar', desde: 2280, faltan: 2 },
+			{ tipo: 'subtipo', id: 'q', v_ini: 2277, v_fin: 2281 },
+			{ tipo: 'caracterizacion', id: 'laguna', v_ini: 2280, v_fin: 2281 }
+		]);
+		expect(corregida.secuencias[0]).toMatchObject({ v_ini: 2202, v_fin: 2461, n_versos: 260 });
+		expect(corregida.secuencias[0].subtipos).toEqual([
+			{ subtipo_secuencia_id: 'q', v_ini: 2277, v_fin: 2281 },
+			{ subtipo_secuencia_id: 'q2', v_ini: 2282, v_fin: 2286 }
+		]);
+		expect(corregida.secuencias[0].caracterizaciones[0]).toMatchObject({
+			v_ini: 2280,
+			v_fin: 2281
+		});
+		expect(corregida.secuencias[1]).toMatchObject({ v_ini: 2462, v_fin: 2763 });
+		expect(obra.secuencias[0].v_fin).toBe(2459);
+	});
+	it('separa la laguna y la bibliografía, conserva su origen y usa el rango final en el comentario', () => {
+		const antiguo = {
+			...origen,
+			termino: 'laguna',
+			v_ini: 2277,
+			v_fin: 2279,
+			observaciones: 'Wardropper (p. 140) señala dos versos ausentes.'
+		};
+		const actual = { ...antiguo, v_ini: 2280, v_fin: 2281, origen_original: antiguo };
+		const plan = resolver(actual, {
+			origen: antiguo,
+			excel: { respuesta: 'Es correcto' },
+			destino: 'mixta',
+			comentario_publico: { texto: antiguo.observaciones, v_ini: 2277, v_fin: 2281 }
+		});
+		expect(plan.desviaciones[0]).toMatchObject({
+			dimension: 'estructura',
+			relacion_norma: 'falta',
+			v_ini: 2280,
+			v_fin: 2281,
+			observaciones: null
+		});
+		expect(plan.traslados[0].comentario.comentario).toBe(
+			'**Vv. 2277–2281.**\n\n' + antiguo.observaciones
+		);
+		expect(plan.traslados[0].origen.origen_original).toEqual(antiguo);
+	});
+	it('traslada una nota de canto a comentario sin convertir el canto en desviación', () => {
+		const nota = { ...origen, termino: 'cantado', v_ini: 2211, v_fin: 2211 };
+		const plan = resolver(nota, {
+			origen: nota,
+			excel: { respuesta: 'Es correcto' },
+			destino: 'comentario',
+			comentario_publico: { texto: nota.observaciones }
+		});
+		expect(plan.desviaciones).toEqual([]);
+		expect(plan.conservadas).toEqual([nota]);
+		expect(plan.traslados[0]).toMatchObject({
+			retirar_caracterizacion: false,
+			limpiar_observaciones: true
+		});
 	});
 });
