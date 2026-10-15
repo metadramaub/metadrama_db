@@ -125,8 +125,8 @@ function parrafo(
 function muestraDeLeyenda(item: ItemLeyenda, x: number, y: number): string {
 	const centro = y - LEYENDA.muestra / 2 + 1;
 	if (item.muestra === 'linea' || item.muestra === 'linea-discontinua') {
-		const discontinua = item.muestra === 'linea-discontinua' ? ' stroke-dasharray="3 3"' : '';
-		return `<line x1="${x}" x2="${x + LEYENDA.linea}" y1="${centro}" y2="${centro}" stroke="${escaparXml(item.color)}" stroke-width="2"${discontinua}/>`;
+		const discontinua = item.muestra === 'linea-discontinua' ? ` stroke-dasharray="${escaparXml(item.trazosLinea ?? '3 3')}"` : '';
+		return `<line x1="${x}" x2="${x + LEYENDA.linea}" y1="${centro}" y2="${centro}" stroke="${escaparXml(item.color)}" stroke-width="${item.anchoLinea ?? 2}"${discontinua}/>`;
 	}
 	return `<rect x="${x}" y="${y - LEYENDA.muestra + 1}" width="${LEYENDA.muestra}" height="${LEYENDA.muestra}" fill="${escaparXml(item.color)}"/>`;
 }

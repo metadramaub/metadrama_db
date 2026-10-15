@@ -18,6 +18,9 @@ export type ItemLeyenda = {
 	etiqueta: string;
 	color: string;
 	muestra?: MuestraLeyenda;
+	/** Estilo de las muestras de línea; si se omite, se usa el estándar de la leyenda. */
+	anchoLinea?: number;
+	trazosLinea?: string;
 };
 
 /** Un gráfico que se puede descargar: qué es y qué admite. */
