@@ -41,8 +41,12 @@ import { query, tryQuery } from './lib/consulta.mjs';
 import { cargarCatalogo } from './lib/metrica/catalogo.mjs';
 import { cargarObras } from './lib/migracion/datos.mjs';
 import { planificarObra } from './lib/migracion/aplicador.mjs';
+import { conservarSubtipos } from './lib/migracion/conservar-subtipos.mjs';
 import { leerRespuestas } from './lib/migracion/respuestas.mjs';
-import { incorporarRespuestasAdicionales } from './lib/migracion/resoluciones.mjs';
+import {
+	incorporarRespuestasAdicionales,
+	prepararResoluciones
+} from './lib/migracion/resoluciones.mjs';
 
 const RAIZ = fileURLToPath(new URL('..', import.meta.url));
 const RESPUESTAS = join(RAIZ, 'docs', 'dominio-metrico', 'migracion', 'respuestas');
@@ -198,6 +202,33 @@ function sentenciasDeRenumeracion(obraId, correccion) {
 
 function sentenciasDeCorreccion(obraId, correccion) {
 	if (correccion.tipo === 'renumerar') return sentenciasDeRenumeracion(obraId, correccion);
+	if (['subtipo', 'caracterizacion'].includes(correccion.tipo)) {
+		const tabla =
+			correccion.tipo === 'subtipo'
+				? 'secuencias_subtipos_estrofa'
+				: 'secuencias_caracterizaciones_rango';
+		const clave =
+			correccion.tipo === 'subtipo' ? 'subtipo_secuencia_id' : 'caracterizacion_rango_id';
+		return [
+			`update public.${tabla} set v_ini = ${Number(correccion.v_ini)}, v_fin = ${Number(correccion.v_fin)}
+		 where ${clave} = ${lit(correccion.id)}::uuid;`
+		];
+	}
+	if (correccion.tipo === 'texto') {
+		const secuencia = correccion.tabla === 'secuencias_metricas';
+		if (!secuencia && correccion.tabla !== 'comentarios_internos')
+			throw new Error('Tabla de texto no admitida.');
+		const columna = secuencia ? 'sinopsis' : 'comentario';
+		const clave = secuencia ? 'secuencia_id' : 'comentario_id';
+		return [
+			`do $texto$ declare n integer; begin
+		 update public.${correccion.tabla} set ${columna} = ${lit(correccion.texto)}
+		 where ${clave} = ${lit(correccion.id)}::uuid and ${columna} = ${lit(correccion.original)};
+		 get diagnostics n = row_count;
+		 if n <> 1 then raise exception 'Ha cambiado un texto revisado; se cancela la migración'; end if;
+		 end; $texto$;`
+		];
+	}
 
 	if (correccion.tipo === 'rango') {
 		return [
@@ -250,6 +281,7 @@ function sentenciaDeRastro(obraId, anotacion, correcciones, editorId) {
 		anotadas: secuencia.anotadas,
 		derivadas: secuencia.derivadas,
 		fuentes,
+		decision_secuencia: resoluciones?.secuencias?.[secuencia.secuencia_id] ?? null,
 		excel_y_complementos: [...respuestasLeidas.values()].filter((fila) => {
 			const ids = fila.clave.split('|');
 			return (
@@ -364,12 +396,14 @@ if (obra.secuencias.length === 0) {
 	console.log('Todas las secuencias ya están anotadas en V2. No se modifica nada.');
 	process.exit(0);
 }
+const preparada = prepararResoluciones(obra, respuestas, resoluciones, catalogo);
 const plan = planificarObra(
-	obra,
-	respuestas,
+	preparada.obra,
+	preparada.respuestas,
 	catalogo,
 	metros,
-	resoluciones?.caracterizaciones ?? {}
+	resoluciones?.caracterizaciones ?? {},
+	resoluciones?.correcciones ?? []
 );
 const anotadas = plan.anotaciones.filter((a) => a.resultado !== 'pendiente');
 const pendientes = plan.anotaciones.filter((a) => a.resultado === 'pendiente');
@@ -437,9 +471,14 @@ if (snapshot.status !== 0) {
 }
 
 function sentenciasDeLaObra() {
+	const subtipos = conservarSubtipos(obra.secuencias, plan.subtipos);
 	const traslados = anotadas.flatMap((a) => a.traslados ?? []);
 	const origenes = traslados.map((t) => t.origen);
 	const ids = anotadas.map((a) => `${lit(a.secuencia.secuencia_id)}::uuid`).join(', ');
+	const comentarios = traslados.filter((t) => t.comentario);
+	const actor = resoluciones?.responsable;
+	if (comentarios.length && !actor)
+		throw new Error('Falta el responsable del traslado a comentarios públicos.');
 	return [
 		identidad,
 		// Bloquea los orígenes y verifica que nadie los haya cambiado desde la lectura.
@@ -449,6 +488,8 @@ function sentenciasDeLaObra() {
 		 join public.secuencias_metricas s using(secuencia_id)
 		 where s.obra_id = ${lit(obra.obra_id)}::uuid for update of r;`,
 		`do $guardas$ begin
+		 if ${resoluciones?.total_versos_original != null ? `(select total_versos from public.obras where obra_id = ${lit(obra.obra_id)}::uuid) <> ${Number(resoluciones.total_versos_original)}` : 'false'} then
+		   raise exception 'Ha cambiado el total original de versos de la obra'; end if;
 		 if exists (select 1 from jsonb_array_elements(${lit(
 				JSON.stringify(
 					obra.secuencias.map((s) => ({
@@ -475,13 +516,44 @@ function sentenciasDeLaObra() {
 		   where to_jsonb(r) is distinct from (e->'origen_original')) then
 		   raise exception 'Ha cambiado una caracterización revisada; no se migra'; end if;
 		 end; $guardas$;`,
+		...plan.correcciones
+			.filter((c) => ['subtipo', 'caracterizacion'].includes(c.tipo))
+			.map((c) => {
+				const tabla =
+					c.tipo === 'subtipo'
+						? 'secuencias_subtipos_estrofa'
+						: 'secuencias_caracterizaciones_rango';
+				const clave = c.tipo === 'subtipo' ? 'subtipo_secuencia_id' : 'caracterizacion_rango_id';
+				return `do $origen$ begin if not exists(select 1 from public.${tabla} r
+			 where ${clave} = ${lit(c.id)}::uuid and to_jsonb(r) @> ${lit(JSON.stringify(c.origen))}::jsonb)
+			 then raise exception 'Ha cambiado un rango revisado'; end if; end; $origen$;`;
+			}),
+		...subtipos.antes,
 		...plan.correcciones.flatMap((correccion) => sentenciasDeCorreccion(obra.obra_id, correccion)),
+		...subtipos.despues,
 		...anotadas.map(
 			(anotacion) =>
 				`select public.guardar_anotacion_metrica(${lit(JSON.stringify(anotacion.datos))}::jsonb);`
 		),
 		...plan.anotaciones.map((anotacion) =>
 			sentenciaDeRastro(obra.obra_id, anotacion, plan.correcciones, editorId)
+		),
+		...(comentarios.length
+			? [
+					`do $actor$ begin if not exists(select 1 from public.editores e
+		 join public.vocabularios v on v.termino_id = e.role
+		 where e.user_id = ${lit(actor)}::uuid and v.termino in ('admin','ip'))
+		 then raise exception 'El responsable del traslado no es admin o IP'; end if; end; $actor$;`
+				]
+			: []),
+		...comentarios.map(
+			(t) => `insert into public.comentarios_internos
+		 (comentario_id, obra_id, secuencia_id, user_id, comentario, tipo_comentario_id,
+		  visible_publico, publicado_por, publicado_at)
+		 values (${lit(t.comentario.comentario_id)}::uuid, ${lit(obra.obra_id)}::uuid,
+		 ${lit(t.origen.secuencia_id)}::uuid, ${lit(editorId)}::uuid, ${lit(t.comentario.comentario)},
+		 (select termino_id from public.vocabularios where categoria='tipo_comentario' and termino='observacion_publica'),
+		 true, ${lit(actor)}::uuid, now());`
 		),
 		// El origen completo ya está en el rastro. Solo se retiran filas convertidas;
 		// el canto se mantiene y pierde únicamente la nota ya trasladada a desviación.
@@ -499,6 +571,11 @@ function sentenciasDeLaObra() {
 					: []
 		),
 		`do $guardas$ begin
+		 if exists(select 1 from jsonb_array_elements(${lit(JSON.stringify(comentarios.map((t) => t.comentario)))}::jsonb) e
+		 left join public.comentarios_internos c on c.comentario_id = (e->>'comentario_id')::uuid
+		 where c.comentario_id is null or c.comentario is distinct from e->>'comentario'
+		   or not c.visible_publico or c.user_id <> ${lit(editorId)}::uuid) then
+		   raise exception 'Falla el comentario público trasladado o su autoría'; end if;
 		 if exists (select 1 from jsonb_array_elements(${lit(JSON.stringify(traslados))}::jsonb) e
 		   where not exists (select 1 from public.migracion_secuencias m,
 		     jsonb_array_elements(m.respuestas->'traslados') t

@@ -55,7 +55,7 @@ const SQL_SECUENCIAS = `
 `;
 
 const SQL_SUBTIPOS = `
-	select sse.subtipo_secuencia_id, sse.secuencia_id, v.termino, sse.v_ini, sse.v_fin
+	select sse.*, to_jsonb(sse) as origen_original, v.termino
 	from public.secuencias_subtipos_estrofa sse
 	join public.propuesta_metrica_secuencia p on p.secuencia_id = sse.secuencia_id and p.via <> 'sin_tipo'
 	left join public.vocabularios v on v.termino_id = sse.subtipo_estrofa_id
