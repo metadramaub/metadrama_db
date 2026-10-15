@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { portal } from '$lib/actions/portal';
 	import { browser } from '$app/environment';
 	import { onDestroy, untrack } from 'svelte';
 	import ChevronLeft from 'lucide-svelte/icons/chevron-left';
@@ -1893,7 +1894,7 @@
 			selector del vocabulario legado, retirado el 27 de agosto de 2026: nadie va a anotar ya con
 			él, y dejarlo era mantener dos editores para que uno no se usara nunca.
 		-->
-		<div class="fixed inset-0 z-40 flex items-start justify-center bg-black/50 p-4">
+		<div use:portal class="fixed inset-0 z-40 flex items-start justify-center bg-black/50 p-4">
 			<div class="card w-full max-w-lg p-5">
 				<h3 class="text-base font-semibold">No se puede anotar ahora mismo</h3>
 				<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
@@ -1909,7 +1910,7 @@
 	{/if}
 
 	{#if declaracionPendiente}
-		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+		<div use:portal class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 			<div class="card w-full max-w-md p-5">
 				<h3 class="text-lg font-semibold">
 					{declaracionPendiente.valor ? 'Marcar que no hay' : 'Volver a preguntarlo'}
@@ -1940,7 +1941,7 @@
 	{/if}
 
 	{#if deleteTargetId}
-		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+		<div use:portal class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div class="card w-full max-w-md p-5">
 			<h3 class="text-lg font-semibold">Eliminar secuencia</h3>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Esta acción no se puede deshacer.</p>

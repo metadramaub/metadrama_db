@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { portal } from '$lib/actions/portal';
 	import type { Snippet } from 'svelte';
 	import ChevronLeft from 'lucide-svelte/icons/chevron-left';
 	import ChevronRight from 'lucide-svelte/icons/chevron-right';
@@ -53,7 +54,7 @@
 	const versos = $derived(props.rango ? props.rango.v_fin - props.rango.v_ini + 1 : 0);
 </script>
 
-<div class="fixed inset-0 z-40 flex items-start justify-center bg-black/50 p-4">
+<div use:portal class="fixed inset-0 z-40 flex items-start justify-center bg-black/50 p-4">
 	<!--
 		`inert` mientras guarda: no basta con deshabilitar los botones, porque el cuerpo entero sigue
 		siendo editable y un cambio hecho a mitad del guardado se perdería sin que nadie lo dijera.

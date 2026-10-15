@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { portal } from '$lib/actions/portal';
 	import { onDestroy, untrack } from 'svelte';
 	import { Plus, Trash2 } from 'lucide-svelte';
 	import type { Tables } from '$lib/types/database.types';
@@ -358,7 +359,7 @@
 	/>
 
 	{#if varianteDeleteTargetIndex !== null}
-		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+		<div use:portal class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 			<div class="card w-full max-w-md p-5">
 				<h3 class="text-lg font-semibold">Eliminar variante de título</h3>
 				<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Esta acción no se puede deshacer.</p>

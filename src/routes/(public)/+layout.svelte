@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { portal } from '$lib/actions/portal';
 	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
 	import DoorOpenIcon from 'lucide-svelte/icons/door-open';
@@ -351,6 +352,7 @@
 
 	{#if logoutConfirmOpen}
 		<div
+			use:portal
 			class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
 			role="presentation"
 		>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { portal } from '$lib/actions/portal';
 	import { goto } from '$app/navigation';
 	import { onDestroy, onMount, untrack } from 'svelte';
 	import AllCommentsModal from '$lib/components/editor/AllCommentsModal.svelte';
@@ -683,7 +684,7 @@
 </section>
 
 {#if showEstadoConfirmModal && pendingEstadoId}
-	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+	<div use:portal class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div class="card w-full max-w-lg p-5">
 			<h3 class="text-lg font-semibold">Confirmar cambio de estado</h3>
 			<div class="mt-3 space-y-2 text-sm">
@@ -721,7 +722,7 @@
 {/if}
 
 {#if showAssignmentsConfirmModal}
-	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+	<div use:portal class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div class="card w-full max-w-lg p-5">
 			<h3 class="text-lg font-semibold">Confirmar cambios de asignación</h3>
 			<div class="mt-3 space-y-2 text-sm">
@@ -771,7 +772,7 @@
 {/if}
 
 {#if showDeleteModal}
-	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+	<div use:portal class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div class="card w-full max-w-md p-5">
 			<h3 class="text-lg font-semibold text-[color:var(--danger)]">Confirmar eliminación</h3>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">

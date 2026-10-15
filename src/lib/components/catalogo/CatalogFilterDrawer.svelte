@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { portal } from '$lib/actions/portal';
 	// **Los filtros viven en un cajón, no en una columna.**
 	//
 	// La columna se quedaba arriba: bastaba con bajar unas obras para perderla de vista, y en móvil
@@ -74,12 +75,14 @@
 		`aria-hidden` y no rol de botón, para no anunciar dos veces lo mismo.
 	-->
 	<div
+		use:portal
 		class="fixed inset-0 z-40 bg-black/30"
 		aria-hidden="true"
 		onclick={cerrar}
 	></div>
 
 	<div
+		use:portal
 		bind:this={panelRef}
 		role="dialog"
 		aria-modal="true"

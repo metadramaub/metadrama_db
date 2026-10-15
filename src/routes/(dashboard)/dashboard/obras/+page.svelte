@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { portal } from '$lib/actions/portal';
 	import { goto } from '$app/navigation';
 	import ObrasTable from '$lib/components/dashboard/ObrasTable.svelte';
 	import Button from '$lib/components/ui/button.svelte';
@@ -198,7 +199,7 @@
 </section>
 
 {#if createModalOpen}
-	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+	<div use:portal class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div class="card w-full max-w-lg p-5">
 			<h3 class="text-lg font-semibold">Crear obra</h3>
 			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { portal } from '$lib/actions/portal';
 	import type { Snippet } from 'svelte';
 	import X from 'lucide-svelte/icons/x';
 
@@ -18,6 +19,7 @@
 
 {#if props.open}
 	<div
+		use:portal
 		class="fixed inset-0 z-50 flex items-center justify-center bg-black/45 px-4 py-6"
 		role="presentation"
 		onclick={(event) => {

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { portal } from '$lib/actions/portal';
 	import { ChevronRight } from 'lucide-svelte';
 	import Tabs from '$lib/components/ui/tabs.svelte';
 	import Breadcrumb from '$lib/components/ui/Breadcrumb.svelte';
@@ -718,7 +719,7 @@
 </script>
 
 {#if estructuraAbierta}
-	<div class="fixed inset-0 z-[120]">
+	<div use:portal class="fixed inset-0 z-[120]">
 		<button
 			type="button"
 			class="absolute inset-0 bg-black/40"

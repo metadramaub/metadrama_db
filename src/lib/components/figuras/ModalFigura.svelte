@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { portal } from '$lib/actions/portal';
 	// El modal de descarga de un gráfico.
 	//
 	// **Es un modal y no un botón que descarga** porque descargar pide decidir cosas —formato,
@@ -143,6 +144,7 @@
 </div>
 
 <div
+	use:portal
 	class="fixed inset-0 z-[120] flex items-center justify-center overflow-hidden bg-black/40 p-4"
 	role="presentation"
 	onclick={(evento) => {

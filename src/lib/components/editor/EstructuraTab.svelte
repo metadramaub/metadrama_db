@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { portal } from '$lib/actions/portal';
 	import { browser } from '$app/environment';
 	import { onDestroy, onMount, untrack } from 'svelte';
 	import { Eye, Pencil, Plus, Trash2 } from 'lucide-svelte';
@@ -1094,7 +1095,7 @@
 </section>
 
 {#if deleteTarget}
-	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+	<div use:portal class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div class="card w-full max-w-md p-5">
 			<h3 class="text-lg font-semibold">{deleteTarget.title}</h3>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">{deleteTarget.description}</p>

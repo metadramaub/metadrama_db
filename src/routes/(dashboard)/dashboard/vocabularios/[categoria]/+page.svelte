@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { portal } from '$lib/actions/portal';
 	import { browser } from '$app/environment';
 	import { beforeNavigate, goto } from '$app/navigation';
 	import { onDestroy, onMount, tick } from 'svelte';
@@ -1056,7 +1057,7 @@
 </section>
 
 {#if showUnsavedChangesModal}
-	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+	<div use:portal class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div class="card w-full max-w-md p-5">
 			<h3 class="text-lg font-semibold">Cambios sin guardar</h3>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">Hay cambios sin guardar en este panel.</p>
@@ -1070,7 +1071,7 @@
 {/if}
 
 {#if showDeleteModal && selectedItem}
-	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+	<div use:portal class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div class="card w-full max-w-md p-5">
 			<h3 class="text-lg font-semibold text-[color:var(--danger)]">Confirmar eliminación</h3>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
@@ -1108,7 +1109,7 @@
 {/if}
 
 {#if showCreateModal && !readOnly}
-	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+	<div use:portal class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div class="card max-h-[85vh] w-full max-w-2xl overflow-y-auto p-5">
 			<div class="mb-4 flex items-center justify-between gap-3">
 				<h3 class="text-lg font-semibold">Nuevo término</h3>
