@@ -4,6 +4,9 @@
 	import Breadcrumb from '$lib/components/ui/Breadcrumb.svelte';
 	import CitaDeFicha from '$lib/components/ficha/CitaDeFicha.svelte';
 	import MetricBarcode from '$lib/components/metrica/MetricBarcode.svelte';
+	import MusicNote from '$lib/components/metrica/MusicNote.svelte';
+	import { rangosCantados } from '$lib/components/metrica/barcode-canto';
+	import type { CantoStyle } from '$lib/components/metrica/canto-diagrama';
 	import MetricScheme from '$lib/components/metrica/MetricScheme.svelte';
 	import MetricFormStrips from '$lib/components/metrica/MetricFormStrips.svelte';
 	import MetricSlopeChart from '$lib/components/metrica/MetricSlopeChart.svelte';
@@ -96,6 +99,7 @@
 	});
 	let metricViewMode = $state<MetricViewMode>('obra_completa');
 	let pieValueMode = $state<PieValueMode>('percent');
+	let mostrarCanto = $state(false);
 	// Forma resaltada al pasar el ratón por la leyenda del pie. Se aísla por grupo
 	// ('obra' o el id de jornada) para que en modo por-jornadas solo ilumine el
 	// barcode/pie de esa jornada, no los de las demás.
@@ -418,6 +422,14 @@
 	let cortesALaVista = $state<'jornada' | 'cuadro' | null>(null);
 
 	const analizables = $derived(secuenciasToAnalizables(secuenciasOrdenadas));
+	const cantosDeLaObra = $derived(rangosCantados(analizables));
+	const cantosVisibles = $derived(mostrarCanto ? cantosDeLaObra : []);
+	// Comparación temporal de las tres propuestas de representación del canto.
+	const variantesCanto: { id: CantoStyle; label: string }[] = [
+		{ id: 'abanico', label: '1. Origen común · líneas curvas' },
+		{ id: 'pista', label: '2. Pista paralela · versos y rangos' },
+		{ id: 'grupos', label: '3. Marcas cortas · pasajes agrupados' }
+	];
 	const tecnica = $derived(fichaTecnica(analizables));
 	const secuenciasPorFormaDeLaObra = $derived(secuenciasPorForma(analizables));
 	const caracterizacionesEnunciativas = $derived(caracterizacionesDeLaObra(analizables));
@@ -959,73 +971,93 @@
 					/>
 				{/if}
 				<div class="space-y-3">
+					{#if cantosDeLaObra.length > 0}
+						<div class="flex justify-end">
+							<button
+								type="button"
+								class={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs ${mostrarCanto ? 'border-[color:var(--gray-800)] bg-[color:var(--gray-800)] text-white' : 'border-[color:var(--border)] bg-white text-[color:var(--gray-800)]'}`}
+								aria-pressed={mostrarCanto}
+								title="Mostrar u ocultar los pasajes cantados"
+								onclick={() => (mostrarCanto = !mostrarCanto)}
+							>
+								<MusicNote color={mostrarCanto ? '#ffffff' : undefined} /> Canto
+							</button>
+						</div>
+					{/if}
 					{#if secuenciasOrdenadas.length === 0}
 						<p class="text-sm text-[color:var(--muted-foreground)]">
 							No hay secuencias métricas registradas para esta obra.
 						</p>
 					{:else}
-						<FiguraDescargable figura={figuraCodigoDeBarras} procedencia={procedenciaFigura}>
-							{#if metricViewMode === 'obra_completa'}
-								<!-- El margen de arriba es el sitio de los versos de los cortes, que salen al pasar por
-								     la leyenda: sin él se montaban sobre los controles de la vista. -->
-								<div class="mt-10"></div>
-								<MetricBarcode
-									segments={barSegments}
-									totalVerses={totalVersos}
-									jornadaMarkers={rayasDeJornada}
-									cuadroMarkers={rayasDeCuadro}
-									colorByForma={colorByForma}
-									onOpenSegment={openSequenceModal}
-									highlightedForma={formaForGroup('obra')}
-									markerLabels={cortesALaVista}
-									showSubsegments
-								/>
-								<div class="mt-5 flex flex-wrap items-center gap-4 text-xs text-[color:var(--muted-foreground)]">
-									<span
-										class="inline-flex cursor-default items-center gap-2 hover:text-[color:var(--foreground)]"
-										role="presentation"
-										onpointerenter={() => (cortesALaVista = 'jornada')}
-										onpointerleave={() => (cortesALaVista = null)}
-									>
-										<span class="inline-block h-3 w-[2px] bg-[color:var(--gray-900)]"></span>
-										Corte de jornada
-									</span>
-									<span
-										class="inline-flex cursor-default items-center gap-2 hover:text-[color:var(--foreground)]"
-										role="presentation"
-										onpointerenter={() => (cortesALaVista = 'cuadro')}
-										onpointerleave={() => (cortesALaVista = null)}
-									>
-										<svg width="12" height="16" viewBox="0 0 12 16" aria-hidden="true"><line x1="3" x2="3" y1="0" y2="16" stroke={CORTE_CUADRO.color} stroke-width={CORTE_CUADRO.ancho} stroke-dasharray={CORTE_CUADRO.trazos} /></svg>
-										Corte de cuadro
-									</span>
-								</div>
-							{:else}
-								<div class="space-y-5">
-									{#each jornadas as jornada (jornada.jornada_id)}
-										<div>
-											<h3 class="mb-4 text-sm font-semibold">
-												Jornada {jornada.jornada_num} (vv. {jornada.v_ini}-{jornada.v_fin})
-											</h3>
-											<MetricBarcode
-												segments={segmentsByJornada.get(jornada.jornada_id) ?? []}
-												totalVerses={totalVersos}
-												rangeStart={jornada.v_ini}
-												rangeEnd={jornada.v_fin}
-												cuadroMarkers={rayasDeCuadro}
-												colorByForma={colorByForma}
-												onOpenSegment={openSequenceModal}
-												highlightedForma={formaForGroup(jornada.jornada_id)}
-												showSubsegments
-											/>
+						{#each mostrarCanto ? variantesCanto : variantesCanto.slice(1, 2) as variante (variante.id)}
+							<div class="space-y-3">
+								{#if mostrarCanto}<h3 class="text-sm font-semibold">{variante.label}</h3>{/if}
+								<FiguraDescargable figura={mostrarCanto ? { ...figuraCodigoDeBarras, titulo: `${figuraCodigoDeBarras.titulo} · ${variante.label}`, archivo: `${figuraCodigoDeBarras.archivo}-${variante.id}` } : figuraCodigoDeBarras} procedencia={procedenciaFigura}>
+									{#if metricViewMode === 'obra_completa'}
+										<!-- El margen de arriba es el sitio de los versos de los cortes, que salen al pasar por
+										     la leyenda: sin él se montaban sobre los controles de la vista. -->
+										<div class="mt-10"></div>
+										<MetricBarcode
+											cantoMarkers={cantosVisibles} cantoStyle={variante.id}
+											segments={barSegments}
+											totalVerses={totalVersos}
+											jornadaMarkers={rayasDeJornada}
+											cuadroMarkers={rayasDeCuadro}
+											colorByForma={colorByForma}
+											onOpenSegment={openSequenceModal}
+											highlightedForma={formaForGroup('obra')}
+											markerLabels={cortesALaVista}
+											showSubsegments
+										/>
+										<div class="mt-5 flex flex-wrap items-center gap-4 text-xs text-[color:var(--muted-foreground)]">
+											<span
+												class="inline-flex cursor-default items-center gap-2 hover:text-[color:var(--foreground)]"
+												role="presentation"
+												onpointerenter={() => (cortesALaVista = 'jornada')}
+												onpointerleave={() => (cortesALaVista = null)}
+											>
+												<span class="inline-block h-3 w-[2px] bg-[color:var(--gray-900)]"></span>
+												Corte de jornada
+											</span>
+											<span
+												class="inline-flex cursor-default items-center gap-2 hover:text-[color:var(--foreground)]"
+												role="presentation"
+												onpointerenter={() => (cortesALaVista = 'cuadro')}
+												onpointerleave={() => (cortesALaVista = null)}
+											>
+												<svg width="12" height="16" viewBox="0 0 12 16" aria-hidden="true"><line x1="3" x2="3" y1="0" y2="16" stroke={CORTE_CUADRO.color} stroke-width={CORTE_CUADRO.ancho} stroke-dasharray={CORTE_CUADRO.trazos} /></svg>
+												Corte de cuadro
+											</span>
 										</div>
-									{/each}
-								</div>
-							{/if}
-							{#snippet grafico()}
-								<MetricBarcodeFigura filas={filasDeBarras} colorByForma={colorByForma} />
-							{/snippet}
-						</FiguraDescargable>
+									{:else}
+										<div class="space-y-5">
+											{#each jornadas as jornada (jornada.jornada_id)}
+												<div>
+													<h3 class="mb-4 text-sm font-semibold">
+														Jornada {jornada.jornada_num} (vv. {jornada.v_ini}-{jornada.v_fin})
+													</h3>
+													<MetricBarcode
+														cantoMarkers={cantosVisibles} cantoStyle={variante.id}
+														segments={segmentsByJornada.get(jornada.jornada_id) ?? []}
+														totalVerses={totalVersos}
+														rangeStart={jornada.v_ini}
+														rangeEnd={jornada.v_fin}
+														cuadroMarkers={rayasDeCuadro}
+														colorByForma={colorByForma}
+														onOpenSegment={openSequenceModal}
+														highlightedForma={formaForGroup(jornada.jornada_id)}
+														showSubsegments
+													/>
+												</div>
+											{/each}
+										</div>
+									{/if}
+									{#snippet grafico()}
+										<MetricBarcodeFigura filas={filasDeBarras} colorByForma={colorByForma} cantoMarkers={cantosVisibles} cantoStyle={variante.id} />
+									{/snippet}
+								</FiguraDescargable>
+							</div>
+						{/each}
 					{/if}
 				</div>
 
