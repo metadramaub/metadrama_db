@@ -47,7 +47,7 @@
 						{row.label}
 					</th>
 					{#each columns as column (column.id)}
-						<td class={`px-4 py-1.5 align-top tabular-nums ${row.divider ? 'border-t border-[color:var(--border)] pt-3' : 'font-semibold'}`}>
+						<td class={`px-4 py-1.5 align-top font-normal tabular-nums ${row.divider ? 'border-t border-[color:var(--border)] pt-3' : ''}`}>
 							{row.value(column.summary)}
 						</td>
 					{/each}
@@ -58,7 +58,7 @@
 					<th scope="row" class="sticky left-0 z-10 whitespace-nowrap bg-white px-4 py-2 align-top text-xs font-normal text-[color:var(--muted-foreground)]">{row.label}</th>
 					{#each columns as column (column.id)}
 						{@const sequence = column.summary[row.key]}
-						<td class="px-4 py-2 align-top">
+						<td class="px-4 py-2 align-top font-normal">
 							{#if sequence}
 								<span>{sequence.forma ?? 'Sin forma anotada'}</span>
 								<span class="mt-0.5 block whitespace-nowrap text-xs tabular-nums text-[color:var(--muted-foreground)]">{rango(sequence)}</span>
