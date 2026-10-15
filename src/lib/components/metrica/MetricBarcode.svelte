@@ -6,6 +6,7 @@
 	import type { MetricBarSegment } from './metric-display.types';
 	import { normalizeFormaKey } from '$lib/utils/metric-colors';
 	import { subsegmentosVisibles } from './barcode-subsegmentos';
+	import { CORTE_CUADRO } from '$lib/figuras/tema';
 
 	interface PositionedSegment {
 		segment: MetricBarSegment;
@@ -90,7 +91,6 @@
 	);
 	const svgHeight = $derived(trackHeight + markerOverhang * 2);
 	const interactive = $derived(typeof props.onOpenSegment === 'function');
-	const cuadroMarkerWidth = $derived(props.compactMarkers ? 1 : 1);
 	const jornadaMarkerWidth = $derived(props.compactMarkers ? 1.5 : 2);
 	const simpleTooltip = $derived(props.showNativeTitles === true && !interactive);
 	const xScale = $derived.by(() =>
@@ -314,15 +314,27 @@
 			{/each}
 
 			{#each cuadroMarkers as marker, index (`cuadro-${index}`)}
+				<!-- El halo mantiene legible el corte sobre cualquier color de forma. -->
 				<line
 					x1={marker.x}
 					x2={marker.x}
 					y1={-markerOverhang}
 					y2={trackHeight + markerOverhang}
-					stroke="var(--gray-500)"
+					stroke="#ffffff"
+					stroke-width={CORTE_CUADRO.halo}
+					stroke-dasharray={CORTE_CUADRO.trazos}
+					vector-effect="non-scaling-stroke"
 					pointer-events="none"
-					stroke-width={cuadroMarkerWidth}
-					stroke-dasharray="3 2"
+				/>
+				<line
+					x1={marker.x}
+					x2={marker.x}
+					y1={-markerOverhang}
+					y2={trackHeight + markerOverhang}
+					stroke={CORTE_CUADRO.color}
+					pointer-events="none"
+					stroke-width={CORTE_CUADRO.ancho}
+					stroke-dasharray={CORTE_CUADRO.trazos}
 					vector-effect="non-scaling-stroke"
 				>
 					{#if props.showNativeTitles && !simpleTooltip}

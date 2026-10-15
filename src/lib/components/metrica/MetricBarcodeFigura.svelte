@@ -33,7 +33,7 @@
 	// Sin versión en grises: lo único que distingue una forma de otra aquí es el color.
 	import { scaleLinear } from 'd3-scale';
 	import SelloFigura from '$lib/components/figuras/SelloFigura.svelte';
-	import { CUERPO, TINTA } from '$lib/figuras/tema';
+	import { CORTE_CUADRO, CUERPO, TINTA } from '$lib/figuras/tema';
 	import { subsegmentosVisibles } from './barcode-subsegmentos';
 
 	const props = $props<{
@@ -45,7 +45,7 @@
 	const IZQ = 150;
 	const DER = 16;
 	const BARRA = 30;
-	const SOBRESALE = 5;
+	const SOBRESALE = 12;
 	const ROTULOS = 18;
 	const EJE = 26;
 	const ENTRE_FILAS = 16;
@@ -153,9 +153,18 @@
 				x2={escala(corte + 1)}
 				y1={barra - SOBRESALE}
 				y2={barra + BARRA + SOBRESALE}
-				stroke={TINTA.tenue}
-				stroke-width="1"
-				stroke-dasharray="3 2"
+				stroke={TINTA.fondo}
+				stroke-width={CORTE_CUADRO.halo}
+				stroke-dasharray={CORTE_CUADRO.trazos}
+			/>
+			<line
+				x1={escala(corte + 1)}
+				x2={escala(corte + 1)}
+				y1={barra - SOBRESALE}
+				y2={barra + BARRA + SOBRESALE}
+				stroke={CORTE_CUADRO.color}
+				stroke-width={CORTE_CUADRO.ancho}
+				stroke-dasharray={CORTE_CUADRO.trazos}
 			/>
 		{/each}
 		{#each (fila.cortesJornada ?? []).filter((v: number) => v > fila.desde && v < fila.hasta) as corte (corte)}

@@ -96,6 +96,18 @@ describe('componerFigura', () => {
 		expect(conLeyenda.alto).toBeGreaterThan(compuesta.alto);
 		expect(conLeyenda.svg).toContain('Cambio de jornada');
 	});
+
+	it('respeta el trazo de cada muestra sin cambiar las leyendas que usan el estándar', () => {
+		const { svg } = componerFigura({
+			grafico, credito, medir,
+			leyenda: [
+				{ etiqueta: 'Cuadro', color: '#535353', muestra: 'linea-discontinua', anchoLinea: 1.5, trazosLinea: '4 3' },
+				{ etiqueta: 'Otro corte', color: '#808080', muestra: 'linea-discontinua' }
+			]
+		});
+		expect(svg).toContain('stroke="#535353" stroke-width="1.5" stroke-dasharray="4 3"');
+		expect(svg).toContain('stroke="#808080" stroke-width="2" stroke-dasharray="3 3"');
+	});
 });
 
 describe('escaparXml', () => {

@@ -29,6 +29,14 @@ export const TINTA = {
 	neutro: '#9ca3af'
 } as const;
 
+/** Corte de cuadro compartido por el código de barras y su exportación. */
+export const CORTE_CUADRO = {
+	color: TINTA.secundario,
+	ancho: 1.5,
+	halo: 3.5,
+	trazos: '4 3'
+} as const;
+
 /** Cuerpos de letra, en unidades del `viewBox`. */
 export const CUERPO = {
 	rotulo: 13,

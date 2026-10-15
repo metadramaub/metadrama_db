@@ -22,7 +22,7 @@
 	import { leyendaDeTradiciones } from '$lib/components/metrica/MetricTraditionSplit.svelte';
 	import FiguraDescargable from '$lib/components/figuras/FiguraDescargable.svelte';
 	import { anioDeFicha } from '$lib/figuras/cita';
-	import { TINTA } from '$lib/figuras/tema';
+	import { CORTE_CUADRO, TINTA } from '$lib/figuras/tema';
 	import type { FiguraDescargable as Figura, ItemLeyenda, ProcedenciaFigura } from '$lib/figuras/tipos';
 	import StructureOutline from '$lib/components/metrica/StructureOutline.svelte';
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
@@ -460,7 +460,7 @@
 				? [{ etiqueta: 'Cambio de jornada', color: TINTA.texto, muestra: 'linea' as const }]
 				: []),
 			...(cuadros.length > 0
-				? [{ etiqueta: 'Cambio de cuadro', color: TINTA.tenue, muestra: 'linea-discontinua' as const }]
+				? [{ etiqueta: 'Cambio de cuadro', color: CORTE_CUADRO.color, muestra: 'linea-discontinua' as const, anchoLinea: CORTE_CUADRO.ancho, trazosLinea: CORTE_CUADRO.trazos }]
 				: [])
 		];
 		return {
@@ -996,7 +996,7 @@
 										onpointerenter={() => (cortesALaVista = 'cuadro')}
 										onpointerleave={() => (cortesALaVista = null)}
 									>
-										<span class="inline-block h-3 w-3 border-l border-dashed border-[color:var(--gray-500)]"></span>
+										<svg width="12" height="16" viewBox="0 0 12 16" aria-hidden="true"><line x1="3" x2="3" y1="0" y2="16" stroke={CORTE_CUADRO.color} stroke-width={CORTE_CUADRO.ancho} stroke-dasharray={CORTE_CUADRO.trazos} /></svg>
 										Corte de cuadro
 									</span>
 								</div>
