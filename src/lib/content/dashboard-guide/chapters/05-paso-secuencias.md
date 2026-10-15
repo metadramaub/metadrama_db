@@ -7,6 +7,29 @@ Puedes declarar las secuencias antes que jornadas y cuadros.
 >
 > Un hueco entre secuencias —versos que ninguna cubre— tampoco se puede publicar, aunque solo se detecta al llegar a Revisión. Ni la prosa ni una laguna lo justifican: van dentro del rango de la secuencia que las contiene.
 
+## La lista de secuencias
+
+Cada fila muestra el rango de versos, la forma y su arquitectura, el resumen de la anotación y los iconos que permiten consultar de un vistazo qué se ha registrado. Al situar el cursor sobre un icono aparece su explicación.
+
+| Icono | Qué indica |
+|---|---|
+| Triángulo de advertencia | Desviaciones de la norma métrica. El número indica cuántas hay anotadas. |
+| Marcador de ubicación | La secuencia inaugura un espacio escénico. |
+| Dos bocadillos superpuestos | Hay versos partidos entre intervenciones de distintos personajes. |
+| Símbolo femenino (♀) | Hay intervención de personajes o voces femeninos, exclusiva o compartida. |
+| Nota musical (♪) | Hay al menos un pasaje anotado como **Cantado**, aunque sea un único verso. |
+| Cara sonriente | Intervienen figuras de donaire. |
+| Fantasma | Intervienen personajes sobrenaturales. |
+| Luna y estrella | Ocurre un evento sobrenatural. |
+| Documento | La secuencia tiene sinopsis argumental escrita. |
+| Bocadillo de comentario | Hay comentarios internos sobre la secuencia. El número indica cuántos. |
+
+En las caracterizaciones, un icono **encendido** indica una respuesta afirmativa; **tachado**, una negativa; y **atenuado**, que el campo está sin responder. El símbolo femenino se enciende cuando se ha seleccionado **femenino** en el campo de género. Con **masculino** solo aparece tachado; si hay voces **indeterminadas** sin femenino, queda atenuado y la ayuda indica «sin determinar», sin afirmar ausencia femenina.
+
+La nota musical, el triángulo, el documento y el bocadillo de comentario están atenuados cuando no hay anotaciones de ese tipo. La nota musical se actualiza al añadir, modificar o eliminar los pasajes cantados.
+
+Al final de la fila, el **lápiz** abre la edición de la secuencia; el **ojo** permite consultarla en modo de lectura; y la **papelera** permite eliminarla cuando tienes permiso de edición.
+
 ## Al abrir una secuencia
 
 Al abrir una secuencia (con **Nueva secuencia** o **Editar**) se despliega el editor con un mapa a la izquierda (qué falta y qué está resuelto) y el formulario a la derecha. Empieza por la identificación métrica.
@@ -82,6 +105,3 @@ Reglas de cada tipo:
 - En **cantado**, puedes marcar un solo verso (`v_ini` = `v_fin`) o un rango.
 - En **evocación métrica**, la caracterización nace por defecto abarcando el rango completo de la secuencia —la evocación suele afectarla entera—, pero puedes acotarla si empieza o acaba dentro de ella.
 - Toda caracterización debe quedar **dentro del rango de versos** de su secuencia.
-
-Cuando hay algún pasaje **Cantado**, se enciende la nota musical en la lista de secuencias.
-La marca se actualiza al guardar o borrar la caracterización, sin recargar la página.

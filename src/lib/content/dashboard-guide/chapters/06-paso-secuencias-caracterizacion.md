@@ -1,4 +1,4 @@
-Sigue en la misma pestaña **Secuencias** que [forma y métrica](/dashboard/guia/paso-secuencias-metrica): aquí lo que caracteriza dramatúrgicamente cada secuencia y su resumen argumental.
+En la pestaña **Secuencias**, además de la [forma y métrica](/dashboard/guia/paso-secuencias-metrica), anotas la caracterización dramatúrgica de cada secuencia y su resumen argumental.
 
 ## Antes de anotar: lo que no hay en la obra
 
@@ -17,35 +17,28 @@ Si tienes dudas sobre alguna de las tres, no la marques: es preferible responder
 
 ## Intervención de personajes
 
-Dentro de cada secuencia, debajo de lo métrico, respondes **Género de quienes intervienen**: **masculino**, **femenino** e **indeterminado**. Puedes seleccionar una, dos o las tres opciones.
+Indica quiénes **hablan o cantan dentro de la secuencia**, incluidos coros y otras voces colectivas. La presencia escénica sin intervención verbal no cuenta.
 
-Selecciona una o varias opciones según quienes hablan o cantan en esta secuencia, incluidos coros y otras voces colectivas. Marca «Indeterminado» cuando intervengan personajes sin género definido o el texto no permita identificarlo. La presencia escénica sin intervención verbal no cuenta. Deja el campo sin responder si está pendiente de revisión.
+En **Género de quienes intervienen** puedes seleccionar una, dos o las tres opciones:
+
+- **Masculino**: intervienen personajes o voces identificados como masculinos.
+- **Femenino**: intervienen personajes o voces identificados como femeninos.
+- **Indeterminado**: intervienen personajes sin género definido o voces cuyo género no permite identificar el texto.
 
 Por ejemplo, si hablan personajes femeninos y un coro cuyo género no puede identificarse, corresponde **femenino + indeterminado**. Ser un personaje alegórico o sobrenatural no obliga a marcar indeterminado: depende de su caracterización en el texto.
 
-Las preguntas sobre **figuras de donaire** y **personajes sobrenaturales** conservan sus tres valores: **sin intervención**, **intervención exclusiva** e **intervención compartida**.
+Para **figuras de donaire** y **personajes sobrenaturales**, elige una respuesta en cada campo:
+
+- **Sin intervención**: no habla ni canta ningún personaje de ese tipo.
+- **Intervención exclusiva**: solo hablan o cantan personajes de ese tipo.
+- **Intervención compartida**: hablan o cantan tanto personajes de ese tipo como otros.
 
 Los tres campos comienzan en blanco. Si guardas sin responder, quedan **pendientes**; el sistema no interpreta el blanco como ausencia. **Indeterminado es una respuesta**, no un pendiente.
 
 Si has marcado en **Antes de anotar** que la obra no tiene figuras de donaire o personajes sobrenaturales, el campo correspondiente aparece ya resuelto en "sin intervención" y bloqueado, con la nota "declarado para toda la obra".
 
-> [!IMPORTANT]
-> "Intervención" se refiere a que el personaje **habla o canta dentro de la secuencia**, no a su mera presencia escénica. Un personaje puede estar en escena sin intervenir métricamente en esa secuencia.
-
 > [!NOTE]
 > Por **figura de donaire** entendemos el personaje subalterno (típicamente el criado o gracioso) que contrasta con los amos y funciona como contrapunto de la acción principal. Es un criterio de tipo de personaje, lo relevante es su papel subalterno y no es necesario juzgar su comicidad.
-
-## Iconos en la lista de secuencias
-
-En la lista de secuencias, el **símbolo femenino (♀)** sigue indicando intervención femenina:
-se enciende cuando has seleccionado **femenino**, tanto si es exclusivo como si se combina con
-otros géneros. Con **masculino** solo aparece tachado. Si hay voces **indeterminadas** sin femenino,
-queda atenuado y la ayuda indica «sin determinar»; no afirma ausencia femenina. Cuando el campo
-está sin responder también queda atenuado, pero la ayuda dice «sin responder».
-
-La **nota musical (♪)** se enciende cuando la secuencia contiene al menos un pasaje anotado como
-**Cantado**, aunque sea un único verso. Se actualiza al añadir, modificar o eliminar esas
-caracterizaciones. Atenuada significa que no hay pasajes cantados anotados.
 
 ## Otras caracterizaciones
 
