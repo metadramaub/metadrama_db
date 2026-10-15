@@ -35,10 +35,15 @@
 	import SelloFigura from '$lib/components/figuras/SelloFigura.svelte';
 	import { CORTE_CUADRO, CUERPO, TINTA } from '$lib/figuras/tema';
 	import { subsegmentosVisibles } from './barcode-subsegmentos';
+	import CantoDiagram from './CantoDiagram.svelte';
+	import type { CantoMarker } from './barcode-canto';
+	import { diagramaDeCanto, type CantoStyle } from './canto-diagrama';
 
 	const props = $props<{
 		filas: FilaDeBarras[];
 		colorByForma: Record<string, string>;
+		cantoMarkers?: CantoMarker[];
+		cantoStyle?: CantoStyle;
 	}>();
 
 	const ANCHO = 1000;
@@ -57,20 +62,22 @@
 		let y = 0;
 		return props.filas.map((fila: FilaDeBarras) => {
 			const arriba = y;
-			y += altoDeFila(fila) + ENTRE_FILAS;
-			const barra = arriba + (fila.jornadas?.length ? ROTULOS : 0) + SOBRESALE;
+			const cantos = diagramaDeCanto(props.cantoMarkers ?? [], fila.desde, fila.hasta, ANCHO - DER - IZQ, props.cantoStyle ?? 'pista', true);
+			const altoCantos = cantos.height;
+			y += altoDeFila(fila) + altoCantos + ENTRE_FILAS;
+			const cantoTop = arriba + (fila.jornadas?.length ? ROTULOS : 0);
+			const barra = cantoTop + altoCantos + SOBRESALE;
 			const escala = scaleLinear()
 				.domain([fila.desde, fila.hasta + 1])
 				.range([IZQ, ANCHO - DER])
 				.clamp(true);
-			return { fila, barra, escala, marcas: escala.ticks(8).filter((v) => v >= fila.desde && v <= fila.hasta) };
+			return { fila, arriba, cantoTop, barra, escala, marcas: escala.ticks(8).filter((v) => v >= fila.desde && v <= fila.hasta) };
 		});
 	});
 	const alto = $derived(
 		Math.max(
 			1,
-			props.filas.reduce((suma: number, fila: FilaDeBarras) => suma + altoDeFila(fila), 0) +
-				Math.max(0, props.filas.length - 1) * ENTRE_FILAS
+			(colocadas.at(-1)?.barra ?? 0) + BARRA + SOBRESALE + EJE
 		)
 	);
 
@@ -88,15 +95,16 @@
 	aria-label="Código de barras métrico"
 	data-figura=""
 >
-	{#each colocadas as { fila, barra, escala, marcas }, indice (fila.etiqueta)}
+	{#each colocadas as { fila, arriba, cantoTop, barra, escala, marcas }, indice (fila.etiqueta)}
 		{@const pie = barra + BARRA + SOBRESALE + 3}
+		<CantoDiagram markers={props.cantoMarkers ?? []} desde={fila.desde} hasta={fila.hasta} width={ANCHO - DER - IZQ} x={IZQ} y={cantoTop} style={props.cantoStyle} figure />
 
 		{#each fila.jornadas ?? [] as jornada (jornada.etiqueta)}
 			{@const ancho = escala(jornada.hasta + 1) - escala(jornada.desde)}
 			{#if cabe(jornada.etiqueta, ancho)}
 				<text
 					x={escala(jornada.desde) + ancho / 2}
-					y={barra - SOBRESALE - 6}
+					y={arriba + ROTULOS - 6}
 					font-size={CUERPO.menor}
 					font-weight="600"
 					fill={TINTA.secundario}
