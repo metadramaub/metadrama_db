@@ -48,7 +48,7 @@ const PARA_QUE = {
 	variaciones_presentes: ['filtro', 'buscador'],
 	tiene_versos_partidos: ['bandera', 'buscador'],
 	tiene_cambio_espacio: ['bandera', 'buscador'],
-	intervencion_femenina: ['agregado de la pregunta por secuencia', 'buscador'],
+	intervencion_femenina: ['proyección heredada de compatibilidad; los géneros activos viven en generos_intervinientes', 'compatibilidad'],
 	intervencion_donaire: ['agregado de la pregunta por secuencia', 'buscador'],
 	intervencion_sobrenaturales: ['agregado de la pregunta por secuencia', 'buscador'],
 	metrica_sucia: ['control: hay que recomputar', 'dashboard'],
@@ -147,10 +147,10 @@ const REGISTRABLE = [
 		columna: 'tiene_evento_sobrenatural'
 	},
 	{
-		nombre: 'Intervención de personajes femeninos',
-		cuantas: `select count(*) from public.secuencias_metricas where intervencion_personajes_femeninos <> 'sin_intervencion'`,
-		clave: 'intervencion_personajes_femeninos',
-		columna: 'intervencion_femenina'
+		nombre: 'Género de quienes intervienen',
+		cuantas: `select count(*) from public.secuencias_metricas where generos_intervinientes is not null`,
+		clave: 'generos_intervinientes',
+		columna: null
 	},
 	{
 		nombre: 'Intervención de figuras de donaire',

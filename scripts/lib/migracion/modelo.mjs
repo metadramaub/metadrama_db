@@ -400,7 +400,8 @@ export function tramosFundibles(secuencias, cortes) {
 
 /**
  * Cómo quedan los indicadores de escena al fundir: los booleanos por suma, las intervenciones por
- * coincidencia y, si no coinciden, «compartida».
+ * coincidencia y, si no coinciden, «compartida». Los géneros se unen como conjuntos;
+ * si falta la respuesta de alguna parte, el conjunto completo sigue pendiente.
  */
 export function fundirIndicadores(partes) {
 	const alguno = (campo) => partes.some((p) => p[campo] === true);
@@ -412,7 +413,10 @@ export function fundirIndicadores(partes) {
 		inaugura_espacio: alguno('inaugura_espacio'),
 		versos_partidos: alguno('versos_partidos'),
 		evento_sobrenatural: alguno('evento_sobrenatural'),
-		intervencion_personajes_femeninos: coincidencia('intervencion_personajes_femeninos'),
+		generos_intervinientes: partes.some((p) => !p.generos_intervinientes?.length)
+			? null
+			: ['masculino', 'femenino', 'indeterminado'].filter((genero) =>
+				partes.some((p) => p.generos_intervinientes.includes(genero))),
 		intervencion_figuras_donaire: coincidencia('intervencion_figuras_donaire'),
 		intervencion_personajes_sobrenaturales: coincidencia('intervencion_personajes_sobrenaturales')
 	};

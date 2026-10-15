@@ -12,7 +12,7 @@ function secuencia(overrides: Partial<PhenomenonSequence> = {}): PhenomenonSeque
 		desviaciones: [],
 		versos_partidos: null,
 		inaugura_espacio: null,
-		intervencion_personajes_femeninos: null,
+		generos_intervinientes: null,
 		intervencion_figuras_donaire: null,
 		intervencion_personajes_sobrenaturales: null,
 		evento_sobrenatural: null,
@@ -32,12 +32,28 @@ const cantada = secuencia({
 	desviaciones: [{ dimension: 'metro' }],
 	versos_partidos: true,
 	inaugura_espacio: false,
-	intervencion_personajes_femeninos: 'compartida',
+	generos_intervinientes: ['masculino', 'femenino'],
 	intervencion_figuras_donaire: 'sin_intervencion',
 	evento_sobrenatural: false
 });
 
 describe('buildPhenomenaIndex', () => {
+	it('localiza cada género sin duplicar el total y conserva el pendiente', () => {
+		const grupo = buildPhenomenaIndex([
+			secuencia({ secuencia_id: 'a', generos_intervinientes: ['femenino', 'indeterminado'] }),
+			secuencia({ secuencia_id: 'b', generos_intervinientes: ['indeterminado'] }),
+			secuencia({ secuencia_id: 'c', generos_intervinientes: null })
+		]).find((g) => g.id === 'intervenciones');
+		const rama = grupo?.ramas.find((r) => r.id === 'generos_intervinientes');
+		expect(grupo?.total).toBe(2);
+		expect(rama?.pendientes).toBe(1);
+		expect(rama?.facetas.map((f) => [f.id, f.total])).toEqual([
+			['femenino', 1],
+			['indeterminado', 2]
+		]);
+		expect(rama?.facetas[0].formas[0].items[0].detalle).toBe('Femenino + Indeterminado');
+	});
+
 	it('conserva el rango específico del canto y abre la secuencia que lo contiene', () => {
 		const canto = buildPhenomenaIndex([cantada]).find((group) => group.id === 'cantado');
 		expect(canto?.ramas[0]?.facetas[0]?.formas).toEqual([
@@ -62,10 +78,13 @@ describe('buildPhenomenaIndex', () => {
 
 		const intervenciones = groups.find((group) => group.id === 'intervenciones');
 		expect(intervenciones?.ramas.map((rama) => rama.id)).toEqual([
-			'personajes_femeninos',
+			'generos_intervinientes',
 			'figuras_donaire'
 		]);
-		expect(intervenciones?.ramas[0]?.facetas.map((faceta) => faceta.label)).toEqual(['Compartida']);
+		expect(intervenciones?.ramas[0]?.facetas.map((faceta) => faceta.label)).toEqual([
+			'Masculino',
+			'Femenino'
+		]);
 	});
 
 	it('muestra también dónde no ocurre el fenómeno, agrupado por forma', () => {

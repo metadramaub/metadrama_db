@@ -72,7 +72,9 @@ export type ObraAnalysisSequenceFact = {
 	versos_partidos?: boolean;
 	cambio_espacio?: boolean;
 	evento_sobrenatural?: boolean;
+	/** Compatibilidad con artefactos anteriores; el dato activo es el conjunto de géneros. */
 	intervencion_femenina?: string;
+	generos_intervinientes?: string[];
 	intervencion_donaire?: string;
 	intervencion_sobrenaturales?: string;
 	caracterizaciones: unknown[];

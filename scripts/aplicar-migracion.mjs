@@ -210,7 +210,7 @@ function sentenciasDeCorreccion(obraId, correccion) {
 				 inaugura_espacio = ${bool(i.inaugura_espacio)},
 				 versos_partidos = ${bool(i.versos_partidos)},
 				 evento_sobrenatural = ${bool(i.evento_sobrenatural)},
-				 intervencion_personajes_femeninos = ${lit(i.intervencion_personajes_femeninos)},
+				 generos_intervinientes = ${i.generos_intervinientes ? `array[${i.generos_intervinientes.map(lit).join(', ')}]::text[]` : 'null'},
 				 intervencion_figuras_donaire = ${lit(i.intervencion_figuras_donaire)},
 				 intervencion_personajes_sobrenaturales = ${lit(i.intervencion_personajes_sobrenaturales)}
 				 ${correccion.sinopsis ? `, sinopsis = ${lit(correccion.sinopsis)}` : ''}

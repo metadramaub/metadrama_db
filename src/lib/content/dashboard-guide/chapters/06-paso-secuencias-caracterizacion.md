@@ -17,18 +17,20 @@ Si tienes dudas sobre alguna de las tres, no la marques: es preferible responder
 
 ## Intervención de personajes
 
-Dentro de cada secuencia, debajo de lo métrico, indicas si interviene cada tipo de personaje, con tres valores: **sin intervención**, **intervención exclusiva** o **intervención compartida**.
+Dentro de cada secuencia, debajo de lo métrico, respondes **Género de quienes intervienen**: **masculino**, **femenino** e **indeterminado**. Puedes seleccionar una, dos o las tres opciones.
 
-Los tres selectores comienzan en blanco. Si guardas la secuencia sin completarlos, quedan marcados como **pendientes**; el sistema no los interpreta como "sin intervención".
+Selecciona una o varias opciones según quienes hablan o cantan en esta secuencia, incluidos coros y otras voces colectivas. Marca «Indeterminado» cuando intervengan personajes sin género definido o el texto no permita identificarlo. La presencia escénica sin intervención verbal no cuenta. Deja el campo sin responder si está pendiente de revisión.
 
-- personajes femeninos;
-- figuras de donaire;
-- personajes sobrenaturales.
+Por ejemplo, si hablan personajes femeninos y un coro cuyo género no puede identificarse, corresponde **femenino + indeterminado**. Ser un personaje alegórico o sobrenatural no obliga a marcar indeterminado: depende de su caracterización en el texto.
+
+Las preguntas sobre **figuras de donaire** y **personajes sobrenaturales** conservan sus tres valores: **sin intervención**, **intervención exclusiva** e **intervención compartida**.
+
+Los tres campos comienzan en blanco. Si guardas sin responder, quedan **pendientes**; el sistema no interpreta el blanco como ausencia. **Indeterminado es una respuesta**, no un pendiente.
 
 Si has marcado en **Antes de anotar** que la obra no tiene figuras de donaire o personajes sobrenaturales, el campo correspondiente aparece ya resuelto en "sin intervención" y bloqueado, con la nota "declarado para toda la obra".
 
 > [!IMPORTANT]
-> "Intervención" se refiere a que el personaje **habla dentro de la secuencia**, no a su mera presencia escénica. Un personaje puede estar en escena sin intervenir métricamente en esa secuencia.
+> "Intervención" se refiere a que el personaje **habla o canta dentro de la secuencia**, no a su mera presencia escénica. Un personaje puede estar en escena sin intervenir métricamente en esa secuencia.
 
 > [!NOTE]
 > Por **figura de donaire** entendemos el personaje subalterno (típicamente el criado o gracioso) que contrasta con los amos y funciona como contrapunto de la acción principal. Es un criterio de tipo de personaje, lo relevante es su papel subalterno y no es necesario juzgar su comicidad.

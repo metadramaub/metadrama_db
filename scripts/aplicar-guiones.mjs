@@ -413,12 +413,17 @@ function aplicar(guion, autores, catalogo, vocabulario, admin) {
 	for (const seq of guion.secuencias) {
 		const secuenciaId = crypto.randomUUID();
 		const rnd = azar(semillaDe(`${titulo}#${seq.orden}`));
+		const combinacionesGenero = [
+			['masculino'], ['femenino'], ['indeterminado'],
+			['masculino', 'femenino'], ['masculino', 'indeterminado'],
+			['femenino', 'indeterminado'], ['masculino', 'femenino', 'indeterminado']
+		];
 		const sentencias = [
-			`insert into public.secuencias_metricas (secuencia_id, obra_id, v_ini, v_fin, n_versos, inaugura_espacio, versos_partidos, intervencion_personajes_femeninos, intervencion_figuras_donaire, intervencion_personajes_sobrenaturales, evento_sobrenatural, sinopsis)
+			`insert into public.secuencias_metricas (secuencia_id, obra_id, v_ini, v_fin, n_versos, inaugura_espacio, versos_partidos, generos_intervinientes, intervencion_figuras_donaire, intervencion_personajes_sobrenaturales, evento_sobrenatural, sinopsis)
 			 values (
 				${lit(secuenciaId)}::uuid, ${lit(obraId)}::uuid, ${seq.v_ini}, ${seq.v_fin}, ${seq.versos},
 				${aperturas.has(seq.v_ini)}, ${seq.orden % 4 === 0},
-				${lit(seq.orden % 3 === 0 ? 'exclusiva' : 'compartida')},
+				array[${combinacionesGenero[seq.orden % 7].map(lit).join(', ')}]::text[],
 				${lit(seq.orden % 5 === 0 ? 'compartida' : 'sin_intervencion')},
 				${lit(seq.orden % 7 === 0 ? 'exclusiva' : 'sin_intervencion')},
 				${seq.orden % 9 === 0},

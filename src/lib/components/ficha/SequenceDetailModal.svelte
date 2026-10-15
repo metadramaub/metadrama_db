@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { formatGenerosIntervinientes } from '$lib/utils/generos-intervinientes';
 	// Lectura editorial de una secuencia: identidad, construcción, observación y contexto.
 	import { ArrowLeft, ArrowRight, ChevronDown, X } from 'lucide-svelte';
 	import { portal } from '$lib/actions/portal';
@@ -403,7 +404,7 @@
 							<section>
 								<h4 class="mb-3 text-[0.68rem] font-semibold uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]">Intervenciones</h4>
 								<dl class="space-y-3">
-									<div><dt class="text-xs text-[color:var(--muted-foreground)]">De personajes femeninos</dt><dd>{formatIntervencionValue(props.secuencia.intervencion_personajes_femeninos)}</dd></div>
+									<div><dt class="text-xs text-[color:var(--muted-foreground)]">Género de quienes intervienen</dt><dd>{formatGenerosIntervinientes(props.secuencia.generos_intervinientes)}</dd></div>
 									<div><dt class="text-xs text-[color:var(--muted-foreground)]">De figuras de donaire</dt><dd>{formatIntervencionValue(props.secuencia.intervencion_figuras_donaire)}</dd></div>
 									<div><dt class="text-xs text-[color:var(--muted-foreground)]">De personajes sobrenaturales</dt><dd>{formatIntervencionValue(props.secuencia.intervencion_personajes_sobrenaturales)}</dd></div>
 								</dl>

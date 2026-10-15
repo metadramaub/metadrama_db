@@ -77,7 +77,7 @@ function fullFicha(): PublicObraFichaPayload {
 					nivel_estructural: 'estrofa',
 					inaugura_espacio: false,
 					versos_partidos: false,
-					intervencion_personajes_femeninos: 'sin_intervencion',
+					generos_intervinientes: ['masculino'],
 					intervencion_figuras_donaire: 'sin_intervencion',
 					evento_sobrenatural: false,
 					intervencion_personajes_sobrenaturales: 'sin_intervencion',

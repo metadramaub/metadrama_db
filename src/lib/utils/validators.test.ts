@@ -24,6 +24,45 @@ import {
 } from './validators';
 
 describe('validators', () => {
+	const payloadGenero = {
+		v_ini: 1,
+		v_fin: 10,
+		intervencion_figuras_donaire: null,
+		intervencion_personajes_sobrenaturales: null
+	};
+	it.each([
+		['masculino'],
+		['femenino'],
+		['indeterminado'],
+		['masculino', 'femenino'],
+		['masculino', 'indeterminado'],
+		['femenino', 'indeterminado'],
+		['masculino', 'femenino', 'indeterminado']
+	])('admite la combinación de géneros %j', (...generos) => {
+		expect(
+			secuenciaInputSchema.parse({ ...payloadGenero, generos_intervinientes: generos })
+				.generos_intervinientes
+		).toEqual(generos);
+	});
+
+	it.each([[], ['masculino', 'masculino'], ['otro'], ['femenino', null]])(
+		'rechaza géneros vacíos, repetidos o desconocidos: %j',
+		(...generos) => {
+			expect(
+				secuenciaInputSchema.safeParse({ ...payloadGenero, generos_intervinientes: generos })
+					.success
+			).toBe(false);
+		}
+	);
+
+	it('ordena la selección sin convertir indeterminado en pendiente', () => {
+		expect(
+			secuenciaInputSchema.parse({
+				...payloadGenero,
+				generos_intervinientes: ['indeterminado', 'femenino']
+			}).generos_intervinientes
+		).toEqual(['femenino', 'indeterminado']);
+	});
 	it('allows draft obra data with optional fields', () => {
 		const result = obraDatosPatchSchema.safeParse({
 			titulo: '',
@@ -88,7 +127,7 @@ describe('validators', () => {
 			estrofa_tipo_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
 			inaugura_espacio: false,
 			versos_partidos: true,
-			intervencion_personajes_femeninos: 'sin_intervencion',
+			generos_intervinientes: ['masculino'],
 			intervencion_figuras_donaire: 'sin_intervencion',
 			intervencion_personajes_sobrenaturales: 'sin_intervencion',
 			sinopsis: null
@@ -103,7 +142,7 @@ describe('validators', () => {
 			estrofa_tipo_id: null,
 			inaugura_espacio: null,
 			versos_partidos: null,
-			intervencion_personajes_femeninos: null,
+			generos_intervinientes: null,
 			intervencion_figuras_donaire: null,
 			intervencion_personajes_sobrenaturales: null,
 			sinopsis: null
@@ -115,7 +154,7 @@ describe('validators', () => {
 		const parsed = secuenciaInputSchema.parse({
 			v_ini: 1,
 			v_fin: 120,
-			intervencion_personajes_femeninos: 'sin_intervencion',
+			generos_intervinientes: ['masculino'],
 			intervencion_figuras_donaire: 'sin_intervencion',
 			intervencion_personajes_sobrenaturales: 'sin_intervencion',
 			sinopsis: null
@@ -132,7 +171,7 @@ describe('validators', () => {
 			v_fin: 120,
 			estrofa_tipo_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
 			inaugura_espacio: false,
-			intervencion_personajes_femeninos: 'ausente',
+			generos_intervinientes: 'ausente',
 			intervencion_figuras_donaire: 'solo',
 			intervencion_personajes_sobrenaturales: 'con_otros',
 			sinopsis: null
@@ -146,7 +185,7 @@ describe('validators', () => {
 			v_fin: 56,
 			estrofa_tipo_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
 			inaugura_espacio: false,
-			intervencion_personajes_femeninos: 'sin_intervencion',
+			generos_intervinientes: ['masculino'],
 			intervencion_figuras_donaire: 'sin_intervencion',
 			intervencion_personajes_sobrenaturales: 'sin_intervencion',
 			sinopsis: null
@@ -160,7 +199,7 @@ describe('validators', () => {
 			v_fin: 56,
 			estrofa_tipo_id: '574a7be6-3b2f-4c4a-b6f2-0a8efc3184ad',
 			inaugura_espacio: false,
-			intervencion_personajes_femeninos: 'sin_intervencion',
+			generos_intervinientes: ['masculino'],
 			intervencion_figuras_donaire: 'sin_intervencion',
 			intervencion_personajes_sobrenaturales: 'sin_intervencion',
 			sinopsis: null
@@ -520,10 +559,7 @@ describe('validators', () => {
 
 	it('deduplicates reviewer ids', () => {
 		const result = obraReviewersInputSchema.parse({
-			reviewer_ids: [
-				'4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7',
-				'4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7'
-			]
+			reviewer_ids: ['4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7', '4d5d5f74-3571-4e14-b6d5-558f2ad9fdb7']
 		});
 		expect(result.reviewer_ids).toHaveLength(1);
 	});

@@ -32,7 +32,7 @@ function completeInput(): RevisionChecklistInput {
 				tiene_anotacion_metrica: true,
 				inaugura_espacio: true,
 				versos_partidos: false,
-				intervencion_personajes_femeninos: 'sin_intervencion',
+				generos_intervinientes: ['masculino'],
 				intervencion_figuras_donaire: 'sin_intervencion',
 				intervencion_personajes_sobrenaturales: 'sin_intervencion',
 				evento_sobrenatural: false,
@@ -44,6 +44,13 @@ function completeInput(): RevisionChecklistInput {
 }
 
 describe('revision checklist', () => {
+	it('indeterminado es una respuesta y null sigue bloqueando la revisión', () => {
+		const input = completeInput();
+		input.secuencias[0].generos_intervinientes = ['indeterminado'];
+		expect(buildRevisionChecklist(input).pendingSequenceCount).toBe(0);
+		input.secuencias[0].generos_intervinientes = null;
+		expect(buildRevisionChecklist(input).pendingSequenceCount).toBe(1);
+	});
 	it('marks a complete work as ready', () => {
 		const summary = buildRevisionChecklist(completeInput());
 

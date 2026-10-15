@@ -2,11 +2,12 @@
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import NullableBooleanChoice from '$lib/components/ui/nullable-boolean-choice.svelte';
+	import { GENEROS_INTERVINIENTES } from '$lib/utils/generos-intervinientes';
 
 	/**
 	 * Lo que caracteriza a la secuencia entera y vive en su propia fila.
 	 *
-	 * Son dos bloques que se leen como uno: **quién habla** —si intervienen personajes femeninos,
+	 * Son dos bloques que se leen como uno: **quién habla o canta** —géneros de las voces,
 	 * figuras de donaire o personajes sobrenaturales— y **qué le pasa al pasaje** —versos partidos,
 	 * si inaugura espacio—.
 	 *
@@ -24,7 +25,7 @@
 	type IntervencionValue = 'sin_intervencion' | 'exclusiva' | 'compartida';
 
 	export type CaracterizacionesValues = {
-		intervencion_personajes_femeninos: IntervencionValue | null;
+		generos_intervinientes: string[] | null;
 		intervencion_figuras_donaire: IntervencionValue | null;
 		intervencion_personajes_sobrenaturales: IntervencionValue | null;
 		versos_partidos: boolean | null;
@@ -71,10 +72,10 @@
 	 */
 	const NOTA_NEGADO = 'declarado para toda la obra';
 
-	// Los personajes femeninos se dan por presentes en toda obra del corpus, así que su pregunta no
-	// se puede cerrar desde arriba: no lleva declaración.
+	const GENEROS_AYUDA =
+		'Selecciona una o varias opciones según quienes hablan o cantan en esta secuencia, incluidos coros y otras voces colectivas. Marca «Indeterminado» cuando intervengan personajes sin género definido o el texto no permita identificarlo. La presencia escénica sin intervención verbal no cuenta. Deja el campo sin responder si está pendiente de revisión.';
+
 	const camposDeIntervencion = [
-		{ clave: 'intervencion_personajes_femeninos', etiqueta: 'Personajes femeninos', declaracion: null },
 		{ clave: 'intervencion_figuras_donaire', etiqueta: 'Figuras de donaire', declaracion: 'donaire' },
 		{
 			clave: 'intervencion_personajes_sobrenaturales',
@@ -111,6 +112,22 @@
 		</span>
 	</h4>
 	<div class="grid gap-3 sm:grid-cols-2">
+		<label class="form-field sm:col-span-2">
+			<span class="form-label form-label-with-help">
+				Género de quienes intervienen
+				<FieldHelpTooltip text={GENEROS_AYUDA} label="Ayuda sobre el género de quienes intervienen" />
+			</span>
+			<CheckDropdown
+				multiple={true}
+				closeOnSelect={false}
+				search={false}
+				placeholder="Pendiente — seleccionar"
+				items={GENEROS_INTERVINIENTES}
+				disabled={props.readOnly}
+				selectedIds={props.valores.generos_intervinientes ?? []}
+				onChange={(ids: string[]) => props.alCambiar({ generos_intervinientes: ids.length ? ids : null })}
+			/>
+		</label>
 		{#each camposDeIntervencion as campo (campo.clave)}
 			<label class="form-field">
 				<span class="form-label">
