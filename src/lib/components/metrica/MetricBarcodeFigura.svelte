@@ -92,7 +92,7 @@
 	width={ANCHO}
 	height={alto}
 	role="img"
-	aria-label="Código de barras métrico"
+	aria-label="Diagrama métrico"
 	data-figura=""
 >
 	{#each colocadas as { fila, arriba, cantoTop, hayCanto, barra, escala, marcas }, indice (fila.etiqueta)}

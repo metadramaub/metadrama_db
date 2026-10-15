@@ -54,7 +54,7 @@
 					obra.
 				</p>
 				<p>
-					El código de barras métrico representa el orden y la extensión relativa de las formas a
+					El diagrama métrico representa el orden y la extensión relativa de las formas a
 					lo largo del texto. Los apartados de la ficha desarrollan esa secuencia y resumen la
 					distribución de las formas documentadas.
 				</p>
