@@ -12,6 +12,8 @@ Estado: **propuesta pendiente de aprobación**. Lectura de la base y del Excel r
 
 Las lecturas técnicas para completar el cómputo o la rima —acentuación de «Vayasé» o «cíclope», diéresis en «suave», «descuido» o «ruinas»— se proponen como D mientras solo expliquen la escansión local. Esto no autoriza a corregir el texto base ni a dar esas lecturas por documentadas en una edición. Una explicación mínima de la lectura utilizada, como la del v. 800 de El caballero de Olmedo, queda íntegra en la desviación. Las hipótesis sobre pronunciación histórica, la discusión crítica de ediciones o el efecto dramático se separan como comentario.
 
+La descripción de una desviación sirve para completar lo que no cubran sus selectores. Las citas del texto de los versos que ya dejaron los editores se conservarán en esa descripción, aunque sean más extensas de lo necesario. No se pide transcribir los versos a quienes anoten en adelante. Las notas que solo repiten un metro exacto se resuelven con su selector, según el criterio E.
+
 ## Recuento por obra
 
 | Obra | Editor | E | D | C | M | R | Total |
@@ -34,7 +36,7 @@ Las seis notas de obras de prueba se revisan al final y se proponen como C. Son 
 2. Registrar cada destino por caracterizacion_rango_id y huella del texto. Si el texto cambia después de la revisión, detener ese traslado y volver a revisarlo. No clasificar por palabras o por longitud durante la aplicación.
 3. Conservar los Excel enviados y recibidos. El lector identifica las filas por Clave, incluida D|<caracterizacion_rango_id>; no es necesario volver a enviarlos para esta clasificación. Las correcciones que haya escrito el editor prevalecen sobre la propuesta inicial y se resuelven explícitamente.
 4. Al migrar cada obra, resolver primero sus respuestas, correcciones, renumeraciones y fusiones. E se guarda en el selector correspondiente, sin repetirlo en la descripción; D va al texto de la desviación; C crea un comentario de tipo observacion_publica, visible en ficha pública; M separa dato y comentario; R aplica la rectificación aprobada. En una enunciativa, el traslado del comentario no elimina la caracterización.
-5. Los comentarios llevan como autor al editor asignado, según la indicación del IP. El encabezado identifica el tipo y el rango definitivo. Conservar el ID y el texto originales en el rastro y evitar duplicados al repetir el proceso.
+5. Los comentarios llevan como autor al editor asignado, según la indicación del IP. Se vinculan a la secuencia y comienzan con el verso o rango definitivo escrito en el propio texto, por ejemplo «**V. 22.** …» o «**Vv. 354–355.** …». Conservar el ID y el texto originales en el rastro y evitar duplicados al repetir el proceso.
 
    Si una renumeración afecta a referencias de versos dentro del texto de la nota, revisarlas antes de trasladarlo. No sustituir cifras automáticamente: también hay páginas bibliográficas y otros números. Conservar la redacción original y su numeración en el rastro.
 6. Corregir la fusión de secuencias para trasladar también los comentarios ya existentes antes de borrar las filas absorbidas: actualmente solo se trasladan subtipos y caracterizaciones y la FK de comentarios tiene borrado en cascada.
@@ -58,9 +60,9 @@ Las notas «Verso heptasílabo» de los vv. 2917 y 2983 se registrarán como met
 
 Actualmente los comentarios pueden vincularse a una secuencia, pero no tienen un rango de versos propio. En la ficha pública aparecen dentro del detalle de esa secuencia, bajo «Aclaraciones públicas» o «Notas públicas».
 
-**Propuesta pendiente de aprobación:** admitir un rango opcional dentro de la secuencia para los comentarios localizados. Mostrar, por ejemplo, **«V. 22 · Rima y pronunciación»** o **«Vv. 354–355 · Rima y aparte»**, junto al texto y la autoría. Los comentarios generales de la secuencia quedarían sin rango. Así el texto crítico se consulta junto a la secuencia y conserva su localización precisa.
+**Criterio acordado:** mantener el mismo modelo de comentario público para toda la secuencia. No añadir selectores ni campos de versos a los comentarios. Si una nota se refiere a uno o pocos versos, indicarlos al principio de su texto. En el traslado se añadirá ese prefijo utilizando el rango que ya tiene la caracterización, después de resolver las renumeraciones.
 
-Un encabezado escrito a mano permitiría mostrar los versos con el modelo actual, pero no conservaría un anclaje estructurado que pueda comprobarse o ajustarse al renumerar. No se ha añadido ningún campo ni cambiado la presentación.
+Quien anote en adelante puede escribir también el verso al principio de su comentario, tanto para cuestiones métricas como para observaciones sobre personajes o cualquier otro aspecto. El comentario sigue vinculado a la secuencia. No se necesita filtrado por verso ni un tratamiento específico para las notas procedentes de caracterizaciones.
 
 ## Ayuda aprobada para la desviación
 
