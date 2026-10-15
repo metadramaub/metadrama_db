@@ -12,10 +12,11 @@
 	// Sin versión en grises: lo único que une un sector con su nombre es el color.
 	import { CUERPO, TINTA } from '$lib/figuras/tema';
 	import MetricDonut from './MetricDonut.svelte';
-	import type { MetricDistributionSlice } from './metric-display.types';
+	import MusicNote from './MusicNote.svelte';
+	import type { MetricCantoSummary, MetricDistributionSlice } from './metric-display.types';
 	import { normalizeFormaKey } from '$lib/utils/metric-colors';
 
-	type Grupo = { titulo: string | null; items: MetricDistributionSlice[] };
+	type Grupo = { titulo: string | null; items: MetricDistributionSlice[]; canto?: MetricCantoSummary };
 
 	const props = $props<{
 		grupos: Grupo[];
@@ -38,7 +39,7 @@
 
 	const colorDe = (item: MetricDistributionSlice) =>
 		props.colorByForma[item.colorKey ?? item.forma] ?? TINTA.neutro;
-	const cifra = (item: MetricDistributionSlice) =>
+	const cifra = (item: Pick<MetricDistributionSlice, 'versos' | 'porcentaje'>) =>
 		props.valueMode === 'absolute'
 			? `${item.versos.toLocaleString('es-ES')} vv.`
 			: `${item.porcentaje.toFixed(2)}%`;
@@ -50,27 +51,30 @@
 		}));
 
 	const columnas = $derived(Math.min(VARIAS.porFila, Math.max(1, grupos.length)));
+	const altoLeyenda = (grupo: Grupo, fila: number) => grupo.items.length * fila + (grupo.canto ? 2 * fila : 0);
 	const altoColumna = $derived(
 		VARIAS.titulo +
 			VARIAS.rosquilla +
 			14 +
-			Math.max(0, ...grupos.map((g: { items: MetricDistributionSlice[] }) => g.items.length)) * VARIAS.fila
+			Math.max(0, ...grupos.map((g: Grupo) => altoLeyenda(g, VARIAS.fila)))
 	);
 	const ancho = $derived(
 		sola ? UNA.ancho : columnas * VARIAS.columna + (columnas - 1) * VARIAS.hueco
 	);
 	const alto = $derived(
 		sola
-			? Math.max(UNA.rosquilla, (grupos[0]?.items.length ?? 0) * UNA.fila + 8)
+			? Math.max(UNA.rosquilla, (grupos[0] ? altoLeyenda(grupos[0], UNA.fila) : 0) + 8)
 			: Math.ceil(grupos.length / columnas) * (altoColumna + VARIAS.hueco) - VARIAS.hueco
 	);
 </script>
 
-{#snippet leyenda(items: MetricDistributionSlice[], x: number, y: number, derecha: number, fila: number, cuerpo: number)}
+{#snippet leyenda(items: MetricDistributionSlice[], x: number, y: number, derecha: number, fila: number, cuerpo: number, canto?: MetricCantoSummary)}
 	{#each items as item, indice (item.colorKey ?? item.forma)}
 		{@const base = y + indice * fila + cuerpo}
 		<rect x={x} y={base - 10} width="11" height="11" fill={colorDe(item)} />
-		<text x={x + 18} y={base} font-size={cuerpo} fill={TINTA.texto}>{item.forma}</text>
+		{@const cantada = canto?.formas.some((forma) => normalizeFormaKey(forma) === normalizeFormaKey(item.colorKey ?? item.forma))}
+		{#if cantada}<MusicNote x={x + 17} y={base - 11} size={12} />{/if}
+		<text x={x + (cantada ? 35 : 18)} y={base} font-size={cuerpo} fill={TINTA.texto}>{item.forma}</text>
 		<text
 			x={derecha}
 			y={base}
@@ -80,6 +84,13 @@
 			style="font-variant-numeric: tabular-nums">{cifra(item)}</text
 		>
 	{/each}
+	{#if canto}
+		{@const base = y + items.length * fila + fila + cuerpo}
+		<line x1={x} x2={derecha} y1={base - cuerpo - 7} y2={base - cuerpo - 7} stroke={TINTA.guia} />
+		<MusicNote x={x} y={base - 11} size={12} />
+		<text x={x + 18} y={base} font-size={cuerpo} fill={TINTA.texto}>Versos cantados</text>
+		<text x={derecha} y={base} font-size={cuerpo} fill={TINTA.secundario} text-anchor="end">{cifra(canto)}</text>
+	{/if}
 {/snippet}
 
 <svg
@@ -99,7 +110,7 @@
 			y={Math.max(0, (alto - UNA.rosquilla) / 2)}
 			centro="Versología"
 		/>
-		{@render leyenda(grupo.items, UNA.leyenda, Math.max(0, (alto - grupo.items.length * UNA.fila) / 2), ancho, UNA.fila, CUERPO.rotulo)}
+		{@render leyenda(grupo.items, UNA.leyenda, Math.max(0, (alto - altoLeyenda(grupo, UNA.fila)) / 2), ancho, UNA.fila, CUERPO.rotulo, grupo.canto)}
 	{:else}
 		{#each grupos as grupo, indice (grupo.titulo ?? indice)}
 			{@const x = (indice % columnas) * (VARIAS.columna + VARIAS.hueco)}
@@ -120,7 +131,7 @@
 				y={y + VARIAS.titulo}
 				centro="Versología"
 			/>
-			{@render leyenda(grupo.items, x, y + VARIAS.titulo + VARIAS.rosquilla + 14, x + VARIAS.columna, VARIAS.fila, CUERPO.referencia)}
+			{@render leyenda(grupo.items, x, y + VARIAS.titulo + VARIAS.rosquilla + 14, x + VARIAS.columna, VARIAS.fila, CUERPO.referencia, grupo.canto)}
 		{/each}
 	{/if}
 </svg>

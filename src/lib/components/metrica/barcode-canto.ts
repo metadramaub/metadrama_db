@@ -1,4 +1,5 @@
 import { enunciationType } from '$lib/metrica/enunciation';
+import type { MetricCantoSummary } from './metric-display.types';
 
 export interface CantoMarker {
 	id: string;
@@ -32,4 +33,27 @@ export function rangosCantados(secuencias: {
 
 export function versoDeCanto(marker: Pick<CantoMarker, 'v_ini' | 'v_fin'>) {
 	return marker.v_ini === marker.v_fin ? `v. ${marker.v_ini}` : `vv. ${marker.v_ini}–${marker.v_fin}`;
+}
+
+/** Cuenta versos cantados, no la extensión entera de las secuencias que contienen canto. */
+export function resumenCanto(secuencias: (Parameters<typeof rangosCantados>[0][number] & {
+	n_versos: number;
+	forma_slug: string | null;
+	forma: string | null;
+})[]): MetricCantoSummary {
+	const rangos = rangosCantados(secuencias).sort((a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin);
+	const secuenciasCantadas = new Set(rangos.map((r) => r.secuencia_id));
+	let versos = 0;
+	let ultimo = -Infinity;
+	for (const rango of rangos) {
+		versos += Math.max(0, rango.v_fin - Math.max(rango.v_ini, ultimo + 1) + 1);
+		ultimo = Math.max(ultimo, rango.v_fin);
+	}
+	const total = secuencias.reduce((sum, s) => sum + s.n_versos, 0);
+	return {
+		versos,
+		porcentaje: total > 0 ? versos / total * 100 : 0,
+		formas: [...new Set(secuencias.filter((s) => secuenciasCantadas.has(s.secuencia_id))
+			.map((s) => s.forma_slug ?? s.forma ?? 'Sin forma anotada'))]
+	};
 }

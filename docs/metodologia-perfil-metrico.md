@@ -116,6 +116,11 @@ Estas no dependen de la forma, sino de rangos `v_ini`–`v_fin` declarados sobre
 - **`pct_cantado`** = versos en rangos de tipo **`cantado`** / `total_versos`. "Cantado" **no es una
   forma** (error frecuente): es un término de `fenomenos_enunciativos` (hijo de `caracterizacion_rango`).
   Calcularlo desde la forma daría siempre 0.
+- En el **perfil métrico de la ficha**, una nota musical identifica las formas que contienen
+  algún rango cantado, sin afirmar que se canten todos sus versos. La fila final «Versos cantados»
+  cuenta la unión de esos rangos y sigue el selector de porcentaje o versos. Su denominador es el
+  mismo conjunto de secuencias que alimenta el perfil: la obra o la jornada seleccionada. El canto
+  no añade un sector a la rosquilla, pues sus versos ya están incluidos en las formas.
 - **`variaciones_presentes`** (array) = términos de `caracterizacion_rango` usados en la obra, para
   filtrar. (Sustituye a la tabla `secuencias_variaciones`, ya inexistente.)
 - **Lo que se ofrece hoy son solo fenómenos enunciativos**: `cantado`, `prosa` y

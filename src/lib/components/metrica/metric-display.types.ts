@@ -3,6 +3,13 @@
 // página concreta, para poder usarlos en ficha, catálogo y ficha de autor.
 // Cada consumidor adapta sus datos a estas formas mínimas.
 
+/** Canto observado en el mismo conjunto de secuencias que el perfil. */
+export interface MetricCantoSummary {
+	versos: number;
+	porcentaje: number;
+	formas: string[];
+}
+
 /** Cifras y extremos de una obra o de un subconjunto de sus secuencias. */
 export interface MetricSummary {
 	secuencias: number;
