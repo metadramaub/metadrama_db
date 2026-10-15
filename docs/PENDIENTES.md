@@ -224,12 +224,6 @@ selector**: hoy es «formas + subtipos anidados» en un control único que no ag
 
 ## D · La ficha pública
 
-**D11 · Elegir la representación del canto en «De un vistazo».** Al activar «Canto» se comparan
-temporalmente tres pistas paralelas sin agrupaciones: marcas compactas, dos carriles alternos y
-puntos para versos sueltos con extremos para los rangos.
-Comprobar obra completa, jornadas y exportación; tras elegir, retirar la comparación y las variantes
-descartadas. Implementación compartida en `CantoDiagram.svelte` y `canto-diagrama.ts`.
-
 Lo que quedó abierto al cerrar el inventario de la ficha. Su relato punto por punto, con lo que se
 descartó y por qué, está en el [histórico](./dominio-metrico/historico/ficha-publica-2026-09.md).
 

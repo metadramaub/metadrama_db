@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { colocarCantos, rangosCantados, type CantoMarker } from './barcode-canto';
+import { rangosCantados, type CantoMarker } from './barcode-canto';
 
 const marker = (ini: number, fin = ini): CantoMarker => ({
 	id: `s:${ini}-${fin}`, secuencia_id: 's', v_ini: ini, v_fin: fin
@@ -28,38 +28,5 @@ describe('rangosCantados', () => {
 			{ secuencia_id: 'a', v_ini: 8, v_fin: 10 },
 			{ secuencia_id: 'b', v_ini: 11, v_fin: 12 }
 		]);
-	});
-});
-
-describe('colocarCantos', () => {
-	it('sitúa versos y rangos en su centro usando el mismo eje que la barra', () => {
-		const { items } = colocarCantos([marker(1), marker(40, 60)], 1, 100, 1000);
-		expect(items[0].targetX).toBe(5);
-		expect(items[0].label).toBe('v. 1');
-		expect(items[1].targetX).toBe(495);
-		expect(items[1].label).toBe('vv. 40–60');
-	});
-
-	it('filtra por jornada y recorta solo la parte visible de un rango', () => {
-		const { items } = colocarCantos([marker(1), marker(90, 110), marker(150)], 101, 200, 500);
-		expect(items.map((i) => i.label)).toEqual(['vv. 101–110', 'v. 150']);
-		expect(items[0].targetX).toBe(25);
-	});
-
-	it('reparte marcas cercanas en alturas y mantiene las notas dentro del lienzo', () => {
-		const { items, lanes } = colocarCantos([marker(1), marker(2), marker(100)], 1, 100, 300);
-		expect(lanes).toBe(2);
-		expect(items.map((i) => i.lane)).toEqual([0, 1, 0]);
-		for (const item of items) {
-			expect(item.left).toBeGreaterThanOrEqual(0);
-			expect(item.left + 24).toBeLessThanOrEqual(300);
-		}
-	});
-
-	it('reserva espacio para los rótulos exportados y no ocupa nada si las marcas están desactivadas', () => {
-		const markers = [marker(1), marker(6)];
-		expect(colocarCantos(markers, 1, 100, 1000).lanes).toBe(1);
-		expect(colocarCantos(markers, 1, 100, 1000, true).lanes).toBe(2);
-		expect(colocarCantos([], 1, 100, 1000)).toEqual({ items: [], lanes: 0 });
 	});
 });

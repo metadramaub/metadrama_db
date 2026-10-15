@@ -9,7 +9,7 @@
 	import { CORTE_CUADRO } from '$lib/figuras/tema';
 	import CantoDiagram from './CantoDiagram.svelte';
 	import type { CantoMarker } from './barcode-canto';
-	import { diagramaDeCanto, type CantoStyle } from './canto-diagrama';
+	import { diagramaDeCanto } from './canto-diagrama';
 
 	interface PositionedSegment {
 		segment: MetricBarSegment;
@@ -35,7 +35,6 @@
 		jornadaMarkers?: MetricBarMarker[];
 		cuadroMarkers?: MetricBarMarker[];
 		cantoMarkers?: CantoMarker[];
-		cantoStyle?: CantoStyle;
 		colorByForma: Record<string, string>;
 		onOpenSegment?: (id: string) => void;
 		trackHeight?: number;
@@ -158,7 +157,7 @@
 	// barra se cortaban por la izquierda o por la derecha. Se mide la barra y, si el aviso centrado
 	// no cabe, se alinea con el borde de la secuencia que da hacia dentro.
 	let anchoPista = $state(0);
-	const cantos = $derived(diagramaDeCanto(props.cantoMarkers ?? [], viewStart, viewEnd, anchoPista || 600, props.cantoStyle ?? 'pista'));
+	const cantos = $derived(diagramaDeCanto(props.cantoMarkers ?? [], viewStart, viewEnd, anchoPista || 600));
 	const MEDIO_AVISO = 136;
 	function alineacionAviso(centro: number): string {
 		const px = (centro / 100) * anchoPista;
@@ -263,7 +262,7 @@
 <div class="w-full">
 	{#if cantos.height > 0}
 		<div class="relative">
-			<CantoDiagram markers={props.cantoMarkers ?? []} desde={viewStart} hasta={viewEnd} width={anchoPista || 600} style={props.cantoStyle} onOpen={open} />
+			<CantoDiagram markers={props.cantoMarkers ?? []} desde={viewStart} hasta={viewEnd} width={anchoPista || 600} onOpen={open} />
 		</div>
 	{/if}
 	<div
