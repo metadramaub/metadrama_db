@@ -1,28 +1,7 @@
 <script lang="ts">
-	type SecuenciaDestacada = {
-		forma: string | null;
-		v_ini: number;
-		v_fin: number;
-		n_versos: number;
-	} | null;
+	import type { MetricSummary, MetricSummarySequence } from './metric-display.types';
 
-	interface TechnicalSummary {
-		/** Cuántas secuencias métricas tiene la obra. Vivía en la cabecera, junto a jornadas y
-		 *  cuadros, y no es un dato de la estructura de la obra sino de cómo está versificada. */
-		secuencias: number;
-		formasDistintas: number;
-		mediaPorSecuencia: number;
-		/** Número efectivo de formas y secuencias por cada cien versos: las dos medidas con las que
-		 *  se ordena el catálogo de obras, dichas también aquí. */
-		diversidad: number;
-		densidad: number;
-		secuenciaMasLarga: SecuenciaDestacada;
-		secuenciaMasCorta: SecuenciaDestacada;
-		abre: string | null;
-		cierra: string | null;
-	}
-
-	const props = $props<{ summary: TechnicalSummary; title?: string }>();
+	const props = $props<{ summary: MetricSummary; title?: string }>();
 
 	const numero = (valor: number) =>
 		valor.toLocaleString('es', { maximumFractionDigits: 2 });
@@ -36,7 +15,7 @@
 		{ etiqueta: 'Densidad', valor: `${numero(props.summary.densidad)} /100 vv.` }
 	]);
 
-	const rango = (s: NonNullable<SecuenciaDestacada>) =>
+	const rango = (s: MetricSummarySequence) =>
 		`${s.v_ini === s.v_fin ? `v. ${s.v_ini}` : `vv. ${s.v_ini}–${s.v_fin}`} · ${s.n_versos} ${s.n_versos === 1 ? 'v.' : 'vv.'}`;
 </script>
 

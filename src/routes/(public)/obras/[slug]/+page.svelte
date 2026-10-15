@@ -9,6 +9,7 @@
 	import MetricSlopeChart from '$lib/components/metrica/MetricSlopeChart.svelte';
 	import MetricTraditionSplit from '$lib/components/metrica/MetricTraditionSplit.svelte';
 	import MetricWorkSummary from '$lib/components/metrica/MetricWorkSummary.svelte';
+	import MetricJornadaSummary from '$lib/components/metrica/MetricJornadaSummary.svelte';
 	import MetricRunTable from '$lib/components/metrica/MetricRunTable.svelte';
 	import MetricEnunciationSummary from '$lib/components/metrica/MetricEnunciationSummary.svelte';
 	import MetricDramaticArticulation from '$lib/components/metrica/MetricDramaticArticulation.svelte';
@@ -948,14 +949,14 @@
 				{#if metricViewMode === 'obra_completa'}
 					<MetricWorkSummary summary={tecnica} />
 				{:else}
-					<div class="space-y-3">
-						{#each metricProfilesByJornada as profile (profile.jornada.jornada_id)}
-							<MetricWorkSummary
-								summary={profile.summary}
-								title={`Jornada ${profile.jornada.jornada_num} (vv. ${profile.jornada.v_ini}–${profile.jornada.v_fin})`}
-							/>
-						{/each}
-					</div>
+					<MetricJornadaSummary
+						columns={metricProfilesByJornada.map(({ jornada, summary }) => ({
+							id: jornada.jornada_id,
+							label: `Jornada ${jornada.jornada_num}`,
+							range: `vv. ${jornada.v_ini}–${jornada.v_fin}`,
+							summary
+						}))}
+					/>
 				{/if}
 				<div class="space-y-3">
 					{#if secuenciasOrdenadas.length === 0}
