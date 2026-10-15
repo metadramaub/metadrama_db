@@ -72,7 +72,11 @@ esperadas as (
 		and g.seccion_id is not distinct from (
 			case when rz.realizacion_padre_id is not null then rz.seccion_id end
 		)
-	where g.alcance = 'secuencia' or rz.realizacion_id is not null
+	where (g.alcance = 'secuencia' or rz.realizacion_id is not null)
+		-- Como en guardar_anotacion_metrica: una pregunta condicionada solo es
+		-- obligatoria si las respuestas afirman ese régimen de rima.
+		and (g.solo_si_tipo_rima_id is null
+			or public.anotacion_afirma_tipo_rima(an.anotacion_id, g.solo_si_tipo_rima_id))
 ),
 hallazgo as (
 	-- 1 · La respuesta afirma algo que su arquitectura ya no pregunta. Grave: el dato está
