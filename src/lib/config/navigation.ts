@@ -25,7 +25,12 @@ export const PUBLIC_NAV: NavGroup[] = [
 		items: [
 			{ label: 'CATÁLOGO MÉTRICO', href: '/recursos/catalogo-metrico' },
 			{ label: 'DEMARCADOR', href: '/recursos/demarcador' },
-			{ label: 'GUÍA', href: '/recursos/guia' }
+			{ label: 'GUÍA', href: '/recursos/guia' },
+			{
+				label: 'BIBLIOGRAFÍA',
+				href: 'https://www.ub.edu/metadrama/wp-content/uploads/2026/09/Bibliografia-Versificacion-Dramatica-METADRAMA.pdf',
+				external: true
+			}
 		]
 	},
 	{
