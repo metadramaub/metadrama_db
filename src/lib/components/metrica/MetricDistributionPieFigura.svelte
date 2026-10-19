@@ -9,7 +9,9 @@
 	// El sello va en el hueco —el nombre y no la dirección, que no cabe—: para quitarlo hay que
 	// quitar la rosquilla. La dirección aparece debajo del gráfico.
 	//
-	// Sin versión en grises: lo único que une un sector con su nombre es el color.
+	// En blanco y negro, cada sector comparte gris y trama con su muestra en la leyenda.
+	import { svgDeTrama, TRAMAS_GRISES, type TramaFigura } from '$lib/figuras/tramas';
+	import type { Paleta } from '$lib/figuras/tipos';
 	import SelloFigura from '$lib/components/figuras/SelloFigura.svelte';
 	import { CUERPO, TINTA } from '$lib/figuras/tema';
 	import MetricDonut from './MetricDonut.svelte';
@@ -19,12 +21,30 @@
 
 	type Grupo = { titulo: string | null; items: MetricDistributionSlice[]; canto?: MetricCantoSummary };
 
-	const props = $props<{
+	const idComponente = $props.id();
+	const props: {
 		grupos: Grupo[];
 		colorByForma: Record<string, string>;
 		valueMode: 'percent' | 'absolute';
-	}>();
+		paleta?: Paleta;
+		rotulos?: 'patrones' | 'numeros';
+		estilosGrises?: Record<string, TramaFigura>;
+	} = $props();
 
+	const blancoNegro = $derived(props.paleta === 'grises');
+	const conNumeros = $derived(blancoNegro && props.rotulos === 'numeros');
+	const repertorio = $derived.by(() => {
+		const totales = new Map<string, number>();
+		for (const grupo of props.grupos) for (const item of grupo.items) {
+			if (item.versos > 0) totales.set(item.colorKey ?? item.forma, (totales.get(item.colorKey ?? item.forma) ?? 0) + item.versos);
+		}
+		return [...totales].sort((a,b) => b[1]-a[1] || a[0].localeCompare(b[0], 'es')).map(([clave], i) => ({clave,numero:i+1}));
+	});
+	const prefijo = idComponente.replace(/[^\w-]/g, '');
+	const numeroDe = (item: MetricDistributionSlice) => repertorio.find((f) => f.clave === (item.colorKey ?? item.forma))?.numero ?? 0;
+	const idTrama = (numero: number) => `${prefijo}-perfil-trama-${numero}`;
+	const estiloDe = (item: MetricDistributionSlice) => props.estilosGrises?.[item.colorKey ?? item.forma] ?? TRAMAS_GRISES[(numeroDe(item)-1) % TRAMAS_GRISES.length];
+	const rellenoDe = (item: MetricDistributionSlice) => blancoNegro ? `url(#${idTrama(numeroDe(item))})` : colorDe(item);
 	const UNA = { rosquilla: 280, leyenda: 320, ancho: 760, fila: 24 };
 	const VARIAS = { columna: 300, hueco: 40, titulo: 24, rosquilla: 200, fila: 20, porFila: 3 };
 
@@ -48,7 +68,10 @@
 		items.map((item) => ({
 			clave: normalizeFormaKey(item.colorKey ?? item.forma),
 			valor: item.versos,
-			color: colorDe(item)
+			color: rellenoDe(item),
+			rotulo: conNumeros ? String(numeroDe(item)) : undefined,
+			tintaRotulo: parseInt(estiloDe(item).fondo.slice(1,3),16)<140 ? '#ffffff' : TINTA.texto,
+			fondoRotulo: estiloDe(item).fondo
 		}));
 
 	const columnas = $derived(Math.min(VARIAS.porFila, Math.max(1, grupos.length)));
@@ -72,8 +95,8 @@
 {#snippet leyenda(items: MetricDistributionSlice[], x: number, y: number, derecha: number, fila: number, cuerpo: number, canto?: MetricCantoSummary)}
 	{#each items as item, indice (item.colorKey ?? item.forma)}
 		{@const base = y + indice * fila + cuerpo}
-		<rect x={x} y={base - 10} width="11" height="11" fill={colorDe(item)} />
-		<text x={x + 18} y={base} font-size={cuerpo} fill={TINTA.texto}>{item.forma}</text>
+		<rect x={x} y={base - (blancoNegro ? 12 : 10)} width={blancoNegro ? 24 : 11} height={blancoNegro ? 14 : 11} fill={rellenoDe(item)} stroke={blancoNegro ? TINTA.texto : undefined} stroke-width={blancoNegro ? 0.6 : undefined} />
+		<text x={x + (blancoNegro ? 32 : 18)} y={base} font-size={cuerpo} fill={TINTA.texto}>{conNumeros ? `${numeroDe(item)}. ` : ''}{item.forma}</text>
 		<text
 			x={derecha}
 			y={base}
@@ -100,6 +123,9 @@
 	aria-label="Perfil métrico"
 	data-figura=""
 >
+	{#if blancoNegro}
+		<defs>{@html repertorio.map((f) => svgDeTrama(idTrama(f.numero), props.estilosGrises?.[f.clave] ?? TRAMAS_GRISES[(f.numero-1) % TRAMAS_GRISES.length])).join('')}</defs>
+	{/if}
 	{#if sola}
 		{@const grupo = grupos[0]}
 		<MetricDonut
@@ -108,6 +134,7 @@
 			x={0}
 			y={Math.max(0, (alto - UNA.rosquilla) / 2)}
 			centro="Versología"
+			anguloMinimo={0}
 		/>
 		{@render leyenda(grupo.items, UNA.leyenda, Math.max(0, (alto - altoLeyenda(grupo, UNA.fila)) / 2), ancho, UNA.fila, CUERPO.rotulo, grupo.canto)}
 	{:else}
@@ -129,6 +156,7 @@
 				x={x + (VARIAS.columna - VARIAS.rosquilla) / 2}
 				y={y + VARIAS.titulo}
 				centro="Versología"
+			anguloMinimo={0}
 			/>
 			{@render leyenda(grupo.items, x, y + VARIAS.titulo + VARIAS.rosquilla + 14, x + VARIAS.columna, VARIAS.fila, CUERPO.referencia, grupo.canto)}
 		{/each}

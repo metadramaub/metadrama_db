@@ -260,10 +260,6 @@ repaso de enlaces. Dos desajustes esperan ese día: `terceto/endecasilabica_cons
 cómo nombrar la única arquitectura del endecasílabo suelto, que ya lo dice todo en el nombre de su
 forma.
 
-**D5 · Blanco y negro para el perfil métrico.** Falta una representación que permita asociar cada
-sector de la rosquilla con su forma sin depender del color. El diagrama métrico ya ofrece nombres
-inclinados o números con leyenda; el perfil necesita su propia solución.
-
 **D9 · La cita no invierte el nombre del editor.** `/como-citarnos` escribe «González Mesas,
 Emma», pero `editores` solo guarda `nombre_completo`, y adivinar dónde acaba el nombre falla con
 «José María» o «de la Fuente». La cita de la ficha y la de cada gráfico van en orden natural hasta

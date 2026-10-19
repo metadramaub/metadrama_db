@@ -152,7 +152,7 @@
 
 <div
 	use:portal
-	class="fixed inset-0 z-[120] flex items-center justify-center overflow-hidden bg-black/40 p-4"
+	class="fixed inset-0 z-[120] flex items-center justify-center overflow-clip bg-black/40 p-4"
 	role="presentation"
 	onclick={(evento) => {
 		if (evento.target === evento.currentTarget) props.onClose();

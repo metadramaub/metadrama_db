@@ -1,11 +1,12 @@
 /**
  * Los ángulos de una rosquilla, con un mínimo por sector.
  *
- * **Un sector nunca baja de dos grados.** Una forma de cinco versos en una obra de tres mil ocupa
+ * **En pantalla, un sector nunca baja de dos grados.** Una forma de cinco versos en una obra de tres mil ocupa
  * medio grado, y con el filete blanco entre sectores desaparece: el gráfico diría que no está.
  * Es lo que hacía ECharts con `minAngle`, y se conserva al pasar a d3. Lo que se da a los pequeños
  * sale de los demás en proporción, así que el gráfico miente un poco en los pequeños y nada en el
  * orden: por eso la cifra exacta va siempre al lado, en la leyenda.
+ * Las figuras descargables pasan un mínimo de cero para conservar la proporción exacta.
  *
  * Los ángulos van en radianes desde las doce y en el sentido del reloj, que es como los espera
  * `d3-shape`.
@@ -14,6 +15,16 @@ export type Sector = { inicio: number; fin: number };
 
 const VUELTA = Math.PI * 2;
 export const ANGULO_MINIMO = (2 * Math.PI) / 180;
+
+/** Centro del anillo: solo rotula cuando el texto cabe entre los dos límites del sector. */
+export function posicionRotuloDeRosquilla(sector: Sector, tamano: number, texto: string) {
+	const radio = tamano / 2 * 0.59;
+	const amplitud = sector.fin - sector.inicio;
+	const disponible = 2 * radio * Math.sin(Math.min(amplitud, Math.PI) / 2);
+	if (disponible < texto.length * 6.5 + 10 || tamano / 2 * 0.34 < 17) return null;
+	const medio = (sector.inicio + sector.fin) / 2;
+	return { x: Math.sin(medio) * radio, y: -Math.cos(medio) * radio };
+}
 
 export function sectoresDeRosquilla(valores: number[], minimo = ANGULO_MINIMO): Sector[] {
 	const positivos = valores.map((valor) => Math.max(0, valor));

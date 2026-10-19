@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ANGULO_MINIMO, sectoresDeRosquilla } from './rosquilla';
+import { ANGULO_MINIMO, sectoresDeRosquilla, posicionRotuloDeRosquilla } from './rosquilla';
 
 const amplitudes = (valores: number[]) =>
 	sectoresDeRosquilla(valores).map((sector) => sector.fin - sector.inicio);
@@ -34,5 +34,26 @@ describe('sectoresDeRosquilla', () => {
 
 	it('sin nada que repartir, todo vacío', () => {
 		expect(amplitudes([0, 0])).toEqual([0, 0]);
+	});
+	it('con mínimo cero conserva incluso las proporciones de los sectores pequeños', () => {
+		const sectores = sectoresDeRosquilla([3000, 5, 1], 0);
+		expect((sectores[1].fin - sectores[1].inicio) / (Math.PI * 2)).toBeCloseTo(5 / 3006);
+		expect((sectores[2].fin - sectores[2].inicio) / (Math.PI * 2)).toBeCloseTo(1 / 3006);
+	});
+});
+
+describe('números interiores del perfil', () => {
+	it('omite el número cuando no cabe en un sector pequeño', () => {
+		expect(posicionRotuloDeRosquilla({ inicio: 0, fin: 0.05 }, 280, '12')).toBeNull();
+	});
+	it('sitúa el número en el centro del anillo y del sector', () => {
+		const posicion = posicionRotuloDeRosquilla({ inicio: 0, fin: Math.PI }, 280, '1');
+		expect(posicion?.x).toBeCloseTo(140 * 0.59);
+		expect(posicion?.y).toBeCloseTo(0);
+	});
+	it('comprueba el espacio para todas las cifras del identificador', () => {
+		const sector = { inicio: 0, fin: 0.24 };
+		expect(posicionRotuloDeRosquilla(sector, 280, '1')).not.toBeNull();
+		expect(posicionRotuloDeRosquilla(sector, 280, '12')).toBeNull();
 	});
 });

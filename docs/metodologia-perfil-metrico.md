@@ -199,6 +199,13 @@ La imagen conserva el
 sello del sitio y su leyenda. La fuente y la licencia se muestran en el panel de descarga y se
 mantienen en los metadatos SVG/PNG, sin pie bibliográfico ni línea de «Anotación métrica» visibles.
 
+El perfil métrico descargable comparte la asignación de grises y tramas del diagrama de esa obra,
+también al mostrar sus jornadas. Cada muestra de la leyenda conserva el nombre y su porcentaje o
+número de versos. La variante numerada mantiene un identificador por forma en toda la imagen y
+solo lo dibuja dentro de los sectores donde cabe; no añade guías exteriores. Las figuras, tanto
+en color como en blanco y negro, usan ángulos exactamente proporcionales, sin el mínimo de dos
+grados que conserva el componente de pantalla. Las formas pequeñas siguen figurando en la leyenda.
+
 ### 1.8 Arrays de filtro (facetas del catálogo)
 
 Guardan **slugs** (`termino`) para filtrar por solapamiento (`&&`/GIN). La etiqueta visible se

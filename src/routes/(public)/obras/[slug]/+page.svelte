@@ -522,8 +522,8 @@
 	}
 	const figuraPerfil = $derived<Figura>(
 		metricViewMode === 'por_jornadas'
-			? { titulo: 'Perfil métrico por jornadas', archivo: 'perfil-metrico-por-jornadas', admiteGrises: false }
-			: { titulo: 'Perfil métrico', archivo: 'perfil-metrico', admiteGrises: false }
+			? { titulo: 'Perfil métrico por jornadas', archivo: 'perfil-metrico-por-jornadas', admiteGrises: true, rotulosBlancoNegro: true }
+			: { titulo: 'Perfil métrico', archivo: 'perfil-metrico', admiteGrises: true, rotulosBlancoNegro: true }
 	);
 	const gruposDelPerfil = $derived(
 		metricViewMode === 'por_jornadas'
@@ -1121,11 +1121,14 @@
 					{#if secuenciasOrdenadas.length > 0}
 						<FiguraDescargable figura={figuraPerfil} procedencia={procedenciaFigura}>
 							{@render perfilEnPantalla()}
-							{#snippet grafico()}
+							{#snippet grafico(opciones)}
 								<MetricDistributionPieFigura
 									grupos={gruposDelPerfil}
 									colorByForma={colorByForma}
 									valueMode={pieValueMode}
+									paleta={opciones.paleta}
+									rotulos={opciones.rotulos}
+									estilosGrises={tramasDelDiagrama}
 								/>
 							{/snippet}
 						</FiguraDescargable>

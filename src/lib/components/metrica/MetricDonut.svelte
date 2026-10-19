@@ -6,6 +6,9 @@
 		color: string;
 		/** Lo que dice el aviso nativo al pasar por encima. */
 		titulo?: string;
+		rotulo?: string;
+		tintaRotulo?: string;
+		fondoRotulo?: string;
 	};
 </script>
 
@@ -23,7 +26,7 @@
 	// pasar el ratón.
 	import { arc } from 'd3-shape';
 	import { TINTA, CUERPO } from '$lib/figuras/tema';
-	import { sectoresDeRosquilla } from './rosquilla';
+	import { sectoresDeRosquilla, posicionRotuloDeRosquilla } from './rosquilla';
 
 	const props = $props<{
 		sectores: SectorDeRosquilla[];
@@ -40,6 +43,8 @@
 		/** Posición y tamaño cuando va dentro de otra figura. */
 		x?: number;
 		y?: number;
+		/** Cero conserva los ángulos exactos en las figuras descargables. */
+		anguloMinimo?: number;
 	}>();
 
 	const tamano = $derived(props.tamano ?? 224);
@@ -48,7 +53,7 @@
 	const interior = $derived(radio * 0.42);
 	const APAGADO = 0.35;
 
-	const geometria = $derived(sectoresDeRosquilla(props.sectores.map((s: SectorDeRosquilla) => s.valor)));
+	const geometria = $derived(sectoresDeRosquilla(props.sectores.map((s: SectorDeRosquilla) => s.valor), props.anguloMinimo));
 	const dibujar = $derived(arc<{ inicio: number; fin: number; exterior: number }>()
 		.innerRadius(interior)
 		.outerRadius((d) => d.exterior)
@@ -87,6 +92,12 @@
 				>
 					{#if sector.titulo}<title>{sector.titulo}</title>{/if}
 				</path>
+				{#if sector.rotulo}
+					{@const posicion = posicionRotuloDeRosquilla(angulos, tamano, sector.rotulo)}
+					{#if posicion}
+						<text x={posicion.x} y={posicion.y} font-size="11" font-weight="600" text-anchor="middle" dominant-baseline="middle" fill={sector.tintaRotulo ?? TINTA.texto} stroke={sector.fondoRotulo ?? '#ffffff'} stroke-width="3" paint-order="stroke" stroke-linejoin="round" pointer-events="none">{sector.rotulo}</text>
+					{/if}
+				{/if}
 			{/if}
 		{/each}
 		{#if props.centro}
