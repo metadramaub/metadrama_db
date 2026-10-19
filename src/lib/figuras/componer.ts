@@ -8,7 +8,7 @@
  * La cita y la licencia se muestran en el panel de descarga y se conservan en los metadatos.
  */
 import type { CreditoFigura, MetadatosFigura, Tramo } from './cita';
-import { CUERPO, FAMILIA_TEXTO, TINTA } from './tema';
+import { CUERPO, FAMILIA_TEXTO, FAMILIA_TITULO, TINTA } from './tema';
 import type { ItemLeyenda } from './tipos';
 import { svgDeTrama } from './tramas';
 
@@ -19,7 +19,7 @@ export type GraficoSerializado = {
 	alto: number;
 };
 
-export type EstiloTexto = { cuerpo: number; peso?: number; cursiva?: boolean };
+export type EstiloTexto = { cuerpo: number; peso?: number; cursiva?: boolean; familia?: 'titulo' | 'texto' };
 
 /** Ancho de un texto en unidades del SVG. En el navegador lo da un canvas; en las pruebas, una cuenta. */
 export type Medidor = (texto: string, estilo: EstiloTexto) => number;
@@ -32,7 +32,8 @@ const ANCHO_MINIMO = 640;
 /** Un gráfico más ancho se reduce: a más, en una página impresa la letra quedaría ilegible. */
 const ANCHO_MAXIMO_GRAFICO = 1000;
 
-const TITULO = { cuerpo: 20, peso: 700, interlinea: 26 };
+const TITULO = { cuerpo: 28, peso: 400, interlinea: 34 };
+const SUBTITULO = { cuerpo: 14, interlinea: 20 };
 const LEYENDA = { cuerpo: CUERPO.referencia, alto: 22, muestra: 12, linea: 18, hueco: 22 };
 
 export function escaparXml(texto: string): string {
@@ -219,8 +220,8 @@ export function componerFigura({
 	const partes: string[] = [];
 	let y = MARGEN;
 
-	const titulo = partirEnLineas(credito.encabezado, util, TITULO.cuerpo, (texto, estilo) =>
-		medir(texto, { ...estilo, peso: TITULO.peso })
+	const titulo = partirEnLineas(credito.obra, util, TITULO.cuerpo, (texto, estilo) =>
+		medir(texto, { ...estilo, peso: TITULO.peso, familia: 'titulo' })
 	);
 	partes.push(
 		parrafo(
@@ -228,10 +229,14 @@ export function componerFigura({
 			MARGEN,
 			y + TITULO.cuerpo,
 			TITULO.interlinea,
-			`font-size="${TITULO.cuerpo}" font-weight="${TITULO.peso}" fill="${TINTA.texto}"`
+			`font-family="${escaparXml(FAMILIA_TITULO)}" font-size="${TITULO.cuerpo}" font-weight="${TITULO.peso}" fill="${TINTA.texto}"`
 		)
 	);
 	y += titulo.length * TITULO.interlinea;
+	const subtitulo = partirEnLineas([{ texto: credito.titulo }], util, SUBTITULO.cuerpo, medir);
+	partes.push(parrafo(subtitulo, MARGEN, y + SUBTITULO.cuerpo, SUBTITULO.interlinea,
+		`font-size="${SUBTITULO.cuerpo}" font-weight="400" fill="${TINTA.secundario}"`));
+	y += subtitulo.length * SUBTITULO.interlinea;
 
 	y += 18;
 

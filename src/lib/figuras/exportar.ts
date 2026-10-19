@@ -5,10 +5,11 @@
  */
 import interNormal from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import interCursiva from '@fontsource-variable/inter/files/inter-latin-wght-italic.woff2?url';
+import bonaCursiva from '@fontsource/bona-nova/files/bona-nova-latin-400-italic.woff2?url';
 import type { CreditoFigura } from './cita';
 import { componerFigura, rdfDeMetadatos, type FiguraCompuesta, type Medidor } from './componer';
 import { conMetadatos } from './png';
-import { FAMILIA_FIGURA } from './tema';
+import { FAMILIA_FIGURA, FAMILIA_TITULO_FIGURA } from './tema';
 import type { ItemLeyenda } from './tipos';
 
 /** Ancho del PNG en píxeles: a 300 ppp da unos 25 cm, más que el ancho de caja de una revista. */
@@ -48,11 +49,11 @@ export function serializarGrafico(contenedor: Element): { svg: string; ancho: nu
 
 let lienzoDeMedir: CanvasRenderingContext2D | null = null;
 
-/** Mide con la Inter que ya ha cargado la página, que es la misma que va dentro de la figura. */
-const medir: Medidor = (texto, { cuerpo, peso = 400, cursiva = false }) => {
+/** Mide con las mismas fuentes incrustadas en el SVG, incluida la Bona Nova del título. */
+const medir: Medidor = (texto, { cuerpo, peso = 400, cursiva = false, familia = 'texto' }) => {
 	lienzoDeMedir ??= document.createElement('canvas').getContext('2d');
 	if (!lienzoDeMedir) return texto.length * cuerpo * 0.55;
-	lienzoDeMedir.font = `${cursiva ? 'italic ' : ''}${peso} ${cuerpo}px Inter, sans-serif`;
+	lienzoDeMedir.font = `${cursiva ? 'italic ' : ''}${peso} ${cuerpo}px "${familia === 'titulo' ? FAMILIA_TITULO_FIGURA : FAMILIA_FIGURA}"`;
 	return lienzoDeMedir.measureText(texto).width;
 };
 
@@ -70,26 +71,29 @@ async function aBase64(url: string): Promise<string> {
 let estiloFuentes: Promise<string> | null = null;
 
 /**
- * Las `@font-face` con la Inter incrustada.
+ * Las `@font-face` con Inter y la Bona Nova cursiva del título incrustadas.
  *
  * **Va dentro del archivo** porque un SVG convertido en imagen no puede cargar nada de fuera: sin
  * esto el PNG salía en Arial. Solo el juego latino, que cubre el castellano, las comillas
  * angulares y las rayas; con la variable caben todos los pesos en un archivo.
  */
 function cargarFuentes(): Promise<string> {
-	estiloFuentes ??= Promise.all([aBase64(interNormal), aBase64(interCursiva)])
-		.then(([normal, cursiva]) =>
-			[
-				[normal, 'normal'],
-				[cursiva, 'italic']
-			]
-				.map(
-					([datos, estilo]) =>
-						`@font-face{font-family:'${FAMILIA_FIGURA}';font-style:${estilo};font-weight:100 900;` +
-						`src:url(data:font/woff2;base64,${datos}) format('woff2');}`
-				)
-				.join('')
-		)
+	estiloFuentes ??= Promise.all([aBase64(interNormal), aBase64(interCursiva), aBase64(bonaCursiva)])
+		.then(async ([normal, cursiva, bona]) => {
+			const fuentes = [
+				{ datos: normal, estilo: 'normal', familia: FAMILIA_FIGURA, peso: '100 900' },
+				{ datos: cursiva, estilo: 'italic', familia: FAMILIA_FIGURA, peso: '100 900' },
+				{ datos: bona, estilo: 'italic', familia: FAMILIA_TITULO_FIGURA, peso: '400' }
+			];
+			await Promise.all(fuentes.map(async ({ datos, estilo, familia, peso }) => {
+				const fuente = new FontFace(familia, `url(data:font/woff2;base64,${datos})`, { style: estilo, weight: peso });
+				document.fonts.add(await fuente.load());
+			}));
+			return fuentes.map(({ datos, estilo, familia, peso }) =>
+				`@font-face{font-family:'${familia}';font-style:${estilo};font-weight:${peso};` +
+				`src:url(data:font/woff2;base64,${datos}) format('woff2');}`
+			).join('');
+		})
 		.catch((error) => {
 			estiloFuentes = null;
 			throw error;

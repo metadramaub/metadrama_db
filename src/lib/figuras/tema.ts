@@ -47,6 +47,8 @@ export const CUERPO = {
 
 /** Nombre con el que la figura descargada declara la Inter que lleva dentro. */
 export const FAMILIA_FIGURA = 'Inter Figura';
+export const FAMILIA_TITULO_FIGURA = 'Bona Nova Figura';
+export const FAMILIA_TITULO = `'${FAMILIA_TITULO_FIGURA}', 'Bona Nova', Georgia, serif`;
 
 /** Lo que pide la figura descargada: la suya primero, y lo que haya si un programa no la lee. */
 export const FAMILIA_TEXTO = `'${FAMILIA_FIGURA}', Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif`;

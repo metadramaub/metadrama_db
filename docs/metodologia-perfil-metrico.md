@@ -192,8 +192,10 @@ los contrastes lisos se reservan primero a las formas con los tramos más cortos
 el número de cada forma dentro del tramo; solo los que no caben salen fuera, con guías cortas y
 separación entre etiquetas. El tramo conserva siempre su extensión exacta.
 
-En todos los gráficos descargables, el encabezado reúne el título del gráfico y el de la obra en
-cursiva; solo añade la jornada cuando se descarga una jornada individual. La imagen conserva el
+En todos los gráficos descargables, la obra encabeza la imagen en Bona Nova cursiva y mayor tamaño;
+debajo figura la descripción del gráfico en Inter, con peso normal y su alcance cuando se elige
+obra completa, todas las jornadas o una jornada individual. Ambas fuentes se incrustan en el archivo.
+La imagen conserva el
 sello del sitio y su leyenda. La fuente y la licencia se muestran en el panel de descarga y se
 mantienen en los metadatos SVG/PNG, sin pie bibliográfico ni línea de «Anotación métrica» visibles.
 

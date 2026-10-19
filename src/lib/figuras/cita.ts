@@ -84,7 +84,6 @@ export function autoriaDeFigura(procedencia: ProcedenciaFigura): string {
 
 export type CreditoFigura = {
 	titulo: string;
-	encabezado: Tramo[];
 	/** Título de la obra con su estilo, para consumidores de los créditos. */
 	obra: Tramo[];
 	/** Fuente y licencia para el panel de descarga; no se dibujan en la imagen. */
@@ -116,15 +115,16 @@ export function creditoDeFigura(
 	const autor = procedencia.autorFicha?.trim();
 	const derechos = `${VERSOLOGIA.licencia}. ${autor ? `${autor} y ${VERSOLOGIA.nombre}` : VERSOLOGIA.nombre}.`;
 	const jornada = figura.contenidos?.find((item) => item.valor === opciones.contenido)?.jornada;
-	const encabezado: Tramo[] = [
-		{ texto: `${figura.titulo} de ` },
-		{ texto: procedencia.obraTitulo, cursiva: true },
-		...(jornada ? [{ texto: ` (${jornada})` }] : [])
-	];
-	const titulo = textoDe(encabezado);
+	const titulo = jornada
+		? `${figura.titulo} de la ${jornada.toLocaleLowerCase('es')}`
+		: opciones.contenido === 'obra-completa'
+			? `${figura.titulo} de la obra completa`
+			: opciones.contenido === 'todas-las-jornadas'
+				? `${figura.titulo} por jornadas`
+				: figura.titulo;
+	const tituloCompleto = `${procedencia.obraTitulo}. ${titulo}`;
 	return {
-		titulo: figura.titulo,
-		encabezado,
+		titulo,
 		obra: [{ texto: procedencia.obraTitulo, cursiva: true }],
 		pie: [
 			[{ texto: 'Fuente: ' }, ...cita],
@@ -132,11 +132,11 @@ export function creditoDeFigura(
 		],
 		cita: textoDe(cita),
 		metadatos: {
-			titulo,
+			titulo: tituloCompleto,
 			autor: [autor, `${VERSOLOGIA.nombre} (${VERSOLOGIA.responsables})`]
 				.filter(Boolean)
 				.join('; '),
-			descripcion: `${titulo}. Fuente: ${textoDe(cita)} ${autoria}`,
+			descripcion: `${tituloCompleto}. Fuente: ${textoDe(cita)} ${autoria}`,
 			derechos,
 			licenciaUrl: VERSOLOGIA.licenciaUrl,
 			fuente: urlDeObra(procedencia.obraSlug),
