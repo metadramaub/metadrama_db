@@ -4,10 +4,8 @@ import { buildObraCapabilities, requireEditorProfile } from '$lib/server/auth';
 import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import { obraCreateSchema, queryFilterSchema } from '$lib/utils/validators';
 import { forbiddenResponse, validationErrorResponse } from '$lib/server/http';
+import { createObras } from '$lib/server/create-obras';
 
-function normalizeTitulo(titulo: string) {
-	return titulo.normalize('NFD').replaceAll(/\p{M}/gu, '').trim().toLowerCase();
-}
 
 export const GET: RequestHandler = async ({ locals, url }) => {
 	const profile = await requireEditorProfile({ locals });
@@ -114,49 +112,6 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	}
 
 	const payload = parsed.data;
-	const { data: assignedEditor } = await locals.supabase
-		.from('editores')
-		.select('user_id,activo')
-		.eq('user_id', payload.editor_asignado)
-		.maybeSingle();
-	if (!assignedEditor || !assignedEditor.activo) {
-		return json(
-			{
-				error: 'validation_error',
-				details: [{ path: 'editor_asignado', message: 'Editor asignado inválido o inactivo.' }]
-			},
-			{ status: 422 }
-		);
-	}
-
-	const estados = await loadInternalVocabulario(locals.supabase, ['estado']);
-	const estadoBorrador = estados.find((item) => item.termino.trim().toLowerCase() === 'borrador');
-	if (!estadoBorrador?.termino_id) {
-		return json(
-			{ error: 'db_error', message: 'No existe término borrador en vocabularios.estado.' },
-			{ status: 500 }
-		);
-	}
-
-	const insertPayload = {
-		titulo: payload.titulo.trim(),
-		titulo_normalizado: normalizeTitulo(payload.titulo),
-		editor_asignado: payload.editor_asignado,
-		estado: estadoBorrador.termino_id,
-		genero_id: payload.genero_id ?? null
-	};
-
-	const { data, error } = await locals.supabase
-		.from('obras')
-		.insert(insertPayload)
-		.select('*')
-		.single();
-	if (error || !data) {
-		return json(
-			{ error: 'db_error', message: error?.message ?? 'No se pudo crear la obra.' },
-			{ status: 500 }
-		);
-	}
-
-	return json({ obra: data }, { status: 201 });
+	const [obra] = await createObras(locals, [payload.titulo], payload.editor_asignado, payload.genero_id);
+	return json({ obra }, { status: 201 });
 };

@@ -23,6 +23,7 @@
 		const pathSegments = $page.url.pathname.split('/').filter(Boolean);
 		const obraTitle = ($page.data as { obra?: { titulo?: string } } | undefined)?.obra?.titulo?.trim();
 		const authorName = ($page.data as { autor?: { nombre_completo?: string } } | undefined)?.autor?.nombre_completo?.trim();
+		const editorName = ($page.data as { editor?: { nombre_completo?: string } } | undefined)?.editor?.nombre_completo?.trim();
 		const isObraDetailPath =
 			pathSegments.length >= 3 && pathSegments[0] === 'dashboard' && pathSegments[1] === 'obras';
 		const isAuthorDetailPath =
@@ -36,6 +37,9 @@
 			}
 			if (isAuthorDetailPath && index === 2 && authorName) {
 				return { label: authorName, preserveCase: true, href };
+			}
+			if (pathSegments[1] === 'editores' && index === 2 && editorName) {
+				return { label: editorName, preserveCase: true, href };
 			}
 			return { label: segment.replaceAll('-', ' '), href };
 		});

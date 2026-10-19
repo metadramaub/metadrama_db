@@ -9,11 +9,12 @@ export const load: PageServerLoad = async ({ locals }) => {
 	}
 
 	const profile = await findEditorProfile({ locals }, user.id);
-	if (profile) {
+	if (profile?.activo) {
 		throw redirect(303, '/dashboard');
 	}
 
 	return {
+		disabled: profile?.activo === false,
 		userId: user.id,
 		email: user.email ?? ''
 	};

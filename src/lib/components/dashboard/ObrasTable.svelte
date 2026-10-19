@@ -19,7 +19,21 @@
 		canPreviewPublicFicha?: boolean;
 	}
 
-	const props = $props<{ obras: ObraRow[] }>();
+	const props = $props<{
+		obras: ObraRow[];
+		selectedIds?: string[];
+		onSelectionChange?: (ids: string[]) => void;
+		embedded?: boolean;
+	}>();
+	const selected = $derived(props.selectedIds ?? []);
+	const allSelected = $derived(props.obras.length > 0 && props.obras.every((obra: ObraRow) => selected.includes(obra.obra_id)));
+	function toggleSelection(id: string) {
+		props.onSelectionChange?.(selected.includes(id) ? selected.filter((value: string) => value !== id) : [...selected, id]);
+	}
+	function toggleAll() {
+		const visible = new Set(props.obras.map((obra: ObraRow) => obra.obra_id));
+		props.onSelectionChange?.(allSelected ? selected.filter((id: string) => !visible.has(id)) : [...new Set([...selected, ...visible])]);
+	}
 	const dispatch = createEventDispatcher<{ open: string; preview: string }>();
 	type SortField = 'titulo' | 'updated_at';
 	type SortDirection = 'asc' | 'desc';
@@ -81,10 +95,11 @@
 	}
 </script>
 
-<div class="card overflow-x-auto">
+<div class={props.embedded ? 'overflow-x-auto' : 'card overflow-x-auto'}>
 	<table class="min-w-full text-left text-sm">
 		<thead class="bg-[color:var(--muted)]">
 			<tr>
+				{#if props.onSelectionChange}<th class="px-3 py-2"><input type="checkbox" aria-label="Seleccionar todas las obras filtradas" checked={allSelected} onchange={toggleAll} /></th>{/if}
 				<th class="px-3 py-2">
 					<button class="underline-offset-2 hover:underline" onclick={() => toggleSort('titulo')}>
 						Título{sortIndicator('titulo')}
@@ -103,13 +118,14 @@
 		<tbody>
 			{#if sortedObras.length === 0}
 				<tr>
-					<td class="px-3 py-4 text-[color:var(--muted-foreground)]" colspan={5}>
+					<td class="px-3 py-4 text-[color:var(--muted-foreground)]" colspan={props.onSelectionChange ? 6 : 5}>
 						No hay obras para mostrar.
 					</td>
 				</tr>
 			{:else}
 				{#each sortedObras as obra}
 					<tr class="border-t border-[color:var(--border)]">
+						{#if props.onSelectionChange}<td class="px-3 py-2"><input type="checkbox" aria-label={`Seleccionar ${obra.titulo}`} checked={selected.includes(obra.obra_id)} onchange={() => toggleSelection(obra.obra_id)} /></td>{/if}
 						<td class="px-3 py-2">{obra.titulo}</td>
 						<td class="px-3 py-2">
 							<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-1 text-xs">{obra.estadoTerm}</span>

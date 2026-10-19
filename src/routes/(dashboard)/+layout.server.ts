@@ -14,6 +14,9 @@ export const load: LayoutServerLoad = async ({ locals, url }) => {
 	if (!profile) {
 		throw redirect(303, '/auth/pendiente');
 	}
+	if (!profile.activo) {
+		throw redirect(303, '/auth/pendiente');
+	}
 
 	return {
 		user,

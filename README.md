@@ -56,6 +56,42 @@ npm run build
 
 ## Base de datos (Supabase)
 
+### Gestión de editores
+
+Administración e IP disponen de `/dashboard/editores`: alta sin correo, perfil editorial,
+habilitación del acceso, creación de obras y asignaciones en lote. El envío o reenvío de la
+invitación es una acción independiente, después de preparar las obras. Una cuenta que ya ha
+activado su acceso no se vuelve a invitar. Los correos existentes no se sobrescriben al dar de alta.
+Para cuentas activadas, «Acceso» permite enviar un correo de recuperación de contraseña tras
+confirmar el destinatario. Reutiliza el flujo de cambio de contraseña y la plantilla de recuperación
+de Supabase; no modifica la contraseña al enviar el correo.
+
+El servidor necesita `SUPABASE_SERVICE_ROLE_KEY`, tanto en `.env.local` como en el alojamiento
+de la aplicación. Es una clave privada de Supabase: nunca debe llevar prefijos `PUBLIC_` o
+`VITE_`, ni enviarse al navegador. Las operaciones comprueban el perfil admin/IP antes de usarla.
+Las URL permitidas de Auth deben admitir `/auth/callback` en el dominio del dashboard; se conserva
+el flujo existente para crear la contraseña. El correo se envía con la plantilla de invitación
+y el SMTP configurados en Supabase.
+
+Desde «Obras» y desde la ficha de un editor se pueden cambiar responsables y añadir o retirar
+revisores. Cada lote es una transacción, rechaza selecciones obsoletas y conserva un registro en
+`asignaciones_historial`. Al hacer responsable a un revisor se retira su revisión de esa obra.
+Los cambios de responsable mantienen la invalidación habitual de los datos públicos.
+
+Comprobaciones específicas:
+
+```sh
+npm test -- src/lib/server/editor-management.test.ts src/lib/utils/editor-management.test.ts
+# Ejecuta la función SQL real con fixtures y ROLLBACK; necesita la CLI enlazada.
+node scripts/test-editor-management.mjs
+# Prueba HTTP contra npm run dev -- --host localhost --port 5174 --strictPort.
+# Crea cuentas y obras temporales en el Supabase enlazado y las elimina al terminar.
+# No envía invitaciones ni correos.
+node scripts/test-editor-management-http.mjs --allow-live-fixtures
+```
+
+### Comandos de base de datos
+
 Comandos más usados en este repo:
 
 ```sh

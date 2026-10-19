@@ -53,6 +53,10 @@ export function canReadAllObras(role: EditorRole): boolean {
 	return role === 'admin' || role === 'ip';
 }
 
+export function canManageEditors(role: EditorRole): boolean {
+	return role === 'admin' || role === 'ip';
+}
+
 export function canEditAssignedContent(role: EditorRole): boolean {
 	return role === 'editor' || role === 'admin' || role === 'ip';
 }

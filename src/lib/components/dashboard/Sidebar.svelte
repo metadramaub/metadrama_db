@@ -25,6 +25,7 @@
 		panelLeftOpen: IconComponent | null;
 		settings: IconComponent | null;
 		userRound: IconComponent | null;
+		usersRound: IconComponent | null;
 	}>({
 		arrowLeft: null,
 		bell: null,
@@ -36,7 +37,8 @@
 		panelLeftClose: null,
 		panelLeftOpen: null,
 		settings: null,
-		userRound: null
+		userRound: null,
+		usersRound: null
 	});
 	let iconsLoadFailed = $state(false);
 
@@ -54,6 +56,7 @@
 	const PanelLeftOpenIcon = $derived(icons.panelLeftOpen);
 	const SettingsIcon = $derived(icons.settings);
 	const UserRoundIcon = $derived(icons.userRound);
+	const UsersRoundIcon = $derived(icons.usersRound);
 
 	const isAdminIp = $derived(
 		props.profile.roleTerm === 'admin' || props.profile.roleTerm === 'ip'
@@ -75,7 +78,8 @@
 					panelLeftCloseModule,
 					panelLeftOpenModule,
 					settingsModule,
-					userRoundModule
+					userRoundModule,
+					usersRoundModule
 				] = await Promise.all([
 					import('lucide-svelte/icons/arrow-left'),
 					import('lucide-svelte/icons/bell'),
@@ -87,7 +91,8 @@
 					import('lucide-svelte/icons/panel-left-close'),
 					import('lucide-svelte/icons/panel-left-open'),
 					import('lucide-svelte/icons/settings'),
-					import('lucide-svelte/icons/user-round')
+					import('lucide-svelte/icons/user-round'),
+					import('lucide-svelte/icons/users-round')
 				]);
 
 				if (cancelled) return;
@@ -103,7 +108,8 @@
 					panelLeftClose: panelLeftCloseModule.default,
 					panelLeftOpen: panelLeftOpenModule.default,
 					settings: settingsModule.default,
-					userRound: userRoundModule.default
+					userRound: userRoundModule.default,
+					usersRound: usersRoundModule.default
 				};
 			} catch (error) {
 				if (cancelled) return;
@@ -252,6 +258,13 @@
 		</a>
 
 		{#if isAdminIp}
+			<a
+				class={`flex items-center gap-2 px-3 py-2 text-[color:var(--foreground)] transition-colors hover:bg-[color:var(--muted)] ${collapsed ? 'md:h-11 md:w-11 md:self-center md:justify-center md:px-0' : ''}`}
+				href="/dashboard/editores" aria-label="Editores" title="Editores"
+			>
+				{#if UsersRoundIcon}<UsersRoundIcon size={16} aria-hidden="true" />{/if}
+				<span class={collapsed ? 'md:sr-only' : ''}>Editores</span>
+			</a>
 			<a
 				class={`flex items-center gap-2 px-3 py-2 text-[color:var(--foreground)] transition-colors hover:bg-[color:var(--muted)] ${
 					collapsed ? 'md:h-11 md:w-11 md:self-center md:justify-center md:px-0' : ''

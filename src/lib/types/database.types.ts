@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
+    PostgrestVersion: "14.1"
   }
   public: {
     Tables: {
@@ -812,6 +812,54 @@ export type Database = {
           version_esquema?: number
         }
         Relationships: []
+      }
+      asignaciones_historial: {
+        Row: {
+          antes: Json
+          cambio_id: string
+          created_at: string
+          despues: Json
+          lote_id: string
+          obra_id: string
+          operacion: string
+          realizado_por: string
+        }
+        Insert: {
+          antes: Json
+          cambio_id?: string
+          created_at?: string
+          despues: Json
+          lote_id: string
+          obra_id: string
+          operacion: string
+          realizado_por: string
+        }
+        Update: {
+          antes?: Json
+          cambio_id?: string
+          created_at?: string
+          despues?: Json
+          lote_id?: string
+          obra_id?: string
+          operacion?: string
+          realizado_por?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "asignaciones_historial_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "asignaciones_historial_realizado_por_fkey"
+            columns: ["realizado_por"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       atribucion_autores: {
         Row: {
@@ -4047,6 +4095,10 @@ export type Database = {
       generos_intervinientes_validos: {
         Args: { valores: string[] }
         Returns: boolean
+      }
+      gestionar_asignaciones_lote: {
+        Args: { p_destino: string; p_obras: Json; p_operacion: string }
+        Returns: number
       }
       get_autor_publico: { Args: { p_slug: string }; Returns: Json }
       get_autores_listado_publico: { Args: never; Returns: Json }

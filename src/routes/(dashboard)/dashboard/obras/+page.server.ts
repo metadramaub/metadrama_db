@@ -2,6 +2,7 @@ import type { PageServerLoad } from './$types';
 import { buildObraCapabilities } from '$lib/server/auth';
 import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import { resolveDashboardObrasScopePlan } from '$lib/server/dashboard-obras';
+import { loadAssignmentWorks } from '$lib/server/editor-management';
 import type { Tables } from '$lib/types/database.types';
 import { error } from '@sveltejs/kit';
 
@@ -47,7 +48,11 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 		}
 	}
 
-	const { data: obras, error: obrasError } = await query.limit(200);
+	// Administración necesita el corpus completo para repartirlo, sin el antiguo límite de 200.
+	const allAssignmentWorks = isAdminOrIp ? await loadAssignmentWorks(locals) : null;
+	const { data: obras, error: obrasError } = allAssignmentWorks
+		? { data: allAssignmentWorks.filter((work) => scope === 'all' || work.editor_asignado === profile.userId || reviewerAssignedSet.has(work.obra_id)), error: null }
+		: await query.limit(200);
 	if (obrasError) {
 		throw error(500, `No se pudieron cargar las obras: ${obrasError.message}`);
 	}
@@ -61,7 +66,7 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 			? locals.supabase.from('editores').select('user_id,nombre_completo').in('user_id', editorIds)
 			: Promise.resolve({ data: [] }),
 		isAdminOrIp
-			? locals.supabase.from('editores').select('user_id,nombre_completo').eq('activo', true)
+			? locals.supabase.from('editores').select('user_id,nombre_completo,activo').order('nombre_completo')
 			: Promise.resolve({ data: [] })
 	]);
 
@@ -92,6 +97,7 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 			);
 			return {
 				...obra,
+				reviewer_ids: allAssignmentWorks?.find((work) => work.obra_id === obra.obra_id)?.reviewer_ids ?? [],
 				estadoTerm,
 				editorNombre: obra.editor_asignado
 					? (editoresMap.get(obra.editor_asignado) ?? 'Sin nombre')

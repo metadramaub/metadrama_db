@@ -35,13 +35,12 @@
 <div class="flex min-h-screen items-center justify-center bg-[color:var(--background)] p-6">
 	<div class="w-full max-w-2xl">
 		<div class="card p-6">
-			<h1 class="font-display mb-2 text-3xl">ACCESO PENDIENTE</h1>
+			<h1 class="font-display mb-2 text-3xl">{data.disabled ? 'ACCESO DESHABILITADO' : 'ACCESO PENDIENTE'}</h1>
 			<p class="text-sm text-[color:var(--muted-foreground)]">
-				El usuario ya fue autenticado, pero todavía no tiene perfil asignado en la base de
-				datos.
+				{data.disabled ? 'Tu acceso editorial está deshabilitado. Contacta con la administración del proyecto para habilitarlo.' : 'Tu cuenta está autenticada, pero todavía no tiene un perfil editorial. Contacta con la administración del proyecto.'}
 			</p>
 			<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
-				Pasa este UUID al admin para crear la fila en <code>public.editores</code>.
+				Puedes facilitar estos datos a la administración para que revise tu acceso.
 			</p>
 
 			<div class="mt-5 grid gap-3 rounded border border-[color:var(--border)] bg-white p-4 text-sm">
