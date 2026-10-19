@@ -200,7 +200,10 @@ sello del sitio y su leyenda. La fuente y la licencia se muestran en el panel de
 mantienen en los metadatos SVG/PNG, sin pie bibliográfico ni línea de «Anotación métrica» visibles.
 
 El perfil métrico descargable comparte la asignación de grises y tramas del diagrama de esa obra,
-también al mostrar sus jornadas. Cada muestra de la leyenda conserva el nombre y su porcentaje o
+también al mostrar sus jornadas. Su exportador permite elegir obra completa, todas las jornadas o
+una jornada individual, independientemente de la vista de la ficha; al abrirlo toma esa vista como
+punto de partida. Reutiliza los perfiles y el resumen de canto ya calculados para cada alcance.
+Cada muestra de la leyenda conserva el nombre y su porcentaje o
 número de versos. La variante numerada mantiene un identificador por forma en toda la imagen y
 solo lo dibuja dentro de los sectores donde cabe; no añade guías exteriores. Las figuras, tanto
 en color como en blanco y negro, usan ángulos exactamente proporcionales, sin el mínimo de dos

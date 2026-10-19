@@ -464,16 +464,18 @@
 		}))
 	);
 	const tramasDelDiagrama = $derived(tramasDeFormas(filasExportables('obra-completa')));
+	const contenidosMetricos = $derived([
+		{ valor: 'obra-completa', etiqueta: 'Obra completa' },
+		{ valor: 'todas-las-jornadas', etiqueta: 'Todas las jornadas' },
+		...jornadas.map((j) => ({ valor: `jornada-${j.jornada_num}`, etiqueta: `Jornada ${j.jornada_num}`, jornada: `Jornada ${j.jornada_num}` }))
+	]);
+	const contenidoMetricoInicial = $derived(metricViewMode === 'obra_completa' ? 'obra-completa' : 'todas-las-jornadas');
 	const figuraCodigoDeBarras = $derived<Figura>({
 		titulo: 'Diagrama métrico',
 		archivo: 'diagrama-metrico',
 		admiteGrises: true,
-		contenidos: [
-			{ valor: 'obra-completa', etiqueta: 'Obra completa' },
-			{ valor: 'todas-las-jornadas', etiqueta: 'Todas las jornadas' },
-			...jornadas.map((j) => ({ valor: `jornada-${j.jornada_num}`, etiqueta: `Jornada ${j.jornada_num}`, jornada: `Jornada ${j.jornada_num}` }))
-		],
-		contenidoInicial: metricViewMode === 'obra_completa' ? 'obra-completa' : 'todas-las-jornadas',
+		contenidos: contenidosMetricos,
+		contenidoInicial: contenidoMetricoInicial,
 		cantoInicial: cantosDeLaObra.length ? mostrarCanto : undefined,
 		rotulosBlancoNegro: true,
 		leyenda: (opciones) => {
@@ -520,20 +522,24 @@
 					cortesCuadro: cuadroMarkersByJornada.get(jornada.jornada_id) ?? []
 				}));
 	}
-	const figuraPerfil = $derived<Figura>(
-		metricViewMode === 'por_jornadas'
-			? { titulo: 'Perfil métrico por jornadas', archivo: 'perfil-metrico-por-jornadas', admiteGrises: true, rotulosBlancoNegro: true }
-			: { titulo: 'Perfil métrico', archivo: 'perfil-metrico', admiteGrises: true, rotulosBlancoNegro: true }
-	);
-	const gruposDelPerfil = $derived(
-		metricViewMode === 'por_jornadas'
-			? metricProfilesByJornada.map((perfil) => ({
-					titulo: `Jornada ${perfil.jornada.jornada_num}`,
-					items: perfil.distribution,
-					canto: perfil.canto
-				}))
-			: [{ titulo: null, items: distribucionFormasSlices, canto: cantoDelPerfil }]
-	);
+	const figuraPerfil = $derived<Figura>({
+		titulo: 'Perfil métrico',
+		archivo: 'perfil-metrico',
+		admiteGrises: true,
+		rotulosBlancoNegro: true,
+		contenidos: contenidosMetricos,
+		contenidoInicial: contenidoMetricoInicial
+	});
+	function gruposPerfilExportables(contenido = 'obra-completa') {
+		if (contenido === 'obra-completa') return [{ titulo: null, items: distribucionFormasSlices, canto: cantoDelPerfil }];
+		return metricProfilesByJornada
+			.filter((perfil) => contenido === 'todas-las-jornadas' || contenido === `jornada-${perfil.jornada.jornada_num}`)
+			.map((perfil) => ({
+				titulo: `Jornada ${perfil.jornada.jornada_num}`,
+				items: perfil.distribution,
+				canto: perfil.canto
+			}));
+	}
 	const figuraFranjas = $derived<Figura>({
 		titulo: 'Dónde cae cada forma',
 		archivo: 'donde-cae-cada-forma',
@@ -1123,7 +1129,7 @@
 							{@render perfilEnPantalla()}
 							{#snippet grafico(opciones)}
 								<MetricDistributionPieFigura
-									grupos={gruposDelPerfil}
+									grupos={gruposPerfilExportables(opciones.contenido)}
 									colorByForma={colorByForma}
 									valueMode={pieValueMode}
 									paleta={opciones.paleta}
