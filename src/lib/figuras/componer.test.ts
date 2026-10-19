@@ -102,6 +102,17 @@ describe('componerFigura', () => {
 		expect(conLeyenda.svg).toContain('Cambio de jornada');
 	});
 
+	it('incrusta el patrón de cada muestra para conservarlo también en el PNG', () => {
+		const { svg } = componerFigura({ grafico, credito, medir, leyenda: [
+			{ etiqueta: '1. Silva', color: '#ffffff', trama: { fondo: '#ffffff', tinta: '#202020', patron: 'diagonal' } },
+			{ etiqueta: '2. Romance', color: '#cccccc', trama: { fondo: '#cccccc', tinta: '#202020', patron: 'puntos' } }
+		] });
+		expect(svg).toContain('<pattern id="leyenda-trama-0"');
+		expect(svg).toContain('fill="url(#leyenda-trama-0)"');
+		expect(svg).toContain('fill="url(#leyenda-trama-1)"');
+		expect(svg).toContain('<circle cx="4" cy="4" r="1.2"');
+	});
+
 	it('respeta el trazo de cada muestra sin cambiar las leyendas que usan el estándar', () => {
 		const { svg } = componerFigura({
 			grafico, credito, medir,

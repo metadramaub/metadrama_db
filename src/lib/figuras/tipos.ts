@@ -1,3 +1,5 @@
+import type { TramaFigura } from './tramas';
+
 /** Cómo se colorea un gráfico: en color, o en grises para una publicación impresa. */
 export type Paleta = 'color' | 'grises';
 
@@ -11,7 +13,7 @@ export type OpcionesFigura = {
 	paleta: Paleta;
 	contenido?: string;
 	canto?: boolean;
-	rotulos?: 'nombres' | 'numeros';
+	rotulos?: 'patrones' | 'numeros';
 };
 
 /** Cómo se pinta una muestra en la leyenda. */
@@ -20,6 +22,7 @@ export type MuestraLeyenda = 'bloque' | 'linea' | 'linea-discontinua' | 'texto';
 export type ItemLeyenda = {
 	etiqueta: string;
 	color: string;
+	trama?: TramaFigura;
 	muestra?: MuestraLeyenda;
 	/** Estilo de las muestras de línea; si se omite, se usa el estándar de la leyenda. */
 	anchoLinea?: number;

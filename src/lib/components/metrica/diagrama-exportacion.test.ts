@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formasDeFilas, rotulosDeFila } from './diagrama-exportacion';
+import { formasDeFilas, numerosDeFila, tramasDeFormas } from './diagrama-exportacion';
 import type { FilaDeBarras } from './MetricBarcodeFigura.svelte';
 
 const fila: FilaDeBarras = {
@@ -25,26 +25,37 @@ describe('leyenda del diagrama exportado', () => {
 	});
 });
 
-describe('rótulos en blanco y negro', () => {
-	it('conserva el centro exacto de cada tramo y recorta el que cruza el inicio', () => {
-		const { items } = rotulosDeFila(fila, 1000, false);
-		expect(items).toHaveLength(3);
-		expect(items[0].origen).toBe(50);
-		expect(items[1].origen).toBe(101);
+
+describe('grises y números', () => {
+	it('reserva los contrastes lisos a las formas con tramos más cortos', () => {
+		const estilos = tramasDeFormas([fila]);
+		expect(estilos.Silva.patron).toBe('liso');
+		expect(estilos.Silva.fondo).toBe('#202020');
+		expect(estilos.Romance).not.toEqual(estilos.Silva);
 	});
-	it.each([false, true])('separa las etiquetas de pasajes próximos y las mantiene dentro del ancho (%s)', (numeros) => {
-		const densa = { ...fila, segmentos: Array.from({ length: 90 }, (_, i) => ({
-			id: String(i), forma: 'Endecasílabo encadenado', label: '', v_ini: 1100 + i, v_fin: 1100 + i
-		})) };
-		const { items, alto } = rotulosDeFila(densa, 834, numeros);
-		for (const item of items) {
-			expect(item.x).toBeGreaterThanOrEqual(0);
-			expect(item.x).toBeLessThan(834);
-			expect(item.y).toBeLessThan(alto);
+	it('deja dentro los números que caben y solo saca fuera los de tramos estrechos', () => {
+		const { items } = numerosDeFila(fila, 1000);
+		expect(items).toHaveLength(3);
+		expect(items[0]).toMatchObject({origen:50,exterior:false,numero:1});
+		expect(items[1]).toMatchObject({origen:101,exterior:true,numero:2});
+		expect(items[2].exterior).toBe(false);
+	});
+	it('separa las excepciones próximas sin mover los tramos', () => {
+		const densa = { ...fila, segmentos: Array.from({ length: 30 }, (_, i) => ({id:String(i),forma:'Silva',label:'',v_ini:1100+i,v_fin:1100+i})) };
+		const {items,alto} = numerosDeFila(densa,834);
+		expect(alto).toBeGreaterThan(0);
+		for(const item of items){
+			expect(Math.abs(item.x-item.origen)).toBeLessThanOrEqual(12);
+			expect(item.x).toBeGreaterThanOrEqual(8);
+			expect(item.x).toBeLessThanOrEqual(826);
 		}
-		for (const y of new Set(items.map((item) => item.y))) {
-			const nivel = items.filter((item) => item.y === y);
-			for (let i = 1; i < nivel.length; i++) expect(nivel[i].x - nivel[i - 1].x).toBeGreaterThanOrEqual(20);
+		for(const nivel of new Set(items.map(i=>i.nivel))){
+			const grupo=items.filter(i=>i.nivel===nivel);
+			for(let i=1;i<grupo.length;i++)expect(grupo[i].x-grupo[i-1].x).toBeGreaterThanOrEqual(20);
 		}
+	});
+	it('no confunde ninguna de las primeras doce muestras', () => {
+		const muchas = {...fila,segmentos:Array.from({length:12},(_,i)=>({id:String(i),forma:String(i),label:'',v_ini:1001+i*20,v_fin:1020+i*20}))};
+		expect(new Set(Object.values(tramasDeFormas([muchas])).map(s=>JSON.stringify(s))).size).toBe(12);
 	});
 });

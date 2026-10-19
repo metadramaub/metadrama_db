@@ -186,9 +186,11 @@ El [dictamen por nota](./revision-notas-caracterizaciones.md) recoge las decisio
 Las descargas del diagrama permiten elegir obra completa, todas las jornadas en una imagen o una
 jornada concreta, conservando la numeración original. La pista de canto se activa de forma
 independiente. La leyenda incluye solo las formas visibles, por primera aparición. En blanco y
-negro se conservan los límites y proporciones: los contornos se identifican mediante nombres
-inclinados o números reutilizados por forma, siempre con leyenda; las guías mantienen el centro
-exacto de cada tramo aunque el rótulo se desplace para evitar solapes.
+negro se conservan los límites y proporciones, con grises y patrones compartidos con las muestras
+de la leyenda. La asignación se calcula para toda la obra y se mantiene al elegir una jornada:
+los contrastes lisos se reservan primero a las formas con los tramos más cortos. Se puede añadir
+el número de cada forma dentro del tramo; solo los que no caben salen fuera, con guías cortas y
+separación entre etiquetas. El tramo conserva siempre su extensión exacta.
 
 En todos los gráficos descargables, el encabezado reúne el título del gráfico y el de la obra en
 cursiva; solo añade la jornada cuando se descarga una jornada individual. La imagen conserva el

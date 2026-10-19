@@ -20,7 +20,7 @@
 	import MetricPhenomenaIndex from '$lib/components/metrica/MetricPhenomenaIndex.svelte';
 	import MetricEvolution from '$lib/components/metrica/MetricEvolution.svelte';
 	import MetricAnalysisHeading from '$lib/components/metrica/MetricAnalysisHeading.svelte';
-	import { formasDeFilas } from '$lib/components/metrica/diagrama-exportacion';
+	import { formasDeFilas, tramasDeFormas } from '$lib/components/metrica/diagrama-exportacion';
 	import MetricBarcodeFigura, { type FilaDeBarras } from '$lib/components/metrica/MetricBarcodeFigura.svelte';
 	import MetricDistributionPieFigura from '$lib/components/metrica/MetricDistributionPieFigura.svelte';
 	import { leyendaDeTradiciones } from '$lib/components/metrica/MetricTraditionSplit.svelte';
@@ -463,6 +463,7 @@
 			color: colorByForma[colorKey] ?? colorForForma({ slug: colorKey, tipoForma: null })
 		}))
 	);
+	const tramasDelDiagrama = $derived(tramasDeFormas(filasExportables('obra-completa')));
 	const figuraCodigoDeBarras = $derived<Figura>({
 		titulo: 'Diagrama métrico',
 		archivo: 'diagrama-metrico',
@@ -481,7 +482,8 @@
 				...formasDeFilas(filas).map((f): ItemLeyenda => ({
 					etiqueta: opciones.paleta === 'grises' && opciones.rotulos === 'numeros' ? `${f.numero}. ${f.forma}` : f.forma,
 					color: colorByForma[f.clave] ?? TINTA.neutro,
-					muestra: opciones.paleta === 'grises' ? 'texto' : 'bloque'
+					muestra: 'bloque',
+					trama: opciones.paleta === 'grises' ? tramasDelDiagrama[f.clave] : undefined
 				})),
 				...(filas.some((f) => f.cortesJornada?.some((v) => v >= f.desde && v < f.hasta))
 					? [{ etiqueta: 'Cambio de jornada', color: TINTA.texto, muestra: 'linea' as const }] : []),
@@ -1059,7 +1061,7 @@
 								</div>
 							{/if}
 							{#snippet grafico(opciones)}
-								<MetricBarcodeFigura filas={filasExportables(opciones.contenido)} colorByForma={colorByForma} cantoMarkers={opciones.canto ? cantosDeLaObra : []} paleta={opciones.paleta} rotulos={opciones.rotulos} />
+								<MetricBarcodeFigura filas={filasExportables(opciones.contenido)} colorByForma={colorByForma} cantoMarkers={opciones.canto ? cantosDeLaObra : []} paleta={opciones.paleta} rotulos={opciones.rotulos} estilosGrises={tramasDelDiagrama} />
 							{/snippet}
 						</FiguraDescargable>
 					{/if}

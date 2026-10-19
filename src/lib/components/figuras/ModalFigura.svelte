@@ -43,7 +43,7 @@
 	// Se toma la vista de partida una vez; después el modal conserva sus propias elecciones.
 	let contenido = $state(untrack(() => props.figura.contenidoInicial ?? props.figura.contenidos?.[0]?.valor));
 	let canto = $state(untrack(() => props.figura.cantoInicial ?? false));
-	let rotulos = $state<'nombres' | 'numeros'>('nombres');
+	let rotulos = $state<'patrones' | 'numeros'>('patrones');
 	const opciones = $derived<OpcionesFigura>({ paleta, contenido, canto, rotulos });
 	const credito = $derived(creditoDeFigura(props.figura, props.procedencia, opciones, consulta));
 
@@ -253,8 +253,8 @@
 						<fieldset>
 							<legend class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">Identificar las formas</legend>
 							<div class="mt-2 flex flex-col gap-2 text-sm">
-								<label class="flex items-center gap-2"><input type="radio" name={`${idTitulo}-rotulos`} bind:group={rotulos} value="nombres" /> Nombres inclinados</label>
-								<label class="flex items-center gap-2"><input type="radio" name={`${idTitulo}-rotulos`} bind:group={rotulos} value="numeros" /> Números y leyenda</label>
+								<label class="flex items-center gap-2"><input type="radio" name={`${idTitulo}-rotulos`} bind:group={rotulos} value="patrones" /> Grises y patrones</label>
+								<label class="flex items-center gap-2"><input type="radio" name={`${idTitulo}-rotulos`} bind:group={rotulos} value="numeros" /> Grises y patrones con números</label>
 							</div>
 						</fieldset>
 					{/if}

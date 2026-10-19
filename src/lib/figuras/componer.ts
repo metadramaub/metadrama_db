@@ -10,6 +10,7 @@
 import type { CreditoFigura, MetadatosFigura, Tramo } from './cita';
 import { CUERPO, FAMILIA_TEXTO, TINTA } from './tema';
 import type { ItemLeyenda } from './tipos';
+import { svgDeTrama } from './tramas';
 
 export type GraficoSerializado = {
 	/** El `<svg>` del gráfico, con `width` y `height` a su tamaño natural. */
@@ -118,8 +119,12 @@ function parrafo(
 		.join('');
 }
 
-function muestraDeLeyenda(item: ItemLeyenda, x: number, y: number): string {
+function muestraDeLeyenda(item: ItemLeyenda, x: number, y: number, indice: number): string {
 	if (item.muestra === 'texto') return '';
+	if (item.trama) {
+		const id = `leyenda-trama-${indice}`;
+		return `<defs>${svgDeTrama(id, item.trama)}</defs><rect x="${x}" y="${y - LEYENDA.muestra + 1}" width="22" height="${LEYENDA.muestra}" fill="url(#${id})" stroke="${TINTA.texto}" stroke-width="0.6"/>`;
+	}
 	const centro = y - LEYENDA.muestra / 2 + 1;
 	if (item.muestra === 'linea' || item.muestra === 'linea-discontinua') {
 		const discontinua = item.muestra === 'linea-discontinua' ? ` stroke-dasharray="${escaparXml(item.trazosLinea ?? '3 3')}"` : '';
@@ -140,15 +145,15 @@ function leyendaEnFilas(
 	let x = x0;
 	let y = y0 + LEYENDA.cuerpo;
 	const partes: string[] = [];
-	for (const item of items) {
-		const muestra = item.muestra === 'linea' || item.muestra === 'linea-discontinua' ? LEYENDA.linea : LEYENDA.muestra;
+	for (const [indice, item] of items.entries()) {
+		const muestra = item.trama ? 22 : item.muestra === 'linea' || item.muestra === 'linea-discontinua' ? LEYENDA.linea : LEYENDA.muestra;
 		const sangria = item.muestra === 'texto' ? 0 : muestra + 6;
 		const ocupa = sangria + medir(item.etiqueta, { cuerpo: LEYENDA.cuerpo });
 		if (x > x0 && x + ocupa > x0 + ancho) {
 			x = x0;
 			y += LEYENDA.alto;
 		}
-		partes.push(muestraDeLeyenda(item, x, y));
+		partes.push(muestraDeLeyenda(item, x, y, indice));
 		partes.push(
 			`<text x="${x + sangria}" y="${y}" font-size="${LEYENDA.cuerpo}" fill="${TINTA.texto}">${escaparXml(item.etiqueta)}</text>`
 		);
