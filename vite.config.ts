@@ -2,6 +2,9 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
+	// Las vistas de prueba pueden levantar otro Vite en este repositorio. Sus módulos
+	// SSR de Svelte deben quedar separados de los de la aplicación.
+	cacheDir: 'node_modules/.vite/versologia',
 	plugins: [sveltekit()],
 	server: {
 		// El puerto lo puede fijar quien arranca, con `PORT`, para poder levantar más de un servidor
