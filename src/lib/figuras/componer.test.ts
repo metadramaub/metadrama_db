@@ -44,12 +44,17 @@ describe('partirEnLineas', () => {
 describe('componerFigura', () => {
 	const compuesta = componerFigura({ grafico, credito, medir });
 
-	it('lleva dentro el gráfico, el título y la cita', () => {
+	it('lleva el título y el gráfico, con la cita y la licencia solo en metadatos', () => {
 		expect(compuesta.svg).toContain('<rect/>');
 		expect(compuesta.svg).toContain('Dónde cae cada forma');
 		expect(compuesta.svg).toContain('Emma González Mesas');
 		expect(compuesta.svg).toContain('https://versologia.metadrama.org/obras/el-magico-prodigioso');
 		expect(compuesta.svg).toContain('CC BY-NC-SA 4.0');
+		const visible = compuesta.svg.replace(/<metadata>[\s\S]*?<\/metadata>/g, '').replace(/<desc>[\s\S]*?<\/desc>/g, '');
+		expect(visible).not.toContain('Emma González Mesas');
+		expect(visible).not.toContain('Fuente:');
+		expect(visible).not.toContain('Anotación métrica');
+		expect(visible).not.toContain('Licencia');
 	});
 
 	it('pone la obra en cursiva', () => {

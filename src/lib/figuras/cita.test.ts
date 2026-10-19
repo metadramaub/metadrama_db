@@ -72,10 +72,20 @@ describe('autoría', () => {
 		expect(credito.metadatos.autor).toBe(
 			'Emma González Mesas; Versología (Gaston Gilabert y David Merino Recalde)'
 		);
-		expect(credito.metadatos.titulo).toBe('Perfil métrico. El mágico prodigioso');
+		expect(credito.metadatos.titulo).toBe('Perfil métrico de El mágico prodigioso');
 	});
 
-	it('dice en el pie si la figura es la versión en blanco y negro', () => {
+	it('solo añade la jornada al título cuando se exporta una jornada concreta', () => {
+		const figura = { titulo: 'Diagrama métrico', archivo: 'diagrama', admiteGrises: true,
+			contenidos: [{ valor: 'jornada-2', etiqueta: 'Jornada 2', jornada: 'Jornada 2' }] };
+		const individual = creditoDeFigura(figura, procedencia, { paleta: 'grises', contenido: 'jornada-2' }, consulta);
+		expect(textoDe(individual.encabezado)).toBe('Diagrama métrico de El mágico prodigioso (Jornada 2)');
+		const completa = creditoDeFigura(figura, procedencia, { paleta: 'color', contenido: 'obra-completa' }, consulta);
+		expect(textoDe(completa.encabezado)).toBe('Diagrama métrico de El mágico prodigioso');
+		expect(completa.pie).toHaveLength(2);
+	});
+
+	it('dice en el aviso del panel si la figura es la versión en blanco y negro', () => {
 		const credito = creditoDeFigura(
 			{ titulo: 'x', archivo: 'x', admiteGrises: true },
 			procedencia,

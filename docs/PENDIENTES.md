@@ -260,11 +260,9 @@ repaso de enlaces. Dos desajustes esperan ese día: `terceto/endecasilabica_cons
 cómo nombrar la única arquitectura del endecasílabo suelto, que ya lo dice todo en el nombre de su
 forma.
 
-**D5 · Blanco y negro para el código de barras y el perfil.** Las franjas, las pendientes y las
-tradiciones ya se descargan en grises, porque llevan el nombre escrito junto a lo que nombran. En
-estos dos lo único que distingue una forma es su color: doce formas en papel piden trama —rayado,
-punteado— y los nombres fuera, en diagonal, unidos a su tramo por una línea de guía. El modal ya
-tiene la opción; basta con que el gráfico declare `admiteGrises`.
+**D5 · Blanco y negro para el perfil métrico.** Falta una representación que permita asociar cada
+sector de la rosquilla con su forma sin depender del color. El diagrama métrico ya ofrece nombres
+inclinados o números con leyenda; el perfil necesita su propia solución.
 
 **D9 · La cita no invierte el nombre del editor.** `/como-citarnos` escribe «González Mesas,
 Emma», pero `editores` solo guarda `nombre_completo`, y adivinar dónde acaba el nombre falla con

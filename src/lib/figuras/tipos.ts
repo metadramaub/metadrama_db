@@ -9,10 +9,13 @@ export type Paleta = 'color' | 'grises';
  */
 export type OpcionesFigura = {
 	paleta: Paleta;
+	contenido?: string;
+	canto?: boolean;
+	rotulos?: 'nombres' | 'numeros';
 };
 
 /** Cómo se pinta una muestra en la leyenda. */
-export type MuestraLeyenda = 'bloque' | 'linea' | 'linea-discontinua';
+export type MuestraLeyenda = 'bloque' | 'linea' | 'linea-discontinua' | 'texto';
 
 export type ItemLeyenda = {
 	etiqueta: string;
@@ -32,11 +35,16 @@ export type FiguraDescargable = {
 	/**
 	 * Si se puede imprimir en blanco y negro sin perder lo que dice.
 	 *
-	 * **No todos pueden**: en el código de barras y en el perfil lo único que distingue una forma
-	 * de otra es su color, y en grises doce formas son cinco manchas. Donde el nombre va escrito
-	 * al lado de lo que nombra, sí.
+	 * Debe existir una identificación que no dependa del color: nombres, números con leyenda
+	 * u otra representación equivalente. Convertir los colores a grises por sí solo no basta.
 	 */
 	admiteGrises: boolean;
+	/** Opciones de alcance para los gráficos que permiten elegir la parte de la obra. */
+	contenidos?: { valor: string; etiqueta: string; jornada?: string }[];
+	contenidoInicial?: string;
+	/** undefined: este gráfico no ofrece el control de canto. */
+	cantoInicial?: boolean;
+	rotulosBlancoNegro?: boolean;
 	/** La leyenda que la figura necesita fuera del gráfico, si necesita alguna. */
 	leyenda?: (opciones: OpcionesFigura) => ItemLeyenda[];
 };

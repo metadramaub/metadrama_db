@@ -7,9 +7,10 @@
 	// con su lista debajo, en filas de tres: las rosquillas se comparan mirándolas juntas.
 	//
 	// El sello va en el hueco —el nombre y no la dirección, que no cabe—: para quitarlo hay que
-	// quitar la rosquilla. La dirección la lleva el pie.
+	// quitar la rosquilla. La dirección aparece debajo del gráfico.
 	//
 	// Sin versión en grises: lo único que une un sector con su nombre es el color.
+	import SelloFigura from '$lib/components/figuras/SelloFigura.svelte';
 	import { CUERPO, TINTA } from '$lib/figuras/tema';
 	import MetricDonut from './MetricDonut.svelte';
 	import MusicNote from './MusicNote.svelte';
@@ -92,9 +93,9 @@
 {/snippet}
 
 <svg
-	viewBox={`0 0 ${ancho} ${alto}`}
+	viewBox={`0 0 ${ancho} ${alto + 24}`}
 	width={ancho}
-	height={alto}
+	height={alto + 24}
 	role="img"
 	aria-label="Perfil métrico"
 	data-figura=""
@@ -132,4 +133,5 @@
 			{@render leyenda(grupo.items, x, y + VARIAS.titulo + VARIAS.rosquilla + 14, x + VARIAS.columna, VARIAS.fila, CUERPO.referencia, grupo.canto)}
 		{/each}
 	{/if}
+	<SelloFigura x={ancho / 2} y={alto + 18} anchor="middle" />
 </svg>

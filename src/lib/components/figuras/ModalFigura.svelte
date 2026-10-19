@@ -9,7 +9,7 @@
 	//
 	// **La vista previa es el archivo.** Se compone la figura, se enseña como imagen, y de esa misma
 	// composición sale el SVG y se rasteriza el PNG. No hay una figura para mirar y otra que baja.
-	import { tick, type Snippet } from 'svelte';
+	import { tick, untrack, type Snippet } from 'svelte';
 	import { Copy, Download, LoaderCircle, X } from 'lucide-svelte';
 	import { creditoDeFigura, VERSOLOGIA } from '$lib/figuras/cita';
 	import { copiarAlPortapapeles } from '$lib/utils/portapapeles';
@@ -40,7 +40,11 @@
 	const consulta = new Date();
 
 	let paleta = $state<Paleta>('color');
-	const opciones = $derived<OpcionesFigura>({ paleta });
+	// Se toma la vista de partida una vez; después el modal conserva sus propias elecciones.
+	let contenido = $state(untrack(() => props.figura.contenidoInicial ?? props.figura.contenidos?.[0]?.valor));
+	let canto = $state(untrack(() => props.figura.cantoInicial ?? false));
+	let rotulos = $state<'nombres' | 'numeros'>('nombres');
+	const opciones = $derived<OpcionesFigura>({ paleta, contenido, canto, rotulos });
 	const credito = $derived(creditoDeFigura(props.figura, props.procedencia, opciones, consulta));
 
 	let dialogo = $state<HTMLDivElement | null>(null);
@@ -114,6 +118,9 @@
 		`${nombreDeArchivo([
 			props.procedencia.obraSlug,
 			props.figura.archivo,
+			contenido ?? '',
+			props.figura.cantoInicial !== undefined && canto ? 'con-canto' : '',
+			paleta === 'grises' && props.figura.rotulosBlancoNegro ? rotulos : '',
 			paleta === 'grises' ? 'byn' : ''
 		])}.${extension}`;
 
@@ -195,6 +202,21 @@
 				</figure>
 
 				<div class="space-y-6">
+					{#if props.figura.contenidos?.length}
+						<label class="block text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
+							Contenido
+							<select bind:value={contenido} class="mt-2 block w-full border border-[color:var(--border)] bg-white p-2 text-sm font-normal normal-case tracking-normal text-[color:var(--foreground)]">
+								{#each props.figura.contenidos as item (item.valor)}
+									<option value={item.valor}>{item.etiqueta}</option>
+								{/each}
+							</select>
+						</label>
+					{/if}
+					{#if props.figura.cantoInicial !== undefined}
+						<label class="flex items-center gap-2 text-sm">
+							<input type="checkbox" bind:checked={canto} /> Mostrar pasajes cantados
+						</label>
+					{/if}
 					<fieldset>
 						<legend class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">
 							Color
@@ -227,6 +249,15 @@
 							</p>
 						{/if}
 					</fieldset>
+					{#if paleta === 'grises' && props.figura.rotulosBlancoNegro}
+						<fieldset>
+							<legend class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">Identificar las formas</legend>
+							<div class="mt-2 flex flex-col gap-2 text-sm">
+								<label class="flex items-center gap-2"><input type="radio" name={`${idTitulo}-rotulos`} bind:group={rotulos} value="nombres" /> Nombres inclinados</label>
+								<label class="flex items-center gap-2"><input type="radio" name={`${idTitulo}-rotulos`} bind:group={rotulos} value="numeros" /> Números y leyenda</label>
+							</div>
+						</fieldset>
+					{/if}
 
 					<div>
 						<p class="text-xs font-semibold uppercase tracking-[0.06em] text-[color:var(--muted-foreground)]">

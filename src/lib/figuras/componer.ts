@@ -1,13 +1,11 @@
 /**
- * Compone la figura que se descarga: título, gráfico, leyenda y pie, en **un solo SVG**.
+ * Compone la figura que se descarga: título, gráfico y leyenda, en **un solo SVG**.
  *
  * Es puro —recibe el gráfico ya serializado y una función que mide texto— para poder probarlo
  * sin navegador. El PNG sale después de rasterizar exactamente esto, así que lo que se ve en la
  * vista previa del modal, lo que baja en SVG y lo que baja en PNG son la misma figura.
  *
- * **El pie va dentro de la imagen, debajo del gráfico**, y no encima como marca de agua. Quien la
- * recorte se queda sin la cita a la vista, pero no sin ella: va también en los metadatos, y el
- * gráfico lleva su propio sello en un sitio que no se puede cortar sin cortar el gráfico.
+ * La cita y la licencia se muestran en el panel de descarga y se conservan en los metadatos.
  */
 import type { CreditoFigura, MetadatosFigura, Tramo } from './cita';
 import { CUERPO, FAMILIA_TEXTO, TINTA } from './tema';
@@ -28,15 +26,13 @@ export type Medidor = (texto: string, estilo: EstiloTexto) => number;
 export type FiguraCompuesta = { svg: string; ancho: number; alto: number };
 
 const MARGEN = 40;
-/** Por debajo de esto el pie se parte en demasiadas líneas. */
+/** Anchura mínima para que el título y la leyenda sigan siendo legibles. */
 const ANCHO_MINIMO = 640;
 /** Un gráfico más ancho se reduce: a más, en una página impresa la letra quedaría ilegible. */
 const ANCHO_MAXIMO_GRAFICO = 1000;
 
 const TITULO = { cuerpo: 20, peso: 700, interlinea: 26 };
-const OBRA = { cuerpo: 14, interlinea: 20 };
 const LEYENDA = { cuerpo: CUERPO.referencia, alto: 22, muestra: 12, linea: 18, hueco: 22 };
-const PIE = { cuerpo: CUERPO.menor, interlinea: 16, parrafo: 5 };
 
 export function escaparXml(texto: string): string {
 	return texto
@@ -123,6 +119,7 @@ function parrafo(
 }
 
 function muestraDeLeyenda(item: ItemLeyenda, x: number, y: number): string {
+	if (item.muestra === 'texto') return '';
 	const centro = y - LEYENDA.muestra / 2 + 1;
 	if (item.muestra === 'linea' || item.muestra === 'linea-discontinua') {
 		const discontinua = item.muestra === 'linea-discontinua' ? ` stroke-dasharray="${escaparXml(item.trazosLinea ?? '3 3')}"` : '';
@@ -145,14 +142,15 @@ function leyendaEnFilas(
 	const partes: string[] = [];
 	for (const item of items) {
 		const muestra = item.muestra === 'linea' || item.muestra === 'linea-discontinua' ? LEYENDA.linea : LEYENDA.muestra;
-		const ocupa = muestra + 6 + medir(item.etiqueta, { cuerpo: LEYENDA.cuerpo });
+		const sangria = item.muestra === 'texto' ? 0 : muestra + 6;
+		const ocupa = sangria + medir(item.etiqueta, { cuerpo: LEYENDA.cuerpo });
 		if (x > x0 && x + ocupa > x0 + ancho) {
 			x = x0;
 			y += LEYENDA.alto;
 		}
 		partes.push(muestraDeLeyenda(item, x, y));
 		partes.push(
-			`<text x="${x + muestra + 6}" y="${y}" font-size="${LEYENDA.cuerpo}" fill="${TINTA.texto}">${escaparXml(item.etiqueta)}</text>`
+			`<text x="${x + sangria}" y="${y}" font-size="${LEYENDA.cuerpo}" fill="${TINTA.texto}">${escaparXml(item.etiqueta)}</text>`
 		);
 		x += ocupa + LEYENDA.hueco;
 	}
@@ -216,7 +214,7 @@ export function componerFigura({
 	const partes: string[] = [];
 	let y = MARGEN;
 
-	const titulo = partirEnLineas([{ texto: credito.titulo }], util, TITULO.cuerpo, (texto, estilo) =>
+	const titulo = partirEnLineas(credito.encabezado, util, TITULO.cuerpo, (texto, estilo) =>
 		medir(texto, { ...estilo, peso: TITULO.peso })
 	);
 	partes.push(
@@ -230,11 +228,7 @@ export function componerFigura({
 	);
 	y += titulo.length * TITULO.interlinea;
 
-	const obra = partirEnLineas(credito.obra, util, OBRA.cuerpo, medir);
-	partes.push(
-		parrafo(obra, MARGEN, y + OBRA.cuerpo, OBRA.interlinea, `font-size="${OBRA.cuerpo}" fill="${TINTA.secundario}"`)
-	);
-	y += obra.length * OBRA.interlinea + 18;
+	y += 18;
 
 	const transformacion = escala === 1 ? '' : ` scale(${escala})`;
 	partes.push(`<g transform="translate(${MARGEN} ${y})${transformacion}">${grafico.svg}</g>`);
@@ -246,20 +240,7 @@ export function componerFigura({
 		y += bloqueLeyenda.alto + 14;
 	}
 
-	partes.push(
-		`<line x1="${MARGEN}" x2="${MARGEN + util}" y1="${y}" y2="${y}" stroke="${TINTA.guia}" stroke-width="1"/>`
-	);
-	y += 12;
-
-	for (const tramos of credito.pie) {
-		const lineas = partirEnLineas(tramos, util, PIE.cuerpo, medir);
-		partes.push(
-			parrafo(lineas, MARGEN, y + PIE.cuerpo, PIE.interlinea, `font-size="${PIE.cuerpo}" fill="${TINTA.secundario}"`)
-		);
-		y += lineas.length * PIE.interlinea + PIE.parrafo;
-	}
-
-	const alto = Math.ceil(y + MARGEN - PIE.parrafo);
+	const alto = Math.ceil(y + MARGEN);
 	const svg = [
 		`<svg xmlns="http://www.w3.org/2000/svg" width="${ancho}" height="${alto}" viewBox="0 0 ${ancho} ${alto}"`,
 		` font-family="${escaparXml(FAMILIA_TEXTO)}">`,

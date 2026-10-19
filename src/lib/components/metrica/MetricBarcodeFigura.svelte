@@ -30,7 +30,9 @@
 	// figura. Se dibuja igual que en pantalla —mismos colores, mismas subdivisiones, mismos cortes—
 	// para que la figura y lo que se vio sean el mismo gráfico.
 	//
-	// Sin versión en grises: lo único que distingue una forma de otra aquí es el color.
+	// Blanco y negro: contornos y rótulos; la longitud de los tramos conserva la escala.
+	import { formasDeFilas, rotulosDeFila } from './diagrama-exportacion';
+	import type { Paleta } from '$lib/figuras/tipos';
 	import { scaleLinear } from 'd3-scale';
 	import SelloFigura from '$lib/components/figuras/SelloFigura.svelte';
 	import { CORTE_CUADRO, CUERPO, TINTA } from '$lib/figuras/tema';
@@ -44,8 +46,12 @@
 		filas: FilaDeBarras[];
 		colorByForma: Record<string, string>;
 		cantoMarkers?: CantoMarker[];
+		paleta?: Paleta;
+		rotulos?: 'nombres' | 'numeros';
 	}>();
 
+	const blancoNegro = $derived(props.paleta === 'grises');
+	const repertorio = $derived(formasDeFilas(props.filas));
 	const ANCHO = 1000;
 	const IZQ = 150;
 	const DER = 16;
@@ -64,20 +70,21 @@
 			const arriba = y;
 			const cantos = diagramaDeCanto(props.cantoMarkers ?? [], fila.desde, fila.hasta, ANCHO - DER - IZQ);
 			const altoCantos = cantos.height;
-			y += altoDeFila(fila) + altoCantos + ENTRE_FILAS;
+			const rotulos = rotulosDeFila(fila, ANCHO - DER - IZQ, props.rotulos === 'numeros');
+			y += altoDeFila(fila) + altoCantos + (blancoNegro ? rotulos.alto : 0) + ENTRE_FILAS;
 			const cantoTop = arriba + (fila.jornadas?.length ? ROTULOS : 0);
 			const barra = cantoTop + altoCantos + SOBRESALE;
 			const escala = scaleLinear()
 				.domain([fila.desde, fila.hasta + 1])
 				.range([IZQ, ANCHO - DER])
 				.clamp(true);
-			return { fila, arriba, cantoTop, hayCanto: cantos.items.length > 0, barra, escala, marcas: escala.ticks(8).filter((v) => v >= fila.desde && v <= fila.hasta) };
+			return { fila, rotulos, arriba, cantoTop, hayCanto: cantos.items.length > 0, barra, escala, marcas: escala.ticks(8).filter((v) => v >= fila.desde && v <= fila.hasta) };
 		});
 	});
 	const alto = $derived(
 		Math.max(
 			1,
-			(colocadas.at(-1)?.barra ?? 0) + BARRA + SOBRESALE + EJE
+			(colocadas.at(-1)?.barra ?? 0) + BARRA + SOBRESALE + EJE + (blancoNegro ? colocadas.at(-1)?.rotulos.alto ?? 0 : 0)
 		)
 	);
 
@@ -95,7 +102,7 @@
 	aria-label="Diagrama métrico"
 	data-figura=""
 >
-	{#each colocadas as { fila, arriba, cantoTop, hayCanto, barra, escala, marcas }, indice (fila.etiqueta)}
+	{#each colocadas as { fila, rotulos, arriba, cantoTop, hayCanto, barra, escala, marcas }, indice (fila.etiqueta)}
 		{@const pie = barra + BARRA + SOBRESALE + 3}
 		{#if hayCanto}
 			<MusicNote x={IZQ - 87} y={cantoTop + 5} size={13} />
@@ -142,17 +149,17 @@
 			fill={TINTA.pista}
 			stroke={TINTA.guia}
 		/>
-		{#each fila.segmentos as segmento (segmento.id)}
+		{#each fila.segmentos.filter((s: MetricBarSegment) => s.v_fin >= fila.desde && s.v_ini <= fila.hasta) as segmento (segmento.id)}
 			{@const x = escala(Math.max(segmento.v_ini, fila.desde))}
 			{@const ancho = Math.max(1, escala(Math.min(segmento.v_fin, fila.hasta) + 1) - x)}
-			<rect x={x} y={barra} width={ancho} height={BARRA} fill={colorDe(segmento)} />
+			<rect x={x} y={barra} width={ancho} height={BARRA} fill={blancoNegro ? "#ffffff" : colorDe(segmento)} stroke={blancoNegro ? TINTA.texto : undefined} stroke-width={blancoNegro ? 0.8 : undefined} />
 			{#each subsegmentosVisibles(segmento) as sub (sub.id)}
 				<line
 					x1={escala(sub.v_ini)}
 					x2={escala(sub.v_ini)}
 					y1={barra}
 					y2={barra + BARRA}
-					stroke="#ffffff"
+					stroke={blancoNegro ? TINTA.secundario : "#ffffff"}
 					stroke-opacity="0.65"
 					stroke-width="0.75"
 				/>
@@ -201,6 +208,17 @@
 				text-anchor="middle">{numero(verso)}</text
 			>
 		{/each}
+
+		{#if blancoNegro}
+			{#each rotulos.items as item (item.segmento.id)}
+				{@const x = IZQ + item.x}
+				{@const y = pie + EJE + item.y}
+				<path d={`M${IZQ + item.origen},${barra + BARRA} L${IZQ + item.origen},${pie + EJE - 2} L${x},${y - 8}`} fill="none" stroke={TINTA.secundario} stroke-width="0.6" />
+				<text x={x} {y} font-size="11" fill={TINTA.texto} stroke="#ffffff" stroke-width="3" paint-order="stroke" stroke-linejoin="round" text-anchor={props.rotulos === 'numeros' ? 'middle' : 'start'} transform={props.rotulos === 'numeros' ? undefined : `rotate(45 ${x} ${y})`}>
+					{props.rotulos === 'numeros' ? repertorio.find((f) => f.clave === (item.segmento.colorKey ?? item.segmento.forma))?.numero : item.segmento.forma}
+				</text>
+			{/each}
+		{/if}
 
 		{#if indice === colocadas.length - 1}
 			<SelloFigura x={IZQ - 14} y={pie + 16} anchor="end" />

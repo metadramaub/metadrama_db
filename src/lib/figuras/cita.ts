@@ -84,9 +84,10 @@ export function autoriaDeFigura(procedencia: ProcedenciaFigura): string {
 
 export type CreditoFigura = {
 	titulo: string;
-	/** El subtítulo: la obra. */
+	encabezado: Tramo[];
+	/** Título de la obra con su estilo, para consumidores de los créditos. */
 	obra: Tramo[];
-	/** El pie: fuente, autoría y licencia, un párrafo cada uno. */
+	/** Fuente y licencia para el panel de descarga; no se dibujan en la imagen. */
 	pie: Tramo[][];
 	/** La cita en texto plano, para copiarla. */
 	cita: string;
@@ -114,13 +115,19 @@ export function creditoDeFigura(
 	const autoria = autoriaDeFigura(procedencia);
 	const autor = procedencia.autorFicha?.trim();
 	const derechos = `${VERSOLOGIA.licencia}. ${autor ? `${autor} y ${VERSOLOGIA.nombre}` : VERSOLOGIA.nombre}.`;
-	const titulo = `${figura.titulo}. ${procedencia.obraTitulo}`;
+	const jornada = figura.contenidos?.find((item) => item.valor === opciones.contenido)?.jornada;
+	const encabezado: Tramo[] = [
+		{ texto: `${figura.titulo} de ` },
+		{ texto: procedencia.obraTitulo, cursiva: true },
+		...(jornada ? [{ texto: ` (${jornada})` }] : [])
+	];
+	const titulo = textoDe(encabezado);
 	return {
 		titulo: figura.titulo,
+		encabezado,
 		obra: [{ texto: procedencia.obraTitulo, cursiva: true }],
 		pie: [
 			[{ texto: 'Fuente: ' }, ...cita],
-			[{ texto: autoria }],
 			[{ texto: `Licencia ${VERSOLOGIA.licencia}${opciones.paleta === 'grises' ? '. Versión en blanco y negro' : ''}.` }]
 		],
 		cita: textoDe(cita),

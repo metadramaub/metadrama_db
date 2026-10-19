@@ -183,6 +183,18 @@ El [dictamen por nota](./revision-notas-caracterizaciones.md) recoge las decisio
   pintar divisiones sobre el mini-barcode del catálogo.
 - **`cuadros_tramos`** (jsonb) = `[{i, f, n: cuadro_num, j: jornada_num}]`. Cortes de cuadro.
 
+Las descargas del diagrama permiten elegir obra completa, todas las jornadas en una imagen o una
+jornada concreta, conservando la numeración original. La pista de canto se activa de forma
+independiente. La leyenda incluye solo las formas visibles, por primera aparición. En blanco y
+negro se conservan los límites y proporciones: los contornos se identifican mediante nombres
+inclinados o números reutilizados por forma, siempre con leyenda; las guías mantienen el centro
+exacto de cada tramo aunque el rótulo se desplace para evitar solapes.
+
+En todos los gráficos descargables, el encabezado reúne el título del gráfico y el de la obra en
+cursiva; solo añade la jornada cuando se descarga una jornada individual. La imagen conserva el
+sello del sitio y su leyenda. La fuente y la licencia se muestran en el panel de descarga y se
+mantienen en los metadatos SVG/PNG, sin pie bibliográfico ni línea de «Anotación métrica» visibles.
+
 ### 1.8 Arrays de filtro (facetas del catálogo)
 
 Guardan **slugs** (`termino`) para filtrar por solapamiento (`&&`/GIN). La etiqueta visible se

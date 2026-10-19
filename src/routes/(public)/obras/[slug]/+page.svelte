@@ -20,6 +20,7 @@
 	import MetricPhenomenaIndex from '$lib/components/metrica/MetricPhenomenaIndex.svelte';
 	import MetricEvolution from '$lib/components/metrica/MetricEvolution.svelte';
 	import MetricAnalysisHeading from '$lib/components/metrica/MetricAnalysisHeading.svelte';
+	import { formasDeFilas } from '$lib/components/metrica/diagrama-exportacion';
 	import MetricBarcodeFigura, { type FilaDeBarras } from '$lib/components/metrica/MetricBarcodeFigura.svelte';
 	import MetricDistributionPieFigura from '$lib/components/metrica/MetricDistributionPieFigura.svelte';
 	import { leyendaDeTradiciones } from '$lib/components/metrica/MetricTraditionSplit.svelte';
@@ -462,25 +463,35 @@
 			color: colorByForma[colorKey] ?? colorForForma({ slug: colorKey, tipoForma: null })
 		}))
 	);
-	const figuraCodigoDeBarras = $derived.by((): Figura => {
-		const porJornadas = metricViewMode === 'por_jornadas';
-		const cortes: ItemLeyenda[] = [
-			...(!porJornadas && jornadaMarkers.length > 0
-				? [{ etiqueta: 'Cambio de jornada', color: TINTA.texto, muestra: 'linea' as const }]
-				: []),
-			...(cuadros.length > 0
-				? [{ etiqueta: 'Cambio de cuadro', color: CORTE_CUADRO.color, muestra: 'linea-discontinua' as const, anchoLinea: CORTE_CUADRO.ancho, trazosLinea: CORTE_CUADRO.trazos }]
-				: [])
-		];
-		return {
-			titulo: porJornadas ? 'Diagrama métrico por jornadas' : 'Diagrama métrico',
-			archivo: porJornadas ? 'diagrama-metrico-por-jornadas' : 'diagrama-metrico',
-			admiteGrises: false,
-			leyenda: () => [...leyendaDeFormas, ...cortes]
-		};
+	const figuraCodigoDeBarras = $derived<Figura>({
+		titulo: 'Diagrama métrico',
+		archivo: 'diagrama-metrico',
+		admiteGrises: true,
+		contenidos: [
+			{ valor: 'obra-completa', etiqueta: 'Obra completa' },
+			{ valor: 'todas-las-jornadas', etiqueta: 'Todas las jornadas' },
+			...jornadas.map((j) => ({ valor: `jornada-${j.jornada_num}`, etiqueta: `Jornada ${j.jornada_num}`, jornada: `Jornada ${j.jornada_num}` }))
+		],
+		contenidoInicial: metricViewMode === 'obra_completa' ? 'obra-completa' : 'todas-las-jornadas',
+		cantoInicial: cantosDeLaObra.length ? mostrarCanto : undefined,
+		rotulosBlancoNegro: true,
+		leyenda: (opciones) => {
+			const filas = filasExportables(opciones.contenido);
+			return [
+				...formasDeFilas(filas).map((f): ItemLeyenda => ({
+					etiqueta: opciones.paleta === 'grises' && opciones.rotulos === 'numeros' ? `${f.numero}. ${f.forma}` : f.forma,
+					color: colorByForma[f.clave] ?? TINTA.neutro,
+					muestra: opciones.paleta === 'grises' ? 'texto' : 'bloque'
+				})),
+				...(filas.some((f) => f.cortesJornada?.some((v) => v >= f.desde && v < f.hasta))
+					? [{ etiqueta: 'Cambio de jornada', color: TINTA.texto, muestra: 'linea' as const }] : []),
+				...(filas.some((f) => f.cortesCuadro?.some((v) => v >= f.desde && v < f.hasta))
+					? [{ etiqueta: 'Cambio de cuadro', color: CORTE_CUADRO.color, muestra: 'linea-discontinua' as const, anchoLinea: CORTE_CUADRO.ancho, trazosLinea: CORTE_CUADRO.trazos }] : [])
+			];
+		}
 	});
-	const filasDeBarras = $derived.by((): FilaDeBarras[] =>
-		metricViewMode === 'obra_completa'
+	function filasExportables(contenido = 'obra-completa'): FilaDeBarras[] {
+		return contenido === 'obra-completa'
 			? [
 					{
 						etiqueta: 'Obra completa',
@@ -499,14 +510,14 @@
 								: []
 					}
 				]
-			: jornadas.map((jornada) => ({
+			: jornadas.filter((j) => contenido === 'todas-las-jornadas' || contenido === `jornada-${j.jornada_num}`).map((jornada) => ({
 					etiqueta: `Jornada ${jornada.jornada_num}`,
 					desde: jornada.v_ini,
 					hasta: jornada.v_fin,
 					segmentos: segmentsByJornada.get(jornada.jornada_id) ?? [],
 					cortesCuadro: cuadroMarkersByJornada.get(jornada.jornada_id) ?? []
-				}))
-	);
+				}));
+	}
 	const figuraPerfil = $derived<Figura>(
 		metricViewMode === 'por_jornadas'
 			? { titulo: 'Perfil métrico por jornadas', archivo: 'perfil-metrico-por-jornadas', admiteGrises: false }
@@ -1047,8 +1058,8 @@
 									{/each}
 								</div>
 							{/if}
-							{#snippet grafico()}
-								<MetricBarcodeFigura filas={filasDeBarras} colorByForma={colorByForma} cantoMarkers={cantosVisibles} />
+							{#snippet grafico(opciones)}
+								<MetricBarcodeFigura filas={filasExportables(opciones.contenido)} colorByForma={colorByForma} cantoMarkers={opciones.canto ? cantosDeLaObra : []} paleta={opciones.paleta} rotulos={opciones.rotulos} />
 							{/snippet}
 						</FiguraDescargable>
 					{/if}
