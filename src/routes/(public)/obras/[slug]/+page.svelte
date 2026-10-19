@@ -526,7 +526,6 @@
 		titulo: 'Perfil métrico',
 		archivo: 'perfil-metrico',
 		admiteGrises: true,
-		rotulosBlancoNegro: true,
 		contenidos: contenidosMetricos,
 		contenidoInicial: contenidoMetricoInicial
 	});
@@ -1133,7 +1132,6 @@
 									colorByForma={colorByForma}
 									valueMode={pieValueMode}
 									paleta={opciones.paleta}
-									rotulos={opciones.rotulos}
 									estilosGrises={tramasDelDiagrama}
 								/>
 							{/snippet}

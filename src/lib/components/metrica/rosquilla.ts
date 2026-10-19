@@ -16,16 +16,6 @@ export type Sector = { inicio: number; fin: number };
 const VUELTA = Math.PI * 2;
 export const ANGULO_MINIMO = (2 * Math.PI) / 180;
 
-/** Centro del anillo: solo rotula cuando el texto cabe entre los dos límites del sector. */
-export function posicionRotuloDeRosquilla(sector: Sector, tamano: number, texto: string) {
-	const radio = tamano / 2 * 0.59;
-	const amplitud = sector.fin - sector.inicio;
-	const disponible = 2 * radio * Math.sin(Math.min(amplitud, Math.PI) / 2);
-	if (disponible < texto.length * 6.5 + 10 || tamano / 2 * 0.34 < 17) return null;
-	const medio = (sector.inicio + sector.fin) / 2;
-	return { x: Math.sin(medio) * radio, y: -Math.cos(medio) * radio };
-}
-
 export function sectoresDeRosquilla(valores: number[], minimo = ANGULO_MINIMO): Sector[] {
 	const positivos = valores.map((valor) => Math.max(0, valor));
 	const total = positivos.reduce((suma, valor) => suma + valor, 0);

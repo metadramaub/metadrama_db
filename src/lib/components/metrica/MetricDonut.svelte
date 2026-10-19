@@ -6,9 +6,6 @@
 		color: string;
 		/** Lo que dice el aviso nativo al pasar por encima. */
 		titulo?: string;
-		rotulo?: string;
-		tintaRotulo?: string;
-		fondoRotulo?: string;
 	};
 </script>
 
@@ -26,7 +23,7 @@
 	// pasar el ratón.
 	import { arc } from 'd3-shape';
 	import { TINTA, CUERPO } from '$lib/figuras/tema';
-	import { sectoresDeRosquilla, posicionRotuloDeRosquilla } from './rosquilla';
+	import { sectoresDeRosquilla } from './rosquilla';
 
 	const props = $props<{
 		sectores: SectorDeRosquilla[];
@@ -92,12 +89,6 @@
 				>
 					{#if sector.titulo}<title>{sector.titulo}</title>{/if}
 				</path>
-				{#if sector.rotulo}
-					{@const posicion = posicionRotuloDeRosquilla(angulos, tamano, sector.rotulo)}
-					{#if posicion}
-						<text x={posicion.x} y={posicion.y} font-size="11" font-weight="600" text-anchor="middle" dominant-baseline="middle" fill={sector.tintaRotulo ?? TINTA.texto} stroke={sector.fondoRotulo ?? '#ffffff'} stroke-width="3" paint-order="stroke" stroke-linejoin="round" pointer-events="none">{sector.rotulo}</text>
-					{/if}
-				{/if}
 			{/if}
 		{/each}
 		{#if props.centro}

@@ -27,12 +27,10 @@
 		colorByForma: Record<string, string>;
 		valueMode: 'percent' | 'absolute';
 		paleta?: Paleta;
-		rotulos?: 'patrones' | 'numeros';
 		estilosGrises?: Record<string, TramaFigura>;
 	} = $props();
 
 	const blancoNegro = $derived(props.paleta === 'grises');
-	const conNumeros = $derived(blancoNegro && props.rotulos === 'numeros');
 	const repertorio = $derived.by(() => {
 		const totales = new Map<string, number>();
 		for (const grupo of props.grupos) for (const item of grupo.items) {
@@ -43,7 +41,6 @@
 	const prefijo = idComponente.replace(/[^\w-]/g, '');
 	const numeroDe = (item: MetricDistributionSlice) => repertorio.find((f) => f.clave === (item.colorKey ?? item.forma))?.numero ?? 0;
 	const idTrama = (numero: number) => `${prefijo}-perfil-trama-${numero}`;
-	const estiloDe = (item: MetricDistributionSlice) => props.estilosGrises?.[item.colorKey ?? item.forma] ?? TRAMAS_GRISES[(numeroDe(item)-1) % TRAMAS_GRISES.length];
 	const rellenoDe = (item: MetricDistributionSlice) => blancoNegro ? `url(#${idTrama(numeroDe(item))})` : colorDe(item);
 	const UNA = { rosquilla: 280, leyenda: 320, ancho: 760, fila: 24 };
 	const VARIAS = { columna: 300, hueco: 40, titulo: 24, rosquilla: 200, fila: 20, porFila: 3 };
@@ -68,10 +65,7 @@
 		items.map((item) => ({
 			clave: normalizeFormaKey(item.colorKey ?? item.forma),
 			valor: item.versos,
-			color: rellenoDe(item),
-			rotulo: conNumeros ? String(numeroDe(item)) : undefined,
-			tintaRotulo: parseInt(estiloDe(item).fondo.slice(1,3),16)<140 ? '#ffffff' : TINTA.texto,
-			fondoRotulo: estiloDe(item).fondo
+			color: rellenoDe(item)
 		}));
 
 	const columnas = $derived(Math.min(VARIAS.porFila, Math.max(1, grupos.length)));
@@ -96,7 +90,7 @@
 	{#each items as item, indice (item.colorKey ?? item.forma)}
 		{@const base = y + indice * fila + cuerpo}
 		<rect x={x} y={base - (blancoNegro ? 12 : 10)} width={blancoNegro ? 24 : 11} height={blancoNegro ? 14 : 11} fill={rellenoDe(item)} stroke={blancoNegro ? TINTA.texto : undefined} stroke-width={blancoNegro ? 0.6 : undefined} />
-		<text x={x + (blancoNegro ? 32 : 18)} y={base} font-size={cuerpo} fill={TINTA.texto}>{conNumeros ? `${numeroDe(item)}. ` : ''}{item.forma}</text>
+		<text x={x + (blancoNegro ? 32 : 18)} y={base} font-size={cuerpo} fill={TINTA.texto}>{item.forma}</text>
 		<text
 			x={derecha}
 			y={base}
