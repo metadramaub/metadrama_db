@@ -7,6 +7,7 @@ import {
 	metricLengthCycles,
 	metricLengthNoun
 } from './metric-length';
+import { structuralAdditionCount } from './structural-additions';
 
 function rule(
 	modulo_versos: number,
@@ -167,5 +168,63 @@ describe('metricLengthNoun', () => {
 			singular: 'bloque',
 			plural: 'bloques'
 		});
+	});
+});
+
+describe('adiciones estructurales declaradas', () => {
+	const extra = { dimension: 'estructura', relacion_norma: 'sobra', v_ini: 2666, v_fin: 2666 };
+	const redondilla = rule(4, 0, 4);
+	it('cuenta una laguna por su posición en el rango, sin sumarla ni descontarla otra vez', () => {
+		const missing = { dimension: 'estructura', relacion_norma: 'falta', v_ini: 3, v_fin: 3 };
+		expect(isMetricLengthCompatible(redondilla, 1, 8, false, [missing])).toBe(true);
+		expect(metricLengthCycles(redondilla, 1, 8, false, [missing])).toMatchObject({ veces: 2 });
+		// Siete posiciones no se convierten en ocho por poner «falta»: hay que incluir la posición.
+		expect(isMetricLengthCompatible(redondilla, 1, 7, false, [missing])).toBe(false);
+		// Una adición y una laguna distintas: solo la adición se aparta de las posiciones de norma.
+		expect(
+			isMetricLengthCompatible(redondilla, 1, 9, false, [missing, { ...extra, v_ini: 5, v_fin: 5 }])
+		).toBe(true);
+	});
+	it('acepta las 33 redondillas y el verso añadido de Los locos de Valencia', () => {
+		expect(metricLengthError(redondilla, 2622, 2754)).not.toBeNull();
+		expect(
+			metricLengthError(redondilla, 2622, 2754, undefined, undefined, false, [extra])
+		).toBeNull();
+		expect(metricLengthCycles(redondilla, 2622, 2754, false, [extra])).toMatchObject({
+			veces: 33,
+			sobrantes: 0
+		});
+	});
+	it('no descuenta desviaciones de metro, rima ni lagunas', () => {
+		for (const deviation of [
+			{ ...extra, dimension: 'metro' },
+			{ ...extra, dimension: 'rima' },
+			{ ...extra, relacion_norma: 'falta' },
+			{ ...extra, relacion_norma: 'mayor_que_norma' }
+		])
+			expect(isMetricLengthCompatible(redondilla, 2622, 2754, false, [deviation])).toBe(false);
+	});
+	it('no acepta una adición fuera de rango, invertida o con posiciones no enteras', () => {
+		for (const [v_ini, v_fin] of [
+			[2621, 2622],
+			[2755, 2755],
+			[2666, 2665],
+			[2666.5, 2666.5]
+		]) {
+			expect(
+				isMetricLengthCompatible(redondilla, 2622, 2754, false, [{ ...extra, v_ini, v_fin }])
+			).toBe(false);
+		}
+	});
+	it('cuenta la unión de rangos solapados y no duplica los versos añadidos', () => {
+		const deviations = [extra, extra, { ...extra, v_ini: 2665 }, { ...extra, v_fin: 2667 }];
+		expect(structuralAdditionCount(2622, 2754, deviations)).toBe(3);
+		expect(isMetricLengthCompatible(redondilla, 2622, 2754, false, [extra, extra])).toBe(true);
+	});
+	it('sigue comprobando el mínimo y el múltiplo después de descontar', () => {
+		expect(isMetricLengthCompatible(redondilla, 2666, 2666, false, [extra])).toBe(false);
+		expect(
+			metricLengthError(redondilla, 2622, 2755, undefined, undefined, false, [extra])
+		).toContain('quedan 133');
 	});
 });

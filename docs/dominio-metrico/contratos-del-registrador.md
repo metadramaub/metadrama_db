@@ -45,6 +45,24 @@ significa conformidad con la norma seleccionada**, no que nadie haya mirado.
 **La laguna de una fuente no autoriza un rango incompatible.** El cómputo incorpora la posición del
 verso ausente y la laguna se localiza en el registro correspondiente.
 
+**La adición estructural sí se descuenta al comprobar la norma.** Una desviación localizada
+`estructura / sobra` identifica posiciones añadidas: siguen contando en la extensión real del
+pasaje, pero no en su mínimo, módulo ni número de unidades normativas. El editor y la API usan
+el mismo cálculo; los rangos solapados de adición cuentan una sola vez y deben quedar dentro
+de la secuencia. Una desviación de metro o rima no cambia este recuento.
+
+Por ejemplo, los vv. 2622–2754 de *Los locos de Valencia* abarcan 133 posiciones. Declarado el
+v. 2666 como adición estructural, quedan 132 de norma: 33 redondillas. El reparto conserva
+11 redondillas antes de ese verso y 22 después, dentro de una sola secuencia. Una adición
+entre estrofas cubre su posición sin crear una unidad; una interna queda en el rango de la
+unidad y se descuenta al comprobar su extensión.
+
+Con `estructura / falta`, la posición ausente **ya está incluida en el rango**: ocho posiciones
+con un verso perdido siguen formando dos redondillas. No se suma ni se descuenta otra vez.
+Si la numeración de una edición no reserva posiciones para las lagunas, hay que resolver su
+correspondencia con el rango interno al normalizar, conservando la numeración de la fuente.
+El comprobador no deduce automáticamente posiciones perdidas ni reconstruye el texto.
+
 ## Los tramos sin forma no tienen norma que cumplir
 
 Versificación irregular y verso aislado se delimitan y se guardan: no se pide arquitectura ni

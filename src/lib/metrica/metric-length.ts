@@ -1,4 +1,13 @@
 import type { MetricLengthRule } from '$lib/metrica/catalogo';
+import { structuralAdditionCount, type MetricDeviationRange } from './structural-additions';
+
+export function normativeMetricLength(
+	start: number,
+	end: number,
+	deviations: readonly MetricDeviationRange[] = []
+): number {
+	return inclusiveMetricLength(start, end) - structuralAdditionCount(start, end, deviations);
+}
 
 export function inclusiveMetricLength(start: number, end: number): number {
 	if (!Number.isFinite(start) || !Number.isFinite(end) || end < start) return 0;
@@ -29,15 +38,16 @@ export function isMetricLengthCompatible(
 	 * fuentes documentan. Con excepciones, quien gobierna es la cobertura del rango, que el editor
 	 * ya calcula y ya enseña.
 	 */
-	conArquitecturasPropias = false
+	conArquitecturasPropias = false,
+	deviations: readonly MetricDeviationRange[] = []
 ): boolean {
 	if (!rule || conArquitecturasPropias) return true;
-	const length = inclusiveMetricLength(start, end);
+	const length = normativeMetricLength(start, end, deviations);
 	return metricLengthOffsets(rule).some((offset) => {
 		const resto = length - offset;
 		if (resto < rule.minimo_versos) return false;
 		const remainder =
-			((resto - rule.residuo_versos) % rule.modulo_versos + rule.modulo_versos) %
+			(((resto - rule.residuo_versos) % rule.modulo_versos) + rule.modulo_versos) %
 			rule.modulo_versos;
 		return remainder === 0;
 	});
@@ -88,7 +98,8 @@ export function metricLengthCycles(
 	rule: MetricLengthRule | null | undefined,
 	start: number,
 	end: number,
-	conArquitecturasPropias = false
+	conArquitecturasPropias = false,
+	deviations: readonly MetricDeviationRange[] = []
 ): {
 	veces: number;
 	modulo: number;
@@ -96,14 +107,14 @@ export function metricLengthCycles(
 	origen: MetricLengthRule['origen'];
 } | null {
 	if (!rule || conArquitecturasPropias) return null;
-	if (!isMetricLengthCompatible(rule, start, end, conArquitecturasPropias)) return null;
+	if (!isMetricLengthCompatible(rule, start, end, conArquitecturasPropias, deviations)) return null;
 	const modulo = rule.modulo_versos;
 	if (!Number.isFinite(modulo) || modulo < 2) return null;
-	const length = inclusiveMetricLength(start, end);
+	const length = normativeMetricLength(start, end, deviations);
 	for (const offset of metricLengthOffsets(rule)) {
 		const resto = length - offset;
 		if (resto < rule.minimo_versos) continue;
-		const remainder = ((resto - rule.residuo_versos) % modulo + modulo) % modulo;
+		const remainder = (((resto - rule.residuo_versos) % modulo) + modulo) % modulo;
 		if (remainder !== 0) continue;
 		const veces = (resto - rule.residuo_versos) / modulo;
 		if (veces < 1) continue;
@@ -118,11 +129,18 @@ export function metricLengthError(
 	end: number,
 	configurationName?: string,
 	formName?: string,
-	conArquitecturasPropias = false
+	conArquitecturasPropias = false,
+	deviations: readonly MetricDeviationRange[] = []
 ): string | null {
-	if (!rule || isMetricLengthCompatible(rule, start, end, conArquitecturasPropias)) return null;
+	if (!rule || isMetricLengthCompatible(rule, start, end, conArquitecturasPropias, deviations))
+		return null;
 	const length = inclusiveMetricLength(start, end);
+	const additions = structuralAdditionCount(start, end, deviations);
+	const adjustment =
+		additions > 0
+			? ` Descontando ${additions} ${additions === 1 ? 'verso declarado como adición estructural, quedan' : 'versos declarados como adiciones estructurales, quedan'} ${length - additions} para comprobar la norma.`
+			: '';
 	const selectedName = [formName, configurationName].filter(Boolean).join(' · ');
 	const subject = selectedName ? `«${selectedName}» exige` : 'La configuración exige';
-	return `La secuencia contiene ${length} ${length === 1 ? 'verso' : 'versos'}. ${subject} ${rule.explicacion}. Revisa el rango. Si la fuente presenta una laguna, incorpora el verso que ocupa esa posición y regístrala como desviación.`;
+	return `La secuencia contiene ${length} ${length === 1 ? 'verso' : 'versos'}.${adjustment} ${subject} ${rule.explicacion}. Revisa el rango y las desviaciones declaradas. Si la fuente presenta una laguna, incluye su posición en el rango y regístrala como desviación, sin reconstruir el texto.`;
 }

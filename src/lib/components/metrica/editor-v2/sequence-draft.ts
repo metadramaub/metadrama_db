@@ -6,6 +6,11 @@ import type {
 } from '$lib/metrica/catalogo';
 import { seRespondeDentroDeLaUnidad } from '$lib/metrica/alcance';
 import {
+	metricAdditionCoordinates,
+	structuralAdditionRanges,
+	type MetricDeviationRange
+} from '$lib/metrica/structural-additions';
+import {
 	ensureRequiredMetricUnits,
 	metricUnitPlan,
 	reflowMetricUnits,
@@ -22,12 +27,7 @@ import {
  * funciones puras, reutilizables por cualquier contenedor y comprobables por separado.
  */
 
-export type MetricDeviationDimension =
-	| 'metro'
-	| 'rima'
-	| 'estructura'
-	| 'repeticion'
-	| 'rasgo';
+export type MetricDeviationDimension = 'metro' | 'rima' | 'estructura' | 'repeticion' | 'rasgo';
 
 export type MetricDeviationRelation =
 	| 'falta'
@@ -200,8 +200,7 @@ export function catalogParts(
 export function unitPlanFor(
 	catalog: MetricCatalogForEditor,
 	configurationId: string,
-	sections: MetricCatalogDomainRow[]
-,
+	sections: MetricCatalogDomainRow[],
 	/** Las unidades ya materializadas: una con arquitectura propia apaga la derivación. */
 	units: MetricUnitDraft[] = []
 ): MetricUnitPlan | null {
@@ -226,7 +225,9 @@ export function applyMaterializedSections(
 	sequenceStart: number
 ): MetricUnitDraft[] {
 	let next = units;
-	for (const group of groups.filter((row: MetricCatalogDomainRow) => seRespondeDentroDeLaUnidad(row.alcance))) {
+	for (const group of groups.filter((row: MetricCatalogDomainRow) =>
+		seRespondeDentroDeLaUnidad(row.alcance)
+	)) {
 		const groupId = String(group.grupo_eleccion_id);
 		const groupOptions = options.filter(
 			(option: MetricCatalogDomainRow) => String(option.grupo_eleccion_id) === groupId
@@ -304,6 +305,48 @@ export function normalizeStructuredUnits(
 	choices: MetricChoiceDraft[],
 	configurationId: string,
 	sequenceStart: number,
+	sequenceEnd: number,
+	deviations: readonly MetricDeviationRange[] = []
+): MetricUnitDraft[] {
+	const additions = structuralAdditionRanges(sequenceStart, sequenceEnd, deviations);
+	if (additions.length === 0) {
+		return normalizeUnits(catalog, units, choices, configurationId, sequenceStart, sequenceEnd);
+	}
+	const coordinates = metricAdditionCoordinates(additions);
+	const { sections } = catalogParts(catalog, configurationId);
+	const plan = unitPlanFor(catalog, configurationId, sections, units);
+	if (!plan) return units;
+	// Se reparte la norma y después se recuperan las posiciones reales. Las adiciones entre
+	// estrofas quedan fuera de ellas; las internas quedan dentro del rango de su estrofa.
+	const normativeUnits = units.map((unit) => {
+		const start = coordinates.toNorm(unit.v_ini - 1) + 1;
+		const fixedRoot = plan.countFromRange && unit.realizacion_padre_id === null;
+		return {
+			...unit,
+			v_ini: start,
+			v_fin: fixedRoot ? start + plan.extent!.minimum - 1 : coordinates.toNorm(unit.v_fin)
+		};
+	});
+	return normalizeUnits(
+		catalog,
+		normativeUnits,
+		choices,
+		configurationId,
+		sequenceStart,
+		coordinates.toNorm(sequenceEnd)
+	).map((unit) => ({
+		...unit,
+		v_ini: coordinates.toEdition(unit.v_ini),
+		v_fin: coordinates.toEdition(unit.v_fin)
+	}));
+}
+
+function normalizeUnits(
+	catalog: MetricCatalogForEditor,
+	units: MetricUnitDraft[],
+	choices: MetricChoiceDraft[],
+	configurationId: string,
+	sequenceStart: number,
 	sequenceEnd: number
 ): MetricUnitDraft[] {
 	const { sections, groups, options } = catalogParts(catalog, configurationId);
@@ -315,6 +358,11 @@ export function normalizeStructuredUnits(
 
 	let next: MetricUnitDraft[];
 	if (plan.countFromRange) {
+		units = units.map((unit) =>
+			unit.realizacion_padre_id === null
+				? { ...unit, v_fin: unit.v_ini + plan.extent!.minimum - 1 }
+				: unit
+		);
 		const synchronized = syncRepeatedMetricUnits(
 			units,
 			sections,
@@ -423,8 +471,7 @@ export function draftFromRows(
 	rows: MetricSavedSequenceRows
 ): MetricSequenceDraft {
 	const sequenceId = String(sequence.anotacion_id);
-	const belongs = (row: MetricCatalogDomainRow) =>
-		String(row.anotacion_id) === sequenceId;
+	const belongs = (row: MetricCatalogDomainRow) => String(row.anotacion_id) === sequenceId;
 	const text = (value: unknown): string => String(value ?? '');
 	const id = (value: unknown): string | null => (value ? String(value) : null);
 

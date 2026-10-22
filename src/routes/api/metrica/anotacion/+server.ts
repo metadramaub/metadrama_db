@@ -64,7 +64,8 @@ const choiceSchema = z
 		observaciones: z.string().trim().max(10_000).nullable()
 	})
 	.refine(
-		(choice) => Number(choice.opcion_eleccion_id !== null) + Number(choice.valor_texto !== null) === 1,
+		(choice) =>
+			Number(choice.opcion_eleccion_id !== null) + Number(choice.valor_texto !== null) === 1,
 		{ message: 'Cada respuesta debe contener una opción o un valor textual, pero no ambos.' }
 	);
 
@@ -109,7 +110,7 @@ const requestSchema = z.discriminatedUnion('action', [
 		unidades: z.array(unitSchema).max(500),
 		elecciones: z.array(choiceSchema).max(2_000),
 		desviaciones: z.array(deviationSchema).max(1_000)
-	}),
+	})
 ]);
 
 function databaseError(error: { code?: string; message: string } | null, fallback: string) {
@@ -187,7 +188,10 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			.eq('secuencia_id', input.secuencia_id)
 			.maybeSingle();
 		if (existingAnnotationError) {
-			return databaseError(existingAnnotationError, 'No se pudo leer la anotación métrica existente.');
+			return databaseError(
+				existingAnnotationError,
+				'No se pudo leer la anotación métrica existente.'
+			);
 		}
 		anotacionId = existingAnnotation?.anotacion_id ?? null;
 	}
@@ -207,10 +211,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			.eq('arquitectura_id', input.arquitectura_id)
 			.maybeSingle();
 		if (lengthRuleError) {
-			return databaseError(
-				lengthRuleError,
-				'No se pudo comprobar la longitud de la secuencia.'
-			);
+			return databaseError(lengthRuleError, 'No se pudo comprobar la longitud de la secuencia.');
 		}
 		// **La congruencia no aplica cuando alguna unidad declara su propia arquitectura.** Una
 		// tirada de décimas con una aumentada mide `10n + 2` y no cabe en ninguna división exacta,
@@ -224,7 +225,8 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			rangeEnd,
 			lengthRuleData?.arquitectura_nombre,
 			undefined,
-			conArquitecturasPropias
+			conArquitecturasPropias,
+			input.desviaciones
 		);
 		if (lengthError) {
 			return json({ error: 'validation_error', message: lengthError }, { status: 422 });

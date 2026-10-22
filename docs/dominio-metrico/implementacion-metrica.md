@@ -554,6 +554,15 @@ eso no se pide certeza y los resultados únicos se derivan en lugar de preguntar
 La ausencia de una respuesta **obligatoria**, en cambio, impide guardar: eso no se interpreta
 como conformidad.
 
+La comprobación de longitud del editor y de la API descuenta las posiciones declaradas en
+`anotacion_desviaciones` como `dimension = estructura` y `relacion_norma = sobra`, sin cambiar
+los extremos de la secuencia. Se cuenta la unión de los rangos válidos, no la suma de filas.
+Las realizaciones se reparten sobre las posiciones de la norma y recuperan la numeración real;
+la cobertura incluye las adiciones entre unidades sin crear unidades ficticias. Una laguna
+(`falta`) conserva su posición dentro del rango y no se vuelve a sumar ni a descontar. Son
+reglas del comprobador de la aplicación, sin cambio de esquema SQL. Ejemplos y límites en los
+[contratos del registrador](./contratos-del-registrador.md).
+
 ### Cómo se registra una secuencia
 
 ```text

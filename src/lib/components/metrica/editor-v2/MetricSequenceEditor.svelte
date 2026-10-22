@@ -1,5 +1,9 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
+	import {
+		structuralAdditionCount,
+		structuralAdditionRanges
+	} from '$lib/metrica/structural-additions';
 	import { errorDeCoherenciaDeRasgos } from './coherencia-rasgos';
 	import { preguntaAplica, tiposDeRimaAfirmados } from './regimen-respondido';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
@@ -16,7 +20,8 @@
 	import {
 		metricLengthCycles,
 		metricLengthError,
-		metricLengthNoun
+		metricLengthNoun,
+		normativeMetricLength
 	} from '$lib/metrica/metric-length';
 	import {
 		contradiceLaRelacion,
@@ -138,7 +143,8 @@
 				initial.elecciones,
 				initial.arquitectura_id,
 				initial.v_ini,
-				initial.v_fin
+				initial.v_fin,
+				initial.desviaciones
 			);
 			const parts = catalogParts(props.catalog, initial.arquitectura_id);
 
@@ -365,7 +371,8 @@
 			draft.elecciones,
 			draft.arquitectura_id,
 			draft.v_ini,
-			draft.v_fin
+			draft.v_fin,
+			draft.desviaciones
 		);
 	}
 
@@ -459,7 +466,7 @@
 			});
 	});
 	const unitPlanForDraft = $derived(
-		metricUnitPlan(selectedConfiguration, sectionsForDraft, selectedForm?.nivel_estructural)
+		metricUnitPlan(selectedConfiguration, sectionsForDraft, selectedForm?.nivel_estructural, draft.unidades)
 	);
 	const hasDerivedUnitCount = $derived(unitPlanForDraft?.countFromRange ?? false);
 	const hasStructuredEditor = $derived(
@@ -579,7 +586,8 @@
 			selectedLengthRule,
 			draft.v_ini,
 			draft.v_fin,
-			hayUnidadConArquitecturaPropia(draft.unidades)
+			hayUnidadConArquitecturaPropia(draft.unidades),
+			draft.desviaciones
 		)
 	);
 	/**
@@ -612,8 +620,37 @@
 		reparticionDelPasaje ? metricLengthNoun(reparticionDelPasaje.origen) : null
 	);
 
+	const addedVerseCount = $derived(
+		structuralAdditionCount(draft.v_ini, draft.v_fin, draft.desviaciones)
+	);
+	const additionKey = $derived(
+		JSON.stringify(structuralAdditionRanges(draft.v_ini, draft.v_fin, draft.desviaciones))
+	);
+	let previousAdditionKey = '[]';
+	$effect(() => {
+		// Solo reaccionar a las posiciones añadidas; las unidades se escriben sin volver a observarlas.
+		const key = additionKey;
+		untrack(() => {
+			if (key !== '[]' || previousAdditionKey !== '[]') normalizeDraftUnits();
+		});
+		previousAdditionKey = key;
+	});
+
+	function normalizeDraftUnits(units: MetricUnitDraft[] = draft.unidades) {
+		if (!draft.arquitectura_id) return;
+		const next = normalizeStructuredUnits(
+			props.catalog, units, draft.elecciones, draft.arquitectura_id,
+			draft.v_ini, draft.v_fin, draft.desviaciones
+		);
+		const kept = new Set(next.map((unit) => unit.realizacion_id));
+		removeStructuredReferences(
+			units.filter((unit) => !kept.has(unit.realizacion_id)).map((unit) => unit.realizacion_id)
+		);
+		draft.unidades = next;
+	}
+
 	const structureCoverage = $derived(
-		metricStructureCoverage(draft.v_ini, draft.v_fin, draft.unidades)
+		metricStructureCoverage(draft.v_ini, draft.v_fin, draft.unidades, draft.desviaciones)
 	);
 
 	// Algunas arquitecturas no cíclicas pueden compartir la medida de varias secciones. Las
@@ -1000,6 +1037,10 @@
 			return;
 		}
 		draft.v_fin = draft.v_ini + previousLength - 1;
+		if (addedVerseCount > 0) {
+			normalizeDraftUnits();
+			return;
+		}
 		if (hasDerivedUnitCount) {
 			const { sections, options } = catalogParts(props.catalog, draft.arquitectura_id);
 			const synchronized = syncRepeatedMetricUnits(
@@ -1037,6 +1078,10 @@
 			return;
 		}
 		draft.v_fin = Math.max(draft.v_ini, value);
+		if (addedVerseCount > 0) {
+			normalizeDraftUnits();
+			return;
+		}
 		if (!hasDerivedUnitCount) return;
 		const { sections, options } = catalogParts(props.catalog, draft.arquitectura_id);
 		const synchronized = syncRepeatedMetricUnits(
@@ -1124,7 +1169,8 @@
 			draft.v_fin,
 			selectedConfiguration?.nombre,
 			selectedForm?.nombre,
-			hayUnidadConArquitecturaPropia(draft.unidades)
+			hayUnidadConArquitecturaPropia(draft.unidades),
+			draft.desviaciones
 		);
 		if (lengthError) return lengthError;
 		if (hasStructuredEditor && structureCoverage.state !== 'complete') {
@@ -1159,7 +1205,8 @@
 			draft.v_fin,
 			selectedConfiguration?.nombre,
 			selectedForm?.nombre,
-			hayUnidadConArquitecturaPropia(draft.unidades)
+			hayUnidadConArquitecturaPropia(draft.unidades),
+			draft.desviaciones
 		);
 		if (lengthError) return lengthError;
 		// El mismo recuento que pinta el recuadro de la cobertura, y dicho igual: los dos números con
@@ -1176,7 +1223,7 @@
 			if (unit.v_fin < unit.v_ini || unit.v_ini < draft.v_ini || unit.v_fin > draft.v_fin) {
 				return `La unidad ${unit.orden} queda fuera del rango de la secuencia.`;
 			}
-			const unitLength = unit.v_fin - unit.v_ini + 1;
+			const unitLength = normativeMetricLength(unit.v_ini, unit.v_fin, draft.desviaciones);
 			// La sección puede ser de una arquitectura intercalada: los dos bloques de la aumentada
 			// tienen extensión propia y hay que comprobarla igual que la de cualquier otra.
 			const section = [...sectionsForDraft, ...interleavedSections].find(
@@ -1714,6 +1761,15 @@
 				</section>
 			{/if}
 
+			{#if addedVerseCount > 0 && reparticionDelPasaje}
+				<p class="text-sm text-[color:var(--muted-foreground)]" role="status">
+					Longitud compatible: {draft.v_fin - draft.v_ini + 1} versos en el pasaje,
+					{addedVerseCount} {addedVerseCount === 1 ? 'declarado como adición estructural' : 'declarados como adiciones estructurales'}.
+					Los {normativeMetricLength(draft.v_ini, draft.v_fin, draft.desviaciones)} restantes cumplen
+					la regla de longitud de la arquitectura ({selectedLengthRule?.explicacion}).
+				</p>
+			{/if}
+
 			<!--
 				**Las series también dicen cuánto cabe.** No tienen recuadro de cobertura porque no
 				materializan unidades, y se quedaban sin decir nada de su extensión salvo cuando el
@@ -1770,7 +1826,10 @@
 							{interleavedArchitectures}
 							{interleavedSections}
 							onUnitArchitectureChange={setUnitArchitecture}
-							onUnitsChange={(units) => (draft.unidades = units)}
+							onUnitsChange={(units) => {
+								if (addedVerseCount > 0) normalizeDraftUnits(units);
+								else draft.unidades = units;
+							}}
 							onChoicesChange={(choices) => (draft.elecciones = choices)}
 							onUnitsRemoved={removeStructuredReferences}
 							preguntasDeSecuencia={preguntasDeSecuencia.length > 0 ? camposDeLaSecuencia : undefined}
@@ -1789,7 +1848,8 @@
 										draft.v_fin,
 										selectedConfiguration?.nombre,
 										selectedForm?.nombre,
-										hayUnidadConArquitecturaPropia(draft.unidades)
+										hayUnidadConArquitecturaPropia(draft.unidades),
+										draft.desviaciones
 									)
 								)}
 						/>
