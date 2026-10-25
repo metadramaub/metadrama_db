@@ -3,7 +3,38 @@
 El piloto comienza con las declaraciones de las ediciones. No requiere veinte fichas anotadas
 exhaustivamente en el editor de Versología ni una revisión de la métrica contra los textos.
 Una extracción cotejada y corregida por una persona será el gold de transcripción. Su normalización
-podrá quedar parcial. Todavía no se ha producido ese conjunto de referencia.
+podrá quedar parcial. Las cuatro primeras transcripciones fueron aceptadas sin correcciones por
+el responsable del proyecto el 22 de octubre de 2026: [registro de revisión](./revision-humana.json).
+
+## Primer lote preparado el 22 de octubre de 2026
+
+El [informe inicial](./informe-inicial.md) enlaza las cuatro tablas para cotejo y describe los
+controles ejecutados. Son 78 filas de sinopsis, antes de aplicar cambios de segmentación. Las
+extracciones se conservan en JSON, con metadatos del DOCX, notas, resúmenes y fuentes identificadas
+por SHA-256. La salida original conserva el estado de borrador; el registro separado de revisión
+identifica por hash cada versión aceptada. Las equivalencias generales siguen pendientes.
+
+- [Formato provisional 0.1](./formato-v0.1.md) y [prompt de extracción](../../../prompts/importador-metrico/extraccion-v0.1.md).
+- [Tablas de revisión](./informe-inicial.md), [inventario de términos](./inventario-terminos.md) y
+  [propuestas de equivalencia](./equivalencias.propuestas.json).
+- [Propuesta de segmentación](./segmentacion.propuestas.json), conservada aparte de las filas fuente.
+- [Fuentes del lote](./fuentes.json) y [referencia acotada del catálogo](./catalogo-referencia.json).
+- [Primer ensayo de normalización](./informe-normalizacion.md), [su contrato local](../normalizador-local.md)
+  y [contraste de los términos ambiguos](./contraste-terminos.md). Las propuestas no cuentan como
+  identificaciones revisadas; se conservan todos los versos, incluso los que siguen sin resolver.
+
+La lectura inicial fue asistida en este chat; no se presenta como ensayo ciego del prompt ni como
+comparación entre proveedores. La capa normalizada ya permite ensayar correspondencias y
+mantener candidatas separadas. El repertorio se ampliará al procesar las veinte obras; estos cuatro
+casos también permiten avanzar en el [diseño de integración](../diseno-integracion.md), con métrica
+mínima separada de v2 y estructura compartida. En *Los locos de Valencia* ya se acordó tratar el v. 2172 como desviación de metro y
+el v. 2666 como adición estructural, manteniendo ambas secuencias. Los 133 versos del tramo de
+redondillas contienen 132 posiciones normativas y una añadida: 33 redondillas, sin declarar laguna.
+
+Desde la raíz del repo, `node scripts/importador-metrico/revisar-piloto.mjs` regenera los derivados.
+Con `--comprobar --verificar-fuentes` comprueba además que coincidan con los archivos conservados y
+que los originales externos mantengan sus hashes, sin escribir ni consultar Supabase. El script
+comprueba este lote inicial, no implementa el validador general de un futuro importador.
 
 ## Materiales iniciales
 
@@ -22,8 +53,10 @@ amante*, *Los donaires de Matico*, *El molino* y *Los locos de Valencia*. Esa le
 no equivale a transcripción validada ni a revisión completa de las obras.
 
 Las fotografías y el DOCX permanecen en su ubicación externa; no se han copiado a esta carpeta.
-Los identificadores del futuro inventario deberían permitir trabajar sin depender de la ruta
-absoluta de este ordenador. Se decidirá qué archivos y resultados se versionan antes de poblarlos.
+Los identificadores de [fuentes.json](./fuentes.json) permiten referenciar las imágenes por rutas
+relativas y hashes. Se conservan en el repo los JSON de extracción, los derivados de revisión,
+las propuestas, el prompt y la referencia consultada del catálogo; los originales gráficos y el
+DOCX permanecen externos. La raíz local puede cambiar sin cambiar los identificadores de fuente.
 
 ## Recorrido de cada obra
 

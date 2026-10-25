@@ -6,9 +6,12 @@ el perfil métrico de un autor y situar obras con ficha completa respecto a ese 
 mínimas no se publicarán individualmente; sus datos podrán contribuir a comparaciones y agregados
 publicables cuando la cobertura y la incertidumbre permitan sostenerlos.
 
-Este directorio conserva el diseño y el procedimiento de trabajo. **Todavía no hay importador,
-cambios de esquema ni experimentos ejecutados como parte de este proyecto.** La documentación
-no describe capacidades ya disponibles en la plataforma.
+Este directorio conserva el diseño y el procedimiento de trabajo. El 22 de octubre de 2026 se
+preparó un [primer lote de cuatro extracciones](./piloto/informe-inicial.md), un prompt y propuestas
+de equivalencia para cotejo humano. El responsable aceptó las cuatro transcripciones sin
+correcciones: [registro y hashes](./piloto/revision-humana.json). **Todavía no hay importador del dashboard,
+cambios de esquema ni experimentos de sensibilidad ejecutados.** Los archivos del piloto no
+describen capacidades ya disponibles en la plataforma.
 
 ## Lectura y organización
 
@@ -16,7 +19,12 @@ no describe capacidades ya disponibles en la plataforma.
 | --- | --- |
 | [Metodología](./metodologia.md) | Acuerdos sobre fuentes, identificación, equivalencias, incertidumbre y comparabilidad |
 | [Hoja de ruta](./hoja-de-ruta.md) | Etapas, resultados necesarios, decisiones abiertas e integración técnica |
+| [Diseño de integración](./diseno-integracion.md) | Estructura compartida, tabla métrica mínima separada, contrato de análisis y resultados agregados para fichas completas |
+| [Campos mínimos y conexiones](./campos-minimos.md) | Campos propuestos, obligatoriedad, claves, detalles parciales, versiones revisadas y adaptación de los consumidores |
 | [Piloto](./piloto/README.md) | Materiales disponibles, referencias revisadas y procedimiento de los ensayos |
+| [Validador local](./validador-local.md) | Herramienta ya disponible para comprobar salidas nuevas del prompt sin depender del gold |
+| [Normalizador local](./normalizador-local.md) | Ensayo trazable sobre las cuatro transcripciones aceptadas; propuestas, candidatas y cobertura separadas |
+| [Contraste de términos](./piloto/contraste-terminos.md) | Lectura de las seis fuentes del catálogo y límites de las correspondencias propuestas |
 
 El pendiente activo se mantiene en [PENDIENTES](../PENDIENTES.md), la lista común del repositorio.
 Estos documentos desarrollan el proyecto; no crean otra lista general de tareas. Cuando se tomen
@@ -40,16 +48,26 @@ Las propuestas abiertas no se presentan como acuerdos.
   una ficha completa, con revisión y ampliación explícitas.
 - Se ensayarán los datos y las equivalencias antes de construir toda la infraestructura.
 
-## Orientación técnica por validar
+## Base técnica acordada y desarrollo pendiente
 
-Se propone conservar un modelo común de obras, jornadas y secuencias, con niveles de anotación y
-evidencia explícitos, y un registro auxiliar de fuentes e importaciones. Las medidas compartidas
-deberían tener una sola definición para fichas mínimas y completas. El esquema concreto se decidirá
-después del piloto: este documento no autoriza relajar validaciones ni aplicar migraciones.
+Se reutilizan obras, jornadas y secuencias. **La métrica mínima se guarda en una tabla aparte**,
+sin forzar respuestas en las tablas v2 ni rebajar las validaciones del registrador detallado.
+Se conserva además evidencia de fuente e importación. Una capa de lectura común permitirá definir
+las medidas compartidas una sola vez, con cobertura explícita. El
+[diseño de integración](./diseno-integracion.md) contrasta esta separación con el esquema vivo;
+documentarlo no aplica migraciones.
+
+Las cuatro obras permiten empezar ese diseño y las equivalencias presentes en la muestra. El
+repertorio se ampliará con las veinte del piloto y los lotes siguientes, conservando lo desconocido.
+No hace falta cerrar todas las correspondencias para avanzar en el diseño.
 
 La profundidad de una ficha, su estado editorial, su verificación, su visibilidad y sus usos
 analíticos son dimensiones distintas. El diseño debe permitir combinarlas sin duplicar corpora ni
 introducir una excepción particular para cada pantalla.
+
+El laboratorio podrá usar las mínimas validadas y se podrán seleccionar resultados agregados de
+ese corpus para contrastar fichas completas. La privacidad individual no limita el corpus mínimo
+a un uso exclusivamente privado; cada resultado difundible declarará su referente e incertidumbre.
 
 ## Forma de trabajo en el repositorio
 

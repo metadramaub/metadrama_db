@@ -1,0 +1,2330 @@
+{
+  "columnas": [
+    {
+      "column_default": "gen_random_uuid()",
+      "column_name": "arquitectura_id",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "forma_id",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "slug",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "nombre",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "descripcion",
+      "is_nullable": "YES",
+      "ordinal_position": 5,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "false",
+      "column_name": "principal",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": "true",
+      "column_name": "demarcable",
+      "is_nullable": "NO",
+      "ordinal_position": 7,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": "'admitida'::text",
+      "column_name": "modalidad",
+      "is_nullable": "NO",
+      "ordinal_position": 8,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "tipo_rima_id",
+      "is_nullable": "YES",
+      "ordinal_position": 10,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": "true",
+      "column_name": "activo",
+      "is_nullable": "NO",
+      "ordinal_position": 14,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": null,
+      "column_name": "orden",
+      "is_nullable": "YES",
+      "ordinal_position": 15,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": null,
+      "column_name": "origen_termino_id",
+      "is_nullable": "YES",
+      "ordinal_position": 16,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "created_by",
+      "is_nullable": "YES",
+      "ordinal_position": 17,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "updated_by",
+      "is_nullable": "YES",
+      "ordinal_position": 18,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "ordinal_position": 19,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "ordinal_position": 20,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": null,
+      "column_name": "unidad_versos_min",
+      "is_nullable": "YES",
+      "ordinal_position": 22,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": null,
+      "column_name": "unidad_versos_max",
+      "is_nullable": "YES",
+      "ordinal_position": 23,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": "false",
+      "column_name": "intercalable",
+      "is_nullable": "NO",
+      "ordinal_position": 24,
+      "table_name": "arquitecturas_forma",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": null,
+      "column_name": "atribucion_id",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "atribucion_autores",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "autor_id",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "atribucion_autores",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "orden",
+      "is_nullable": "YES",
+      "ordinal_position": 3,
+      "table_name": "atribucion_autores",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "atribucion_autores",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "atribucion_autores",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "uuid_generate_v4()",
+      "column_name": "atribucion_id",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "atribuciones",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "obra_id",
+      "is_nullable": "YES",
+      "ordinal_position": 2,
+      "table_name": "atribuciones",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "jornada_id",
+      "is_nullable": "YES",
+      "ordinal_position": 3,
+      "table_name": "atribuciones",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "tipo_atribucion_id",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "atribuciones",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "modalidad_atribucion_id",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "atribuciones",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "ordinal_position": 10,
+      "table_name": "atribuciones",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "ordinal_position": 11,
+      "table_name": "atribuciones",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": null,
+      "column_name": "fuente_autoria",
+      "is_nullable": "YES",
+      "ordinal_position": 12,
+      "table_name": "atribuciones",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "grupo_atribucion_id",
+      "is_nullable": "YES",
+      "ordinal_position": 13,
+      "table_name": "atribuciones",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "composicion_autoria_id",
+      "is_nullable": "YES",
+      "ordinal_position": 14,
+      "table_name": "atribuciones",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": "false",
+      "column_name": "perfil_metrico",
+      "is_nullable": "NO",
+      "ordinal_position": 18,
+      "table_name": "atribuciones",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": null,
+      "column_name": "user_id",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "editores",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "nombre_completo",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "editores",
+      "udt_name": "varchar"
+    },
+    {
+      "column_default": null,
+      "column_name": "email",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "editores",
+      "udt_name": "varchar"
+    },
+    {
+      "column_default": null,
+      "column_name": "role",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "editores",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": "true",
+      "column_name": "activo",
+      "is_nullable": "YES",
+      "ordinal_position": 5,
+      "table_name": "editores",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": null,
+      "column_name": "institucion",
+      "is_nullable": "YES",
+      "ordinal_position": 6,
+      "table_name": "editores",
+      "udt_name": "varchar"
+    },
+    {
+      "column_default": null,
+      "column_name": "orcid",
+      "is_nullable": "YES",
+      "ordinal_position": 7,
+      "table_name": "editores",
+      "udt_name": "varchar"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "ordinal_position": 8,
+      "table_name": "editores",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "ordinal_position": 9,
+      "table_name": "editores",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": null,
+      "column_name": "last_login",
+      "is_nullable": "YES",
+      "ordinal_position": 10,
+      "table_name": "editores",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "gen_random_uuid()",
+      "column_name": "esquema_rima_id",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "esquemas_rima",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "arquitectura_id",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "esquemas_rima",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "nombre",
+      "is_nullable": "YES",
+      "ordinal_position": 3,
+      "table_name": "esquemas_rima",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "notacion",
+      "is_nullable": "YES",
+      "ordinal_position": 4,
+      "table_name": "esquemas_rima",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "tipo_rima_id",
+      "is_nullable": "YES",
+      "ordinal_position": 5,
+      "table_name": "esquemas_rima",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": "'admitida'::text",
+      "column_name": "modalidad",
+      "is_nullable": "NO",
+      "ordinal_position": 7,
+      "table_name": "esquemas_rima",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "descripcion",
+      "is_nullable": "YES",
+      "ordinal_position": 8,
+      "table_name": "esquemas_rima",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "origen_termino_id",
+      "is_nullable": "YES",
+      "ordinal_position": 10,
+      "table_name": "esquemas_rima",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "ordinal_position": 11,
+      "table_name": "esquemas_rima",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "ordinal_position": 12,
+      "table_name": "esquemas_rima",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "'secuencia'::text",
+      "column_name": "tipo_secuencia",
+      "is_nullable": "NO",
+      "ordinal_position": 13,
+      "table_name": "esquemas_rima",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "slug",
+      "is_nullable": "NO",
+      "ordinal_position": 14,
+      "table_name": "esquemas_rima",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "seccion_id",
+      "is_nullable": "YES",
+      "ordinal_position": 15,
+      "table_name": "esquemas_rima",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": "gen_random_uuid()",
+      "column_name": "seccion_id",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "estructuras_secciones",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "arquitectura_id",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "estructuras_secciones",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "seccion_padre_id",
+      "is_nullable": "YES",
+      "ordinal_position": 3,
+      "table_name": "estructuras_secciones",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "tipo_seccion",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "estructuras_secciones",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "nombre",
+      "is_nullable": "YES",
+      "ordinal_position": 5,
+      "table_name": "estructuras_secciones",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "orden",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "estructuras_secciones",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": null,
+      "column_name": "repeticiones_min",
+      "is_nullable": "YES",
+      "ordinal_position": 7,
+      "table_name": "estructuras_secciones",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": null,
+      "column_name": "repeticiones_max",
+      "is_nullable": "YES",
+      "ordinal_position": 8,
+      "table_name": "estructuras_secciones",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": null,
+      "column_name": "versos_min",
+      "is_nullable": "YES",
+      "ordinal_position": 9,
+      "table_name": "estructuras_secciones",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": null,
+      "column_name": "versos_max",
+      "is_nullable": "YES",
+      "ordinal_position": 10,
+      "table_name": "estructuras_secciones",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": null,
+      "column_name": "esquema_metrico_id",
+      "is_nullable": "YES",
+      "ordinal_position": 11,
+      "table_name": "estructuras_secciones",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "esquema_rima_id",
+      "is_nullable": "YES",
+      "ordinal_position": 12,
+      "table_name": "estructuras_secciones",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "nota",
+      "is_nullable": "YES",
+      "ordinal_position": 13,
+      "table_name": "estructuras_secciones",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "ordinal_position": 14,
+      "table_name": "estructuras_secciones",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "ordinal_position": 15,
+      "table_name": "estructuras_secciones",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": null,
+      "column_name": "arquitectura_referenciada_id",
+      "is_nullable": "YES",
+      "ordinal_position": 16,
+      "table_name": "estructuras_secciones",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "slug",
+      "is_nullable": "NO",
+      "ordinal_position": 17,
+      "table_name": "estructuras_secciones",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "false",
+      "column_name": "primera_realizacion_define_patron",
+      "is_nullable": "NO",
+      "ordinal_position": 18,
+      "table_name": "estructuras_secciones",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": "gen_random_uuid()",
+      "column_name": "forma_id",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "formas_metricas",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "slug",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "formas_metricas",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "nombre",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "formas_metricas",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "definicion",
+      "is_nullable": "YES",
+      "ordinal_position": 4,
+      "table_name": "formas_metricas",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "'estrofa'::text",
+      "column_name": "nivel_estructural",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "formas_metricas",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "true",
+      "column_name": "activo",
+      "is_nullable": "NO",
+      "ordinal_position": 9,
+      "table_name": "formas_metricas",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": null,
+      "column_name": "origen_termino_id",
+      "is_nullable": "YES",
+      "ordinal_position": 11,
+      "table_name": "formas_metricas",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "created_by",
+      "is_nullable": "YES",
+      "ordinal_position": 12,
+      "table_name": "formas_metricas",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "updated_by",
+      "is_nullable": "YES",
+      "ordinal_position": 13,
+      "table_name": "formas_metricas",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "ordinal_position": 14,
+      "table_name": "formas_metricas",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "ordinal_position": 15,
+      "table_name": "formas_metricas",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "'forma'::text",
+      "column_name": "tipo_registro",
+      "is_nullable": "NO",
+      "ordinal_position": 16,
+      "table_name": "formas_metricas",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "uuid_generate_v4()",
+      "column_name": "grupo_atribucion_id",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "grupos_atribucion",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "obra_id",
+      "is_nullable": "YES",
+      "ordinal_position": 2,
+      "table_name": "grupos_atribucion",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "jornada_id",
+      "is_nullable": "YES",
+      "ordinal_position": 3,
+      "table_name": "grupos_atribucion",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "grupos_atribucion",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "ordinal_position": 7,
+      "table_name": "grupos_atribucion",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "uuid_generate_v4()",
+      "column_name": "jornada_id",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "jornadas",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "obra_id",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "jornadas",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "jornada_num",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "jornadas",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": null,
+      "column_name": "v_ini",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "jornadas",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": null,
+      "column_name": "v_fin",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "jornadas",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "jornadas",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "ordinal_position": 7,
+      "table_name": "jornadas",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "gen_random_uuid()",
+      "column_name": "metro_id",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "metros",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "slug",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "metros",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "nombre",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "metros",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "silabas",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "metros",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": "'simple'::text",
+      "column_name": "tipo",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "metros",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "arte",
+      "is_nullable": "YES",
+      "ordinal_position": 6,
+      "table_name": "metros",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "tipo_cesura",
+      "is_nullable": "YES",
+      "ordinal_position": 7,
+      "table_name": "metros",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "descripcion",
+      "is_nullable": "YES",
+      "ordinal_position": 8,
+      "table_name": "metros",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "true",
+      "column_name": "activo",
+      "is_nullable": "NO",
+      "ordinal_position": 10,
+      "table_name": "metros",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": null,
+      "column_name": "orden",
+      "is_nullable": "YES",
+      "ordinal_position": 11,
+      "table_name": "metros",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": null,
+      "column_name": "origen_termino_id",
+      "is_nullable": "YES",
+      "ordinal_position": 12,
+      "table_name": "metros",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "ordinal_position": 13,
+      "table_name": "metros",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "ordinal_position": 14,
+      "table_name": "metros",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": null,
+      "column_name": "composicion",
+      "is_nullable": "YES",
+      "ordinal_position": 15,
+      "table_name": "metros",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "uuid_generate_v4()",
+      "column_name": "obra_id",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "obras",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "titulo",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "obras",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "titulo_normalizado",
+      "is_nullable": "YES",
+      "ordinal_position": 3,
+      "table_name": "obras",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "variantes_titulo",
+      "is_nullable": "YES",
+      "ordinal_position": 4,
+      "table_name": "obras",
+      "udt_name": "_text"
+    },
+    {
+      "column_default": null,
+      "column_name": "fecha_inicio_trad",
+      "is_nullable": "YES",
+      "ordinal_position": 5,
+      "table_name": "obras",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": null,
+      "column_name": "fecha_fin_trad",
+      "is_nullable": "YES",
+      "ordinal_position": 6,
+      "table_name": "obras",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": null,
+      "column_name": "fuente_fecha",
+      "is_nullable": "YES",
+      "ordinal_position": 7,
+      "table_name": "obras",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "fecha_inicio_metadrama",
+      "is_nullable": "YES",
+      "ordinal_position": 8,
+      "table_name": "obras",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": null,
+      "column_name": "fecha_fin_metadrama",
+      "is_nullable": "YES",
+      "ordinal_position": 9,
+      "table_name": "obras",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": null,
+      "column_name": "edicion",
+      "is_nullable": "YES",
+      "ordinal_position": 10,
+      "table_name": "obras",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "editor_asignado",
+      "is_nullable": "YES",
+      "ordinal_position": 13,
+      "table_name": "obras",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "fecha_asignacion",
+      "is_nullable": "YES",
+      "ordinal_position": 14,
+      "table_name": "obras",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": null,
+      "column_name": "estado",
+      "is_nullable": "NO",
+      "ordinal_position": 15,
+      "table_name": "obras",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": "false",
+      "column_name": "visible_publico",
+      "is_nullable": "YES",
+      "ordinal_position": 16,
+      "table_name": "obras",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": null,
+      "column_name": "fecha_cambio_estado",
+      "is_nullable": "YES",
+      "ordinal_position": 17,
+      "table_name": "obras",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": null,
+      "column_name": "observaciones",
+      "is_nullable": "YES",
+      "ordinal_position": 18,
+      "table_name": "obras",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "genero_id",
+      "is_nullable": "YES",
+      "ordinal_position": 20,
+      "table_name": "obras",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "total_versos",
+      "is_nullable": "YES",
+      "ordinal_position": 21,
+      "table_name": "obras",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": null,
+      "column_name": "bibliografia",
+      "is_nullable": "YES",
+      "ordinal_position": 22,
+      "table_name": "obras",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "ordinal_position": 23,
+      "table_name": "obras",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "ordinal_position": 24,
+      "table_name": "obras",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": null,
+      "column_name": "autor_ficha_publico",
+      "is_nullable": "YES",
+      "ordinal_position": 25,
+      "table_name": "obras",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "''::text",
+      "column_name": "slug",
+      "is_nullable": "NO",
+      "ordinal_position": 26,
+      "table_name": "obras",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "false",
+      "column_name": "sin_figuras_donaire",
+      "is_nullable": "NO",
+      "ordinal_position": 30,
+      "table_name": "obras",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": "false",
+      "column_name": "sin_personajes_sobrenaturales",
+      "is_nullable": "NO",
+      "ordinal_position": 31,
+      "table_name": "obras",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": "false",
+      "column_name": "sin_eventos_sobrenaturales",
+      "is_nullable": "NO",
+      "ordinal_position": 32,
+      "table_name": "obras",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": null,
+      "column_name": "fecha_publicacion",
+      "is_nullable": "YES",
+      "ordinal_position": 33,
+      "table_name": "obras",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "gen_random_uuid()",
+      "column_name": "valor_id",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "rasgo_valores",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "rasgo_id",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "rasgo_valores",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "slug",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "rasgo_valores",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "nombre",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "rasgo_valores",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "descripcion",
+      "is_nullable": "YES",
+      "ordinal_position": 5,
+      "table_name": "rasgo_valores",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "orden",
+      "is_nullable": "YES",
+      "ordinal_position": 6,
+      "table_name": "rasgo_valores",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": "true",
+      "column_name": "activo",
+      "is_nullable": "NO",
+      "ordinal_position": 7,
+      "table_name": "rasgo_valores",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": null,
+      "column_name": "origen_termino_id",
+      "is_nullable": "YES",
+      "ordinal_position": 8,
+      "table_name": "rasgo_valores",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "ordinal_position": 9,
+      "table_name": "rasgo_valores",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "ordinal_position": 10,
+      "table_name": "rasgo_valores",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "gen_random_uuid()",
+      "column_name": "rasgo_id",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "rasgos_metricos",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "slug",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "rasgos_metricos",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "nombre",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "rasgos_metricos",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "descripcion",
+      "is_nullable": "YES",
+      "ordinal_position": 4,
+      "table_name": "rasgos_metricos",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "'booleano'::text",
+      "column_name": "tipo_valor",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "rasgos_metricos",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "'directa'::text",
+      "column_name": "observabilidad",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "rasgos_metricos",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "false",
+      "column_name": "demarcable",
+      "is_nullable": "NO",
+      "ordinal_position": 7,
+      "table_name": "rasgos_metricos",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": "true",
+      "column_name": "activo",
+      "is_nullable": "NO",
+      "ordinal_position": 9,
+      "table_name": "rasgos_metricos",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "ordinal_position": 10,
+      "table_name": "rasgos_metricos",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "ordinal_position": 11,
+      "table_name": "rasgos_metricos",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": null,
+      "column_name": "escala_recuento",
+      "is_nullable": "NO",
+      "ordinal_position": 13,
+      "table_name": "rasgos_metricos",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "naturaleza",
+      "is_nullable": "NO",
+      "ordinal_position": 14,
+      "table_name": "rasgos_metricos",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "gen_random_uuid()",
+      "column_name": "repeticion_id",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "repeticiones_metricas",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "arquitectura_id",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "repeticiones_metricas",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "tipo",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "repeticiones_metricas",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "'admitida'::text",
+      "column_name": "modalidad",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "repeticiones_metricas",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "descripcion",
+      "is_nullable": "YES",
+      "ordinal_position": 7,
+      "table_name": "repeticiones_metricas",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "ordinal_position": 9,
+      "table_name": "repeticiones_metricas",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "ordinal_position": 10,
+      "table_name": "repeticiones_metricas",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": null,
+      "column_name": "slug",
+      "is_nullable": "NO",
+      "ordinal_position": 11,
+      "table_name": "repeticiones_metricas",
+      "udt_name": "text"
+    },
+    {
+      "column_default": null,
+      "column_name": "materializa_seccion_id",
+      "is_nullable": "YES",
+      "ordinal_position": 12,
+      "table_name": "repeticiones_metricas",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "extension_desde_seccion_id",
+      "is_nullable": "YES",
+      "ordinal_position": 13,
+      "table_name": "repeticiones_metricas",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "nombre",
+      "is_nullable": "NO",
+      "ordinal_position": 14,
+      "table_name": "repeticiones_metricas",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "uuid_generate_v4()",
+      "column_name": "secuencia_id",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "secuencias_metricas",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "obra_id",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "secuencias_metricas",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "v_ini",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "secuencias_metricas",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": null,
+      "column_name": "v_fin",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "secuencias_metricas",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": null,
+      "column_name": "n_versos",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "secuencias_metricas",
+      "udt_name": "int4"
+    },
+    {
+      "column_default": null,
+      "column_name": "estrofa_tipo_id",
+      "is_nullable": "YES",
+      "ordinal_position": 6,
+      "table_name": "secuencias_metricas",
+      "udt_name": "uuid"
+    },
+    {
+      "column_default": null,
+      "column_name": "inaugura_espacio",
+      "is_nullable": "YES",
+      "ordinal_position": 7,
+      "table_name": "secuencias_metricas",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": null,
+      "column_name": "intervencion_personajes_femeninos",
+      "is_nullable": "YES",
+      "ordinal_position": 8,
+      "table_name": "secuencias_metricas",
+      "udt_name": "varchar"
+    },
+    {
+      "column_default": null,
+      "column_name": "intervencion_figuras_donaire",
+      "is_nullable": "YES",
+      "ordinal_position": 9,
+      "table_name": "secuencias_metricas",
+      "udt_name": "varchar"
+    },
+    {
+      "column_default": null,
+      "column_name": "intervencion_personajes_sobrenaturales",
+      "is_nullable": "YES",
+      "ordinal_position": 10,
+      "table_name": "secuencias_metricas",
+      "udt_name": "varchar"
+    },
+    {
+      "column_default": null,
+      "column_name": "sinopsis",
+      "is_nullable": "YES",
+      "ordinal_position": 13,
+      "table_name": "secuencias_metricas",
+      "udt_name": "text"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "ordinal_position": 15,
+      "table_name": "secuencias_metricas",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "ordinal_position": 16,
+      "table_name": "secuencias_metricas",
+      "udt_name": "timestamptz"
+    },
+    {
+      "column_default": null,
+      "column_name": "versos_partidos",
+      "is_nullable": "YES",
+      "ordinal_position": 17,
+      "table_name": "secuencias_metricas",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": null,
+      "column_name": "evento_sobrenatural",
+      "is_nullable": "YES",
+      "ordinal_position": 21,
+      "table_name": "secuencias_metricas",
+      "udt_name": "bool"
+    },
+    {
+      "column_default": null,
+      "column_name": "generos_intervinientes",
+      "is_nullable": "YES",
+      "ordinal_position": 22,
+      "table_name": "secuencias_metricas",
+      "udt_name": "_text"
+    }
+  ],
+  "fecha_consulta": "2026-10-22",
+  "formas_ejemplo": [
+    {
+      "activo": true,
+      "forma_id": "0903da0e-eeca-4aad-8bcd-66b6b32cc050",
+      "slug": "cancion"
+    },
+    {
+      "activo": true,
+      "forma_id": "e11161c5-e184-4518-96b4-61a8b55413ea",
+      "slug": "pareado"
+    },
+    {
+      "activo": true,
+      "forma_id": "1affe499-c92d-4cf0-a0f6-46c76a26f88f",
+      "slug": "redondilla"
+    },
+    {
+      "activo": true,
+      "forma_id": "c0a062a4-3ee3-474d-a08f-eb466147e283",
+      "slug": "terceto"
+    },
+    {
+      "activo": true,
+      "forma_id": "76b9e1c9-c9ff-4280-afec-5d31d3347677",
+      "slug": "terceto_encadenado"
+    }
+  ],
+  "metros_ejemplo": [
+    {
+      "activo": true,
+      "metro_id": "72fbe06d-9f46-4690-9df8-a4d9f0611d0d",
+      "slug": "endecasilabo"
+    },
+    {
+      "activo": true,
+      "metro_id": "4f2d2610-1e55-40a2-8ad4-e57708d80489",
+      "slug": "heptasilabo"
+    },
+    {
+      "activo": true,
+      "metro_id": "82bd7a89-675e-41a9-9324-538589731000",
+      "slug": "octosilabo"
+    }
+  ],
+  "origen": "SELECT de solo lectura; columnas y referencias observadas, sin guardados ni migraciones",
+  "restricciones": [
+    {
+      "definicion": "FOREIGN KEY (created_by) REFERENCES editores(user_id) ON UPDATE CASCADE ON DELETE SET NULL",
+      "nombre": "arquitecturas_forma_created_by_fkey",
+      "tabla": "arquitecturas_forma",
+      "tipo": "f"
+    },
+    {
+      "definicion": "FOREIGN KEY (forma_id) REFERENCES formas_metricas(forma_id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "nombre": "arquitecturas_forma_forma_id_fkey",
+      "tabla": "arquitecturas_forma",
+      "tipo": "f"
+    },
+    {
+      "definicion": "UNIQUE (forma_id, slug)",
+      "nombre": "arquitecturas_forma_forma_id_slug_key",
+      "tabla": "arquitecturas_forma",
+      "tipo": "u"
+    },
+    {
+      "definicion": "CHECK (modalidad = ANY (ARRAY['habitual'::text, 'admitida'::text, 'excepcional'::text]))",
+      "nombre": "arquitecturas_forma_modalidad_check",
+      "tabla": "arquitecturas_forma",
+      "tipo": "c"
+    },
+    {
+      "definicion": "CHECK (btrim(nombre) <> ''::text)",
+      "nombre": "arquitecturas_forma_nombre_check",
+      "tabla": "arquitecturas_forma",
+      "tipo": "c"
+    },
+    {
+      "definicion": "FOREIGN KEY (origen_termino_id) REFERENCES vocabularios(termino_id) ON UPDATE CASCADE ON DELETE SET NULL",
+      "nombre": "arquitecturas_forma_origen_termino_id_fkey",
+      "tabla": "arquitecturas_forma",
+      "tipo": "f"
+    },
+    {
+      "definicion": "UNIQUE (origen_termino_id)",
+      "nombre": "arquitecturas_forma_origen_termino_id_key",
+      "tabla": "arquitecturas_forma",
+      "tipo": "u"
+    },
+    {
+      "definicion": "PRIMARY KEY (arquitectura_id)",
+      "nombre": "arquitecturas_forma_pkey",
+      "tabla": "arquitecturas_forma",
+      "tipo": "p"
+    },
+    {
+      "definicion": "CHECK (slug = btrim(slug) AND slug <> ''::text)",
+      "nombre": "arquitecturas_forma_slug_check",
+      "tabla": "arquitecturas_forma",
+      "tipo": "c"
+    },
+    {
+      "definicion": "FOREIGN KEY (tipo_rima_id) REFERENCES vocabularios(termino_id) ON UPDATE CASCADE ON DELETE SET NULL",
+      "nombre": "arquitecturas_forma_tipo_rima_id_fkey",
+      "tabla": "arquitecturas_forma",
+      "tipo": "f"
+    },
+    {
+      "definicion": "CHECK (unidad_versos_min IS NULL AND unidad_versos_max IS NULL OR unidad_versos_min IS NOT NULL AND unidad_versos_max IS NOT NULL AND unidad_versos_min > 0 AND unidad_versos_max >= unidad_versos_min)",
+      "nombre": "arquitecturas_forma_unidad_versos_check",
+      "tabla": "arquitecturas_forma",
+      "tipo": "c"
+    },
+    {
+      "definicion": "FOREIGN KEY (updated_by) REFERENCES editores(user_id) ON UPDATE CASCADE ON DELETE SET NULL",
+      "nombre": "arquitecturas_forma_updated_by_fkey",
+      "tabla": "arquitecturas_forma",
+      "tipo": "f"
+    },
+    {
+      "definicion": "FOREIGN KEY (atribucion_id) REFERENCES atribuciones(atribucion_id) ON DELETE CASCADE",
+      "nombre": "atribucion_autores_atribucion_id_fkey",
+      "tabla": "atribucion_autores",
+      "tipo": "f"
+    },
+    {
+      "definicion": "FOREIGN KEY (autor_id) REFERENCES autores(autor_id) ON DELETE CASCADE",
+      "nombre": "atribucion_autores_autor_id_fkey",
+      "tabla": "atribucion_autores",
+      "tipo": "f"
+    },
+    {
+      "definicion": "PRIMARY KEY (atribucion_id, autor_id)",
+      "nombre": "atribucion_autores_pkey",
+      "tabla": "atribucion_autores",
+      "tipo": "p"
+    },
+    {
+      "definicion": "FOREIGN KEY (composicion_autoria_id) REFERENCES vocabularios(termino_id)",
+      "nombre": "atribuciones_composicion_autoria_id_fkey",
+      "tabla": "atribuciones",
+      "tipo": "f"
+    },
+    {
+      "definicion": "FOREIGN KEY (grupo_atribucion_id) REFERENCES grupos_atribucion(grupo_atribucion_id) ON DELETE CASCADE",
+      "nombre": "atribuciones_grupo_atribucion_id_fkey",
+      "tabla": "atribuciones",
+      "tipo": "f"
+    },
+    {
+      "definicion": "FOREIGN KEY (jornada_id) REFERENCES jornadas(jornada_id) ON DELETE CASCADE",
+      "nombre": "atribuciones_jornada_id_fkey",
+      "tabla": "atribuciones",
+      "tipo": "f"
+    },
+    {
+      "definicion": "FOREIGN KEY (modalidad_atribucion_id) REFERENCES vocabularios(termino_id)",
+      "nombre": "atribuciones_modalidad_atribucion_id_fkey",
+      "tabla": "atribuciones",
+      "tipo": "f"
+    },
+    {
+      "definicion": "FOREIGN KEY (obra_id) REFERENCES obras(obra_id) ON DELETE CASCADE",
+      "nombre": "atribuciones_obra_id_fkey",
+      "tabla": "atribuciones",
+      "tipo": "f"
+    },
+    {
+      "definicion": "PRIMARY KEY (atribucion_id)",
+      "nombre": "atribuciones_pkey",
+      "tabla": "atribuciones",
+      "tipo": "p"
+    },
+    {
+      "definicion": "CHECK ((COALESCE((obra_id IS NOT NULL)::integer, 0) + COALESCE((jornada_id IS NOT NULL)::integer, 0)) = 1)",
+      "nombre": "atribuciones_scope_xor_chk",
+      "tabla": "atribuciones",
+      "tipo": "c"
+    },
+    {
+      "definicion": "FOREIGN KEY (tipo_atribucion_id) REFERENCES vocabularios(termino_id)",
+      "nombre": "atribuciones_tipo_atribucion_id_fkey",
+      "tabla": "atribuciones",
+      "tipo": "f"
+    },
+    {
+      "definicion": "UNIQUE (email)",
+      "nombre": "editores_email_key",
+      "tabla": "editores",
+      "tipo": "u"
+    },
+    {
+      "definicion": "PRIMARY KEY (user_id)",
+      "nombre": "editores_pkey",
+      "tabla": "editores",
+      "tipo": "p"
+    },
+    {
+      "definicion": "FOREIGN KEY (role) REFERENCES vocabularios(termino_id)",
+      "nombre": "editores_role_fkey",
+      "tabla": "editores",
+      "tipo": "f"
+    },
+    {
+      "definicion": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE NOT VALID",
+      "nombre": "editores_user_id_fkey",
+      "tabla": "editores",
+      "tipo": "f"
+    },
+    {
+      "definicion": "FOREIGN KEY (arquitectura_id) REFERENCES arquitecturas_forma(arquitectura_id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "nombre": "esquemas_rima_arquitectura_id_fkey",
+      "tabla": "esquemas_rima",
+      "tipo": "f"
+    },
+    {
+      "definicion": "UNIQUE (arquitectura_id, slug)",
+      "nombre": "esquemas_rima_arquitectura_id_slug_key",
+      "tabla": "esquemas_rima",
+      "tipo": "u"
+    },
+    {
+      "definicion": "CHECK (modalidad = ANY (ARRAY['definitoria'::text, 'habitual'::text, 'admitida'::text, 'excepcional'::text]))",
+      "nombre": "esquemas_rima_modalidad_check",
+      "tabla": "esquemas_rima",
+      "tipo": "c"
+    },
+    {
+      "definicion": "CHECK (notacion IS NULL OR notacion ~ '^[A-Za-z:|()\\[\\]… -]+$'::text AND (notacion !~~ '%…%'::text OR notacion ~~ '%]…%'::text) AND (notacion ~~ '%[%'::text) = (notacion ~~ '%]%'::text))",
+      "nombre": "esquemas_rima_notacion_check",
+      "tabla": "esquemas_rima",
+      "tipo": "c"
+    },
+    {
+      "definicion": "FOREIGN KEY (origen_termino_id) REFERENCES vocabularios(termino_id) ON UPDATE CASCADE ON DELETE SET NULL",
+      "nombre": "esquemas_rima_origen_termino_id_fkey",
+      "tabla": "esquemas_rima",
+      "tipo": "f"
+    },
+    {
+      "definicion": "UNIQUE (origen_termino_id)",
+      "nombre": "esquemas_rima_origen_termino_id_key",
+      "tabla": "esquemas_rima",
+      "tipo": "u"
+    },
+    {
+      "definicion": "PRIMARY KEY (esquema_rima_id)",
+      "nombre": "esquemas_rima_pkey",
+      "tabla": "esquemas_rima",
+      "tipo": "p"
+    },
+    {
+      "definicion": "FOREIGN KEY (seccion_id) REFERENCES estructuras_secciones(seccion_id) ON UPDATE CASCADE ON DELETE RESTRICT",
+      "nombre": "esquemas_rima_seccion_id_fkey",
+      "tabla": "esquemas_rima",
+      "tipo": "f"
+    },
+    {
+      "definicion": "CHECK (slug = btrim(slug) AND slug <> ''::text)",
+      "nombre": "esquemas_rima_slug_check",
+      "tabla": "esquemas_rima",
+      "tipo": "c"
+    },
+    {
+      "definicion": "FOREIGN KEY (tipo_rima_id) REFERENCES vocabularios(termino_id) ON UPDATE CASCADE ON DELETE SET NULL",
+      "nombre": "esquemas_rima_tipo_rima_id_fkey",
+      "tabla": "esquemas_rima",
+      "tipo": "f"
+    },
+    {
+      "definicion": "CHECK (tipo_secuencia = ANY (ARRAY['ciclo'::text, 'secuencia'::text, 'conjunto'::text, 'abierta'::text]))",
+      "nombre": "esquemas_rima_tipo_secuencia_check",
+      "tabla": "esquemas_rima",
+      "tipo": "c"
+    },
+    {
+      "definicion": "TRIGGER DEFERRABLE INITIALLY DEFERRED",
+      "nombre": "trg_definitoria_no_se_ofrece",
+      "tabla": "esquemas_rima",
+      "tipo": "t"
+    },
+    {
+      "definicion": "FOREIGN KEY (arquitectura_id) REFERENCES arquitecturas_forma(arquitectura_id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "nombre": "estructuras_secciones_arquitectura_id_fkey",
+      "tabla": "estructuras_secciones",
+      "tipo": "f"
+    },
+    {
+      "definicion": "UNIQUE (arquitectura_id, seccion_padre_id, orden)",
+      "nombre": "estructuras_secciones_arquitectura_id_seccion_padre_id_ord_key",
+      "tabla": "estructuras_secciones",
+      "tipo": "u"
+    },
+    {
+      "definicion": "FOREIGN KEY (arquitectura_referenciada_id) REFERENCES arquitecturas_forma(arquitectura_id) ON UPDATE CASCADE ON DELETE RESTRICT",
+      "nombre": "estructuras_secciones_arquitectura_referenciada_id_fkey",
+      "tabla": "estructuras_secciones",
+      "tipo": "f"
+    },
+    {
+      "definicion": "UNIQUE (arquitectura_id, slug)",
+      "nombre": "estructuras_secciones_arquitectura_slug_key",
+      "tabla": "estructuras_secciones",
+      "tipo": "u"
+    },
+    {
+      "definicion": "CHECK (seccion_padre_id IS NULL OR seccion_padre_id <> seccion_id)",
+      "nombre": "estructuras_secciones_check",
+      "tabla": "estructuras_secciones",
+      "tipo": "c"
+    },
+    {
+      "definicion": "CHECK (repeticiones_min IS NULL OR repeticiones_max IS NULL OR repeticiones_min <= repeticiones_max)",
+      "nombre": "estructuras_secciones_check1",
+      "tabla": "estructuras_secciones",
+      "tipo": "c"
+    },
+    {
+      "definicion": "CHECK (versos_min IS NULL OR versos_max IS NULL OR versos_min <= versos_max)",
+      "nombre": "estructuras_secciones_check2",
+      "tabla": "estructuras_secciones",
+      "tipo": "c"
+    },
+    {
+      "definicion": "FOREIGN KEY (esquema_metrico_id) REFERENCES esquemas_metricos(esquema_metrico_id) ON UPDATE CASCADE ON DELETE SET NULL",
+      "nombre": "estructuras_secciones_esquema_metrico_id_fkey",
+      "tabla": "estructuras_secciones",
+      "tipo": "f"
+    },
+    {
+      "definicion": "FOREIGN KEY (esquema_rima_id) REFERENCES esquemas_rima(esquema_rima_id) ON UPDATE CASCADE ON DELETE SET NULL",
+      "nombre": "estructuras_secciones_esquema_rima_id_fkey",
+      "tabla": "estructuras_secciones",
+      "tipo": "f"
+    },
+    {
+      "definicion": "CHECK (orden > 0)",
+      "nombre": "estructuras_secciones_orden_check",
+      "tabla": "estructuras_secciones",
+      "tipo": "c"
+    },
+    {
+      "definicion": "PRIMARY KEY (seccion_id)",
+      "nombre": "estructuras_secciones_pkey",
+      "tabla": "estructuras_secciones",
+      "tipo": "p"
+    },
+    {
+      "definicion": "CHECK (repeticiones_max IS NULL OR repeticiones_max >= 0)",
+      "nombre": "estructuras_secciones_repeticiones_max_check",
+      "tabla": "estructuras_secciones",
+      "tipo": "c"
+    },
+    {
+      "definicion": "CHECK (repeticiones_min IS NULL OR repeticiones_min >= 0)",
+      "nombre": "estructuras_secciones_repeticiones_min_check",
+      "tabla": "estructuras_secciones",
+      "tipo": "c"
+    },
+    {
+      "definicion": "FOREIGN KEY (seccion_padre_id) REFERENCES estructuras_secciones(seccion_id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "nombre": "estructuras_secciones_seccion_padre_id_fkey",
+      "tabla": "estructuras_secciones",
+      "tipo": "f"
+    },
+    {
+      "definicion": "CHECK (slug = btrim(slug) AND slug <> ''::text)",
+      "nombre": "estructuras_secciones_slug_check",
+      "tabla": "estructuras_secciones",
+      "tipo": "c"
+    },
+    {
+      "definicion": "CHECK (btrim(tipo_seccion) <> ''::text)",
+      "nombre": "estructuras_secciones_tipo_seccion_check",
+      "tabla": "estructuras_secciones",
+      "tipo": "c"
+    },
+    {
+      "definicion": "CHECK (versos_max IS NULL OR versos_max >= 0)",
+      "nombre": "estructuras_secciones_versos_max_check",
+      "tabla": "estructuras_secciones",
+      "tipo": "c"
+    },
+    {
+      "definicion": "CHECK (versos_min IS NULL OR versos_min >= 0)",
+      "nombre": "estructuras_secciones_versos_min_check",
+      "tabla": "estructuras_secciones",
+      "tipo": "c"
+    },
+    {
+      "definicion": "FOREIGN KEY (created_by) REFERENCES editores(user_id) ON UPDATE CASCADE ON DELETE SET NULL",
+      "nombre": "formas_metricas_created_by_fkey",
+      "tabla": "formas_metricas",
+      "tipo": "f"
+    },
+    {
+      "definicion": "CHECK (nivel_estructural = ANY (ARRAY['verso'::text, 'estrofa'::text, 'serie'::text, 'composicion'::text]))",
+      "nombre": "formas_metricas_nivel_estructural_check",
+      "tabla": "formas_metricas",
+      "tipo": "c"
+    },
+    {
+      "definicion": "CHECK (btrim(nombre) <> ''::text)",
+      "nombre": "formas_metricas_nombre_check",
+      "tabla": "formas_metricas",
+      "tipo": "c"
+    },
+    {
+      "definicion": "FOREIGN KEY (origen_termino_id) REFERENCES vocabularios(termino_id) ON UPDATE CASCADE ON DELETE SET NULL",
+      "nombre": "formas_metricas_origen_termino_id_fkey",
+      "tabla": "formas_metricas",
+      "tipo": "f"
+    },
+    {
+      "definicion": "UNIQUE (origen_termino_id)",
+      "nombre": "formas_metricas_origen_termino_id_key",
+      "tabla": "formas_metricas",
+      "tipo": "u"
+    },
+    {
+      "definicion": "PRIMARY KEY (forma_id)",
+      "nombre": "formas_metricas_pkey",
+      "tabla": "formas_metricas",
+      "tipo": "p"
+    },
+    {
+      "definicion": "CHECK (slug = btrim(slug) AND slug <> ''::text)",
+      "nombre": "formas_metricas_slug_check",
+      "tabla": "formas_metricas",
+      "tipo": "c"
+    },
+    {
+      "definicion": "UNIQUE (slug)",
+      "nombre": "formas_metricas_slug_key",
+      "tabla": "formas_metricas",
+      "tipo": "u"
+    },
+    {
+      "definicion": "CHECK (tipo_registro = ANY (ARRAY['forma'::text, 'sin_forma'::text]))",
+      "nombre": "formas_metricas_tipo_registro_check",
+      "tabla": "formas_metricas",
+      "tipo": "c"
+    },
+    {
+      "definicion": "FOREIGN KEY (updated_by) REFERENCES editores(user_id) ON UPDATE CASCADE ON DELETE SET NULL",
+      "nombre": "formas_metricas_updated_by_fkey",
+      "tabla": "formas_metricas",
+      "tipo": "f"
+    },
+    {
+      "definicion": "FOREIGN KEY (jornada_id) REFERENCES jornadas(jornada_id) ON DELETE CASCADE",
+      "nombre": "grupos_atribucion_jornada_id_fkey",
+      "tabla": "grupos_atribucion",
+      "tipo": "f"
+    },
+    {
+      "definicion": "FOREIGN KEY (obra_id) REFERENCES obras(obra_id) ON DELETE CASCADE",
+      "nombre": "grupos_atribucion_obra_id_fkey",
+      "tabla": "grupos_atribucion",
+      "tipo": "f"
+    },
+    {
+      "definicion": "PRIMARY KEY (grupo_atribucion_id)",
+      "nombre": "grupos_atribucion_pkey",
+      "tabla": "grupos_atribucion",
+      "tipo": "p"
+    },
+    {
+      "definicion": "CHECK (obra_id IS NOT NULL AND jornada_id IS NULL OR obra_id IS NULL AND jornada_id IS NOT NULL)",
+      "nombre": "grupos_atribucion_scope_xor_chk",
+      "tabla": "grupos_atribucion",
+      "tipo": "c"
+    },
+    {
+      "definicion": "FOREIGN KEY (obra_id) REFERENCES obras(obra_id) ON DELETE CASCADE",
+      "nombre": "jornadas_obra_id_fkey",
+      "tabla": "jornadas",
+      "tipo": "f"
+    },
+    {
+      "definicion": "PRIMARY KEY (jornada_id)",
+      "nombre": "jornadas_pkey",
+      "tabla": "jornadas",
+      "tipo": "p"
+    },
+    {
+      "definicion": "UNIQUE (obra_id, jornada_num)",
+      "nombre": "uq_jornadas_obra_num",
+      "tabla": "jornadas",
+      "tipo": "u"
+    },
+    {
+      "definicion": "CHECK (btrim(nombre) <> ''::text)",
+      "nombre": "metros_nombre_check",
+      "tabla": "metros",
+      "tipo": "c"
+    },
+    {
+      "definicion": "FOREIGN KEY (origen_termino_id) REFERENCES vocabularios(termino_id) ON UPDATE CASCADE ON DELETE SET NULL",
+      "nombre": "metros_origen_termino_id_fkey",
+      "tabla": "metros",
+      "tipo": "f"
+    },
+    {
+      "definicion": "UNIQUE (origen_termino_id)",
+      "nombre": "metros_origen_termino_id_key",
+      "tabla": "metros",
+      "tipo": "u"
+    },
+    {
+      "definicion": "PRIMARY KEY (metro_id)",
+      "nombre": "metros_pkey",
+      "tabla": "metros",
+      "tipo": "p"
+    },
+    {
+      "definicion": "CHECK (silabas > 0)",
+      "nombre": "metros_silabas_check",
+      "tabla": "metros",
+      "tipo": "c"
+    },
+    {
+      "definicion": "CHECK (slug = btrim(slug) AND slug <> ''::text)",
+      "nombre": "metros_slug_check",
+      "tabla": "metros",
+      "tipo": "c"
+    },
+    {
+      "definicion": "UNIQUE (slug)",
+      "nombre": "metros_slug_key",
+      "tabla": "metros",
+      "tipo": "u"
+    },
+    {
+      "definicion": "CHECK (tipo = ANY (ARRAY['simple'::text, 'compuesto'::text]))",
+      "nombre": "metros_tipo_check",
+      "tabla": "metros",
+      "tipo": "c"
+    },
+    {
+      "definicion": "FOREIGN KEY (editor_asignado) REFERENCES editores(user_id) ON DELETE SET NULL",
+      "nombre": "obras_editor_asignado_fkey",
+      "tabla": "obras",
+      "tipo": "f"
+    },
+    {
+      "definicion": "FOREIGN KEY (estado) REFERENCES vocabularios(termino_id)",
+      "nombre": "obras_estado_fkey",
+      "tabla": "obras",
+      "tipo": "f"
+    },
+    {
+      "definicion": "FOREIGN KEY (genero_id) REFERENCES vocabularios(termino_id)",
+      "nombre": "obras_genero_id_fkey",
+      "tabla": "obras",
+      "tipo": "f"
+    },
+    {
+      "definicion": "PRIMARY KEY (obra_id)",
+      "nombre": "obras_pkey",
+      "tabla": "obras",
+      "tipo": "p"
+    },
+    {
+      "definicion": "UNIQUE (slug)",
+      "nombre": "obras_slug_key",
+      "tabla": "obras",
+      "tipo": "u"
+    },
+    {
+      "definicion": "CHECK (btrim(nombre) <> ''::text)",
+      "nombre": "rasgo_valores_nombre_check",
+      "tabla": "rasgo_valores",
+      "tipo": "c"
+    },
+    {
+      "definicion": "FOREIGN KEY (origen_termino_id) REFERENCES vocabularios(termino_id) ON UPDATE CASCADE ON DELETE SET NULL",
+      "nombre": "rasgo_valores_origen_termino_id_fkey",
+      "tabla": "rasgo_valores",
+      "tipo": "f"
+    },
+    {
+      "definicion": "UNIQUE (origen_termino_id)",
+      "nombre": "rasgo_valores_origen_termino_id_key",
+      "tabla": "rasgo_valores",
+      "tipo": "u"
+    },
+    {
+      "definicion": "PRIMARY KEY (valor_id)",
+      "nombre": "rasgo_valores_pkey",
+      "tabla": "rasgo_valores",
+      "tipo": "p"
+    },
+    {
+      "definicion": "FOREIGN KEY (rasgo_id) REFERENCES rasgos_metricos(rasgo_id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "nombre": "rasgo_valores_rasgo_id_fkey",
+      "tabla": "rasgo_valores",
+      "tipo": "f"
+    },
+    {
+      "definicion": "UNIQUE (rasgo_id, slug)",
+      "nombre": "rasgo_valores_rasgo_id_slug_key",
+      "tabla": "rasgo_valores",
+      "tipo": "u"
+    },
+    {
+      "definicion": "CHECK (slug = btrim(slug) AND slug <> ''::text)",
+      "nombre": "rasgo_valores_slug_check",
+      "tabla": "rasgo_valores",
+      "tipo": "c"
+    },
+    {
+      "definicion": "CHECK (escala_recuento = ANY (ARRAY['verso'::text, 'secuencia'::text]))",
+      "nombre": "rasgos_metricos_escala_recuento_check",
+      "tabla": "rasgos_metricos",
+      "tipo": "c"
+    },
+    {
+      "definicion": "CHECK (naturaleza = ANY (ARRAY['construccion'::text, 'capa'::text]))",
+      "nombre": "rasgos_metricos_naturaleza_check",
+      "tabla": "rasgos_metricos",
+      "tipo": "c"
+    },
+    {
+      "definicion": "CHECK (btrim(nombre) <> ''::text)",
+      "nombre": "rasgos_metricos_nombre_check",
+      "tabla": "rasgos_metricos",
+      "tipo": "c"
+    },
+    {
+      "definicion": "CHECK (observabilidad = ANY (ARRAY['directa'::text, 'especializada'::text, 'derivada'::text]))",
+      "nombre": "rasgos_metricos_observabilidad_check",
+      "tabla": "rasgos_metricos",
+      "tipo": "c"
+    },
+    {
+      "definicion": "PRIMARY KEY (rasgo_id)",
+      "nombre": "rasgos_metricos_pkey",
+      "tabla": "rasgos_metricos",
+      "tipo": "p"
+    },
+    {
+      "definicion": "CHECK (slug = btrim(slug) AND slug <> ''::text)",
+      "nombre": "rasgos_metricos_slug_check",
+      "tabla": "rasgos_metricos",
+      "tipo": "c"
+    },
+    {
+      "definicion": "UNIQUE (slug)",
+      "nombre": "rasgos_metricos_slug_key",
+      "tabla": "rasgos_metricos",
+      "tipo": "u"
+    },
+    {
+      "definicion": "CHECK (tipo_valor = ANY (ARRAY['booleano'::text, 'catalogo'::text, 'texto_controlado'::text, 'numero'::text]))",
+      "nombre": "rasgos_metricos_tipo_valor_check",
+      "tabla": "rasgos_metricos",
+      "tipo": "c"
+    },
+    {
+      "definicion": "FOREIGN KEY (arquitectura_id) REFERENCES arquitecturas_forma(arquitectura_id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "nombre": "repeticiones_metricas_arquitectura_id_fkey",
+      "tabla": "repeticiones_metricas",
+      "tipo": "f"
+    },
+    {
+      "definicion": "UNIQUE (arquitectura_id, slug)",
+      "nombre": "repeticiones_metricas_arquitectura_slug_key",
+      "tabla": "repeticiones_metricas",
+      "tipo": "u"
+    },
+    {
+      "definicion": "FOREIGN KEY (extension_desde_seccion_id) REFERENCES estructuras_secciones(seccion_id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "nombre": "repeticiones_metricas_extension_desde_seccion_id_fkey",
+      "tabla": "repeticiones_metricas",
+      "tipo": "f"
+    },
+    {
+      "definicion": "FOREIGN KEY (materializa_seccion_id) REFERENCES estructuras_secciones(seccion_id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "nombre": "repeticiones_metricas_materializa_seccion_id_fkey",
+      "tabla": "repeticiones_metricas",
+      "tipo": "f"
+    },
+    {
+      "definicion": "CHECK (modalidad = ANY (ARRAY['definitoria'::text, 'habitual'::text, 'admitida'::text, 'excepcional'::text]))",
+      "nombre": "repeticiones_metricas_modalidad_check",
+      "tabla": "repeticiones_metricas",
+      "tipo": "c"
+    },
+    {
+      "definicion": "PRIMARY KEY (repeticion_id)",
+      "nombre": "repeticiones_metricas_pkey",
+      "tabla": "repeticiones_metricas",
+      "tipo": "p"
+    },
+    {
+      "definicion": "CHECK (slug = btrim(slug) AND slug <> ''::text)",
+      "nombre": "repeticiones_metricas_slug_check",
+      "tabla": "repeticiones_metricas",
+      "tipo": "c"
+    },
+    {
+      "definicion": "CHECK (tipo = ANY (ARRAY['palabra_final'::text, 'estribillo'::text]))",
+      "nombre": "repeticiones_metricas_tipo_check",
+      "tabla": "repeticiones_metricas",
+      "tipo": "c"
+    },
+    {
+      "definicion": "TRIGGER DEFERRABLE INITIALLY DEFERRED",
+      "nombre": "trg_definitoria_no_se_ofrece",
+      "tabla": "repeticiones_metricas",
+      "tipo": "t"
+    },
+    {
+      "definicion": "CHECK (generos_intervinientes IS NULL OR generos_intervinientes_validos(generos_intervinientes))",
+      "nombre": "secuencias_generos_intervinientes_chk",
+      "tabla": "secuencias_metricas",
+      "tipo": "c"
+    },
+    {
+      "definicion": "FOREIGN KEY (estrofa_tipo_id) REFERENCES vocabularios(termino_id)",
+      "nombre": "secuencias_metricas_estrofa_tipo_id_fkey",
+      "tabla": "secuencias_metricas",
+      "tipo": "f"
+    },
+    {
+      "definicion": "CHECK (intervencion_figuras_donaire::text = ANY (ARRAY['sin_intervencion'::character varying, 'exclusiva'::character varying, 'compartida'::character varying]::text[]))",
+      "nombre": "secuencias_metricas_intervencion_figuras_donaire_chk",
+      "tabla": "secuencias_metricas",
+      "tipo": "c"
+    },
+    {
+      "definicion": "CHECK (intervencion_personajes_femeninos::text = ANY (ARRAY['sin_intervencion'::character varying, 'exclusiva'::character varying, 'compartida'::character varying]::text[]))",
+      "nombre": "secuencias_metricas_intervencion_personajes_femeninos_chk",
+      "tabla": "secuencias_metricas",
+      "tipo": "c"
+    },
+    {
+      "definicion": "CHECK (intervencion_personajes_sobrenaturales::text = ANY (ARRAY['sin_intervencion'::character varying, 'exclusiva'::character varying, 'compartida'::character varying]::text[]))",
+      "nombre": "secuencias_metricas_intervencion_personajes_sobrenaturales_chk",
+      "tabla": "secuencias_metricas",
+      "tipo": "c"
+    },
+    {
+      "definicion": "FOREIGN KEY (obra_id) REFERENCES obras(obra_id) ON DELETE CASCADE",
+      "nombre": "secuencias_metricas_obra_id_fkey",
+      "tabla": "secuencias_metricas",
+      "tipo": "f"
+    },
+    {
+      "definicion": "PRIMARY KEY (secuencia_id)",
+      "nombre": "secuencias_metricas_pkey",
+      "tabla": "secuencias_metricas",
+      "tipo": "p"
+    },
+    {
+      "definicion": "CHECK (v_fin >= v_ini)",
+      "nombre": "secuencias_metricas_rango_check",
+      "tabla": "secuencias_metricas",
+      "tipo": "c"
+    }
+  ],
+  "secciones_cancion": [
+    {
+      "arquitectura": "estancias_consonantes_variables",
+      "forma": "cancion",
+      "seccion": "Primer pie",
+      "tipo_seccion": "pie"
+    },
+    {
+      "arquitectura": "estancias_consonantes_variables",
+      "forma": "cancion",
+      "seccion": "Estancia",
+      "tipo_seccion": "estancia"
+    },
+    {
+      "arquitectura": "estancias_consonantes_variables",
+      "forma": "cancion",
+      "seccion": "Fronte",
+      "tipo_seccion": "fronte"
+    },
+    {
+      "arquitectura": "estancias_consonantes_variables",
+      "forma": "cancion",
+      "seccion": "Eslabón",
+      "tipo_seccion": "eslabon"
+    },
+    {
+      "arquitectura": "estancias_consonantes_variables",
+      "forma": "cancion",
+      "seccion": "Remate o envío",
+      "tipo_seccion": "remate"
+    },
+    {
+      "arquitectura": "estancias_consonantes_variables",
+      "forma": "cancion",
+      "seccion": "Segundo pie",
+      "tipo_seccion": "pie"
+    },
+    {
+      "arquitectura": "estancias_consonantes_variables",
+      "forma": "cancion",
+      "seccion": "Sirima",
+      "tipo_seccion": "sirima"
+    }
+  ]
+}

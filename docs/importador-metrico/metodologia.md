@@ -21,6 +21,11 @@ transcripción validada no convierte automáticamente en cierta una equivalencia
 
 ## Profundidad y segmentación
 
+La estructura de obras, jornadas y secuencias es común. La métrica mínima tendrá una tabla propia,
+separada de las anotaciones detalladas v2: no se completan por defecto sus preguntas obligatorias
+ni se interpreta su ausencia de respuestas con las reglas de una anotación completa. Una proyección
+analítica común permitirá comparar dimensiones equivalentes, con su evidencia y cobertura.
+
 El nivel de detalle puede variar entre secuencias de una misma obra. Se conserva forma,
 arquitectura, medida, rima o rasgos únicamente hasta donde los documente la fuente y permita la
 correspondencia revisada. La ausencia de detalle no significa ausencia del fenómeno ni conformidad
@@ -41,6 +46,17 @@ La denominación de la edición y la identificación normalizada son datos disti
 las equivalencias aprobadas ayudarán a la IA y al importador; el resultado original siempre se
 conserva. Una correspondencia puede depender de la edición, su contexto o la información adicional
 de la propia declaración, no solo de una coincidencia de palabras.
+
+El procedimiento se apoya en la sinopsis de la edición y en correspondencias reutilizables.
+No exige consultar el texto dramático para resolver cada etiqueta ambigua. Identificar la forma
+de un pasaje concreto no autoriza a trasladar esa equivalencia a otros usos de la misma palabra;
+cuando la terminología no discrimina, se mantiene la ambigüedad en el corpus mínimo.
+
+Decisión del responsable del 22 de octubre de 2026: «estancias con pareado final» se normaliza
+como **Canción al nivel de forma**, con remate en pareado declarado. El modelo ya contempla
+el remate o envío como sección de la canción. No se exige identificar arquitectura, patrón de
+estancias ni esquema concreto para conservar esos datos parciales en el piloto. La correspondencia
+se aplica por la declaración terminológica; no depende de cotejar el texto de esa obra.
 
 | Resultado | Qué permite afirmar |
 | --- | --- |
@@ -113,7 +129,9 @@ otros fenómenos permanecen desconocidos, no se convierten en ausencias.
 La consulta individual de fichas y la difusión de resultados agregados tienen reglas diferentes.
 Se podrán seleccionar comparaciones para fichas completas sin publicar las fichas mínimas que
 contribuyeron al referente. Se debe declarar el universo utilizado, su cobertura y las limitaciones
-relevantes. La política concreta de acceso y publicación queda por decidir.
+relevantes. **El uso de resultados agregados del corpus mínimo en fichas completas forma parte del
+alcance acordado**, además de su exploración en el laboratorio. Quedan por concretar los permisos
+operativos y las condiciones para seleccionar cada resultado difundible, no ese principio.
 
 Como propuesta para validar, al situar una obra respecto al autor se excluirá la propia obra y sus
 versiones del referente. También deben fijarse la unidad de agregación, el tratamiento de fechas

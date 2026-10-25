@@ -1,8 +1,9 @@
 # Hoja de ruta del importador métrico
 
-El proyecto comienza con documentos y archivos de ensayo en `main`. El resultado del piloto debe
-guiar la adaptación de la base compartida. Las etapas siguientes son un plan; no representan
-funcionalidad implementada ni experimentos ya ejecutados.
+El proyecto trabaja con documentos y archivos de ensayo en `main`. Ya hay cuatro transcripciones aceptadas
+y un [validador técnico local](./validador-local.md). El resultado del piloto debe guiar la adaptación
+de la base compartida. Las etapas siguientes son el plan de integración; no implican que exista el
+importador del dashboard ni que se hayan ejecutado experimentos de sensibilidad del corpus.
 
 ## Etapas y condiciones de avance
 
@@ -10,15 +11,27 @@ funcionalidad implementada ni experimentos ya ejecutados.
 | --- | --- | --- |
 | 1. Contrato del piloto | Ejemplos de transcripción, metadatos, identificación parcial, candidatas y trazabilidad | Distinguir fielmente la declaración editorial de sus interpretaciones |
 | 2. Referencia de transcripción | Inventario y extracciones revisadas de las veinte obras fotografiadas, empezando por una muestra pequeña para ajustar el procedimiento | Cada extracción aceptada tiene revisión humana y conserva las incidencias de la fuente |
-| 3. Correspondencias y prompt | Inventario de denominaciones, equivalencias revisadas, candidatas justificadas y prompt versionado | Conocer qué se resuelve, qué queda abierto y qué errores introduce el procedimiento |
+| 3. Correspondencias y prompt | Inventario de denominaciones, equivalencias revisadas, candidatas justificadas y prompt versionado; ampliar el repertorio con cada lote | Conocer qué se resuelve, qué queda abierto y qué errores introduce el procedimiento, sin exigir un repertorio exhaustivo |
 | 4. Sensibilidad | Resultados reproducibles de degradación y límites por lagunas sistemáticas | Determinar qué preguntas pueden responderse y con qué condiciones de cobertura |
-| 5. Modelo y contrato de análisis | Diseño del esquema común, procedencia, usos, promoción editorial y medidas con incertidumbre | Resolver con los casos reales las restricciones de integridad y los consumidores afectados |
-| 6. Recorrido completo | Importar una obra real, revisar, guardar, calcular su perfil privado y asignarla para ampliación | Conservar evidencia, evitar duplicados y mantener el funcionamiento editorial existente |
-| 7. Ampliación y resultados compartibles | Procesar más obras, revisar nuevos términos y seleccionar comparaciones | Resultados interpretables y trazables antes de incorporarlos a fichas completas |
+| 5. Modelo y contrato de análisis | Obras/jornadas/secuencias compartidas, tabla de métrica mínima separada de v2, procedencia, promoción y análisis con incertidumbre | Resolver con los casos reales las restricciones de integridad y los consumidores afectados; este diseño puede avanzar con las cuatro obras |
+| 6. Recorrido completo | Importar una obra real, revisar, guardar, incorporarla al referente elegible y asignarla para ampliación | Conservar evidencia, evitar duplicados y mantener el funcionamiento editorial existente, sin publicar la ficha mínima |
+| 7. Ampliación y resultados compartibles | Procesar más obras, ampliar equivalencias y seleccionar agregados del corpus mínimo/completo para contrastar fichas completas | Resultados interpretables y trazables con cobertura y universo explícitos; privacidad de las fichas mínimas de origen |
 
 Las etapas pueden solaparse: la extracción de las primeras obras permite empezar el inventario
 terminológico y los ensayos del prompt sin esperar a cerrar las veinte. La normalización puede
 seguir siendo parcial cuando el gold de transcripción ya esté terminado.
+Las cuatro obras no cubren todas las formas, ni se espera que lo hagan: bastan para arrancar el
+procedimiento y contrastar los primeros casos de almacenamiento. Las veinte ampliarán el repertorio
+y la evaluación. El diseño técnico no queda condicionado a resolver todos sus términos.
+
+El primer cotejo está aceptado y el validador general tiene pruebas con datos sintéticos y con
+las cuatro extracciones. Ya hay un [primer ensayo de normalización](./piloto/informe-normalizacion.md)
+que separa propuestas, candidatas e identificaciones revisadas. Los pasajes bibliográficos relevantes
+ya están consultados directamente y documentados en el contraste de términos. Sigue revisar
+las correspondencias reutilizables. Estancias → Canción está aceptada como forma con remate
+declarado; «tercetos» y «letrilla» permanecen ambiguos sin exigir cotejo del texto dramático.
+La aceptación de la transcripción no aprueba automáticamente las correspondencias ni
+permite calcular todavía tolerancias empíricas del corpus.
 
 ## Decisiones abiertas que conviene conversar
 
@@ -27,7 +40,7 @@ seguir siendo parcial cuando el gold de transcripción ya esté terminado.
 | Candidatas | Quién aprueba una correspondencia, qué evidencia la sostiene y cuándo la lista es exhaustiva o solo orientativa. No asignar pesos sin fundamento |
 | Aceptación de la extracción | Quién revisa, qué confirma y cómo se registran una fila ilegible o una inconsistencia de la propia fuente |
 | Fechas y autoría | Qué hacer con intervalos y propuestas alternativas; cómo seleccionar periodos y obras de autoría discutida sin fingir certeza |
-| Disponibilidad en la plataforma | Qué ve cada rol y qué fichas pueden usarse para cada análisis, al margen de su publicación individual |
+| Disponibilidad en la plataforma | Permisos por rol y elegibilidad por medida. Se mantiene el uso acordado de agregados del corpus mínimo en comparaciones de fichas completas |
 | Adopción por un editor | Cómo pasa una ficha mínima a trabajo detallado, conservando revisión pendiente, decisiones y procedencia |
 | Ediciones y reimportaciones | Cómo reconocer una obra existente, elegir su base analítica y actualizarla sin sobrescribir trabajo ni contar dos veces la obra |
 | Cálculo del referente | Si se resume por obra o por versos; excluir o incluir la obra de referencia de manera explícita; selección por periodo y cobertura |
@@ -35,8 +48,12 @@ seguir siendo parcial cuando el gold de transcripción ya esté terminado.
 | Archivos del piloto | Formato de intercambio, datos que se versionan y ubicación de fotografías y demás materiales externos |
 
 La conversación ha establecido los principios de [metodología](./metodologia.md), pero estas
-políticas operativas no están cerradas. Los campos y tablas se diseñarán después de probar los
-casos; no se da por aprobada una migración por documentar una posibilidad.
+políticas operativas no están cerradas. El [diseño de integración](./diseno-integracion.md) parte
+de las decisiones ya tomadas y del esquema vivo; concretar sus campos y garantías no equivale a
+aprobar ni aplicar una migración.
+La propuesta de [campos mínimos](./campos-minimos.md) ya define el almacenamiento separado,
+las referencias, los detalles parciales y la selección de versión analítica. Su traducción a SQL
+y contratos ejecutables deberá conservar esos casos y garantías.
 
 ## Evaluación del procedimiento
 
@@ -59,9 +76,14 @@ deben poder examinarse sin atribuirles distribuciones probabilísticas no justif
 
 ## Integración técnica en la base compartida
 
-La orientación es una identidad común de obra, evidencia de fuente conservada, anotación de
-profundidad variable y cálculos compartidos con cobertura explícita. El registro de importación
-conserva el original; no constituye un segundo corpus que deba mantenerse a mano.
+Se reutilizan obras, jornadas y secuencias, con **una tabla separada para la métrica mínima** y
+evidencia de fuente conservada. No se fuerza una anotación incompleta en las tablas v2. Una capa
+común de lectura alimentará cálculos con cobertura explícita. El registro de importación conserva
+el original; no constituye otro corpus de obras que deba mantenerse a mano.
+
+Los datos mínimos validados podrán contribuir al laboratorio y a agregados seleccionados para
+contrastar fichas completas. No se publicarán las fichas mínimas individuales ni se usará el estado
+publicado como atajo para incluirlas en el referente.
 
 Antes de implementar se revisarán el esquema vivo y los consumidores de las anotaciones:
 validación métrica, checklist editorial, asignaciones, perfiles, artefactos e índices. Se probará

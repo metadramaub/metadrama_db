@@ -115,11 +115,26 @@ los gráficos existentes:
 No se añadirán comparativas a la cabecera, `Esquema métrico`, sinopsis, observaciones, bibliografía ni
 a cada gráfico por jornada. La ficha debe seguir explicando primero la obra, no el corpus.
 
-## Reglas de lectura pública
+## Ampliación acordada para el corpus mínimo
 
-- El referente es siempre el corpus publicado y visible, también cuando mira la ficha un admin. Una
+El [proyecto del importador](./importador-metrico/diseno-integracion.md), todavía sin integrar en
+la base, amplía el referente posible: las fichas mínimas validadas podrán aportar resultados
+agregados para contrastar fichas completas, aunque sus fichas individuales no se publiquen.
+Se reutilizan obras, jornadas y secuencias, con la métrica mínima en una tabla aparte de v2.
+
+Ese referente ampliado deberá tener un contrato con cobertura e incertidumbre por medida; no
+se incorpora a los agregados V2 actuales rellenando con ceros lo que no se ha identificado.
+La salida para la ficha seguirá siendo una selección de resultados globales y no la matriz
+individual del laboratorio. Declarará la composición del corpus y no lo llamará «publicado»
+cuando incluya mínimas. Quedan por concretar las medidas, muestra y estabilidad que permiten
+difundir cada comparación; el uso agregado de las mínimas ya forma parte del alcance acordado.
+
+## Reglas de lectura pública para el referente publicado
+
+- En el diseño inicial, el referente es el corpus publicado y visible, también cuando mira la ficha un admin. Una
   vista previa puede compararse con ese mismo corpus si lo declara expresamente, pero nunca entra en
-  su propio denominador.
+  su propio denominador. La ampliación con mínimas descrita arriba necesitará una selección de
+  universo explícita y no cambiará silenciosamente el significado de estas comparaciones.
 - En muestras pequeñas se muestran primero recuentos —«3 de 11 obras»— y después el porcentaje.
 - Se usa el rango central `q1–q3`; no se afirma un percentil exacto si no se ha calculado un rango.
 - La redacción será descriptiva: «dentro del rango central», «entre los valores altos», «poco

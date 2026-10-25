@@ -32,11 +32,18 @@ estado con `npm run equivalencias:informe`
 
 ## Proyecto de importador métrico
 
-**Preparar el piloto de fichas mínimas desde ediciones críticas.** Empezar por el contrato de datos
-y las extracciones revisadas de las fotografías, inventariar equivalencias y candidatas y ensayar
-incertidumbre antes de adaptar la base compartida. Trabajo en `main`, con archivos locales y sin
-escrituras del piloto en Supabase. La documentación inicial está creada; el piloto no se ha ejecutado.
-→ [proyecto, metodología y hoja de ruta](./importador-metrico/README.md)
+**Concretar la persistencia mínima y ampliar el piloto.** Cuatro transcripciones aceptadas,
+validador y normalizador locales con pruebas. Se reutilizan obras/jornadas/secuencias y se separa
+la métrica mínima de v2. El diseño contrasta el esquema vivo y contempla agregados del corpus mínimo
+para comparar fichas completas sin publicar las mínimas individuales. La propuesta de campos,
+referencias y versiones está escrita. Falta traducirla a SQL y contratos ejecutables de guardado
+y análisis; ampliar equivalencias con las veinte obras y ensayar
+sensibilidad. No se exige resolver todas las denominaciones: Canción con remate está aceptada;
+«tercetos» y «letrilla» conservan su ambigüedad sin cotejo obligatorio del texto. Trabajo en `main`,
+con archivos locales y sin importaciones ni migraciones en Supabase.
+→ [diseño de integración](./importador-metrico/diseno-integracion.md)
+→ [campos mínimos y conexiones](./importador-metrico/campos-minimos.md)
+→ [proyecto y hoja de ruta](./importador-metrico/README.md)
 
 ---
 
