@@ -1,0 +1,45 @@
+{
+  "esquema": "versologia-segmentacion-propuesta/0.1",
+  "estado": "criterios_de_desviacion_acordados",
+  "aplicada": false,
+  "propuestas": [
+    {
+      "obra_ref": "los-locos-de-valencia",
+      "tramo_ref": "t16",
+      "nota_ref": "n02",
+      "motivo": "El responsable acuerda registrar el octosílabo de v. 2666 como adición estructural integrada: 133 versos reales, 132 de norma y 33 redondillas. No se declara laguna ni cambio de forma.",
+      "segmentos": [
+        {
+          "v_ini": 2622,
+          "v_fin": 2754,
+          "denominacion_propuesta": "redondillas",
+          "forma_slug_propuesta": "redondilla"
+        }
+      ],
+      "pendiente": "Trasladar el criterio al formato normalizado cuando se prepare esa capa. La transcripción fuente permanece intacta.",
+      "estado": "resuelta_como_desviacion",
+      "desviacion": {
+        "v_ini": 2666,
+        "v_fin": 2666,
+        "dimension": "estructura",
+        "relacion_norma": "sobra"
+      }
+    }
+  ],
+  "observaciones": [
+    {
+      "obra_ref": "los-locos-de-valencia",
+      "tramo_ref": "t13",
+      "nota_ref": "n01",
+      "accion": "registrar_desviacion_de_metro",
+      "motivo": "Criterio confirmado por el responsable: heptasílabo dentro de endecasílabos sueltos, sin partir secuencia. La atribución a probable descuido se conserva como opinión de la edición.",
+      "desviacion": {
+        "v_ini": 2172,
+        "v_fin": 2172,
+        "dimension": "metro",
+        "relacion_norma": "menor_que_norma",
+        "metro_observado_slug": "heptasilabo"
+      }
+    }
+  ]
+}

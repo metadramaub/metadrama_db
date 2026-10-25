@@ -1,0 +1,356 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "obra_ref": "el-molino",
+  "estado_revision": "borrador_ia",
+  "revision_humana": {
+    "responsable": null,
+    "fecha": null,
+    "resultado": "pendiente"
+  },
+  "procedencia": {
+    "fecha": "2026-10-22",
+    "procedimiento": "lectura_visual_asistida",
+    "generador": "Codex en este chat",
+    "modelo": null,
+    "prompt_version": "extraccion/0.1",
+    "ensayo_controlado": false
+  },
+  "metadatos": {
+    "titulo": "El molino",
+    "autoria": "Lope de Vega",
+    "autoria_procedencia": "Identificación del lote aportado por el responsable del proyecto; se conserva la bibliografía literal del DOCX.",
+    "genero_literal": "Comedia",
+    "fecha_inicio": 1585,
+    "fecha_fin": 1593,
+    "fuente_fecha": "VEGA CARPIO, Lope de, y Patrizia CAMPANA, El molino, en Comedias de Lope de Vega. Parte I, Lérida, Milenio-Universitat Autònoma de Barcelona, 1997, 3 vols, III, pp. 1547-1686.",
+    "edicion_base": "VEGA CARPIO, Lope de, y Patrizia CAMPANA, El molino, en Comedias de Lope de Vega. Parte I, Lérida, Milenio-Universitat Autònoma de Barcelona, 1997, 3 vols, III, pp. 1547-1686.",
+    "observaciones": [],
+    "fuente_id": "docx-metadatos",
+    "bloque_docx_literal": [
+      "Título: El molino",
+      "Género: Comedia",
+      "Fecha de inicio: 1585 Fecha de fin: 1593",
+      "Fuente bibliográfica para la fecha: VEGA CARPIO, Lope de, y Patrizia CAMPANA, El molino, en Comedias de Lope de Vega. Parte I, Lérida, Milenio-Universitat Autònoma de Barcelona, 1997, 3 vols, III, pp. 1547-1686.",
+      "Edición base: VEGA CARPIO, Lope de, y Patrizia CAMPANA, El molino, en Comedias de Lope de Vega. Parte I, Lérida, Milenio-Universitat Autònoma de Barcelona, 1997, 3 vols, III, pp. 1547-1686."
+    ]
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "Jornada primera"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "Jornada segunda"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "Jornada tercera"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 532,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 532,
+      "fuente_id": "foto-14a",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 533,
+      "v_fin": 562,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 30,
+      "fuente_id": "foto-14a",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 563,
+      "v_fin": 626,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 64,
+      "fuente_id": "foto-14a",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 627,
+      "v_fin": 728,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 102,
+      "fuente_id": "foto-14a",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t05",
+      "jornada": 1,
+      "v_ini": 729,
+      "v_fin": 973,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 245,
+      "fuente_id": "foto-14a",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t06",
+      "jornada": 2,
+      "v_ini": 974,
+      "v_fin": 1253,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 280,
+      "fuente_id": "foto-14a",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t07",
+      "jornada": 2,
+      "v_ini": 1254,
+      "v_fin": 1333,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 80,
+      "fuente_id": "foto-14a",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t08",
+      "jornada": 2,
+      "v_ini": 1334,
+      "v_fin": 1793,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 460,
+      "fuente_id": "foto-14a",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 1794,
+      "v_fin": 1831,
+      "denominacion_literal": "endecasílabos sueltos (con pareado final)",
+      "n_versos_fuente": 38,
+      "fuente_id": "foto-14a",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 1832,
+      "v_fin": 1963,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 132,
+      "fuente_id": "foto-14a",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 1964,
+      "v_fin": 1988,
+      "denominacion_literal": "endecasílabos sueltos (con pareado final)",
+      "n_versos_fuente": 25,
+      "fuente_id": "foto-14a",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t12",
+      "jornada": 3,
+      "v_ini": 1989,
+      "v_fin": 2002,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "foto-14b",
+      "pagina": 1562,
+      "notas_ref": []
+    },
+    {
+      "id": "t13",
+      "jornada": 3,
+      "v_ini": 2003,
+      "v_fin": 2247,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 245,
+      "fuente_id": "foto-14b",
+      "pagina": 1562,
+      "notas_ref": []
+    },
+    {
+      "id": "t14",
+      "jornada": 3,
+      "v_ini": 2248,
+      "v_fin": 2271,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 24,
+      "fuente_id": "foto-14b",
+      "pagina": 1562,
+      "notas_ref": []
+    },
+    {
+      "id": "t15",
+      "jornada": 3,
+      "v_ini": 2272,
+      "v_fin": 2387,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 116,
+      "fuente_id": "foto-14b",
+      "pagina": 1562,
+      "notas_ref": []
+    },
+    {
+      "id": "t16",
+      "jornada": 3,
+      "v_ini": 2388,
+      "v_fin": 2454,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 67,
+      "fuente_id": "foto-14b",
+      "pagina": 1562,
+      "notas_ref": []
+    },
+    {
+      "id": "t17",
+      "jornada": 3,
+      "v_ini": 2455,
+      "v_fin": 2659,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 205,
+      "fuente_id": "foto-14b",
+      "pagina": 1562,
+      "notas_ref": []
+    },
+    {
+      "id": "t18",
+      "jornada": 3,
+      "v_ini": 2660,
+      "v_fin": 2727,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 68,
+      "fuente_id": "foto-14b",
+      "pagina": 1562,
+      "notas_ref": []
+    },
+    {
+      "id": "t19",
+      "jornada": 3,
+      "v_ini": 2728,
+      "v_fin": 2879,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 152,
+      "fuente_id": "foto-14b",
+      "pagina": 1562,
+      "notas_ref": []
+    },
+    {
+      "id": "t20",
+      "jornada": 3,
+      "v_ini": 2880,
+      "v_fin": 2888,
+      "denominacion_literal": "letrilla",
+      "n_versos_fuente": 9,
+      "fuente_id": "foto-14b",
+      "pagina": 1562,
+      "notas_ref": []
+    },
+    {
+      "id": "t21",
+      "jornada": 3,
+      "v_ini": 2889,
+      "v_fin": 2992,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 104,
+      "fuente_id": "foto-14b",
+      "pagina": 1562,
+      "notas_ref": []
+    }
+  ],
+  "notas": [],
+  "resumen_fuente": [
+    {
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 1708,
+      "porcentaje_literal": "57,1",
+      "fuente_id": "foto-14b",
+      "pagina": 1562
+    },
+    {
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 695,
+      "porcentaje_literal": "23,2",
+      "fuente_id": "foto-14b",
+      "pagina": 1562
+    },
+    {
+      "denominacion_literal": "Tercetos",
+      "n_versos_fuente": 301,
+      "porcentaje_literal": "10,1",
+      "fuente_id": "foto-14b",
+      "pagina": 1562
+    },
+    {
+      "denominacion_literal": "Sueltos",
+      "n_versos_fuente": 161,
+      "porcentaje_literal": "5,4",
+      "fuente_id": "foto-14b",
+      "pagina": 1562
+    },
+    {
+      "denominacion_literal": "Octavas",
+      "n_versos_fuente": 104,
+      "porcentaje_literal": "3,5",
+      "fuente_id": "foto-14b",
+      "pagina": 1562
+    },
+    {
+      "denominacion_literal": "Soneto",
+      "n_versos_fuente": 14,
+      "porcentaje_literal": "0,5",
+      "fuente_id": "foto-14b",
+      "pagina": 1562
+    },
+    {
+      "denominacion_literal": "Letrilla",
+      "n_versos_fuente": 9,
+      "porcentaje_literal": "0,3",
+      "fuente_id": "foto-14b",
+      "pagina": 1562
+    }
+  ],
+  "incidencias": [
+    {
+      "tipo": "pagina_no_visible",
+      "descripcion": "La primera fotografía está recortada y no muestra el número de página. No se deduce de la página 1562 de la segunda.",
+      "fuente_id": "foto-14a",
+      "tramos_ref": [
+        "t01",
+        "t02",
+        "t03",
+        "t04",
+        "t05",
+        "t06",
+        "t07",
+        "t08",
+        "t09",
+        "t10",
+        "t11"
+      ]
+    }
+  ]
+}

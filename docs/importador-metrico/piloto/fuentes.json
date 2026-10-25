@@ -1,0 +1,54 @@
+{
+  "esquema": "versologia-fuentes-piloto/0.1",
+  "fecha": "2026-10-22",
+  "raiz_materiales_local": "C:\\Users\\david\\OneDrive - UAB\\Documents\\METADRAMA\\VERSOLOGIA\\Importador\\Importador",
+  "documento_metadatos": {
+    "id": "docx-metadatos",
+    "ruta_relativa": "Lista comedias Lope de Vega con fechas.docx",
+    "sha256": "e32e6ee16e404dbf3177a6dab2bd42ea0ecd7604a4a84fc9b4f76ec3013bfc45"
+  },
+  "fotografias": [
+    {
+      "id": "foto-12",
+      "obra_ref": "el-verdadero-amante",
+      "ruta_relativa": "Fotos comedias Lope/Fotos comedias Lope/12_verdadero_amante.HEIC",
+      "sha256": "53a6f9b98e90417d1014158bf05929744e5f97236fba0cec1a95b19467300192",
+      "pagina_visible": 225
+    },
+    {
+      "id": "foto-13a",
+      "obra_ref": "los-donaires-de-matico",
+      "ruta_relativa": "Fotos comedias Lope/Fotos comedias Lope/13_donaires_Matico_1.HEIC",
+      "sha256": "6c9b6ecf9881d5aa5934909b4f200e53cba2661a93d338f86067dd23b1228ff9",
+      "pagina_visible": 128
+    },
+    {
+      "id": "foto-13b",
+      "obra_ref": "los-donaires-de-matico",
+      "ruta_relativa": "Fotos comedias Lope/Fotos comedias Lope/13_Donaires_Matico_2.HEIC",
+      "sha256": "1e4cf00fad4b5e116888189bd64be6f848778cf45112dc2df42eba2f66a23b44",
+      "pagina_visible": 129
+    },
+    {
+      "id": "foto-14a",
+      "obra_ref": "el-molino",
+      "ruta_relativa": "Fotos comedias Lope/Fotos comedias Lope/14_molino_1.HEIC",
+      "sha256": "4e7eec457d97459d7dcc8b822e72c07b2eb5277ad91cf95a9e4fe2cf47c08c97",
+      "pagina_visible": null
+    },
+    {
+      "id": "foto-14b",
+      "obra_ref": "el-molino",
+      "ruta_relativa": "Fotos comedias Lope/Fotos comedias Lope/14_molino_2.HEIC",
+      "sha256": "b85f95ed5eaf28b09758558f9b4d05af946473a0bc63f4f7d1fb0780e67035dc",
+      "pagina_visible": 1562
+    },
+    {
+      "id": "foto-30",
+      "obra_ref": "los-locos-de-valencia",
+      "ruta_relativa": "Fotos comedias Lope/Fotos comedias Lope/30_locos_Valencia.HEIC",
+      "sha256": "b18038cb09a16cd14e0b22ec0ff69d3ee360aff351c557479aa43aba61e83d3f",
+      "pagina_visible": 188
+    }
+  ]
+}

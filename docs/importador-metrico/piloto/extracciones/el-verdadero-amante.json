@@ -1,0 +1,275 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "obra_ref": "el-verdadero-amante",
+  "estado_revision": "borrador_ia",
+  "revision_humana": {
+    "responsable": null,
+    "fecha": null,
+    "resultado": "pendiente"
+  },
+  "procedencia": {
+    "fecha": "2026-10-22",
+    "procedimiento": "lectura_visual_asistida",
+    "generador": "Codex en este chat",
+    "modelo": null,
+    "prompt_version": "extraccion/0.1",
+    "ensayo_controlado": false
+  },
+  "metadatos": {
+    "titulo": "El verdadero amante",
+    "autoria": "Lope de Vega",
+    "autoria_procedencia": "Identificación del lote aportado por el responsable del proyecto; se conserva la bibliografía literal del DOCX.",
+    "genero_literal": "Comedia",
+    "fecha_inicio": 1591,
+    "fecha_fin": 1595,
+    "fuente_fecha": "VEGA CARPIO, Lope de, El verdadero amante, ed. Eva Rodríguez, en Comedias de Lope de Vega. Parte XIV, coord. José Enrique López Martínez, Madrid, Gredos, 2015, 2 vols, II, pp. 203-378.",
+    "edicion_base": "VEGA CARPIO, Lope de, El verdadero amante, ed. Eva Rodríguez, en Comedias de Lope de Vega. Parte XIV, coord. José Enrique López Martínez, Madrid, Gredos, 2015, 2 vols, II, pp. 203-378.",
+    "observaciones": [
+      "La editora de esta comedia propone también la hipótesis de mediados de mayo de 1593 como fecha concreta de la escritura."
+    ],
+    "fuente_id": "docx-metadatos",
+    "bloque_docx_literal": [
+      "Título: El verdadero amante",
+      "Género: Comedia",
+      "Fecha de inicio: 1591Fecha de fin: 1595",
+      "Fuente bibliográfica para la fecha: VEGA CARPIO, Lope de, El verdadero amante, ed. Eva Rodríguez, en Comedias de Lope de Vega. Parte XIV, coord. José Enrique López Martínez, Madrid, Gredos, 2015, 2 vols, II, pp. 203-378.",
+      "Edición base: VEGA CARPIO, Lope de, El verdadero amante, ed. Eva Rodríguez, en Comedias de Lope de Vega. Parte XIV, coord. José Enrique López Martínez, Madrid, Gredos, 2015, 2 vols, II, pp. 203-378.",
+      "Observaciones: La editora de esta comedia propone también la hipótesis de mediados de mayo de 1593 como fecha concreta de la escritura."
+    ]
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "ACTO PRIMERO"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "ACTO SEGUNDO"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "ACTO TERCERO"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 220,
+      "denominacion_literal": "quintilla",
+      "n_versos_fuente": 220,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 221,
+      "v_fin": 287,
+      "denominacion_literal": "estancias con pareado final",
+      "n_versos_fuente": 67,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 288,
+      "v_fin": 787,
+      "denominacion_literal": "quintilla",
+      "n_versos_fuente": 500,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 788,
+      "v_fin": 1051,
+      "denominacion_literal": "redondilla",
+      "n_versos_fuente": 264,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    },
+    {
+      "id": "t05",
+      "jornada": 2,
+      "v_ini": 1052,
+      "v_fin": 1201,
+      "denominacion_literal": "quintilla",
+      "n_versos_fuente": 150,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    },
+    {
+      "id": "t06",
+      "jornada": 2,
+      "v_ini": 1202,
+      "v_fin": 1417,
+      "denominacion_literal": "redondilla",
+      "n_versos_fuente": 216,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    },
+    {
+      "id": "t07",
+      "jornada": 2,
+      "v_ini": 1418,
+      "v_fin": 1460,
+      "denominacion_literal": "tercetos encadenados con serventesio final",
+      "n_versos_fuente": 43,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    },
+    {
+      "id": "t08",
+      "jornada": 2,
+      "v_ini": 1461,
+      "v_fin": 1640,
+      "denominacion_literal": "redondilla",
+      "n_versos_fuente": 180,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 1641,
+      "v_fin": 1666,
+      "denominacion_literal": "romance en -io",
+      "n_versos_fuente": 26,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 1667,
+      "v_fin": 1701,
+      "denominacion_literal": "endecasílabos sueltos con pareado final",
+      "n_versos_fuente": 35,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 1702,
+      "v_fin": 1769,
+      "denominacion_literal": "redondilla",
+      "n_versos_fuente": 68,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    },
+    {
+      "id": "t12",
+      "jornada": 2,
+      "v_ini": 1770,
+      "v_fin": 1896,
+      "denominacion_literal": "tercetos encadenados con serventesio final",
+      "n_versos_fuente": 127,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    },
+    {
+      "id": "t13",
+      "jornada": 2,
+      "v_ini": 1897,
+      "v_fin": 1960,
+      "denominacion_literal": "redondilla",
+      "n_versos_fuente": 64,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    },
+    {
+      "id": "t14",
+      "jornada": 2,
+      "v_ini": 1961,
+      "v_fin": 2016,
+      "denominacion_literal": "endecasílabos sueltos con pareado final",
+      "n_versos_fuente": 56,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    },
+    {
+      "id": "t15",
+      "jornada": 3,
+      "v_ini": 2017,
+      "v_fin": 2064,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 48,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    },
+    {
+      "id": "t16",
+      "jornada": 3,
+      "v_ini": 2065,
+      "v_fin": 2676,
+      "denominacion_literal": "redondilla",
+      "n_versos_fuente": 612,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    },
+    {
+      "id": "t17",
+      "jornada": 3,
+      "v_ini": 2677,
+      "v_fin": 2771,
+      "denominacion_literal": "quintilla",
+      "n_versos_fuente": 95,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    },
+    {
+      "id": "t18",
+      "jornada": 3,
+      "v_ini": 2772,
+      "v_fin": 2827,
+      "denominacion_literal": "octava real",
+      "n_versos_fuente": 56,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    },
+    {
+      "id": "t19",
+      "jornada": 3,
+      "v_ini": 2828,
+      "v_fin": 2878,
+      "denominacion_literal": "endecasílabos sueltos con pareado final",
+      "n_versos_fuente": 51,
+      "fuente_id": "foto-12",
+      "pagina": 225,
+      "notas_ref": []
+    }
+  ],
+  "notas": [],
+  "resumen_fuente": [],
+  "incidencias": [
+    {
+      "tipo": "resumen_no_aportado",
+      "descripcion": "La fotografía no aporta un resumen global de formas; no se inventa uno como dato de fuente.",
+      "fuente_id": "foto-12",
+      "tramos_ref": []
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "esquema": "versologia-contraste-bibliografico/0.1",
+  "fecha": "2026-10-22",
+  "raiz_local": "C:\\Users\\david\\OneDrive - UAB\\Investigacion\\fuenteovejuna-data-sync\\bibliografía",
+  "alcance": "Lectura de pasajes relevantes de las seis fuentes del catálogo; no es aprobación humana de equivalencias ni identificación de los pasajes teatrales.",
+  "procedimiento": "Búsqueda en volcados, lectura de páginas completas pertinentes y cotejo visual de páginas clave de los PDF. Jauralde cotejado con el EPUB original. No se modifica la biblioteca ni se configura sincronización.",
+  "fuentes": [
+    {
+      "id": "morley_bruerton_1968",
+      "archivo": "M&B_completo.pdf",
+      "sha256": "c05b51b8a8a92031fd4df6b7dcba5b83bd852549ec986d863399aa025229aaf4"
+    },
+    {
+      "id": "quilis_1969",
+      "archivo": "Antonio_Quilis_Metrica_espanola.pdf",
+      "sha256": "55f191b5804b79791aa320fde73ffc8e143f951f8bc45b2f8559134cf13833bb"
+    },
+    {
+      "id": "navarro_tomas_1972",
+      "archivo": "Tomas Navarro Tomas - Metrica Española - libgen.li.pdf",
+      "sha256": "a8558797bf56dcbff3d97cb35b6a007791cb84cc5cf4b350ee9191714c0db039"
+    },
+    {
+      "id": "caparros_2014",
+      "archivo": "Domínguez Caparrós - 2014 - Métrica española.pdf",
+      "sha256": "c98c7c59c19d6ece7cb4e36523fee416a323dd6cfdb2ae36e4cf428f60ebc734"
+    },
+    {
+      "id": "caparros_diccionario_2016",
+      "archivo": "Diccionario de métrica española{José Domínguez Caparrós}{107384004} libgen.li.pdf",
+      "sha256": "365a74997a5f56dab1b2856d4a8fa2753712d66af11732205f4439454e774ff5"
+    },
+    {
+      "id": "jauralde_2020",
+      "archivo": "Métrica española{Pablo Jauralde Pou}(2020, Ediciones Cátedra){107384044} libgen.li.epub",
+      "sha256": "7ef3e6570825b2795b71b9fe8b07a7b79e0dd759d371bc90b689722532eb72b2"
+    }
+  ],
+  "hallazgos": [
+    {
+      "id": "terceto_diccionario",
+      "fuente_id": "caparros_diccionario_2016",
+      "localizador": "s. v. terceto y terceto encadenado, pp. 427-428; terceto independiente, p. 429",
+      "paginas_pdf": [
+        429,
+        430,
+        431
+      ],
+      "conclusion": "La entrada terceto describe la serie encadenada y remite a ella desde terceto encadenado; el independiente tiene entrada propia. La omisión del calificativo no prueba independencia."
+    },
+    {
+      "id": "tercetos_quilis",
+      "fuente_id": "quilis_1969",
+      "localizador": "§ 5.4.2.1, pp. 92-93",
+      "paginas_pdf": [
+        47
+      ],
+      "conclusion": "Distingue tercetos encadenados e independientes; considera más frecuentes los encadenados. No resuelve por sí solo el uso de cada editor."
+    },
+    {
+      "id": "tercetos_mb",
+      "fuente_id": "morley_bruerton_1968",
+      "localizador": "Cap. V, p. 40",
+      "paginas_pdf": [
+        42
+      ],
+      "conclusion": "Define por separado Terza rima y tercetos sin encadenar. Documenta cierres en pareado o cuarteto para los sin encadenar."
+    },
+    {
+      "id": "estancia_diccionario",
+      "fuente_id": "caparros_diccionario_2016",
+      "localizador": "s. v. estancia, pp. 163-164",
+      "paginas_pdf": [
+        165,
+        166
+      ],
+      "conclusion": "La estancia es unidad estrófica de la canción italiana y suele terminar en pareado; ese cierre no implica ausencia de rima en el resto."
+    },
+    {
+      "id": "cancion_quilis",
+      "fuente_id": "quilis_1969",
+      "localizador": "§ 6.3.6, pp. 142-143",
+      "paginas_pdf": [
+        72
+      ],
+      "conclusion": "La canción se organiza en estancias, con patrón que se repite y envío final; sus elementos no se identifican únicamente por el cierre."
+    },
+    {
+      "id": "estancia_navarro",
+      "fuente_id": "navarro_tomas_1972",
+      "localizador": "§ 108, pp. 205-206",
+      "paginas_pdf": [
+        198,
+        199
+      ],
+      "conclusion": "Relaciona estancia con canciones y églogas renacentistas; documenta variación de extensión y combinación de rimas."
+    },
+    {
+      "id": "estancia_caparros",
+      "fuente_id": "caparros_2014",
+      "localizador": "§ 11.1.2, pp. 214-215",
+      "paginas_pdf": [
+        211,
+        212
+      ],
+      "conclusion": "Describe estancia, fronte, eslabón y sirima y pareados frecuentes, y composición en estancias de igual patrón."
+    },
+    {
+      "id": "verdadero_amante_mb",
+      "fuente_id": "morley_bruerton_1968",
+      "localizador": "Canción, pp. 175-176",
+      "paginas_pdf": [
+        177,
+        178
+      ],
+      "conclusion": "Incluye El verdadero amante bajo canción rimada de estancias mezcladas: 13,13,13,14,15 (68 versos). Es evidencia específica de la obra, pero no confirma equivalencia con los 67 versos de la edición fotografiada."
+    },
+    {
+      "id": "cancion_sin_rima_mb",
+      "fuente_id": "morley_bruerton_1968",
+      "localizador": "Cap. V, p. 41; Canción sin rima, pp. 177-178",
+      "paginas_pdf": [
+        43,
+        179,
+        180
+      ],
+      "conclusion": "Distingue canción sin rima salvo el pareado final de la canción rimada. El pareado de la etiqueta no decide entre ellas."
+    },
+    {
+      "id": "letrilla_diccionario",
+      "fuente_id": "caparros_diccionario_2016",
+      "localizador": "s. v. letrilla, pp. 216-217",
+      "paginas_pdf": [
+        218,
+        219
+      ],
+      "conclusion": "La relaciona formalmente con villancico o romance; menciona redondillas y quintillas dobles como estrofas, metro de ocho o seis sílabas y estribillo. No describe la realización teatral de El molino."
+    },
+    {
+      "id": "letrilla_quilis",
+      "fuente_id": "quilis_1969",
+      "localizador": "§ 6.3.1, pp. 124-125",
+      "paginas_pdf": [
+        63
+      ],
+      "conclusion": "La presenta como variante del villancico distinguida más por contenido satírico que por forma."
+    },
+    {
+      "id": "letrilla_navarro",
+      "fuente_id": "navarro_tomas_1972",
+      "localizador": "§ 146, pp. 236-237",
+      "paginas_pdf": [
+        229,
+        230
+      ],
+      "conclusion": "Documenta bajo el nombre letrilla zéjeles, villancicos de ocho o seis sílabas y romancillos hexasílabos; el nombre no determina una sola forma."
+    },
+    {
+      "id": "letrilla_jauralde",
+      "fuente_id": "jauralde_2020",
+      "localizador": "Estrofas con estribillo; pasaje que empieza En cuanto al término letrilla; Estancias",
+      "archivos_epub": [
+        "OEBPS/05_TEXTOS-9_split_005.xhtml"
+      ],
+      "conclusion": "Distingue denominación histórica y forma; documenta uso del nombre para villancicos, romances con estribillo y estrofas como décimas y quintillas con estribillo. No justifica una lista exhaustiva ni canto confirmado para El molino."
+    },
+    {
+      "id": "matico_mb",
+      "fuente_id": "morley_bruerton_1968",
+      "localizador": "Los donaires de Matico, p.241",
+      "paginas_pdf": [
+        243
+      ],
+      "conclusion": "Describe dos pasajes de tercetos, uno máximo de 145 versos, para esa obra. La ficha no da allí su patrón de rima: aporta una coincidencia localizada, no una identificación suficiente del encadenamiento."
+    }
+  ]
+}

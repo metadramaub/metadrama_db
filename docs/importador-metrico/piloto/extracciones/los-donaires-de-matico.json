@@ -1,0 +1,290 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "obra_ref": "los-donaires-de-matico",
+  "estado_revision": "borrador_ia",
+  "revision_humana": {
+    "responsable": null,
+    "fecha": null,
+    "resultado": "pendiente"
+  },
+  "procedencia": {
+    "fecha": "2026-10-22",
+    "procedimiento": "lectura_visual_asistida",
+    "generador": "Codex en este chat",
+    "modelo": null,
+    "prompt_version": "extraccion/0.1",
+    "ensayo_controlado": false
+  },
+  "metadatos": {
+    "titulo": "Los donaires de Matico",
+    "autoria": "Lope de Vega",
+    "autoria_procedencia": "Identificación del lote aportado por el responsable del proyecto; se conserva la bibliografía literal del DOCX.",
+    "genero_literal": "Comedia",
+    "fecha_inicio": 1589,
+    "fecha_fin": 1603,
+    "fuente_fecha": "VEGA CARPIO, Lope de, Los donaires de Matico, ed. Marco Presotto, en Comedias de Lope de Vega. Parte I, Lérida, Milenio-Universitat Autònoma de Barcelona, 1997, 3 vols, I, pp. 115-254.",
+    "edicion_base": "VEGA CARPIO, Lope de, Los donaires de Matico, ed. Marco Presotto, en Comedias de Lope de Vega. Parte I, Lérida, Milenio-Universitat Autònoma de Barcelona, 1997, 3 vols, I, pp. 115-254.",
+    "observaciones": [],
+    "fuente_id": "docx-metadatos",
+    "bloque_docx_literal": [
+      "Título: Los donaires de Matico",
+      "Género: Comedia",
+      "Fecha de inicio: 1589Fecha de fin: 1603",
+      "Fuente bibliográfica para la fecha: VEGA CARPIO, Lope de, Los donaires de Matico, ed. Marco Presotto, en Comedias de Lope de Vega. Parte I, Lérida, Milenio-Universitat Autònoma de Barcelona, 1997, 3 vols, I, pp. 115-254.",
+      "Edición base: VEGA CARPIO, Lope de, Los donaires de Matico, ed. Marco Presotto, en Comedias de Lope de Vega. Parte I, Lérida, Milenio-Universitat Autònoma de Barcelona, 1997, 3 vols, I, pp. 115-254."
+    ]
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "Jornada primera"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "Jornada segunda"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "Jornada tercera"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 127,
+      "denominacion_literal": "tercetos",
+      "n_versos_fuente": 127,
+      "fuente_id": "foto-13a",
+      "pagina": 128,
+      "notas_ref": []
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 128,
+      "v_fin": 215,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 88,
+      "fuente_id": "foto-13a",
+      "pagina": 128,
+      "notas_ref": []
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 216,
+      "v_fin": 525,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 310,
+      "fuente_id": "foto-13a",
+      "pagina": 128,
+      "notas_ref": []
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 526,
+      "v_fin": 933,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 408,
+      "fuente_id": "foto-13a",
+      "pagina": 128,
+      "notas_ref": []
+    },
+    {
+      "id": "t05",
+      "jornada": 2,
+      "v_ini": 934,
+      "v_fin": 1005,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 72,
+      "fuente_id": "foto-13a",
+      "pagina": 128,
+      "notas_ref": []
+    },
+    {
+      "id": "t06",
+      "jornada": 2,
+      "v_ini": 1006,
+      "v_fin": 1249,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 244,
+      "fuente_id": "foto-13a",
+      "pagina": 128,
+      "notas_ref": []
+    },
+    {
+      "id": "t07",
+      "jornada": 2,
+      "v_ini": 1250,
+      "v_fin": 1254,
+      "denominacion_literal": "quintilla",
+      "n_versos_fuente": 5,
+      "fuente_id": "foto-13a",
+      "pagina": 128,
+      "notas_ref": []
+    },
+    {
+      "id": "t08",
+      "jornada": 2,
+      "v_ini": 1255,
+      "v_fin": 1522,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 268,
+      "fuente_id": "foto-13a",
+      "pagina": 128,
+      "notas_ref": []
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 1523,
+      "v_fin": 1667,
+      "denominacion_literal": "tercetos",
+      "n_versos_fuente": 145,
+      "fuente_id": "foto-13a",
+      "pagina": 128,
+      "notas_ref": []
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 1668,
+      "v_fin": 1847,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 180,
+      "fuente_id": "foto-13a",
+      "pagina": 128,
+      "notas_ref": []
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 1848,
+      "v_fin": 1869,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 22,
+      "fuente_id": "foto-13a",
+      "pagina": 128,
+      "notas_ref": []
+    },
+    {
+      "id": "t12",
+      "jornada": 2,
+      "v_ini": 1870,
+      "v_fin": 1881,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 12,
+      "fuente_id": "foto-13a",
+      "pagina": 128,
+      "notas_ref": []
+    },
+    {
+      "id": "t13",
+      "jornada": 3,
+      "v_ini": 1882,
+      "v_fin": 2057,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 176,
+      "fuente_id": "foto-13a",
+      "pagina": 128,
+      "notas_ref": []
+    },
+    {
+      "id": "t14",
+      "jornada": 3,
+      "v_ini": 2058,
+      "v_fin": 2107,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 50,
+      "fuente_id": "foto-13a",
+      "pagina": 128,
+      "notas_ref": []
+    },
+    {
+      "id": "t15",
+      "jornada": 3,
+      "v_ini": 2108,
+      "v_fin": 2603,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 496,
+      "fuente_id": "foto-13a",
+      "pagina": 128,
+      "notas_ref": []
+    },
+    {
+      "id": "t16",
+      "jornada": 3,
+      "v_ini": 2604,
+      "v_fin": 2619,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 16,
+      "fuente_id": "foto-13a",
+      "pagina": 128,
+      "notas_ref": []
+    },
+    {
+      "id": "t17",
+      "jornada": 3,
+      "v_ini": 2620,
+      "v_fin": 2807,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 188,
+      "fuente_id": "foto-13a",
+      "pagina": 128,
+      "notas_ref": []
+    },
+    {
+      "id": "t18",
+      "jornada": 3,
+      "v_ini": 2808,
+      "v_fin": 2812,
+      "denominacion_literal": "quintilla",
+      "n_versos_fuente": 5,
+      "fuente_id": "foto-13a",
+      "pagina": 128,
+      "notas_ref": []
+    }
+  ],
+  "notas": [],
+  "resumen_fuente": [
+    {
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 2060,
+      "porcentaje_literal": "73,3",
+      "fuente_id": "foto-13b",
+      "pagina": 129
+    },
+    {
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 320,
+      "porcentaje_literal": "11,4",
+      "fuente_id": "foto-13b",
+      "pagina": 129
+    },
+    {
+      "denominacion_literal": "Tercetos",
+      "n_versos_fuente": 272,
+      "porcentaje_literal": "9,7",
+      "fuente_id": "foto-13b",
+      "pagina": 129
+    },
+    {
+      "denominacion_literal": "Sueltos",
+      "n_versos_fuente": 88,
+      "porcentaje_literal": "3,1",
+      "fuente_id": "foto-13b",
+      "pagina": 129
+    },
+    {
+      "denominacion_literal": "Octavas",
+      "n_versos_fuente": 72,
+      "porcentaje_literal": "2,5",
+      "fuente_id": "foto-13b",
+      "pagina": 129
+    }
+  ],
+  "incidencias": []
+}

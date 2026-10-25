@@ -1,0 +1,312 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "obra_ref": "los-locos-de-valencia",
+  "estado_revision": "borrador_ia",
+  "revision_humana": {
+    "responsable": null,
+    "fecha": null,
+    "resultado": "pendiente"
+  },
+  "procedencia": {
+    "fecha": "2026-10-22",
+    "procedimiento": "lectura_visual_asistida",
+    "generador": "Codex en este chat",
+    "modelo": null,
+    "prompt_version": "extraccion/0.1",
+    "ensayo_controlado": false
+  },
+  "metadatos": {
+    "titulo": "Los locos de Valencia",
+    "autoria": "Lope de Vega",
+    "autoria_procedencia": "Identificación del lote aportado por el responsable del proyecto; se conserva la bibliografía literal del DOCX.",
+    "genero_literal": "Comedia",
+    "fecha_inicio": 1592,
+    "fecha_fin": 1595,
+    "fuente_fecha": "VEGA CARPIO, Lope de, Los locos de Valencia, ed. Carlos Peña, en Comedias de Lope de Vega. Parte XIII, coord. Natalia Fernández Rodríguez, Madrid, Gredos, 2014, 2 vols, II, pp. 167-328.",
+    "edicion_base": "VEGA CARPIO, Lope de, Los locos de Valencia, ed. Carlos Peña, en Comedias de Lope de Vega. Parte XIII, coord. Natalia Fernández Rodríguez, Madrid, Gredos, 2014, 2 vols, II, pp. 167-328.",
+    "observaciones": [],
+    "fuente_id": "docx-metadatos",
+    "bloque_docx_literal": [
+      "Título: Los locos de Valencia",
+      "Género: Comedia",
+      "Fecha de inicio: 1592Fecha de fin: 1595",
+      "Fuente bibliográfica para la fecha: VEGA CARPIO, Lope de, Los locos de Valencia, ed. Carlos Peña, en Comedias de Lope de Vega. Parte XIII, coord. Natalia Fernández Rodríguez, Madrid, Gredos, 2014, 2 vols, II, pp. 167-328.",
+      "Edición base: VEGA CARPIO, Lope de, Los locos de Valencia, ed. Carlos Peña, en Comedias de Lope de Vega. Parte XIII, coord. Natalia Fernández Rodríguez, Madrid, Gredos, 2014, 2 vols, II, pp. 167-328."
+    ]
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "ACTO PRIMERO"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "ACTO SEGUNDO"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "ACTO TERCERO"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 130,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 130,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 131,
+      "v_fin": 590,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 460,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 591,
+      "v_fin": 990,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 400,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 991,
+      "v_fin": 1006,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 16,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t05",
+      "jornada": 1,
+      "v_ini": 1007,
+      "v_fin": 1020,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t06",
+      "jornada": 1,
+      "v_ini": 1021,
+      "v_fin": 1050,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 30,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t07",
+      "jornada": 2,
+      "v_ini": 1051,
+      "v_fin": 1082,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 32,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t08",
+      "jornada": 2,
+      "v_ini": 1083,
+      "v_fin": 1466,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 384,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 1467,
+      "v_fin": 1544,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 78,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 1545,
+      "v_fin": 1996,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 452,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 1997,
+      "v_fin": 2022,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 26,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t12",
+      "jornada": 2,
+      "v_ini": 2023,
+      "v_fin": 2092,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 70,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t13",
+      "jornada": 3,
+      "v_ini": 2093,
+      "v_fin": 2222,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 130,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": [
+        "n01"
+      ]
+    },
+    {
+      "id": "t14",
+      "jornada": 3,
+      "v_ini": 2223,
+      "v_fin": 2470,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 248,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t15",
+      "jornada": 3,
+      "v_ini": 2471,
+      "v_fin": 2621,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 151,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t16",
+      "jornada": 3,
+      "v_ini": 2622,
+      "v_fin": 2754,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 133,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": [
+        "n02"
+      ]
+    },
+    {
+      "id": "t17",
+      "jornada": 3,
+      "v_ini": 2755,
+      "v_fin": 2804,
+      "denominacion_literal": "quintilla",
+      "n_versos_fuente": 50,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t18",
+      "jornada": 3,
+      "v_ini": 2805,
+      "v_fin": 2900,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 96,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t19",
+      "jornada": 3,
+      "v_ini": 2901,
+      "v_fin": 2964,
+      "denominacion_literal": "romance en á-e",
+      "n_versos_fuente": 64,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t20",
+      "jornada": 3,
+      "v_ini": 2965,
+      "v_fin": 3072,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 108,
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "notas_ref": []
+    }
+  ],
+  "notas": [
+    {
+      "id": "n01",
+      "marca": "*",
+      "texto_literal": "En la serie de endecasílabos sueltos aparece un verso heptasílabo (v. 2172), probable descuido de Lope.",
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "tramos_ref": [
+        "t13"
+      ],
+      "v_ini": 2172,
+      "v_fin": 2172
+    },
+    {
+      "id": "n02",
+      "marca": "**",
+      "texto_literal": "El v. 2666 es un octosílabo suelto integrado en la serie de redondillas.",
+      "fuente_id": "foto-30",
+      "pagina": 188,
+      "tramos_ref": [
+        "t16"
+      ],
+      "v_ini": 2666,
+      "v_fin": 2666
+    }
+  ],
+  "resumen_fuente": [],
+  "incidencias": [
+    {
+      "tipo": "resumen_recortado",
+      "descripcion": "En el borde derecho aparece un fragmento de resumen de la página contigua, insuficiente para transcribirlo. No se reconstruye.",
+      "fuente_id": "foto-30",
+      "tramos_ref": []
+    }
+  ]
+}

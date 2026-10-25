@@ -1,0 +1,593 @@
+{
+  "esquema": "versologia-inventario-terminos/0.1",
+  "estado": "derivado_de_transcripciones_aceptadas",
+  "terminos": [
+    {
+      "literal": "endecasílabos sueltos",
+      "tramos": 12,
+      "versos": 665,
+      "apariciones": [
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t02",
+          "fuente_id": "foto-14a",
+          "pagina": null
+        },
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t18",
+          "fuente_id": "foto-14b",
+          "pagina": 1562
+        },
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t15",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        },
+        {
+          "obra_ref": "los-donaires-de-matico",
+          "tramo_ref": "t11",
+          "fuente_id": "foto-13a",
+          "pagina": 128
+        },
+        {
+          "obra_ref": "los-donaires-de-matico",
+          "tramo_ref": "t14",
+          "fuente_id": "foto-13a",
+          "pagina": 128
+        },
+        {
+          "obra_ref": "los-donaires-de-matico",
+          "tramo_ref": "t16",
+          "fuente_id": "foto-13a",
+          "pagina": 128
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t04",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t06",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t09",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t11",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t13",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t15",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        }
+      ]
+    },
+    {
+      "literal": "endecasílabos sueltos (con pareado final)",
+      "tramos": 2,
+      "versos": 63,
+      "apariciones": [
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t09",
+          "fuente_id": "foto-14a",
+          "pagina": null
+        },
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t11",
+          "fuente_id": "foto-14a",
+          "pagina": null
+        }
+      ]
+    },
+    {
+      "literal": "endecasílabos sueltos con pareado final",
+      "tramos": 3,
+      "versos": 142,
+      "apariciones": [
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t10",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        },
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t14",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        },
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t19",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        }
+      ]
+    },
+    {
+      "literal": "estancias con pareado final",
+      "tramos": 1,
+      "versos": 67,
+      "apariciones": [
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t02",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        }
+      ]
+    },
+    {
+      "literal": "letrilla",
+      "tramos": 1,
+      "versos": 9,
+      "apariciones": [
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t20",
+          "fuente_id": "foto-14b",
+          "pagina": 1562
+        }
+      ]
+    },
+    {
+      "literal": "octava real",
+      "tramos": 1,
+      "versos": 56,
+      "apariciones": [
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t18",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        }
+      ]
+    },
+    {
+      "literal": "octavas reales",
+      "tramos": 4,
+      "versos": 208,
+      "apariciones": [
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t07",
+          "fuente_id": "foto-14a",
+          "pagina": null
+        },
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t14",
+          "fuente_id": "foto-14b",
+          "pagina": 1562
+        },
+        {
+          "obra_ref": "los-donaires-de-matico",
+          "tramo_ref": "t05",
+          "fuente_id": "foto-13a",
+          "pagina": 128
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t07",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        }
+      ]
+    },
+    {
+      "literal": "quintilla",
+      "tramos": 7,
+      "versos": 1025,
+      "apariciones": [
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t01",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        },
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t03",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        },
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t05",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        },
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t17",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        },
+        {
+          "obra_ref": "los-donaires-de-matico",
+          "tramo_ref": "t07",
+          "fuente_id": "foto-13a",
+          "pagina": 128
+        },
+        {
+          "obra_ref": "los-donaires-de-matico",
+          "tramo_ref": "t18",
+          "fuente_id": "foto-13a",
+          "pagina": 128
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t17",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        }
+      ]
+    },
+    {
+      "literal": "quintillas",
+      "tramos": 6,
+      "versos": 1475,
+      "apariciones": [
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t05",
+          "fuente_id": "foto-14a",
+          "pagina": null
+        },
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t13",
+          "fuente_id": "foto-14b",
+          "pagina": 1562
+        },
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t17",
+          "fuente_id": "foto-14b",
+          "pagina": 1562
+        },
+        {
+          "obra_ref": "los-donaires-de-matico",
+          "tramo_ref": "t03",
+          "fuente_id": "foto-13a",
+          "pagina": 128
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t03",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t12",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        }
+      ]
+    },
+    {
+      "literal": "redondilla",
+      "tramos": 6,
+      "versos": 1404,
+      "apariciones": [
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t04",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        },
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t06",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        },
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t08",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        },
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t11",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        },
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t13",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        },
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t16",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        }
+      ]
+    },
+    {
+      "literal": "redondillas",
+      "tramos": 23,
+      "versos": 5649,
+      "apariciones": [
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t01",
+          "fuente_id": "foto-14a",
+          "pagina": null
+        },
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t03",
+          "fuente_id": "foto-14a",
+          "pagina": null
+        },
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t06",
+          "fuente_id": "foto-14a",
+          "pagina": null
+        },
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t08",
+          "fuente_id": "foto-14a",
+          "pagina": null
+        },
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t15",
+          "fuente_id": "foto-14b",
+          "pagina": 1562
+        },
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t19",
+          "fuente_id": "foto-14b",
+          "pagina": 1562
+        },
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t21",
+          "fuente_id": "foto-14b",
+          "pagina": 1562
+        },
+        {
+          "obra_ref": "los-donaires-de-matico",
+          "tramo_ref": "t02",
+          "fuente_id": "foto-13a",
+          "pagina": 128
+        },
+        {
+          "obra_ref": "los-donaires-de-matico",
+          "tramo_ref": "t04",
+          "fuente_id": "foto-13a",
+          "pagina": 128
+        },
+        {
+          "obra_ref": "los-donaires-de-matico",
+          "tramo_ref": "t06",
+          "fuente_id": "foto-13a",
+          "pagina": 128
+        },
+        {
+          "obra_ref": "los-donaires-de-matico",
+          "tramo_ref": "t08",
+          "fuente_id": "foto-13a",
+          "pagina": 128
+        },
+        {
+          "obra_ref": "los-donaires-de-matico",
+          "tramo_ref": "t10",
+          "fuente_id": "foto-13a",
+          "pagina": 128
+        },
+        {
+          "obra_ref": "los-donaires-de-matico",
+          "tramo_ref": "t12",
+          "fuente_id": "foto-13a",
+          "pagina": 128
+        },
+        {
+          "obra_ref": "los-donaires-de-matico",
+          "tramo_ref": "t13",
+          "fuente_id": "foto-13a",
+          "pagina": 128
+        },
+        {
+          "obra_ref": "los-donaires-de-matico",
+          "tramo_ref": "t15",
+          "fuente_id": "foto-13a",
+          "pagina": 128
+        },
+        {
+          "obra_ref": "los-donaires-de-matico",
+          "tramo_ref": "t17",
+          "fuente_id": "foto-13a",
+          "pagina": 128
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t02",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t08",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t10",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t14",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t16",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t18",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t20",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        }
+      ]
+    },
+    {
+      "literal": "romance en -io",
+      "tramos": 1,
+      "versos": 26,
+      "apariciones": [
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t09",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        }
+      ]
+    },
+    {
+      "literal": "romance en á-e",
+      "tramos": 1,
+      "versos": 64,
+      "apariciones": [
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t19",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        }
+      ]
+    },
+    {
+      "literal": "soneto",
+      "tramos": 2,
+      "versos": 28,
+      "apariciones": [
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t12",
+          "fuente_id": "foto-14b",
+          "pagina": 1562
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t05",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        }
+      ]
+    },
+    {
+      "literal": "tercetos",
+      "tramos": 2,
+      "versos": 272,
+      "apariciones": [
+        {
+          "obra_ref": "los-donaires-de-matico",
+          "tramo_ref": "t01",
+          "fuente_id": "foto-13a",
+          "pagina": 128
+        },
+        {
+          "obra_ref": "los-donaires-de-matico",
+          "tramo_ref": "t09",
+          "fuente_id": "foto-13a",
+          "pagina": 128
+        }
+      ]
+    },
+    {
+      "literal": "tercetos encadenados",
+      "tramos": 4,
+      "versos": 431,
+      "apariciones": [
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t04",
+          "fuente_id": "foto-14a",
+          "pagina": null
+        },
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t10",
+          "fuente_id": "foto-14a",
+          "pagina": null
+        },
+        {
+          "obra_ref": "el-molino",
+          "tramo_ref": "t16",
+          "fuente_id": "foto-14b",
+          "pagina": 1562
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t01",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        }
+      ]
+    },
+    {
+      "literal": "tercetos encadenados con serventesio final",
+      "tramos": 2,
+      "versos": 170,
+      "apariciones": [
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t07",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        },
+        {
+          "obra_ref": "el-verdadero-amante",
+          "tramo_ref": "t12",
+          "fuente_id": "foto-12",
+          "pagina": 225
+        }
+      ]
+    }
+  ]
+}

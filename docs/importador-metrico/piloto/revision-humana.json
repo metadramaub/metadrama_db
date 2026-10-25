@@ -1,0 +1,36 @@
+{
+  "esquema": "versologia-revision-transcripcion/0.1",
+  "fecha": "2026-10-22",
+  "responsable": "Responsable del proyecto, usuario de este chat",
+  "evidencia": {
+    "tipo": "confirmacion_usuario_en_chat",
+    "texto": "revisé las 4. todo está correcto."
+  },
+  "alcance": "Fidelidad de las cuatro extracciones a las fuentes aportadas. No aprueba automáticamente equivalencias ni normalización.",
+  "revisiones": [
+    {
+      "obra_ref": "el-verdadero-amante",
+      "archivo": "extracciones/el-verdadero-amante.json",
+      "sha256": "744cc1758ae8e779fd3fb05f0c8ff182b8c7547b439a7fc48ccf4d05c0f7aa1b",
+      "resultado": "aceptada_sin_correcciones"
+    },
+    {
+      "obra_ref": "los-donaires-de-matico",
+      "archivo": "extracciones/los-donaires-de-matico.json",
+      "sha256": "61abbca56ef343d278cf86439686cd19224e90fb1259cb2dc40847135d8d6008",
+      "resultado": "aceptada_sin_correcciones"
+    },
+    {
+      "obra_ref": "el-molino",
+      "archivo": "extracciones/el-molino.json",
+      "sha256": "b17b3882c3414f0dcf63a5360cb73f8e4afe537b722b06d6dfdc3fd3ab687224",
+      "resultado": "aceptada_sin_correcciones"
+    },
+    {
+      "obra_ref": "los-locos-de-valencia",
+      "archivo": "extracciones/los-locos-de-valencia.json",
+      "sha256": "e2ce185b06e82d983b6ea2d4beb10d3373401bceae4ad50e671c24ddec4abb5d",
+      "resultado": "aceptada_sin_correcciones"
+    }
+  ]
+}

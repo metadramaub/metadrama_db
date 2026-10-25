@@ -1,0 +1,298 @@
+{
+  "esquema": "versologia-equivalencias-propuestas/0.1",
+  "fecha": "2026-10-22",
+  "catalogo_referencia": "catalogo-referencia.json",
+  "estado": "propuestas_y_equivalencia_de_estancias_revisada",
+  "revisor_humano": "Responsable del proyecto, usuario de este chat (solo la regla de estancias)",
+  "aplicadas_a_las_extracciones": false,
+  "reglas": [
+    {
+      "id": "redondilla",
+      "literales": [
+        "redondilla",
+        "redondillas"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "redondilla",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "quintilla",
+      "literales": [
+        "quintilla",
+        "quintillas"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "quintilla",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Coincidencia del nombre de forma y su plural. No se deducen medida ni disposición de rima de cada unidad.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "octava-real",
+      "literales": [
+        "octava real",
+        "octavas reales"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "octava_real",
+          "arquitectura_slug": "endecasilabica_consonante"
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Nombre explícito de la forma, que el catálogo activo define endecasílaba consonante. No confirma por sí solo el esquema de cada octava ni ausencia de desviaciones.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "endecasilabos-sueltos",
+      "literales": [
+        "endecasílabos sueltos"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica"
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "La etiqueta declara forma y medida. No afirma ausencia de pareados ni de rima ocasional; tampoco encadenamiento interior.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "endecasilabos-sueltos-pareado",
+      "literales": [
+        "endecasílabos sueltos con pareado final",
+        "endecasílabos sueltos (con pareado final)"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica"
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "La misma identificación con cierre expresamente declarado. El catálogo dispone del rasgo distico_final; su representación normalizada precisa revisión. No se crea automáticamente otra secuencia para el pareado.",
+      "detalles_fuente": [
+        {
+          "literal": "pareado final",
+          "rasgo_slug_propuesto": "distico_final",
+          "estado": "pendiente"
+        }
+      ]
+    },
+    {
+      "id": "tercetos-encadenados",
+      "literales": [
+        "tercetos encadenados"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "terceto_encadenado",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "El catálogo tiene Terceto encadenado y distingue medidas. No confundirlo con Endecasílabo encadenado, que declara rima con el interior del verso siguiente. No se infiere medida por longitud o contexto teatral.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "tercetos-serventesio",
+      "literales": [
+        "tercetos encadenados con serventesio final"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "terceto_encadenado",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "La definición del catálogo contempla el remate que hace leerse como cuarteto cruzado el final de la cadena. Revisar la correspondencia del serventesio sin partir automáticamente otra forma ni dar por respondida toda la estructura.",
+      "detalles_fuente": [
+        {
+          "literal": "serventesio final",
+          "estado": "pendiente_de_correspondencia_del_remate"
+        }
+      ]
+    },
+    {
+      "id": "tercetos-sin-precisar",
+      "literales": [
+        "tercetos"
+      ],
+      "tipo": "candidatas_orientativas",
+      "candidatas": [
+        {
+          "forma_slug": "terceto",
+          "arquitectura_slug": null
+        },
+        {
+          "forma_slug": "terceto_encadenado",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "no_justificada",
+      "fundamento": "Lectura directa: Diccionario de Domínguez Caparrós (2016), s. v. terceto, pp. 427-429, usa terceto para la serie encadenada y distingue terceto independiente; Quilis §5.4.2.1, pp. 92-93, considera los encadenados el caso más frecuente y describe también los independientes. Morley y Bruerton p.40 distinguen ambas formas. No se puede deducir sin encadenar por la ausencia del adjetivo en otro editor. Los 127 y 145 versos de Matico son compatibles con 3n+1, sin que el módulo decida. Morley y Bruerton p.241 describen dos pasajes y uno máximo de 145 versos en esa obra, pero allí no explicitan la disposición de rima. Se conservan ambas candidatas, sin aprobación. Criterio metodológico confirmado por el responsable: resolver un pasaje concreto no crea una equivalencia terminológica reutilizable. No se exige consultar el texto ni se generaliza una identificación puntual al resto de las sinopsis.",
+      "detalles_fuente": [],
+      "evidencias_bibliograficas": [
+        "terceto_diccionario",
+        "tercetos_quilis",
+        "tercetos_mb"
+      ]
+    },
+    {
+      "id": "romance-io",
+      "literales": [
+        "romance en -io"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "romance",
+          "arquitectura_slug": "octosilabica"
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "El catálogo activo distingue Romance como forma octosilábica. Se conserva la asonancia literal con su notación, sin identificar aún una opción de respuesta ni normalizar sus vocales automáticamente.",
+      "detalles_fuente": [
+        {
+          "literal": "-io",
+          "dimension": "asonancia",
+          "estado": "pendiente"
+        }
+      ]
+    },
+    {
+      "id": "romance-a-e",
+      "literales": [
+        "romance en á-e"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "romance",
+          "arquitectura_slug": "octosilabica"
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "La misma propuesta de forma, conservando la asonancia exactamente como aparece en la edición.",
+      "detalles_fuente": [
+        {
+          "literal": "á-e",
+          "dimension": "asonancia",
+          "estado": "pendiente"
+        }
+      ]
+    },
+    {
+      "id": "soneto",
+      "literales": [
+        "soneto"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "soneto",
+          "arquitectura_slug": "endecasilabica_consonante"
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Nombre explícito de la forma. Su identidad en el catálogo permite proponer la arquitectura; no aporta la disposición concreta de cuartetos y tercetos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "estancias-pareado",
+      "literales": [
+        "estancias con pareado final"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "cancion",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "destino_unico_aprobado_solo_en_forma",
+      "fundamento": "Criterio de normalización aprobado por el responsable: la denominación estancias con pareado final se registra como Canción en el corpus mínimo, sin seleccionar arquitectura, esquema de rima, distribución de medidas ni patrón de estancia. La relación terminológica estancia/canción está documentada en los tratados. No se exige cotejo del texto para aplicar este nivel de identificación, ni se usa el pasaje particular de Morley y Bruerton para decidir otras obras. El pareado final se conserva como declaración de la edición, sin completar respuestas del registrador detallado.",
+      "detalles_fuente": [
+        {
+          "literal": "pareado final",
+          "dimension": "estructura",
+          "tipo_seccion": "remate",
+          "nombre": "Remate o envío",
+          "n_versos": 2,
+          "posicion": "final",
+          "estado": "interpretacion_revisada",
+          "fundamento": "El responsable precisa: «es el remate de la canción, que nuestro modelo ya permite». Se conserva como remate declarado, sin exigir completar la arquitectura ni materializar todas las estancias."
+        }
+      ],
+      "evidencias_bibliograficas": [
+        "estancia_diccionario",
+        "cancion_quilis",
+        "estancia_navarro",
+        "estancia_caparros",
+        "verdadero_amante_mb",
+        "cancion_sin_rima_mb"
+      ],
+      "aprobacion": {
+        "responsable": "Responsable del proyecto, usuario de este chat",
+        "fecha": "2026-10-22",
+        "fundamento": "Decisión explícita: «las estancias sí que elegiría canción como forma, sin poder bajar más al detalla». Se acepta la correspondencia terminológica al nivel de forma; no requiere verificar el texto de cada pasaje. Precisión posterior del mismo responsable: el pareado final se interpreta como remate de la canción, sección ya admitida por el modelo."
+      }
+    },
+    {
+      "id": "letrilla",
+      "literales": [
+        "letrilla"
+      ],
+      "tipo": "candidatas_orientativas",
+      "candidatas": [
+        {
+          "forma_slug": "villancico",
+          "arquitectura_slug": null
+        },
+        {
+          "forma_slug": "zejel",
+          "arquitectura_slug": null
+        },
+        {
+          "forma_slug": "romance",
+          "arquitectura_slug": null
+        },
+        {
+          "forma_slug": "romancillo",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "no_justificada",
+      "fundamento": "Lectura directa: el Diccionario (2016), s.v.letrilla, pp.216-217, relaciona letrilla con villancico y romance; Quilis §6.3.1, pp.124-125, la aproxima al villancico; Navarro Tomás §146, pp.236-237, documenta zéjeles, villancicos y romancillos hexasílabos bajo ese nombre. Jauralde, Estrofas con estribillo, admite además denominaciones de décimas y quintillas con estribillo. Las cuatro formas ofrecidas son ejemplos estructurales documentados, no una lista exhaustiva ni una identificación de los nueve versos de El molino. No se infiere canto, estribillo localizado, metro concreto ni carácter satírico. Las redondillas o quintillas del cuerpo no se asignan automáticamente como forma de toda la composición.",
+      "detalles_fuente": [],
+      "evidencias_bibliograficas": [
+        "letrilla_diccionario",
+        "letrilla_quilis",
+        "letrilla_navarro",
+        "letrilla_jauralde"
+      ]
+    }
+  ],
+  "version": "v0.4",
+  "contraste_bibliografico": "bibliografia-contraste.json"
+}

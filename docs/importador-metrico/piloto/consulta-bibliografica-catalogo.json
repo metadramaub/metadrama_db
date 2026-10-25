@@ -1,0 +1,312 @@
+{
+  "fecha": "2026-10-22",
+  "origen": "SELECT del catálogo vivo; no sustituye la lectura de la bibliografía",
+  "afirmaciones": [
+    {
+      "afirmacion_id": "96a4a4bd-4b52-412d-8013-55c1e993a776",
+      "anio": 1968,
+      "cita": "Morley, S. Griswold, y Courtney Bruerton. Cronología de las comedias de Lope de Vega. Madrid: Gredos, 1968.",
+      "forma": "cancion",
+      "localizador": "Cap. V, «Canción (Canzone)», p. 40, y «Estudio de las estrofas», «Canción», pp. 175-176",
+      "resumen": "Definen la canción como versos de siete y once sílabas agrupados en estrofas «de 5 a 20 versos», con un tipo de rima fijo e idéntico en cada estrofa de un mismo pasaje, y advierten que rara vez se encuentra un pasaje de rima mezclada. Su relación de los «trece tipos diferentes de estrofa de canción» que Lope empleó va, sin embargo, de siete a quince versos: de siete, `aBabBcC` y `AabBCdC`; de ocho, `ABCABCDD` y `abbaCcDD`; de nueve, `aBaBbcddC`; de diez, `aBaBcdcCd`; de once, `aXa:bbcddCeE` y `ABCABCcdDEE`; y una «mezclada» de 13, 13, 13, 14 y 15 versos en *El verdadero amante*. Ninguno de esos tipos aparece en más de una comedia, todos son anteriores a 1620, y Lope «fue más aficionado a ella en los años anteriores a 1604 que después».",
+      "url": null
+    },
+    {
+      "afirmacion_id": "e45bdc99-279c-4d35-a73a-876205c83b92",
+      "anio": 1969,
+      "cita": "Quilis, Antonio. Métrica española. Madrid: Ediciones Alcalá, 1969.",
+      "forma": "cancion",
+      "localizador": "§ 6.3.6, pp. 142-143",
+      "resumen": "La presenta como descendiente de la antigua *cansó* provenzal, introducida por Boscán sobre el modelo de la *canzone* italiana reelaborada por Dante, y advierte que fue ganando libertad entre los poetas españoles. Señala que el número de estancias y el de versos de cada una son variables —entre nueve y veinte en Petrarca, quince en la primera de Boscán, trece en Garcilaso— y que no había norma sobre la naturaleza ni la disposición de la rima, aunque el patrón de la primera estrofa debe repetirse rigurosamente en las demás. Describe la estancia como fronte dividida en dos *piedi*, una coda y un verso de unión llamado *volta* que rima con el último verso del segundo *piede*, y sitúa al final una estrofa más breve, la *tornata* o envío.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "d3241dd6-8d5c-48ad-8eca-f7e63f2ab9d7",
+      "anio": 1972,
+      "cita": "Navarro Tomás, Tomás. Métrica española. Reseña histórica y descriptiva. Madrid: Guadarrama, 1972.",
+      "forma": "cancion",
+      "localizador": "§ 108, pp. 205-206",
+      "resumen": "Describe la estancia como la estrofa de las canciones y églogas renacentistas y, en contraste con la regularidad del soneto, como la más variable de la métrica italiana, cuya extensión y combinación de rimas dejaban amplio margen a la libertad del poeta. Explica que constaba de dos partes, la primera más breve y generalmente en endecasílabos, con los heptasílabos intercalados sobre todo en la segunda o marcando la transición entre ambas. Documenta que Boscán compuso once largas canciones, la primera de las cuales llega a veintisiete estrofas de quince versos, y que las de Garcilaso son en su mayor parte de no más de cuatro o cinco estancias de trece, con excepción de la cuarta, de ocho estancias de veinte versos, y de la quinta, compuesta en liras; y que la estancia abCabC:cdeeDfF de su segunda égloga, tomada de la canción undécima de Petrarca, fue usada por Herrera e imitada después en numerosas ocasiones.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "e66e30cc-d2ba-49a3-abb2-dbdabfb43616",
+      "anio": 2014,
+      "cita": "Domínguez Caparrós, José. Métrica española. Nueva edición corregida y aumentada. Madrid: UNED, 2014.",
+      "forma": "cancion",
+      "localizador": "§ 11.1.2, pp. 214-215",
+      "resumen": "Define la estancia como estrofa de endecasílabos y heptasílabos, no menos de nueve ni más de veinte, normalmente sin orden predeterminado y rimados en consonante. Describe como frecuente, aunque no obligatorio, el esquema de fronte o *capo* formada por dos pies, un eslabón o llave que rima con el último verso de la fronte pero pertenece sintácticamente a la sirima, y una sirima o coda con rimas independientes que suele incluir dos o tres pareados. La canción se compone de un número indeterminado de estancias, tres como mínimo, todas de igual distribución de rimas y medidas, y acaba en un fragmento de estancia llamado remate, envío o *commiato*, en el que el poeta suele dirigirse a la canción.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "cf2dcb07-0cc9-4ede-bcc6-1936b87b8d75",
+      "anio": 2016,
+      "cita": "Domínguez Caparrós, José. Diccionario de métrica española. 3.ª ed. Madrid: Alianza Editorial, 2016.",
+      "forma": "cancion",
+      "localizador": "Entradas «canción a la italiana», pp. 61-63, «canción alirada», pp. 60-61, y «estancia», pp. 163-164",
+      "resumen": "Registra la composición bajo el nombre de canción a la italiana y la define como poema de un número indeterminado de estancias, tres como mínimo, acabado en un fragmento de estancia que normalmente tiene el primer verso suelto, llamado remate, envío o *commiato*, con la misma distribución de rimas y de versos de once y siete sílabas en todas las estancias. Define la estancia «no menos de nueve ni más de veinte, **normalmente**», y añade que «**aunque no es obligatorio, es frecuente**» que se ajuste al esquema de fronte, eslabón y sirima. Describe aparte la canción alirada como variante cuyas estrofas, cortas y simétricas, prescinden de la ordenación rigurosa de la estancia y cuya unidad estrófica oscila entre cuatro y ocho versos.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "4c90a1f0-f814-43ec-89c2-3c6dfef0b0fc",
+      "anio": 2020,
+      "cita": "Jauralde Pou, Pablo. Métrica española. Madrid: Cátedra, 2020.",
+      "forma": "cancion",
+      "localizador": "Apartados «Canción» y «Estancias»",
+      "resumen": "Explica que con el término simple «canción» suele aludirse a la petrarquista, cultivada desde el siglo XVI, frente a la canción medieval del siglo XV. La compone de un mínimo de tres estancias iguales terminadas en otra mucho más breve, el envío o *commiato*, en la que se señala explícitamente a la canción esa dedicatoria. Define la estancia como repetición regular de una estrofa de versos de siete y once sílabas dispuestos de modo aleatorio, normalmente por encima de los ocho versos, para diferenciarla de las liras, y observa que adoptó desde muy pronto estructuras más rígidas o flexibles según la cantidad y disposición de los versos.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "cf942831-3f1e-4be5-9034-a6dd002c0d90",
+      "anio": 1968,
+      "cita": "Morley, S. Griswold, y Courtney Bruerton. Cronología de las comedias de Lope de Vega. Madrid: Gredos, 1968.",
+      "forma": "cancion_petrarquista",
+      "localizador": "Cap. V, «Canción (Canzone)», p. 40, y «Estudio de las estrofas», «Canción», pp. 175-177",
+      "resumen": "«La más frecuente, con mucho, es la estrofa de 13 versos de la *Canzone XI* de Petrarca (“Chiare, fresche e dolci acque”): abCabC:cdeeDfF, sin envío. Usamos la palabra “regular” para referirnos a ella». La encuentran en dieciséis comedias de su Tabla I y otras dieciséis de la Tabla II, «normalmente para monólogo», con ejemplos de diálogo, y las últimas comedias fechadas en las que aparece no son posteriores a 1620.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "fe2f6372-13a7-4d8c-8e25-e16655e90454",
+      "anio": 1972,
+      "cita": "Navarro Tomás, Tomás. Métrica española. Reseña histórica y descriptiva. Madrid: Guadarrama, 1972.",
+      "forma": "cancion_petrarquista",
+      "localizador": "§ 108, pp. 205-206",
+      "resumen": "Documenta que la estancia `abCabC:cdeeDfF` de la segunda égloga de Garcilaso «tenía por modelo la de la canción undécima del Petrarca», que Herrera la usó y que fue imitada después en numerosas ocasiones; y que las canciones de Garcilaso son en su mayor parte de no más de cuatro o cinco estancias de trece versos.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "5fc2c359-317a-4bf1-baa0-3342d9abc59d",
+      "anio": 1968,
+      "cita": "Morley, S. Griswold, y Courtney Bruerton. Cronología de las comedias de Lope de Vega. Madrid: Gredos, 1968.",
+      "forma": "cancion_sin_rima",
+      "localizador": "Cap. V, «Canción sin rima», p. 41, y «Estudio de las estrofas», «Canción sin rima», pp. 177-178",
+      "resumen": "«La estrofa sin rima, que llamamos aquí Canción Libre o Sin Rima»: versos italianos de siete y once sílabas sin rima, «menos en el pareado final». La usaron en Italia Ludovico Martelli, en castellano Jerónimo Bermúdez en *Nise laureada* (1577) y Lope de Vega, «y por ningún otro poeta español que sepamos». Sus estancias en Lope van de siete a veinte versos —*La pastoral de Jacinto*, «13 × 6 más 14 más 20»—, en *La fábula de Perseo* van «13, 14, esdrújulos», y no hay ningún caso posterior a 1611: «parece que este tipo de estrofa fue una innovación que no gustó». Remiten a un estudio de Morley sobre las estrofas sin rima en las comedias de Lope, Coimbra, 1934.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "4432eec8-c845-4687-8cf2-a9c6e7b04576",
+      "anio": 1972,
+      "cita": "Navarro Tomás, Tomás. Métrica española. Reseña histórica y descriptiva. Madrid: Guadarrama, 1972.",
+      "forma": "romancillo",
+      "localizador": "§§ 205 y 208",
+      "resumen": "Del heptasílabo: Góngora lo adoptó en un romancillo aconsonantado sobre la muerte de doña Luisa de Cardona (1594) y en dos romancillos asonantes con estribillo, y el metro alcanzó su mayor prestigio lírico con las anacreónticas de Villegas y «los delicados romancillos de Lope que recibieron el nombre de barquillas». Del hexasílabo: se empleó «en villancicos, letrillas, endechas y romances»; «mucho más corriente fue el uso del hexasílabo en romancillos líricos y satíricos, profanos y sagrados. Con este carácter desempeñó papel importante en el teatro», y «el romance hexasílabo de tema sentimental y melancólico continuó siendo la forma más frecuente de la endecha».",
+      "url": null
+    },
+    {
+      "afirmacion_id": "e0c28298-d853-48fd-9525-084617da6596",
+      "anio": 1968,
+      "cita": "Morley, S. Griswold, y Courtney Bruerton. Cronología de las comedias de Lope de Vega. Madrid: Gredos, 1968.",
+      "forma": "terceto",
+      "localizador": "Cap. V, «Tercetos (sin encadenar)», p. 40",
+      "resumen": "Notan las dos disposiciones del terceto suelto sobre dos estrofas seguidas, `AXABYB` y `XAAYBB`, y añaden que el primer tipo puede acabar en un pareado o en un cuarteto.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "0bd8c0d2-25a6-4493-8626-9243f8b1ea3b",
+      "anio": 1969,
+      "cita": "Quilis, Antonio. Métrica española. Madrid: Ediciones Alcalá, 1969.",
+      "forma": "terceto",
+      "localizador": "pp. 92-93",
+      "resumen": "Advierte que el terceto normalmente no se usa solo, sino en series con otros tercetos o dentro de otro tipo de estrofa, y pone como ejemplo el soneto.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "332a88fd-7d3a-4e24-b555-e0844f05e03f",
+      "anio": 1972,
+      "cita": "Navarro Tomás, Tomás. Métrica española. Reseña histórica y descriptiva. Madrid: Guadarrama, 1972.",
+      "forma": "terceto",
+      "localizador": "§ 21",
+      "resumen": "Le da epígrafe propio con el nombre de **terceto monorrimo**: «en tercetos octosílabos monorrimos compuso Pedro de Veragüe su *Doctrina cristiana*», y describe el pie quebrado que acompaña a cada terceto como estribillo —de sus 154 quebrados, 123 son tetrasílabos y 31 pentasílabos—.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "9e0a5051-a9f1-4736-a9f2-1f9c3d45f630",
+      "anio": 2014,
+      "cita": "Domínguez Caparrós, José. Métrica española. Nueva edición corregida y aumentada. Madrid: UNED, 2014.",
+      "forma": "terceto",
+      "localizador": "p. 187",
+      "resumen": "«El terceto en versos de arte menor se llama tercetillo, tercerilla o tercerillo», y lo ejemplifica con dos **tercetillos monorrimos octosílabos** de «A Goya», de Rubén Darío.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "43424e08-961c-4315-ba9f-12d1f93afb83",
+      "anio": 2014,
+      "cita": "Domínguez Caparrós, José. Métrica española. Nueva edición corregida y aumentada. Madrid: UNED, 2014.",
+      "forma": "terceto",
+      "localizador": "pp. 185 y 187",
+      "resumen": "Define el terceto como tres versos de arte mayor, normalmente endecasílabos, y precisa que el terceto en versos de arte menor recibe nombre propio: tercetillo, tercerilla o tercerillo.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "484e23f9-5f2b-4cf5-8c59-38df06eb51ac",
+      "anio": 2016,
+      "cita": "Domínguez Caparrós, José. Diccionario de métrica española. 3.ª ed. Madrid: Alianza Editorial, 2016.",
+      "forma": "terceto",
+      "localizador": "Entradas «tercetillo», «tercerilla» y «tercerillo», p. 427",
+      "resumen": "Le da entrada propia y la define entera: «tercetillo. Terceto en versos de arte menor. La rima puede adoptar las distintas disposiciones del terceto, **y puede ser asonante**». Registra tercerilla y tercerillo como los otros dos nombres.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "b3fb7d0b-952d-48d0-93da-84c755b6aa28",
+      "anio": 2020,
+      "cita": "Jauralde Pou, Pablo. Métrica española. Madrid: Cátedra, 2020.",
+      "forma": "terceto",
+      "localizador": "Apartado «Estrofas de tres versos»",
+      "resumen": "Es quien lo sitúa en el corpus de este catálogo: **«el tercetillo monorrimo es frecuente en composiciones medievales de base octosilábica o hexasilábica (como el zéjel, el villancico, normal como estribillo, con uno de sus versos quebrado, etc.), raro en los Siglos de Oro, cuando solo se utiliza para diálogos teatrales (por Lope de Vega y otros autores), y nuevamente variado y frecuente a partir del modernismo»**. Del terceto autónomo añade que, tras la poesía medieval tardía y los cancioneros, aparece en ejemplos sueltos, y cita entre ellos comedias de Lope, antes de que los modernistas recuperen la estrofa.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "80001779-c7f5-46de-8bcd-ffd0fb477cf1",
+      "anio": 1968,
+      "cita": "Morley, S. Griswold, y Courtney Bruerton. Cronología de las comedias de Lope de Vega. Madrid: Gredos, 1968.",
+      "forma": "terceto_encadenado",
+      "localizador": "Cap. V, «Tercetos (Terza rima)», p. 40",
+      "resumen": "Describen el encadenamiento ABABCBCDC… YZYZ y precisan que los tercetos acaban generalmente del mismo modo que comienzan, con una rima usada solo dos veces, pero que de vez en cuando aparecen **variantes**: un verso sin rima, o una rima usada cuatro veces.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "5fc24618-48d7-4d22-b6e3-c5bdd3fbd98b",
+      "anio": 1969,
+      "cita": "Quilis, Antonio. Métrica española. Madrid: Ediciones Alcalá, 1969.",
+      "forma": "terceto_encadenado",
+      "localizador": "§ 5.4.2.1, p. 92",
+      "resumen": "Da el patrón ABA-BCB-CDC-…-XYX-YZYZ y explica que la última estrofa es de cuatro versos porque en realidad es un terceto al que se añade uno más para cerrar la rima que quedaba pendiente.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "b51cb6b3-0c3d-411f-beb4-8439f0879810",
+      "anio": 1972,
+      "cita": "Navarro Tomás, Tomás. Métrica española. Reseña histórica y descriptiva. Madrid: Guadarrama, 1972.",
+      "forma": "terceto_encadenado",
+      "localizador": "§ 113",
+      "resumen": "Sitúa el origen de la serie encadenada en la *Divina Comedia*, de donde viene el enlace por la consonancia del segundo verso de cada terceto.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "c31cfc01-f475-43a4-ba65-8d6e52ab71cf",
+      "anio": 2016,
+      "cita": "Domínguez Caparrós, José. Diccionario de métrica española. 3.ª ed. Madrid: Alianza Editorial, 2016.",
+      "forma": "terceto_encadenado",
+      "localizador": "Entrada «terceto», p. 427",
+      "resumen": "No distingue las dos formas: define el terceto directamente como la serie ABA, BCB, CDC, …, YZYZ, y remite «terceto encadenado» a esa misma entrada. Añade que son posibles otras disposiciones en el enlace de la rima entre tercetos.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "fb1e1cda-33b2-4589-a5ea-b4bfc43548e4",
+      "anio": 2020,
+      "cita": "Jauralde Pou, Pablo. Métrica española. Madrid: Cátedra, 2020.",
+      "forma": "terceto_encadenado",
+      "localizador": "Apartado «Estrofas de tres versos»",
+      "resumen": "Sitúa los tercetos encadenados en un abanico que va de los tercetillos de arte menor a las largas composiciones encadenadas, pasando por tercetos monorrimos, quebrados o usados como estribillo.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "d1ea2ecf-b107-4f3f-b49f-97e7fcf1b725",
+      "anio": 1968,
+      "cita": "Morley, S. Griswold, y Courtney Bruerton. Cronología de las comedias de Lope de Vega. Madrid: Gredos, 1968.",
+      "forma": "villancico",
+      "localizador": "Cap. V, pp. 38-41; epígrafes «Coplas», p. 39, y «Canción (Canzone)», p. 40",
+      "resumen": "Su repertorio de metros españoles no incluye ninguna forma con estribillo: define la redondilla, la quintilla, la copla real, la décima, el romance, la seguidilla, el pareado y las coplas de pie quebrado, y reúne aparte, bajo «coplas», las estrofas cortas que no se incluyen en definiciones más específicas, que es donde podría caer una copla de villancico. Su «canción» es la canzone italiana de siete y once sílabas, no esta forma.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "1bb37fb5-4877-4af9-85c4-41679421f118",
+      "anio": 1969,
+      "cita": "Quilis, Antonio. Métrica española. Madrid: Ediciones Alcalá, 1969.",
+      "forma": "villancico",
+      "localizador": "§§ 6.3.1, p. 121, y 6.3.2, p. 127",
+      "resumen": "Sitúa el villancico desde la Edad Media y señala su auge entre el siglo XVI y el Barroco. Lo describe en octosílabos o hexasílabos, con estribillo y pies variables de seis o siete versos cuyos finales recuperan total o parcialmente la rima del estribillo. Al compararlo con el zéjel, identifica la redondilla como mudanza característica y advierte variación en la extensión del estribillo.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "cfc21591-c376-422c-bebb-66847d70869b",
+      "anio": 1972,
+      "cita": "Navarro Tomás, Tomás. Métrica española. Reseña histórica y descriptiva. Madrid: Guadarrama, 1972.",
+      "forma": "villancico",
+      "localizador": "§§ 93, 145, 212, 446 y 494, pp. 171-173, 235-236, 287-288, 456 y 492; y repertorio final, p. 541",
+      "resumen": "Reconstruye su evolución desde la cantiga medieval y documenta una gran variedad histórica. Presenta como modelo preferente del siglo XVI el estribillo de tres versos, la mudanza en redondilla y el enlace, vuelta y represa; junto a abba registra abab y la forma asonantada abcb. Recoge estribillos «de muy diversa extensión entre dos y dieciséis versos», mudanzas excepcionales de seis, ampliación o supresión del enlace y la vuelta, y repeticiones parciales o totales. De los dos ejemplos modernos que recoge, el del § 494 —la *Gacela del mercado matutino* de García Lorca— lleva «estribillo… cuarteta heptasílaba» y «el cuerpo de la canción… redondilla octosílaba»; y del § 446 —*Verde verderol*, de Juan Ramón Jiménez, con pareado de versos desiguales como estribillo— dice que es «ejemplo aislado de esta antigua forma de canción en el presente período».",
+      "url": null
+    },
+    {
+      "afirmacion_id": "97c8c03c-c33f-4155-b6b9-d5c7016597a9",
+      "anio": 2014,
+      "cita": "Domínguez Caparrós, José. Métrica española. Nueva edición corregida y aumentada. Madrid: UNED, 2014.",
+      "forma": "villancico",
+      "localizador": "pp. 211-212",
+      "resumen": "Define una forma fija con cabeza inicial de dos, tres o cuatro versos y uno o más pies. Cada pie se divide en dos mudanzas simétricas y una vuelta de tres o cuatro versos: el primero enlaza con la rima final de la mudanza y los restantes, o al menos el último, con la cabeza. Señala la estabilidad de la redondilla o cuarteta de la mudanza, la variación de cabeza y vuelta, la repetición del estribillo y el predominio de octosílabos y hexasílabos.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "bdac1b06-2303-474d-93de-4ced39b0cd42",
+      "anio": 2016,
+      "cita": "Domínguez Caparrós, José. Diccionario de métrica española. 3.ª ed. Madrid: Alianza Editorial, 2016.",
+      "forma": "villancico",
+      "localizador": "Entradas «villancico», pp. 495-496, y «vuelta», p. 498",
+      "resumen": "Ofrece la misma estructura canónica de cabeza de dos a cuatro versos, dos mudanzas simétricas y vuelta de tres o cuatro versos que, según el segundo sentido de «vuelta», «**se corresponde en extensión con la cabeza**». Precisa la relación de rimas del enlace y de la vuelta con mudanza y cabeza —los demás versos, «**o al menos el último**», riman con la cabeza—, la repetición del estribillo cuando hay varias estrofas, la estabilidad de la redondilla o cuarteta central y la variabilidad del comienzo y el final.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "a18a04c2-af8a-4784-baac-df2c446e0cc6",
+      "anio": 2020,
+      "cita": "Jauralde Pou, Pablo. Métrica española. Madrid: Cátedra, 2020.",
+      "forma": "villancico",
+      "localizador": "Apartado «Estrofas con estribillo»",
+      "resumen": "Subraya que villancico, canción trovadoresca, zéjel y letrilla pueden coincidir en sus elementos y requerir tema, tono y época para distinguirse. Resume el villancico en la secuencia cabeza, estrofa y repetición total o parcial de la cabeza, pero advierte que ese molde general es demasiado amplio: la clasificación métrica debe atender a la forma de la estrofa y excluir, por ejemplo, la mudanza monorrima propia del zéjel.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "f5e83325-1e40-4465-98b9-173cd0fffcff",
+      "anio": 1968,
+      "cita": "Morley, S. Griswold, y Courtney Bruerton. Cronología de las comedias de Lope de Vega. Madrid: Gredos, 1968.",
+      "forma": "zejel",
+      "localizador": "Cap. V, pp. 38-41; epígrafes «Coplas», p. 39, y «Canción (Canzone)», p. 40",
+      "resumen": "Su repertorio de metros españoles no incluye ninguna forma con estribillo: define la redondilla, la quintilla, la copla real, la décima, el romance, la seguidilla, el pareado y las coplas de pie quebrado, y reúne aparte, bajo «coplas», las estrofas cortas que no se incluyen en definiciones más específicas, que es donde podría caer una copla de zéjel. Su «canción» es la canzone italiana de siete y once sílabas, no esta forma.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "71d1e7df-3003-4d31-a85c-a6a334a32b84",
+      "anio": 1969,
+      "cita": "Quilis, Antonio. Métrica española. Madrid: Ediciones Alcalá, 1969.",
+      "forma": "zejel",
+      "localizador": "§ 6.3.2, pp. 125 y 127",
+      "resumen": "Explica que procede de una forma popular de la poesía arábigo-española, «**aunque modificado y adecuado a la métrica románica**», y que aparece en la lírica castellana en el siglo XIV. Lo describe normalmente en octosílabos, con estribillo de uno o dos versos, mudanza de tres versos monorrimos y un cuarto verso de vuelta que rima con el estribillo, según el esquema aa-bbba. Precisa que se diferencia del villancico sobre todo por la mudanza —redondilla en el villancico, trístico monorrimo en el zéjel— y, de manera menos constante, por el estribillo: en el villancico suele tener tres o cuatro versos y en el zéjel, de ordinario, dos.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "45c3cae7-152c-4d95-84f4-f18af9c4adaf",
+      "anio": 1972,
+      "cita": "Navarro Tomás, Tomás. Métrica española. Reseña histórica y descriptiva. Madrid: Guadarrama, 1972.",
+      "forma": "zejel",
+      "localizador": "§§ 14, pp. 50-51; 92, pp. 168-169; y 211, pp. 286-287",
+      "resumen": "Atribuye su invención a Mucáddam de Cabra hacia 920 y lo describe como estribillo breve, terceto monorrimo de mudanza cuyo consonante cambia en cada estrofa y verso final de vuelta que recoge la rima del estribillo. Señala que la forma típica aa:bbba mantiene su predominio, pero registra zéjeles en arte mayor y variantes que modifican estribillo y vuelta, como aba:cccba y abba:cccaca. En el Siglo de Oro la tradición persistía principalmente en la lírica devota y en las canciones del teatro, con ejemplos en *Los baños de Argel* de Cervantes y en *Los amores de Albanio e Ismenia* y *El vaquero de Moraña* de Lope de Vega; documenta además la variante con la mudanza reducida a dos versos, aa:bba.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "c08b7611-236b-4f83-ae46-d64c0975cbaf",
+      "anio": 2014,
+      "cita": "Domínguez Caparrós, José. Métrica española. Nueva edición corregida y aumentada. Madrid: UNED, 2014.",
+      "forma": "zejel",
+      "localizador": "pp. 210-211",
+      "resumen": "Lo define como poema de forma fija cuyas partes son un estribillo de uno o dos versos que riman entre sí y una estrofa dividida en un cuerpo o mudanza de tres versos monorrimos y un verso de vuelta que rima con el estribillo, siendo el octosílabo el verso más usado. De origen mozárabe, se emplea en canciones de amor y preferentemente de escarnio, y su uso llega hasta el siglo XVII. Lo diferencia del villancico por la forma de la mudanza y por la ausencia del verso de enlace con ella, y explica que el nombre de estribote se dio a esta misma forma hasta el siglo XV.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "5e28fc29-780b-4b10-81fe-488498bdc84e",
+      "anio": 2016,
+      "cita": "Domínguez Caparrós, José. Diccionario de métrica española. 3.ª ed. Madrid: Alianza Editorial, 2016.",
+      "forma": "zejel",
+      "localizador": "Entrada «zéjel», pp. 500-501",
+      "resumen": "Lo define como poema de forma fija con un estribillo de uno o dos versos y una estrofa dividida en un cuerpo o mudanza de tres versos monorrimos y un verso de vuelta que rima con el estribillo, con el octosílabo como verso más usado. Indica que se diferencia del villancico por la forma de la mudanza y de la vuelta, que su uso llega hasta el siglo XVII, y recoge estrabot, estribote y villancico como otros términos aplicados a esta forma.",
+      "url": null
+    },
+    {
+      "afirmacion_id": "e2c60b96-8587-4c74-958a-550b808ccbcb",
+      "anio": 2020,
+      "cita": "Jauralde Pou, Pablo. Métrica española. Madrid: Cátedra, 2020.",
+      "forma": "zejel",
+      "localizador": "Apartados «Zéjel», «Estrofas con estribillo» y «Estrofas mayores formadas por tercetos o por tercetillos»",
+      "resumen": "Lo presenta como una forma estrófica antiquísima y, en realidad, un modo de villancico, formada por una cabeza o estribillo, una mudanza de un terceto monorrimo y una vuelta a la rima del estribillo, según el esquema aa: bbba. Reserva el término villancico para las composiciones cuya mudanza no es monorrima y emplea otros nombres, entre ellos el de zéjel, cuando sí lo es. Señala que el terceto monorrimo fue mayoritariamente la forma primitiva del cuerpo del zéjel.",
+      "url": null
+    }
+  ]
+}

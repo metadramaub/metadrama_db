@@ -1,0 +1,424 @@
+{
+  "denominaciones_consultadas": [
+    {
+      "arquitectura_id": null,
+      "forma_id": "8fcdc19c-0792-48ee-96dd-f6123f95c1b2",
+      "fuente_id": "2e54db97-8085-40e3-8fab-87c96b5f7d59",
+      "nombre": "Décima-estancia",
+      "rasgo_id": null
+    },
+    {
+      "arquitectura_id": null,
+      "forma_id": "04f3b8a4-cae2-4b49-8396-10a780d174e6",
+      "fuente_id": "2e54db97-8085-40e3-8fab-87c96b5f7d59",
+      "nombre": "Estancia real",
+      "rasgo_id": null
+    },
+    {
+      "arquitectura_id": null,
+      "forma_id": "187be9a5-f24c-4fde-a4dd-591e9e742c39",
+      "fuente_id": "2e54db97-8085-40e3-8fab-87c96b5f7d59",
+      "nombre": "Media estancia",
+      "rasgo_id": null
+    },
+    {
+      "arquitectura_id": "4090e4f0-4073-4d17-b6ec-25cbb5c68ec7",
+      "forma_id": null,
+      "fuente_id": null,
+      "nombre": "Pareado alirado",
+      "rasgo_id": null
+    },
+    {
+      "arquitectura_id": null,
+      "forma_id": "b8462640-842d-43a6-a3f4-afaaff19b769",
+      "fuente_id": "2e54db97-8085-40e3-8fab-87c96b5f7d59",
+      "nombre": "Poema de verso suelto",
+      "rasgo_id": null
+    },
+    {
+      "arquitectura_id": null,
+      "forma_id": "aab6ba0d-918f-4d38-8f3b-613462676e89",
+      "fuente_id": "b9a035c9-8771-460d-aa7d-b85f6c090e9d",
+      "nombre": "Rima interna en sueltos",
+      "rasgo_id": null
+    },
+    {
+      "arquitectura_id": null,
+      "forma_id": "c5666b30-055b-4d48-8e8b-29109ed4e258",
+      "fuente_id": "2e54db97-8085-40e3-8fab-87c96b5f7d59",
+      "nombre": "Septeto-estancia",
+      "rasgo_id": null
+    },
+    {
+      "arquitectura_id": null,
+      "forma_id": "b8462640-842d-43a6-a3f4-afaaff19b769",
+      "fuente_id": "2e54db97-8085-40e3-8fab-87c96b5f7d59",
+      "nombre": "Verso suelto",
+      "rasgo_id": null
+    }
+  ],
+  "esquema": "versologia-catalogo-piloto/0.1",
+  "estado": {
+    "actualizado_en": "2026-10-19T11:26:16.630786+00:00",
+    "actualizado_por": null,
+    "id": true,
+    "modelo_version": 59,
+    "revision": 4948
+  },
+  "formas": [
+    {
+      "arquitecturas": [
+        {
+          "arquitectura_id": "5a927382-f931-4374-b422-920f40a77345",
+          "descripcion": "El caso general: la estancia se inventa para cada canción y no hay dos iguales. Mide de nueve a quince versos: el suelo la separa de las estrofas aliradas, y el techo es el de la canción dramática. Fuera del teatro las hay más largas —la canción cuarta de Garcilaso tiene ocho estancias de veinte versos—, y quedan en las fuentes de esta ficha aunque el catálogo no las admita.",
+          "nombre": "Estancias consonantes variables",
+          "slug": "estancias_consonantes_variables"
+        }
+      ],
+      "definicion": "Composición en estancias: una estrofa larga de heptasílabos y endecasílabos con rima consonante que el poeta dispone a su gusto en la primera y repite sin cambio en todas las demás, tres por lo menos. La estancia mide de nueve a quince versos y suele ordenarse en dos partes: una **fronte**, hecha de dos *piedi* unidos por la rima, que suelen medir lo mismo, y una **sirima** de rimas nuevas, que a menudo se abre con un verso —el **eslabón**, *volta* o *chiave*— que retoma la rima con que se cerró la fronte. Esa ordenación es frecuente, no obligatoria: una estancia sin eslabón, o sin partición reconocible, sigue siendo estancia. La composición suele cerrarse con un fragmento de estancia más breve, el **remate**, envío o *commiato*, en el que el poeta se dirige a menudo a la propia canción; tampoco él es obligatorio. De su estancia salió, recortada a cinco versos, la lira, y de la lira la serie de estrofas aliradas, que tienen su misma materia sin su ordenación y que crecieron hasta rozar su tamaño: por eso los tratados llaman «canción alirada» a la composición hecha con ellas. «Canción» a secas designa esta forma de tradición italiana, no la canción medieval del siglo XV.",
+      "forma_id": "0903da0e-eeca-4aad-8bcd-66b6b32cc050",
+      "nombre": "Canción",
+      "slug": "cancion",
+      "tipo_registro": "forma"
+    },
+    {
+      "arquitecturas": [
+        {
+          "arquitectura_id": "3e32cc34-be7e-472f-92cd-8795f7fa90b4",
+          "descripcion": "Trece versos, `7 7 11 7 7 11 7 7 7 7 11 7 11`, con la rima `abCabC:cdeeDfF`: fronte de dos *piedi* de tres versos, eslabón heptasílabo y sirima de seis versos con dos pareados y endecasílabo final. Medida y rima están fijas en todas las posiciones, de modo que la norma no deja nada por elegir; solo el remate, cuando lo hay, varía en extensión.",
+          "nombre": "Regular de 13 versos",
+          "slug": "regular_13_versos"
+        }
+      ],
+      "definicion": "Canción cuya estancia es la regular de trece versos, `abCabC:cdeeDfF` sobre la medida `7 7 11 7 7 11 7 7 7 7 11 7 11`, repetida tres veces por lo menos, con remate o sin él. Es la estancia que Garcilaso tomó de la canción undécima de Petrarca para su segunda égloga, la que Herrera empleó en su canción quinta y la más frecuente en la comedia del Siglo de Oro. Su fronte son dos *piedi* de tres versos unidos por la rima, `abC` y `abC`; el séptimo verso, heptasílabo, rima con el último de la fronte y abre ya la sirima, y por eso es el eslabón; la sirima cierra con dos pareados y un endecasílabo suelto de remate de estancia. El nombre, que los tratados aplican a la canción italiana en general, designa aquí solo esta estancia, la que viene literalmente de Petrarca.",
+      "forma_id": "10d7f0d4-9f73-4674-bd88-0bc9d4a51775",
+      "nombre": "Canción petrarquista",
+      "slug": "cancion_petrarquista",
+      "tipo_registro": "forma"
+    },
+    {
+      "arquitecturas": [
+        {
+          "arquitectura_id": "5ac8fdf8-a5d3-483d-9aa0-77bae35c5723",
+          "descripcion": "Estancia de siete a veinte versos de siete y once sílabas, sin rima salvo el pareado consonante con que termina; la distribución de medidas la fija la primera estancia y la repiten las demás. Lo único variable es la medida de cada verso y, cuando se sostiene, la terminación esdrújula.",
+          "nombre": "Sin rima, con pareado final",
+          "slug": "sin_rima_con_pareado_final"
+        }
+      ],
+      "definicion": "Composición en estancias de heptasílabos y endecasílabos sin rima, salvo el pareado consonante con que cada estancia termina. La estancia mide de siete a veinte versos y repite en todas las demás la distribución de medidas que fijó la primera; el pareado final es lo que hace estancia a cada estrofa y composición al conjunto. Es forma del teatro: los tratados de métrica no la registran, porque describen la canción como forma siempre rimada, y se conoce por el recuento de las estrofas sin rima de las comedias.",
+      "forma_id": "73c04943-2c29-401d-947f-3e4a74e751d2",
+      "nombre": "Canción sin rima",
+      "slug": "cancion_sin_rima",
+      "tipo_registro": "forma"
+    },
+    {
+      "arquitecturas": [
+        {
+          "arquitectura_id": "6369335f-2b12-44c6-8473-1bf99f1c43c8",
+          "descripcion": "Endecasílabos en serie, cada uno rimado con el interior del siguiente. La medida es fija y el encadenamiento es la norma: lo único que se pregunta es si cierra en dístico y si sostiene el final esdrújulo.",
+          "nombre": "Endecasílabo",
+          "slug": "endecasilabica"
+        }
+      ],
+      "definicion": "Serie de endecasílabos sin estrofa en la que cada verso rima con el interior del siguiente: la rima final de un verso vuelve en las sílabas sexta y séptima del que viene detrás —con menor frecuencia en la cuarta y quinta—, de modo que ningún verso queda sin rima y la serie va encadenada de uno en uno. Los finales de verso no riman entre sí, y por eso comparte con el endecasílabo suelto la falta de estrofa y la ausencia de rima final; lo que la separa es que aquí todo rima. Es el *endecasillabo incatenato* que Sannazaro y otros italianos aplicaron a la poesía dramática; en castellano lo estableció Garcilaso en buena parte de su segunda égloga, tuvo cierta boga entre finales del siglo XVI y principios del XVII, y Lope lo empleó en unas pocas comedias entre 1593 y hacia 1612. La rima fracciona el verso y fija la cesura tras la séptima sílaba aun cuando el sentido la pondría en otro sitio.",
+      "forma_id": "aab6ba0d-918f-4d38-8f3b-613462676e89",
+      "nombre": "Endecasílabo encadenado",
+      "slug": "endecasilabo_encadenado",
+      "tipo_registro": "forma"
+    },
+    {
+      "arquitecturas": [
+        {
+          "arquitectura_id": "86b2c464-0c35-49e2-8d6b-dedbd44ad39e",
+          "descripcion": "Serie abierta de endecasílabos en la que predominan los versos sueltos. Se empleó sobre todo en epístolas, sátiras y traducciones, donde buscar la rima habría forzado el texto, y se recomendó para el asunto heroico. Al renunciar a la rima exige más trabajo del verso, porque cualquier prosaísmo se nota enseguida.",
+          "nombre": "Endecasílabo",
+          "slug": "endecasilabica"
+        }
+      ],
+      "definicion": "Serie abierta de endecasílabos sin rima regular, en la que los versos sueltos predominan sobre los rimados. Admite pareados intercalados de manera ocasional y suele cerrarse con un dístico. Cuando la rima desaparece por completo se le llama verso blanco, y verso suelto cuando alguna asoma sin llegar a organizar la serie. Nació del intento renacentista de acercar el verso romance al latino, que prescinde de la rima.",
+      "forma_id": "b8462640-842d-43a6-a3f4-afaaff19b769",
+      "nombre": "Endecasílabo suelto",
+      "slug": "endecasilabo_suelto",
+      "tipo_registro": "forma"
+    },
+    {
+      "arquitecturas": [
+        {
+          "arquitectura_id": "c48a237a-8e01-4d4e-8ebe-4eae389b14c7",
+          "descripcion": "La estrofa de la épica culta: Boccaccio la formó en la *Teseida* dando un pareado a los dos últimos versos de la octava siciliana, Boscán la trajo a España y Ercilla la consagró en *La Araucana*. Su prestigio la mantuvo en cantos heroicos y en materia grave mucho después del Siglo de Oro.",
+          "nombre": "Endecasílaba consonante",
+          "slug": "endecasilabica_consonante"
+        }
+      ],
+      "definicion": "Estrofa de ocho versos endecasílabos con rima consonante. Su disposición habitual es ABABABCC: los seis primeros alternan dos rimas y los dos últimos forman un pareado con una tercera. Se documentan variantes menos frecuentes en los seis primeros versos, que suelen conservar el pareado final.",
+      "forma_id": "d07d21de-bef3-40f3-9573-ce5ac4639651",
+      "nombre": "Octava real",
+      "slug": "octava_real",
+      "tipo_registro": "forma"
+    },
+    {
+      "arquitecturas": [
+        {
+          "arquitectura_id": "a6608b46-5e67-425f-b76b-d8686902f47a",
+          "descripcion": "La misma norma en heptasílabos. La documenta Jauralde entre las medidas en que la quintilla se ha cultivado, junto a la hexasílaba.",
+          "nombre": "Heptasílaba",
+          "slug": "heptasilabica"
+        },
+        {
+          "arquitectura_id": "704716d7-4289-42ea-80b3-a844f566074b",
+          "descripcion": "La misma norma en hexasílabos. Es la medida de la *Cantiga de serrana de la Tablada* del Arcipreste de Hita, que Jauralde cita como ejemplo temprano de la forma.",
+          "nombre": "Hexasílaba",
+          "slug": "hexasilabica"
+        },
+        {
+          "arquitectura_id": "053ef367-629a-427c-aee1-425c4f111304",
+          "descripcion": "Es de las estrofas más usadas del teatro del Siglo de Oro, sobre todo en los pasajes narrativos y líricos. De sus ocho disposiciones, la primera es con diferencia la más corriente, y cuatro se marcan excepcionales por lo poco que aparecen. Tres de esas cuatro quedan además fuera de las cinco que la tradición describe como propias de la forma: dos cierran en pareado y otra repite la misma rima en tres versos seguidos.",
+          "nombre": "Octosílaba consonante",
+          "slug": "octosilabica_consonante"
+        }
+      ],
+      "definicion": "Estrofa de cinco versos de arte menor que riman en consonante sobre dos clases. Más que por una disposición fija, la tradición la caracteriza por lo que procura evitar: tres versos seguidos con la misma rima y el pareado final. De ahí salen sus cinco disposiciones clásicas, aunque el uso documenta alguna más. Dentro de un mismo poema la disposición puede cambiar de una quintilla a otra. El octosílabo es su realización no marcada; el heptasílabo y el hexasílabo están documentados, y las fuentes la definen en «octosílabos o menores», de modo que medidas más breves no quedan excluidas por la norma aunque el catálogo no las declare.",
+      "forma_id": "4d6d8107-5f7f-4b22-a26e-676df130ffdf",
+      "nombre": "Quintilla",
+      "slug": "quintilla",
+      "tipo_registro": "forma"
+    },
+    {
+      "arquitecturas": [
+        {
+          "arquitectura_id": "91a89419-0489-4600-be24-6814bb28e7af",
+          "descripcion": "Realización ocasional, la más rara de las tres medidas. La tradición no le dio nombre propio ni un ámbito distinto: aparece junto a la hexasílaba como alternativa a la octosílaba.",
+          "nombre": "Heptasílaba",
+          "slug": "heptasilabica"
+        },
+        {
+          "arquitectura_id": "fca75eb4-563e-4858-9ae8-ec89dc3f68d0",
+          "descripcion": "Realización ocasional, que la tradición nombra redondilla menor. Fue la lírica popular la que la cultivó con preferencia, y de ahí que tenga nombre propio mientras la heptasílaba no lo tiene.",
+          "nombre": "Hexasílaba",
+          "slug": "hexasilabica"
+        },
+        {
+          "arquitectura_id": "b6ef38af-5903-48d1-8c46-bc8bd6fb96ff",
+          "descripcion": "Realización no marcada de la redondilla, que la tradición nombra redondilla mayor. Con el romance y la décima, uno de los tres moldes del diálogo en la comedia nueva. Su arraigo llegó al punto de dar nombre al verso: el octosílabo se llamó también «verso de redondilla mayor».",
+          "nombre": "Octosílaba",
+          "slug": "octosilabica"
+        }
+      ],
+      "definicion": "Estrofa de cuatro versos de arte menor con rima consonante repartida en dos clases, sin ningún verso suelto. La disposición puede ser abrazada (abba) o cruzada (abab), y las dos aparecen en una misma composición. El octosílabo es su realización no marcada; el heptasílabo y el hexasílabo son mucho menos frecuentes. Los cancioneros del siglo XV la practicaron también con algún verso quebrado, cruzada y abrazada, aunque es realización rara y no llegó a tener disposición fijada.",
+      "forma_id": "1affe499-c92d-4cf0-a0f6-46c76a26f88f",
+      "nombre": "Redondilla",
+      "slug": "redondilla",
+      "tipo_registro": "forma"
+    },
+    {
+      "arquitecturas": [
+        {
+          "arquitectura_id": "65fcca52-25a7-411d-af57-fbd804ffbbb9",
+          "descripcion": "Octosílabos en serie con asonancia en los pares. La medida es fija y la asonancia se elige: es lo único que la norma deja abierto.",
+          "nombre": "Octosílabo",
+          "slug": "octosilabica"
+        }
+      ],
+      "definicion": "Serie de octosílabos en la que los pares comparten una misma asonancia y los impares quedan sueltos. Esa asonancia es única y no cambia: es lo que mantiene unida la serie, y un romance acaba justamente donde empieza otra. Nació como verso largo de dieciséis sílabas partido en dos hemistiquios, que los cancioneros del siglo XV empezaron a copiar como octosílabos; en esa figura se regularizó en el XVI, pasó a la poesía culta y se hizo, con la redondilla y la décima, uno de los moldes del diálogo de la comedia. El sentido suele partirlo en grupos de cuatro versos, y admite estribillos o canciones intercalados. Es la medida no marcada del romance: «romance» a secas es el octosílabo, y la misma serie en versos más cortos o en endecasílabos recibe nombre propio.",
+      "forma_id": "15a34e36-622e-4a1e-be7d-925124e05d9e",
+      "nombre": "Romance",
+      "slug": "romance",
+      "tipo_registro": "forma"
+    },
+    {
+      "arquitecturas": [
+        {
+          "arquitectura_id": "41a4cd05-e1a9-4c15-a146-28b1d18a7964",
+          "descripcion": "El de las endechas y anacreónticas del Siglo de Oro. Cuando el asunto es luctuoso recibe el nombre de endecha, que apunta al tema antes que a la medida.",
+          "nombre": "Heptasílabo",
+          "slug": "heptasilabica"
+        },
+        {
+          "arquitectura_id": "3dd4e83c-d73a-4ec6-b474-bddce593d5b1",
+          "descripcion": "El romancillo del teatro y de la poesía tradicional: villancicos, letrillas, endechas y romances de tema sentimental.",
+          "nombre": "Hexasílabo",
+          "slug": "hexasilabica"
+        },
+        {
+          "arquitectura_id": "8d4c827d-3528-4973-be57-0914c23aee1f",
+          "descripcion": "Otro romancillo: la misma serie asonantada en pentasílabos. La cultivaron los poetas del siglo XVIII —Meléndez Valdés, Iglesias de la Casa— y las fábulas de Iriarte y Hartzenbusch.",
+          "nombre": "Pentasílabo",
+          "slug": "pentasilabica"
+        },
+        {
+          "arquitectura_id": "d1ff1f38-711c-4dbd-90f0-245965622804",
+          "descripcion": "La más breve de las series asonantadas. Es tardía: la documenta el Modernismo.",
+          "nombre": "Tetrasílabo",
+          "slug": "tetrasilabica"
+        }
+      ],
+      "definicion": "Romance en versos de menos de ocho sílabas: la misma serie de impares sueltos y una sola asonancia en los pares, en heptasílabos, hexasílabos, pentasílabos o tetrasílabos. El hexasílabo y el heptasílabo son los del Siglo de Oro: el hexasílabo, en romancillos líricos y satíricos, letrillas y villancicos, y con papel propio en el teatro; el heptasílabo, en las anacreónticas y en las barquillas de Lope. El pentasílabo llega con las fábulas del siglo XVIII y el tetrasílabo con el Modernismo. Cuando el asunto es luctuoso recibe el nombre de endecha, que apunta al tema antes que a la medida, aunque algunos tratados reservan «endecha» al heptasílabo y limitan «romancillo» al hexasílabo y a los menores.",
+      "forma_id": "4cacf786-532b-4c37-b738-857ea96c566b",
+      "nombre": "Romancillo",
+      "slug": "romancillo",
+      "tipo_registro": "forma"
+    },
+    {
+      "arquitecturas": [
+        {
+          "arquitectura_id": "7aff44ee-86bf-4b97-8605-d256056fcd73",
+          "descripcion": "Todos los versos pares llevan la misma rima asonante y los impares quedan sueltos, sobre la mezcla libre de siete y once. Es la figura del romance dentro de una silva: lo que la separa de las otras cuatro no es cuánta rima hay sino dónde cae y de qué clase es.",
+          "nombre": "Arromanzada",
+          "slug": "arromanzada"
+        },
+        {
+          "arquitectura_id": "f6cf4487-2aa9-452f-98f1-22b8569d7673",
+          "descripcion": "Combina heptasílabos y endecasílabos sin orden fijo de medida. Los pareados pueden predominar o organizar toda la serie, y puede haber versos sueltos. Cuando toda la serie es pareada, la densidad de rima es total; lo que la distingue de la consonante regular es que no repite la alternancia 7–11.",
+          "nombre": "Consonante de orden libre",
+          "slug": "consonante_irregular"
+        },
+        {
+          "arquitectura_id": "194cd9a7-5369-4f8b-af3d-fa33db04790b",
+          "descripcion": "Alterna heptasílabo y endecasílabo en pareados que se suceden sin excepción, de modo que el pareado funciona aquí como unidad. A diferencia de la consonante de orden libre, repite el patrón métrico y de rima aA | bB | cC.",
+          "nombre": "Consonante regular",
+          "slug": "consonante_regular"
+        },
+        {
+          "arquitectura_id": "659d3635-2a3c-4597-ad33-1bc623ac6a5b",
+          "descripcion": "Serie de endecasílabos en la que la mayoría de los versos riman, sin orden fijo y con predominio de los dísticos. Si las rimas dejan de ser mayoritarias, el pasaje es una serie de endecasílabos sueltos y no una silva.",
+          "nombre": "Endecasílaba",
+          "slug": "endecasilabica"
+        },
+        {
+          "arquitectura_id": "10ff10ff-bdd3-4825-9c00-14d0beb01842",
+          "descripcion": "«Libre» nombra aquí el extremo de la escala en que la rima, mayoritaria o total, no llega a formar pareados; no la silva libre moderna, que es una serie de medidas mezcladas y por lo común sin rima.",
+          "nombre": "Libre",
+          "slug": "libre"
+        }
+      ],
+      "definicion": "Serie de endecasílabos y heptasílabos —o solo de endecasílabos— con rima dispuesta libremente, por lo que no se deja dividir en estrofas simétricas. Lo corriente es que rime en consonante, y entonces lo que cambia de una realización a otra es cuánto organizan los pareados la serie, desde el par sistemático hasta su ausencia. La tradición registra además una realización asonantada, la silva arromanzada, en que la rima se reduce a una misma asonancia en todos los versos pares y los impares quedan sueltos. La rima es aquí condición: un pasaje enteramente suelto no es una silva.",
+      "forma_id": "590d40a4-5eb4-4992-b0cf-3edf0d379b83",
+      "nombre": "Silva",
+      "slug": "silva",
+      "tipo_registro": "forma"
+    },
+    {
+      "arquitecturas": [
+        {
+          "arquitectura_id": "983cb35d-d7cd-40b5-94d7-d14e6cfeaeae",
+          "descripcion": "Boscán y Garcilaso son sus introductores efectivos: Santillana lo había intentado un siglo antes, pero aquel ensayo no tuvo continuidad. En el Barroco alcanza su mayor auge.",
+          "nombre": "Endecasílabo consonante",
+          "slug": "endecasilabica_consonante"
+        }
+      ],
+      "definicion": "Composición de catorce versos endecasílabos repartidos en dos cuartetos y dos tercetos. Los cuartetos comparten sus dos clases de rima y llevan casi siempre la misma disposición; los tercetos toman dos o tres clases nuevas y las reparten con una sola condición, que no haya más de dos versos seguidos con la misma rima. De ahí que sea la única parte del soneto que no está fijada de antemano.",
+      "forma_id": "5094076a-b93a-4fc4-8b43-a32791b03196",
+      "nombre": "Soneto",
+      "slug": "soneto",
+      "tipo_registro": "forma"
+    },
+    {
+      "arquitecturas": [
+        {
+          "arquitectura_id": "b7d3a188-77dd-42cb-a574-fc670aef6dd8",
+          "descripcion": "El terceto de arte mayor, y el que entra en la composición de otras formas: los dos del soneto y el que cierra el septeto compuesto. Dos de sus versos riman en consonante y el tercero queda suelto, de modo que aislado no se sostiene: lo normal es que se suceda en serie o que otra forma lo recoja.",
+          "nombre": "Endecasílabo",
+          "slug": "endecasilabica_consonante"
+        },
+        {
+          "arquitectura_id": "8616fbd7-d7a0-4cfc-accf-829d78597690",
+          "descripcion": "La otra base que la tradición documenta para el tercetillo, junto a la octosílaba.",
+          "nombre": "Hexasílabo",
+          "slug": "hexasilabica"
+        },
+        {
+          "arquitectura_id": "1bed1c71-648f-47f5-a9c3-5f07f1cdba16",
+          "descripcion": "El tercetillo por antonomasia: tres octosílabos, lo corriente monorrimos. Es la base del trístico medieval —la mudanza del zéjel es uno— y la medida en que el Siglo de Oro lo lleva al diálogo teatral.",
+          "nombre": "Octosílabo",
+          "slug": "octosilabica"
+        }
+      ],
+      "definicion": "Estrofa de tres versos. En arte mayor —endecasílabos— dos riman en consonante y el tercero queda suelto, sea el primero (–AA) o el central (A–A). **En arte menor recibe nombre propio, tercetillo**, y ahí lo corriente es que los tres rimen entre sí, monorrimos, aunque admite también las disposiciones con verso suelto y la rima puede ser asonante. Rara vez aparece aislada: lo normal es que se suceda en series o que entre en la composición de otra forma, como los dos tercetos del soneto o el que cierra la septilla. El tercetillo monorrimo es frecuente en la poesía medieval de base octosílaba o hexasílaba —es el trístico de la mudanza del zéjel— y en el Siglo de Oro se emplea sobre todo en el diálogo teatral. Cuando las unidades se enlazan por la rima, la serie resultante es el terceto encadenado, que es otra forma porque deja de ser una estrofa.",
+      "forma_id": "c0a062a4-3ee3-474d-a08f-eb466147e283",
+      "nombre": "Terceto",
+      "slug": "terceto",
+      "tipo_registro": "forma"
+    },
+    {
+      "arquitecturas": [
+        {
+          "arquitectura_id": "bbfe0164-8617-4044-8f1d-0fb102c58dc6",
+          "descripcion": "Realización principal de origen italiano: serie de endecasílabos consonantes enlazados de tres en tres, que puede cerrarse con un verso de remate. Con él, la tirada final se lee como un serventesio sin dejar de ser un terceto y un verso.",
+          "nombre": "Endecasílabo consonante",
+          "slug": "endecasilabica_consonante"
+        },
+        {
+          "arquitectura_id": "bc74c43f-80db-40e9-9968-ca0b7cc8a6d8",
+          "descripcion": "Adaptación al metro español de la serie italiana: conserva el encadenamiento consonante, lo realiza en octosílabos y puede cerrarse con un verso de remate. Con él, la tirada final se lee como una redondilla cruzada sin dejar de ser un terceto y un verso.",
+          "nombre": "Octosílabo consonante",
+          "slug": "octosilabica_consonante"
+        }
+      ],
+      "definicion": "Serie continua de versos isométricos con rima consonante en la que cada terceto presta la rima de su verso central al terceto siguiente, que la usa en el primero y el tercero. El enlace queda pendiente hasta el final, donde puede cerrarse con un verso más —el remate, que la tradición llama también estrambote— que recupera la rima suelta; pero la serie puede terminar sin él. Ese verso no convierte al último terceto en otra estrofa: la tirada final se lee como un cuarteto cruzado, y así la describen las fuentes, pero métricamente es un terceto más uno, porque su primera rima llega encadenada del terceto anterior y no nace ahí. La cadena necesita al menos dos tercetos: con uno solo no hay rima prestada que cerrar. Se cataloga aparte del terceto porque la rima cruza el límite de la unidad: la serie entera es una sola unidad abierta, no una sucesión de estrofas que puedan contarse por separado.",
+      "forma_id": "76b9e1c9-c9ff-4280-afec-5d31d3347677",
+      "nombre": "Terceto encadenado",
+      "slug": "terceto_encadenado",
+      "tipo_registro": "forma"
+    },
+    {
+      "arquitecturas": [
+        {
+          "arquitectura_id": "6ea6b78b-1acc-4ec4-9192-77c42d669c7b",
+          "descripcion": "Un verso solo, de la medida que sea, que no forma parte de ninguna estrofa ni serie.",
+          "nombre": "De cualquier medida",
+          "slug": "cualquier_medida"
+        }
+      ],
+      "definicion": "Un único verso que no se integra en la forma anterior ni en la siguiente, y que tampoco es una licencia dentro de ninguna de las dos. Es el caso de los proverbios, refranes y sentencias que el diálogo intercala con medida reconocible. Que un verso solo sea verso es discutible, porque le falta la repetición en que descansa el ritmo, y por eso el catálogo lo registra como tramo sin forma y no como forma.",
+      "forma_id": "fa1289ed-b854-4428-a575-55edf29b335a",
+      "nombre": "Verso aislado",
+      "slug": "verso_aislado",
+      "tipo_registro": "sin_forma"
+    },
+    {
+      "arquitecturas": [
+        {
+          "arquitectura_id": "79d8a1aa-f070-495d-a6da-1c47d8abe6a2",
+          "descripcion": "El estribillo inicial funciona como cabeza. Le siguen uno o más ciclos formados por una copla —con mudanza y, cuando aparecen, enlace y vuelta— y una posible repetición total o parcial del estribillo. La composición entera no fija un esquema de rima: lo fija su mudanza, y a partir de ella enlazan la vuelta y el regreso a la cabeza.",
+          "nombre": "Estribillo inicial",
+          "slug": "estribillo_inicial"
+        }
+      ],
+      "definicion": "Forma compuesta de arte menor articulada por un estribillo y una o más coplas. El estribillo inicial —que la tradición llama cabeza, y también villancico, letra o tema— tiene de dos a cuatro versos y fija la rima a la que vuelve la composición. Cada copla, llamada también pie, se abre con una mudanza, normalmente de cuatro versos organizados en dos miembros simétricos, y se cierra con los versos de enlace y de vuelta: el enlace —uno, y a veces dos o tres— recoge la rima del último verso de la mudanza o queda suelto, y la vuelta recupera la de la cabeza. Enlace y vuelta se corresponden en extensión con el estribillo, de modo que cuando la cabeza se abrevia el final de la copla se abrevia con ella, y al acabar se ha recuperado el principio aunque el estribillo todavía no se haya cantado otra vez. Después de cada copla el estribillo puede volver entero o en parte. Predominan los octosílabos y hexasílabos, que pueden distribuirse de manera distinta entre el estribillo y las coplas. Lo más estable de la forma es la redondilla o cuarteta de la mudanza; lo que más varía es el comienzo y el final, y la tradición documenta tanto la ampliación como la supresión del enlace y de la vuelta.",
+      "forma_id": "1ba6f164-41c7-4c94-a75d-cc629fc16048",
+      "nombre": "Villancico",
+      "slug": "villancico",
+      "tipo_registro": "forma"
+    },
+    {
+      "arquitecturas": [
+        {
+          "arquitectura_id": "3646da21-b4ef-420f-a9c4-7f40453b866d",
+          "descripcion": "Estribillo inicial de uno o dos versos seguido de ciclos formados por una copla y la posible reaparición del estribillo. La copla contiene tres versos monorrimos de mudanza y un verso de vuelta.",
+          "nombre": "Estribillo y coplas monorrimas",
+          "slug": "estribillo_y_coplas_monorrimas"
+        }
+      ],
+      "definicion": "Composición de forma fija y arte menor, normalmente octosílaba, que abre con un estribillo de uno o dos versos y continúa con una o más coplas. Cada copla se divide en una mudanza de tres versos monorrimos, con una rima nueva en cada estrofa, y un verso de vuelta que recupera la rima del estribillo; después el estribillo suele repetirse. El esquema resultante, aa:bbba, es el que la tradición reconoce como típico. Procede de la lírica arábigo-andalusí —se atribuye su invención a Mucáddam de Cabra, hacia el año 920— y entra en la castellana en el siglo XIV, en canciones de amor y sobre todo de escarnio; hasta el siglo XV se le llamó estribote. Su uso llega al XVII: en el Siglo de Oro pervive principalmente en la lírica devota y en las canciones del teatro, con ejemplos en *Los baños de Argel* de Cervantes y en *Los amores de Albanio e Ismenia* y *El vaquero de Moraña* de Lope de Vega. Se distingue del villancico por la mudanza monorrima de tres versos y porque la vuelta sigue directamente, sin versos de enlace.",
+      "forma_id": "838d5dc2-f529-41ce-8b28-94e65e4279e7",
+      "nombre": "Zéjel",
+      "slug": "zejel",
+      "tipo_registro": "forma"
+    }
+  ],
+  "rasgos_consultados": [
+    {
+      "nombre": "Dístico final",
+      "rasgo_id": "9feef08e-98a2-4880-844f-342d25bdaee4",
+      "slug": "distico_final"
+    },
+    {
+      "nombre": "Encadenamiento interior",
+      "rasgo_id": "9f67d1f6-ba87-46aa-abc1-a9e873088b02",
+      "slug": "encadenamiento_interior"
+    }
+  ],
+  "fecha_consulta": "2026-10-22",
+  "origen": "Supabase enlazado, consulta SELECT de solo lectura",
+  "consulta": "scripts/importador-metrico/catalogo-piloto.sql"
+}
