@@ -24,6 +24,7 @@ describen capacidades ya disponibles en la plataforma.
 | [Piloto](./piloto/README.md) | Materiales disponibles, referencias revisadas y procedimiento de los ensayos |
 | [Validador local](./validador-local.md) | Herramienta ya disponible para comprobar salidas nuevas del prompt sin depender del gold |
 | [Normalizador local](./normalizador-local.md) | Ensayo trazable sobre las cuatro transcripciones aceptadas; propuestas, candidatas y cobertura separadas |
+| [Contrato local](./contrato-local.md) | Campos comprobables, ensayo de copia fija y permisos, y vistas previas de las cuatro obras sin confirmar ni guardar |
 | [Contraste de términos](./piloto/contraste-terminos.md) | Lectura de las seis fuentes del catálogo y límites de las correspondencias propuestas |
 
 El pendiente activo se mantiene en [PENDIENTES](../PENDIENTES.md), la lista común del repositorio.

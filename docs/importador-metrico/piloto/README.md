@@ -22,6 +22,8 @@ identifica por hash cada versión aceptada. Las equivalencias generales siguen p
 - [Primer ensayo de normalización](./informe-normalizacion.md), [su contrato local](../normalizador-local.md)
   y [contraste de los términos ambiguos](./contraste-terminos.md). Las propuestas no cuentan como
   identificaciones revisadas; se conservan todos los versos, incluso los que siguen sin resolver.
+- [Ensayo del contrato mínimo](./informe-contrato-minimo.md), con cuatro vistas previas y
+  [comprobaciones ejecutables](../contrato-local.md). No confirma ni importa las obras en Supabase.
 
 La lectura inicial fue asistida en este chat; no se presenta como ensayo ciego del prompt ni como
 comparación entre proveedores. La capa normalizada ya permite ensayar correspondencias y

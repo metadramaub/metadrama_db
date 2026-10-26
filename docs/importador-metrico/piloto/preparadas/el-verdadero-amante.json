@@ -1,0 +1,615 @@
+{
+  "esquema": "versologia-vista-previa-minima/0.1",
+  "persistido": false,
+  "confirmacion": null,
+  "datos": {
+    "esquema": "versologia-ficha-minima/0.1",
+    "obra_ref": "el-verdadero-amante",
+    "metadatos": {
+      "titulo": "El verdadero amante",
+      "autor_nombre": "Lope de Vega",
+      "genero": "comedia_o_tragicomedia",
+      "edicion_base": "VEGA CARPIO, Lope de, El verdadero amante, ed. Eva Rodríguez, en Comedias de Lope de Vega. Parte XIV, coord. José Enrique López Martínez, Madrid, Gredos, 2015, 2 vols, II, pp. 203-378.",
+      "fecha_inicio": 1591,
+      "fecha_fin": 1595,
+      "fuente_fecha": "VEGA CARPIO, Lope de, El verdadero amante, ed. Eva Rodríguez, en Comedias de Lope de Vega. Parte XIV, coord. José Enrique López Martínez, Madrid, Gredos, 2015, 2 vols, II, pp. 203-378.",
+      "fundamento_autoria": null,
+      "observaciones": [
+        "La editora de esta comedia propone también la hipótesis de mediados de mayo de 1593 como fecha concreta de la escritura."
+      ]
+    },
+    "jornadas": [
+      {
+        "numero": 1,
+        "v_ini": 1,
+        "v_fin": 1051,
+        "rotulo_literal": "ACTO PRIMERO"
+      },
+      {
+        "numero": 2,
+        "v_ini": 1052,
+        "v_fin": 2016,
+        "rotulo_literal": "ACTO SEGUNDO"
+      },
+      {
+        "numero": 3,
+        "v_ini": 2017,
+        "v_fin": 2878,
+        "rotulo_literal": "ACTO TERCERO"
+      }
+    ],
+    "segmentos": [
+      {
+        "ref": "t01",
+        "v_ini": 1,
+        "v_fin": 220,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t01",
+          "denominacion_literal": "quintilla",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "quintilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "quintilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural. No se deducen medida ni disposición de rima de cada unidad.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t02",
+        "v_ini": 221,
+        "v_fin": 287,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t02",
+          "denominacion_literal": "estancias con pareado final",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": {
+          "forma_slug": "cancion",
+          "arquitectura_slug": null
+        },
+        "aprobacion": {
+          "responsable": "Responsable del proyecto, usuario de este chat",
+          "fecha": "2026-10-22",
+          "fundamento": "Decisión explícita: «las estancias sí que elegiría canción como forma, sin poder bajar más al detalla». Se acepta la correspondencia terminológica al nivel de forma; no requiere verificar el texto de cada pasaje. Precisión posterior del mismo responsable: el pareado final se interpreta como remate de la canción, sección ya admitida por el modelo."
+        },
+        "propuesta": null,
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "estancias-pareado",
+        "fundamento": "Criterio de normalización aprobado por el responsable: la denominación estancias con pareado final se registra como Canción en el corpus mínimo, sin seleccionar arquitectura, esquema de rima, distribución de medidas ni patrón de estancia. La relación terminológica estancia/canción está documentada en los tratados. No se exige cotejo del texto para aplicar este nivel de identificación, ni se usa el pasaje particular de Morley y Bruerton para decidir otras obras. El pareado final se conserva como declaración de la edición, sin completar respuestas del registrador detallado.",
+        "detalles_fuente": [
+          {
+            "literal": "pareado final",
+            "dimension": "estructura",
+            "tipo_seccion": "remate",
+            "nombre": "Remate o envío",
+            "n_versos": 2,
+            "posicion": "final",
+            "estado": "interpretacion_revisada",
+            "fundamento": "El responsable precisa: «es el remate de la canción, que nuestro modelo ya permite». Se conserva como remate declarado, sin exigir completar la arquitectura ni materializar todas las estancias."
+          }
+        ],
+        "desviaciones": []
+      },
+      {
+        "ref": "t03",
+        "v_ini": 288,
+        "v_fin": 787,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t03",
+          "denominacion_literal": "quintilla",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "quintilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "quintilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural. No se deducen medida ni disposición de rima de cada unidad.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t04",
+        "v_ini": 788,
+        "v_fin": 1051,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t04",
+          "denominacion_literal": "redondilla",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "redondilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "redondilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t05",
+        "v_ini": 1052,
+        "v_fin": 1201,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t05",
+          "denominacion_literal": "quintilla",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "quintilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "quintilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural. No se deducen medida ni disposición de rima de cada unidad.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t06",
+        "v_ini": 1202,
+        "v_fin": 1417,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t06",
+          "denominacion_literal": "redondilla",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "redondilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "redondilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t07",
+        "v_ini": 1418,
+        "v_fin": 1460,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t07",
+          "denominacion_literal": "tercetos encadenados con serventesio final",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "terceto_encadenado",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "tercetos-serventesio",
+        "fundamento": "La definición del catálogo contempla el remate que hace leerse como cuarteto cruzado el final de la cadena. Revisar la correspondencia del serventesio sin partir automáticamente otra forma ni dar por respondida toda la estructura.",
+        "detalles_fuente": [
+          {
+            "literal": "serventesio final",
+            "estado": "pendiente_de_correspondencia_del_remate"
+          }
+        ],
+        "desviaciones": []
+      },
+      {
+        "ref": "t08",
+        "v_ini": 1461,
+        "v_fin": 1640,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t08",
+          "denominacion_literal": "redondilla",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "redondilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "redondilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t09",
+        "v_ini": 1641,
+        "v_fin": 1666,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t09",
+          "denominacion_literal": "romance en -io",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "romance",
+          "arquitectura_slug": "octosilabica"
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "romance-io",
+        "fundamento": "El catálogo activo distingue Romance como forma octosilábica. Se conserva la asonancia literal con su notación, sin identificar aún una opción de respuesta ni normalizar sus vocales automáticamente.",
+        "detalles_fuente": [
+          {
+            "literal": "-io",
+            "dimension": "asonancia",
+            "estado": "pendiente"
+          }
+        ],
+        "desviaciones": []
+      },
+      {
+        "ref": "t10",
+        "v_ini": 1667,
+        "v_fin": 1701,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t10",
+          "denominacion_literal": "endecasílabos sueltos con pareado final",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica"
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "endecasilabos-sueltos-pareado",
+        "fundamento": "La misma identificación con cierre expresamente declarado. El catálogo dispone del rasgo distico_final; su representación normalizada precisa revisión. No se crea automáticamente otra secuencia para el pareado.",
+        "detalles_fuente": [
+          {
+            "literal": "pareado final",
+            "rasgo_slug_propuesto": "distico_final",
+            "estado": "pendiente"
+          }
+        ],
+        "desviaciones": []
+      },
+      {
+        "ref": "t11",
+        "v_ini": 1702,
+        "v_fin": 1769,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t11",
+          "denominacion_literal": "redondilla",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "redondilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "redondilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t12",
+        "v_ini": 1770,
+        "v_fin": 1896,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t12",
+          "denominacion_literal": "tercetos encadenados con serventesio final",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "terceto_encadenado",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "tercetos-serventesio",
+        "fundamento": "La definición del catálogo contempla el remate que hace leerse como cuarteto cruzado el final de la cadena. Revisar la correspondencia del serventesio sin partir automáticamente otra forma ni dar por respondida toda la estructura.",
+        "detalles_fuente": [
+          {
+            "literal": "serventesio final",
+            "estado": "pendiente_de_correspondencia_del_remate"
+          }
+        ],
+        "desviaciones": []
+      },
+      {
+        "ref": "t13",
+        "v_ini": 1897,
+        "v_fin": 1960,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t13",
+          "denominacion_literal": "redondilla",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "redondilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "redondilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t14",
+        "v_ini": 1961,
+        "v_fin": 2016,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t14",
+          "denominacion_literal": "endecasílabos sueltos con pareado final",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica"
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "endecasilabos-sueltos-pareado",
+        "fundamento": "La misma identificación con cierre expresamente declarado. El catálogo dispone del rasgo distico_final; su representación normalizada precisa revisión. No se crea automáticamente otra secuencia para el pareado.",
+        "detalles_fuente": [
+          {
+            "literal": "pareado final",
+            "rasgo_slug_propuesto": "distico_final",
+            "estado": "pendiente"
+          }
+        ],
+        "desviaciones": []
+      },
+      {
+        "ref": "t15",
+        "v_ini": 2017,
+        "v_fin": 2064,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t15",
+          "denominacion_literal": "endecasílabos sueltos",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica"
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "endecasilabos-sueltos",
+        "fundamento": "La etiqueta declara forma y medida. No afirma ausencia de pareados ni de rima ocasional; tampoco encadenamiento interior.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t16",
+        "v_ini": 2065,
+        "v_fin": 2676,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t16",
+          "denominacion_literal": "redondilla",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "redondilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "redondilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t17",
+        "v_ini": 2677,
+        "v_fin": 2771,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t17",
+          "denominacion_literal": "quintilla",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "quintilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "quintilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural. No se deducen medida ni disposición de rima de cada unidad.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t18",
+        "v_ini": 2772,
+        "v_fin": 2827,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t18",
+          "denominacion_literal": "octava real",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "octava_real",
+          "arquitectura_slug": "endecasilabica_consonante"
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "octava-real",
+        "fundamento": "Nombre explícito de la forma, que el catálogo activo define endecasílaba consonante. No confirma por sí solo el esquema de cada octava ni ausencia de desviaciones.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t19",
+        "v_ini": 2828,
+        "v_fin": 2878,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t19",
+          "denominacion_literal": "endecasílabos sueltos con pareado final",
+          "fuente_id": "foto-12",
+          "pagina": 225,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica"
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "endecasilabos-sueltos-pareado",
+        "fundamento": "La misma identificación con cierre expresamente declarado. El catálogo dispone del rasgo distico_final; su representación normalizada precisa revisión. No se crea automáticamente otra secuencia para el pareado.",
+        "detalles_fuente": [
+          {
+            "literal": "pareado final",
+            "rasgo_slug_propuesto": "distico_final",
+            "estado": "pendiente"
+          }
+        ],
+        "desviaciones": []
+      }
+    ],
+    "procedencia": {
+      "reglas_version": "v0.4",
+      "catalogo_revision": 4948,
+      "extraccion_sha256": "744cc1758ae8e779fd3fb05f0c8ff182b8c7547b439a7fc48ccf4d05c0f7aa1b",
+      "entradas_sha256": {
+        "equivalencias.propuestas.json": "541676fdb83a34515e23ca896fddad125efca37ccedbcba412e8e4d6b1c5f454",
+        "catalogo-referencia.json": "6e4a85f49cc2071c9ea47e054bab7a4b16df45c9e61c5e3481eceb67d583d5b5",
+        "segmentacion.propuestas.json": "66bfd37373162eaf06c046093f11cbd7188d0e72519bea0c30c6caefc738cd0f",
+        "revision-humana.json": "81cebad4c31f2cdead342675b2d668cc50461187e2da5c600d69c6634ade24a0",
+        "bibliografia-contraste.json": "6e31365d616e6222be70f396f3e653462fa29f0ab2e1e1ad5938236538c778ab",
+        "fuentes.json": "8b2dae2d1de1d3172a7b8e33ad426a45718c99dcaaae9f72b24225097cf7ae4b",
+        "auditoria-flujo-2026-10-26.json": "7a82acce13b9a1be80c3cdc7fecf447e8de3d0ebf547821e688b86a298c1050b",
+        "auditoria-campos-2026-10-22.json": "e192daed374997d72ed0b18493697cb10b628020cc2bc2f62d433fa68e480295"
+      }
+    }
+  },
+  "resumen": {
+    "denominador": "posiciones_numeradas",
+    "extension": 2878,
+    "jornadas": 3,
+    "bloques": 19,
+    "segmentacion_confirmada": false,
+    "forma_identificada": 67,
+    "arquitectura_identificada": 0,
+    "forma_pendiente": 2811,
+    "solo_propuesta": 2811,
+    "con_candidatas": 0,
+    "sin_identificacion_ni_propuesta": 0,
+    "perfil_formas": [
+      {
+        "forma_slug": "cancion",
+        "versos": 67,
+        "proporcion_sobre_total": 0.023280055594162612
+      }
+    ]
+  },
+  "avisos": [
+    {
+      "codigo": "segmentacion_provisional",
+      "ruta": "segmentos",
+      "mensaje": "Los bloques no certifican aún el número de secuencias métricas ni las transiciones."
+    },
+    {
+      "codigo": "forma_pendiente",
+      "ruta": "segmentos",
+      "mensaje": "Hay versos sin forma identificada; se conservan en el denominador."
+    }
+  ]
+}

@@ -57,6 +57,9 @@ las referencias y los detalles parciales. La revisión del 26 de octubre sustitu
 de versiones por una copia fija en la importación confirmada. Permite editar o vaciar las secuencias de
 trabajo conservando el referente mínimo hasta publicar la completa. Su traducción a SQL y contratos
 ejecutables deberá conservar esos casos y garantías.
+El [primer contrato local](./contrato-local.md) ya comprueba los campos y produce vistas previas
+de las cuatro obras. La copia fija y el contexto de permisos están probados con identidades
+sintéticas; guardado transaccional, permisos reales y sustitución en el corpus siguen sin implementar.
 
 ## Evaluación del procedimiento
 

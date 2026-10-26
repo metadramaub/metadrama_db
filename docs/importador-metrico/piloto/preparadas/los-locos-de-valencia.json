@@ -1,0 +1,614 @@
+{
+  "esquema": "versologia-vista-previa-minima/0.1",
+  "persistido": false,
+  "confirmacion": null,
+  "datos": {
+    "esquema": "versologia-ficha-minima/0.1",
+    "obra_ref": "los-locos-de-valencia",
+    "metadatos": {
+      "titulo": "Los locos de Valencia",
+      "autor_nombre": "Lope de Vega",
+      "genero": "comedia_o_tragicomedia",
+      "edicion_base": "VEGA CARPIO, Lope de, Los locos de Valencia, ed. Carlos Peña, en Comedias de Lope de Vega. Parte XIII, coord. Natalia Fernández Rodríguez, Madrid, Gredos, 2014, 2 vols, II, pp. 167-328.",
+      "fecha_inicio": 1592,
+      "fecha_fin": 1595,
+      "fuente_fecha": "VEGA CARPIO, Lope de, Los locos de Valencia, ed. Carlos Peña, en Comedias de Lope de Vega. Parte XIII, coord. Natalia Fernández Rodríguez, Madrid, Gredos, 2014, 2 vols, II, pp. 167-328.",
+      "fundamento_autoria": null,
+      "observaciones": []
+    },
+    "jornadas": [
+      {
+        "numero": 1,
+        "v_ini": 1,
+        "v_fin": 1050,
+        "rotulo_literal": "ACTO PRIMERO"
+      },
+      {
+        "numero": 2,
+        "v_ini": 1051,
+        "v_fin": 2092,
+        "rotulo_literal": "ACTO SEGUNDO"
+      },
+      {
+        "numero": 3,
+        "v_ini": 2093,
+        "v_fin": 3072,
+        "rotulo_literal": "ACTO TERCERO"
+      }
+    ],
+    "segmentos": [
+      {
+        "ref": "t01",
+        "v_ini": 1,
+        "v_fin": 130,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t01",
+          "denominacion_literal": "tercetos encadenados",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "terceto_encadenado",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "tercetos-encadenados",
+        "fundamento": "El catálogo tiene Terceto encadenado y distingue medidas. No confundirlo con Endecasílabo encadenado, que declara rima con el interior del verso siguiente. No se infiere medida por longitud o contexto teatral.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t02",
+        "v_ini": 131,
+        "v_fin": 590,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t02",
+          "denominacion_literal": "redondillas",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "redondilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "redondilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t03",
+        "v_ini": 591,
+        "v_fin": 990,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t03",
+          "denominacion_literal": "quintillas",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "quintilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "quintilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural. No se deducen medida ni disposición de rima de cada unidad.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t04",
+        "v_ini": 991,
+        "v_fin": 1006,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t04",
+          "denominacion_literal": "endecasílabos sueltos",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica"
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "endecasilabos-sueltos",
+        "fundamento": "La etiqueta declara forma y medida. No afirma ausencia de pareados ni de rima ocasional; tampoco encadenamiento interior.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t05",
+        "v_ini": 1007,
+        "v_fin": 1020,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t05",
+          "denominacion_literal": "soneto",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "soneto",
+          "arquitectura_slug": "endecasilabica_consonante"
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "soneto",
+        "fundamento": "Nombre explícito de la forma. Su identidad en el catálogo permite proponer la arquitectura; no aporta la disposición concreta de cuartetos y tercetos.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t06",
+        "v_ini": 1021,
+        "v_fin": 1050,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t06",
+          "denominacion_literal": "endecasílabos sueltos",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica"
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "endecasilabos-sueltos",
+        "fundamento": "La etiqueta declara forma y medida. No afirma ausencia de pareados ni de rima ocasional; tampoco encadenamiento interior.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t07",
+        "v_ini": 1051,
+        "v_fin": 1082,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t07",
+          "denominacion_literal": "octavas reales",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "octava_real",
+          "arquitectura_slug": "endecasilabica_consonante"
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "octava-real",
+        "fundamento": "Nombre explícito de la forma, que el catálogo activo define endecasílaba consonante. No confirma por sí solo el esquema de cada octava ni ausencia de desviaciones.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t08",
+        "v_ini": 1083,
+        "v_fin": 1466,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t08",
+          "denominacion_literal": "redondillas",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "redondilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "redondilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t09",
+        "v_ini": 1467,
+        "v_fin": 1544,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t09",
+          "denominacion_literal": "endecasílabos sueltos",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica"
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "endecasilabos-sueltos",
+        "fundamento": "La etiqueta declara forma y medida. No afirma ausencia de pareados ni de rima ocasional; tampoco encadenamiento interior.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t10",
+        "v_ini": 1545,
+        "v_fin": 1996,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t10",
+          "denominacion_literal": "redondillas",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "redondilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "redondilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t11",
+        "v_ini": 1997,
+        "v_fin": 2022,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t11",
+          "denominacion_literal": "endecasílabos sueltos",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica"
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "endecasilabos-sueltos",
+        "fundamento": "La etiqueta declara forma y medida. No afirma ausencia de pareados ni de rima ocasional; tampoco encadenamiento interior.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t12",
+        "v_ini": 2023,
+        "v_fin": 2092,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t12",
+          "denominacion_literal": "quintillas",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "quintilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "quintilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural. No se deducen medida ni disposición de rima de cada unidad.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t13",
+        "v_ini": 2093,
+        "v_fin": 2222,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t13",
+          "denominacion_literal": "endecasílabos sueltos",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": [
+            "n01"
+          ]
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica"
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "endecasilabos-sueltos",
+        "fundamento": "La etiqueta declara forma y medida. No afirma ausencia de pareados ni de rima ocasional; tampoco encadenamiento interior.",
+        "detalles_fuente": [],
+        "desviaciones": [
+          {
+            "v_ini": 2172,
+            "v_fin": 2172,
+            "dimension": "metro",
+            "relacion_norma": "menor_que_norma",
+            "metro_observado_slug": "heptasilabo",
+            "nota_ref": "n01",
+            "texto_fuente": "En la serie de endecasílabos sueltos aparece un verso heptasílabo (v. 2172), probable descuido de Lope.",
+            "fundamento": "Criterio confirmado por el responsable: heptasílabo dentro de endecasílabos sueltos, sin partir secuencia. La atribución a probable descuido se conserva como opinión de la edición."
+          }
+        ]
+      },
+      {
+        "ref": "t14",
+        "v_ini": 2223,
+        "v_fin": 2470,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t14",
+          "denominacion_literal": "redondillas",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "redondilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "redondilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t15",
+        "v_ini": 2471,
+        "v_fin": 2621,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t15",
+          "denominacion_literal": "endecasílabos sueltos",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica"
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "endecasilabos-sueltos",
+        "fundamento": "La etiqueta declara forma y medida. No afirma ausencia de pareados ni de rima ocasional; tampoco encadenamiento interior.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t16",
+        "v_ini": 2622,
+        "v_fin": 2754,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t16",
+          "denominacion_literal": "redondillas",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": [
+            "n02"
+          ]
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "redondilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "redondilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "detalles_fuente": [],
+        "desviaciones": [
+          {
+            "v_ini": 2666,
+            "v_fin": 2666,
+            "dimension": "estructura",
+            "relacion_norma": "sobra",
+            "nota_ref": "n02",
+            "texto_fuente": "El v. 2666 es un octosílabo suelto integrado en la serie de redondillas.",
+            "fundamento": "El responsable acuerda registrar el octosílabo de v. 2666 como adición estructural integrada: 133 versos reales, 132 de norma y 33 redondillas. No se declara laguna ni cambio de forma."
+          }
+        ]
+      },
+      {
+        "ref": "t17",
+        "v_ini": 2755,
+        "v_fin": 2804,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t17",
+          "denominacion_literal": "quintilla",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "quintilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "quintilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural. No se deducen medida ni disposición de rima de cada unidad.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t18",
+        "v_ini": 2805,
+        "v_fin": 2900,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t18",
+          "denominacion_literal": "redondillas",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "redondilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "redondilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      },
+      {
+        "ref": "t19",
+        "v_ini": 2901,
+        "v_fin": 2964,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t19",
+          "denominacion_literal": "romance en á-e",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "romance",
+          "arquitectura_slug": "octosilabica"
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "romance-a-e",
+        "fundamento": "La misma propuesta de forma, conservando la asonancia exactamente como aparece en la edición.",
+        "detalles_fuente": [
+          {
+            "literal": "á-e",
+            "dimension": "asonancia",
+            "estado": "pendiente"
+          }
+        ],
+        "desviaciones": []
+      },
+      {
+        "ref": "t20",
+        "v_ini": 2965,
+        "v_fin": 3072,
+        "segmentacion": "provisional",
+        "origen": {
+          "tramo_ref": "t20",
+          "denominacion_literal": "redondillas",
+          "fuente_id": "foto-30",
+          "pagina": 188,
+          "notas_ref": []
+        },
+        "identificacion_revisada": null,
+        "aprobacion": null,
+        "propuesta": {
+          "forma_slug": "redondilla",
+          "arquitectura_slug": null
+        },
+        "candidatas": [],
+        "exhaustividad": null,
+        "regla_id": "redondilla",
+        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "detalles_fuente": [],
+        "desviaciones": []
+      }
+    ],
+    "procedencia": {
+      "reglas_version": "v0.4",
+      "catalogo_revision": 4948,
+      "extraccion_sha256": "e2ce185b06e82d983b6ea2d4beb10d3373401bceae4ad50e671c24ddec4abb5d",
+      "entradas_sha256": {
+        "equivalencias.propuestas.json": "541676fdb83a34515e23ca896fddad125efca37ccedbcba412e8e4d6b1c5f454",
+        "catalogo-referencia.json": "6e4a85f49cc2071c9ea47e054bab7a4b16df45c9e61c5e3481eceb67d583d5b5",
+        "segmentacion.propuestas.json": "66bfd37373162eaf06c046093f11cbd7188d0e72519bea0c30c6caefc738cd0f",
+        "revision-humana.json": "81cebad4c31f2cdead342675b2d668cc50461187e2da5c600d69c6634ade24a0",
+        "bibliografia-contraste.json": "6e31365d616e6222be70f396f3e653462fa29f0ab2e1e1ad5938236538c778ab",
+        "fuentes.json": "8b2dae2d1de1d3172a7b8e33ad426a45718c99dcaaae9f72b24225097cf7ae4b",
+        "auditoria-flujo-2026-10-26.json": "7a82acce13b9a1be80c3cdc7fecf447e8de3d0ebf547821e688b86a298c1050b",
+        "auditoria-campos-2026-10-22.json": "e192daed374997d72ed0b18493697cb10b628020cc2bc2f62d433fa68e480295"
+      }
+    }
+  },
+  "resumen": {
+    "denominador": "posiciones_numeradas",
+    "extension": 3072,
+    "jornadas": 3,
+    "bloques": 20,
+    "segmentacion_confirmada": false,
+    "forma_identificada": 0,
+    "arquitectura_identificada": 0,
+    "forma_pendiente": 3072,
+    "solo_propuesta": 3072,
+    "con_candidatas": 0,
+    "sin_identificacion_ni_propuesta": 0,
+    "perfil_formas": []
+  },
+  "avisos": [
+    {
+      "codigo": "segmentacion_provisional",
+      "ruta": "segmentos",
+      "mensaje": "Los bloques no certifican aún el número de secuencias métricas ni las transiciones."
+    },
+    {
+      "codigo": "forma_pendiente",
+      "ruta": "segmentos",
+      "mensaje": "Hay versos sin forma identificada; se conservan en el denominador."
+    }
+  ]
+}

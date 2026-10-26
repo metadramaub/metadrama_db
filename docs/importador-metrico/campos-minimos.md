@@ -3,6 +3,8 @@
 Propuesta revisada el 26 de octubre de 2026 con las indicaciones del responsable. **No aplicada
 a la DB.** Este documento describe el funcionamiento esperado; el [diseño de integración](./diseno-integracion.md)
 explica qué partes de la plataforma habrá que adaptar.
+El [contrato local ejecutable](./contrato-local.md) ya permite comprobar estos campos y ensayar
+la independencia de la copia fija; todavía no escribe en la DB ni confirma las obras del piloto.
 
 ## Datos de la obra
 
