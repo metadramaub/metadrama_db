@@ -3,6 +3,11 @@
 26 de octubre de 2026. **No aplicado a Supabase ni conectado al dashboard.** El SQL permanece
 fuera de `supabase/migrations/` para que un despliegue habitual no lo aplique por accidente.
 
+El borrador ensaya el contrato 0.1, no el formato definitivo. Antes de conectarlo hay que
+eliminar la repetición de estados y fundamentos de equivalencias por secuencia según
+[lo acordado sobre conservación](./campos-minimos.md#qué-se-conserva-de-las-decisiones-y-dónde).
+Las pruebas locales de guardado no certifican todavía esa simplificación.
+
 La [consulta de persistencia](../../scripts/importador-metrico/auditar-persistencia.sql) y su
 [evidencia](./piloto/auditoria-persistencia-2026-10-26.json) recogen columnas, restricciones,
 políticas, permisos y disparadores mediante SELECT. Además se exportó el esquema público real,

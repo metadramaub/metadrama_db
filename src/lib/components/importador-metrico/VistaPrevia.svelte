@@ -4,10 +4,9 @@
 
 	let { vista, desactualizada = false } = $props<{ vista: ResultadoVistaPrevia; desactualizada?: boolean }>();
 	let filtro = $state('todos');
-	const etiquetas = { revisada: 'Revisada', propuesta: 'Propuesta', candidatas: 'Por resolver', sin_resolver: 'Sin identificar' };
+	const sinEquivalencia = (f: FilaVistaPrevia) => !f.identificacion_revisada && !f.propuesta;
 	const filas = $derived<FilaVistaPrevia[]>(vista.filas.filter((f: FilaVistaPrevia) =>
-		filtro === 'todos' || (filtro === 'revisadas' && f.estado === 'revisada') ||
-		(filtro === 'pendientes' && f.estado !== 'revisada') ||
+		filtro === 'todos' || (filtro === 'sin_resolver' && sinEquivalencia(f)) ||
 		(filtro === 'desviaciones' && f.desviaciones.length > 0)));
 	const jornadas = $derived<Array<FichaMinima['jornadas'][number] & { filas: FilaVistaPrevia[] }>>((vista.datos?.jornadas ?? []).map((j: FichaMinima['jornadas'][number]) => ({
 		...j, filas: filas.filter((f: FilaVistaPrevia) => f.jornada === j.numero)
@@ -30,7 +29,7 @@
 
 <section class="space-y-4" aria-label="Vista previa métrica">
 	<header class="flex flex-wrap items-center justify-between gap-3">
-		<h2 class="text-lg font-semibold">Esquema métrico</h2>
+		<h2 class="text-lg font-semibold">Secuencias propuestas</h2>
 		<span class="text-xs text-[color:var(--muted-foreground)]">Vista previa · sin guardar</span>
 	</header>
 	{#if desactualizada}
@@ -44,7 +43,7 @@
 		</div>
 	{/if}
 	{#if vista.resumen && vista.datos}
-		<div class:opacity-60={desactualizada} class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+		<div class:opacity-60={desactualizada} class="grid gap-3 sm:grid-cols-3">
 			<div class="card p-4">
 				<p class="form-label"><span class="form-label-with-help">Versos
 					<FieldHelpTooltip label="Cómo se cuentan los versos" text="Total según la numeración de la edición. Incluye las lagunas que ya estén numeradas." />
@@ -52,28 +51,21 @@
 				<p class="text-2xl font-semibold">{numero(vista.resumen.extension)}</p>
 			</div>
 			<div class="card p-4">
-				<p class="form-label"><span class="form-label-with-help">Tramos métricos
-					<FieldHelpTooltip label="Qué es un tramo métrico" text="Cada rango de versos de la tabla de la edición. Al revisarlo puede cambiar su división en secuencias." />
+				<p class="form-label"><span class="form-label-with-help">Secuencias propuestas
+					<FieldHelpTooltip label="Cómo se proponen las secuencias" text="Se parte de las filas de la edición. Una fila puede necesitar varias secuencias si cambia de forma en su interior." />
 				</span></p>
 				<p class="text-2xl font-semibold">{vista.resumen.bloques}</p>
 			</div>
 			<div class="card p-4">
-				<p class="form-label">Versos con forma revisada</p>
-				<p class="text-2xl font-semibold">{numero(vista.resumen.forma_identificada)}</p>
-			</div>
-			<div class="card p-4">
-				<p class="form-label"><span class="form-label-with-help">Versos por revisar
-					<FieldHelpTooltip label="Qué versos quedan por revisar" text="Incluye los versos con una propuesta aún no aceptada y aquellos cuya forma sigue sin resolver." />
-				</span></p>
-				<p class="text-2xl font-semibold">{numero(vista.resumen.forma_pendiente)}</p>
+				<p class="form-label">Jornadas</p>
+				<p class="text-2xl font-semibold">{vista.resumen.jornadas}</p>
 			</div>
 		</div>
 		<div class="flex justify-end">
 			<label class="flex items-center gap-2 text-sm">Mostrar
 				<select class="rounded-md border border-[color:var(--border)] bg-white px-3 py-2" bind:value={filtro}>
-					<option value="todos">Todos los tramos</option>
-					<option value="revisadas">Forma revisada</option>
-					<option value="pendientes">Por revisar</option>
+					<option value="todos">Todas las secuencias</option>
+					<option value="sin_resolver">Forma sin resolver</option>
 					<option value="desviaciones">Con desviaciones</option>
 				</select>
 			</label>
@@ -99,11 +91,11 @@
 										<td class="px-3 py-3 tabular-nums">{fila.extension}</td>
 										<td class="break-words px-3 py-3">{fila.origen.denominacion_literal ?? '—'}</td>
 										<td class="break-words px-3 py-3">
-											<p class="font-medium">{fila.forma_revisada ?? fila.propuesta_nombre ?? (fila.candidatas_nombres.length ? fila.candidatas_nombres.join(' / ') : 'Sin identificar')}</p>
-											<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">{etiquetas[fila.estado]}</p>
-											{#if fila.identificacion_revisada && !fila.identificacion_revisada.arquitectura_slug}
-												<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">Arquitectura sin determinar</p>
-											{:else if fila.identificacion_revisada?.arquitectura_slug}
+											<p class="font-medium">{fila.forma_revisada ?? fila.propuesta_nombre ?? 'Forma sin resolver'}</p>
+											{#if sinEquivalencia(fila) && fila.candidatas_nombres.length}
+												<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">Posibilidades: {fila.candidatas_nombres.join(' / ')}</p>
+											{/if}
+											{#if fila.identificacion_revisada?.arquitectura_slug}
 												<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">{fila.identificacion_revisada.arquitectura_slug.replaceAll('_', ' ')}</p>
 											{/if}
 										</td>
@@ -125,6 +117,6 @@
 				</section>
 			{/if}
 		{/each}
-		{#if !filas.length}<p class="card p-4 text-sm text-[color:var(--muted-foreground)]">No hay tramos con este filtro.</p>{/if}
+		{#if !filas.length}<p class="card p-4 text-sm text-[color:var(--muted-foreground)]">No hay secuencias con este filtro.</p>{/if}
 	{/if}
 </section>

@@ -18,7 +18,7 @@ describen capacidades ya disponibles en la plataforma.
 
 | Documento | Contenido |
 | --- | --- |
-| [Vista previa del dashboard](./vista-previa-dashboard.md) | Pegado, metadatos, jornadas, bloques y advertencias; ensayo sin guardado |
+| [Vista previa del dashboard](./vista-previa-dashboard.md) | Pegado, metadatos, jornadas, secuencias y advertencias; ensayo sin guardado |
 | [Persistencia local](./persistencia-local.md) | Borrador SQL fuera de las migraciones y ensayo de guardado, permisos y concurrencia en PostgreSQL aislado |
 | [Metodología](./metodologia.md) | Acuerdos sobre fuentes, identificación, equivalencias, incertidumbre y comparabilidad |
 | [Hoja de ruta](./hoja-de-ruta.md) | Etapas, resultados necesarios, decisiones abiertas e integración técnica |

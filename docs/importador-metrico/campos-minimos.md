@@ -93,7 +93,7 @@ En ambos casos revisará la métrica; las identificaciones importadas no pasan a
 | Dato por secuencia mínima | Significado |
 | --- | --- |
 | Vínculo a la secuencia | Identifica la obra y su rango en la tabla común |
-| Forma | Identificación revisada; puede quedar vacía si no se resuelve |
+| Forma | Forma identificada en la importación; puede quedar vacía si no se resuelve |
 | Arquitectura | Solo cuando se conoce; puede quedar vacía aunque la forma esté identificada |
 | Denominación original y fuente | Acceso a la fila de la edición y sus notas, conservadas en la importación |
 | Segmentación confirmada o provisional | Indica si ese bloque puede tratarse ya como secuencia según nuestro criterio |
@@ -132,6 +132,40 @@ La distribución concreta en tablas auxiliares se resolverá en el contrato téc
 reproducir todas las preguntas y relaciones de v2 para el piloto. Tampoco se pide a la persona
 redactar una justificación distinta para cada coincidencia sencilla: las reglas revisadas aportan
 su fundamento; los casos especiales conservan su decisión y la nota que la sostiene.
+
+## Qué se conserva de las decisiones y dónde
+
+La vista previa muestra **denominación de la edición → forma en Versología**. No presenta estados
+«propuesta» y «revisada» para cada equivalencia, ni pide a quien importa aprobar nuestro catálogo.
+La revisión general de equivalencias pertenece al mantenimiento de las reglas. Quien importa
+comprueba el resultado de su obra y confirma sus datos, incluidas las ambigüedades que permanezcan.
+
+| Dónde | Qué se conserva |
+| --- | --- |
+| Archivo de equivalencias versionado | Denominaciones, correspondencia de forma y arquitectura si se conoce, o posibilidades si no hay una correspondencia única. Una explicación breve y referencia cuando hacen falta para entender la regla |
+| `importaciones_metricas.entrada_original` | Transcripción recibida, denominaciones originales, referencias de fotos o páginas y notas de la edición. Conservar una referencia no equivale a subir la fotografía |
+| `importaciones_metricas.datos_confirmados` | Copia fija de los metadatos, jornadas y secuencias que acepta quien importa, con la versión de las reglas y la referencia de catálogo utilizadas |
+| Registro de la importación | Quién importó y cuándo, tomados de la sesión y del servidor. Una sola atribución para toda la operación; confirmar no supone otro revisor |
+| Métrica mínima de cada secuencia y su copia fija | Forma y arquitectura opcional, referencia a la fila original, posibilidades si sigue sin resolver, remates y desviaciones declarados. Una nota breve solo si hay una decisión particular que explicar |
+
+Por ejemplo, la interpretación general de «tercetos encadenados con serventesio final» como
+Terceto encadenado con remate de un verso se explica una vez en la regla. La secuencia conserva
+su denominación original y su remate; no copia la discusión ni una aprobación de esa regla.
+Si una fila A → B → A se divide, las tres secuencias apuntan a la misma fila y se explica brevemente
+esa división. El heptasílabo y el verso añadido de Los locos se conservan como desviaciones concretas.
+
+No se incorporan al contrato definitivo estados de revisión de equivalencias por secuencia,
+justificaciones generales repetidas, citas del chat, categorías de «exhaustividad» del ensayo
+ni porcentajes de confianza inventados. Las posibilidades no se consideran exhaustivas: una lista
+orienta, pero no permite repartir entre sus miembros los versos pendientes. La falta de forma,
+arquitectura o segmentación segura sigue siendo información necesaria para limitar los análisis.
+
+**Diferencia con el prototipo 0.1:** el contrato ejecutable y el borrador SQL todavía conservan
+`identificacion_revisada`, `propuesta`, `aprobacion`, `exhaustividad` y fundamentos por secuencia.
+Sirvieron para estudiar las equivalencias del piloto. Hay que adaptar ese contrato y sus pruebas
+a esta conservación sencilla antes de conectar el guardado; ocultar esas etiquetas en la pantalla
+no cambia por sí solo lo que guardaría el borrador. No se modifica el cómputo experimental de
+cobertura dando por aceptadas automáticamente todas las propuestas.
 
 ## Cómo utiliza los datos el laboratorio
 

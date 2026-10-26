@@ -4,8 +4,14 @@ Primer contrato ejecutable preparado el 26 de octubre de 2026 a partir de los
 [campos acordados](./campos-minimos.md). Se puede ensayar con las cuatro obras sin acceder a la DB.
 El [informe del contrato](./piloto/informe-contrato-minimo.md) enlaza sus vistas previas.
 
-**No hay todavía guardado en Supabase, pantalla de dashboard ni permisos aplicados en RLS.**
+**No hay todavía guardado en Supabase ni permisos aplicados en RLS.** Ya existe una
+[vista previa de ensayo en el dashboard](./vista-previa-dashboard.md), sin escritura.
 Las vistas del piloto no son confirmaciones humanas ni nuevas aprobaciones de equivalencias.
+
+El formato 0.1 conserva estados y fundamentos del estudio de equivalencias. Es un prototipo:
+antes de conectar su guardado debe ajustarse a la
+[conservación sencilla acordada](./campos-minimos.md#qué-se-conserva-de-las-decisiones-y-dónde).
+La vista previa ya omite esas etiquetas internas; eso no sustituye la adaptación del contrato.
 
 ## Qué comprueba
 

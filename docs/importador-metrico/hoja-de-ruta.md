@@ -2,8 +2,9 @@
 
 El proyecto trabaja con documentos y archivos de ensayo en `main`. Ya hay cuatro transcripciones aceptadas
 y un [validador técnico local](./validador-local.md). El resultado del piloto debe guiar la adaptación
-de la base compartida. Las etapas siguientes son el plan de integración; no implican que exista el
-importador del dashboard ni que se hayan ejecutado experimentos de sensibilidad del corpus.
+de la base compartida. Ya existe una vista previa de ensayo en el dashboard, sin guardado.
+Las etapas siguientes no implican que esté integrado el recorrido completo ni que se hayan
+ejecutado experimentos de sensibilidad del corpus.
 
 ## Etapas y condiciones de avance
 
@@ -63,7 +64,11 @@ sintéticas. El [borrador SQL](./persistencia-local.md) ya ejecuta guardado tran
 e idempotencia concurrente en PostgreSQL aislado con el esquema real exportado. La conexión con
 guardado desde sesiones HTTP y la sustitución en el corpus siguen pendientes, sin aplicar a Supabase.
 La [vista previa del dashboard](./vista-previa-dashboard.md) ya permite pegar y comprobar la entrada,
-revisar metadatos y consultar jornadas y bloques, con acceso de ensayo para admin/IP y sin escritura.
+revisar metadatos y consultar secuencias propuestas por jornadas, con acceso de ensayo para admin/IP
+y sin escritura. El siguiente paso es ajustar el contrato de ensayo a la conservación sencilla de
+original, resultado confirmado y reglas utilizadas, sin estados de revisión ni fundamentos repetidos
+por secuencia. Después se conectarán corrección y confirmación con el guardado y sus consumidores;
+la revisión de todas las equivalencias no se traslada a quien importa.
 
 ## Evaluación del procedimiento
 

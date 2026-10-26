@@ -14,10 +14,11 @@ datos al corpus. No requiere aplicar el borrador SQL a Supabase.
 3. Elegir el autor en un único selector. Una coincidencia nominal exacta y única se preselecciona;
    el servidor comprueba su ID y obtiene su nombre vigente al comprobar los cambios.
 4. Consultar una tabla por jornada con versos inicial/final, número de versos, denominación
-   editorial, forma, notas y fuente. Los recuentos distinguen versos de tramos métricos. Se usan
+   editorial, forma, notas y fuente. Los recuentos distinguen versos de secuencias propuestas. Se usan
    los estilos de campos del dashboard y ayudas puntuales `?`, sin citas del chat ni fundamentos
-   extensos en la tabla. Filtrar los tramos por revisión o desviaciones. Las propuestas y candidatas no cuentan como
-   identificaciones. Una forma identificada puede tener arquitectura desconocida.
+   extensos en la tabla. Se puede filtrar por forma sin resolver o por desviaciones. Se muestra la
+   correspondencia de forma sin etiquetas «propuesta» o «revisada». Las posibilidades se muestran
+   solo cuando no hay una correspondencia única; la arquitectura solo cuando se conoce.
 5. Corregir errores y volver a comprobar. Los cambios pendientes dejan la vista anterior marcada
    como desactualizada. Una respuesta tardía no debe sobrescribir cambios escritos durante el envío.
 
@@ -44,7 +45,9 @@ consultar todas las mínimas sin obtener acceso al laboratorio. No es un cambio 
 
 Todavía no hay edición de rangos dentro de la tabla: para corregir la transcripción se modifica
 el JSON y se prepara otra vez. Tampoco hay reimportación, promoción a completa ni confirmación.
-El siguiente bloque debe conectar el guardado y los consumidores con las garantías descritas en
+El siguiente bloque debe simplificar el contrato experimental conforme a los
+[datos que se conservarán](./campos-minimos.md#qué-se-conserva-de-las-decisiones-y-dónde), y conectar
+corrección, confirmación, guardado y consumidores con las garantías descritas en
 [persistencia local](./persistencia-local.md), antes de aplicar la migración definitiva.
 
 ## Verificación y revisión del responsable
@@ -58,10 +61,11 @@ dashboard real con una sesión admin/IP ya abierta, consultando autores y títul
 
 La denominación «tercetos encadenados con serventesio final» se acepta como Terceto encadenado
 con remate final de un verso (3+1). Los dos pasajes de El verdadero amante aportan 170 versos;
-sumados a los 67 de Canción, la obra tiene 237 versos con forma revisada y 2.641 por revisar.
+la Canción ocupa otros 67. Los recuentos internos de revisión de reglas siguen en los informes
+del piloto: no representan una tarea de validación por versos para quien importa.
 
 Para revisar el flujo en la aplicación, basta con abrir la ruta del dashboard con una cuenta
 admin/IP. Conviene probar **Los locos de Valencia** para ver las desviaciones y **El verdadero
-amante** para la Canción sin arquitectura y la letrilla pendiente. La revisión que se pide ahora
-es de claridad y comodidad: denominaciones, separación de propuestas y datos identificados,
+amante** para la Canción sin arquitectura y **El molino** para la letrilla sin resolver. La revisión que se pide ahora
+es de claridad y comodidad: denominaciones, correspondencias y casos sin resolver,
 advertencias y corrección de metadatos. No se solicita volver a aprobar los campos ya acordados.

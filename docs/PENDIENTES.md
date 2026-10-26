@@ -47,8 +47,10 @@ aislado y prueba permisos, copia fija e idempotencia concurrente contra el esque
 Falta cerrar el reconocimiento de identidades y duplicados, reimportaciones, verificar entradas en
 servidor, auditar consumidores y funciones con acceso privilegiado; integrar la migración definitiva,
 permiso individual, RLS, vista Fichas mínimas y sustitución en el corpus. La vista previa de ensayo
-del dashboard ya prepara entradas, metadatos y tramos por jornadas para admin/IP, sin guardar. Falta su revisión
-de uso por el responsable y conectar el guardado definitivo;
+del dashboard ya prepara entradas, metadatos y secuencias por jornadas para admin/IP, sin guardar.
+Antes de conectar el guardado, simplificar el contrato 0.1 y el borrador SQL: original, copia confirmada,
+versión de reglas y decisiones particulares breves, sin estados ni fundamentos generales repetidos
+por secuencia. Continuar la corrección y confirmación desde la vista previa y conectar el guardado definitivo;
 ampliar el piloto y ensayar
 sensibilidad. No se exige resolver todas las denominaciones: Canción con remate y encadenados
 con «serventesio final» como cierre 3+1 están aceptados; «tercetos» sin calificativo y «letrilla»
