@@ -1,13 +1,13 @@
 # Preparación de los cambios de pie quebrado
 
 26 de octubre de 2026. Trabajo en `main`, con commits separados de los del importador.
-No aplicado a la base enlazada.
+Aplicado a la base enlazada el 26 de octubre de 2026, después del despliegue del editor V2.
 
 ## Qué revisar
 
 - [Toda la prosa, antes y después](./prosa-pie-quebrado.md): definiciones, descripciones,
   notas, ayudas y afirmaciones de fuentes, con sus localizadores.
-- [Migración preparada](../../supabase/migrations/20261026090000_el_quebrado_conserva_su_disposicion.sql).
+- [Migración aplicada](../../supabase/migrations/20261026090000_el_quebrado_conserva_su_disposicion.sql).
 - [Revisión filológica inicial](./revision-pie-quebrado-2026-10.md).
 
 El SQL se trasladó a `supabase/migrations` tras aprobar la prosa y probar el control
@@ -136,8 +136,19 @@ reales y los nuevos patrones, sin escribir anotaciones en la base compartida.
 La prosa y la interfaz integrada están aprobadas. Las copias de esquema, datos y roles
 y el snapshot de 145 obras están en `backups/`. El reordenamiento de los commits locales
 de `main` está autorizado para publicar este cambio y conservar el importador en local.
-La migración se aplicará después de comprobar el despliegue del V2; después se verificarán
-el catálogo vivo, la ficha pública y la conservación de las anotaciones.
+Vercel confirmó el despliegue del V2 antes de aplicar la migración
+`20261026090000_el_quebrado_conserva_su_disposicion`. El ensayo previo de `db push`
+confirmó que era la única pendiente.
+
+La auditoría del catálogo vivo da 0 defectos. Las huellas anteriores y posteriores de las
+579 anotaciones, 7.517 realizaciones, 6.595 elecciones y 58 desviaciones son idénticas.
+La auditoría de anotaciones produce exactamente el mismo informe antes y después:
+38 preguntas obligatorias sin responder, ya existentes; ninguna incompatibilidad nueva.
+Se ejecutó además el comprobador de disposiciones sobre las 579 anotaciones y se verificaron
+los tres disparadores diferidos. No quedan marcas de negrita en las definiciones,
+descripciones de arquitectura ni afirmaciones de fuentes.
+La auditoría del editor mantiene su incidencia anterior de novena-lira sin opciones
+de rima; no aparecen defectos en las formas modificadas aquí.
 
 Elegir una disposición deja pendientes solo sus quebrados, que se muestran con `q`
 hasta medirlos. La pauta pendiente se conserva durante la edición tanto en la respuesta

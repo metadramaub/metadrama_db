@@ -4027,6 +4027,10 @@ export type Database = {
       }
     }
     Functions: {
+      admite_disposicion_quebrados: {
+        Args: { p_arquitectura: string; p_medidas: Json }
+        Returns: boolean
+      }
       analisis_obra_publico_json: { Args: { p_obra_id: string }; Returns: Json }
       anotacion_afirma_tipo_rima: {
         Args: { p_anotacion: string; p_tipo: string }
@@ -4048,6 +4052,10 @@ export type Database = {
         Returns: boolean
       }
       catalogo_metrico_publico: { Args: never; Returns: boolean }
+      comprobar_disposiciones_quebrados: {
+        Args: { p_anotacion: string }
+        Returns: undefined
+      }
       corpus_comparativas_artefacto_json: {
         Args: { p_alcance: string }
         Returns: Json

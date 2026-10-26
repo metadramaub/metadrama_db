@@ -1,6 +1,6 @@
 # Qué le pide el editor a cada forma
 
-Generado el 2026-10-14 desde la base enlazada.
+Generado el 2026-10-26 desde la base enlazada.
 
 ## 1 · Coste por forma
 
@@ -23,7 +23,7 @@ Generado el 2026-10-14 desde la base enlazada.
 | Endecha real | heptasilabica_con_endecasilabo_de_cinco | 1 | 0 | 0 | 0 |
 | Endecha real | hexasilabica_con_endecasilabo | 1 | 0 | 0 | 0 |
 | Estrofa sáfica | safica | 0 | 1 | 1 | 0 |
-| Novena | quintilla_redondilla | 0 | 2 | 2 | 0 |
+| Novena | quintilla_redondilla | 0 | 3 | 3 | 0 |
 | Novena | redondilla_quintilla | 0 | 3 | 3 | 0 |
 | Novena-lira | heterometrica_consonante | 0 | 2 | 2 | 0 |
 | Octava aguda | decasilabica | 1 | 1 | 1 | 0 |
@@ -202,10 +202,10 @@ Sin incidencias.
 | Octava real · endecasilabica_consonante | esquema_rima · rima · 1 opciones · alcance unidad |
 | Octava-lira · heterometrica_consonante | disposicion_rima · rima · 2 opciones · alcance unidad |
 | Octava-lira · heterometrica_consonante | medida_de_cada_verso · metro · 16 opciones · alcance unidad |
-| Oncena · quintilla_sextilla | esquema_rima · rima · 8 opciones · alcance unidad |
 | Oncena · quintilla_sextilla | esquema_rima · rima · 4 opciones · alcance unidad |
-| Oncena · sextilla_quintilla | esquema_rima · rima · 4 opciones · alcance unidad |
+| Oncena · quintilla_sextilla | esquema_rima · rima · 8 opciones · alcance unidad |
 | Oncena · sextilla_quintilla | esquema_rima · rima · 8 opciones · alcance unidad |
+| Oncena · sextilla_quintilla | esquema_rima · rima · 4 opciones · alcance unidad |
 | Pareado · alirado | medida_del_pareado · metro · 4 opciones · alcance unidad |
 | Pareado · cualquier_medida | medida_del_pareado · metro · 9 opciones · alcance unidad |
 | Pareado · cualquier_medida | tipo_de_rima · rima · 2 opciones · alcance unidad |
@@ -244,7 +244,7 @@ Sin incidencias.
 | Sextilla · octosilabica | esquema_rima · rima · 4 opciones · alcance unidad |
 | Sextilla · pentasilabica | esquema_rima · rima · 0 opciones · alcance unidad |
 | Sextilla · pie_quebrado | esquema_rima · rima · 3 opciones · alcance unidad |
-| Sextilla · pie_quebrado | medida_de_los_quebrados · metro · 4 opciones · alcance unidad |
+| Sextilla · pie_quebrado | medida_de_los_quebrados · metro · 8 opciones · alcance unidad |
 | Sextilla · tetrasilabica | esquema_rima · rima · 0 opciones · alcance unidad |
 | Silva · arromanzada | vocales_asonancia · rasgo · 20 opciones · alcance secuencia |
 | Silva · consonante_irregular | densidad_de_rima · rasgo · 2 opciones · alcance secuencia |

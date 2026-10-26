@@ -1,8 +1,8 @@
 # Informe de conformidad del catálogo métrico
 
-Generado: 2026-10-14 20:23
+Generado: 2026-10-26 17:31
 
-Inventario: 47 formas y 2 tramos sin forma · 97 configuraciones · 99 patrones métricos · 167 patrones de rima · 80 secciones · 137 grupos de elección · 1058 opciones · 7 rasgos.
+Inventario: 47 formas y 2 tramos sin forma · 97 configuraciones · 101 patrones métricos · 167 patrones de rima · 80 secciones · 138 grupos de elección · 1096 opciones · 7 rasgos.
 
 Criterios aplicados: [criterios-de-nivel.md](./criterios-de-nivel.md). El bloque 1 recoge incumplimientos que no dependen de una decisión editorial. El bloque 2 describe dónde vive cada dimensión para que las divergencias de criterio sean visibles.
 
@@ -151,7 +151,7 @@ Sin incidencias.
 | endecha_real | serie | 3 | sí | configuracion, posiciones | elección, patrón único | 4 | secuencia |
 | estrofa_safica | estrofa | 2 | sí | configuracion, posiciones | elección, patrón único | 1 | unidad |
 | lira | estrofa | 1 | sí | posiciones | patrón único | 0 | — |
-| novena | estrofa | 2 | sí | configuracion, conjunto, eleccion, posiciones | elección, sin patrón | 5 | unidad |
+| novena | estrofa | 2 | sí | conjunto, eleccion, posiciones | elección, sin patrón | 6 | unidad |
 | novena_lira | estrofa | 1 | sí | conjunto, eleccion | elección | 2 | unidad |
 | octava_aguda | estrofa | 6 | sí | configuracion, posiciones | elección | 12 | secuencia, unidad |
 | octava_lira | estrofa | 1 | sí | conjunto, eleccion | elección | 2 | unidad |
@@ -186,7 +186,7 @@ Sin incidencias.
 
 | Vía | Formas |
 | --- | --- |
-| configuracion (15) | decima, endecha_real, estrofa_safica, novena, octava_aguda, pareado, quintilla, redondilla, romancillo, seguidilla, sexteto, sextilla, silva, terceto, terceto_encadenado |
+| configuracion (14) | decima, endecha_real, estrofa_safica, octava_aguda, pareado, quintilla, redondilla, romancillo, seguidilla, sexteto, sextilla, silva, terceto, terceto_encadenado |
 | conjunto (21) | cancion, cancion_petrarquista, cancion_sin_rima, copla_castellana, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto_lira, decima_lira, novena, novena_lira, octava_lira, oncena, pareado, quintilla, redondilla, septilla, sextilla, silva, villancico, zejel |
 | eleccion (21) | cancion, cancion_petrarquista, cancion_sin_rima, copla_castellana, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto_lira, decima_lira, novena, novena_lira, octava_lira, oncena, pareado, quintilla, redondilla, seguidilla, septilla, sextilla, villancico, zejel |
 | posiciones (38) | cancion_petrarquista, copla_castellana, copla_de_arte_mayor, copla_de_arte_menor, copla_manriquena, copla_real, cuarteto, decima, endecasilabo_encadenado, endecasilabo_suelto, endecha_real, estrofa_safica, lira, novena, octava_aguda, octava_real, oncena, quintilla, redondilla, redondilla_enlazada, romance, romance_heroico, romancillo, seguidilla, septeto, septeto_lira, septilla, septilla_enlazada, sexteto, sexteto_lira, sextilla, sextilla_enlazada, sextina, sextina_estrofa, silva, soneto, terceto, terceto_encadenado |

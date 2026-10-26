@@ -486,7 +486,7 @@ reservado a los rasgos, que describen el pasaje sin cambiar su estructura.
 | Esquema de rima que la norma fija            | la espinela, `abbaaccddc`           | esquema de rima                           |
 | Esquema de rima entre los admitidos          | `abba` o `abab` en la redondilla    | respuesta por unidad                      |
 | Esquema que inventa el pasaje                | la estancia de una canción          | respuesta por unidad, con norma declarada |
-| Posición de un quebrado que la norma no fija | la copla de pie quebrado            | respuesta por unidad                      |
+| Posición de un quebrado que la norma no fija | la copla castellana                | respuesta por unidad                      |
 | Medida de una sección que puede variar       | la cabeza del villancico            | respuesta por unidad, por sección         |
 | Grado de organización en pareados            | endecasílabo suelto, silva, pareado | rasgo con valores ordenados               |
 
@@ -504,6 +504,13 @@ veces se repite lo dice la extensión de la unidad. `secuencia` queda para los e
 las medidas cambian, como la lira. Los ciclos heterométricos que sí se repiten —`8-8-4` de la
 sextilla de pie quebrado, `7-5` de la seguidilla— se declaran desarrollados, porque conviven con
 esquemas hermanos que no son cíclicos.
+
+En la sextilla de pie quebrado y en la quintilla, las alternativas de posición se declaran
+como esquemas métricos completos. El editor permite elegir una disposición y medir sus
+quebrados; conserva las posiciones y medidas en las elecciones existentes, sin guardar un
+identificador redundante de disposición. La rima se elige de manera independiente. Mientras
+se mide, `q` señala cada quebrado pendiente y el resto mantiene la medida de base. La pauta
+pendiente vive en el estado de edición y debe completarse antes de guardar.
 
 ### La elección
 
@@ -829,6 +836,7 @@ Lo que de verdad valida un disparador, y solo eso:
 | Que un grupo de elección pregunte algo incoherente con su dimensión o su alcance                             | `grupos_eleccion_metrica`                                   |
 | Que una variedad apunte a esquemas de otra arquitectura                                                      | `variedades_arquitectura`                                   |
 | Que una respuesta del editor no esté entre las que su pregunta ofrece, o caiga en una posición que no existe | `anotacion_elecciones`                                 |
+| Que los quebrados de una sextilla o quintilla mezclen disposiciones o dejen incompleto el esquema elegido | Disparadores diferidos en `anotacion_elecciones`, `anotacion_realizaciones` y `anotaciones_metricas` |
 | Que una unidad se salga del rango de su secuencia o rompa la estructura declarada                            | `anotacion_realizaciones`, `anotaciones_metricas` |
 | Que una unidad declare una arquitectura que no sea de su forma, que no sea intercalable, o que la declare una sección | `anotacion_realizaciones`, `arquitecturas_forma`       |
 | Que una desviación no se apoye en las entidades normalizadas del catálogo                                    | `anotacion_desviaciones`                               |
@@ -836,6 +844,14 @@ Lo que de verdad valida un disparador, y solo eso:
 Y dos automatismos que no impiden sino que mantienen: `sincronizar_posiciones_esquema_rima_fijo`
 deriva las posiciones de un esquema desde su notación, y `marcar_catalogo_metrico_actualizado`
 sube la revisión del catálogo en las veinte tablas que lo componen.
+
+La garantía de disposiciones completas se incorporó y ejecutó contra todas las anotaciones
+el 26 de octubre de 2026. `admite_disposicion_quebrados` compara las medidas posicionales
+con cada esquema completo de la arquitectura; `comprobar_disposiciones_quebrados` la aplica
+a las unidades principales de sextilla quebrada y quintilla octosilábica consonante.
+Los disparadores comprueban el estado final de la transacción, después de escribir todas
+las medidas, y rechazan combinaciones como 2.º/6.º. Los comprobadores internos no se exponen
+como RPC a los roles anónimo y autenticado.
 
 **Lo demás son claves foráneas y `CHECK`**, que es donde vive la mayor parte de la integridad: la
 unicidad de cada `slug` en su ámbito, que una arquitectura pertenezca a una sola forma, que una
