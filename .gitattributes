@@ -1,0 +1,5 @@
+# Las huellas del piloto dependen de los bytes, también en checkouts de Windows.
+docs/importador-metrico/piloto/**/*.json text eol=lf
+# Estos originales se aceptaron y registraron con CRLF; se conserva su huella.
+docs/importador-metrico/piloto/extracciones/*.json text eol=crlf
+docs/importador-metrico/piloto/fuentes.json text eol=crlf
