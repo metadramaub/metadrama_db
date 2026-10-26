@@ -17,6 +17,7 @@ describen capacidades ya disponibles en la plataforma.
 
 | Documento | Contenido |
 | --- | --- |
+| [Persistencia local](./persistencia-local.md) | Borrador SQL fuera de las migraciones y ensayo de guardado, permisos y concurrencia en PostgreSQL aislado |
 | [Metodología](./metodologia.md) | Acuerdos sobre fuentes, identificación, equivalencias, incertidumbre y comparabilidad |
 | [Hoja de ruta](./hoja-de-ruta.md) | Etapas, resultados necesarios, decisiones abiertas e integración técnica |
 | [Diseño de integración](./diseno-integracion.md) | Estructura compartida, tabla métrica mínima separada, contrato de análisis y resultados agregados para fichas completas |

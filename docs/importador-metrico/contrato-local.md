@@ -94,8 +94,10 @@ La batería conjunta tiene 110 pruebas: 45 nuevas y 65 anteriores. Incluye oblig
 referencias incoherentes, huecos y solapamientos, candidatas, detalles pendientes, las desviaciones,
 permisos sintéticos, independencia de la copia y reproducción de los derivados.
 
-La integración deberá resolver identidades contra el catálogo vigente, preservar los originales,
-guardar todo en una transacción con control de concurrencia y aplicar permisos de servidor y DB.
+El [borrador de persistencia](./persistencia-local.md) ya ensaya el guardado transaccional y los
+permisos de DB en PostgreSQL aislado, con el esquema real exportado y datos sintéticos del piloto.
+La integración deberá completar el reconocimiento de identidades contra el catálogo vigente,
+verificar los originales en servidor y conectar las garantías de guardado y permisos a la aplicación.
 Después se conectarán las vistas del dashboard y el cálculo de corpus con la copia seleccionada,
 manteniéndola hasta que la sustituya la ficha completa publicada. El trabajo que falta se mantiene
 en [PENDIENTES](../PENDIENTES.md).

@@ -42,8 +42,11 @@ Se conserva una copia mínima fija hasta publicar la completa y entonces se sust
 Mínima es un tipo, sin nuevo estado ni segundo validador. Admin/IP y editores autorizados importan
 y consultan todas las mínimas, viendo quién importó cada una; el laboratorio sigue para admin/IP.
 Ya hay contrato local, vistas previas de las cuatro obras y pruebas de copia fija y permisos con
-identidades sintéticas. Falta resolver identidades y preparar el guardado transaccional y sus
-garantías SQL; implementar permiso individual, RLS, vista Fichas mínimas y sustitución en el corpus;
+identidades sintéticas. El borrador SQL ya guarda transaccionalmente las cuatro obras en PostgreSQL
+aislado y prueba permisos, copia fija e idempotencia concurrente contra el esquema real exportado.
+Falta cerrar el reconocimiento de identidades y duplicados, reimportaciones, verificar entradas en
+servidor, auditar consumidores y funciones con acceso privilegiado; integrar la migración definitiva,
+permiso individual, RLS, vista Fichas mínimas y sustitución en el corpus;
 ampliar el piloto y ensayar
 sensibilidad. No se exige resolver todas las denominaciones: Canción con remate está aceptada;
 «tercetos» y «letrilla» conservan su ambigüedad sin cotejo obligatorio del texto. Trabajo en `main`,
@@ -51,6 +54,7 @@ con archivos locales y sin importaciones ni migraciones en Supabase.
 → [diseño de integración](./importador-metrico/diseno-integracion.md)
 → [campos mínimos y conexiones](./importador-metrico/campos-minimos.md)
 → [contrato local e informe del ensayo](./importador-metrico/contrato-local.md)
+→ [borrador SQL y pruebas PostgreSQL](./importador-metrico/persistencia-local.md)
 → [proyecto y hoja de ruta](./importador-metrico/README.md)
 
 ---

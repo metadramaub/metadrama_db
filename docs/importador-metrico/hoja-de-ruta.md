@@ -59,7 +59,9 @@ trabajo conservando el referente mínimo hasta publicar la completa. Su traducci
 ejecutables deberá conservar esos casos y garantías.
 El [primer contrato local](./contrato-local.md) ya comprueba los campos y produce vistas previas
 de las cuatro obras. La copia fija y el contexto de permisos están probados con identidades
-sintéticas; guardado transaccional, permisos reales y sustitución en el corpus siguen sin implementar.
+sintéticas. El [borrador SQL](./persistencia-local.md) ya ejecuta guardado transaccional, permisos RLS
+e idempotencia concurrente en PostgreSQL aislado con el esquema real exportado. La conexión con
+sesiones HTTP, el dashboard y la sustitución en el corpus siguen pendientes, sin aplicar a Supabase.
 
 ## Evaluación del procedimiento
 
