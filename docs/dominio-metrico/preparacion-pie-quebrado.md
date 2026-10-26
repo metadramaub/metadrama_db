@@ -74,14 +74,14 @@ En copla castellana, copla real y los dos órdenes de novena, el control existen
 quebrado ya muestra posiciones y medidas a partir de las opciones de la base. Cambian
 los candidatos, los límites y las ayudas. No hace falta inventar un formulario por forma.
 
-### Lo que sí requiere código
+### Adaptación implementada del V2
 
 **Sextilla y quintilla necesitan elegir una disposición completa.** La rejilla actual
 solo conoce «estos versos se pueden quebrar» y «elige hasta N». En la sextilla, esa
 regla permitiría seleccionar 2.º y 6.º, aunque los patrones declarados son 3.º/6.º y
 2.º/5.º. El problema no lo resuelve limitar el número de selecciones a dos.
 
-La interacción propuesta es:
+La interacción implementada es:
 
 1. Sextilla: **Tercero y sexto / Segundo y quinto**.
 2. Quintilla: **Sin quebrados / Inicial / Segundo y quinto**.
@@ -103,10 +103,12 @@ La adaptación afecta a tres puntos:
 - **Validación:** el borrador ya comprueba el patrón completo al terminar el guardado,
   después de insertar todas las medidas. Rechaza las mezclas incluso si se envían por API.
 
-No es una reescritura de todo el registrador ni del formato de anotación. La parte que
-falta es la selección y lectura de patrones en V2, con pruebas de respuesta común,
-excepciones por unidad, reapertura de respuestas antiguas y cambio de patrón.
-**Ese código de interfaz no está incluido todavía en esta preparación.**
+No es una reescritura de todo el registrador ni del formato de anotación. La selección
+y lectura de patrones ya están implementadas. Se probaron en navegador los controles
+individuales y de respuesta común, la reapertura del patrón anterior, el cambio de
+disposición y la medida de los nuevos quebrados. La licencia permanece abierta cuando
+el cambio deja medidas pendientes. El recorrido completo contra la base desplegada
+sigue pendiente del despliegue.
 
 ## Ensayo de la migración
 
@@ -125,9 +127,15 @@ sílabas, los candidatos de ambas novenas y las restricciones diferidas con rol 
 **Resultado del ensayo:** todas esas comprobaciones pasan. Se ejecutó también el auditor
 de conformidad sobre el catálogo aislado con las filas de la vista de opciones exportadas
 para su lectura local: **0 defectos**. Esto comprueba el modelo del catálogo; no sustituye
-las pruebas visuales y de interacción del V2, que todavía no se ha adaptado.
+la comprobación del recorrido completo de guardado tras el despliegue.
 
-Antes de aplicar a producción faltan: revisar la prosa, completar y verificar el control V2,
-probar la ficha pública y el recorrido completo de guardado, y repetir los auditores del
-catálogo y las anotaciones contra el resultado. Solo entonces debe trasladarse el borrador
-a `supabase/migrations` y desplegarlo junto con la interfaz.
+La interfaz supera 62 pruebas relacionadas, `npm run check` sin errores ni avisos y
+`npm run build`. Los controles se comprobaron también en navegador con los componentes
+reales y los nuevos patrones, sin escribir anotaciones en la base compartida.
+
+La prosa está aprobada. Antes de aplicar a producción faltan terminar las copias y el
+snapshot de obras y publicar el V2 sin los commits del importador. Después se trasladará
+el borrador a `supabase/migrations`, se aplicará y se comprobarán la ficha pública, el
+guardado y los auditores del catálogo y de las anotaciones contra el resultado.
+La publicación está pendiente de autorización para reordenar los commits locales de
+`main`, conservando el contenido del importador en local.

@@ -5,6 +5,7 @@
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 	import type { FilaDeRima, Rejilla } from '$lib/metrica/rejilla';
 	import { normalizeRhymeSymbol } from './rhyme-notation';
+	import { disposicionesDeOpciones, medidasDeLosQuebrados } from './disposiciones-quebrados';
 	import MetricChoiceField from './MetricChoiceField.svelte';
 	import MetricFamilyControl from './MetricFamilyControl.svelte';
 	import MetricGridRow from './MetricGridRow.svelte';
@@ -371,7 +372,7 @@
 	function normalizeRhymeScheme(value: string, unit?: MetricUnitDraft): string {
 		const compacto = compactRhymeNotation(value);
 		if (!unit) return compacto;
-		const { medidas, base } = medidasDeLaUnidad(unit);
+		const { medidas, base, pendientes } = medidasDeLaUnidad(unit);
 		if (medidas.size === 0 && base === null) return compacto;
 		let posicion = 0;
 		return Array.from(compacto)
@@ -379,7 +380,7 @@
 				if (signo === '|') return signo;
 				posicion += 1;
 				if (signo === '-') return signo;
-				const silabas = medidas.get(posicion) ?? base;
+				const silabas = pendientes.has(posicion) ? null : (medidas.get(posicion) ?? base);
 				return silabas === null || silabas === undefined
 					? signo
 					: normalizeRhymeSymbol(signo, silabas);
@@ -530,6 +531,7 @@
 		optionIds: string[]
 	) {
 		const groupId = String(group.grupo_eleccion_id);
+		mantenerDisposicionAbierta(groupId);
 		const nextChoices = escribirRespuesta(
 			props.choices,
 			groupId,
@@ -1218,8 +1220,10 @@
 	function medidasDeLaUnidad(unit: MetricUnitDraft): {
 		medidas: Map<number, number>;
 		base: number | null;
+		pendientes: Set<number>;
 	} {
 		const medidas = new Map<number, number>();
+		const pendientesDePatron = new Set<number>();
 		let base: number | null = null;
 		for (const parte of ramaDeLaUnidad(unit)) {
 			const desplazamiento = parte.v_ini - unit.v_ini;
@@ -1266,6 +1270,16 @@
 						medidas.set(desplazamiento + verso, silabas);
 					}
 				}
+				const opciones = optionsForGroup(groupId);
+				const disposiciones = disposicionesDeOpciones(opciones);
+				if (disposiciones.length > 1) {
+					const serie = medidasDeLosQuebrados(disposiciones, opciones.filter((o) => elegidas.includes(String(o.opcion_eleccion_id))));
+					serie.forEach((silabas, indice) => {
+						const posicion = desplazamiento + indice + 1;
+						if (silabas === null) pendientesDePatron.add(posicion);
+						else medidas.set(posicion, silabas);
+					});
+				}
 			}
 		}
 		// **La variedad dice las dos cosas.** Responderla es elegir a la vez una disposición de rima
@@ -1286,19 +1300,19 @@
 		if (rejilla && !unit.realizacion_padre_id && rejilla.celdas.length === versos) {
 			for (const celda of rejilla.celdas) {
 				const fijada = Number(celda.medida?.silabas);
-				if (!medidas.has(celda.verso) && Number.isFinite(fijada) && fijada > 0) {
+				if (!pendientesDePatron.has(celda.verso) && !medidas.has(celda.verso) && Number.isFinite(fijada) && fijada > 0) {
 					medidas.set(celda.verso, fijada);
 				}
 			}
 		}
-		return { medidas, base };
+		return { medidas, base, pendientes: pendientesDePatron };
 	}
 
 	function notacionDeLaUnidad(unit: MetricUnitDraft): string | null {
 		const versos = unit.v_fin - unit.v_ini + 1;
 		if (versos <= 0) return null;
 
-		const { medidas, base } = medidasDeLaUnidad(unit);
+		const { medidas, base, pendientes } = medidasDeLaUnidad(unit);
 		const letras = new Map<number, string>();
 		const cortes = new Set<number>();
 		/**
@@ -1483,7 +1497,7 @@
 		const piezas: string[] = [];
 		for (let posicion = 1; posicion <= versos; posicion += 1) {
 			if (cortes.has(posicion) && piezas.length > 0) piezas.push('|');
-			const silabas = medidas.get(posicion) ?? base;
+			const silabas = pendientes.has(posicion) ? null : (medidas.get(posicion) ?? base);
 			const letra = letras.get(posicion) ?? '';
 			const simbolo =
 				letra && letra !== '-' && silabas !== null && silabas !== undefined
@@ -1507,10 +1521,10 @@
 		desde: number,
 		hasta: number
 	): (number | null)[] {
-		const { medidas, base } = medidasDeLaUnidad(unit);
+		const { medidas, base, pendientes } = medidasDeLaUnidad(unit);
 		const serie: (number | null)[] = [];
 		for (let posicion = desde; posicion <= hasta; posicion += 1) {
-			serie.push(medidas.get(posicion) ?? base);
+			serie.push(pendientes.has(posicion) ? null : (medidas.get(posicion) ?? base));
 		}
 		return serie;
 	}
@@ -1655,7 +1669,17 @@
 
 	/** Responder arriba escribe en las que siguen la norma, y deja en paz a las que se apartan. */
 	function responderEnTodas(pregunta: PreguntaFormulario, slugs: string[]) {
+		mantenerDisposicionAbierta(String(pregunta.groups[0]?.grupo_eleccion_id));
 		aplicarComun(pregunta, slugs, siguenLaNorma(pregunta));
+	}
+
+	/** Cambiar de pauta borra sus medidas; la licencia debe seguir abierta para medir las nuevas. */
+	function mantenerDisposicionAbierta(groupId: string) {
+		if (disposicionesDeOpciones(optionsForGroup(groupId)).length < 2) return;
+		const pregunta = comunes.find((p) => p.groups.some((g) => String(g.grupo_eleccion_id) === groupId));
+		if (pregunta && esLicencia(pregunta) && !rasgosPedidos.includes(pregunta.key)) {
+			rasgosPedidos = [...rasgosPedidos, pregunta.key];
+		}
 	}
 
 	function responderEnTodasTexto(pregunta: PreguntaFormulario, value: string) {

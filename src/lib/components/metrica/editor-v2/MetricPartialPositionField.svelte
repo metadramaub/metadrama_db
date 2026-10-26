@@ -24,6 +24,7 @@
 	 */
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 	import { shortPositionOptionLabel } from './positional-options';
+	import { disposicionesDeOpciones, disposicionCompatible } from './disposiciones-quebrados';
 
 	const props = $props<{
 		options: MetricCatalogDomainRow[];
@@ -37,7 +38,7 @@
 		onChange: (keys: string[]) => void;
 	}>();
 
-	const visibleOptions = $derived(
+	const allOptions = $derived(
 		typeof props.positionLimit === 'number'
 			? props.options.filter(
 					(option: MetricCatalogDomainRow) =>
@@ -45,6 +46,21 @@
 				)
 			: props.options
 	);
+	const disposiciones = $derived(disposicionesDeOpciones(allOptions));
+	let solicitada = $state<{ id: string; respuesta: string } | null>(null);
+	const firma = (keys: string[]) => [...keys].sort().join('|');
+	const disposicion = $derived.by(() => {
+		if (props.mixed) return null;
+		if (solicitada?.respuesta === firma(props.selectedKeys ?? [])) {
+			const elegida = disposiciones.find((d) => d.id === solicitada?.id);
+			if (elegida) return elegida;
+		}
+		const marcadas = allOptions.filter((o: MetricCatalogDomainRow) => (props.selectedKeys ?? []).includes(String(o[props.keyField])));
+		return disposicionCompatible(disposiciones, marcadas.map((o: MetricCatalogDomainRow) => Number(o.posicion_unidad)));
+	});
+	const visibleOptions = $derived(disposiciones.length > 1
+		? allOptions.filter((o: MetricCatalogDomainRow) => disposicion?.posiciones.includes(Number(o.posicion_unidad)))
+		: allOptions);
 	const positions = $derived(
 		Array.from(
 			new Set<number>(
@@ -54,10 +70,11 @@
 			)
 		).sort((a: number, b: number) => a - b)
 	);
+	const minimum = $derived(disposiciones.length > 1 ? positions.length : props.minimum);
 	const effectiveMaximum = $derived(Math.min(props.maximum, positions.length));
 	const selected = $derived(props.selectedKeys ?? []);
 	/** La medida que conservan los versos que no se quiebran. Se dice una vez, arriba. */
-	const baseSyllables = $derived(Number(visibleOptions[0]?.metro_base_silabas) || null);
+	const baseSyllables = $derived(Number(allOptions[0]?.metro_base_silabas) || null);
 	const selectedVisibleCount = $derived(
 		positions.filter((position: number) => selectedAt(position) !== null).length
 	);
@@ -70,7 +87,21 @@
 	 * dos— y lo único que se elige es cuánto miden. Decirle ahí al editor «señala 4 versos
 	 * quebrados» le pide que decida algo que la forma ya decidió: lo que le falta es medirlos.
 	 */
-	const laNormaLosSitua = $derived(positions.length > 0 && props.minimum >= positions.length);
+	const laNormaLosSitua = $derived(positions.length > 0 && minimum >= positions.length);
+
+	function responder(keys: string[]) {
+		if (disposicion) solicitada = { id: disposicion.id, respuesta: firma(keys) };
+		props.onChange(keys);
+	}
+
+	function cambiarDisposicion(id: string) {
+		const nueva = disposiciones.find((d) => d.id === id);
+		if (!nueva) return;
+		const claves = new Set(allOptions.filter((o: MetricCatalogDomainRow) => nueva.posiciones.includes(Number(o.posicion_unidad))).map(keyOf));
+		const conservadas = selected.filter((key: string) => claves.has(key));
+		solicitada = { id, respuesta: firma(conservadas) };
+		props.onChange(conservadas);
+	}
 
 	function keyOf(option: MetricCatalogDomainRow): string {
 		return String(option[props.keyField]);
@@ -102,16 +133,31 @@
 		const claves = new Set(optionsAt(position).map(keyOf));
 		const resto = selected.filter((elegida: string) => !claves.has(elegida));
 		if (actual === key) {
-			props.onChange(resto);
+			responder(resto);
 			return;
 		}
 		// El tope solo frena al quebrar un verso más, no al cambiarle la medida a uno ya quebrado.
 		if (actual === null && selectedVisibleCount >= effectiveMaximum) return;
-		props.onChange([...resto, key]);
+		responder([...resto, key]);
 	}
 </script>
 
 <div class="space-y-2">
+	{#if disposiciones.length > 1}
+		<label class="flex flex-wrap items-center gap-2 text-sm">
+			<span>Posición de los quebrados</span>
+			<select class="min-h-9 border border-[color:var(--border)] bg-white px-2"
+				aria-label={`${props.ariaLabel}: disposición de los quebrados`}
+				value={disposicion?.id ?? ''}
+				onchange={(event) => cambiarDisposicion(event.currentTarget.value)}>
+				{#if !disposicion}<option value="">Elige una disposición…</option>{/if}
+				{#each disposiciones as pauta (pauta.id)}<option value={pauta.id}>{pauta.etiqueta}</option>{/each}
+			</select>
+		</label>
+		{#if !disposicion && !props.mixed}
+			<p class="text-xs text-amber-800">Las posiciones marcadas no corresponden a una disposición completa. Elige una de las disponibles.</p>
+		{/if}
+	{/if}
 	{#if hayTope}
 		<p class="text-xs text-[color:var(--muted-foreground)]">
 			{effectiveMaximum === 1
@@ -153,7 +199,7 @@
 
 	<p
 		class={`text-xs ${
-			!props.mixed && selectedVisibleCount < props.minimum
+			!props.mixed && selectedVisibleCount < minimum
 				? 'text-[color:var(--primary)]'
 				: 'text-[color:var(--muted-foreground)]'
 		}`}
@@ -167,10 +213,10 @@
 				: faltan === 1
 					? 'Falta la medida de un quiebro.'
 					: `Faltan las medidas de ${faltan} de los ${positions.length} quiebros.`}
-		{:else if selectedVisibleCount < props.minimum}
-			{props.minimum === 1
+		{:else if selectedVisibleCount < minimum}
+			{minimum === 1
 				? 'Señala al menos un verso quebrado.'
-				: `Señala ${props.minimum} versos quebrados.`}
+				: `Señala ${minimum} versos quebrados.`}
 		{:else if selectedVisibleCount === 0}
 			Ningún verso quebrado{baseSyllables ? `: todos miden ${baseSyllables} sílabas` : ''}.
 		{:else}
@@ -182,7 +228,7 @@
 		{/if}
 	</p>
 
-	{#if selectedVisibleCount === positions.length && positions.length > 1 && props.minimum === 0}
+	{#if disposiciones.length === 0 && selectedVisibleCount === positions.length && positions.length > 1 && props.minimum === 0}
 		<p class="border-l-2 border-amber-500 bg-amber-50 px-3 py-2 text-xs text-amber-950">
 			Has quebrado todos los versos: no queda ninguno
 			{baseSyllables ? `de ${baseSyllables} sílabas` : 'de la medida base'}. Revisa que esta siga

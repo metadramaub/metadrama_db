@@ -5,6 +5,7 @@
 		structuralAdditionRanges
 	} from '$lib/metrica/structural-additions';
 	import { errorDeCoherenciaDeRasgos } from './coherencia-rasgos';
+	import { disposicionesDeQuebrados, disposicionCompatible } from './disposiciones-quebrados';
 	import { preguntaAplica, tiposDeRimaAfirmados } from './regimen-respondido';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import SegmentedChoice from '$lib/components/ui/segmented-choice.svelte';
@@ -404,6 +405,9 @@
 		];
 		return syllables.length === 1 ? syllables[0] : null;
 	});
+	const disposicionesQuebrados = $derived(
+		disposicionesDeQuebrados(props.catalog.domain, draft.arquitectura_id)
+	);
 	const choiceOptionsForDraft = $derived(
 		props.catalog.domain.choiceOptions.filter(
 			(row: MetricCatalogDomainRow) =>
@@ -417,6 +421,7 @@
 			);
 			return {
 				...row,
+				disposiciones_quebrados: disposicionesQuebrados,
 				metro_silabas: metre?.silabas ?? null,
 				metro_base_silabas: dominantMetreSyllables
 			};
@@ -1326,6 +1331,16 @@
 					: unit.realizacion_padre_id === null
 			);
 			for (const unit of applicableUnits) {
+				if (group.dimension === 'metro' && disposicionesQuebrados.length > 1) {
+					const ids = draft.elecciones.filter((e) => e.realizacion_id === unit.realizacion_id && e.grupo_eleccion_id === String(group.grupo_eleccion_id)).map((e) => e.opcion_eleccion_id);
+					const posiciones = choiceOptionsForDraft
+						.filter((o: MetricCatalogDomainRow) => ids.includes(String(o.opcion_eleccion_id)))
+						.map((o: MetricCatalogDomainRow) => Number(o.posicion_unidad));
+					const pauta = disposicionCompatible(disposicionesQuebrados, posiciones);
+					if (!pauta || pauta.posiciones.length !== posiciones.length || new Set(posiciones).size !== posiciones.length) {
+						return `Revisa la disposición de los quebrados en la unidad ${unit.orden}: debe estar completa.`;
+					}
+				}
 				const total = choiceCount(
 					String(group.grupo_eleccion_id),
 					unit.realizacion_id

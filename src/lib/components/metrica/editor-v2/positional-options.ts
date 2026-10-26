@@ -2,10 +2,7 @@ import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 
 /** Todas las opciones identifican una posición concreta de la unidad. */
 export function arePositionalOptions(options: MetricCatalogDomainRow[]): boolean {
-	return (
-		options.length > 0 &&
-		options.every((option) => Number(option.posicion_unidad ?? 0) > 0)
-	);
+	return options.length > 0 && options.every((option) => Number(option.posicion_unidad ?? 0) > 0);
 }
 
 /** Hay más de una respuesta posible para al menos una posición. */
@@ -44,6 +41,14 @@ export function isPartialPositionalSelection(
 ): boolean {
 	if (!haveAlternativesByPosition(options)) return false;
 	if (group.define_norma === true) return false;
+	// Una licencia puede ofrecer todos los versos como candidatos sin exigir medirlos todos.
+	// Sus opciones solo contienen medidas menores que la base, que queda implícita.
+	if (
+		options.every(
+			(o) => Number(o.metro_base_silabas) > Number(o.metro_silabas) && Number(o.metro_silabas) > 0
+		)
+	)
+		return true;
 	const posiciones = new Set(options.map((option) => Number(option.posicion_unidad))).size;
 	if (typeof versosDeLaUnidad === 'number' && versosDeLaUnidad > 0) {
 		return posiciones < versosDeLaUnidad;
@@ -54,10 +59,7 @@ export function isPartialPositionalSelection(
 }
 
 /** Etiqueta breve para el selector compacto; conserva el nombre si no conoce las sílabas. */
-export function shortPositionOptionLabel(
-	option: MetricCatalogDomainRow,
-	position: number
-): string {
+export function shortPositionOptionLabel(option: MetricCatalogDomainRow, position: number): string {
 	const syllables = Number(option.metro_silabas);
 	if (Number.isFinite(syllables) && syllables > 0) return String(syllables);
 	const label = String(option.nombre);
