@@ -23,7 +23,7 @@ se consulta en solo lectura; el normalizador trabaja con ese registro y no confi
 La salida usa `versologia-normalizacion-local/0.1`. Es un ensayo del contrato de integración,
 no el formato definitivo de la DB ni un cuerpo válido para la API del registrador completo.
 La propuesta posterior de [campos mínimos y conexiones](./campos-minimos.md) define el destino
-de estas interpretaciones: tabla mínima separada, fuentes conservadas y validación para el corpus.
+de estas interpretaciones: tabla mínima separada, fuentes conservadas y confirmación del importador.
 El normalizador actual no escribe ese modelo ni acepta una obra para el corpus automáticamente.
 
 - `identificacion_revisada` solo se rellena para una correspondencia única con aprobación

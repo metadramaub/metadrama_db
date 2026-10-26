@@ -38,8 +38,10 @@ la métrica mínima de v2. El diseño contrasta el esquema vivo y contempla agre
 para comparar fichas completas sin publicar las mínimas individuales. Campos revisados: género
 obligatorio, fuente de datación y fundamentos de autoría opcionales; registro de quién importa.
 El editor podrá corregir o vaciar la estructura; verá la propuesta importada sin aprobación en v2.
-Se propone conservar una copia mínima fija hasta publicar la completa y entonces sustituir su aporte.
-Falta concretar el estado propuesto Mínima validada, la copia aceptada y su sustitución en el corpus;
+Se conserva una copia mínima fija hasta publicar la completa y entonces se sustituye su aporte.
+Mínima es un tipo, sin nuevo estado ni segundo validador. Admin/IP y editores autorizados importan
+y consultan todas las mínimas, viendo quién importó cada una; el laboratorio sigue para admin/IP.
+Falta implementar el permiso individual, la vista Fichas mínimas, la copia confirmada y su sustitución;
 traducir el diseño a SQL y contratos de guardado y análisis; ampliar el piloto y ensayar
 sensibilidad. No se exige resolver todas las denominaciones: Canción con remate está aceptada;
 «tercetos» y «letrilla» conservan su ambigüedad sin cotejo obligatorio del texto. Trabajo en `main`,

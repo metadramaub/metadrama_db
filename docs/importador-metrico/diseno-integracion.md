@@ -39,7 +39,7 @@ recomputaciones; inspeccionar su definición no constituye una prueba de ejecuci
 | `anotaciones_metricas.forma_id` es obligatorio; `validar_anotacion_metrica` exige arquitectura para las formas ordinarias, aunque la columna admita `null` | No permite guardar Canción solo al nivel de forma ni una identificación pendiente. Se mantiene v2 y se crea la representación mínima aparte |
 | Las secciones de `anotacion_realizaciones` dependen de arquitectura, unidad padre y rangos | Saber que existe un remate no autoriza a fabricar una realización detallada |
 | `guardar_anotacion_metrica` valida respuestas y sustituye sus datos hijos | El importador mínimo necesita un guardado propio, sin pasar por esta función |
-| `formas_de_la_obra` lee las anotaciones v2; el corpus comparativo se construye desde índices de obras publicadas | Hace falta una lectura analítica común y un universo explícito que incluya mínimas validadas |
+| `formas_de_la_obra` lee las anotaciones v2; el corpus comparativo se construye desde índices de obras publicadas | Hace falta una lectura analítica común y un universo explícito que incluya mínimas confirmadas |
 | El agregado actual rellena con cero perfiles de formas y transiciones ausentes | No se le pueden añadir fichas mínimas sin adaptar antes el tratamiento de lo desconocido |
 | Hay una política permisiva `obras_authenticated_select` con condición `true` | Ocultar filas en el dashboard no basta para establecer nuevos permisos de consulta |
 | `artefactos_publicos` limita tipos y alcances; sus políticas distinguen el banco privado de las salidas públicas | Los nuevos análisis y agregados necesitan contratos y permisos explícitos; no basta con inventar una clave de JSON |
@@ -51,8 +51,8 @@ exige editor asignado, mientras que importar y asignar después son operaciones 
 
 La [consulta del 26 de octubre](../../scripts/importador-metrico/auditar-flujo-minimo.sql) y su
 [evidencia](./piloto/auditoria-flujo-2026-10-26.json) confirman que fuentes de datación y autoría
-pueden quedar vacías. `minima_validada` todavía no existe; se propone como estado específico para
-habilitar el corpus mínimo sin utilizar la publicación de fichas completas.
+pueden quedar vacías. La revisión del diseño descarta añadir un estado Mínima validada: Mínima
+será un tipo de ficha y la confirmación de la importación habilitará su aporte al corpus.
 
 ## Persistencia propuesta
 
@@ -65,8 +65,8 @@ misma identidad de obra. No se crea otra tabla de obras ni otra colección paral
 | `jornadas`, `secuencias_metricas` | Rangos comunes. Cambio de forma A → B → A produce tres secuencias. Sinopsis y caracterizaciones no estudiadas permanecen desconocidas |
 | Nueva `secuencias_metrica_minima` | Una anotación mínima vigente por secuencia, con forma identificada opcional, arquitectura opcional, estado de identificación, revisión y procedencia. Arquitectura conocida debe pertenecer a la forma; pendiente no es una nueva forma del catálogo |
 | Candidatas y detalles mínimos | Información dependiente de la anotación mínima: alternativas con alcance exhaustivo u orientativo; metros, rima, remates o desviaciones solo cuando la fuente los sostenga. No son filas de `anotacion_elecciones` ni de `anotacion_realizaciones` |
-| Registro de importación y evidencia | Original, fuente, versiones y transformaciones. Incluye una copia fija de los datos mínimos validados, con su estructura, para que la edición posterior no altere el referente |
-| Validación de la mínima | Estado que habilita su uso cuantitativo; se propone `minima_validada`. Se registra quién importa y valida. Una única importación validada por obra puede quedar marcada para el corpus hasta que la sustituya la completa publicada |
+| Registro de importación y evidencia | Original, fuente, versiones y transformaciones. Incluye una copia fija de los datos mínimos confirmados, con su estructura, para que la edición posterior no altere el referente |
+| Confirmación de la importación | La persona autorizada comprueba y confirma la entrada, sin una segunda aprobación editorial. Solo una importación confirmada por obra aporta al corpus hasta que la sustituya la completa publicada |
 
 El SQL concreto debe fijar los campos y los detalles que merecen tablas hijas tipadas. No se plantea
 resolverlo con texto libre usado como hechos ni replicando las preguntas obligatorias de v2.
@@ -138,11 +138,13 @@ solas la utilidad de todo el corpus de Lope.
 
 Son tres salidas distintas del mismo flujo de datos:
 
-1. **Datos y fichas individuales:** las mínimas siguen fuera de la publicación. La propuesta
-   inicial es gestión por admin/IP y acceso de trabajo al editor asignado, con comprobación en
-   servidor y RLS. La matriz detallada del corpus tampoco se entrega al visitante.
+1. **Datos y fichas individuales:** las mínimas siguen fuera de la publicación. Admin/IP y editores
+   con permiso individual de importación podrán consultar todas las mínimas, indicando quién importó
+   cada una. Se propone una pestaña Fichas mínimas en Obras. Consultarlas no abre el laboratorio ni
+   concede por sí solo edición de fichas ajenas. El editor de la completa podrá consultar su origen.
+   Los permisos se aplican en servidor y RLS; no basta con ocultar botones.
 2. **Exploración y cálculo del referente:** el laboratorio autorizado puede seleccionar el corpus
-   ampliado de mínimas validadas y completas elegibles, por autoría, fechas y cobertura. Se mantiene
+   ampliado de mínimas confirmadas y completas elegibles, por autoría, fechas y cobertura. Se mantiene
    la opción de estudiar solo completas; incorporar mínimas no impone usarlas en todas las medidas.
 3. **Comparación en una ficha completa:** una proyección seleccionada puede usar ese referente
    ampliado y mostrar resultados globales con número de obras, composición mínima/completa,
@@ -170,10 +172,10 @@ Al abrir una secuencia se presenta la propuesta del importador como referencia, 
 en respuestas v2 ni darla por correcta. Los cambios de rango o edición no autorizan correspondencias
 automáticas con el tramo anterior.
 
-El corpus conserva el aporte mínimo hasta publicar la completa, según la propuesta actual.
-Para ello usa `importaciones_metricas.datos_validados`, una copia fija de la estructura, métrica y
+Está confirmado que el corpus conserva el aporte mínimo hasta publicar la completa.
+Para ello se propone `importaciones_metricas.datos_confirmados` (JSONB), una copia fija de la estructura, métrica y
 metadatos aceptados. Es independiente de las secuencias editables y permite vaciarlas sin alterar
-el referente. Solo una importación validada por obra puede estar marcada `usada_en_corpus`.
+el referente. Solo una importación confirmada por obra puede estar marcada `usada_en_corpus`.
 No se necesita un selector de versiones métricas generales en `obras`.
 
 Al publicarse la completa, v2 sustituye ese aporte y se actualizan los agregados, contando una vez

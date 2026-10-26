@@ -48,8 +48,8 @@ o vaciar esa estructura. Al abrir una secuencia consulta la propuesta del import
 respuesta aceptada en v2. Puede escoger otra edición. La confianza en la edición como fuente del
 corpus mínimo no obliga a confiar en ella para el análisis detallado.
 
-Para que el trabajo en curso no altere el referente, se propone mantener la copia fija de la
-importación validada, incluidos sus metadatos y rangos, hasta publicar la completa. Entonces el
+Para que el trabajo en curso no altere el referente, se mantiene la copia fija de la
+importación confirmada, incluidos sus metadatos y rangos, hasta publicar la completa. Entonces el
 análisis completo sustituye su aporte, sin contar la obra dos veces. La mínima puede conservarse
 como referencia después de dejar de contribuir; su permanencia documental no implica elegibilidad.
 
@@ -134,7 +134,7 @@ tolerancia universal de todo el corpus de Lope.
 
 ## Uso del corpus y publicación
 
-Una ficha mínima validada puede aportar datos al perfil del autor. No pesa menos por carecer de
+Una ficha mínima confirmada puede aportar datos al perfil del autor. No pesa menos por carecer de
 campos que el análisis no necesita. La elegibilidad depende de la evidencia y cobertura de la
 medida, no solo de la etiqueta mínima/completa. Los datos no estudiados de cuadros, personajes u
 otros fenómenos permanecen desconocidos, no se convierten en ausencias.
@@ -143,8 +143,11 @@ La consulta individual de fichas y la difusión de resultados agregados tienen r
 Se podrán seleccionar comparaciones para fichas completas sin publicar las fichas mínimas que
 contribuyeron al referente. Se debe declarar el universo utilizado, su cobertura y las limitaciones
 relevantes. **El uso de resultados agregados del corpus mínimo en fichas completas forma parte del
-alcance acordado**, además de su exploración en el laboratorio. Quedan por concretar los permisos
-operativos y las condiciones para seleccionar cada resultado difundible, no ese principio.
+alcance acordado**, además de su exploración en el laboratorio. Importan admin/IP y editores con
+autorización individual; los importadores autorizados consultan todas las mínimas, viendo quién
+importó cada una, sin acceder por ello al laboratorio. Quien importa comprueba y confirma el guardado;
+no se añade un nuevo estado editorial de validación ni una segunda aprobación por otro usuario.
+Quedan por concretar las condiciones para seleccionar cada resultado difundible.
 
 Como propuesta para validar, al situar una obra respecto al autor se excluirá la propia obra y sus
 versiones del referente. También deben fijarse la unidad de agregación, el tratamiento de fechas

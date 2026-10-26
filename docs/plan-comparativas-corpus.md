@@ -118,7 +118,7 @@ a cada gráfico por jornada. La ficha debe seguir explicando primero la obra, no
 ## Ampliación acordada para el corpus mínimo
 
 El [proyecto del importador](./importador-metrico/diseno-integracion.md), todavía sin integrar en
-la base, amplía el referente posible: las fichas mínimas validadas podrán aportar resultados
+la base, amplía el referente posible: las fichas mínimas confirmadas podrán aportar resultados
 agregados para contrastar fichas completas, aunque sus fichas individuales no se publiquen.
 Se reutilizan obras, jornadas y secuencias, con la métrica mínima en una tabla aparte de v2.
 

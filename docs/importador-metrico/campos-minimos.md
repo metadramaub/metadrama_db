@@ -33,27 +33,53 @@ La persona que importa se registra en `importaciones_metricas.importado_por` y `
 no ocupa `editor_asignado` ni se convierte por eso en autor de la futura ficha pública.
 El servidor toma su identidad de la sesión; no hay que escribirla en el prompt.
 
-## Estados: guardar y dejar lista una mínima
+## Tipo de ficha y confirmación de la importación
 
-Propongo añadir **Mínima validada** (`minima_validada`) al vocabulario de estados. Es una propuesta
-pendiente de confirmar e implementar, no un término disponible hoy.
+**Mínima es un tipo de ficha, no un estado nuevo del circuito editorial.** Se retira la propuesta
+de añadir Mínima validada a Borrador, Vista previa y Publicado. En la pantalla se distingue
+Ficha mínima de Ficha completa mediante el nuevo `obras.tipo_ficha`.
 
-| Tipo de ficha y estado | Uso |
+El recorrido del importador es **preparar → comprobar la vista previa → confirmar la importación**.
+La persona autorizada que importa revisa la transcripción y confirma los datos; no se añade una
+segunda aprobación por admin/IP ni una figura nueva de validador. El sistema verifica formato,
+metadatos, rangos y referencias. Las ambigüedades métricas pueden seguir declaradas como tales.
+Nada de esto satisface el checklist de una ficha completa.
+
+| Situación | Uso |
 | --- | --- |
-| Mínima / Borrador | Importación pendiente de comprobación; todavía fuera del corpus |
-| Mínima / Mínima validada | Datos utilizables por admin/IP en los análisis que su cobertura permita; sin ficha individual pública |
-| Completa / En elaboración | Trabajo v2 con sus exigencias habituales; el corpus puede seguir usando la copia mínima validada, sin leer los cambios del borrador |
-| Completa / Publicada | El corpus usa el análisis completo; la mínima queda solo como referencia si se conserva |
+| Importación en preparación | Resultado todavía no confirmado; fuera del corpus |
+| Ficha mínima guardada | Importación confirmada; aporta a los análisis que su cobertura permita, sin publicación individual |
+| Ficha completa en elaboración | Circuito editorial habitual; el corpus conserva el aporte mínimo confirmado |
+| Ficha completa publicada | v2 sustituye el aporte mínimo; la importación queda como referencia histórica |
 
-Así distinguimos **estar lista para el corpus mínimo** de **estar publicada como ficha completa**.
-Usar Publicado también sería técnicamente planteable, pero obligaría a revisar todos los lugares
-que hoy lo interpretan como ficha detallada publicable. Recomiendo el término específico.
-Las mínimas podrán contribuir igualmente a los agregados seleccionados para fichas completas.
+`tipo_ficha` tendrá los valores `minima` y `completa`; las obras existentes conservarían el recorrido
+completo. La columna actual `obras.estado` se mantiene para las completas. Como actualmente es
+obligatoria, una mínima puede conservar Borrador como valor técnico de compatibilidad, sin mostrarlo
+como un paso pendiente de revisión ni usarlo para decidir su entrada al corpus. Las consultas y
+listas deberán distinguir los tipos explícitamente. `visible_publico` permanece falso en mínimas.
 
-Se añade `obras.tipo_ficha` con valores `minima` y `completa`; las existentes conservarían el
-recorrido completo. Se mantienen `obras.estado` y `visible_publico`, este último falso en mínimas.
-Validar una mínima comprueba sus datos, rangos y correspondencias aceptadas; no exige responder
-el checklist de personajes, cuadros, sinopsis o anotación detallada.
+## Quién accede y dónde se muestran
+
+La sección **Importar** estará disponible para admin/IP y para editores a quienes admin/IP conceda
+ese permiso específico. No es una capacidad de todos los editores. El permiso no cambia su rol
+ni les abre el laboratorio. Técnicamente puede ser una capacidad individual, por ejemplo
+`editores.puede_importar_metrica`, desactivada por defecto; el nombre se concretará al implementar.
+
+En Obras se propone una pestaña **Fichas mínimas**, diferenciada de las fichas completas.
+Admin/IP y los importadores autorizados podrán consultar **todas** las mínimas, propias y ajenas.
+Cada fila mostrará título, autor, fechas, edición, quién importó y cuándo. Un filtro Mis importaciones
+puede facilitar el trabajo, pero no limitará el permiso de consulta. La importación original seguirá
+consultable como historial si la obra pasa al recorrido completo.
+
+El nombre Fichas mínimas explica su profundidad; Importar es la acción que las crea. No se confunden
+con las obras asignadas para análisis completo. Poder consultar las importaciones de otro usuario
+no otorga por sí solo edición o borrado de su trabajo ni acceso a sus anotaciones completas.
+El editor asignado a la completa podrá consultar la propuesta de origen aunque no tenga permiso
+para crear nuevas importaciones.
+
+Estos accesos se comprobarán en servidor y RLS, no solo ocultando botones. La matriz del laboratorio
+permanece reservada a admin/IP; los resultados agregados autorizados para fichas completas mantienen
+su salida separada.
 
 ## Qué se comparte y qué se guarda aparte
 
@@ -110,13 +136,13 @@ su fundamento; los casos especiales conservan su decisión y la nota que la sost
 Cuando hablábamos de «contrato común», nos referíamos a **una misma manera de entregar los datos
 a los cálculos**, no a heredar secuencias ni a convertir una mínima en anotación completa.
 
-Mientras la obra solo tenga una mínima validada, el corpus usa esos datos aceptados. Durante la
+Mientras la obra solo tenga una mínima confirmada, el corpus usa esos datos aceptados. Durante la
 elaboración de la completa mantiene una copia fija de esa importación, no las jornadas y secuencias
 que el editor esté modificando. Al publicar la completa, pasa a usar v2 y deja de contar la mínima.
 Con una sola definición se calcula el peso de cada forma, conservando qué versos siguen sin resolver.
 La obra se cuenta una sola vez y cada medida declara su universo, procedencia y cobertura.
 Al declarar cuántas fichas mínimas y completas sostienen un resultado, se cuenta la fuente usada:
-una obra en elaboración todavía aporta como mínima mientras se use su importación validada.
+una obra en elaboración todavía aporta como mínima mientras se use su importación confirmada.
 
 Saber la forma no implica saber la arquitectura, la rima concreta o los personajes. No conocer
 un dato no se convierte en cero ni en ausencia. Tampoco se elimina un tramo desconocido para crear
@@ -145,14 +171,15 @@ el original sigue consultable pero no se da por establecida una correspondencia 
 
 ### Mantener el referente mínimo hasta publicar la completa
 
-La propuesta es conservar en la importación una **copia fija de los datos mínimos validados**:
+Se conserva en la importación una **copia fija de los datos mínimos confirmados**:
 edición, autoría usada, fechas, género, jornadas, rangos, identificaciones, candidatas y detalles.
 Es necesaria porque las tablas comunes estarán cambiando, o sus filas pueden borrarse al reiniciar.
 Conservar únicamente la tabla métrica enlazada a secuencias editables no protegería el referente.
 
-Esta copia se guardaría como `importaciones_metricas.datos_validados`, con quién la valida y cuándo.
+Esta copia se guardaría como `importaciones_metricas.datos_confirmados` (JSONB), con `confirmado_por`
+y `confirmado_en`: la persona que confirma la importación, sin otra instancia de validación.
 La referencia mínima vigente de cada obra se marca en `usada_en_corpus`: solo una importación
-validada puede tener esa marca por obra. Una corrección se revisa antes de sustituir la copia vigente.
+confirmada puede tener esa marca por obra. Una corrección se comprueba antes de sustituir la copia vigente.
 No se exige una tabla general de versiones métricas ni el campo `obras.base_metrica_analitica_id`.
 
 Asignar la obra o comenzar a editar no retira esa contribución mínima. El código del corpus lee
@@ -175,8 +202,9 @@ autoría y editor asignado admiten valores vacíos en la DB. El importador sí e
 la columna actual sea nullable. Para Comedia se utilizará el término existente del catálogo,
 `comedia_o_tragicomedia`; no se añade otro género por este lote.
 
-El estado propuesto no existe todavía. Las reglas actuales de publicación y el endpoint de estado
-presuponen el circuito completo, por lo que habrá que añadir el recorrido mínimo de forma explícita.
+No se añadirá un término al vocabulario de estados por este recorrido. Las reglas actuales de
+publicación, el endpoint de estado y las listas editoriales deberán distinguir el nuevo tipo mínimo
+y sus permisos de acceso. Importar y confirmar no utilizará el cambio de estado como atajo.
 El guardado mínimo utilizará el modelo de autoría existente sin exigir fundamentos textuales;
 se conservarán sus vínculos y categorías, sin inventar argumentos ni revisar las obras existentes.
 
