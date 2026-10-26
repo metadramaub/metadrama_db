@@ -28,7 +28,7 @@
 		answered: number;
 		/** Cuántas responde a la vez. */
 		realizaciones: number;
-		onChoose: (slugs: string[]) => void;
+		onChoose: (slugs: string[], disposicionId?: string) => void;
 		ariaLabel: string;
 		positionLimit?: number;
 		/** Lo que la norma fija en cada verso. Ver `MetricVersePatternField`. */

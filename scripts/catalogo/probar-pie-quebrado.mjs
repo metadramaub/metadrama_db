@@ -62,7 +62,7 @@ ${readFileSync(arg('--esquema'), 'utf8')}`);
 	const beforeUnresolved = psql(unresolved).trim();
 	psql(
 		read(
-			'../../docs/dominio-metrico/migraciones-pendientes/20261026090000_el_quebrado_conserva_su_disposicion.sql'
+			'../../supabase/migrations/20261026090000_el_quebrado_conserva_su_disposicion.sql'
 		)
 	);
 	if (before !== psql(fingerprint).trim()) throw Error('Se modificaron anotaciones anteriores');

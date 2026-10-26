@@ -87,13 +87,17 @@ export function disposicionCompatible(
 /** Solo completa medidas que coinciden en todos los patrones compatibles con lo respondido. */
 export function medidasDeLosQuebrados(
 	disposiciones: DisposicionQuebrados[],
-	elegidas: MetricCatalogDomainRow[]
+	elegidas: MetricCatalogDomainRow[],
+	disposicionId?: string
 ): (number | null)[] {
 	const posiciones = elegidas.map((o) => Number(o.posicion_unidad));
 	let candidatas = disposiciones.filter((d) => posiciones.every((n) => d.posiciones.includes(n)));
-	if (posiciones.length === 0) {
+	if (disposicionId) {
+		candidatas = candidatas.filter((d) => d.id === disposicionId);
+	} else if (posiciones.length === 0) {
 		const plenos = candidatas.find((d) => d.posiciones.length === 0);
-		if (plenos) candidatas = [plenos];
+		// La misma pauta inicial que muestra el selector: plena si existe; si no, la primera.
+		candidatas = plenos ? [plenos] : candidatas.slice(0, 1);
 	}
 	const versos = Math.max(0, ...disposiciones.map((d) => d.versos));
 	return Array.from({ length: versos }, (_, i) => {

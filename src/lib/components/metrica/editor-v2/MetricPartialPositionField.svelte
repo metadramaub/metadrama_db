@@ -35,7 +35,7 @@
 		positionLimit?: number;
 		mixed?: boolean;
 		ariaLabel: string;
-		onChange: (keys: string[]) => void;
+		onChange: (keys: string[], disposicionId?: string) => void;
 	}>();
 
 	const allOptions = $derived(
@@ -90,8 +90,9 @@
 	const laNormaLosSitua = $derived(positions.length > 0 && minimum >= positions.length);
 
 	function responder(keys: string[]) {
-		if (disposicion) solicitada = { id: disposicion.id, respuesta: firma(keys) };
-		props.onChange(keys);
+		const id = disposicion?.id;
+		if (id) solicitada = { id, respuesta: firma(keys) };
+		props.onChange(keys, id);
 	}
 
 	function cambiarDisposicion(id: string) {
@@ -100,7 +101,7 @@
 		const claves = new Set(allOptions.filter((o: MetricCatalogDomainRow) => nueva.posiciones.includes(Number(o.posicion_unidad))).map(keyOf));
 		const conservadas = selected.filter((key: string) => claves.has(key));
 		solicitada = { id, respuesta: firma(conservadas) };
-		props.onChange(conservadas);
+		props.onChange(conservadas, id);
 	}
 
 	function keyOf(option: MetricCatalogDomainRow): string {

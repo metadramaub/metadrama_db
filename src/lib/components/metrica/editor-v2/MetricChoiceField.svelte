@@ -22,7 +22,7 @@
 		group: MetricCatalogDomainRow;
 		options: MetricCatalogDomainRow[];
 		selectedIds: string[];
-		onChange: (ids: string[]) => void;
+		onChange: (ids: string[], disposicionId?: string) => void;
 		textValue?: string;
 		onTextChange?: (value: string) => void;
 		onApplyAll?: () => void;

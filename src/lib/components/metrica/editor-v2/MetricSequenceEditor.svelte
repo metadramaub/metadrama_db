@@ -162,6 +162,7 @@
 	);
 
 	/** El editor ha vuelto a abrir la identificación ya resuelta para corregirla. */
+	let structureEditor = $state<{ validarDisposicionesPendientes: () => string | null } | null>(null);
 	let identificationForced = $state(false);
 	/** Las desviaciones son una sección secundaria: al añadir una se abre, pero puede plegarse. */
 	let desviacionesAbiertas = $state(false);
@@ -1189,6 +1190,8 @@
 	}
 
 	function validateDraft(): string | null {
+		const pendiente = structureEditor?.validarDisposicionesPendientes();
+		if (pendiente) return pendiente;
 		if (!draft.forma_id) {
 			return 'Selecciona una forma o una salida editorial.';
 		}
@@ -1825,6 +1828,7 @@
 
 					{#key `${draft.anotacion_id ?? 'nueva'}-${draft.arquitectura_id}`}
 						<MetricStructureEditor
+							bind:this={structureEditor}
 							sequenceStart={draft.v_ini}
 							sections={sectionsForDraft}
 							{rhymeRegimes}

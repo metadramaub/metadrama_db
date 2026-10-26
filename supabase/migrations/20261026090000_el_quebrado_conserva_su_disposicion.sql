@@ -1,5 +1,5 @@
--- BORRADOR: ensayado en PostgreSQL aislado; NO aplicar sin el control V2 de patrones.
--- Páginas impresas verificadas visualmente. Véase ../prosa-pie-quebrado.md.
+-- Ensayado en PostgreSQL aislado y con el control V2 de disposiciones completas.
+-- Páginas impresas verificadas visualmente. Véase docs/dominio-metrico/prosa-pie-quebrado.md.
 begin;
 set local lock_timeout = '5s';
 

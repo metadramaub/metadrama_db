@@ -75,15 +75,24 @@ describe('disposiciones completas de quebrados', () => {
 		expect(medidasDeLosQuebrados(d, [elegida(3, 4), elegida(6, 5)])).toEqual([8, 8, 4, 8, 8, 5]);
 		expect(medidasDeLosQuebrados(d, [elegida(2, 4), elegida(5, 5)])).toEqual([8, 4, 8, 8, 5, 8]);
 	});
-	it('no inventa la medida de un quebrado pendiente ni decide una disposición sin datos', () => {
+	it('no inventa medidas pendientes y usa la misma pauta inicial que el selector', () => {
 		const d = disposicionesDeQuebrados(catalogo(), 'arquitectura');
 		expect(medidasDeLosQuebrados(d, [elegida(2, 4)])).toEqual([8, 4, 8, 8, null, 8]);
-		expect(medidasDeLosQuebrados(d, [])).toEqual([8, null, null, 8, null, null]);
+		expect(medidasDeLosQuebrados(d, [])).toEqual([8, 8, null, 8, 8, null]);
 	});
 	it('antes de migrar mantiene el control actual de las arquitecturas con un solo esquema', () => {
 		const d = catalogo();
 		d.metricPatterns = d.metricPatterns.slice(0, 1);
 		expect(disposicionesDeQuebrados(d, 'arquitectura')).toEqual([]);
+	});
+	it('elegir una disposición deja pendientes solo sus quebrados, aun sin medir ninguno', () => {
+		const s = disposicionesDeQuebrados(catalogo(), 'arquitectura');
+		expect(medidasDeLosQuebrados(s, [], s[0].id)).toEqual([8, 8, null, 8, 8, null]);
+		expect(medidasDeLosQuebrados(s, [], s[1].id)).toEqual([8, null, 8, 8, null, 8]);
+		const q = disposicionesDeQuebrados(catalogo(5), 'arquitectura');
+		expect(medidasDeLosQuebrados(q, [], q[1].id)).toEqual([null, 8, 8, 8, 8]);
+		expect(medidasDeLosQuebrados(q, [], q[2].id)).toEqual([8, null, 8, 8, null]);
+		expect(medidasDeLosQuebrados(q, [elegida(2, 4)], q[2].id)).toEqual([8, 4, 8, 8, null]);
 	});
 	it('una licencia no obliga a medir todos los versos aunque todos sean candidatos', () => {
 		const opciones = Array.from({ length: 8 }, (_, i) =>

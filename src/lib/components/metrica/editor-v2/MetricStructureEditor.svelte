@@ -243,6 +243,29 @@
 	 * quiebro.
 	 */
 	let rasgosPedidos = $state<string[]>([]);
+	/** La pauta elegida antes de medir: estado de edición, no una respuesta persistida. */
+	let pautasPendientes = $state<Record<string, { id: string; respuesta: string }>>({});
+	const firmaDeMedidas = (ids: string[]) => [...ids].sort().join('|');
+	function recordarPauta(groupId: string, unitId: string, ids: string[], id?: string) {
+		const clave = `${unitId}:${groupId}`;
+		if (id) pautasPendientes[clave] = { id, respuesta: firmaDeMedidas(ids) };
+		else delete pautasPendientes[clave];
+	}
+	/** Una pauta recién elegida no puede guardarse como «sin quebrados» por faltar medidas. */
+	export function validarDisposicionesPendientes(): string | null {
+		for (const [clave, pauta] of Object.entries(pautasPendientes)) {
+			const [unitId, groupId] = clave.split(':');
+			if (!props.units.some((u: MetricUnitDraft) => u.realizacion_id === unitId)) continue;
+			const ids = selectedChoiceIds(groupId, unitId);
+			if (firmaDeMedidas(ids) !== pauta.respuesta) continue;
+			const opciones = optionsForGroup(groupId);
+			const disposicion = disposicionesDeOpciones(opciones).find((d) => d.id === pauta.id);
+			if (disposicion && ids.length < disposicion.posiciones.length) {
+				return 'Completa la medida de los quebrados de la disposición elegida.';
+			}
+		}
+		return null;
+	}
 	function esLicenciaSinUsar(pregunta: PreguntaFormulario): boolean {
 		if (pregunta.groups.some((group) => Number(group.selecciones_min ?? 0) >= 1)) return false;
 		if (!esLicencia(pregunta)) return false;
@@ -528,9 +551,11 @@
 	function setChoices(
 		group: MetricCatalogDomainRow,
 		unit: MetricUnitDraft,
-		optionIds: string[]
+		optionIds: string[],
+		disposicionId?: string
 	) {
 		const groupId = String(group.grupo_eleccion_id);
+		recordarPauta(groupId, unit.realizacion_id, optionIds, disposicionId);
 		mantenerDisposicionAbierta(groupId);
 		const nextChoices = escribirRespuesta(
 			props.choices,
@@ -1273,7 +1298,8 @@
 				const opciones = optionsForGroup(groupId);
 				const disposiciones = disposicionesDeOpciones(opciones);
 				if (disposiciones.length > 1) {
-					const serie = medidasDeLosQuebrados(disposiciones, opciones.filter((o) => elegidas.includes(String(o.opcion_eleccion_id))));
+					const pauta = pautasPendientes[`${parte.realizacion_id}:${groupId}`];
+					const serie = medidasDeLosQuebrados(disposiciones, opciones.filter((o) => elegidas.includes(String(o.opcion_eleccion_id))), pauta?.respuesta === firmaDeMedidas(elegidas) ? pauta.id : undefined);
 					serie.forEach((silabas, indice) => {
 						const posicion = desplazamiento + indice + 1;
 						if (silabas === null) pendientesDePatron.add(posicion);
@@ -1503,7 +1529,7 @@
 				letra && letra !== '-' && silabas !== null && silabas !== undefined
 					? normalizeRhymeSymbol(letra, silabas)
 					: letra;
-			piezas.push(`${silabas ?? ''}${simbolo}`);
+			piezas.push(`${silabas ?? (pendientes.has(posicion) ? 'q' : '')}${simbolo}`);
 		}
 		const escrita = piezas.join(' ').replace(/\s\|\s/gu, ' | ').trim();
 		return escrita ? escrita : null;
@@ -1668,9 +1694,16 @@
 	}
 
 	/** Responder arriba escribe en las que siguen la norma, y deja en paz a las que se apartan. */
-	function responderEnTodas(pregunta: PreguntaFormulario, slugs: string[]) {
+	function responderEnTodas(pregunta: PreguntaFormulario, slugs: string[], disposicionId?: string) {
 		mantenerDisposicionAbierta(String(pregunta.groups[0]?.grupo_eleccion_id));
-		aplicarComun(pregunta, slugs, siguenLaNorma(pregunta));
+		const destinatarias = siguenLaNorma(pregunta);
+		for (const { group, owner } of pregunta.destinatarias) {
+			if (destinatarias && !destinatarias.has(owner.realizacion_id)) continue;
+			const groupId = String(group.grupo_eleccion_id);
+			const ids = optionsForGroup(groupId).filter((o) => slugs.includes(String(o.slug))).map((o) => String(o.opcion_eleccion_id));
+			recordarPauta(groupId, owner.realizacion_id, ids, disposicionId);
+		}
+		aplicarComun(pregunta, slugs, destinatarias);
 	}
 
 	/** Cambiar de pauta borra sus medidas; la licencia debe seguir abierta para medir las nuevas. */
@@ -2904,7 +2937,7 @@
 			options={optionsForGroup(groupId)}
 			normaEsquema={normaEsquemaDe(group, pregunta.owner)}
 			selectedIds={selectedChoiceIds(groupId, unit.realizacion_id)}
-			onChange={(ids) => setChoices(group, unit, ids)}
+			onChange={(ids, pauta) => setChoices(group, unit, ids, pauta)}
 			textValue={choiceTextValue(groupId, unit.realizacion_id)}
 			onTextChange={(value) => setChoiceText(group, unit, value)}
 			onApplyAll={!respondePorPartes && familia === null && equivalentes > 1
@@ -3518,7 +3551,7 @@
 						options={comunOptions(pregunta)}
 						normaEsquema={normaEsquemaComun(pregunta)}
 						selectedIds={idsComunes(pregunta, state.generalSlugs)}
-						onChange={(ids) => responderEnTodas(pregunta, ids.map(optionSlugOf))}
+						onChange={(ids, pauta) => responderEnTodas(pregunta, ids.map(optionSlugOf), pauta)}
 						textValue={state.generalTexto}
 						onTextChange={(value) => responderEnTodasTexto(pregunta, value)}
 					/>
@@ -3534,7 +3567,7 @@
 					ariaLabel={pregunta.rotulo}
 					positionLimit={comunPositionLimit(pregunta)}
 					medidasFijas={medidasFijasComunes(pregunta)}
-					onChoose={(slugs) => responderEnTodas(pregunta, slugs)}
+					onChoose={(slugs, pauta) => responderEnTodas(pregunta, slugs, pauta)}
 				/>
 			{/if}
 		</div>

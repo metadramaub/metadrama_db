@@ -7,11 +7,11 @@ No aplicado a la base enlazada.
 
 - [Toda la prosa, antes y después](./prosa-pie-quebrado.md): definiciones, descripciones,
   notas, ayudas y afirmaciones de fuentes, con sus localizadores.
-- [Migración preparada](./migraciones-pendientes/20261026090000_el_quebrado_conserva_su_disposicion.sql).
+- [Migración preparada](../../supabase/migrations/20261026090000_el_quebrado_conserva_su_disposicion.sql).
 - [Revisión filológica inicial](./revision-pie-quebrado-2026-10.md).
 
-El SQL está deliberadamente fuera de `supabase/migrations`: un `db push` del otro chat
-no debe aplicar un cambio que necesita el control de disposiciones del formulario V2.
+El SQL se trasladó a `supabase/migrations` tras aprobar la prosa y probar el control
+de disposiciones integrado en el V2, dentro de la obra asignada Fuenteovejuna.
 La prosa del SQL coincide con los bloques «Después» del documento de revisión.
 Tras la revisión, la nota de la quintilla enumera las dos disposiciones sin instrucciones
 de registro. Se retiran también las negritas de las definiciones, descripciones y fuentes
@@ -129,13 +129,18 @@ de conformidad sobre el catálogo aislado con las filas de la vista de opciones 
 para su lectura local: **0 defectos**. Esto comprueba el modelo del catálogo; no sustituye
 la comprobación del recorrido completo de guardado tras el despliegue.
 
-La interfaz supera 62 pruebas relacionadas, `npm run check` sin errores ni avisos y
+La interfaz supera 63 pruebas relacionadas, `npm run check` sin errores ni avisos y
 `npm run build`. Los controles se comprobaron también en navegador con los componentes
 reales y los nuevos patrones, sin escribir anotaciones en la base compartida.
 
-La prosa está aprobada. Antes de aplicar a producción faltan terminar las copias y el
-snapshot de obras y publicar el V2 sin los commits del importador. Después se trasladará
-el borrador a `supabase/migrations`, se aplicará y se comprobarán la ficha pública, el
-guardado y los auditores del catálogo y de las anotaciones contra el resultado.
-La publicación está pendiente de autorización para reordenar los commits locales de
-`main`, conservando el contenido del importador en local.
+La prosa y la interfaz integrada están aprobadas. Las copias de esquema, datos y roles
+y el snapshot de 145 obras están en `backups/`. El reordenamiento de los commits locales
+de `main` está autorizado para publicar este cambio y conservar el importador en local.
+La migración se aplicará después de comprobar el despliegue del V2; después se verificarán
+el catálogo vivo, la ficha pública y la conservación de las anotaciones.
+
+Elegir una disposición deja pendientes solo sus quebrados, que se muestran con `q`
+hasta medirlos. La pauta pendiente se conserva durante la edición tanto en la respuesta
+común como en la unidad, sin crear una respuesta persistida adicional. El guardado
+comprueba también ese estado para que una quintilla con quiebros aún sin medir no se
+guarde como una quintilla sin quebrados.
