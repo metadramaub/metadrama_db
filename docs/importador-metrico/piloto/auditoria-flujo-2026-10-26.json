@@ -1,0 +1,164 @@
+{
+  "campos_fuente": [
+    {
+      "column_name": "fuente_autoria",
+      "is_nullable": "YES",
+      "table_name": "atribucion_evidencias",
+      "udt_name": "text"
+    },
+    {
+      "column_name": "fuente_autoria",
+      "is_nullable": "YES",
+      "table_name": "atribuciones",
+      "udt_name": "text"
+    },
+    {
+      "column_name": "editor_asignado",
+      "is_nullable": "YES",
+      "table_name": "obras",
+      "udt_name": "uuid"
+    },
+    {
+      "column_name": "fuente_fecha",
+      "is_nullable": "YES",
+      "table_name": "obras",
+      "udt_name": "text"
+    },
+    {
+      "column_name": "genero_id",
+      "is_nullable": "YES",
+      "table_name": "obras",
+      "udt_name": "uuid"
+    }
+  ],
+  "fecha_consulta": "2026-10-26",
+  "funciones": [
+    {
+      "definicion": "CREATE OR REPLACE FUNCTION public.can_view_obra_ficha_publica(p_obra_id uuid, p_include_hidden boolean DEFAULT false)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n\tselect exists (\n\t\tselect 1\n\t\tfrom public.obras o\n\t\tjoin public.vocabularios estado\n\t\t\ton estado.termino_id = o.estado\n\t\t\tand estado.categoria = 'estado'\n\t\twhere o.obra_id = p_obra_id\n\t\t\tand (\n\t\t\t\t(\n\t\t\t\t\tlower(estado.termino) = 'publicado'\n\t\t\t\t\tand (\n\t\t\t\t\t\tcoalesce(o.visible_publico, false)\n\t\t\t\t\t\tor (\n\t\t\t\t\t\t\tcoalesce(p_include_hidden, false)\n\t\t\t\t\t\t\tand (\n\t\t\t\t\t\t\t\tpublic.auth_is_admin_or_ip()\n\t\t\t\t\t\t\t\tor o.editor_asignado = auth.uid()\n\t\t\t\t\t\t\t)\n\t\t\t\t\t\t)\n\t\t\t\t\t)\n\t\t\t\t)\n\t\t\t\tor (\n\t\t\t\t\tlower(estado.termino) in ('vista_previa', 'listo_para_publicar')\n\t\t\t\t\tand (\n\t\t\t\t\t\tpublic.auth_is_admin_or_ip()\n\t\t\t\t\t\tor o.editor_asignado = auth.uid()\n\t\t\t\t\t)\n\t\t\t\t)\n\t\t\t)\n\t);\n$function$\n",
+      "nombre": "can_view_obra_ficha_publica"
+    },
+    {
+      "definicion": "CREATE OR REPLACE FUNCTION public.obra_publica_visible(p_obra_id uuid)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n  select exists (\n    select 1\n    from public.obras o\n    join public.vocabularios v on v.termino_id = o.estado\n    where o.obra_id = p_obra_id\n      and v.categoria = 'estado'\n      and lower(v.termino) = 'publicado'\n      and coalesce(o.visible_publico, false) = true\n  );\n$function$\n",
+      "nombre": "obra_publica_visible"
+    },
+    {
+      "definicion": "CREATE OR REPLACE FUNCTION public.obras_enforce_public_visibility()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare\n\tv_publicado_id uuid;\nbegin\n\tselect termino_id\n\tinto v_publicado_id\n\tfrom public.vocabularios\n\twhere categoria = 'estado'\n\t\tand lower(termino) = 'publicado'\n\tlimit 1;\n\n\tif v_publicado_id is null then\n\t\traise exception 'No existe estado=publicado en vocabularios';\n\tend if;\n\n\tif coalesce(new.visible_publico, false)\n\t\tand new.estado is distinct from v_publicado_id then\n\t\traise exception using\n\t\t\terrcode = '23514',\n\t\t\tmessage = 'visible_publico solo puede activarse cuando la obra esta en estado publicado';\n\tend if;\n\n\tif tg_op = 'UPDATE'\n\t\tand old.estado = v_publicado_id\n\t\tand new.estado is distinct from v_publicado_id then\n\t\tnew.visible_publico := false;\n\tend if;\n\n\treturn new;\nend;\n$function$\n",
+      "nombre": "obras_enforce_public_visibility"
+    },
+    {
+      "definicion": "CREATE OR REPLACE FUNCTION public.perfil_metrico_unidades()\n RETURNS TABLE(autor_id uuid, scope text, obra_id uuid, jornada_id uuid, jornada_v_ini integer, jornada_v_fin integer)\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n  with grupos_mono as (\n    -- grupos con EXACTAMENTE una atribución perfil_metrico=true\n    -- (uuid no tiene agregado min/max; como count=1, array_agg[1] toma el único valor)\n    select a.grupo_atribucion_id, (array_agg(a.atribucion_id))[1] as atribucion_id\n    from public.atribuciones a\n    where a.perfil_metrico\n    group by a.grupo_atribucion_id\n    having count(*) = 1\n  ),\n  atrib_mono as (\n    -- de esas, las que tienen EXACTAMENTE un autor\n    select gm.grupo_atribucion_id, gm.atribucion_id, (array_agg(aa.autor_id))[1] as autor_id\n    from grupos_mono gm\n    join public.atribucion_autores aa on aa.atribucion_id = gm.atribucion_id\n    group by gm.grupo_atribucion_id, gm.atribucion_id\n    having count(*) = 1\n  )\n  select\n    am.autor_id,\n    case when g.obra_id is not null then 'obra' else 'jornada' end as scope,\n    coalesce(g.obra_id, j.obra_id) as obra_id,\n    g.jornada_id,\n    j.v_ini,\n    j.v_fin\n  from atrib_mono am\n  join public.grupos_atribucion g on g.grupo_atribucion_id = am.grupo_atribucion_id\n  left join public.jornadas j on j.jornada_id = g.jornada_id;\n$function$\n",
+      "nombre": "perfil_metrico_unidades"
+    },
+    {
+      "definicion": "CREATE OR REPLACE FUNCTION public.validate_atribucion_evidencia_vocab_refs()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare\n\tv_tipo_categoria text;\nbegin\n\tselect categoria\n\tinto v_tipo_categoria\n\tfrom public.vocabularios\n\twhere termino_id = new.tipo_atribucion_id;\n\n\tif v_tipo_categoria is distinct from 'tipo_atribucion' then\n\t\traise exception using\n\t\t\terrcode = '23514',\n\t\t\tmessage = 'tipo_atribucion_id debe apuntar a vocabularios.categoria=tipo_atribucion';\n\tend if;\n\n\treturn new;\nend;\n$function$\n",
+      "nombre": "validate_atribucion_evidencia_vocab_refs"
+    },
+    {
+      "definicion": "CREATE OR REPLACE FUNCTION public.validate_atribucion_vocab_refs()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare\n\tv_tipo_categoria text;\n\tv_modalidad_categoria text;\n\tv_composicion_categoria text;\nbegin\n\tselect categoria into v_tipo_categoria\n\tfrom public.vocabularios\n\twhere termino_id = new.tipo_atribucion_id;\n\n\tif v_tipo_categoria is distinct from 'tipo_atribucion' then\n\t\traise exception using\n\t\t\terrcode = '23514',\n\t\t\tmessage = 'tipo_atribucion_id debe apuntar a vocabularios.categoria=tipo_atribucion';\n\tend if;\n\n\tselect categoria into v_modalidad_categoria\n\tfrom public.vocabularios\n\twhere termino_id = new.modalidad_atribucion_id;\n\n\tif v_modalidad_categoria is distinct from 'modalidad_atribucion' then\n\t\traise exception using\n\t\t\terrcode = '23514',\n\t\t\tmessage = 'modalidad_atribucion_id debe apuntar a vocabularios.categoria=modalidad_atribucion';\n\tend if;\n\n\tif new.composicion_autoria_id is not null then\n\t\tselect categoria into v_composicion_categoria\n\t\tfrom public.vocabularios\n\t\twhere termino_id = new.composicion_autoria_id;\n\n\t\tif v_composicion_categoria is distinct from 'composicion_autoria' then\n\t\t\traise exception using\n\t\t\t\terrcode = '23514',\n\t\t\t\tmessage = 'composicion_autoria_id debe apuntar a vocabularios.categoria=composicion_autoria';\n\t\tend if;\n\tend if;\n\n\treturn new;\nend;\n$function$\n",
+      "nombre": "validate_atribucion_vocab_refs"
+    }
+  ],
+  "origen": "SELECT de solo lectura; sin modificar vocabularios, atribuciones ni estados",
+  "vocabularios": [
+    {
+      "categoria": "composicion_autoria",
+      "termino": "colaborada",
+      "termino_id": "9c8fb9aa-0d4a-4a0a-b43f-35d2c4f3f102"
+    },
+    {
+      "categoria": "composicion_autoria",
+      "termino": "desconocida",
+      "termino_id": "9c8fb9aa-0d4a-4a0a-b43f-35d2c4f3f103"
+    },
+    {
+      "categoria": "composicion_autoria",
+      "termino": "individual",
+      "termino_id": "9c8fb9aa-0d4a-4a0a-b43f-35d2c4f3f101"
+    },
+    {
+      "categoria": "estado",
+      "termino": "borrador",
+      "termino_id": "2c84bf0c-f17f-42fc-8a66-2c9f10bd18c3"
+    },
+    {
+      "categoria": "estado",
+      "termino": "en_revision",
+      "termino_id": "a479c256-151d-488c-b098-6b554f0b3ea2"
+    },
+    {
+      "categoria": "estado",
+      "termino": "listo_para_publicar",
+      "termino_id": "602b1d44-dc8e-4754-b4ed-61fc48422e64"
+    },
+    {
+      "categoria": "estado",
+      "termino": "publicado",
+      "termino_id": "d0c8bbe1-8737-4f5e-87cc-2592a41a033f"
+    },
+    {
+      "categoria": "estado",
+      "termino": "vista_previa",
+      "termino_id": "93e52b62-2d7f-408a-bc99-8a51ae02aa4e"
+    },
+    {
+      "categoria": "genero",
+      "termino": "auto_sacramental",
+      "termino_id": "f5134af0-6c04-4d1f-8b02-9695b83baecb"
+    },
+    {
+      "categoria": "genero",
+      "termino": "comedia_o_tragicomedia",
+      "termino_id": "35a5e896-e622-49cd-a85e-fe61b9db2ea1"
+    },
+    {
+      "categoria": "genero",
+      "termino": "entremés",
+      "termino_id": "2d195eb3-0279-4a73-8e74-4bacab6c30a5"
+    },
+    {
+      "categoria": "genero",
+      "termino": "loa",
+      "termino_id": "7dde1992-ad94-47c8-948b-1ab00137f540"
+    },
+    {
+      "categoria": "genero",
+      "termino": "tragedia",
+      "termino_id": "0146d93a-dec3-4118-a043-fac0d24a957c"
+    },
+    {
+      "categoria": "modalidad_atribucion",
+      "termino": "alternativa",
+      "termino_id": "e0908d4d-eadb-493e-b1ba-a40c17694632"
+    },
+    {
+      "categoria": "modalidad_atribucion",
+      "termino": "colaborativa",
+      "termino_id": "2a39abc6-588b-4e1b-9a39-dc147e1befaf"
+    },
+    {
+      "categoria": "modalidad_atribucion",
+      "termino": "desconocida",
+      "termino_id": "0e7099ae-8ea3-4b9e-bb57-db6f003b02f1"
+    },
+    {
+      "categoria": "modalidad_atribucion",
+      "termino": "unica",
+      "termino_id": "8762cbd9-b92f-4619-b1f4-33c34ec72008"
+    },
+    {
+      "categoria": "tipo_atribucion",
+      "termino": "estilometria_lexica",
+      "termino_id": "1f528a44-cbf0-43c6-ae47-d64f4a5bd048"
+    },
+    {
+      "categoria": "tipo_atribucion",
+      "termino": "propuesta_versologia",
+      "termino_id": "9c8fb9aa-0d4a-4a0a-b43f-35d2c4f3f104"
+    },
+    {
+      "categoria": "tipo_atribucion",
+      "termino": "tradicional",
+      "termino_id": "de6e3214-ee01-40da-b4fc-ddfccc97c5df"
+    }
+  ]
+}

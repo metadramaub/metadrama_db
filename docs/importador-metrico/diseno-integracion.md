@@ -1,10 +1,10 @@
 # Integración del corpus mínimo: base compartida, métrica separada
 
-Diseño de trabajo del 22 de octubre de 2026. Recoge las decisiones de la conversación y el
+Diseño iniciado el 22 y revisado el 26 de octubre de 2026. Recoge las decisiones de la conversación y el
 contraste con el esquema vivo. **No es una migración ni describe funciones ya implementadas.**
 Los nombres nuevos de tablas y campos son orientativos; el piloto sigue en archivos locales.
 La propuesta de [campos mínimos y conexiones](./campos-minimos.md) concreta este diseño:
-obligatoriedad, referencias, detalles opcionales y selección de una base analítica revisada.
+obligatoriedad, referencias, detalles opcionales y revisión editorial con estructura reutilizable.
 
 ## Decisiones que delimitan el diseño
 
@@ -49,6 +49,11 @@ perfiles, distancias y carga del laboratorio. Por ejemplo, el checklist actual c
 existencia de anotación v2; una mínima no debe satisfacer esa revisión. La creación habitual
 exige editor asignado, mientras que importar y asignar después son operaciones diferentes.
 
+La [consulta del 26 de octubre](../../scripts/importador-metrico/auditar-flujo-minimo.sql) y su
+[evidencia](./piloto/auditoria-flujo-2026-10-26.json) confirman que fuentes de datación y autoría
+pueden quedar vacías. `minima_validada` todavía no existe; se propone como estado específico para
+habilitar el corpus mínimo sin utilizar la publicación de fichas completas.
+
 ## Persistencia propuesta
 
 La separación es entre **dos representaciones métricas con distinta profundidad**, dentro de una
@@ -60,8 +65,8 @@ misma identidad de obra. No se crea otra tabla de obras ni otra colección paral
 | `jornadas`, `secuencias_metricas` | Rangos comunes. Cambio de forma A → B → A produce tres secuencias. Sinopsis y caracterizaciones no estudiadas permanecen desconocidas |
 | Nueva `secuencias_metrica_minima` | Una anotación mínima vigente por secuencia, con forma identificada opcional, arquitectura opcional, estado de identificación, revisión y procedencia. Arquitectura conocida debe pertenecer a la forma; pendiente no es una nueva forma del catálogo |
 | Candidatas y detalles mínimos | Información dependiente de la anotación mínima: alternativas con alcance exhaustivo u orientativo; metros, rima, remates o desviaciones solo cuando la fuente los sostenga. No son filas de `anotacion_elecciones` ni de `anotacion_realizaciones` |
-| Registro de importación y evidencia | Original transcrito, fuente/localizador, hashes, versiones de prompt, catálogo y correspondencias, aceptación humana y transformaciones. Puede vincular varias filas con varias secuencias |
-| Validación analítica versionada | Registra qué versión de datos se revisó, incidencias y cobertura. Importación válida, transcripción aceptada y aptitud para un análisis son comprobaciones distintas |
+| Registro de importación y evidencia | Original, fuente, versiones y transformaciones. Incluye una copia fija de los datos mínimos validados, con su estructura, para que la edición posterior no altere el referente |
+| Validación de la mínima | Estado que habilita su uso cuantitativo; se propone `minima_validada`. Se registra quién importa y valida. Una única importación validada por obra puede quedar marcada para el corpus hasta que la sustituya la completa publicada |
 
 El SQL concreto debe fijar los campos y los detalles que merecen tablas hijas tipadas. No se plantea
 resolverlo con texto libre usado como hechos ni replicando las preguntas obligatorias de v2.
@@ -73,10 +78,12 @@ produce una nueva interpretación revisable; no cambia silenciosamente todas las
 La procedencia debe admitir una fila editorial dividida en tres secuencias y también filas que
 terminen representando una misma secuencia, sin perder la declaración original.
 
-Las fechas y su fuente se requieren para incorporar una mínima al corpus cronológico. Se conservan
-intervalos y alternativas. Autoría y edición base se registran en el modelo común; una obra no se
-duplica en el referente por reimportarla o por disponer de dos ediciones. La elección de su base
-analítica será explícita, con revisión si cambia la edición o su numeración.
+Las fechas son obligatorias para el corpus cronológico; su fuente es opcional y puede ser la
+edición base si así se registra. El género es obligatorio, con Comedia preseleccionada para este
+lote. Se registra autor, sin exigir fundamentos de autoría en la mínima: se priorizan obras no
+discutidas. No se revisan ahora las atribuciones existentes. La edición base es obligatoria y se
+registra quién confirma la importación, independientemente de su futura asignación editorial.
+Una obra no se duplica por reimportarla o por trabajar después con otra edición.
 
 ## Casos que debe expresar la tabla mínima
 
@@ -100,6 +107,9 @@ Se propone una proyección analítica que traduzca cada fuente a un contrato com
 secuencia, rango, forma confirmada o desconocida, profundidad, evidencia y cobertura por dimensión.
 Los adaptadores de mínima y v2 alimentan ese contrato; los cálculos comunes se definen una sola vez.
 La proyección no completa datos ni transforma la mínima en anotación detallada.
+En términos de funcionamiento, el código sabe leer formas y rangos desde una u otra tabla para
+calcular medidas equivalentes. No implica validar la segmentación importada: el editor elige entre
+conservarla para corregirla o vaciarla, y revisa en todos los casos las propuestas métricas.
 
 No se cambia indiscriminadamente `formas_de_la_obra` para que cualquier lector público empiece
 a recibir datos mínimos. Se inventarían permisos y semánticas que sus consumidores no contemplan.
@@ -152,21 +162,24 @@ Se puede estudiar reutilizar el almacén materializado existente, pero sus restr
 deben adaptarse antes: añadir un tipo nuevo sin revisar las políticas actuales no garantiza que
 sea privado. Las mínimas no se marcan como publicadas para entrar en un cálculo.
 
-## Asignación y ampliación a ficha completa
+## Asignación y nuevo análisis completo
 
-La obra conserva su identidad al asignarse. El editor puede adoptar la base importada como punto
-de partida o revisarla desde cero. La mínima aceptada y su fuente siguen siendo consultables como
-evidencia; una anotación v2 se construye y valida con sus requisitos habituales.
+La obra conserva su identidad al asignarse. El editor puede mantener jornadas y secuencias para
+corregirlas o vaciar la estructura y empezar de nuevo. Puede cambiar la edición y sus metadatos.
+Al abrir una secuencia se presenta la propuesta del importador como referencia, sin convertirla
+en respuestas v2 ni darla por correcta. Los cambios de rango o edición no autorizan correspondencias
+automáticas con el tramo anterior.
 
-Puede haber trabajo detallado pendiente junto a una base mínima revisada, pero el análisis debe
-saber qué versión usa y contar la obra una sola vez. No se da prioridad a una anotación v2 solo
-por existir si todavía es un borrador. El cambio de base analítica se revisa y registra expresamente.
+El corpus conserva el aporte mínimo hasta publicar la completa, según la propuesta actual.
+Para ello usa `importaciones_metricas.datos_validados`, una copia fija de la estructura, métrica y
+metadatos aceptados. Es independiente de las secuencias editables y permite vaciarlas sin alterar
+el referente. Solo una importación validada por obra puede estar marcada `usada_en_corpus`.
+No se necesita un selector de versiones métricas generales en `obras`.
 
-Compartir secuencias obliga a gestionar sus cambios: dividir, fusionar o renumerar una secuencia
-puede invalidar la interpretación mínima vigente. No basta con guardar un `secuencia_id` y olvidar
-el rango que se revisó. Se conservarán los rangos de fuente y la versión aceptada; las modificaciones
-de estructura exigirán revisar vínculos y recalcular cobertura antes de actualizar el referente.
-No se sobrescribe trabajo editorial al reimportar.
+Al publicarse la completa, v2 sustituye ese aporte y se actualizan los agregados, contando una vez
+la obra. La copia mínima puede conservarse como documento histórico sin seguir aportando al corpus.
+No se sobrescribe trabajo completo mediante una reimportación; tampoco se mezclan la métrica de
+la edición importada y los metadatos del nuevo borrador.
 
 ## Orden de integración y verificación
 
@@ -175,7 +188,7 @@ pendientes. El diseño de almacenamiento y del contrato analítico puede avanzar
 casos actuales, mientras se amplían las equivalencias y se prepara la evaluación de sensibilidad.
 
 Antes de migrar se debe concretar el esquema mínimo con estos casos, el guardado transaccional,
-la reimportación y la selección de versión analítica. Después se incorporan almacenamiento y
+la reimportación, la conservación del aporte mínimo y la elección editorial de estructura. Después se incorporan almacenamiento y
 permisos compatibles; a continuación, lectores y cálculos con cobertura; finalmente, el recorrido
 de importación, ampliación editorial y selección de agregados para fichas. El referente ampliado
 no se publica como una matriz por obra.

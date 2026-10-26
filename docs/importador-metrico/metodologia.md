@@ -36,9 +36,22 @@ se representa como A → B → A, con tres secuencias y sin solapamientos. La tr
 editoriales a secuencias analíticas conserva su trazabilidad. Si la fuente no permite localizar
 una inserción o decidir su identificación, se registra la limitación sin inventar límites.
 
-Las fechas y su fuente forman parte de la ficha mínima destinada al corpus cronológico. Los
-intervalos y las dataciones alternativas se conservan; no se sustituyen silenciosamente por un
-año central.
+Las fechas son obligatorias para la ficha mínima destinada al corpus cronológico; su fuente es
+opcional, aunque puede ser la propia edición base. El género es obligatorio, con Comedia como
+valor inicial para este lote. Se registra el autor sin exigir fundamentos de autoría: se priorizan
+obras no discutidas y la fundamentación queda para la ficha completa. No se revisan ahora las
+atribuciones existentes. Los intervalos y las dataciones alternativas se conservan; no se
+sustituyen silenciosamente por un año central.
+
+Al pasar al trabajo completo, el editor elige entre conservar jornadas y secuencias para corregirlas
+o vaciar esa estructura. Al abrir una secuencia consulta la propuesta del importador, que no es una
+respuesta aceptada en v2. Puede escoger otra edición. La confianza en la edición como fuente del
+corpus mínimo no obliga a confiar en ella para el análisis detallado.
+
+Para que el trabajo en curso no altere el referente, se propone mantener la copia fija de la
+importación validada, incluidos sus metadatos y rangos, hasta publicar la completa. Entonces el
+análisis completo sustituye su aporte, sin contar la obra dos veces. La mínima puede conservarse
+como referencia después de dejar de contribuir; su permanencia documental no implica elegibilidad.
 
 ## Equivalencias y candidatas
 

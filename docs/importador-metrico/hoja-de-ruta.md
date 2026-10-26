@@ -13,8 +13,8 @@ importador del dashboard ni que se hayan ejecutado experimentos de sensibilidad 
 | 2. Referencia de transcripción | Inventario y extracciones revisadas de las veinte obras fotografiadas, empezando por una muestra pequeña para ajustar el procedimiento | Cada extracción aceptada tiene revisión humana y conserva las incidencias de la fuente |
 | 3. Correspondencias y prompt | Inventario de denominaciones, equivalencias revisadas, candidatas justificadas y prompt versionado; ampliar el repertorio con cada lote | Conocer qué se resuelve, qué queda abierto y qué errores introduce el procedimiento, sin exigir un repertorio exhaustivo |
 | 4. Sensibilidad | Resultados reproducibles de degradación y límites por lagunas sistemáticas | Determinar qué preguntas pueden responderse y con qué condiciones de cobertura |
-| 5. Modelo y contrato de análisis | Obras/jornadas/secuencias compartidas, tabla de métrica mínima separada de v2, procedencia, promoción y análisis con incertidumbre | Resolver con los casos reales las restricciones de integridad y los consumidores afectados; este diseño puede avanzar con las cuatro obras |
-| 6. Recorrido completo | Importar una obra real, revisar, guardar, incorporarla al referente elegible y asignarla para ampliación | Conservar evidencia, evitar duplicados y mantener el funcionamiento editorial existente, sin publicar la ficha mínima |
+| 5. Modelo y lectura para cálculos | Obras/jornadas/secuencias compartidas, tabla de métrica mínima separada de v2, procedencia y análisis con incertidumbre | Resolver con los casos reales las restricciones de integridad y los consumidores afectados; este diseño puede avanzar con las cuatro obras |
+| 6. Recorrido completo | Importar, validar y asignar; permitir corregir o vaciar la estructura y mostrar la propuesta importada en cada secuencia | Conservar el aporte mínimo mediante una copia fija durante la edición y sustituirlo por la completa al publicar, sin doble cómputo |
 | 7. Ampliación y resultados compartibles | Procesar más obras, ampliar equivalencias y seleccionar agregados del corpus mínimo/completo para contrastar fichas completas | Resultados interpretables y trazables con cobertura y universo explícitos; privacidad de las fichas mínimas de origen |
 
 Las etapas pueden solaparse: la extracción de las primeras obras permite empezar el inventario
@@ -39,10 +39,11 @@ permite calcular todavía tolerancias empíricas del corpus.
 | --- | --- |
 | Candidatas | Quién aprueba una correspondencia, qué evidencia la sostiene y cuándo la lista es exhaustiva o solo orientativa. No asignar pesos sin fundamento |
 | Aceptación de la extracción | Quién revisa, qué confirma y cómo se registran una fila ilegible o una inconsistencia de la propia fuente |
-| Fechas y autoría | Qué hacer con intervalos y propuestas alternativas; cómo seleccionar periodos y obras de autoría discutida sin fingir certeza |
+| Fechas y autoría | Fechas obligatorias con fuente opcional; autor sin fundamentos obligatorios, priorizando obras no discutidas. Concretar intervalos y alternativas para cada estudio |
 | Disponibilidad en la plataforma | Permisos por rol y elegibilidad por medida. Se mantiene el uso acordado de agregados del corpus mínimo en comparaciones de fichas completas |
-| Adopción por un editor | Cómo pasa una ficha mínima a trabajo detallado, conservando revisión pendiente, decisiones y procedencia |
-| Ediciones y reimportaciones | Cómo reconocer una obra existente, elegir su base analítica y actualizarla sin sobrescribir trabajo ni contar dos veces la obra |
+| Elaboración de la ficha completa | Elección entre conservar/corregir jornadas y secuencias o vaciarlas. Propuesta visible del importador sin aprobación automática en v2; copia mínima fija hasta publicar la completa |
+| Estado de mínima lista | Se propone Mínima validada, separado de Publicado. Revisión y permisos propios, con análisis para admin/IP y agregados seleccionados para fichas completas |
+| Ediciones y reimportaciones | Cómo reconocer una obra existente y actualizarla sin sobrescribir trabajo completo ni contar dos veces la obra |
 | Cálculo del referente | Si se resume por obra o por versos; excluir o incluir la obra de referencia de manera explícita; selección por periodo y cobertura |
 | Publicación de comparaciones | Qué evidencia, tamaño de muestra y estabilidad permiten redactar una comparación, y qué incertidumbre se muestra |
 | Archivos del piloto | Formato de intercambio, datos que se versionan y ubicación de fotografías y demás materiales externos |
@@ -52,8 +53,10 @@ políticas operativas no están cerradas. El [diseño de integración](./diseno-
 de las decisiones ya tomadas y del esquema vivo; concretar sus campos y garantías no equivale a
 aprobar ni aplicar una migración.
 La propuesta de [campos mínimos](./campos-minimos.md) ya define el almacenamiento separado,
-las referencias, los detalles parciales y la selección de versión analítica. Su traducción a SQL
-y contratos ejecutables deberá conservar esos casos y garantías.
+las referencias y los detalles parciales. La revisión del 26 de octubre sustituye el selector general
+de versiones por una copia fija en la importación validada. Permite editar o vaciar las secuencias de
+trabajo conservando el referente mínimo hasta publicar la completa. Su traducción a SQL y contratos
+ejecutables deberá conservar esos casos y garantías.
 
 ## Evaluación del procedimiento
 

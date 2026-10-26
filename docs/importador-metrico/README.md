@@ -20,7 +20,7 @@ describen capacidades ya disponibles en la plataforma.
 | [Metodología](./metodologia.md) | Acuerdos sobre fuentes, identificación, equivalencias, incertidumbre y comparabilidad |
 | [Hoja de ruta](./hoja-de-ruta.md) | Etapas, resultados necesarios, decisiones abiertas e integración técnica |
 | [Diseño de integración](./diseno-integracion.md) | Estructura compartida, tabla métrica mínima separada, contrato de análisis y resultados agregados para fichas completas |
-| [Campos mínimos y conexiones](./campos-minimos.md) | Campos propuestos, obligatoriedad, claves, detalles parciales, versiones revisadas y adaptación de los consumidores |
+| [Campos mínimos y conexiones](./campos-minimos.md) | Datos obligatorios, estado mínimo propuesto, propuesta visible en v2 y elección de conservar o reiniciar la estructura |
 | [Piloto](./piloto/README.md) | Materiales disponibles, referencias revisadas y procedimiento de los ensayos |
 | [Validador local](./validador-local.md) | Herramienta ya disponible para comprobar salidas nuevas del prompt sin depender del gold |
 | [Normalizador local](./normalizador-local.md) | Ensayo trazable sobre las cuatro transcripciones aceptadas; propuestas, candidatas y cobertura separadas |
@@ -33,10 +33,12 @@ Las propuestas abiertas no se presentan como acuerdos.
 
 ## Alcance acordado
 
-- La persona obtiene fotografías y metadatos, incluidas fechas y su fuente. Utiliza una IA externa
+- La persona obtiene fotografías y metadatos, incluidas fechas y, si se dispone de ella, su fuente. Utiliza una IA externa
   con un prompt preparado y pega su resultado en el futuro importador del dashboard.
-- El núcleo mínimo comprende identidad de la obra, autoría, edición base, datación con fuente,
-  jornadas y secuencias con rangos e identificación métrica hasta donde llegue la evidencia.
+- El núcleo mínimo comprende identidad de la obra, autor, género obligatorio —Comedia para este
+  lote—, edición base, fechas, jornadas y secuencias con rangos e identificación métrica hasta
+  donde llegue la evidencia. Fuente de datación y fundamentos de autoría son opcionales.
+- Se registra automáticamente quién importa y cuándo, sin asignarle por ello la ficha completa.
 - Se acepta lo declarado por la edición base. Comprobar errores filológicos de las ediciones no
   forma parte del piloto. Sí se comprueban la fidelidad de la extracción y su interpretación en
   nuestro catálogo.
@@ -44,8 +46,12 @@ Las propuestas abiertas no se presentan como acuerdos.
 - Algunas declaraciones permiten identificar arquitectura o rasgos; otras solo forma. Lo que no
   se puede identificar queda pendiente, conservando la denominación de la edición.
 - Personajes, sinopsis y caracterizaciones ajenas al análisis métrico quedan fuera del piloto.
-- Una ficha mínima debe poder asignarse después a un editor como punto de partida opcional para
-  una ficha completa, con revisión y ampliación explícitas.
+- Al asignarse una obra mínima, el editor podrá consultar lo importado como referencia de la
+  edición. Podrá conservar jornadas y secuencias para corregirlas o vaciarlas. Las propuestas
+  métricas se mostrarán al abrir una secuencia, sin darlas por aprobadas en v2. Puede cambiar de edición.
+- Para mantener el aporte mínimo durante la elaboración de la completa se propone una copia fija
+  de la importación validada, incluida su estructura y metadatos. Al publicarse la completa, esta
+  sustituye al aporte mínimo; conservar la importación como referencia no duplica su contribución.
 - Se ensayarán los datos y las equivalencias antes de construir toda la infraestructura.
 
 ## Base técnica acordada y desarrollo pendiente
