@@ -13,6 +13,9 @@ No aplicado a la base enlazada.
 El SQL está deliberadamente fuera de `supabase/migrations`: un `db push` del otro chat
 no debe aplicar un cambio que necesita el control de disposiciones del formulario V2.
 La prosa del SQL coincide con los bloques «Después» del documento de revisión.
+Tras la revisión, la nota de la quintilla enumera las dos disposiciones sin instrucciones
+de registro. Se retiran también las negritas de las definiciones, descripciones y fuentes
+de todo el catálogo; las guardas mantienen los valores anteriores exactos.
 
 ## Paginación contrastada visualmente
 
