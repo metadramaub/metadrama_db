@@ -20,7 +20,7 @@ Generado de las cuatro extracciones. Se conservan variantes literales, sin fusio
 | soneto | 2 | 28 | soneto | equivalencia_propuesta | soneto/endecasilabica_consonante | pendiente |
 | tercetos | 2 | 272 | tercetos-sin-precisar | candidatas_orientativas | terceto; terceto_encadenado | pendiente |
 | tercetos encadenados | 4 | 431 | tercetos-encadenados | equivalencia_propuesta | terceto_encadenado | pendiente |
-| tercetos encadenados con serventesio final | 2 | 170 | tercetos-serventesio | equivalencia_propuesta | terceto_encadenado | pendiente |
+| tercetos encadenados con serventesio final | 2 | 170 | tercetos-serventesio | equivalencia_propuesta | terceto_encadenado | aceptada solo al nivel indicado |
 
 Referencia del catálogo: modelo 59, revisión 4948, consulta 2026-10-22. Es una consulta acotada, no una exportación completa.
 

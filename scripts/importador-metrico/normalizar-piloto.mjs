@@ -72,6 +72,7 @@ try {
 			[
 				'equivalencias.propuestas.json',
 				'catalogo-referencia.json',
+				'auditoria-tercetos-2026-10-26.json',
 				'segmentacion.propuestas.json',
 				'revision-humana.json',
 				'bibliografia-contraste.json'

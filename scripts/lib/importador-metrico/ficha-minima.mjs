@@ -220,6 +220,8 @@ export function validarFichaMinima(input, { catalogo } = {}) {
 							(seccion) =>
 								seccion.forma === s.identificacion_revisada.forma_slug &&
 								seccion.tipo_seccion === d.tipo_seccion &&
+								(seccion.versos_min == null || d.n_versos >= seccion.versos_min) &&
+								(seccion.versos_max == null || d.n_versos <= seccion.versos_max) &&
 								(!s.identificacion_revisada.arquitectura_slug ||
 									seccion.arquitectura === s.identificacion_revisada.arquitectura_slug)
 						)))

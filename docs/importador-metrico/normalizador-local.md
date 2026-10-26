@@ -56,12 +56,18 @@ Dos reglas aplicables al mismo literal son un conflicto que hay que resolver, no
 silenciosa. Todo destino debe existir en la referencia del catálogo y la arquitectura debe
 pertenecer a su forma.
 
-El MD [de apoyo al prompt](../../prompts/importador-metrico/referencia-equivalencias-v0.4.md)
+El MD [de apoyo al prompt](../../prompts/importador-metrico/referencia-equivalencias-v0.5.md)
 se genera desde esas mismas reglas. No se mantiene un segundo repertorio manual. Es apoyo
 para la normalización posterior a la extracción literal; no cambia el contrato del primer prompt.
 
 La regla de estancias está aprobada al nivel de forma: Canción, sin arquitectura, con remate
-declarado en pareado. No se exige consultar el texto para aplicarla. Las otras reglas generales
+declarado en pareado. La regla v0.5 de «tercetos encadenados con serventesio final» identifica
+Terceto encadenado, con remate final de un verso: el último terceto más ese verso forma el cierre
+3+1, sin una nueva forma ni secuencia. Conserva «serventesio final» como literal de la edición.
+La arquitectura queda sin determinar; no se infiere el metro. La sección Remate de un verso
+está comprobada en ambas arquitecturas del catálogo vivo mediante
+[SELECT conservado](./piloto/auditoria-tercetos-2026-10-26.json).
+No se exige consultar el texto para aplicar estas equivalencias aprobadas. Las otras reglas generales
 siguen pendientes. La lectura bibliográfica se documenta en
 [el contraste de términos](./piloto/contraste-terminos.md). «Letrilla» tiene candidatas orientativas;
 «tercetos» conserva su ambigüedad sin un cotejo textual obligatorio.

@@ -106,11 +106,17 @@ La etiqueta y los nueve versos se conservan. Pasar de «sin candidatas» a una l
 
 ## Aplicación al piloto
 
-Las reglas v0.4 incorporan las referencias y la decisión explícita sobre las estancias. La
+Las reglas v0.5 incorporan las referencias y las decisiones explícitas sobre las estancias y
+los «tercetos encadenados con serventesio final». El responsable identifica estos últimos como
+Terceto encadenado con remate final de un verso: se conserva el cierre 3+1, sin transformar
+el último grupo en otra forma ni dividir la secuencia. El catálogo vivo confirma la sección
+Remate de un verso en ambas arquitecturas; la medida y la arquitectura permanecen sin decidir.
+Véase la [evidencia del SELECT](./auditoria-tercetos-2026-10-26.json). La
 aprobación procede del responsable, no de una autoevaluación bibliográfica de la IA. El lote
-conserva 11.754 versos: **67 con forma Canción revisada**, 11.406 con destino único propuesto y
+conserva 11.754 versos: **237 con forma revisada (67 de Canción y 170 de Terceto encadenado)**,
+11.236 con destino único propuesto y
 281 entre candidatas orientativas (272 de «tercetos» y 9 de «letrilla»). Las arquitecturas de
-los 67 versos permanecen sin identificar. No se exige resolver las ambigüedades mirando el texto
+los 237 versos permanecen sin identificar. No se exige resolver las ambigüedades mirando el texto
 ni se condiciona a ello el uso futuro de los datos que sí están identificados.
 
 La aceptación de las cuatro transcripciones permanece intacta. Las dos desviaciones acordadas

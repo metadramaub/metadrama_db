@@ -153,6 +153,12 @@ values(${lit(a.arquitectura_id)},${lit(f.forma_id)},${lit(a.slug)},${lit(a.nombr
 	seed += `insert into public.estructuras_secciones(arquitectura_id,tipo_seccion,nombre,slug,orden)
 select a.arquitectura_id,'remate','Remate o envío','remate',1 from public.arquitecturas_forma a
 join public.formas_metricas f using(forma_id) where f.slug='cancion';\n`;
+	for (const seccion of json('catalogo-referencia.json').secciones ?? []) {
+		const forma = json('catalogo-referencia.json').formas.find((f) => f.slug === seccion.forma);
+		const arquitectura = forma.arquitecturas.find((a) => a.slug === seccion.arquitectura);
+		seed += `insert into public.estructuras_secciones(arquitectura_id,tipo_seccion,nombre,slug,orden,versos_min,versos_max)
+values(${lit(arquitectura.arquitectura_id)},${lit(seccion.tipo_seccion)},${lit(seccion.seccion)},${lit(seccion.tipo_seccion)},${seccion.tipo_seccion === 'remate' ? 2 : 1},${seccion.versos_min},${seccion.versos_max});\n`;
+	}
 	for (const [slug, silabas] of [
 		['heptasilabo', 7],
 		['endecasilabo', 11],
@@ -189,8 +195,12 @@ values('prueba/corpus','corpus_comparativas','publico',2,'{}');\n` + sesion(2);
 		'no se fabrican anotaciones v2'
 	);
 	sql += ok(
-		'(select count(*)=1 from public.metrica_minima_secuencias where forma_id is not null and arquitectura_id is null)',
-		'Canción sin arquitectura'
+		'(select count(*)=3 from public.metrica_minima_secuencias where forma_id is not null and arquitectura_id is null)',
+		'Canción y dos pasajes de tercetos encadenados sin arquitectura'
+	);
+	sql += ok(
+		'(select sum(s.n_versos)=237 from public.metrica_minima_secuencias m join public.secuencias_metricas s using(secuencia_id) where m.forma_id is not null)',
+		'237 posiciones con forma revisada sin normalizar el denominador'
 	);
 	sql += ok(
 		'(select bool_and(importado_por=auth.uid() and confirmado_por=auth.uid()) from public.importaciones_metricas)',
@@ -212,6 +222,15 @@ values('prueba/corpus','corpus_comparativas','publico',2,'{}');\n` + sesion(2);
 		'misma petición con contenido cambiado se rechaza'
 	);
 	sql += rechaza(llamada(0, '', 9), '23505', 'otra petición no duplica título y autor');
+	sql += rechaza(
+		llamada(
+			1,
+			"||jsonb_build_object('metadatos',(datos->'metadatos')||jsonb_build_object('titulo','Remate incorrecto')) || jsonb_build_object('segmentos',jsonb_set(datos->'segmentos','{6,detalles_fuente,0,n_versos}','4'))",
+			12
+		),
+		'23514',
+		'el remate del terceto encadenado es un verso, no cuatro'
+	);
 	sql += rechaza(
 		llamada(
 			0,

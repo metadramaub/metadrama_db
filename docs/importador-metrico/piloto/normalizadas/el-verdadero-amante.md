@@ -2,7 +2,7 @@
 
 **Borrador de trabajo. No importado ni apto para incorporarse automáticamente al corpus.**
 
-Reglas v0.4; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
+Reglas v0.5; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
 
 Fechas conservadas: 1591–1595. Fuente: VEGA CARPIO, Lope de, El verdadero amante, ed. Eva Rodríguez, en Comedias de Lope de Vega. Parte XIV, coord. José Enrique López Martínez, Madrid, Gredos, 2015, 2 vols, II, pp. 203-378.
 
@@ -12,9 +12,9 @@ Denominador: 2878 versos con rango conocido; 0 segmentos sin rango. Las arquitec
 
 | Medida | Segmentos | Versos | % |
 | --- | --- | --- | --- |
-| forma revisada | 1 | 67 | 2.328 |
+| forma revisada | 3 | 237 | 8.235 |
 | arquitectura revisada | 0 | 0 | 0.000 |
-| forma solo propuesta | 18 | 2811 | 97.672 |
+| forma solo propuesta | 16 | 2641 | 91.765 |
 | arquitectura solo propuesta | 6 | 272 | 9.451 |
 | con candidatas | 0 | 0 | 0.000 |
 | sin resolver | 0 | 0 | 0.000 |
@@ -29,12 +29,12 @@ Denominador: 2878 versos con rango conocido; 0 segmentos sin rango. Las arquitec
 | t04 | 1 | 788–1051 | redondilla | propuesta | — | redondilla | — | — | — |
 | t05 | 2 | 1052–1201 | quintilla | propuesta | — | quintilla | — | — | — |
 | t06 | 2 | 1202–1417 | redondilla | propuesta | — | redondilla | — | — | — |
-| t07 | 2 | 1418–1460 | tercetos encadenados con serventesio final | propuesta | — | terceto_encadenado | — | serventesio final | — |
+| t07 | 2 | 1418–1460 | tercetos encadenados con serventesio final | revisada | terceto_encadenado | — | — | Remate: serventesio final | — |
 | t08 | 2 | 1461–1640 | redondilla | propuesta | — | redondilla | — | — | — |
 | t09 | 2 | 1641–1666 | romance en -io | propuesta | — | romance | — | -io | — |
 | t10 | 2 | 1667–1701 | endecasílabos sueltos con pareado final | propuesta | — | endecasilabo_suelto | — | pareado final | — |
 | t11 | 2 | 1702–1769 | redondilla | propuesta | — | redondilla | — | — | — |
-| t12 | 2 | 1770–1896 | tercetos encadenados con serventesio final | propuesta | — | terceto_encadenado | — | serventesio final | — |
+| t12 | 2 | 1770–1896 | tercetos encadenados con serventesio final | revisada | terceto_encadenado | — | — | Remate: serventesio final | — |
 | t13 | 2 | 1897–1960 | redondilla | propuesta | — | redondilla | — | — | — |
 | t14 | 2 | 1961–2016 | endecasílabos sueltos con pareado final | propuesta | — | endecasilabo_suelto | — | pareado final | — |
 | t15 | 3 | 2017–2064 | endecasílabos sueltos | propuesta | — | endecasilabo_suelto | — | — | — |

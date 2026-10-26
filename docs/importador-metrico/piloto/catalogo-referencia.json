@@ -420,5 +420,40 @@
   ],
   "fecha_consulta": "2026-10-22",
   "origen": "Supabase enlazado, consulta SELECT de solo lectura",
-  "consulta": "scripts/importador-metrico/catalogo-piloto.sql"
+  "consulta": "scripts/importador-metrico/catalogo-piloto.sql",
+  "secciones": [
+    {
+      "forma": "terceto_encadenado",
+      "arquitectura": "endecasilabica_consonante",
+      "seccion": "Cadena de tercetos",
+      "tipo_seccion": "terceto",
+      "versos_min": 3,
+      "versos_max": 3
+    },
+    {
+      "forma": "terceto_encadenado",
+      "arquitectura": "endecasilabica_consonante",
+      "seccion": "Remate",
+      "tipo_seccion": "remate",
+      "versos_min": 1,
+      "versos_max": 1
+    },
+    {
+      "forma": "terceto_encadenado",
+      "arquitectura": "octosilabica_consonante",
+      "seccion": "Cadena de tercetos",
+      "tipo_seccion": "terceto",
+      "versos_min": 3,
+      "versos_max": 3
+    },
+    {
+      "forma": "terceto_encadenado",
+      "arquitectura": "octosilabica_consonante",
+      "seccion": "Remate",
+      "tipo_seccion": "remate",
+      "versos_min": 1,
+      "versos_max": 1
+    }
+  ],
+  "secciones_procedencia": "auditoria-tercetos-2026-10-26.json"
 }

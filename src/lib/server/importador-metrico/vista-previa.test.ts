@@ -93,7 +93,7 @@ describe('vista previa del importador sin persistencia', () => {
 	it('acepta un bloque JSON y la ficha mínima del piloto', () => {
 		const vista = analizarEntrada('```json\n' + JSON.stringify(preparada) + '\n```');
 		expect(vista.errores).toEqual([]);
-		expect(vista.resumen?.forma_identificada).toBe(67);
+		expect(vista.resumen?.forma_identificada).toBe(237);
 		expect(
 			vista.filas.find((f) => f.forma_revisada === 'Canción')?.identificacion_revisada
 				?.arquitectura_slug

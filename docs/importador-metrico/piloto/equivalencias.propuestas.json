@@ -1,9 +1,9 @@
 {
   "esquema": "versologia-equivalencias-propuestas/0.1",
-  "fecha": "2026-10-22",
+  "fecha": "2026-10-26",
   "catalogo_referencia": "catalogo-referencia.json",
-  "estado": "propuestas_y_equivalencia_de_estancias_revisada",
-  "revisor_humano": "Responsable del proyecto, usuario de este chat (solo la regla de estancias)",
+  "estado": "propuestas_y_equivalencias_revisadas",
+  "revisor_humano": "Responsable del proyecto (estancias y tercetos encadenados con remate)",
   "aplicadas_a_las_extracciones": false,
   "reglas": [
     {
@@ -124,14 +124,25 @@
           "arquitectura_slug": null
         }
       ],
-      "exhaustividad": "pendiente_de_validacion",
-      "fundamento": "La definición del catálogo contempla el remate que hace leerse como cuarteto cruzado el final de la cadena. Revisar la correspondencia del serventesio sin partir automáticamente otra forma ni dar por respondida toda la estructura.",
+      "exhaustividad": "destino_unico_aprobado_solo_en_forma",
+      "fundamento": "Terceto encadenado con remate final de un verso (3+1), sin determinar arquitectura. La denominación editorial serventesio no se convierte en otra forma ni en otra secuencia.",
       "detalles_fuente": [
         {
           "literal": "serventesio final",
-          "estado": "pendiente_de_correspondencia_del_remate"
+          "dimension": "estructura",
+          "tipo_seccion": "remate",
+          "nombre": "Remate",
+          "n_versos": 1,
+          "posicion": "final",
+          "estado": "interpretacion_revisada",
+          "fundamento": "El verso de cierre completa la rima pendiente del último terceto. Se registra como remate de un verso dentro de la misma secuencia."
         }
-      ]
+      ],
+      "aprobacion": {
+        "responsable": "Responsable del proyecto",
+        "fecha": "2026-10-26",
+        "fundamento": "Equivalencia aceptada al nivel de forma y remate; arquitectura sin determinar."
+      }
     },
     {
       "id": "tercetos-sin-precisar",
@@ -231,7 +242,7 @@
         }
       ],
       "exhaustividad": "destino_unico_aprobado_solo_en_forma",
-      "fundamento": "Criterio de normalización aprobado por el responsable: la denominación estancias con pareado final se registra como Canción en el corpus mínimo, sin seleccionar arquitectura, esquema de rima, distribución de medidas ni patrón de estancia. La relación terminológica estancia/canción está documentada en los tratados. No se exige cotejo del texto para aplicar este nivel de identificación, ni se usa el pasaje particular de Morley y Bruerton para decidir otras obras. El pareado final se conserva como declaración de la edición, sin completar respuestas del registrador detallado.",
+      "fundamento": "Estancias con pareado final se identifica como Canción, sin determinar arquitectura. El pareado final se registra como remate de dos versos.",
       "detalles_fuente": [
         {
           "literal": "pareado final",
@@ -241,7 +252,7 @@
           "n_versos": 2,
           "posicion": "final",
           "estado": "interpretacion_revisada",
-          "fundamento": "El responsable precisa: «es el remate de la canción, que nuestro modelo ya permite». Se conserva como remate declarado, sin exigir completar la arquitectura ni materializar todas las estancias."
+          "fundamento": "El pareado final es el remate de la canción; no determina la arquitectura ni el patrón de las estancias."
         }
       ],
       "evidencias_bibliograficas": [
@@ -253,9 +264,9 @@
         "cancion_sin_rima_mb"
       ],
       "aprobacion": {
-        "responsable": "Responsable del proyecto, usuario de este chat",
+        "responsable": "Responsable del proyecto",
         "fecha": "2026-10-22",
-        "fundamento": "Decisión explícita: «las estancias sí que elegiría canción como forma, sin poder bajar más al detalla». Se acepta la correspondencia terminológica al nivel de forma; no requiere verificar el texto de cada pasaje. Precisión posterior del mismo responsable: el pareado final se interpreta como remate de la canción, sección ya admitida por el modelo."
+        "fundamento": "Equivalencia aceptada al nivel de forma y remate; arquitectura sin determinar."
       }
     },
     {
@@ -293,6 +304,6 @@
       ]
     }
   ],
-  "version": "v0.4",
+  "version": "v0.5",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }

@@ -37,7 +37,10 @@ try {
 			.vocabularios.filter((v) => v.categoria === 'genero')
 			.map((v) => v.termino),
 		metros: read('auditoria-campos-2026-10-22.json').metros_ejemplo.map((m) => m.slug),
-		secciones: read('auditoria-campos-2026-10-22.json').secciones_cancion
+		secciones: [
+			...(read('catalogo-referencia.json').secciones ?? []),
+			...read('auditoria-campos-2026-10-22.json').secciones_cancion
+		]
 	};
 	const revision = read('revision-humana.json');
 	const refs = revision.revisiones.map((r) => r.obra_ref).sort();

@@ -23,7 +23,7 @@ Se han comprobado parseo y estructura, metadatos mínimos, referencias a fotos y
 
 - **Matico:** «tercetos», t01 y t09, 272 versos. Terceto y Terceto encadenado son candidatas orientativas, sin selección automática por la longitud.
 
-- **El verdadero amante:** «estancias con pareado final», t02, 67 versos: Canción aceptada como forma, con remate en pareado declarado, sin arquitectura ni patrón de estancias. No se exige cotejar el texto. El cierre en serventesio de t07 y t12 se conserva sin crear automáticamente otra secuencia.
+- **El verdadero amante:** «estancias con pareado final», t02, 67 versos: Canción aceptada como forma, con remate en pareado declarado, sin arquitectura ni patrón de estancias. No se exige cotejar el texto. «Tercetos encadenados con serventesio final», t07 y t12, 170 versos: Terceto encadenado aceptado con remate final de un verso (3+1), sin arquitectura. Se conserva el literal editorial, sin otra forma ni otra secuencia.
 
 - **Los locos de Valencia:** criterio acordado: n01 es desviación de metro en v. 2172; n02 es adición estructural en v. 2666. El tramo t16 conserva 133 versos, de los que 132 forman 33 redondillas; no se parte ni se inventa laguna. Ver [decisiones](./segmentacion.propuestas.json).
 

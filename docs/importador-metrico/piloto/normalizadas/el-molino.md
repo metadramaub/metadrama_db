@@ -2,7 +2,7 @@
 
 **Borrador de trabajo. No importado ni apto para incorporarse automáticamente al corpus.**
 
-Reglas v0.4; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
+Reglas v0.5; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
 
 Fechas conservadas: 1585–1593. Fuente: VEGA CARPIO, Lope de, y Patrizia CAMPANA, El molino, en Comedias de Lope de Vega. Parte I, Lérida, Milenio-Universitat Autònoma de Barcelona, 1997, 3 vols, III, pp. 1547-1686.
 

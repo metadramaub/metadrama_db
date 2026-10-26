@@ -171,6 +171,8 @@ begin
         (v_detalle->>'n_versos')::integer>v_fin::bigint-v_inicio+1 or v_forma is null or not exists (
           select 1 from public.estructuras_secciones s join public.arquitecturas_forma a using(arquitectura_id)
           where a.forma_id=v_forma and a.activo and s.tipo_seccion=v_detalle->>'tipo_seccion'
+            and (s.versos_min is null or (v_detalle->>'n_versos')::integer>=s.versos_min)
+            and (s.versos_max is null or (v_detalle->>'n_versos')::integer<=s.versos_max)
             and (v_arquitectura is null or a.arquitectura_id=v_arquitectura))) then
         raise exception using errcode='23514',message='Detalle revisado sin contexto de catálogo o fuera del pasaje';
       end if;

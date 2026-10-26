@@ -22,9 +22,12 @@ la API de obras ni resuelve todavía el nombre de autor a un UUID de Supabase.
 - Distingue identificación revisada, propuesta única y candidatas. Una forma puede estar revisada
   con arquitectura desconocida o con candidatas de arquitectura, sin perder su cobertura de forma.
 - Comprueba destinos en las referencias conservadas del catálogo: formas, arquitecturas,
-  géneros, metros observados y remate de Canción. No utiliza una arquitectura principal por defecto.
-- Conserva los detalles pendientes de asonancia, dístico o serventesio sin convertirlos en respuestas
-  confirmadas. Admite el remate revisado y las desviaciones de metro y estructura del piloto.
+  géneros, metros observados y remates de Canción y Terceto encadenado. No utiliza una arquitectura principal por defecto.
+- Conserva los detalles pendientes de asonancia o dístico sin convertirlos en respuestas
+  confirmadas. Admite los remates revisados y las desviaciones de metro y estructura del piloto.
+  «Serventesio final» se conserva literalmente y se interpreta como remate de un verso del
+  Terceto encadenado, sin crear otra forma. Comprueba los límites de extensión de sección cuando
+  el catálogo de referencia los declara.
 - Conserva los versos añadidos en la extensión del pasaje. No genera unidades ni certifica
   conformidad estrófica mediante divisiones de longitud.
 
@@ -59,7 +62,8 @@ de integración; no se presentan como capacidades implementadas por estas prueba
 
 `resumirFichaMinima()` calcula extensión numerada, cobertura de forma y arquitectura y peso de
 cada forma revisada sobre el total. Las propuestas y candidatas permanecen en la parte pendiente.
-No renormaliza los 67 versos identificados del lote como si cubrieran las cuatro obras completas.
+No renormaliza los 237 versos identificados del lote (67 de Canción y 170 de Terceto encadenado)
+como si cubrieran las cuatro obras completas.
 
 Los bloques actuales proceden de filas editoriales y conservan segmentación provisional. El resumen
 no presenta su cantidad como número confirmado de secuencias métricas ni calcula transiciones.
@@ -90,7 +94,7 @@ en el módulo. No basta con validar contra el esquema JSON para aceptar una impo
 npx vitest run scripts/lib/importador-metrico/ficha-minima.test.mjs scripts/lib/importador-metrico/normalizacion.test.mjs scripts/lib/importador-metrico/validacion.test.mjs
 ```
 
-La batería conjunta tiene 110 pruebas: 45 nuevas y 65 anteriores. Incluye obligatorios/opcionales,
+La batería de contratos tiene 112 pruebas: 46 de ficha mínima y 66 de extracción y normalización. Incluye obligatorios/opcionales,
 referencias incoherentes, huecos y solapamientos, candidatas, detalles pendientes, las desviaciones,
 permisos sintéticos, independencia de la copia y reproducción de los derivados.
 

@@ -38,7 +38,7 @@ const referencia = {
 		.vocabularios.filter((v: { categoria: string }) => v.categoria === 'genero')
 		.map((v: { termino: string }) => v.termino),
 	metros: campos.metros_ejemplo.map((m: { slug: string }) => m.slug),
-	secciones: campos.secciones_cancion
+	secciones: [...(catalogo.secciones ?? []), ...campos.secciones_cancion]
 };
 const pilotos = [molino, amante, donaires, locos].map((entrada) => {
 	const datos = JSON.parse(entrada);

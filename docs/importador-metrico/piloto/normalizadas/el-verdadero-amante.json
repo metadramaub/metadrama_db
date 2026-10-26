@@ -3,7 +3,7 @@
   "estado": "borrador_de_trabajo",
   "apta_para_corpus": false,
   "obra_ref": "el-verdadero-amante",
-  "reglas_version": "v0.4",
+  "reglas_version": "v0.5",
   "catalogo_referencia": {
     "estado": {
       "actualizado_en": "2026-10-19T11:26:16.630786+00:00",
@@ -117,11 +117,11 @@
       "propuesta": null,
       "candidatas": [],
       "exhaustividad": null,
-      "fundamento": "Criterio de normalización aprobado por el responsable: la denominación estancias con pareado final se registra como Canción en el corpus mínimo, sin seleccionar arquitectura, esquema de rima, distribución de medidas ni patrón de estancia. La relación terminológica estancia/canción está documentada en los tratados. No se exige cotejo del texto para aplicar este nivel de identificación, ni se usa el pasaje particular de Morley y Bruerton para decidir otras obras. El pareado final se conserva como declaración de la edición, sin completar respuestas del registrador detallado.",
+      "fundamento": "Estancias con pareado final se identifica como Canción, sin determinar arquitectura. El pareado final se registra como remate de dos versos.",
       "aprobacion": {
-        "responsable": "Responsable del proyecto, usuario de este chat",
+        "responsable": "Responsable del proyecto",
         "fecha": "2026-10-22",
-        "fundamento": "Decisión explícita: «las estancias sí que elegiría canción como forma, sin poder bajar más al detalla». Se acepta la correspondencia terminológica al nivel de forma; no requiere verificar el texto de cada pasaje. Precisión posterior del mismo responsable: el pareado final se interpreta como remate de la canción, sección ya admitida por el modelo."
+        "fundamento": "Equivalencia aceptada al nivel de forma y remate; arquitectura sin determinar."
       },
       "evidencias_bibliograficas": [
         "estancia_diccionario",
@@ -140,7 +140,7 @@
           "n_versos": 2,
           "posicion": "final",
           "estado": "interpretacion_revisada",
-          "fundamento": "El responsable precisa: «es el remate de la canción, que nuestro modelo ya permite». Se conserva como remate declarado, sin exigir completar la arquitectura ni materializar todas las estancias."
+          "fundamento": "El pareado final es el remate de la canción; no determina la arquitectura ni el patrón de las estancias."
         }
       ],
       "caracterizaciones": [],
@@ -291,21 +291,31 @@
         "notas_ref": []
       },
       "regla_id": "tercetos-serventesio",
-      "estado_identificacion": "propuesta",
-      "identificacion_revisada": null,
-      "propuesta": {
+      "estado_identificacion": "revisada",
+      "identificacion_revisada": {
         "forma_slug": "terceto_encadenado",
         "arquitectura_slug": null
       },
+      "propuesta": null,
       "candidatas": [],
       "exhaustividad": null,
-      "fundamento": "La definición del catálogo contempla el remate que hace leerse como cuarteto cruzado el final de la cadena. Revisar la correspondencia del serventesio sin partir automáticamente otra forma ni dar por respondida toda la estructura.",
-      "aprobacion": null,
+      "fundamento": "Terceto encadenado con remate final de un verso (3+1), sin determinar arquitectura. La denominación editorial serventesio no se convierte en otra forma ni en otra secuencia.",
+      "aprobacion": {
+        "responsable": "Responsable del proyecto",
+        "fecha": "2026-10-26",
+        "fundamento": "Equivalencia aceptada al nivel de forma y remate; arquitectura sin determinar."
+      },
       "evidencias_bibliograficas": [],
       "detalles_fuente": [
         {
           "literal": "serventesio final",
-          "estado": "pendiente_de_correspondencia_del_remate"
+          "dimension": "estructura",
+          "tipo_seccion": "remate",
+          "nombre": "Remate",
+          "n_versos": 1,
+          "posicion": "final",
+          "estado": "interpretacion_revisada",
+          "fundamento": "El verso de cierre completa la rima pendiente del último terceto. Se registra como remate de un verso dentro de la misma secuencia."
         }
       ],
       "caracterizaciones": [],
@@ -468,21 +478,31 @@
         "notas_ref": []
       },
       "regla_id": "tercetos-serventesio",
-      "estado_identificacion": "propuesta",
-      "identificacion_revisada": null,
-      "propuesta": {
+      "estado_identificacion": "revisada",
+      "identificacion_revisada": {
         "forma_slug": "terceto_encadenado",
         "arquitectura_slug": null
       },
+      "propuesta": null,
       "candidatas": [],
       "exhaustividad": null,
-      "fundamento": "La definición del catálogo contempla el remate que hace leerse como cuarteto cruzado el final de la cadena. Revisar la correspondencia del serventesio sin partir automáticamente otra forma ni dar por respondida toda la estructura.",
-      "aprobacion": null,
+      "fundamento": "Terceto encadenado con remate final de un verso (3+1), sin determinar arquitectura. La denominación editorial serventesio no se convierte en otra forma ni en otra secuencia.",
+      "aprobacion": {
+        "responsable": "Responsable del proyecto",
+        "fecha": "2026-10-26",
+        "fundamento": "Equivalencia aceptada al nivel de forma y remate; arquitectura sin determinar."
+      },
       "evidencias_bibliograficas": [],
       "detalles_fuente": [
         {
           "literal": "serventesio final",
-          "estado": "pendiente_de_correspondencia_del_remate"
+          "dimension": "estructura",
+          "tipo_seccion": "remate",
+          "nombre": "Remate",
+          "n_versos": 1,
+          "posicion": "final",
+          "estado": "interpretacion_revisada",
+          "fundamento": "El verso de cierre completa la rima pendiente del último terceto. Se registra como remate de un verso dentro de la misma secuencia."
         }
       ],
       "caracterizaciones": [],
@@ -730,9 +750,9 @@
     "versos": 2878,
     "segmentos_sin_rango": 0,
     "forma_revisada": {
-      "segmentos": 1,
-      "versos": 67,
-      "porcentaje_sobre_rangos_conocidos": 2.3280055594162614
+      "segmentos": 3,
+      "versos": 237,
+      "porcentaje_sobre_rangos_conocidos": 8.23488533703961
     },
     "arquitectura_revisada": {
       "segmentos": 0,
@@ -740,9 +760,9 @@
       "porcentaje_sobre_rangos_conocidos": 0
     },
     "forma_solo_propuesta": {
-      "segmentos": 18,
-      "versos": 2811,
-      "porcentaje_sobre_rangos_conocidos": 97.67199444058375
+      "segmentos": 16,
+      "versos": 2641,
+      "porcentaje_sobre_rangos_conocidos": 91.76511466296039
     },
     "arquitectura_solo_propuesta": {
       "segmentos": 6,
@@ -776,8 +796,9 @@
     "fecha": "2026-10-22"
   },
   "entradas_sha256": {
-    "equivalencias.propuestas.json": "541676fdb83a34515e23ca896fddad125efca37ccedbcba412e8e4d6b1c5f454",
-    "catalogo-referencia.json": "6e4a85f49cc2071c9ea47e054bab7a4b16df45c9e61c5e3481eceb67d583d5b5",
+    "equivalencias.propuestas.json": "1b170b5cf19fb39f5c498797a3f5b20a220e5c8075e1ec30032b0cf66a963ef7",
+    "catalogo-referencia.json": "d6badfed625b31755d9549fd6d8362ab3ad09449f5c0d8c51cb6ca88b27a365f",
+    "auditoria-tercetos-2026-10-26.json": "433367a2e24b8e6e5fb213b907c2d810ff2078eda0e2364771070231e8cfc112",
     "segmentacion.propuestas.json": "66bfd37373162eaf06c046093f11cbd7188d0e72519bea0c30c6caefc738cd0f",
     "revision-humana.json": "81cebad4c31f2cdead342675b2d668cc50461187e2da5c600d69c6634ade24a0",
     "bibliografia-contraste.json": "6e31365d616e6222be70f396f3e653462fa29f0ab2e1e1ad5938236538c778ab"

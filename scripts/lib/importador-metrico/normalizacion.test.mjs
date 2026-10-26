@@ -43,7 +43,7 @@ describe('normalizador local', () => {
 		expect(JSON.parse(result.stdout)).toMatchObject({
 			obras: 4,
 			versos: 11754,
-			forma_revisada: 67
+			forma_revisada: 237
 		});
 	});
 	it('la CLI rechaza opciones no declaradas antes de regenerar archivos', () => {
@@ -73,7 +73,7 @@ describe('normalizador local', () => {
 			expect(result.segmentos.map((s) => s.fuente)).toEqual(input.tramos);
 			expect(result.segmentos).toHaveLength(input.tramos.length);
 			expect(result.apta_para_corpus).toBe(false);
-			expect(result.cobertura.forma_revisada.versos).toBe(ref === 'el-verdadero-amante' ? 67 : 0);
+			expect(result.cobertura.forma_revisada.versos).toBe(ref === 'el-verdadero-amante' ? 237 : 0);
 			total += result.cobertura.versos;
 		}
 		expect(total).toBe(11754);
@@ -127,7 +127,39 @@ describe('normalizador local', () => {
 		expect(row.detalles_fuente).toContainEqual(
 			expect.objectContaining({ literal: 'pareado final', tipo_seccion: 'remate', n_versos: 2 })
 		);
-		expect(result.cobertura.forma_revisada.versos).toBe(67);
+		expect(result.cobertura.forma_revisada.versos).toBe(237);
+		expect(result.cobertura.arquitectura_revisada.versos).toBe(0);
+	});
+	it('interpreta el serventesio final como un terceto encadenado más su remate de un verso', () => {
+		const result = normalizarExtraccion(raw('el-verdadero-amante'), context());
+		for (const [id, extension] of [
+			['t07', 43],
+			['t12', 127]
+		]) {
+			const row = result.segmentos.find((s) => s.id === id);
+			expect(row.fuente.denominacion_literal).toBe('tercetos encadenados con serventesio final');
+			expect(row.v_fin - row.v_ini + 1).toBe(extension);
+			expect((extension - 1) % 3).toBe(0);
+			expect(row.identificacion_revisada).toEqual({
+				forma_slug: 'terceto_encadenado',
+				arquitectura_slug: null
+			});
+			expect(row.detalles_fuente).toContainEqual(
+				expect.objectContaining({
+					literal: 'serventesio final',
+					tipo_seccion: 'remate',
+					n_versos: 1,
+					posicion: 'final',
+					estado: 'interpretacion_revisada'
+				})
+			);
+			expect(row.propuesta).toBeNull();
+		}
+		expect(result.segmentos).toHaveLength(19);
+		expect(
+			result.segmentos.some((s) => s.identificacion_revisada?.forma_slug === 'serventesio')
+		).toBe(false);
+		expect(result.cobertura.forma_revisada.versos).toBe(237);
 		expect(result.cobertura.arquitectura_revisada.versos).toBe(0);
 	});
 	it('una aprobación explícita identifica solo lo aprobado: forma sin arquitectura', () => {

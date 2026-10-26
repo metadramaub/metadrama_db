@@ -8,7 +8,7 @@ Fechas: 1591–1595. Fuente opcional conservada: VEGA CARPIO, Lope de, El verdad
 
 Edición: VEGA CARPIO, Lope de, El verdadero amante, ed. Eva Rodríguez, en Comedias de Lope de Vega. Parte XIV, coord. José Enrique López Martínez, Madrid, Gredos, 2015, 2 vols, II, pp. 203-378.
 
-Ámbito numerado: 2878 posiciones; 3 jornadas y 19 bloques provisionales. Forma revisada: 67; pendiente: 2811.
+Ámbito numerado: 2878 posiciones; 3 jornadas y 19 bloques provisionales. Forma revisada: 237; pendiente: 2641.
 
 | Fila | Rango | Literal de edición | Forma revisada | Propuesta sin aprobar | Candidatas |
 | --- | --- | --- | --- | --- | --- |
@@ -18,12 +18,12 @@ Edición: VEGA CARPIO, Lope de, El verdadero amante, ed. Eva Rodríguez, en Come
 | t04 | 788–1051 | redondilla | — | redondilla | — |
 | t05 | 1052–1201 | quintilla | — | quintilla | — |
 | t06 | 1202–1417 | redondilla | — | redondilla | — |
-| t07 | 1418–1460 | tercetos encadenados con serventesio final | — | terceto_encadenado | — |
+| t07 | 1418–1460 | tercetos encadenados con serventesio final | terceto_encadenado | — | — |
 | t08 | 1461–1640 | redondilla | — | redondilla | — |
 | t09 | 1641–1666 | romance en -io | — | romance | — |
 | t10 | 1667–1701 | endecasílabos sueltos con pareado final | — | endecasilabo_suelto | — |
 | t11 | 1702–1769 | redondilla | — | redondilla | — |
-| t12 | 1770–1896 | tercetos encadenados con serventesio final | — | terceto_encadenado | — |
+| t12 | 1770–1896 | tercetos encadenados con serventesio final | terceto_encadenado | — | — |
 | t13 | 1897–1960 | redondilla | — | redondilla | — |
 | t14 | 1961–2016 | endecasílabos sueltos con pareado final | — | endecasilabo_suelto | — |
 | t15 | 2017–2064 | endecasílabos sueltos | — | endecasilabo_suelto | — |

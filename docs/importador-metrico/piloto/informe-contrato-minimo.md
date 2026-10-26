@@ -5,7 +5,7 @@
 | Obra | Ámbito numerado | Jornadas | Bloques provisionales | Forma revisada | Forma pendiente | Vista previa |
 | --- | --- | --- | --- | --- | --- | --- |
 | El molino | 2992 | 3 | 21 | 0 | 2992 | [ver](./preparadas/el-molino.md) |
-| El verdadero amante | 2878 | 3 | 19 | 67 | 2811 | [ver](./preparadas/el-verdadero-amante.md) |
+| El verdadero amante | 2878 | 3 | 19 | 237 | 2641 | [ver](./preparadas/el-verdadero-amante.md) |
 | Los donaires de Matico | 2812 | 3 | 18 | 0 | 2812 | [ver](./preparadas/los-donaires-de-matico.md) |
 | Los locos de Valencia | 3072 | 3 | 20 | 0 | 3072 | [ver](./preparadas/los-locos-de-valencia.md) |
 

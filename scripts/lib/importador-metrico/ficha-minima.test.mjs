@@ -23,7 +23,10 @@ const catalogo = {
 		.vocabularios.filter((v) => v.categoria === 'genero')
 		.map((v) => v.termino),
 	metros: read('auditoria-campos-2026-10-22.json').metros_ejemplo.map((m) => m.slug),
-	secciones: read('auditoria-campos-2026-10-22.json').secciones_cancion
+	secciones: [
+		...(read('catalogo-referencia.json').secciones ?? []),
+		...read('auditoria-campos-2026-10-22.json').secciones_cancion
+	]
 };
 const refs = [
 	'el-molino',
@@ -63,7 +66,7 @@ describe('contrato local de la ficha mínima', () => {
 			expect(datos).not.toHaveProperty('confirmado_por');
 		}
 		expect(total).toBe(11754);
-		expect(identificados).toBe(67);
+		expect(identificados).toBe(237);
 	});
 	it('fecha y autor son obligatorios, sus fuentes no lo son', () => {
 		const datos = preparar();
@@ -134,11 +137,27 @@ describe('contrato local de la ficha mínima', () => {
 		datos.segmentos[1].identificacion_revisada.forma_slug = 'redondilla';
 		expect(validar(datos).errores.some((e) => e.codigo === 'detalle_contexto')).toBe(true);
 	});
+	it('acepta el remate de un verso del terceto encadenado y rechaza convertirlo en cuatro', () => {
+		const datos = preparar();
+		const segmento = datos.segmentos.find((s) => s.ref === 't07');
+		expect(segmento.identificacion_revisada).toEqual({
+			forma_slug: 'terceto_encadenado',
+			arquitectura_slug: null
+		});
+		expect(validar(datos).errores).toEqual([]);
+		segmento.detalles_fuente[0].n_versos = 4;
+		expect(validar(datos).errores.some((e) => e.codigo === 'detalle_contexto')).toBe(true);
+	});
 	it('los versos pendientes permanecen en el denominador del perfil', () => {
 		const resumen = resumirFichaMinima(preparar());
-		expect(resumen.forma_pendiente).toBe(resumen.extension - 67);
+		expect(resumen.forma_pendiente).toBe(resumen.extension - 237);
 		expect(resumen.perfil_formas).toEqual([
-			{ forma_slug: 'cancion', versos: 67, proporcion_sobre_total: 67 / resumen.extension }
+			{ forma_slug: 'cancion', versos: 67, proporcion_sobre_total: 67 / resumen.extension },
+			{
+				forma_slug: 'terceto_encadenado',
+				versos: 170,
+				proporcion_sobre_total: 170 / resumen.extension
+			}
 		]);
 	});
 	it('una letrilla con candidatas orientativas no se convierte en forma ni canto', () => {
@@ -173,7 +192,7 @@ describe('contrato local de la ficha mínima', () => {
 		];
 		s.exhaustividad = 'orientativas';
 		expect(validar(datos).errores).toEqual([]);
-		expect(resumirFichaMinima(datos).forma_identificada).toBe(67);
+		expect(resumirFichaMinima(datos).forma_identificada).toBe(237);
 		expect(resumirFichaMinima(datos).arquitectura_identificada).toBe(0);
 	});
 	it('rechaza conflictos, repeticiones y falsas candidatas de otra forma', () => {
@@ -339,7 +358,7 @@ describe('CLI de preparación sin confirmación', () => {
 			expect(JSON.parse(result.stdout)).toMatchObject({
 				obras: 4,
 				posiciones_numeradas: 11754,
-				forma_revisada: 67,
+				forma_revisada: 237,
 				confirmaciones: 0
 			});
 	});
