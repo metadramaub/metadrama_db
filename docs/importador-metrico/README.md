@@ -9,14 +9,16 @@ publicables cuando la cobertura y la incertidumbre permitan sostenerlos.
 Este directorio conserva el diseño y el procedimiento de trabajo. El 22 de octubre de 2026 se
 preparó un [primer lote de cuatro extracciones](./piloto/informe-inicial.md), un prompt y propuestas
 de equivalencia para cotejo humano. El responsable aceptó las cuatro transcripciones sin
-correcciones: [registro y hashes](./piloto/revision-humana.json). **Todavía no hay importador del dashboard,
-cambios de esquema ni experimentos de sensibilidad ejecutados.** Los archivos del piloto no
+correcciones: [registro y hashes](./piloto/revision-humana.json). Ya existe una
+[vista previa de ensayo en el dashboard](./vista-previa-dashboard.md). **Todavía no hay guardado
+del importador, cambios de esquema aplicados ni experimentos de sensibilidad ejecutados.** Los archivos del piloto no
 describen capacidades ya disponibles en la plataforma.
 
 ## Lectura y organización
 
 | Documento | Contenido |
 | --- | --- |
+| [Vista previa del dashboard](./vista-previa-dashboard.md) | Pegado, metadatos, jornadas, bloques y advertencias; ensayo sin guardado |
 | [Persistencia local](./persistencia-local.md) | Borrador SQL fuera de las migraciones y ensayo de guardado, permisos y concurrencia en PostgreSQL aislado |
 | [Metodología](./metodologia.md) | Acuerdos sobre fuentes, identificación, equivalencias, incertidumbre y comparabilidad |
 | [Hoja de ruta](./hoja-de-ruta.md) | Etapas, resultados necesarios, decisiones abiertas e integración técnica |

@@ -46,7 +46,9 @@ identidades sintéticas. El borrador SQL ya guarda transaccionalmente las cuatro
 aislado y prueba permisos, copia fija e idempotencia concurrente contra el esquema real exportado.
 Falta cerrar el reconocimiento de identidades y duplicados, reimportaciones, verificar entradas en
 servidor, auditar consumidores y funciones con acceso privilegiado; integrar la migración definitiva,
-permiso individual, RLS, vista Fichas mínimas y sustitución en el corpus;
+permiso individual, RLS, vista Fichas mínimas y sustitución en el corpus. La vista previa de ensayo
+del dashboard ya prepara entradas, metadatos y bloques para admin/IP, sin guardar. Falta su revisión
+de uso por el responsable y conectar el guardado definitivo;
 ampliar el piloto y ensayar
 sensibilidad. No se exige resolver todas las denominaciones: Canción con remate está aceptada;
 «tercetos» y «letrilla» conservan su ambigüedad sin cotejo obligatorio del texto. Trabajo en `main`,
@@ -55,6 +57,7 @@ con archivos locales y sin importaciones ni migraciones en Supabase.
 → [campos mínimos y conexiones](./importador-metrico/campos-minimos.md)
 → [contrato local e informe del ensayo](./importador-metrico/contrato-local.md)
 → [borrador SQL y pruebas PostgreSQL](./importador-metrico/persistencia-local.md)
+→ [vista previa del dashboard](./importador-metrico/vista-previa-dashboard.md)
 → [proyecto y hoja de ruta](./importador-metrico/README.md)
 
 ---

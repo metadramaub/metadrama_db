@@ -1,0 +1,60 @@
+# Vista previa del importador en el dashboard
+
+26 de octubre de 2026. El código incorpora `/dashboard/importador`, enlazado como **Importador
+métrico · ensayo** en el menú de admin/IP. No guarda obras, no confirma importaciones ni incorpora
+datos al corpus. No requiere aplicar el borrador SQL a Supabase.
+
+## Qué permite probar
+
+1. Copiar el prompt de extracción y pegar el JSON recibido de una IA, o cargar una de las cuatro
+   obras del piloto. Se admiten extracción 0.1, ficha mínima 0.1 y su envoltorio de vista previa.
+2. Preparar la vista y corregir título, autor, género, edición y fechas. Fuente de datación y
+   fundamentos de autoría pueden quedar vacíos. Al cambiar el JSON se prepara otra vez, para no
+   aplicar silenciosamente los metadatos de la obra anterior.
+3. Seleccionar un autor del catálogo. El servidor comprueba su ID y obtiene su nombre vigente;
+   mientras no se seleccione, se conserva el nombre de la entrada sin vincularlo automáticamente.
+4. Consultar jornadas, rangos, denominación editorial, correspondencias y criterios. Filtrar los
+   bloques con forma pendiente o con desviaciones. Las propuestas y candidatas no cuentan como
+   identificaciones. Una forma identificada puede tener arquitectura desconocida.
+5. Corregir errores y volver a comprobar. Los cambios pendientes dejan la vista anterior marcada
+   como desactualizada. Una respuesta tardía no debe sobrescribir cambios escritos durante el envío.
+
+Los avisos de título consultan las obras actuales; una coincidencia por título no prueba identidad
+ni autoriza sobrescribir una ficha. No es todavía un sistema de detección de duplicados por
+variantes de título o atribuciones.
+
+## Datos y límites
+
+Los autores, géneros y coincidencias de título se consultan con la sesión del visitante. Las
+reglas y el catálogo métrico son referencias locales versionadas del piloto, indicadas en los
+avisos. El servidor comparte el validador y normalizador con las CLI; no mantiene otras reglas
+métricas en los componentes de pantalla.
+
+Las decisiones particulares de desviaciones del piloto solo se aplican cuando coincide el
+contenido de la extracción original, no porque un JSON declare el mismo `obra_ref`. El formulario
+puede corregir metadatos conservando el original como procedencia. Las revisiones declaradas por
+un JSON de ficha mínima no se acreditan como revisiones humanas realizadas desde esta pantalla.
+
+El ensayo se limita por ahora a admin/IP tanto en la carga como en cada acción POST. No intenta
+leer la columna futura de permisos individuales. El acceso de editores concretos se conectará
+cuando exista la capacidad en la DB, manteniendo el acuerdo de que los importadores podrán
+consultar todas las mínimas sin obtener acceso al laboratorio. No es un cambio de ese acuerdo.
+
+Todavía no hay edición de rangos dentro de la tabla: para corregir la transcripción se modifica
+el JSON y se prepara otra vez. Tampoco hay reimportación, promoción a completa ni confirmación.
+El siguiente bloque debe conectar el guardado y los consumidores con las garantías descritas en
+[persistencia local](./persistencia-local.md), antes de aplicar la migración definitiva.
+
+## Verificación y revisión del responsable
+
+Se prueban el motor y las acciones con sesiones y respuestas DB simuladas, además del contrato
+local anterior. Las acciones ejercitan autenticación previa, autor desde DB, fuentes vacías,
+coincidencias, límites de entrada y ausencia de escrituras. La pantalla se ensayó en navegador
+con el componente real y datos del piloto, mediante un servidor auxiliar local sin autenticación
+ni conexión a Supabase: esto verifica la interacción, no una sesión editorial real.
+
+Para revisar el flujo en la aplicación, basta con abrir la ruta del dashboard con una cuenta
+admin/IP. Conviene probar **Los locos de Valencia** para ver las desviaciones y **El verdadero
+amante** para la Canción sin arquitectura y la letrilla pendiente. La revisión que se pide ahora
+es de claridad y comodidad: denominaciones, separación de propuestas y datos identificados,
+advertencias y corrección de metadatos. No se solicita volver a aprobar los campos ya acordados.

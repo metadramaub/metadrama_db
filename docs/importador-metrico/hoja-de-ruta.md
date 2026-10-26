@@ -61,7 +61,9 @@ El [primer contrato local](./contrato-local.md) ya comprueba los campos y produc
 de las cuatro obras. La copia fija y el contexto de permisos están probados con identidades
 sintéticas. El [borrador SQL](./persistencia-local.md) ya ejecuta guardado transaccional, permisos RLS
 e idempotencia concurrente en PostgreSQL aislado con el esquema real exportado. La conexión con
-sesiones HTTP, el dashboard y la sustitución en el corpus siguen pendientes, sin aplicar a Supabase.
+guardado desde sesiones HTTP y la sustitución en el corpus siguen pendientes, sin aplicar a Supabase.
+La [vista previa del dashboard](./vista-previa-dashboard.md) ya permite pegar y comprobar la entrada,
+revisar metadatos y consultar jornadas y bloques, con acceso de ensayo para admin/IP y sin escritura.
 
 ## Evaluación del procedimiento
 
