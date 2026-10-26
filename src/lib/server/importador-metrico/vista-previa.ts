@@ -127,7 +127,7 @@ export function analizarEntrada(
 		}
 		resultado.formato = cadena(entrada.esquema) || null;
 		const minima =
-			entrada.esquema === 'versologia-vista-previa-minima/0.1' ? objeto(entrada.datos) : entrada;
+			entrada.esquema === 'versologia-vista-previa-minima/0.2' ? objeto(entrada.datos) : entrada;
 		resultado.metadatos = { ...leerMetadatos(minima.metadatos), ...cambios };
 		const metadatos = {
 			...resultado.metadatos,
@@ -186,20 +186,14 @@ export function analizarEntrada(
 				...(esPiloto ? { 'segmentacion.propuestas.json': sha(segmentacionRaw) } : {})
 			};
 			datos = prepararFichaMinima(normalizada, { genero: metadatos.genero, metadatos });
-		} else if (minima.esquema === 'versologia-ficha-minima/0.1') {
+		} else if (minima.esquema === 'versologia-ficha-minima/0.2') {
 			datos = {
 				...minima,
 				metadatos: { ...objeto(minima.metadatos), ...metadatos }
 			} as FichaMinima;
-			resultado.avisos.push({
-				codigo: 'revisiones_declaradas',
-				ruta: 'segmentos',
-				mensaje:
-					'Las revisiones incluidas en el JSON son declaraciones de ese archivo: esta vista no acredita quién las realizó.'
-			});
 		} else
 			throw new Error(
-				'Formato no admitido. Se acepta extracción 0.1, ficha mínima 0.1 o vista previa mínima 0.1.'
+				'Formato no admitido. Se acepta extracción 0.1, ficha mínima 0.2 o vista previa mínima 0.2.'
 			);
 		const validacion = validarFichaMinima(datos, { catalogo: referencia });
 		resultado.errores.push(...validacion.errores);
@@ -226,18 +220,7 @@ export function analizarEntrada(
 				jornada:
 					ficha.jornadas.find((j) => s.v_ini >= j.v_ini && s.v_fin <= j.v_fin)?.numero ?? null,
 				extension: s.v_fin - s.v_ini + 1,
-				estado: s.identificacion_revisada
-					? 'revisada'
-					: s.propuesta
-						? 'propuesta'
-						: s.candidatas.length
-							? 'candidatas'
-							: 'sin_resolver',
-				forma_revisada: s.identificacion_revisada
-					? (nombres.get(s.identificacion_revisada.forma_slug) ??
-						s.identificacion_revisada.forma_slug)
-					: null,
-				propuesta_nombre: s.propuesta ? nombreDestino(s.propuesta) : null,
+				forma_nombre: s.identificacion ? nombreDestino(s.identificacion) : null,
 				candidatas_nombres: s.candidatas.map(nombreDestino)
 			}));
 		}

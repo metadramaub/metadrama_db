@@ -7,7 +7,7 @@ datos al corpus. No requiere aplicar el borrador SQL a Supabase.
 ## Qué permite probar
 
 1. Copiar el prompt de extracción y pegar el JSON recibido de una IA, o cargar una de las cuatro
-   obras del piloto. Se admiten extracción 0.1, ficha mínima 0.1 y su envoltorio de vista previa.
+   obras del piloto. Se admiten extracción 0.1, ficha mínima 0.2 y su envoltorio de vista previa 0.2.
 2. Preparar la vista y corregir título, autor, género, edición y fechas. Fuente de datación y
    fundamentos de autoría pueden quedar vacíos. Al cambiar el JSON se prepara otra vez, para no
    aplicar silenciosamente los metadatos de la obra anterior.
@@ -36,7 +36,7 @@ métricas en los componentes de pantalla.
 Las decisiones particulares de desviaciones del piloto solo se aplican cuando coincide el
 contenido de la extracción original, no porque un JSON declare el mismo `obra_ref`. El formulario
 puede corregir metadatos conservando el original como procedencia. Las revisiones declaradas por
-un JSON de ficha mínima no se acreditan como revisiones humanas realizadas desde esta pantalla.
+un JSON de ficha mínima no se acreditan como confirmaciones humanas realizadas desde esta pantalla.
 
 El ensayo se limita por ahora a admin/IP tanto en la carga como en cada acción POST. No intenta
 leer la columna futura de permisos individuales. El acceso de editores concretos se conectará
@@ -45,9 +45,9 @@ consultar todas las mínimas sin obtener acceso al laboratorio. No es un cambio 
 
 Todavía no hay edición de rangos dentro de la tabla: para corregir la transcripción se modifica
 el JSON y se prepara otra vez. Tampoco hay reimportación, promoción a completa ni confirmación.
-El siguiente bloque debe simplificar el contrato experimental conforme a los
-[datos que se conservarán](./campos-minimos.md#qué-se-conserva-de-las-decisiones-y-dónde), y conectar
-corrección, confirmación, guardado y consumidores con las garantías descritas en
+El contrato 0.2 ya aplica los
+[datos que se conservarán](./campos-minimos.md#qué-se-conserva-de-las-decisiones-y-dónde).
+El siguiente bloque debe conectar corrección, confirmación, guardado y consumidores con las garantías descritas en
 [persistencia local](./persistencia-local.md), antes de aplicar la migración definitiva.
 
 ## Verificación y revisión del responsable

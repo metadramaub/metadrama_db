@@ -65,9 +65,9 @@ e idempotencia concurrente en PostgreSQL aislado con el esquema real exportado. 
 guardado desde sesiones HTTP y la sustitución en el corpus siguen pendientes, sin aplicar a Supabase.
 La [vista previa del dashboard](./vista-previa-dashboard.md) ya permite pegar y comprobar la entrada,
 revisar metadatos y consultar secuencias propuestas por jornadas, con acceso de ensayo para admin/IP
-y sin escritura. El siguiente paso es ajustar el contrato de ensayo a la conservación sencilla de
-original, resultado confirmado y reglas utilizadas, sin estados de revisión ni fundamentos repetidos
-por secuencia. Después se conectarán corrección y confirmación con el guardado y sus consumidores;
+y sin escritura. El contrato 0.2 y el borrador SQL ya conservan original, resultado confirmado y reglas
+utilizadas, sin estados de revisión ni fundamentos generales repetidos por secuencia. El siguiente paso
+es conectar corrección y confirmación con el guardado y sus consumidores;
 la revisión de todas las equivalencias no se traslada a quien importa.
 
 ## Evaluación del procedimiento

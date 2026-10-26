@@ -64,7 +64,7 @@ misma identidad de obra. No se crea otra tabla de obras ni otra colección paral
 | `obras` | Añadir una distinción mínima/completa independiente de `estado`, asignación y visibilidad. Completa significa recorrido editorial detallado, no que un borrador esté terminado |
 | `jornadas`, `secuencias_metricas` | Rangos comunes. Cambio de forma A → B → A produce tres secuencias. Sinopsis y caracterizaciones no estudiadas permanecen desconocidas |
 | Nueva `secuencias_metrica_minima` | Una anotación mínima vigente por secuencia, con forma identificada opcional, arquitectura opcional, estado de identificación, revisión y procedencia. Arquitectura conocida debe pertenecer a la forma; pendiente no es una nueva forma del catálogo |
-| Candidatas y detalles mínimos | Información dependiente de la anotación mínima: alternativas con alcance exhaustivo u orientativo; metros, rima, remates o desviaciones solo cuando la fuente los sostenga. No son filas de `anotacion_elecciones` ni de `anotacion_realizaciones` |
+| Candidatas y detalles mínimos | Posibilidades orientativas, sin pesos ni supuesta exhaustividad; metros, rima, remates o desviaciones solo cuando la fuente los sostenga. No son filas de `anotacion_elecciones` ni de `anotacion_realizaciones` |
 | Registro de importación y evidencia | Original, fuente, versiones y transformaciones. Incluye una copia fija de los datos mínimos confirmados, con su estructura, para que la edición posterior no altere el referente |
 | Confirmación de la importación | La persona autorizada comprueba y confirma la entrada, sin una segunda aprobación editorial. Solo una importación confirmada por obra aporta al corpus hasta que la sustituya la completa publicada |
 

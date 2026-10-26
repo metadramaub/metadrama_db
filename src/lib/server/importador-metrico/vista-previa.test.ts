@@ -93,21 +93,20 @@ describe('vista previa del importador sin persistencia', () => {
 	it('acepta un bloque JSON y la ficha mínima del piloto', () => {
 		const vista = analizarEntrada('```json\n' + JSON.stringify(preparada) + '\n```');
 		expect(vista.errores).toEqual([]);
-		expect(vista.resumen?.forma_identificada).toBe(237);
+		expect(vista.resumen?.forma_identificada).toBe(2878);
 		expect(
-			vista.filas.find((f) => f.forma_revisada === 'Canción')?.identificacion_revisada
-				?.arquitectura_slug
+			vista.filas.find((f) => f.forma_nombre === 'Canción')?.identificacion?.arquitectura_slug
 		).toBeNull();
 	});
-	it('conserva tercetos ambiguos y propuestas sin contarlos como formas revisadas', () => {
+	it('conserva tercetos ambiguos sin contarlos como formas identificadas', () => {
 		const vista = analizarEntrada(
 			obtenerPilotos().find((p) => p.id === 'los-donaires-de-matico')!.entrada
 		);
 		const tercetos = vista.filas.find((f) => f.candidatas.some((c) => c.forma_slug === 'terceto'));
-		expect(tercetos?.estado).toBe('candidatas');
-		expect(tercetos?.identificacion_revisada).toBeNull();
-		expect(vista.resumen?.solo_propuesta).toBeGreaterThan(0);
-		expect(vista.resumen?.forma_identificada).toBe(0);
+		expect(tercetos?.identificacion).toBeNull();
+		expect(tercetos).not.toHaveProperty('estado');
+		expect(vista.resumen?.forma_pendiente).toBeGreaterThan(0);
+		expect(vista.resumen?.forma_identificada).toBeLessThan(vista.resumen!.extension);
 	});
 	it('solo aplica decisiones de desviación al contenido preciso del piloto, no a su obra_ref', () => {
 		const original = obtenerPilotos().find((p) => p.id === 'los-locos-de-valencia')!;
@@ -129,16 +128,15 @@ describe('vista previa del importador sin persistencia', () => {
 	});
 	it('distingue por sus nombres las arquitecturas propuestas y candidatas', () => {
 		const ficha = structuredClone(preparada.datos) as FichaMinima;
-		const segmento = ficha.segmentos.find((s) => s.propuesta?.arquitectura_slug);
+		const segmento = ficha.segmentos.find((s) => s.identificacion?.arquitectura_slug);
 		expect(segmento).toBeDefined();
-		const destino = segmento!.propuesta!;
+		const destino = segmento!.identificacion!;
 		const propuesta = analizarEntrada(JSON.stringify(ficha));
-		const nombre = propuesta.filas.find((f) => f.ref === segmento!.ref)?.propuesta_nombre;
+		const nombre = propuesta.filas.find((f) => f.ref === segmento!.ref)?.forma_nombre;
 		expect(nombre).toContain(' · ');
 		expect(nombre).not.toContain(destino.arquitectura_slug);
 		segmento!.candidatas = [destino];
-		segmento!.propuesta = null;
-		segmento!.exhaustividad = 'orientativa';
+		segmento!.identificacion = null;
 		const candidatas = analizarEntrada(JSON.stringify(ficha));
 		expect(candidatas.errores).toEqual([]);
 		expect(candidatas.filas.find((f) => f.ref === segmento!.ref)?.candidatas_nombres).toEqual([

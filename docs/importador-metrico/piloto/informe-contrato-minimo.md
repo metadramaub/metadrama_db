@@ -2,12 +2,12 @@
 
 **Vistas previas locales.** No hay importaciones confirmadas, cambios en Supabase ni nuevas aprobaciones filológicas. La confirmación y los permisos solo se ensayan con usuarios sintéticos en las pruebas.
 
-| Obra | Ámbito numerado | Jornadas | Bloques provisionales | Forma revisada | Forma pendiente | Vista previa |
+| Obra | Ámbito numerado | Jornadas | Secuencias propuestas | Forma identificada en la vista previa | Forma sin resolver | Vista previa |
 | --- | --- | --- | --- | --- | --- | --- |
-| El molino | 2992 | 3 | 21 | 0 | 2992 | [ver](./preparadas/el-molino.md) |
-| El verdadero amante | 2878 | 3 | 19 | 237 | 2641 | [ver](./preparadas/el-verdadero-amante.md) |
-| Los donaires de Matico | 2812 | 3 | 18 | 0 | 2812 | [ver](./preparadas/los-donaires-de-matico.md) |
-| Los locos de Valencia | 3072 | 3 | 20 | 0 | 3072 | [ver](./preparadas/los-locos-de-valencia.md) |
+| El molino | 2992 | 3 | 21 | 2983 | 9 | [ver](./preparadas/el-molino.md) |
+| El verdadero amante | 2878 | 3 | 19 | 2878 | 0 | [ver](./preparadas/el-verdadero-amante.md) |
+| Los donaires de Matico | 2812 | 3 | 18 | 2540 | 272 | [ver](./preparadas/los-donaires-de-matico.md) |
+| Los locos de Valencia | 3072 | 3 | 20 | 3072 | 0 | [ver](./preparadas/los-locos-de-valencia.md) |
 
 El contrato exige género, fechas, autor y edición. Fuente de datación y fundamentos de autoría pueden estar vacíos; tampoco exige editor asignado.
 

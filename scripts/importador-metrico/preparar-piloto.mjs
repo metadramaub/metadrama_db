@@ -73,7 +73,7 @@ try {
 		if (validacion.errores.length) throw new Error(`${ref}: ${JSON.stringify(validacion.errores)}`);
 		const resumen = resumirFichaMinima(validacion.datos);
 		const vista = {
-			esquema: 'versologia-vista-previa-minima/0.1',
+			esquema: 'versologia-vista-previa-minima/0.2',
 			persistido: false,
 			confirmacion: null,
 			datos: validacion.datos,
@@ -90,12 +90,12 @@ try {
 				`Autor: ${datos.metadatos.autor_nombre}. Género seleccionado para este lote: ${datos.metadatos.genero}.`,
 				`Fechas: ${datos.metadatos.fecha_inicio}–${datos.metadatos.fecha_fin}. Fuente opcional conservada: ${datos.metadatos.fuente_fecha ?? 'sin fuente'}.`,
 				`Edición: ${datos.metadatos.edicion_base}`,
-				`Ámbito numerado: ${resumen.extension} posiciones; ${resumen.jornadas} jornadas y ${resumen.bloques} bloques provisionales. Forma revisada: ${resumen.forma_identificada}; pendiente: ${resumen.forma_pendiente}.`,
-				'| Fila | Rango | Literal de edición | Forma revisada | Propuesta sin aprobar | Candidatas |',
-				'| --- | --- | --- | --- | --- | --- |',
+				`Ámbito numerado: ${resumen.extension} posiciones; ${resumen.jornadas} jornadas y ${resumen.bloques} secuencias propuestas. Forma identificada en la vista previa: ${resumen.forma_identificada}; sin resolver: ${resumen.forma_pendiente}.`,
+				'| Fila | Rango | Literal de edición | Forma | Posibilidades |',
+				'| --- | --- | --- | --- | --- |',
 				...datos.segmentos.map(
 					(s) =>
-						`| ${[s.ref, `${s.v_ini}–${s.v_fin}`, s.origen.denominacion_literal, s.identificacion_revisada?.forma_slug, s.propuesta?.forma_slug, s.candidatas.map((c) => c.forma_slug).join('; ') || null].map(cell).join(' | ')} |`
+						`| ${[s.ref, `${s.v_ini}–${s.v_fin}`, s.origen.denominacion_literal, s.identificacion?.forma_slug, s.candidatas.map((c) => c.forma_slug).join('; ') || null].map(cell).join(' | ')} |`
 				),
 				'## Límites de esta vista',
 				...validacion.avisos.map((a) => `- ${a.mensaje}`),
@@ -115,7 +115,7 @@ try {
 		[
 			'# Ensayo del contrato de ficha mínima',
 			'**Vistas previas locales.** No hay importaciones confirmadas, cambios en Supabase ni nuevas aprobaciones filológicas. La confirmación y los permisos solo se ensayan con usuarios sintéticos en las pruebas.',
-			'| Obra | Ámbito numerado | Jornadas | Bloques provisionales | Forma revisada | Forma pendiente | Vista previa |',
+			'| Obra | Ámbito numerado | Jornadas | Secuencias propuestas | Forma identificada en la vista previa | Forma sin resolver | Vista previa |',
 			'| --- | --- | --- | --- | --- | --- | --- |',
 			...resultados.map(
 				({ datos: d, resumen: r }) =>
@@ -143,7 +143,7 @@ try {
 			{
 				obras: refs.length,
 				posiciones_numeradas: resultados.reduce((n, r) => n + r.resumen.extension, 0),
-				forma_revisada: resultados.reduce((n, r) => n + r.resumen.forma_identificada, 0),
+				forma_identificada: resultados.reduce((n, r) => n + r.resumen.forma_identificada, 0),
 				confirmaciones: 0,
 				derivados: outputs.size
 			},

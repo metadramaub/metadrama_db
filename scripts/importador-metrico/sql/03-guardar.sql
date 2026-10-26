@@ -116,8 +116,8 @@ begin
     select v_obra,(j->>'numero')::integer,(j->>'v_ini')::integer,(j->>'v_fin')::integer
     from jsonb_array_elements(p_datos->'jornadas') as r(j);
   insert into public.importaciones_metricas(importacion_id,obra_id,peticion_id,importado_por,
-    confirmado_por,importado_en,confirmado_en,autor_id,genero_id,entrada_original,datos_confirmados,sha256_jsonb)
-  values(v_importacion,v_obra,p_peticion,v_actor,v_actor,v_ahora,v_ahora,p_autor,v_genero,
+    importado_en,autor_id,genero_id,entrada_original,datos_confirmados,sha256_jsonb)
+  values(v_importacion,v_obra,p_peticion,v_actor,v_ahora,p_autor,v_genero,
     p_entrada_original,p_datos,encode(extensions.digest(convert_to(p_datos::text,'UTF8'),'sha256'),'hex'));
 
   v_prev:=null;
@@ -140,21 +140,15 @@ begin
         where nota->>'id'=ref and nota->'tramos_ref' ? (v_fila#>>'{origen,tramo_ref}'))) then
       raise exception using errcode='23514',message='Nota sin correspondencia con el tramo original';
     end if;
-    perform public.comprobar_destino_minimo(v_fila->'identificacion_revisada');
-    perform public.comprobar_destino_minimo(v_fila->'propuesta');
+    perform public.comprobar_destino_minimo(v_fila->'identificacion');
     v_forma:=null; v_arquitectura:=null;
-    if v_fila->'identificacion_revisada'<>'null'::jsonb then
-      select forma_id into v_forma from public.formas_metricas where slug=v_fila#>>'{identificacion_revisada,forma_slug}';
+    if v_fila->'identificacion'<>'null'::jsonb then
+      select forma_id into v_forma from public.formas_metricas where slug=v_fila#>>'{identificacion,forma_slug}';
       select arquitectura_id into v_arquitectura from public.arquitecturas_forma where forma_id=v_forma
-        and slug=v_fila#>>'{identificacion_revisada,arquitectura_slug}';
+        and slug=v_fila#>>'{identificacion,arquitectura_slug}';
     end if;
-    if (v_forma is null)<>(v_fila->'aprobacion'='null'::jsonb) or
-      (v_forma is not null and v_fila->'propuesta'<>'null'::jsonb) or
-      (v_arquitectura is not null and jsonb_array_length(v_fila->'candidatas')>0) then
-      raise exception using errcode='23514',message='Identificación, aprobación y propuestas incoherentes';
-    end if;
-    if jsonb_array_length(v_fila->'candidatas')=0 and v_fila->>'exhaustividad' is not null then
-      raise exception using errcode='23514',message='Exhaustividad sin candidatas';
+    if v_arquitectura is not null and jsonb_array_length(v_fila->'candidatas')>0 then
+      raise exception using errcode='23514',message='Una arquitectura identificada no mantiene candidatas';
     end if;
     if (select count(*)<>count(distinct value) from jsonb_array_elements(v_fila->'candidatas')) then
       raise exception using errcode='23514',message='Candidatas repetidas';
@@ -162,12 +156,12 @@ begin
     for v_candidata in select value from jsonb_array_elements(v_fila->'candidatas') loop
       perform public.comprobar_destino_minimo(v_candidata);
       if v_forma is not null and ((v_candidata->>'forma_slug') is distinct from
-        (v_fila#>>'{identificacion_revisada,forma_slug}') or v_candidata->>'arquitectura_slug' is null) then
+        (v_fila#>>'{identificacion,forma_slug}') or v_candidata->>'arquitectura_slug' is null) then
         raise exception using errcode='23514',message='Candidata incompatible con la forma identificada';
       end if;
     end loop;
     for v_detalle in select value from jsonb_array_elements(v_fila->'detalles_fuente') loop
-      if v_detalle->>'estado'='interpretacion_revisada' and (
+      if v_detalle->>'tipo_seccion'='remate' and (
         (v_detalle->>'n_versos')::integer>v_fin::bigint-v_inicio+1 or v_forma is null or not exists (
           select 1 from public.estructuras_secciones s join public.arquitecturas_forma a using(arquitectura_id)
           where a.forma_id=v_forma and a.activo and s.tipo_seccion=v_detalle->>'tipo_seccion'
@@ -192,8 +186,9 @@ begin
     insert into public.secuencias_metricas(secuencia_id,obra_id,v_ini,v_fin,n_versos)
       values(v_secuencia,v_obra,v_inicio,v_fin,v_fin-v_inicio+1);
     insert into public.metrica_minima_secuencias(secuencia_id,importacion_id,segmento_ref,forma_id,
-      arquitectura_id,segmentacion,segmento_original)
-    values(v_secuencia,v_importacion,v_fila->>'ref',v_forma,v_arquitectura,v_fila->>'segmentacion',v_fila);
+      arquitectura_id,segmentacion,datos_minimos)
+    values(v_secuencia,v_importacion,v_fila->>'ref',v_forma,v_arquitectura,v_fila->>'segmentacion',
+      v_fila - array['ref','v_ini','v_fin','identificacion','segmentacion']);
   end loop;
   update public.obras set total_versos=v_total::integer where obra_id=v_obra;
   return jsonb_build_object('obra_id',v_obra,'importacion_id',v_importacion,'repetida',false);

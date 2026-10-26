@@ -8,15 +8,17 @@ El [informe del contrato](./piloto/informe-contrato-minimo.md) enlaza sus vistas
 [vista previa de ensayo en el dashboard](./vista-previa-dashboard.md), sin escritura.
 Las vistas del piloto no son confirmaciones humanas ni nuevas aprobaciones de equivalencias.
 
-El formato 0.1 conserva estados y fundamentos del estudio de equivalencias. Es un prototipo:
-antes de conectar su guardado debe ajustarse a la
-[conservación sencilla acordada](./campos-minimos.md#qué-se-conserva-de-las-decisiones-y-dónde).
-La vista previa ya omite esas etiquetas internas; eso no sustituye la adaptación del contrato.
+El formato **0.2** aplica la
+[conservación sencilla acordada](./campos-minimos.md#qué-se-conserva-de-las-decisiones-y-dónde):
+una identificación opcional, posibilidades, referencia de regla y nota particular opcional por
+secuencia. No guarda aprobaciones, estados de revisión ni fundamentos generales repetidos.
+El normalizador de investigación conserva su formato 0.1; su salida se adapta al contrato nuevo.
+Las vistas preparadas se han regenerado. No hay importaciones persistidas que migrar.
 
 ## Qué comprueba
 
 El [módulo](../../scripts/lib/importador-metrico/ficha-minima.mjs) define
-`versologia-ficha-minima/0.1`, con referencias locales del piloto. No es un cuerpo aceptado por
+`versologia-ficha-minima/0.2`, con referencias locales del piloto. No es un cuerpo aceptado por
 la API de obras ni resuelve todavía el nombre de autor a un UUID de Supabase.
 
 - Exige título, autor, género seleccionado, edición y fechas. Fuente de datación y fundamentos
@@ -25,8 +27,8 @@ la API de obras ni resuelve todavía el nombre de autor a un UUID de Supabase.
   ser continuas y cada bloque estar dentro de una jornada. Una cifra ilegible no pasa como cero.
 - No admite estado editorial, editor asignado, visibilidad pública ni autor de confirmación
   dentro de los datos pegados. La identidad de quien confirma llega en un contexto separado.
-- Distingue identificación revisada, propuesta única y candidatas. Una forma puede estar revisada
-  con arquitectura desconocida o con candidatas de arquitectura, sin perder su cobertura de forma.
+- Conserva una identificación o ninguna si sigue sin resolver. Puede conocerse la forma sin
+  arquitectura o con posibilidades de arquitectura, sin perder su cobertura de forma.
 - Comprueba destinos en las referencias conservadas del catálogo: formas, arquitecturas,
   géneros, metros observados y remates de Canción y Terceto encadenado. No utiliza una arquitectura principal por defecto.
 - Conserva los detalles pendientes de asonancia o dístico sin convertirlos en respuestas
@@ -67,9 +69,11 @@ de integración; no se presentan como capacidades implementadas por estas prueba
 ## Resumen cuantitativo
 
 `resumirFichaMinima()` calcula extensión numerada, cobertura de forma y arquitectura y peso de
-cada forma revisada sobre el total. Las propuestas y candidatas permanecen en la parte pendiente.
-No renormaliza los 237 versos identificados del lote (67 de Canción y 170 de Terceto encadenado)
-como si cubrieran las cuatro obras completas.
+cada forma identificada sobre el total. Las candidatas no se reparten ni se cuentan como formas.
+En el resultado preparado hay 11.473 posiciones con correspondencia única y 281 sin resolver de
+11.754; todas siguen en el denominador. Es cobertura del resultado ofrecido para confirmar,
+no una estimación de acierto ni aprobación general de las reglas. La preparación no confirma datos.
+El informe de normalización conserva por separado sus recuentos de revisión de equivalencias.
 
 Los bloques actuales proceden de filas editoriales y conservan segmentación provisional. El resumen
 no presenta su cantidad como número confirmado de secuencias métricas ni calcula transiciones.
@@ -100,7 +104,7 @@ en el módulo. No basta con validar contra el esquema JSON para aceptar una impo
 npx vitest run scripts/lib/importador-metrico/ficha-minima.test.mjs scripts/lib/importador-metrico/normalizacion.test.mjs scripts/lib/importador-metrico/validacion.test.mjs
 ```
 
-La batería de contratos tiene 112 pruebas: 46 de ficha mínima y 66 de extracción y normalización. Incluye obligatorios/opcionales,
+La batería de contratos incluye obligatorios/opcionales,
 referencias incoherentes, huecos y solapamientos, candidatas, detalles pendientes, las desviaciones,
 permisos sintéticos, independencia de la copia y reproducción de los derivados.
 

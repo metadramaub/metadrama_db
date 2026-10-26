@@ -4,7 +4,7 @@
   "properties": {
     "esquema": {
       "type": "string",
-      "const": "versologia-ficha-minima/0.1"
+      "const": "versologia-ficha-minima/0.2"
     },
     "obra_ref": {
       "type": "string",
@@ -204,70 +204,7 @@
             ],
             "additionalProperties": false
           },
-          "identificacion_revisada": {
-            "anyOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "forma_slug": {
-                    "type": "string",
-                    "minLength": 1
-                  },
-                  "arquitectura_slug": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "minLength": 1
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ]
-                  }
-                },
-                "required": [
-                  "forma_slug",
-                  "arquitectura_slug"
-                ],
-                "additionalProperties": false
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "aprobacion": {
-            "anyOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "responsable": {
-                    "type": "string",
-                    "minLength": 1
-                  },
-                  "fecha": {
-                    "type": "string",
-                    "format": "date",
-                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
-                  },
-                  "fundamento": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                },
-                "required": [
-                  "responsable",
-                  "fecha",
-                  "fundamento"
-                ],
-                "additionalProperties": false
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "propuesta": {
+          "identificacion": {
             "anyOf": [
               {
                 "type": "object",
@@ -327,17 +264,6 @@
               "additionalProperties": false
             }
           },
-          "exhaustividad": {
-            "anyOf": [
-              {
-                "type": "string",
-                "minLength": 1
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
           "regla_id": {
             "anyOf": [
               {
@@ -349,9 +275,16 @@
               }
             ]
           },
-          "fundamento": {
-            "type": "string",
-            "minLength": 1
+          "nota": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "detalles_fuente": {
             "type": "array",
@@ -384,14 +317,6 @@
                     "posicion": {
                       "type": "string",
                       "const": "final"
-                    },
-                    "estado": {
-                      "type": "string",
-                      "const": "interpretacion_revisada"
-                    },
-                    "fundamento": {
-                      "type": "string",
-                      "minLength": 1
                     }
                   },
                   "required": [
@@ -400,9 +325,7 @@
                     "tipo_seccion",
                     "nombre",
                     "n_versos",
-                    "posicion",
-                    "estado",
-                    "fundamento"
+                    "posicion"
                   ],
                   "additionalProperties": false
                 },
@@ -416,22 +339,10 @@
                     "dimension": {
                       "type": "string",
                       "const": "asonancia"
-                    },
-                    "rasgo_slug_propuesto": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "estado": {
-                      "type": "string",
-                      "enum": [
-                        "pendiente",
-                        "pendiente_de_correspondencia_del_remate"
-                      ]
                     }
                   },
                   "required": [
-                    "literal",
-                    "estado"
+                    "literal"
                   ],
                   "additionalProperties": false
                 }
@@ -482,9 +393,16 @@
                   "type": "string",
                   "minLength": 1
                 },
-                "fundamento": {
-                  "type": "string",
-                  "minLength": 1
+                "nota": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
                 }
               },
               "required": [
@@ -494,7 +412,7 @@
                 "relacion_norma",
                 "nota_ref",
                 "texto_fuente",
-                "fundamento"
+                "nota"
               ],
               "additionalProperties": false
             }
@@ -506,13 +424,10 @@
           "v_fin",
           "segmentacion",
           "origen",
-          "identificacion_revisada",
-          "aprobacion",
-          "propuesta",
+          "identificacion",
           "candidatas",
-          "exhaustividad",
           "regla_id",
-          "fundamento",
+          "nota",
           "detalles_fuente",
           "desviaciones"
         ],

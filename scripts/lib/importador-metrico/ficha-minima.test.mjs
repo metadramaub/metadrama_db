@@ -50,7 +50,7 @@ const actor = (extra = {}) => ({
 const validar = (datos) => validarFichaMinima(datos, { catalogo });
 
 describe('contrato local de la ficha mínima', () => {
-	it('representa las cuatro obras, sin aceptar sus propuestas ni cambiar su entrada', () => {
+	it('prepara las correspondencias de cuatro obras sin confirmarlas ni cambiar su entrada', () => {
 		let total = 0,
 			identificados = 0;
 		for (const ref of refs) {
@@ -66,7 +66,7 @@ describe('contrato local de la ficha mínima', () => {
 			expect(datos).not.toHaveProperty('confirmado_por');
 		}
 		expect(total).toBe(11754);
-		expect(identificados).toBe(237);
+		expect(identificados).toBe(11473);
 	});
 	it('fecha y autor son obligatorios, sus fuentes no lo son', () => {
 		const datos = preparar();
@@ -109,7 +109,8 @@ describe('contrato local de la ficha mínima', () => {
 		const pendiente = preparar()
 			.segmentos.flatMap((s) => s.detalles_fuente)
 			.find((d) => d.dimension === 'asonancia');
-		expect(pendiente).toMatchObject({ estado: 'pendiente' });
+		expect(pendiente).toMatchObject({ dimension: 'asonancia' });
+		expect(pendiente).not.toHaveProperty('estado');
 		expect(pendiente).not.toHaveProperty('esquema_rima_id');
 	});
 	it.each(['estado', 'visible_publico', 'editor_asignado', 'confirmado_por', 'confianza'])(
@@ -123,7 +124,7 @@ describe('contrato local de la ficha mínima', () => {
 	it('conserva Canción sin arquitectura y el remate declarado, sin crear unidades', () => {
 		const datos = preparar();
 		const s = datos.segmentos.find((s) => s.ref === 't02');
-		expect(s.identificacion_revisada).toEqual({ forma_slug: 'cancion', arquitectura_slug: null });
+		expect(s.identificacion).toEqual({ forma_slug: 'cancion', arquitectura_slug: null });
 		expect(s.detalles_fuente[0]).toMatchObject({
 			tipo_seccion: 'remate',
 			n_versos: 2,
@@ -134,13 +135,13 @@ describe('contrato local de la ficha mínima', () => {
 	});
 	it('no convierte el remate en sección confirmada de una forma distinta', () => {
 		const datos = preparar();
-		datos.segmentos[1].identificacion_revisada.forma_slug = 'redondilla';
+		datos.segmentos[1].identificacion.forma_slug = 'redondilla';
 		expect(validar(datos).errores.some((e) => e.codigo === 'detalle_contexto')).toBe(true);
 	});
 	it('acepta el remate de un verso del terceto encadenado y rechaza convertirlo en cuatro', () => {
 		const datos = preparar();
 		const segmento = datos.segmentos.find((s) => s.ref === 't07');
-		expect(segmento.identificacion_revisada).toEqual({
+		expect(segmento.identificacion).toEqual({
 			forma_slug: 'terceto_encadenado',
 			arquitectura_slug: null
 		});
@@ -149,36 +150,32 @@ describe('contrato local de la ficha mínima', () => {
 		expect(validar(datos).errores.some((e) => e.codigo === 'detalle_contexto')).toBe(true);
 	});
 	it('los versos pendientes permanecen en el denominador del perfil', () => {
-		const resumen = resumirFichaMinima(preparar());
-		expect(resumen.forma_pendiente).toBe(resumen.extension - 237);
-		expect(resumen.perfil_formas).toEqual([
-			{ forma_slug: 'cancion', versos: 67, proporcion_sobre_total: 67 / resumen.extension },
-			{
-				forma_slug: 'terceto_encadenado',
-				versos: 170,
-				proporcion_sobre_total: 170 / resumen.extension
-			}
-		]);
+		const datos = preparar();
+		datos.segmentos[0].identificacion = null;
+		const resumen = resumirFichaMinima(datos);
+		expect(resumen.forma_pendiente).toBe(220);
+		expect(resumen.extension).toBe(2878);
+		expect(resumen.perfil_formas.find((f) => f.forma_slug === 'cancion')).toEqual({
+			forma_slug: 'cancion',
+			versos: 67,
+			proporcion_sobre_total: 67 / 2878
+		});
+		expect(resumen.perfil_formas.reduce((n, f) => n + f.versos, 0)).toBe(2658);
 	});
 	it('una letrilla con candidatas orientativas no se convierte en forma ni canto', () => {
 		const datos = preparar('el-molino');
 		const s = datos.segmentos.find((s) => s.origen.denominacion_literal === 'letrilla');
-		expect(s.identificacion_revisada).toBeNull();
+		expect(s.identificacion).toBeNull();
 		expect(s.candidatas.length).toBeGreaterThan(1);
 		expect(s).not.toHaveProperty('cantado');
-		expect(resumirFichaMinima(datos).forma_identificada).toBe(0);
+		expect(resumirFichaMinima(datos).con_candidatas).toBeGreaterThan(0);
 	});
-	it('no acepta una identificación sin aprobación, ni una arquitectura ajena', () => {
+	it('no exige aprobación por secuencia y rechaza una arquitectura ajena', () => {
 		const datos = preparar();
 		const s = datos.segmentos[1];
-		s.aprobacion = null;
-		expect(validar(datos).errores.some((e) => e.codigo === 'aprobacion')).toBe(true);
-		s.aprobacion = {
-			responsable: 'Ensayo sintético',
-			fecha: '2026-10-26',
-			fundamento: 'Solo prueba'
-		};
-		s.identificacion_revisada.arquitectura_slug = 'arquitectura_inexistente';
+		expect(s).not.toHaveProperty('aprobacion');
+		expect(validar(datos).errores).toEqual([]);
+		s.identificacion.arquitectura_slug = 'arquitectura_inexistente';
 		expect(validar(datos).errores.some((e) => e.codigo === 'arquitectura_ajena')).toBe(true);
 	});
 	it('permite candidatas de arquitectura sin perder la forma conocida', () => {
@@ -190,20 +187,41 @@ describe('contrato local de la ficha mínima', () => {
 				arquitectura_slug: catalogo.formas.find((f) => f.slug === 'cancion').arquitecturas[0].slug
 			}
 		];
-		s.exhaustividad = 'orientativas';
 		expect(validar(datos).errores).toEqual([]);
-		expect(resumirFichaMinima(datos).forma_identificada).toBe(237);
-		expect(resumirFichaMinima(datos).arquitectura_identificada).toBe(0);
+		expect(resumirFichaMinima(datos).forma_identificada).toBe(2878);
+		expect(resumirFichaMinima(datos).arquitectura_identificada).toBe(272);
 	});
 	it('rechaza conflictos, repeticiones y falsas candidatas de otra forma', () => {
 		const datos = preparar();
 		const s = datos.segmentos[1];
-		s.candidatas = [datos.segmentos[0].propuesta, datos.segmentos[0].propuesta];
-		s.exhaustividad = null;
+		s.candidatas = [datos.segmentos[0].identificacion, datos.segmentos[0].identificacion];
 		const codigos = validar(datos).errores.map((e) => e.codigo);
 		expect(codigos).toEqual(
-			expect.arrayContaining(['candidata_repetida', 'exhaustividad', 'candidatas_arquitectura'])
+			expect.arrayContaining(['candidata_repetida', 'candidatas_arquitectura'])
 		);
+	});
+	it.each(['aprobacion', 'propuesta', 'exhaustividad', 'fundamento', 'confianza'])(
+		'rechaza la categoría interna %s en una secuencia del contrato nuevo',
+		(campo) => {
+			const datos = preparar();
+			datos.segmentos[0][campo] = 'inventado';
+			expect(validar(datos).errores.length).toBeGreaterThan(0);
+		}
+	);
+	it('conserva la nota particular sin copiar fundamentos generales ni aprobaciones', () => {
+		const datos = preparar('los-locos-de-valencia');
+		for (const s of datos.segmentos) {
+			expect(s).not.toHaveProperty('fundamento');
+			expect(s).not.toHaveProperty('aprobacion');
+			expect(s.nota).toBeNull();
+			for (const d of s.detalles_fuente) {
+				expect(d).not.toHaveProperty('estado');
+				expect(d).not.toHaveProperty('fundamento');
+			}
+		}
+		const d = datos.segmentos.find((s) => s.ref === 't16').desviaciones[0];
+		expect(d.nota).toBeTruthy();
+		expect(d).not.toHaveProperty('fundamento');
 	});
 	it.each([
 		[
@@ -358,7 +376,7 @@ describe('CLI de preparación sin confirmación', () => {
 			expect(JSON.parse(result.stdout)).toMatchObject({
 				obras: 4,
 				posiciones_numeradas: 11754,
-				forma_revisada: 237,
+				forma_identificada: 11473,
 				confirmaciones: 0
 			});
 	});

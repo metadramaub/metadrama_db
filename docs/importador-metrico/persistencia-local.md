@@ -3,10 +3,10 @@
 26 de octubre de 2026. **No aplicado a Supabase ni conectado al dashboard.** El SQL permanece
 fuera de `supabase/migrations/` para que un despliegue habitual no lo aplique por accidente.
 
-El borrador ensaya el contrato 0.1, no el formato definitivo. Antes de conectarlo hay que
-eliminar la repetición de estados y fundamentos de equivalencias por secuencia según
+El borrador ensaya el contrato 0.2, con una identificación opcional y sin estados ni fundamentos
+generales de equivalencias por secuencia, según
 [lo acordado sobre conservación](./campos-minimos.md#qué-se-conserva-de-las-decisiones-y-dónde).
-Las pruebas locales de guardado no certifican todavía esa simplificación.
+Las garantías de copia fija, permisos y guardado se prueban en PostgreSQL aislado.
 
 La [consulta de persistencia](../../scripts/importador-metrico/auditar-persistencia.sql) y su
 [evidencia](./piloto/auditoria-persistencia-2026-10-26.json) recogen columnas, restricciones,
@@ -25,9 +25,12 @@ en orden: almacenamiento, esquemas de documentos y operación de guardado.
 - `importaciones_metricas`: extracción original, datos confirmados, autor y género resueltos,
   persona de la sesión, fecha del servidor y selección del referente mínimo. La copia confirmada
   no se modifica; la marca de uso queda separada del contenido inmutable.
-- `metrica_minima_secuencias`: forma revisada y arquitectura opcionales, referencia a la importación
-  y al bloque original. Candidatas, propuestas, notas y desviaciones se conservan dentro del
-  documento de ese bloque, sin generar respuestas v2.
+- `metrica_minima_secuencias`: forma y arquitectura opcionales, referencia a la importación y a la
+  secuencia de trabajo. `datos_minimos` conserva origen, candidatas, referencia de regla, nota,
+  detalles y desviaciones, sin duplicar los rangos ni la identificación relacional. El documento
+  completo e independiente de la estructura editable queda en `datos_confirmados`.
+- Quién confirma y cuándo se registra una sola vez en `importado_por` e `importado_en`, tomados de
+  la sesión y del reloj del servidor. No hay una segunda persona ni atribución por secuencia.
 
 `guardar_ficha_minima(p_peticion, p_autor, p_datos, p_entrada_original)` crea en una sola
 transacción la obra, su autoría tradicional individual, jornadas, secuencias, métrica mínima e
@@ -44,8 +47,9 @@ variantes de título, autorías alternativas ni obras anteriores sin atribución
 reimportación siguen pendientes. La operación actual solo crea obras nuevas.
 
 El documento de extracción sigue siendo el original `borrador_ia`, aunque su transcripción se haya
-aceptado después. La confirmación de guardado se registra aparte y no cambia propuestas métricas
-en identificaciones revisadas. Se comprueban ambos formatos mediante `pg_jsonschema`, extensión
+aceptado después. La confirmación acepta el resultado mínimo mostrado, sin acreditar una revisión
+general de sus reglas. Las vistas sin confirmar no se incorporan al corpus.
+Se comprueban ambos formatos mediante `pg_jsonschema`, extensión
 disponible pero todavía no instalada en el Supabase compartido. Los esquemas SQL se generan desde
 los mismos contratos Zod mediante [generar-esquema-sql.mjs](../../scripts/importador-metrico/generar-esquema-sql.mjs).
 
@@ -96,12 +100,14 @@ La contraseña local de ensayo no es una credencial de Supabase. El script no ac
 no importa clientes remotos ni ejecuta `db push`. El volcado se obtiene aparte mediante el comando
 de solo lectura documentado en el README del repositorio. No es una copia completa de seguridad.
 
-Resultado: **49 comprobaciones correctas**, incluidas cuatro obras, 12 jornadas, 78 segmentos y
-11.754 posiciones numeradas; 237 posiciones con forma revisada (Canción y Terceto encadenado),
-sin arquitectura; rechazo de un supuesto remate de cuatro versos donde el catálogo admite uno;
+Resultado del contrato 0.2: **51 comprobaciones correctas**, incluidas cuatro obras, 12 jornadas,
+78 segmentos y 11.754 posiciones numeradas; 11.473 con identificación y 281 sin resolver.
+Canción y los dos pasajes de Terceto encadenado de El verdadero amante conservan arquitectura
+desconocida; rechazo de un supuesto remate de cuatro versos donde el catálogo admite uno;
 ninguna anotación v2 fabricada; guardado
 atómico con fallo de catálogo tardío; idempotencia y concurrencia; permisos de lectura compartida;
-laboratorio cerrado a importadores; copia inmutable e independiente del borrado de estructura.
+laboratorio cerrado a importadores; copia inmutable e independiente del borrado de estructura;
+original y copia íntegros y ausencia de categorías internas en la métrica de trabajo.
 
 El 26 de octubre se repitió el ensayo tras revisar «tercetos encadenados con serventesio final».
 La comprobación de detalles revisados aplica también `versos_min` y `versos_max` de la sección

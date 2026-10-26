@@ -1,9 +1,9 @@
 {
-  "esquema": "versologia-vista-previa-minima/0.1",
+  "esquema": "versologia-vista-previa-minima/0.2",
   "persistido": false,
   "confirmacion": null,
   "datos": {
-    "esquema": "versologia-ficha-minima/0.1",
+    "esquema": "versologia-ficha-minima/0.2",
     "obra_ref": "los-donaires-de-matico",
     "metadatos": {
       "titulo": "Los donaires de Matico",
@@ -49,9 +49,7 @@
           "pagina": 128,
           "notas_ref": []
         },
-        "identificacion_revisada": null,
-        "aprobacion": null,
-        "propuesta": null,
+        "identificacion": null,
         "candidatas": [
           {
             "forma_slug": "terceto",
@@ -62,9 +60,8 @@
             "arquitectura_slug": null
           }
         ],
-        "exhaustividad": "no_justificada",
         "regla_id": "tercetos-sin-precisar",
-        "fundamento": "Lectura directa: Diccionario de Domínguez Caparrós (2016), s. v. terceto, pp. 427-429, usa terceto para la serie encadenada y distingue terceto independiente; Quilis §5.4.2.1, pp. 92-93, considera los encadenados el caso más frecuente y describe también los independientes. Morley y Bruerton p.40 distinguen ambas formas. No se puede deducir sin encadenar por la ausencia del adjetivo en otro editor. Los 127 y 145 versos de Matico son compatibles con 3n+1, sin que el módulo decida. Morley y Bruerton p.241 describen dos pasajes y uno máximo de 145 versos en esa obra, pero allí no explicitan la disposición de rima. Se conservan ambas candidatas, sin aprobación. Criterio metodológico confirmado por el responsable: resolver un pasaje concreto no crea una equivalencia terminológica reutilizable. No se exige consultar el texto ni se generaliza una identificación puntual al resto de las sinopsis.",
+        "nota": null,
         "detalles_fuente": [],
         "desviaciones": []
       },
@@ -80,16 +77,13 @@
           "pagina": 128,
           "notas_ref": []
         },
-        "identificacion_revisada": null,
-        "aprobacion": null,
-        "propuesta": {
+        "identificacion": {
           "forma_slug": "redondilla",
           "arquitectura_slug": null
         },
         "candidatas": [],
-        "exhaustividad": null,
         "regla_id": "redondilla",
-        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "nota": null,
         "detalles_fuente": [],
         "desviaciones": []
       },
@@ -105,16 +99,13 @@
           "pagina": 128,
           "notas_ref": []
         },
-        "identificacion_revisada": null,
-        "aprobacion": null,
-        "propuesta": {
+        "identificacion": {
           "forma_slug": "quintilla",
           "arquitectura_slug": null
         },
         "candidatas": [],
-        "exhaustividad": null,
         "regla_id": "quintilla",
-        "fundamento": "Coincidencia del nombre de forma y su plural. No se deducen medida ni disposición de rima de cada unidad.",
+        "nota": null,
         "detalles_fuente": [],
         "desviaciones": []
       },
@@ -130,16 +121,13 @@
           "pagina": 128,
           "notas_ref": []
         },
-        "identificacion_revisada": null,
-        "aprobacion": null,
-        "propuesta": {
+        "identificacion": {
           "forma_slug": "redondilla",
           "arquitectura_slug": null
         },
         "candidatas": [],
-        "exhaustividad": null,
         "regla_id": "redondilla",
-        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "nota": null,
         "detalles_fuente": [],
         "desviaciones": []
       },
@@ -155,16 +143,13 @@
           "pagina": 128,
           "notas_ref": []
         },
-        "identificacion_revisada": null,
-        "aprobacion": null,
-        "propuesta": {
+        "identificacion": {
           "forma_slug": "octava_real",
           "arquitectura_slug": "endecasilabica_consonante"
         },
         "candidatas": [],
-        "exhaustividad": null,
         "regla_id": "octava-real",
-        "fundamento": "Nombre explícito de la forma, que el catálogo activo define endecasílaba consonante. No confirma por sí solo el esquema de cada octava ni ausencia de desviaciones.",
+        "nota": null,
         "detalles_fuente": [],
         "desviaciones": []
       },
@@ -180,16 +165,13 @@
           "pagina": 128,
           "notas_ref": []
         },
-        "identificacion_revisada": null,
-        "aprobacion": null,
-        "propuesta": {
+        "identificacion": {
           "forma_slug": "redondilla",
           "arquitectura_slug": null
         },
         "candidatas": [],
-        "exhaustividad": null,
         "regla_id": "redondilla",
-        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "nota": null,
         "detalles_fuente": [],
         "desviaciones": []
       },
@@ -205,16 +187,13 @@
           "pagina": 128,
           "notas_ref": []
         },
-        "identificacion_revisada": null,
-        "aprobacion": null,
-        "propuesta": {
+        "identificacion": {
           "forma_slug": "quintilla",
           "arquitectura_slug": null
         },
         "candidatas": [],
-        "exhaustividad": null,
         "regla_id": "quintilla",
-        "fundamento": "Coincidencia del nombre de forma y su plural. No se deducen medida ni disposición de rima de cada unidad.",
+        "nota": null,
         "detalles_fuente": [],
         "desviaciones": []
       },
@@ -230,16 +209,13 @@
           "pagina": 128,
           "notas_ref": []
         },
-        "identificacion_revisada": null,
-        "aprobacion": null,
-        "propuesta": {
+        "identificacion": {
           "forma_slug": "redondilla",
           "arquitectura_slug": null
         },
         "candidatas": [],
-        "exhaustividad": null,
         "regla_id": "redondilla",
-        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "nota": null,
         "detalles_fuente": [],
         "desviaciones": []
       },
@@ -255,9 +231,7 @@
           "pagina": 128,
           "notas_ref": []
         },
-        "identificacion_revisada": null,
-        "aprobacion": null,
-        "propuesta": null,
+        "identificacion": null,
         "candidatas": [
           {
             "forma_slug": "terceto",
@@ -268,9 +242,8 @@
             "arquitectura_slug": null
           }
         ],
-        "exhaustividad": "no_justificada",
         "regla_id": "tercetos-sin-precisar",
-        "fundamento": "Lectura directa: Diccionario de Domínguez Caparrós (2016), s. v. terceto, pp. 427-429, usa terceto para la serie encadenada y distingue terceto independiente; Quilis §5.4.2.1, pp. 92-93, considera los encadenados el caso más frecuente y describe también los independientes. Morley y Bruerton p.40 distinguen ambas formas. No se puede deducir sin encadenar por la ausencia del adjetivo en otro editor. Los 127 y 145 versos de Matico son compatibles con 3n+1, sin que el módulo decida. Morley y Bruerton p.241 describen dos pasajes y uno máximo de 145 versos en esa obra, pero allí no explicitan la disposición de rima. Se conservan ambas candidatas, sin aprobación. Criterio metodológico confirmado por el responsable: resolver un pasaje concreto no crea una equivalencia terminológica reutilizable. No se exige consultar el texto ni se generaliza una identificación puntual al resto de las sinopsis.",
+        "nota": null,
         "detalles_fuente": [],
         "desviaciones": []
       },
@@ -286,16 +259,13 @@
           "pagina": 128,
           "notas_ref": []
         },
-        "identificacion_revisada": null,
-        "aprobacion": null,
-        "propuesta": {
+        "identificacion": {
           "forma_slug": "redondilla",
           "arquitectura_slug": null
         },
         "candidatas": [],
-        "exhaustividad": null,
         "regla_id": "redondilla",
-        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "nota": null,
         "detalles_fuente": [],
         "desviaciones": []
       },
@@ -311,16 +281,13 @@
           "pagina": 128,
           "notas_ref": []
         },
-        "identificacion_revisada": null,
-        "aprobacion": null,
-        "propuesta": {
+        "identificacion": {
           "forma_slug": "endecasilabo_suelto",
           "arquitectura_slug": "endecasilabica"
         },
         "candidatas": [],
-        "exhaustividad": null,
         "regla_id": "endecasilabos-sueltos",
-        "fundamento": "La etiqueta declara forma y medida. No afirma ausencia de pareados ni de rima ocasional; tampoco encadenamiento interior.",
+        "nota": null,
         "detalles_fuente": [],
         "desviaciones": []
       },
@@ -336,16 +303,13 @@
           "pagina": 128,
           "notas_ref": []
         },
-        "identificacion_revisada": null,
-        "aprobacion": null,
-        "propuesta": {
+        "identificacion": {
           "forma_slug": "redondilla",
           "arquitectura_slug": null
         },
         "candidatas": [],
-        "exhaustividad": null,
         "regla_id": "redondilla",
-        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "nota": null,
         "detalles_fuente": [],
         "desviaciones": []
       },
@@ -361,16 +325,13 @@
           "pagina": 128,
           "notas_ref": []
         },
-        "identificacion_revisada": null,
-        "aprobacion": null,
-        "propuesta": {
+        "identificacion": {
           "forma_slug": "redondilla",
           "arquitectura_slug": null
         },
         "candidatas": [],
-        "exhaustividad": null,
         "regla_id": "redondilla",
-        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "nota": null,
         "detalles_fuente": [],
         "desviaciones": []
       },
@@ -386,16 +347,13 @@
           "pagina": 128,
           "notas_ref": []
         },
-        "identificacion_revisada": null,
-        "aprobacion": null,
-        "propuesta": {
+        "identificacion": {
           "forma_slug": "endecasilabo_suelto",
           "arquitectura_slug": "endecasilabica"
         },
         "candidatas": [],
-        "exhaustividad": null,
         "regla_id": "endecasilabos-sueltos",
-        "fundamento": "La etiqueta declara forma y medida. No afirma ausencia de pareados ni de rima ocasional; tampoco encadenamiento interior.",
+        "nota": null,
         "detalles_fuente": [],
         "desviaciones": []
       },
@@ -411,16 +369,13 @@
           "pagina": 128,
           "notas_ref": []
         },
-        "identificacion_revisada": null,
-        "aprobacion": null,
-        "propuesta": {
+        "identificacion": {
           "forma_slug": "redondilla",
           "arquitectura_slug": null
         },
         "candidatas": [],
-        "exhaustividad": null,
         "regla_id": "redondilla",
-        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "nota": null,
         "detalles_fuente": [],
         "desviaciones": []
       },
@@ -436,16 +391,13 @@
           "pagina": 128,
           "notas_ref": []
         },
-        "identificacion_revisada": null,
-        "aprobacion": null,
-        "propuesta": {
+        "identificacion": {
           "forma_slug": "endecasilabo_suelto",
           "arquitectura_slug": "endecasilabica"
         },
         "candidatas": [],
-        "exhaustividad": null,
         "regla_id": "endecasilabos-sueltos",
-        "fundamento": "La etiqueta declara forma y medida. No afirma ausencia de pareados ni de rima ocasional; tampoco encadenamiento interior.",
+        "nota": null,
         "detalles_fuente": [],
         "desviaciones": []
       },
@@ -461,16 +413,13 @@
           "pagina": 128,
           "notas_ref": []
         },
-        "identificacion_revisada": null,
-        "aprobacion": null,
-        "propuesta": {
+        "identificacion": {
           "forma_slug": "redondilla",
           "arquitectura_slug": null
         },
         "candidatas": [],
-        "exhaustividad": null,
         "regla_id": "redondilla",
-        "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+        "nota": null,
         "detalles_fuente": [],
         "desviaciones": []
       },
@@ -486,16 +435,13 @@
           "pagina": 128,
           "notas_ref": []
         },
-        "identificacion_revisada": null,
-        "aprobacion": null,
-        "propuesta": {
+        "identificacion": {
           "forma_slug": "quintilla",
           "arquitectura_slug": null
         },
         "candidatas": [],
-        "exhaustividad": null,
         "regla_id": "quintilla",
-        "fundamento": "Coincidencia del nombre de forma y su plural. No se deducen medida ni disposición de rima de cada unidad.",
+        "nota": null,
         "detalles_fuente": [],
         "desviaciones": []
       }
@@ -523,13 +469,33 @@
     "jornadas": 3,
     "bloques": 18,
     "segmentacion_confirmada": false,
-    "forma_identificada": 0,
-    "arquitectura_identificada": 0,
-    "forma_pendiente": 2812,
-    "solo_propuesta": 2540,
+    "forma_identificada": 2540,
+    "arquitectura_identificada": 160,
+    "forma_pendiente": 272,
     "con_candidatas": 272,
-    "sin_identificacion_ni_propuesta": 0,
-    "perfil_formas": []
+    "sin_identificacion": 0,
+    "perfil_formas": [
+      {
+        "forma_slug": "endecasilabo_suelto",
+        "versos": 88,
+        "proporcion_sobre_total": 0.031294452347083924
+      },
+      {
+        "forma_slug": "octava_real",
+        "versos": 72,
+        "proporcion_sobre_total": 0.025604551920341393
+      },
+      {
+        "forma_slug": "quintilla",
+        "versos": 320,
+        "proporcion_sobre_total": 0.11379800853485064
+      },
+      {
+        "forma_slug": "redondilla",
+        "versos": 2060,
+        "proporcion_sobre_total": 0.732574679943101
+      }
+    ]
   },
   "avisos": [
     {

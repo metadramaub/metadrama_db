@@ -22,7 +22,8 @@ revoke all on function public.${nombre}() from public,anon,authenticated;
 		)
 		.join('\n');
 if (process.argv.includes('--comprobar')) {
-	if (readFileSync(path, 'utf8') !== sql) throw new Error('Constante SQL desactualizada');
+	if (readFileSync(path, 'utf8').replaceAll('\r\n', '\n') !== sql.replaceAll('\r\n', '\n'))
+		throw new Error('Constante SQL desactualizada');
 	console.log('Constante SQL comprobada; sin escritura ni conexión');
 } else {
 	writeFileSync(path, sql);

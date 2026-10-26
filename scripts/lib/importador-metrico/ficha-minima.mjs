@@ -6,31 +6,24 @@ const texto = z.string().trim().min(1);
 const entero = z.number().int().positive().max(2147483647);
 const hash = z.string().regex(/^[a-f0-9]{64}$/);
 const destino = z.object({ forma_slug: texto, arquitectura_slug: texto.nullable() }).strict();
-const aprobacion = z
-	.object({ responsable: texto, fecha: z.iso.date(), fundamento: texto })
-	.strict();
 const rango = { v_ini: entero, v_fin: entero };
-const detalleRevisado = z
+const remate = z
 	.object({
 		literal: texto,
 		dimension: z.literal('estructura'),
 		tipo_seccion: z.literal('remate'),
 		nombre: texto,
 		n_versos: entero,
-		posicion: z.literal('final'),
-		estado: z.literal('interpretacion_revisada'),
-		fundamento: texto
+		posicion: z.literal('final')
 	})
 	.strict();
-const detallePendiente = z
+const detalleLiteral = z
 	.object({
 		literal: texto,
-		dimension: z.literal('asonancia').optional(),
-		rasgo_slug_propuesto: texto.optional(),
-		estado: z.enum(['pendiente', 'pendiente_de_correspondencia_del_remate'])
+		dimension: z.literal('asonancia').optional()
 	})
 	.strict();
-const detalle = z.union([detalleRevisado, detallePendiente]);
+const detalle = z.union([remate, detalleLiteral]);
 const desviacion = z
 	.object({
 		...rango,
@@ -39,14 +32,14 @@ const desviacion = z
 		metro_observado_slug: texto.optional(),
 		nota_ref: texto,
 		texto_fuente: texto,
-		fundamento: texto
+		nota: texto.nullable()
 	})
 	.strict();
 
 /** Referencias nominales del piloto: todavía no resuelve UUID ni autorías de Supabase. */
 export const fichaMinimaSchema = z
 	.object({
-		esquema: z.literal('versologia-ficha-minima/0.1'),
+		esquema: z.literal('versologia-ficha-minima/0.2'),
 		obra_ref: texto,
 		metadatos: z
 			.object({
@@ -80,13 +73,10 @@ export const fichaMinimaSchema = z
 								notas_ref: z.array(texto)
 							})
 							.strict(),
-						identificacion_revisada: destino.nullable(),
-						aprobacion: aprobacion.nullable(),
-						propuesta: destino.nullable(),
+						identificacion: destino.nullable(),
 						candidatas: z.array(destino),
-						exhaustividad: texto.nullable(),
 						regla_id: texto.nullable(),
-						fundamento: texto,
+						nota: texto.nullable(),
 						detalles_fuente: z.array(detalle),
 						desviaciones: z.array(desviacion)
 					})
@@ -172,64 +162,50 @@ export function validarFichaMinima(input, { catalogo } = {}) {
 		const ruta = `segmentos.${i}`;
 		if (datos.jornadas.filter((j) => s.v_ini >= j.v_ini && s.v_fin <= j.v_fin).length !== 1)
 			add('jornada', ruta, 'El segmento debe quedar dentro de una sola jornada.');
-		if (Boolean(s.identificacion_revisada) !== Boolean(s.aprobacion))
-			add('aprobacion', ruta, 'La identificación revisada necesita su aprobación y viceversa.');
-		if (s.identificacion_revisada && s.propuesta)
-			add(
-				'identificacion_conflictiva',
-				ruta,
-				'No se admite forma revisada y propuesta única simultáneas.'
-			);
-		if (s.propuesta && s.candidatas.length)
-			add('alternativas_conflictivas', ruta, 'Separar propuesta única y conjunto de candidatas.');
-		const destinos = [s.identificacion_revisada, s.propuesta, ...s.candidatas];
+		const destinos = [s.identificacion, ...s.candidatas];
 		destinos.forEach((d) => revisarDestino(d, ruta));
 		const unicas = new Set(s.candidatas.map((c) => JSON.stringify(c)));
 		if (unicas.size !== s.candidatas.length) add('candidata_repetida', ruta, 'Candidata repetida.');
-		if (s.candidatas.length && !s.exhaustividad)
-			add('exhaustividad', ruta, 'Hay que declarar el alcance de las candidatas.');
 		if (
-			s.identificacion_revisada &&
-			s.candidatas.some(
-				(c) => c.forma_slug !== s.identificacion_revisada.forma_slug || !c.arquitectura_slug
-			)
+			s.identificacion &&
+			s.candidatas.some((c) => c.forma_slug !== s.identificacion.forma_slug || !c.arquitectura_slug)
 		)
 			add(
 				'candidatas_arquitectura',
 				ruta,
-				'Con forma revisada, las candidatas deben ser arquitecturas de esa forma.'
+				'Con forma identificada, las candidatas deben ser arquitecturas de esa forma.'
 			);
-		if (s.identificacion_revisada?.arquitectura_slug && s.candidatas.length)
+		if (s.identificacion?.arquitectura_slug && s.candidatas.length)
 			add(
 				'arquitectura_resuelta',
 				ruta,
 				'Una arquitectura ya identificada no mantiene candidatas.'
 			);
 		for (const [k, d] of s.detalles_fuente.entries()) {
-			if (d.estado === 'interpretacion_revisada' && d.n_versos > s.v_fin - s.v_ini + 1)
+			if (d.tipo_seccion === 'remate' && d.n_versos > s.v_fin - s.v_ini + 1)
 				add(
 					'detalle_extension',
 					`${ruta}.detalles_fuente.${k}`,
 					'El detalle no puede ser más largo que su pasaje.'
 				);
 			if (
-				d.estado === 'interpretacion_revisada' &&
-				(!s.identificacion_revisada ||
+				d.tipo_seccion === 'remate' &&
+				(!s.identificacion ||
 					(catalogo?.secciones &&
 						!catalogo.secciones.some(
 							(seccion) =>
-								seccion.forma === s.identificacion_revisada.forma_slug &&
+								seccion.forma === s.identificacion.forma_slug &&
 								seccion.tipo_seccion === d.tipo_seccion &&
 								(seccion.versos_min == null || d.n_versos >= seccion.versos_min) &&
 								(seccion.versos_max == null || d.n_versos <= seccion.versos_max) &&
-								(!s.identificacion_revisada.arquitectura_slug ||
-									seccion.arquitectura === s.identificacion_revisada.arquitectura_slug)
+								(!s.identificacion.arquitectura_slug ||
+									seccion.arquitectura === s.identificacion.arquitectura_slug)
 						)))
 			)
 				add(
 					'detalle_contexto',
 					`${ruta}.detalles_fuente.${k}`,
-					'La sección revisada debe corresponder a la forma y arquitectura conocidas.'
+					'La sección debe corresponder a la forma y arquitectura conocidas.'
 				);
 		}
 		for (const [k, d] of s.desviaciones.entries()) {
@@ -271,7 +247,7 @@ export function validarFichaMinima(input, { catalogo } = {}) {
 				'Los bloques no certifican aún el número de secuencias métricas ni las transiciones.'
 			)
 		);
-	if (datos.segmentos.some((s) => !s.identificacion_revisada))
+	if (datos.segmentos.some((s) => !s.identificacion))
 		avisos.push(
 			error(
 				'forma_pendiente',
@@ -282,13 +258,13 @@ export function validarFichaMinima(input, { catalogo } = {}) {
 	return { datos, errores, avisos };
 }
 
-/** Adaptador del ensayo 0.1. No convierte sus propuestas en identificaciones ni confirma nada. */
+/** Prepara correspondencias para revisar. No confirma la importación ni revisa las reglas generales. */
 export function prepararFichaMinima(normalizada, { genero, metadatos = {} } = {}) {
 	if (normalizada.esquema !== 'versologia-normalizacion-local/0.1')
 		throw new Error('Formato de normalización no admitido');
 	const m = normalizada.metadatos ?? {};
 	return {
-		esquema: 'versologia-ficha-minima/0.1',
+		esquema: 'versologia-ficha-minima/0.2',
 		obra_ref: normalizada.obra_ref,
 		metadatos: {
 			titulo: m.titulo,
@@ -320,15 +296,26 @@ export function prepararFichaMinima(normalizada, { genero, metadatos = {} } = {}
 				pagina: s.fuente.pagina,
 				notas_ref: structuredClone(s.fuente.notas_ref)
 			},
-			identificacion_revisada: structuredClone(s.identificacion_revisada),
-			aprobacion: structuredClone(s.aprobacion),
-			propuesta: structuredClone(s.propuesta),
+			identificacion: structuredClone(s.identificacion_revisada ?? s.propuesta),
 			candidatas: structuredClone(s.candidatas),
-			exhaustividad: s.exhaustividad,
 			regla_id: s.regla_id,
-			fundamento: s.fundamento,
-			detalles_fuente: structuredClone(s.detalles_fuente),
-			desviaciones: structuredClone(s.desviaciones)
+			nota: null,
+			detalles_fuente: s.detalles_fuente.map((d) =>
+				d.tipo_seccion === 'remate'
+					? {
+							literal: d.literal,
+							dimension: d.dimension,
+							tipo_seccion: d.tipo_seccion,
+							nombre: d.nombre,
+							n_versos: d.n_versos,
+							posicion: d.posicion
+						}
+					: { literal: d.literal, ...(d.dimension ? { dimension: d.dimension } : {}) }
+			),
+			desviaciones: s.desviaciones.map(({ fundamento, ...d }) => ({
+				...structuredClone(d),
+				nota: fundamento ?? null
+			}))
 		})),
 		procedencia: {
 			reglas_version: normalizada.reglas_version,
@@ -387,14 +374,12 @@ export function crearCopiaConfirmada(input, contexto, opciones = {}) {
 		throw new Error('Falta el catálogo de metros observados');
 	if (
 		!opciones.catalogo.secciones &&
-		result.datos.segmentos.some((s) =>
-			s.detalles_fuente.some((d) => d.estado === 'interpretacion_revisada')
-		)
+		result.datos.segmentos.some((s) => s.detalles_fuente.some((d) => d.tipo_seccion === 'remate'))
 	)
 		throw new Error('Falta el catálogo de secciones declaradas');
 	const datos = JSON.parse(JSON.stringify(result.datos));
 	return congelar({
-		esquema: 'versologia-copia-minima/0.1',
+		esquema: 'versologia-copia-minima/0.2',
 		datos_confirmados: datos,
 		sha256_datos: huellaFichaMinima(datos),
 		confirmado_por: actor.user_id,
@@ -402,7 +387,7 @@ export function crearCopiaConfirmada(input, contexto, opciones = {}) {
 	});
 }
 
-/** Solo forma/arquitectura revisadas: las propuestas no entran como hechos del perfil. */
+/** Perfil del resultado preparado o confirmado; solo una confirmación habilita su uso en el corpus. */
 export function resumirFichaMinima(input) {
 	const result = validarFichaMinima(input);
 	if (result.errores.length) throw new Error('No se resumen datos con errores estructurales');
@@ -411,17 +396,15 @@ export function resumirFichaMinima(input) {
 	const formas = new Map();
 	let forma = 0,
 		arquitectura = 0,
-		propuestas = 0,
 		candidatas = 0;
 	for (const s of datos.segmentos) {
 		const n = s.v_fin - s.v_ini + 1;
-		if (s.identificacion_revisada) {
+		if (s.identificacion) {
 			forma += n;
-			if (s.identificacion_revisada.arquitectura_slug) arquitectura += n;
-			const slug = s.identificacion_revisada.forma_slug;
+			if (s.identificacion.arquitectura_slug) arquitectura += n;
+			const slug = s.identificacion.forma_slug;
 			formas.set(slug, (formas.get(slug) ?? 0) + n);
-		} else if (s.propuesta) propuestas += n;
-		else if (s.candidatas.length) candidatas += n;
+		} else if (s.candidatas.length) candidatas += n;
 	}
 	return {
 		denominador: 'posiciones_numeradas',
@@ -432,9 +415,8 @@ export function resumirFichaMinima(input) {
 		forma_identificada: forma,
 		arquitectura_identificada: arquitectura,
 		forma_pendiente: total - forma,
-		solo_propuesta: propuestas,
 		con_candidatas: candidatas,
-		sin_identificacion_ni_propuesta: total - forma - propuestas - candidatas,
+		sin_identificacion: total - forma - candidatas,
 		perfil_formas: [...formas]
 			.sort(([a], [b]) => a.localeCompare(b))
 			.map(([forma_slug, versos]) => ({

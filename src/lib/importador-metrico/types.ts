@@ -23,18 +23,15 @@ export type SegmentoMinimo = {
 		pagina: number | null;
 		notas_ref: string[];
 	};
-	identificacion_revisada: DestinoMetrico | null;
-	aprobacion: { responsable: string; fecha: string; fundamento: string } | null;
-	propuesta: DestinoMetrico | null;
+	identificacion: DestinoMetrico | null;
 	candidatas: DestinoMetrico[];
-	exhaustividad: string | null;
 	regla_id: string | null;
-	fundamento: string;
+	nota: string | null;
 	detalles_fuente: Record<string, unknown>[];
 	desviaciones: Record<string, unknown>[];
 };
 export type FichaMinima = {
-	esquema: 'versologia-ficha-minima/0.1';
+	esquema: 'versologia-ficha-minima/0.2';
 	obra_ref: string;
 	metadatos: Omit<
 		MetadatosEditables,
@@ -64,18 +61,15 @@ export type ResumenMinimo = {
 	forma_identificada: number;
 	arquitectura_identificada: number;
 	forma_pendiente: number;
-	solo_propuesta: number;
 	con_candidatas: number;
-	sin_identificacion_ni_propuesta: number;
+	sin_identificacion: number;
 	perfil_formas: { forma_slug: string; versos: number; proporcion_sobre_total: number }[];
 };
 export type FilaVistaPrevia = SegmentoMinimo & {
 	notas_fuente?: { id: string; texto_literal: string }[];
 	jornada: number | null;
 	extension: number;
-	estado: 'revisada' | 'propuesta' | 'candidatas' | 'sin_resolver';
-	forma_revisada: string | null;
-	propuesta_nombre: string | null;
+	forma_nombre: string | null;
 	candidatas_nombres: string[];
 };
 export type ResultadoVistaPrevia = {

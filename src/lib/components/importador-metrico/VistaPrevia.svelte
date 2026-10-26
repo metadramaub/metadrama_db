@@ -4,7 +4,7 @@
 
 	let { vista, desactualizada = false } = $props<{ vista: ResultadoVistaPrevia; desactualizada?: boolean }>();
 	let filtro = $state('todos');
-	const sinEquivalencia = (f: FilaVistaPrevia) => !f.identificacion_revisada && !f.propuesta;
+	const sinEquivalencia = (f: FilaVistaPrevia) => !f.identificacion;
 	const filas = $derived<FilaVistaPrevia[]>(vista.filas.filter((f: FilaVistaPrevia) =>
 		filtro === 'todos' || (filtro === 'sin_resolver' && sinEquivalencia(f)) ||
 		(filtro === 'desviaciones' && f.desviaciones.length > 0)));
@@ -14,7 +14,7 @@
 	const numero = (n: number) => new Intl.NumberFormat('es-ES').format(n);
 	const fuente = (id: string | null) => (id ?? '').replace(/^foto-/, 'Foto ');
 	function detalle(d: Record<string, unknown>, fila: FilaVistaPrevia) {
-		if (d.tipo_seccion === 'remate' && d.n_versos === 1 && fila.identificacion_revisada?.forma_slug === 'terceto_encadenado') return 'Remate final de 1 verso (3+1)';
+		if (d.tipo_seccion === 'remate' && d.n_versos === 1 && fila.identificacion?.forma_slug === 'terceto_encadenado') return 'Remate final de 1 verso (3+1)';
 		if (d.tipo_seccion === 'remate') return 'Remate: ' + String(d.literal) +
 			(d.n_versos ? ' · ' + String(d.n_versos) + (d.n_versos === 1 ? ' verso' : ' versos') : '');
 		if (d.dimension === 'asonancia') return 'Asonancia: ' + String(d.literal);
@@ -91,19 +91,17 @@
 										<td class="px-3 py-3 tabular-nums">{fila.extension}</td>
 										<td class="break-words px-3 py-3">{fila.origen.denominacion_literal ?? '—'}</td>
 										<td class="break-words px-3 py-3">
-											<p class="font-medium">{fila.forma_revisada ?? fila.propuesta_nombre ?? 'Forma sin resolver'}</p>
+											<p class="font-medium">{fila.forma_nombre ?? 'Forma sin resolver'}</p>
 											{#if sinEquivalencia(fila) && fila.candidatas_nombres.length}
 												<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">Posibilidades: {fila.candidatas_nombres.join(' / ')}</p>
-											{/if}
-											{#if fila.identificacion_revisada?.arquitectura_slug}
-												<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">{fila.identificacion_revisada.arquitectura_slug.replaceAll('_', ' ')}</p>
 											{/if}
 										</td>
 										<td class="break-words px-3 py-3">
 											{#each fila.detalles_fuente as d}<p class="mb-1">{detalle(d, fila)}</p>{/each}
 											{#each fila.desviaciones as d}<p class="mb-1 font-medium">{desviacion(d)}</p>{/each}
 											{#each fila.notas_fuente ?? [] as nota}<p class="mb-1 text-xs text-[color:var(--muted-foreground)]">{nota.texto_literal}</p>{/each}
-											{#if !fila.detalles_fuente.length && !fila.desviaciones.length && !fila.notas_fuente?.length}<span class="text-[color:var(--muted-foreground)]">—</span>{/if}
+											{#if fila.nota}<p class="mb-1 text-xs text-[color:var(--muted-foreground)]">{fila.nota}</p>{/if}
+											{#if !fila.detalles_fuente.length && !fila.desviaciones.length && !fila.notas_fuente?.length && !fila.nota}<span class="text-[color:var(--muted-foreground)]">—</span>{/if}
 										</td>
 										<td class="px-3 py-3 text-xs text-[color:var(--muted-foreground)]">
 											{fuente(fila.origen.fuente_id)}

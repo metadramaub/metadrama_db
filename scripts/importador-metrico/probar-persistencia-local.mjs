@@ -195,15 +195,23 @@ values('prueba/corpus','corpus_comparativas','publico',2,'{}');\n` + sesion(2);
 		'no se fabrican anotaciones v2'
 	);
 	sql += ok(
-		'(select count(*)=3 from public.metrica_minima_secuencias where forma_id is not null and arquitectura_id is null)',
+		"(select count(*)=3 from public.metrica_minima_secuencias m join public.formas_metricas f using(forma_id) join resultados r on (r.valor->>'importacion_id')::uuid=m.importacion_id where r.n=1 and f.slug in ('cancion','terceto_encadenado') and m.arquitectura_id is null)",
 		'Canción y dos pasajes de tercetos encadenados sin arquitectura'
 	);
 	sql += ok(
-		'(select sum(s.n_versos)=237 from public.metrica_minima_secuencias m join public.secuencias_metricas s using(secuencia_id) where m.forma_id is not null)',
-		'237 posiciones con forma revisada sin normalizar el denominador'
+		'(select sum(s.n_versos)=11473 from public.metrica_minima_secuencias m join public.secuencias_metricas s using(secuencia_id) where m.forma_id is not null)',
+		'11473 posiciones identificadas en importaciones confirmadas; 281 sin resolver'
 	);
 	sql += ok(
-		'(select bool_and(importado_por=auth.uid() and confirmado_por=auth.uid()) from public.importaciones_metricas)',
+		"(select bool_and(not datos_minimos ?| array['aprobacion','propuesta','exhaustividad','fundamento','identificacion']) from public.metrica_minima_secuencias)",
+		'métrica sin categorías internas ni duplicación de la identificación relacional'
+	);
+	sql += ok(
+		"(select bool_and(i.datos_confirmados=e.datos and i.entrada_original=e.original) from public.importaciones_metricas i join resultados r on (r.valor->>'importacion_id')::uuid=i.importacion_id join entradas e using(n))",
+		'original y copia confirmada conservan íntegramente sus documentos'
+	);
+	sql += ok(
+		'(select bool_and(importado_por=auth.uid() and importado_en is not null) from public.importaciones_metricas)',
 		'identidad tomada de la sesión'
 	);
 	sql += ok(
@@ -234,7 +242,7 @@ values('prueba/corpus','corpus_comparativas','publico',2,'{}');\n` + sesion(2);
 	sql += rechaza(
 		llamada(
 			0,
-			"||jsonb_build_object('metadatos',(datos->'metadatos')||jsonb_build_object('titulo','Fallo tardío')) || jsonb_build_object('segmentos',jsonb_set(datos->'segmentos','{20,propuesta,forma_slug}','\"inexistente\"'))",
+			"||jsonb_build_object('metadatos',(datos->'metadatos')||jsonb_build_object('titulo','Fallo tardío')) || jsonb_build_object('segmentos',jsonb_set(datos->'segmentos','{20,identificacion,forma_slug}','\"inexistente\"'))",
 			10
 		),
 		'23514',

@@ -36,17 +36,14 @@ create table if not exists public.importaciones_metricas (
   peticion_id uuid not null,
   importado_por uuid not null references public.editores(user_id),
   importado_en timestamptz not null default now(),
-  confirmado_por uuid not null references public.editores(user_id),
-  confirmado_en timestamptz not null default now(),
   autor_id uuid not null references public.autores,
   genero_id uuid not null references public.vocabularios(termino_id),
   entrada_original jsonb not null check (jsonb_typeof(entrada_original)='object'),
-  datos_confirmados jsonb not null check (datos_confirmados->>'esquema'='versologia-ficha-minima/0.1'),
+  datos_confirmados jsonb not null check (datos_confirmados->>'esquema'='versologia-ficha-minima/0.2'),
   -- Hash del texto de JSONB producido por PostgreSQL, diferente del hash canónico local.
   sha256_jsonb text not null check (sha256_jsonb ~ '^[0-9a-f]{64}$'),
   usada_en_corpus boolean not null default true,
-  unique (importado_por,peticion_id),
-  check (confirmado_por=importado_por and confirmado_en=importado_en)
+  unique (importado_por,peticion_id)
 );
 create unique index if not exists una_importacion_metrica_vigente_por_obra
   on public.importaciones_metricas(obra_id) where usada_en_corpus;
@@ -58,7 +55,7 @@ create table if not exists public.metrica_minima_secuencias (
   forma_id uuid references public.formas_metricas,
   arquitectura_id uuid references public.arquitecturas_forma,
   segmentacion text not null check (segmentacion in ('provisional','confirmada')),
-  segmento_original jsonb not null check (jsonb_typeof(segmento_original)='object'),
+  datos_minimos jsonb not null check (jsonb_typeof(datos_minimos)='object'),
   unique (importacion_id,segmento_ref),
   check (arquitectura_id is null or forma_id is not null)
 );

@@ -160,12 +160,13 @@ ni porcentajes de confianza inventados. Las posibilidades no se consideran exhau
 orienta, pero no permite repartir entre sus miembros los versos pendientes. La falta de forma,
 arquitectura o segmentación segura sigue siendo información necesaria para limitar los análisis.
 
-**Diferencia con el prototipo 0.1:** el contrato ejecutable y el borrador SQL todavía conservan
-`identificacion_revisada`, `propuesta`, `aprobacion`, `exhaustividad` y fundamentos por secuencia.
-Sirvieron para estudiar las equivalencias del piloto. Hay que adaptar ese contrato y sus pruebas
-a esta conservación sencilla antes de conectar el guardado; ocultar esas etiquetas en la pantalla
-no cambia por sí solo lo que guardaría el borrador. No se modifica el cómputo experimental de
-cobertura dando por aceptadas automáticamente todas las propuestas.
+**Contrato 0.2:** el módulo ejecutable y el borrador SQL ya conservan una sola `identificacion`,
+las candidatas y una `nota` opcional. Los remates y desviaciones no llevan estados de revisión.
+Los estados y fundamentos del estudio siguen en sus archivos de investigación y reglas generales,
+sin copiarse al resultado mínimo. La extracción original se conserva tal como se recibe.
+El resumen de una vista previa describe el resultado que se ofrece para confirmar; no certifica
+su aceptación ni lo incorpora al corpus. Los informes de investigación mantienen su cómputo de
+revisión de reglas, distinto de la cobertura del resultado preparado.
 
 ## Cómo utiliza los datos el laboratorio
 
@@ -212,8 +213,8 @@ edición, autoría usada, fechas, género, jornadas, rangos, identificaciones, c
 Es necesaria porque las tablas comunes estarán cambiando, o sus filas pueden borrarse al reiniciar.
 Conservar únicamente la tabla métrica enlazada a secuencias editables no protegería el referente.
 
-Esta copia se guardaría como `importaciones_metricas.datos_confirmados` (JSONB), con `confirmado_por`
-y `confirmado_en`: la persona que confirma la importación, sin otra instancia de validación.
+Esta copia se guardaría como `importaciones_metricas.datos_confirmados` (JSONB). `importado_por`
+y `importado_en` registran su confirmación: una sola persona y fecha, sin otra instancia de validación.
 La referencia mínima vigente de cada obra se marca en `usada_en_corpus`: solo una importación
 confirmada puede tener esa marca por obra. Una corrección se comprueba antes de sustituir la copia vigente.
 No se exige una tabla general de versiones métricas ni el campo `obras.base_metrica_analitica_id`.
