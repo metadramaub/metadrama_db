@@ -43,11 +43,39 @@ leer la columna futura de permisos individuales. El acceso de editores concretos
 cuando exista la capacidad en la DB, manteniendo el acuerdo de que los importadores podrán
 consultar todas las mínimas sin obtener acceso al laboratorio. No es un cambio de ese acuerdo.
 
-Todavía no hay edición de rangos dentro de la tabla: para corregir la transcripción se modifica
-el JSON y se prepara otra vez. Tampoco hay reimportación, promoción a completa ni confirmación.
+## Edición de formas y secuencias
+
+El botón **Editar** de cada secuencia abre un panel fuera de la tabla, con la denominación original
+siempre visible. Permite seleccionar forma y arquitectura opcional, dejar la forma sin resolver
+y añadir una nota breve. Las arquitecturas ofrecidas pertenecen a la forma elegida.
+
+**Dividir** fija un corte dentro del ámbito original. Si hay varias partes, cambiar el último
+verso de una ajusta el inicio de la siguiente. **Unir con la siguiente** reúne partes de la misma
+fila original cuando tienen la misma forma y arquitectura; no elige entre dos identificaciones
+distintas silenciosamente. Así puede representarse A → B → A como tres secuencias.
+
+El remate se conserva únicamente en la parte final, con opción expresa de retirarlo. Las
+desviaciones mantienen su localización: se rechaza cualquier corte que las atraviese. El servidor
+reconstruye el origen, valida límites y catálogo y comprueba el contexto del remate. No acepta
+campos de procedencia o aprobaciones añadidos al formulario de edición.
+
+**Comprobar secuencias** aplica los cambios y actualiza la tabla solo tras la comprobación en
+servidor. Si falla, conserva el panel para corregirlo y muestra la última tabla válida. Los cambios
+ya comprobados viajan también al corregir metadatos. **Restablecer fila** vuelve al resultado
+preparado desde la entrada. Preparar otra entrada descarta sus modificaciones anteriores.
+
+Los cambios de edición viajan como datos temporales del formulario, sin una tabla nueva ni un
+historial por secuencia. El resultado mínimo conserva la identificación final, el origen y la
+nota particular; la regla deja de atribuirse cuando se elige otro destino. Dividir no certifica
+automáticamente toda la segmentación. La entrada original permanece intacta.
+Los rangos y su referencia común documentan la división sin generar una nota repetida en cada parte.
+
+Los límites exteriores siguen siendo los de la fila original: corregir un error de transcripción
+en esos límites requiere corregir el JSON y preparar otra vez. No se unen filas originales
+distintas con una procedencia ficticia. Tampoco hay reimportación, promoción a completa ni confirmación.
 El contrato 0.2 ya aplica los
 [datos que se conservarán](./campos-minimos.md#qué-se-conserva-de-las-decisiones-y-dónde).
-El siguiente bloque debe conectar corrección, confirmación, guardado y consumidores con las garantías descritas en
+El siguiente bloque debe conectar confirmación, guardado y consumidores con las garantías descritas en
 [persistencia local](./persistencia-local.md), antes de aplicar la migración definitiva.
 
 ## Verificación y revisión del responsable
@@ -58,6 +86,10 @@ coincidencias, límites de entrada y ausencia de escrituras. La pantalla se ensa
 con el componente real y datos del piloto, mediante un servidor auxiliar local sin autenticación
 ni conexión a Supabase. La revisión posterior del 26 de octubre también se ha ensayado en el
 dashboard real con una sesión admin/IP ya abierta, consultando autores y títulos sin escrituras.
+
+El 27 de octubre se comprobó también la edición en el dashboard real con sesión abierta:
+división A → B → A, unión, ajuste de límites, conservación al corregir metadatos, rechazo de un
+remate incompatible, cancelación sin perder cambios anteriores y restablecimiento del ejemplo.
 
 La denominación «tercetos encadenados con serventesio final» se acepta como Terceto encadenado
 con remate final de un verso (3+1). Los dos pasajes de El verdadero amante aportan 170 versos;

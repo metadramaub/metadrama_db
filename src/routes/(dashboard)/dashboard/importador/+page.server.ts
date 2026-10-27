@@ -43,6 +43,13 @@ async function previsualizar(event: Parameters<Actions[string]>[0], editar: bool
 	if (entrada.length > 2_000_000)
 		return fail(413, { mensaje: 'La entrada supera el límite de este ensayo.' });
 	const autorId = editar ? texto('autor_id') : '';
+	const ediciones = editar ? texto('ediciones') || '[]' : '[]';
+	let cambiosSecuencias: unknown;
+	try {
+		cambiosSecuencias = JSON.parse(ediciones);
+	} catch {
+		cambiosSecuencias = null;
+	}
 	const cambios: Partial<MetadatosEditables> = {};
 	if (editar) {
 		for (const key of [
@@ -68,13 +75,14 @@ async function previsualizar(event: Parameters<Actions[string]>[0], editar: bool
 			return fail(400, {
 				mensaje: 'El autor seleccionado ya no está disponible. Elige otro autor del catálogo.',
 				entrada,
+				ediciones,
 				autorId: '',
-				vista: analizarEntrada(entrada, cambios),
+				vista: analizarEntrada(entrada, cambios, cambiosSecuencias),
 				coincidencias: []
 			});
 		cambios.autor_nombre = autor.nombre_completo;
 	}
-	const vista = analizarEntrada(entrada, cambios);
+	const vista = analizarEntrada(entrada, cambios, cambiosSecuencias);
 	const coincidencias: { obra_id: string; titulo: string; slug: string }[] = [];
 	if (vista.metadatos.titulo.trim()) {
 		// Coincidencia por título, no una decisión de identidad ni una reimportación.
@@ -86,7 +94,7 @@ async function previsualizar(event: Parameters<Actions[string]>[0], editar: bool
 		if (dbError) throw error(500, 'No se pudieron comprobar las coincidencias de título');
 		coincidencias.push(...(data ?? []));
 	}
-	return { entrada, autorId, vista, coincidencias };
+	return { entrada, autorId, vista, coincidencias, ediciones };
 }
 
 export const actions: Actions = {

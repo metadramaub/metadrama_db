@@ -1,8 +1,25 @@
 <script lang="ts">
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
+	import EditorSecuencia from './EditorSecuencia.svelte';
+	import type { EdicionFila, FormaEditable } from '$lib/importador-metrico/edicion';
 	import type { ResultadoVistaPrevia, FilaVistaPrevia, FichaMinima } from '$lib/importador-metrico/types';
 
-	let { vista, desactualizada = false } = $props<{ vista: ResultadoVistaPrevia; desactualizada?: boolean }>();
+	let { vista, desactualizada = false, formas = [], ocupado = false, editable = false, oneditar, oncancelar } = $props<{
+		vista: ResultadoVistaPrevia; desactualizada?: boolean; formas?: FormaEditable[]; ocupado?: boolean;
+		editable?: boolean; oneditar?: (tramo: string, cambio: EdicionFila | null) => void;
+		oncancelar?: () => void;
+	}>();
+	let editando = $state<string | null>(null);
+	let enviada = $state<ResultadoVistaPrevia | null>(null);
+	$effect(() => {
+		if (enviada && vista !== enviada) {
+			if (!vista.errores.length) editando = null;
+			enviada = null;
+		}
+	});
+	function aplicar(tramo: string, cambio: EdicionFila | null) {
+		enviada = vista; oneditar?.(tramo, cambio);
+	}
 	let filtro = $state('todos');
 	const sinEquivalencia = (f: FilaVistaPrevia) => !f.identificacion;
 	const filas = $derived<FilaVistaPrevia[]>(vista.filas.filter((f: FilaVistaPrevia) =>
@@ -43,6 +60,13 @@
 		</div>
 	{/if}
 	{#if vista.resumen && vista.datos}
+		{#if editando && editable}
+			{#key editando}
+				<EditorSecuencia datos={vista.datos} tramoRef={editando} {formas} {ocupado}
+					onaplicar={(cambio) => aplicar(cambio.tramo_ref, cambio)}
+					onrestablecer={() => editando && aplicar(editando, null)} oncancelar={() => { editando = null; oncancelar?.(); }} />
+			{/key}
+		{/if}
 		<div class:opacity-60={desactualizada} class="grid gap-3 sm:grid-cols-3">
 			<div class="card p-4">
 				<p class="form-label"><span class="form-label-with-help">Versos
@@ -87,7 +111,9 @@
 							<tbody>
 								{#each jornada.filas as fila (fila.ref)}
 									<tr class="border-t border-[color:var(--border)] align-top">
-										<td class="px-3 py-3 tabular-nums">{fila.v_ini}–{fila.v_fin}</td>
+										<td class="px-3 py-3 tabular-nums">{fila.v_ini}–{fila.v_fin}
+											{#if oneditar}<button type="button" class="mt-2 block text-xs underline disabled:opacity-50" disabled={!editable || ocupado} aria-label={'Editar secuencia ' + fila.v_ini + '–' + fila.v_fin} onclick={() => editando = fila.origen.tramo_ref}>Editar</button>{/if}
+										</td>
 										<td class="px-3 py-3 tabular-nums">{fila.extension}</td>
 										<td class="break-words px-3 py-3">{fila.origen.denominacion_literal ?? '—'}</td>
 										<td class="break-words px-3 py-3">

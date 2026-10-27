@@ -81,6 +81,41 @@ beforeEach(() => {
 });
 
 describe('acciones de la vista previa del importador', () => {
+	it('comprueba y devuelve las ediciones junto a los metadatos, sin escritura', async () => {
+		const ediciones = JSON.stringify([
+			{
+				tramo_ref: 't01',
+				partes: [
+					{
+						v_ini: 1,
+						v_fin: 532,
+						identificacion: null,
+						nota: 'Pendiente de resolver.',
+						conservar_remate: false
+					}
+				]
+			}
+		]);
+		const e = entorno({ ...metadatos, ediciones });
+		const resultado = await actions.comprobar!(e.event as never);
+		expect(resultado).toMatchObject({
+			ediciones,
+			vista: { errores: [], persistido: false, confirmacion: null }
+		});
+		expect((resultado as Devuelto).vista.filas[0].identificacion).toBeNull();
+		expect((resultado as Devuelto).vista.metadatos.titulo).toBe(metadatos.titulo);
+	});
+	it('una entrada nueva descarta las ediciones anteriores y un envío inválido permite corregirlas', async () => {
+		const e = entorno({ ...metadatos, ediciones: '{incompleto' });
+		const resultado = await actions.comprobar!(e.event as never);
+		expect(resultado).toMatchObject({ ediciones: '{incompleto' });
+		expect((resultado as Devuelto).vista.errores.some((e) => e.codigo === 'edicion')).toBe(true);
+		expect((resultado as Devuelto).vista.filas.length).toBeGreaterThan(0);
+		expect(await actions.leer!(e.event as never)).toMatchObject({
+			ediciones: '[]',
+			vista: { errores: [] }
+		});
+	});
 	it('resuelve el nombre del autor seleccionado desde DB e ignora el nombre del formulario', async () => {
 		const e = entorno({ ...metadatos, autor_id: 'id-vigente' });
 		const resultado = (await actions.comprobar!(e.event as never)) as Devuelto;

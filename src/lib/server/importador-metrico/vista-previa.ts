@@ -1,5 +1,6 @@
 /** Adaptador de servidor: ensaya el intercambio existente sin DB, confirmación ni archivos escritos. */
 import { createHash } from 'node:crypto';
+import { aplicarEdiciones } from '$lib/importador-metrico/edicion';
 import { normalizarExtraccion } from '../../../../scripts/lib/importador-metrico/normalizacion.mjs';
 import {
 	prepararFichaMinima,
@@ -65,7 +66,14 @@ export function obtenerReferenciaImportador() {
 		reglas_version: reglas.version as string,
 		catalogo_revision: catalogo.estado.revision as number,
 		fecha_consulta: catalogo.fecha_consulta as string,
-		generos: [...referencia.generos] as string[]
+		generos: [...referencia.generos] as string[],
+		formas: catalogo.formas.map(
+			(f: { slug: string; nombre: string; arquitecturas: { slug: string; nombre: string }[] }) => ({
+				slug: f.slug,
+				nombre: f.nombre,
+				arquitecturas: f.arquitecturas.map((a) => ({ slug: a.slug, nombre: a.nombre }))
+			})
+		)
 	};
 }
 function leerMetadatos(raw: unknown): MetadatosEditables {
@@ -102,7 +110,8 @@ function nombreDestino(destino: { forma_slug: string; arquitectura_slug: string 
 /** Los valores vacíos aportados expresamente sustituyen al original para poder borrar una fuente opcional. */
 export function analizarEntrada(
 	texto: string,
-	cambios: Partial<MetadatosEditables> = {}
+	cambios: Partial<MetadatosEditables> = {},
+	ediciones: unknown = []
 ): ResultadoVistaPrevia {
 	const resultado: ResultadoVistaPrevia = {
 		persistido: false,
@@ -195,6 +204,19 @@ export function analizarEntrada(
 			throw new Error(
 				'Formato no admitido. Se acepta extracción 0.1, ficha mínima 0.2 o vista previa mínima 0.2.'
 			);
+		try {
+			const editados = aplicarEdiciones(datos, ediciones);
+			const comprobacion = validarFichaMinima(editados, { catalogo: referencia });
+			if (comprobacion.errores.length)
+				throw new Error(comprobacion.errores.map((e) => e.mensaje).join(' '));
+			datos = editados;
+		} catch (error) {
+			resultado.errores.push({
+				codigo: 'edicion',
+				ruta: 'segmentos',
+				mensaje: error instanceof Error ? error.message : 'No se pudieron aplicar los cambios.'
+			});
+		}
 		const validacion = validarFichaMinima(datos, { catalogo: referencia });
 		resultado.errores.push(...validacion.errores);
 		resultado.avisos.push(...validacion.avisos);

@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { untrack } from 'svelte';
+	import { tick, untrack } from 'svelte';
+	import type { EdicionFila } from '$lib/importador-metrico/edicion';
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import type { ActionData, PageData } from './$types';
-	import type { MetadatosEditables } from '$lib/importador-metrico/types';
+	import type { MetadatosEditables, ResultadoVistaPrevia, IncidenciaImportador } from '$lib/importador-metrico/types';
 	import VistaPrevia from '$lib/components/importador-metrico/VistaPrevia.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 
@@ -21,26 +22,41 @@
 	let copiado = $state(false);
 	let errorCopia = $state(false);
 	let respuestaDescartada = $state(false);
+	let ediciones = $state(untrack(() => respuesta()?.ediciones ?? '[]'));
+	let edicionesComprobadas = $state(untrack(() => respuesta()?.vista.errores.length ? '[]' : respuesta()?.ediciones ?? '[]'));
+	let vistaComprobada = $state<ResultadoVistaPrevia | null>(untrack(() => respuesta()?.vista.errores.length ? null : respuesta()?.vista ?? null));
+	let formComprobacion = $state<HTMLFormElement>();
 	const vista = $derived(ultimaRespuesta?.vista ?? null);
 	const coincidencias = $derived(ultimaRespuesta?.coincidencias ?? []);
 	$effect(() => {
 		const r = respuesta();
 		if (r) {
-			ultimaRespuesta = r;
+			const anterior = untrack(() => ultimaRespuesta?.entrada === r.entrada ? vistaComprobada : null);
+			if (!r.vista.errores.length) {
+				vistaComprobada = r.vista;
+				edicionesComprobadas = r.ediciones ?? '[]';
+			} else if (!anterior) {
+				vistaComprobada = null;
+				edicionesComprobadas = '[]';
+			}
+			ultimaRespuesta = r.vista.errores.length && anterior ? {
+				...r, vista: { ...r.vista, datos: anterior.datos, filas: anterior.filas, resumen: anterior.resumen }
+			} : r;
+			ediciones = untrack(() => edicionesComprobadas);
 			entrada = r.entrada;
 			metadatos = { ...r.vista.metadatos };
 			autorId = r.autorId || untrack(() => reconocerAutor(r.vista.metadatos.autor_nombre));
 			entradaCambiada = false;
-			desactualizada = false;
+			desactualizada = r.vista.errores.length > 0;
 		}
 	});
 	const enviar: SubmitFunction = () => {
-		const enviados = JSON.stringify([entrada, metadatos, autorId]);
+		const enviados = JSON.stringify([entrada, metadatos, autorId, ediciones]);
 		respuestaDescartada = false;
 		pendiente = true;
 		return async ({ update }) => {
 			try {
-				if (JSON.stringify([entrada, metadatos, autorId]) !== enviados) {
+				if (JSON.stringify([entrada, metadatos, autorId, ediciones]) !== enviados) {
 					respuestaDescartada = true;
 					desactualizada = true;
 					return;
@@ -55,6 +71,21 @@
 	}
 	function cambioEntrada() { entradaCambiada = true; desactualizada = true; }
 	function cambioMetadatos() { desactualizada = true; }
+	function cancelarEdicion() {
+		if (!ultimaRespuesta) return;
+		ultimaRespuesta = { ...ultimaRespuesta, vista: { ...ultimaRespuesta.vista,
+			errores: ultimaRespuesta.vista.errores.filter((e: IncidenciaImportador) => e.codigo !== 'edicion') } };
+		desactualizada = !vistaComprobada || JSON.stringify(metadatos) !== JSON.stringify(vistaComprobada.metadatos) || ultimaRespuesta.vista.errores.length > 0;
+	}
+	async function editarSecuencias(tramo: string, cambio: EdicionFila | null) {
+		if (pendiente || entradaCambiada) return;
+		let anteriores: EdicionFila[] = [];
+		try { anteriores = JSON.parse(ediciones); } catch { /* Se conserva el error del servidor hasta corregirlo. */ }
+		ediciones = JSON.stringify([...anteriores.filter((e) => e.tramo_ref !== tramo), ...(cambio ? [cambio] : [])]);
+		desactualizada = true;
+		await tick();
+		formComprobacion?.requestSubmit();
+	}
 	function reconocerAutor(nombre: string) {
 		const normalizar = (texto: string) => texto.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().trim();
 		const candidatos = data.autores.filter((a: { nombre_completo: string }) => normalizar(a.nombre_completo) === normalizar(nombre));
@@ -108,9 +139,10 @@
 	{#if form && 'mensaje' in form}<p role="alert" class="border border-red-200 bg-red-50 p-3 text-sm">{form.mensaje}</p>{/if}
 	{#if respuestaDescartada}<p role="status" class="border-l-2 border-amber-400 bg-amber-50 p-3 text-sm">Datos modificados durante el envío. Vuelve a comprobarlos.</p>{/if}
 	{#if vista && !entradaCambiada}
-		<form method="POST" action="?/comprobar" use:enhance={enviar} class="card space-y-4 p-4 sm:p-6">
+		<form bind:this={formComprobacion} method="POST" action="?/comprobar" use:enhance={enviar} class="card space-y-4 p-4 sm:p-6">
 			<h2 class="text-lg font-semibold">2. Datos de la obra</h2>
 			<input type="hidden" name="entrada" value={entrada} />
+			<input type="hidden" name="ediciones" value={ediciones} />
 			<input type="hidden" name="autor_nombre" value={metadatos.autor_nombre} />
 			<div class="grid gap-4 sm:grid-cols-2">
 				<label class="form-field sm:col-span-2">
@@ -160,7 +192,7 @@
 			<ul class="mt-1 list-disc pl-5">{#each coincidencias as c}<li><a class="underline" href={'/dashboard/obras/' + c.obra_id}>{c.titulo}</a></li>{/each}</ul>
 		</aside>
 	{/if}
-	{#if vista}<VistaPrevia {vista} {desactualizada} />{/if}
+	{#if vista}<VistaPrevia {vista} {desactualizada} formas={data.referencia.formas} ocupado={pendiente} editable={!entradaCambiada} oneditar={editarSecuencias} oncancelar={cancelarEdicion} />{/if}
 </section>
 
 <style>
