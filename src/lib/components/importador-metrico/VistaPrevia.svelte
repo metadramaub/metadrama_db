@@ -1,5 +1,6 @@
 <script lang="ts">
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
+	import Pencil from 'lucide-svelte/icons/pencil';
 	import EditorSecuencia from './EditorSecuencia.svelte';
 	import type { EdicionFila, FormaEditable } from '$lib/importador-metrico/edicion';
 	import type { ResultadoVistaPrevia, FilaVistaPrevia, FichaMinima } from '$lib/importador-metrico/types';
@@ -104,16 +105,14 @@
 					<div class="overflow-x-auto border border-[color:var(--border)] bg-white">
 						<table class="w-full min-w-[780px] table-fixed text-left text-sm">
 							<caption class="sr-only">Esquema métrico de la jornada {jornada.numero}</caption>
-							<colgroup><col class="w-[11%]" /><col class="w-[8%]" /><col class="w-[22%]" /><col class="w-[24%]" /><col class="w-[25%]" /><col class="w-[10%]" /></colgroup>
+							<colgroup><col class="w-[11%]" /><col class="w-[8%]" /><col class="w-[20%]" /><col class="w-[22%]" /><col class="w-[23%]" /><col class="w-[10%]" />{#if oneditar}<col class="w-[6%]" />{/if}</colgroup>
 							<thead class="bg-[color:var(--muted)] text-xs text-[color:var(--muted-foreground)]">
-								<tr><th class="px-3 py-3">Versos</th><th class="px-3 py-3">N.º versos</th><th class="px-3 py-3">En la edición</th><th class="px-3 py-3">Forma en Versología</th><th class="px-3 py-3">Detalles y notas</th><th class="px-3 py-3">Fuente</th></tr>
+								<tr><th class="px-3 py-3">Versos</th><th class="px-3 py-3">N.º versos</th><th class="px-3 py-3">En la edición</th><th class="px-3 py-3">Forma en Versología</th><th class="px-3 py-3">Detalles y notas</th><th class="px-3 py-3">Fuente</th>{#if oneditar}<th class="px-3 py-3"><span class="sr-only">Acciones</span></th>{/if}</tr>
 							</thead>
 							<tbody>
 								{#each jornada.filas as fila (fila.ref)}
 									<tr class="border-t border-[color:var(--border)] align-top">
-										<td class="px-3 py-3 tabular-nums">{fila.v_ini}–{fila.v_fin}
-											{#if oneditar}<button type="button" class="mt-2 block text-xs underline disabled:opacity-50" disabled={!editable || ocupado} aria-label={'Editar secuencia ' + fila.v_ini + '–' + fila.v_fin} onclick={() => editando = fila.origen.tramo_ref}>Editar</button>{/if}
-										</td>
+										<td class="px-3 py-3 tabular-nums">{fila.v_ini}–{fila.v_fin}</td>
 										<td class="px-3 py-3 tabular-nums">{fila.extension}</td>
 										<td class="break-words px-3 py-3">{fila.origen.denominacion_literal ?? '—'}</td>
 										<td class="break-words px-3 py-3">
@@ -133,6 +132,13 @@
 											{fuente(fila.origen.fuente_id)}
 											{#if fila.origen.pagina}<p class="mt-1">p. {fila.origen.pagina}</p>{/if}
 										</td>
+										{#if oneditar}
+											<td class="px-3 py-2">
+												<div class="flex items-center justify-end gap-1">
+													<button type="button" class="rounded p-1 text-[color:var(--success)] transition-colors hover:bg-[color:var(--success)] hover:text-white disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-[color:var(--success)]" disabled={!editable || ocupado} title="Editar secuencia" aria-label={'Editar secuencia ' + fila.v_ini + '–' + fila.v_fin} onclick={() => editando = fila.origen.tramo_ref}><Pencil size={16} /></button>
+												</div>
+											</td>
+										{/if}
 									</tr>
 								{/each}
 							</tbody>

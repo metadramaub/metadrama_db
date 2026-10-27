@@ -87,7 +87,7 @@
 			</div>
 		</fieldset>
 	{/each}
-	{#if tieneRemate}<label class="flex items-center gap-2 text-sm"><input type="checkbox" bind:checked={conservarRemate} disabled={ocupado} /> Conservar el remate al final de la última secuencia</label>{/if}
+	{#if tieneRemate}<label class="flex items-center gap-2 text-sm"><input type="checkbox" bind:checked={conservarRemate} disabled={ocupado} /> {partes.length === 1 ? 'Conservar el remate' : 'Conservar el remate en la secuencia ' + partes.length}</label>{/if}
 	<div class="flex flex-wrap gap-3">
 		<button type="button" class="rounded-md bg-[color:var(--foreground)] px-4 py-2 text-sm text-white disabled:opacity-50" disabled={ocupado} onclick={aplicar}>{ocupado ? 'Comprobando…' : 'Comprobar secuencias'}</button>
 		<button type="button" class="rounded-md border border-[color:var(--border)] px-4 py-2 text-sm" disabled={ocupado} onclick={onrestablecer}>Restablecer fila</button>
