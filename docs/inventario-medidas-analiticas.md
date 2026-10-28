@@ -7,7 +7,9 @@ La incorporación de las básicas motivó la revisión, pero sus reglas analíti
 
 Se han confirmado dos correcciones de criterio: incluir los registros declarados sin forma en la
 diversidad y mantener las transiciones entre jornadas en el cálculo general. Se ha aceptado
-abandonar la etiqueta de fiabilidad por volumen. D01–D02 se aclaran y reformulan; el resto sigue
+abandonar la etiqueta de fiabilidad por volumen y separar volumen, cobertura y estabilidad.
+El experimento de sensibilidad se realizará con el corpus de Lope reunido y formará parte del
+artículo científico de presentación de Versología. D01–D02 se aclaran y reformulan; el resto sigue
 pendiente de revisión, sin interpretar el silencio como aprobación. Este documento no modifica
 los cálculos vigentes. Las definiciones aprobadas se incorporarán a la
 [metodología canónica](./metodologia-perfil-metrico.md) al implementar y verificar los cambios.
@@ -183,10 +185,12 @@ Las etiquetas D01–D10 permiten resolver los puntos sin aprobar todo en bloque.
 un rango era erróneo y se corrige, el total se recalcula con la corrección aceptada; el valor
 original se conserva solo como procedencia. No se impone la numeración errónea de la edición.
 
-Otra operación es ajustar la comprobación de una forma para tener en cuenta una desviación.
-Si hay 133 versos, uno de ellos añadido a una tirada regular de 132, comprobar `133 − 1 = 132`
-no elimina del texto el verso adicional: la extensión observada sigue siendo 133. Si la corrección
-editorial cambia realmente la extensión del texto base elegido, se usa esa extensión corregida.
+Ejemplo concreto: una redondilla tiene cuatro versos. Si el texto tiene cinco porque contiene
+un verso añadido, se registran los cinco y se declara la adición. El comprobador puede aceptar
+«cuatro versos regulares más uno añadido». No se propone borrar ese quinto verso. En cambio,
+si el OCR produjo cinco donde la foto tiene cuatro, se corrige la extracción y se registran cuatro.
+El ajuste del comprobador y la corrección de la extracción son operaciones distintas. Si la
+corrección editorial cambia realmente la extensión del texto base elegido, se usa esa extensión.
 La cuestión de contar posiciones de una laguna frente a versos conservados necesita explicitar
 su convención antes de cerrar D01; no se da por resuelta con esta aclaración.
 
@@ -208,6 +212,43 @@ coberturas independientes.
 Una ausencia puede demostrarse sin resolver absolutamente todo si la evidencia restante descarta
 esa forma; en otro caso permanece desconocida. No penalizar por sistema una básica completamente
 identificada: para esa medida puede aportar un valor exacto igual que una detallada.
+
+### Alcance estadístico de esta presentación
+
+`600/1000 = 60 % confirmado` es una descripción exacta de lo identificado bajo la fuente y reglas
+elegidas. No identifica por sí solo la proporción final de redondillas ni es la probabilidad de
+que una secuencia pendiente sea redondilla. Tampoco el 20 % pendiente es una categoría métrica
+que deba entrar en la diversidad o crear semejanza artificial entre dos perfiles incompletos.
+
+Para comparar autores o una obra con un corpus mixto se necesita un protocolo adicional:
+
+- Definir el resultado que se compara: perfil agregado por extensión o distribución por obras.
+  Las fichas básicas pueden aportar valores exactos para unas dimensiones y parciales para otras.
+- No introducir el 60 % confirmado como si fuera el 60 % total exacto en un test, una distancia
+  o una clasificación. Analizar las resoluciones compatibles con la evidencia, incluidas clases
+  no observadas en la parte conocida, o declarar las suposiciones de cualquier modelo de imputación.
+- Los límites de resoluciones posibles, los intervalos de confianza bajo un modelo y las
+  probabilidades predictivas son objetos distintos. No usar una etiqueta común de «confianza».
+  No se adopta ahora ningún modelo probabilístico para las formas pendientes.
+- No asumir que los datos sin identificar se distribuyen como los conocidos: la ambigüedad de
+  los términos puede concentrarse en determinadas clases o ediciones. La cobertura no basta
+  para justificar esa hipótesis. Tampoco seleccionar solo obras identificadas garantiza que
+  representen al corpus entero; se debe describir y evaluar esa selección.
+- Una diferencia puede ser robusta si se mantiene bajo todas las resoluciones admisibles; si
+  puede desaparecer o invertirse, el resultado es indeterminado bajo esos datos. Que dos perfiles
+  puedan coincidir no demuestra afinidad ni autoría. Las conclusiones se limitarán a las medidas
+  estudiadas y al referente declarado, con comparaciones múltiples controladas si se hacen tests.
+- La descripción del corpus reunido no requiere inventar error muestral. Si se quiere inferir
+  sobre otras obras o modelar una obra nueva, habrá que definir población y supuestos. Para
+  estabilidad por obras no se tratarán sus miles de versos como observaciones independientes.
+
+Esta es una propuesta de protocolo, no un método inferencial ya validado. Sigue el principio de
+identificación parcial de [Horowitz y Manski (2006)](https://www.sciencedirect.com/science/article/pii/S030440760500062X):
+los datos incompletos pueden acotar resultados sin identificar un único valor. Para el plan previo,
+la descripción de ausencias, las hipótesis y la sensibilidad se toma como referencia metodológica
+[TARMOS (2021)](https://pmc.ncbi.nlm.nih.gov/articles/PMC8168830/), adaptando sus principios generales
+de estudios observacionales al corpus literario; no se trasladan modelos clínicos ni se prescribe
+imputación múltiple para este proyecto.
 
 ### D03 · Diversidad y registros sin forma
 
@@ -301,7 +342,8 @@ servirá para decidir después qué resultados parciales son útiles.
 solo de la extensión: desde 6000 posiciones pasa a «alta», sin medir incertidumbre. No se trasladan
 esas bandas al nuevo diseño bajo otro nombre.
 
-**Propuesta concreta para revisión:**
+**Marco aceptado:** volumen, cobertura y estabilidad por separado. Las fórmulas de cobertura y
+el diseño de las comprobaciones siguientes son su desarrollo propuesto, todavía por validar:
 
 1. **Volumen de muestra:** número de obras distintas, jornadas aportadas como unidades propias y
    posiciones totales de las fuentes seleccionadas. Se informa también cuántas fichas son básicas
@@ -333,6 +375,31 @@ del 90 % para canto ni estabilidad de una comparación de autoría. El experimen
 qué resultados siguen siendo útiles bajo cada patrón de pérdida, sin fijar un umbral universal.
 Estos resultados se generarán y guardarán en la precomputación; no se calcularán sobre anotaciones
 durante las visitas a la web.
+
+**Experimento y artículo acordados:** el responsable sitúa el experimento tras reunir el corpus
+de Lope; será parte del artículo científico de presentación de Versología. Conviene fijar el
+protocolo antes de examinar los resultados: corpus y versiones de fuentes, medidas objetivo,
+patrones de pérdida, repeticiones y semillas, criterios de evaluación y registro de resultados.
+El corpus importado no será automáticamente una referencia sin incertidumbre. Para medir error
+por ocultación se necesitan ámbitos suficientemente resueltos de partida para la medida ensayada;
+la incertidumbre original que permanezca se documentará por separado. No se pretende medir la
+verdad filológica ni el error de los editores de las fuentes.
+
+## Qué necesita aún revisión del responsable
+
+| Punto | Decisión pendiente y propuesta para facilitar su revisión |
+| --- | --- |
+| D01: lagunas | Elegir si las proporciones describen versos conservados o extensión que incluye posiciones perdidas cuantificadas. Propuesta inicial: versos conservados para el perfil observado y extensión reconstruida aparte; contrastarlo con la práctica del catálogo antes de implementarlo. La corrección de errores sí sustituye al dato erróneo. |
+| D03: nivel de agrupación | Verso aislado e irregularidad ya están incluidos. Falta decidir si la diversidad principal agrupa por clases generales del catálogo y estudia medidas aparte, o distingue algunas por medida. Propongo clases generales comunes a básicas y detalladas, sin perder medidas registradas. |
+| D05: cuadros y extremos | Aprovechar aperturas/cierres identificados aunque el interior no lo esté; excluir de medidas de cuadros las básicas que no los registran. Cero límites estudiados es un recuento válido, pero no una proporción de coincidencias del 0 %. |
+| D06: fenómenos y prosa | Ausencia solo si está comprobada; silencio de la edición es desconocido. Proporciones por secuencias respondidas donde esa sea la unidad. Para prosa, no llamar versos a una unidad textual no medida. |
+| D07: dos lecturas | Mantener peso en todas las obras evaluables, incluidos ceros reales, y peso donde la clase aparece, con nombres y denominadores diferentes. La elegibilidad no elimina la necesidad de estudiar sesgos de selección. |
+| D08: referente | Mantener perfil agregado ponderado por extensión y distribución por obras aparte; excluir la obra contrastada y sus jornadas del referente. Mantener atribución por obra/jornada ya acordada. |
+| D09: fechas | Seleccionar por solapamiento como «compatible con el periodo», sin inventar año puntual. No interpretar ventanas que se solapan como periodos disjuntos al sumar recuentos. |
+
+D02 permite una presentación descriptiva sencilla, pero no cierra todavía el procedimiento para
+declarar semejanza o diferencia en el artículo. Es una tarea de diseño y validación estadística,
+no algo que el responsable deba resolver aprobando una fórmula aislada ni leyendo todo el SQL.
 
 ## Comprobaciones exigidas después de decidir
 

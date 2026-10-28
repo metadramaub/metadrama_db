@@ -40,6 +40,14 @@ permite calcular todavía tolerancias empíricas del corpus.
 
 ## Acuerdos de funcionamiento y decisiones por concretar
 
+El corpus de Lope es el objetivo de esta importación y servirá para el artículo científico de
+presentación de Versología. Tras reunirlo se realizará el experimento de sensibilidad a datos
+sin identificar, con un protocolo reproducible preparado antes de examinar sus resultados.
+Los ámbitos usados como referencia del experimento deberán estar suficientemente identificados
+para cada medida: reunir el corpus no elimina automáticamente su incertidumbre original.
+El marco de volumen, cobertura y estabilidad está aceptado; el método comparativo y su validación
+se desarrollan en el [inventario general de medidas](../inventario-medidas-analiticas.md).
+
 | Decisión | Qué necesita resolverse |
 | --- | --- |
 | Candidatas | Quién aprueba una correspondencia, qué evidencia la sostiene y cuándo la lista es exhaustiva o solo orientativa. No asignar pesos sin fundamento |

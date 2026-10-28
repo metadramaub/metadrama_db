@@ -36,12 +36,16 @@ estado con `npm run equivalencias:informe`
 [inventario de medidas](./inventario-medidas-analiticas.md) revisa obra, autor, comparativas y
 laboratorio para fichas detalladas y básicas; no es una auditoría de toda la lógica de la DB.
 Se incluyen verso aislado e irregularidad identificados en la diversidad y transiciones entre
-jornadas en el total. Se abandona «fiabilidad» basada solo en volumen; concretar volumen,
-cobertura por medida y estabilidad. Aclarar extensión corregida y reformular los datos parciales
+jornadas en el total. Se abandona «fiabilidad» basada solo en volumen; marco aceptado de volumen,
+cobertura por medida y estabilidad, con su desarrollo estadístico aún por validar. Aclarar extensión corregida y reformular los datos parciales
 como parte confirmada y pendiente, sin repartir lo desconocido entre formas conocidas.
 Revisar los demás puntos D01–D10 antes de cambiar cálculos. La auditoría contiene ejemplos
 sintéticos comprobados, sin recálculos ni cambios en la base compartida. Esta revisión general
 es una dependencia de la incorporación analítica del importador.
+Tras reunir el corpus de Lope, ejecutar el experimento de sensibilidad para el artículo científico
+de presentación de Versología. Preparar antes su protocolo reproducible; distinguir descripción
+confirmada, incertidumbre de identificación e inferencia. La parte pendiente no es una clase
+métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
