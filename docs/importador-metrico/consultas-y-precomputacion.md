@@ -4,6 +4,33 @@
 [diseño acordado](./diseno-integracion.md), sin modificar todavía consultas, cálculos ni DB.
 La implementación pendiente se mantiene en [PENDIENTES](../PENDIENTES.md).
 
+## Terminología y criterio editorial
+
+El responsable autoriza revisar los términos ahora, incluyendo SQL, tipos, claves y pantallas,
+en lugar de conservar la ambigüedad de «completo». Propuesta de nombres, pendiente de escoger:
+
+| Concepto | Nombre propuesto | Significado |
+| --- | --- | --- |
+| Ficha hoy llamada mínima | Ficha básica (`basica`) | Profundidad métrica general procedente de la edición; sus datos confirmados pueden aportar al corpus |
+| Ficha hoy llamada completa | Ficha detallada (`detallada`) | Recorrido editorial íntegro; puede estar en elaboración o publicada |
+| Selección de tipos | Solo detalladas / Básicas y detalladas | Composición del corpus, independiente del permiso de lectura |
+| Selección hoy llamada público/completo | Publicadas visibles / Todas las publicadas | Visibilidad de las detalladas publicadas seleccionadas; no decide el acceso al artefacto |
+| Permiso del resultado | Público / Interno | Qué salida puede leer cada destinatario |
+| Almacén hoy llamado `artefactos_publicos` | `artefactos_precomputados` | Almacena resultados públicos e internos, sin insinuar que todo su contenido es público |
+
+Los nombres antiguos que aparecen más abajo identifican el código actual y el borrador SQL;
+no se han renombrado todavía. La migración debe coordinar productores, lectores, restricciones,
+políticas, claves y tipos. Las compatibilidades de despliegue serán transitorias, no un segundo
+vocabulario de dominio permanente.
+
+**Una ficha detallada solo se publica cuando están completos todos sus campos al 100 %.**
+Es la definición editorial fijada por el responsable, no una hipótesis de disponibilidad parcial.
+Su tipo indica profundidad; su estado indica si está acabada y publicada. La comprobación de
+publicación debe hacer verificable esa condición. Si la auditoría encuentra una publicada con
+algún requisito incumplido, se registra una incidencia para revisión; no se rellena el dato ni se
+cambia el estado automáticamente. Esto no presupone que cualquier medida derivada sea aplicable
+a cualquier obra, ni resuelve por sí solo el significado de un cero o de «no procede».
+
 ## Condición de arquitectura
 
 **El análisis sigue alimentándose de datos precomputados.** La combinación de fuentes se hace
@@ -21,7 +48,8 @@ Es lectura editorial, no una excepción para calcular perfiles o comparativas en
   Su criterio declara expresamente obras publicadas. No admite mínimas sin cambiar ese contrato.
 - `corpus_comparativas_artefacto_json` parte del índice de obras y de sus análisis precomputados.
   Algunos agregados completan con cero valores ausentes: no puede recibir datos mínimos sin revisar
-  esa semántica. La revisión también debe detectar datos desconocidos de fichas completas.
+  esa semántica caso por caso. No se declara erróneo todo `coalesce` ni se confunde la comprobación
+  técnica de registros existentes con el criterio editorial de publicación íntegra.
 - `plan_recompute_datos_publicos` selecciona obras publicadas y autores;
   `finalizar_recompute_datos_publicos` elimina artefactos fuera de ese circuito. Los nuevos datos
   mixtos no pueden incorporarse a ese mantenimiento sin adaptar su selección y limpieza.
@@ -83,6 +111,12 @@ Después se aplican las mismas definiciones de medida cuando sean comparables.
 Esto no crea una tercera anotación editable ni modifica las exigencias de v2. Los resultados
 derivados se almacenan como datos precomputados; no constituyen otra ficha mantenida a mano.
 
+El recálculo completo de los resultados combinados procesa ambas fuentes: las anotaciones detalladas
+y las copias básicas seleccionadas. No se añadirá únicamente una estadística de básicas a un
+agregado anterior de detalladas. Se reconstruyen sus aportaciones comparables, denominadores,
+referentes y comparaciones bajo una misma versión de cálculo. La primera implementación prioriza
+ese recorrido completo; una optimización incremental futura deberá demostrar el mismo resultado.
+
 | Medida | Condición que debe conservar el productor |
 | --- | --- |
 | Perfil de formas | Parte identificada y pendiente sobre el total numerado; no convertir la parte conocida en un falso 100 % |
@@ -93,9 +127,31 @@ derivados se almacenan como datos precomputados; no constituyen otra ficha mante
 | Cronología | Conservar intervalos; el criterio de inclusión en un periodo debe declararse, sin inventar una fecha puntual |
 
 La elegibilidad se determina por medida y evidencia, también para las completas. La etiqueta mínima
-no rebaja automáticamente su peso, ni la etiqueta completa demuestra que todos sus campos se conozcan.
+no rebaja automáticamente su peso. Las detalladas publicadas deben tener completos todos sus campos;
+la aplicabilidad de una medida y los requisitos de sus datos se comprueban expresamente.
 Los recuentos de obras y versos elegibles, conocidos, pendientes y excluidos acompañan al resultado.
 No basta con un único porcentaje de cobertura para todo el corpus.
+
+### Revisión de ceros y datos ausentes, medida por medida
+
+El siguiente trabajo es un inventario de cada medida y cada relleno por defecto: productor,
+campo de origen, condiciones de cero real, dato no recogido, no aplicabilidad, denominador y
+lectores afectados. Cada decisión se documenta con un ejemplo y una prueba antes de cambiar SQL.
+La tabla siguiente orienta esa revisión; no sustituye decidir los casos concretos.
+
+| Caso | Pregunta que debe resolverse |
+| --- | --- |
+| Forma ausente de un perfil | ¿Se identificó toda la extensión necesaria para afirmar ausencia, o hay versos con forma pendiente? |
+| Arquitectura | ¿No está declarada en la básica, no procede para esa forma, o falta indebidamente en una detallada publicada? |
+| Rasgos, remates y rima | ¿Existe una respuesta negativa/exhaustiva, o la edición solo declara algunas presencias? |
+| Transiciones | ¿Todos los límites están determinados? ¿Cero significa ninguna transición, o se está convirtiendo una lista no estudiada en lista vacía? |
+| Personajes y enunciación | ¿Se estudió el fenómeno y no aparece, o la fuente básica no recoge ese dato? |
+| Cuadros y articulación | ¿Hay estructura estudiada y denominador aplicable, o falta información para esa proporción? |
+| Diversidad y proporciones agrupadas | ¿Los valores cubren la obra o solo la parte identificada? ¿Se está renormalizando u omitiendo lo pendiente? |
+
+No se sustituirán globalmente todos los ceros por nulos ni todos los nulos por ceros. La publicación
+íntegra de una detallada y la menor profundidad de una básica necesitan lecturas acordes con sus
+campos y con la definición de cada medida.
 
 ## Artefactos, universos y permisos
 
@@ -114,6 +170,29 @@ con una etiqueta pública ni su matriz por obra.
 Se estudiará reutilizar `artefactos_publicos` y su mecanismo de recálculo, adaptando sus tipos,
 restricciones, RLS y limpieza. No se crea otro almacén o planificador por defecto, pero tampoco se
 da por segura la reutilización hasta comprobar los permisos del tipo y sus lectores.
+
+### Distribución por destino y futura publicación en R2
+
+Hoy los datos preparados se almacenan en Supabase. El destino futuro indicado por el responsable
+es publicar archivos precomputados en R2 y que la web los lea desde allí. No se implementa R2 ahora,
+pero el contrato se diseña independiente del soporte de almacenamiento.
+
+- Separar la generación de resultados, su almacenamiento/publicación y la lectura por las páginas.
+  El cambio de Supabase a R2 sustituirá el adaptador de entrega, no las definiciones métricas.
+- Admitir varios documentos por generación. Una ficha pública descarga su ficha, su análisis propio
+  y, cuando corresponda, una comparación resumida; no necesita el corpus entero ni la matriz privada.
+  El laboratorio utiliza los documentos privados necesarios para su exploración autorizada.
+- Versionar esquemas y declarar dependencias mediante un manifiesto de generación: documentos,
+  versiones y huellas, fuentes, composición, políticas de cálculo y permisos de cada salida.
+  Los nombres de archivos y su partición exacta se fijarán al medir necesidades de los consumidores.
+- Activar la referencia a una generación solo cuando estén disponibles todos sus documentos.
+  En Supabase se coordinará la actualización; en R2 se podrá publicar primero el contenido versionado
+  y después el manifiesto activo. No depender de una transacción entre cargas de objetos.
+- Mantener el control de acceso también al distribuir desde R2. Cambiar de almacenamiento no
+  convierte los documentos internos en públicos ni autoriza entregarlos a una ficha pública.
+
+La autoría por obra y jornada forma parte ya de las aportaciones y del manifiesto, antes de generar
+agregados. La futura distribución no reducirá esas unidades a una relación obra/autor simplificada.
 
 ## Invalidación y actualización coherente
 

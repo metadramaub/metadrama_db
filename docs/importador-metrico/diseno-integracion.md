@@ -3,6 +3,10 @@
 Diseño iniciado el 22 y revisado el 26 de octubre de 2026. Recoge las decisiones de la conversación y el
 contraste con el esquema vivo. **No es una migración ni describe funciones ya implementadas.**
 Los nombres nuevos de tablas y campos son orientativos; el piloto sigue en archivos locales.
+La revisión del 28 de octubre autoriza renombrar los términos ambiguos en toda la integración.
+El [plan de consultas y precomputación](./consultas-y-precomputacion.md) propone Ficha básica y
+Ficha detallada, distingue publicación íntegra, composición y acceso, y prepara la entrega futura
+desde R2. Los nombres de código que conserva este documento identifican el modelo actual.
 La propuesta de [campos mínimos y conexiones](./campos-minimos.md) concreta este diseño:
 obligatoriedad, referencias, detalles opcionales y revisión editorial con estructura reutilizable.
 
@@ -107,6 +111,10 @@ las reglas de cómputo deben distinguir numeración del pasaje y extensión norm
 consultarán las dos anotaciones para calcular al abrirlas. El plan de
 [consultas y precomputación](./consultas-y-precomputacion.md) concreta universos, elección de fuente,
 permisos, invalidación y sustitución coherente de agregados antes de integrar el guardado.
+El recálculo completo de análisis combinados procesará ambas fuentes bajo las mismas definiciones.
+El responsable fija que una ficha detallada publicada tiene todos sus campos completos al 100 %;
+la falta de información propia de una ficha básica no se traslada como supuesto a las publicadas.
+El tratamiento de ceros, no aplicabilidad y denominadores se revisará medida por medida.
 
 Se propone una proyección analítica que traduzca cada fuente a un contrato compartido: obra,
 secuencia, rango, forma confirmada o desconocida, profundidad, evidencia y cobertura por dimensión.

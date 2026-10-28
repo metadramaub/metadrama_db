@@ -134,6 +134,12 @@ tolerancia universal de todo el corpus de Lope.
 
 ## Uso del corpus y publicación
 
+Por definición editorial, una ficha del recorrido detallado solo se publica cuando todos sus
+campos están completos al 100 %. El tipo de ficha y su estado editorial son dimensiones distintas.
+La revisión de datos existentes puede identificar incidencias respecto a esa regla, sin rellenar
+campos ni modificar estados automáticamente. No se debe deducir de un agregado con cero cuál fue
+la respuesta del editor: cada caso se contrasta con sus datos y con la definición de la medida.
+
 Una ficha mínima confirmada puede aportar datos al perfil del autor. No pesa menos por carecer de
 campos que el análisis no necesita. La elegibilidad depende de la evidencia y cobertura de la
 medida, no solo de la etiqueta mínima/completa. Los datos no estudiados de cuadros, personajes u

@@ -62,6 +62,11 @@ Antes de conectar confirmación y guardado, cerrar el [plan de consultas y preco
 selección de una aportación por obra, lectores editoriales frente a productores del corpus mixto,
 versiones, invalidación y permisos de artefactos. El análisis seguirá usando datos precomputados;
 no se ampliarán indiscriminadamente los lectores públicos ni se filtrarán todas las mínimas fuera de los cálculos.
+Revisión acordada: renombrar términos ambiguos (propuesta Básica/Detallada), exigir la integridad
+editorial del 100 % para publicar una detallada y decidir ceros/datos ausentes medida por medida.
+El recálculo combinado procesa ambas fuentes; se preparan documentos por consumidor y un manifiesto
+coherente para su almacenamiento actual en Supabase y futura distribución en R2, manteniendo permisos
+y autoría por obra/jornada. No se integra R2 todavía.
 Después conectar la confirmación desde la vista previa y el guardado definitivo;
 ampliar el piloto y ensayar
 sensibilidad. No se exige resolver todas las denominaciones: Canción con remate y encadenados
