@@ -134,10 +134,11 @@ No basta con un único porcentaje de cobertura para todo el corpus.
 
 ### Revisión de ceros y datos ausentes, medida por medida
 
-El siguiente trabajo es un inventario de cada medida y cada relleno por defecto: productor,
-campo de origen, condiciones de cero real, dato no recogido, no aplicabilidad, denominador y
-lectores afectados. Cada decisión se documenta con un ejemplo y una prueba antes de cambiar SQL.
-La tabla siguiente orienta esa revisión; no sustituye decidir los casos concretos.
+La auditoría del 28 de octubre está en el [inventario de medidas](./inventario-medidas.md):
+productores y lectores, condiciones de cero real, dato no recogido, no aplicabilidad y denominador.
+Sus propuestas D01–D10 están pendientes de revisión por el responsable; todavía no cambian SQL.
+Se han comprobado ejemplos con SELECT sintéticos, sin ejecutar productores ni dar por probada
+su integración. La tabla siguiente orienta esa revisión; no sustituye decidir los casos concretos.
 
 | Caso | Pregunta que debe resolverse |
 | --- | --- |

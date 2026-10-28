@@ -1,0 +1,13 @@
+{
+  "cambios_entre_secuencias_una_secuencia": 0,
+  "densidad_actual_una_secuencia_100_versos": 1,
+  "diversidad_actual_una_forma_mitad_conocida": 1.4142135623730951,
+  "diversidad_condicionada_una_forma": 1,
+  "filas_con_limites_nulos_opcionales": 1,
+  "filas_con_limites_nulos_predicado_actual": 0,
+  "mediana_donde_aparece": 0.6,
+  "mediana_todas_las_obras": 0.3,
+  "origen": "Casos sintéticos de fórmulas y predicados observados; no ejecuta el pipeline completo",
+  "perfil_confirmado_600_de_1000": 0.6,
+  "perfil_maximo_si_200_pendientes_son_esa_forma": 0.8
+}

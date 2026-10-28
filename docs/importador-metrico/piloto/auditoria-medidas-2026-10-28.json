@@ -1,0 +1,104 @@
+{
+  "fecha": "2026-10-28",
+  "origen": "SELECT de definiciones vigentes y lectura de código; no ejecuta productores ni inspecciona fichas individuales",
+  "funciones": [
+    {
+      "firma": "analisis_obra_publico_json(uuid)",
+      "nombre": "analisis_obra_publico_json",
+      "sha256_definicion": "95a285b64f26a4082656f2a847c31c5b04c17e7cfea96838a697e05ce1feee42"
+    },
+    {
+      "firma": "corpus_comparativas_artefacto_json(text)",
+      "nombre": "corpus_comparativas_artefacto_json",
+      "sha256_definicion": "96964cb53dcd882da67991877545f932020a295d49809b5d04f8c6aa23ca80f6"
+    },
+    {
+      "firma": "formas_de_la_obra(uuid)",
+      "nombre": "formas_de_la_obra",
+      "sha256_definicion": "c39f7aed60f9194dd3d006fbd4c4b4d42813024daad0a31d5cb6e4bf203fada0"
+    },
+    {
+      "firma": "numero_efectivo_from_perfil(jsonb)",
+      "nombre": "numero_efectivo_from_perfil",
+      "sha256_definicion": "878dc4ba0dac1122a098da159bc5947e0730c687be1ec941a00318c521298974"
+    },
+    {
+      "firma": "perfil_artefacto_obra_rango(uuid,integer,integer,text)",
+      "nombre": "perfil_artefacto_obra_rango",
+      "sha256_definicion": "c21f3af6db925d7b2ce35d1c58c9a1f459153d886c540612b083f15ad4940dfb"
+    },
+    {
+      "firma": "perfil_formas_hijos_rango(uuid,integer,integer)",
+      "nombre": "perfil_formas_hijos_rango",
+      "sha256_definicion": "8b33d7e164a99e87f1617ce25e9e313cd64fc3b932bf8b07836df8a93f4be255"
+    },
+    {
+      "firma": "perfil_formas_rango(uuid,integer,integer)",
+      "nombre": "perfil_formas_rango",
+      "sha256_definicion": "f271221508ead376a64af6db323c5d60c8aaccecf7bdcf8cb407cb882bde1862"
+    },
+    {
+      "firma": "perfil_metrico_unidades()",
+      "nombre": "perfil_metrico_unidades",
+      "sha256_definicion": "45aa8582761a22cc64ce1b51358e75730ddb46c9c6a6e4815112bb50b07e2ad8"
+    },
+    {
+      "firma": "recompute_autor_resumen(uuid)",
+      "nombre": "recompute_autor_resumen",
+      "sha256_definicion": "e7e01a41fd3d9e65344183a9072f7afa455e0feb21572803ae32796d84967e80"
+    },
+    {
+      "firma": "recompute_obra_resumen(uuid)",
+      "nombre": "recompute_obra_resumen",
+      "sha256_definicion": "4f26d96850795b8bdc1187c1e4e02f6fbf425a8f7350ae5aaa3b1a8d3f40719e"
+    },
+    {
+      "firma": "recompute_obra_resumen_metricas(uuid)",
+      "nombre": "recompute_obra_resumen_metricas",
+      "sha256_definicion": "93fe773a2625811cfb6ee5f1d444f1b05436abf1a8b931e8f8c28879bbeb0b0e"
+    },
+    {
+      "firma": "resumen_estadistico_json(numeric[])",
+      "nombre": "resumen_estadistico_json",
+      "sha256_definicion": "37c219b982db33dc77f9264fbc7ffe0c4853f4ea2f92899eba097b7027dc8a9b"
+    }
+  ],
+  "archivos": [
+    {
+      "archivo": "src/lib/types/public-artifacts.types.ts",
+      "sha256": "ab4f501b367db7487cc5269377ec6cd0dacf9a8d66cc1cffa95309308e566e21"
+    },
+    {
+      "archivo": "src/lib/server/public-artifacts.ts",
+      "sha256": "8646683124148f94b1be23a981465e2bcd9db7e87df0183f38171e3b9958bc0b"
+    },
+    {
+      "archivo": "src/lib/laboratorio/metricas.ts",
+      "sha256": "c94c0cd95b7b459d2bcd6e54990321ba33842580149cf3e1f7c5884cb9360813"
+    },
+    {
+      "archivo": "src/lib/laboratorio/group-features.ts",
+      "sha256": "9d93e77dad66533378e1870717d3a103d92f260ed4a3fca15b04c2151f73ede6"
+    },
+    {
+      "archivo": "src/lib/laboratorio/group-features.test.ts",
+      "sha256": "ca710dde8bc02f3a493275f15a3ec569107f940fc557c663f3f17d66ef1bb23a"
+    },
+    {
+      "archivo": "src/lib/laboratorio/distancias.ts",
+      "sha256": "b992bbb4ff83a6803ebc8b0503324a49e33f133ec69ba883f2df88c589cdabb1"
+    },
+    {
+      "archivo": "src/lib/autores/perfil-autor.ts",
+      "sha256": "52201e7d6751b3f21374c343a5ed9081c5261b534a8d4c711bb15fa1421f2dc1"
+    },
+    {
+      "archivo": "src/routes/(public)/laboratorio/+page.server.ts",
+      "sha256": "fe008458d64c0eb2dd0a95b04f4d50c0aa8c25be48e668c74694c4004e403726"
+    },
+    {
+      "archivo": "src/routes/(public)/laboratorio/+page.svelte",
+      "sha256": "299482b9aa2e0af0a3313686f05622518d184b06d00dc170f0d1bb098a501f91"
+    }
+  ]
+}

@@ -64,6 +64,9 @@ versiones, invalidación y permisos de artefactos. El análisis seguirá usando 
 no se ampliarán indiscriminadamente los lectores públicos ni se filtrarán todas las mínimas fuera de los cálculos.
 Revisión acordada: renombrar términos ambiguos (propuesta Básica/Detallada), exigir la integridad
 editorial del 100 % para publicar una detallada y decidir ceros/datos ausentes medida por medida.
+La auditoría de funciones vigentes y lectores está en el [inventario de medidas](./importador-metrico/inventario-medidas.md):
+revisar con el responsable las propuestas D01–D10 antes de modificar cálculos; incluye ejemplos
+sintéticos comprobados, sin recálculos ni cambios en la base compartida.
 El recálculo combinado procesa ambas fuentes; se preparan documentos por consumidor y un manifiesto
 coherente para su almacenamiento actual en Supabase y futura distribución en R2, manteniendo permisos
 y autoría por obra/jornada. No se integra R2 todavía.
