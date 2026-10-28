@@ -30,6 +30,19 @@ estado con `npm run equivalencias:informe`
 
 ---
 
+## Medidas analíticas y precomputación
+
+**Cerrar definiciones generales y corregir sus productores.** El
+[inventario de medidas](./inventario-medidas-analiticas.md) revisa obra, autor, comparativas y
+laboratorio para fichas detalladas y básicas; no es una auditoría de toda la lógica de la DB.
+Se incluyen verso aislado e irregularidad identificados en la diversidad y transiciones entre
+jornadas en el total. Se abandona «fiabilidad» basada solo en volumen; concretar volumen,
+cobertura por medida y estabilidad. Aclarar extensión corregida y reformular los datos parciales
+como parte confirmada y pendiente, sin repartir lo desconocido entre formas conocidas.
+Revisar los demás puntos D01–D10 antes de cambiar cálculos. La auditoría contiene ejemplos
+sintéticos comprobados, sin recálculos ni cambios en la base compartida. Esta revisión general
+es una dependencia de la incorporación analítica del importador.
+
 ## Proyecto de importador métrico
 
 **Concretar la persistencia mínima y ampliar el piloto.** Cuatro transcripciones aceptadas,
@@ -64,9 +77,8 @@ versiones, invalidación y permisos de artefactos. El análisis seguirá usando 
 no se ampliarán indiscriminadamente los lectores públicos ni se filtrarán todas las mínimas fuera de los cálculos.
 Revisión acordada: renombrar términos ambiguos (propuesta Básica/Detallada), exigir la integridad
 editorial del 100 % para publicar una detallada y decidir ceros/datos ausentes medida por medida.
-La auditoría de funciones vigentes y lectores está en el [inventario de medidas](./importador-metrico/inventario-medidas.md):
-revisar con el responsable las propuestas D01–D10 antes de modificar cálculos; incluye ejemplos
-sintéticos comprobados, sin recálculos ni cambios en la base compartida.
+La revisión general de medidas y denominadores figura en el apartado anterior; se aplica también
+al corpus existente, no solo a la importación.
 El recálculo combinado procesa ambas fuentes; se preparan documentos por consumidor y un manifiesto
 coherente para su almacenamiento actual en Supabase y futura distribución en R2, manteniendo permisos
 y autoría por obra/jornada. No se integra R2 todavía.

@@ -1,27 +1,35 @@
-# Auditoría de medidas: ceros, ausencias y denominadores
+# Inventario general de medidas analíticas: ceros, ausencias y denominadores
 
-28 de octubre de 2026. **Propuestas pendientes de revisión por el responsable.**
-Este documento no cambia las medidas vigentes ni da por aceptadas nuevas reglas. Tras decidirlas,
-sus definiciones se incorporarán a la [metodología canónica](../metodologia-perfil-metrico.md).
+28 de octubre de 2026. Revisión tras las observaciones del responsable.
+**Ámbito: medidas de obra, autor, comparativas y laboratorio de toda la plataforma**, para fichas
+detalladas y básicas. No es una auditoría de todas las tablas ni de toda la lógica de la base.
+La incorporación de las básicas motivó la revisión, pero sus reglas analíticas son generales.
+
+Se han confirmado dos correcciones de criterio: incluir los registros declarados sin forma en la
+diversidad y mantener las transiciones entre jornadas en el cálculo general. Se ha aceptado
+abandonar la etiqueta de fiabilidad por volumen. D01–D02 se aclaran y reformulan; el resto sigue
+pendiente de revisión, sin interpretar el silencio como aprobación. Este documento no modifica
+los cálculos vigentes. Las definiciones aprobadas se incorporarán a la
+[metodología canónica](./metodologia-perfil-metrico.md) al implementar y verificar los cambios.
 
 ## Qué se ha comprobado
 
 Se han leído las definiciones vigentes de doce funciones de Supabase y seguido sus salidas hasta
 los contratos JSON, el laboratorio y el perfil de autor. El
-[registro de firmas y hashes](./piloto/auditoria-medidas-2026-10-28.json) identifica la versión
-auditada. La consulta se conserva en [auditar-medidas.sql](../../scripts/importador-metrico/auditar-medidas.sql).
+[registro de firmas y hashes](./importador-metrico/piloto/auditoria-medidas-2026-10-28.json) identifica la versión
+auditada. La consulta se conserva en [auditar-medidas.sql](../scripts/importador-metrico/auditar-medidas.sql).
 No se ejecutaron productores ni se inspeccionaron fichas individuales para buscar errores.
 
 Además se ejecutó un SELECT con constantes para comprobar ejemplos de las fórmulas y predicados:
-[consulta](../../scripts/importador-metrico/casos-medidas.sql) y
-[resultados](./piloto/casos-medidas-2026-10-28.json). Son casos sintéticos; no prueban el recorrido
+[consulta](../scripts/importador-metrico/casos-medidas.sql) y
+[resultados](./importador-metrico/piloto/casos-medidas-2026-10-28.json). Son casos sintéticos; no prueban el recorrido
 completo de recomputación ni cuantifican cuántas obras actuales están afectadas.
 
 El análisis seguirá usando precomputados. Actualmente el laboratorio también resume grupos en
 el navegador a partir de los valores por obra descargados; esa operación no consulta anotaciones
 en vivo. Hay que mantener coherentes ambas definiciones, sin añadir cálculos sobre tablas en las
 visitas a las páginas. El futuro productor combinado recalculará ambas fuentes, con una sola
-aportación seleccionada por obra y generación, según el [plan](./consultas-y-precomputacion.md).
+aportación seleccionada por obra y generación, según el [plan](./importador-metrico/consultas-y-precomputacion.md).
 
 Una detallada solo se publica con el 100 % de sus campos cumplimentados. Una discrepancia técnica
 con esa regla requiere revisión; no autoriza a tratar como cero el dato ausente. En una básica,
@@ -39,10 +47,12 @@ detallada incompleta.
 
 No hacen falta cuatro números especiales. La propuesta técnica es un valor nullable y un motivo
 breve cuando no hay valor, más numerador, denominador y cobertura cuando procedan. Un dato parcial
-puede tener recuento confirmado o intervalo sin tener un valor exacto. Estos metadatos pertenecen
+puede tener recuento confirmado sin tener un valor exacto de toda la obra. Los límites de escenarios
+no son probabilidades ni se mostrarán por defecto como si lo fueran. Estos metadatos pertenecen
 al precomputado; la interfaz solo explicará los que ayuden a interpretar el resultado.
 
-Para las tablas siguientes: `T` = extensión numerada de la fuente elegida; `U` = posiciones cuya
+Para las tablas siguientes: `T` = extensión registrada de la fuente elegida, con las correcciones
+aceptadas; `U` = posiciones cuya
 forma no está resuelta; `N` = secuencias con delimitación confirmada de toda la obra; `F` = posiciones
 confirmadas de una forma. Los rangos han de cubrir el ámbito declarado sin solapes ni huecos
 inadvertidos. Un fallo de cobertura no convierte una obra en una obra de extensión cero.
@@ -56,19 +66,19 @@ Productores actuales: `recompute_obra_resumen_metricas`, `formas_de_la_obra` y
 
 | Medida actual | Cálculo o comportamiento observado | Propuesta: cero, ausencia y denominador |
 | --- | --- | --- |
-| `total_versos` | Suma de `n_versos`; una suma ausente acaba en 0 | Extensión numerada de la fuente seleccionada. Fuente ausente o rangos inválidos: sin valor, no 0. Sin denominador. D01 |
+| `total_versos` | Suma de `n_versos`; una suma ausente acaba en 0 | Extensión de la fuente seleccionada con correcciones aceptadas. Corregir un dato erróneo sí cambia el total; ajustar el comprobador normativo no borra un verso existente. Fuente ausente o rangos inválidos: sin valor, no 0. D01 |
 | `n_jornadas` | Recuento de jornadas | Recuento exacto si la estructura está registrada por completo; estructura no recogida: desconocida. No inferir una jornada ni cero. D01 |
 | `total_secuencias` / `n_secuencias` | Número de filas de secuencia | Exacto con segmentación confirmada. Las filas extraídas son una propuesta de segmentación: no certifican por sí solas `N`. D04 |
-| `n_formas_distintas` | Distintos slugs no nulos; no separa registros del catálogo sin forma | Recuento observado si hay pendientes; exacto si la clasificación es completa. No añadir «sin identificar» como forma. Separar los registros declarados sin forma. D02–D03 |
+| `n_formas_distintas` | Distintos slugs no nulos; no separa registros del catálogo sin forma | Contar las clases métricas identificadas, incluidos verso aislado y versificación irregular. Recuento observado si hay pendientes; exacto si la clasificación es completa. «Sin identificar» no añade una clase métrica. D02–D03 |
 | `perfil_formas[*].versos` | Suma de posiciones por slug; los nulos se agrupan como `sin-forma-anotada` en el análisis | Recuento confirmado por forma; puede ser un mínimo cuando hay `U`. Ausencia de clave no significa 0 salvo ausencia demostrable. Mantener lo pendiente fuera del catálogo. D02 |
-| `perfil_formas[*].proporcion_versos` | `F/T` | Mantener `T`, sin renormalizar lo conocido. Exacta si no hay incertidumbre relevante para esa forma; en otro caso intervalo conservador `[F/T, (F+U)/T]`. D02 |
+| `perfil_formas[*].proporcion_versos` | `F/T` | Mantener `T`, sin renormalizar lo conocido. Mostrar peso confirmado y pendiente por separado, sin repartir `U` entre formas. Si puede cambiar la identificación, no presentar el peso confirmado como reparto final exacto. D02 |
 | `perfil_formas[*].secuencias` | Recuento de filas de esa forma | Requiere límites confirmados; si no, conservar como recuento provisional de origen y excluirlo de resúmenes exactos. D04 |
 | `perfil_formas[*].longitud_media_secuencia` | Posiciones de la forma / sus secuencias | Requiere ambas cantidades completas. Forma ausente: no aplicable, no media 0. D04 |
-| `numero_efectivo_formas` | `exp(-Σ p ln p)`, con `p=F/T`, omitiendo slugs nulos | No publicar un valor exacto de toda la obra con reparto parcialmente desconocido. Resolver también el dominio de los registros sin forma. D03 |
+| `numero_efectivo_formas` | `exp(-Σ p ln p)`, con `p=F/T`, omitiendo slugs nulos | Incluir clases métricas identificadas, también registros declarados sin forma. No publicar diversidad exacta de toda la obra con reparto parcialmente desconocido. D03 |
 | `p_max` | Mayor proporción de un grupo, incluido el grupo nulo | Lo desconocido no puede ser la forma dominante. Valor exacto solo con información suficiente; extensión pendiente por separado. D03 |
 | `densidad_transiciones` | `100 × número de secuencias / T`; con `T=0`, devuelve 0 | Renombrar como densidad de secuencias y mantener la fórmula. Sin `T` válido o segmentación confirmada: sin valor. D04 |
 | `longitud_media_secuencia` | `T / número de secuencias` | `T/N` con segmentación completa. Sin secuencias observables: no aplicable; sin segmentación estudiada: desconocida. D04 |
-| `proporcion_italiana` | Posiciones de tradición italiana / `T`; la ayuda del laboratorio dice «versos con tradición identificada» | Mantener el denominador de toda la obra y corregir la ayuda. Si quedan posiciones de tradición posible no resuelta, dar intervalo. Tradición conocida puede ser elegible aunque la forma exacta siga pendiente. D02 |
+| `proporcion_italiana` | Posiciones de tradición italiana / `T`; la ayuda del laboratorio dice «versos con tradición identificada» | Mantener el denominador de toda la obra y corregir la ayuda. Si queda tradición pendiente, mostrar peso confirmado y cobertura. Tradición conocida puede ser elegible aunque la forma exacta siga pendiente. D02 |
 | `proporcion_sin_forma` | Posiciones con slug vacío o nulo / `T` | Renombrar como proporción pendiente de identificar. No confundirla con verso aislado o versificación irregular declarados. 0 si toda la extensión está clasificada. D02–D03 |
 | Arquitecturas / `perfil_formas_hijos` | Perfil separado; autor y gráficos pueden normalizar solo lo presente | Cobertura propia dentro de la forma. Canción conocida y arquitectura desconocida sigue contando como Canción. D02 |
 | Rasgos, rima, remates y desviaciones | Datos de anotación; no hay una medida global uniforme para todo el repertorio | Una declaración positiva permite contar esa presencia. Ausencia de mención en una básica no permite negarla. Definir el ámbito aplicable de cada rasgo antes de crear su agregado. D02 |
@@ -86,7 +96,7 @@ Lectores: laboratorio y comparativas; no todas las columnas tienen hoy un indica
 
 | Medida | Comportamiento observado | Propuesta |
 | --- | --- | --- |
-| `total_transiciones` | `max(número de secuencias - 1, 0)` | Contar pares realmente elegibles; decidir frontera entre jornadas. Una sola secuencia completa puede tener 0; falta de segmentación no. D04 |
+| `total_transiciones` | `max(número de secuencias - 1, 0)` | Mantener todos los pares contiguos, incluidos los de cambio de jornada. Separar conocimiento del límite y conocimiento de sus formas. Una sola secuencia completa puede tener 0; falta de segmentación no. D04 |
 | `transiciones[de,a].veces` | `lag` sobre todas las secuencias, sin partición por jornada; incluye `sin-forma-anotada` | No crear categorías de forma pendiente ni saltar A–desconocido–B. Separar límites con formas desconocidas. Cero de una pareja exige descartar su presencia en todos los límites relevantes. D04 |
 | `cambios_cuadro_total` | Inicios posteriores al primer cuadro de cada jornada | Con estructura completa, 0 es válido si no hay límites internos. En una básica sin cuadros, desconocido. D05 |
 | `cambios_cuadro_sin_cobertura` | Límites sin secuencia que cubra ambos lados | Indicador de cobertura, no ausencia de coincidencias. Mantener recuento separado. D05 |
@@ -163,25 +173,37 @@ distinción al etiquetar y precomputar; no llamar a ambas simplemente «frecuenc
    el perfil de autor y la obra no resuelven igual la diversidad parcial. Se deben alinear
    contratos y documentación tras aprobar las definiciones, con pruebas del recorrido real.
 
-## Decisiones para revisión
+## Decisiones y aclaraciones
 
 Las etiquetas D01–D10 permiten resolver los puntos sin aprobar todo en bloque.
 
 ### D01 · Extensión
 
-**Propongo** usar la numeración de la edición como base común. Una adición ya numerada cuenta;
-una laguna con posiciones incluidas en la numeración se cuenta una sola vez. Las correcciones
-estructurales de la norma no cambian ese denominador. En Los locos, 133 posiciones y 132 de
-extensión normativa responden a preguntas distintas. Conservar ambas cuando estén disponibles.
-No reconstruir posiciones perdidas que la fuente no cuantifica. Un fallo de importación no da `T=0`.
+**Aclaración pendiente de confirmar:** el dato corregido es el que se utiliza. Si la extracción o
+un rango era erróneo y se corrige, el total se recalcula con la corrección aceptada; el valor
+original se conserva solo como procedencia. No se impone la numeración errónea de la edición.
+
+Otra operación es ajustar la comprobación de una forma para tener en cuenta una desviación.
+Si hay 133 versos, uno de ellos añadido a una tirada regular de 132, comprobar `133 − 1 = 132`
+no elimina del texto el verso adicional: la extensión observada sigue siendo 133. Si la corrección
+editorial cambia realmente la extensión del texto base elegido, se usa esa extensión corregida.
+La cuestión de contar posiciones de una laguna frente a versos conservados necesita explicitar
+su convención antes de cerrar D01; no se da por resuelta con esta aclaración.
 
 ### D02 · Perfiles y datos parciales
 
-**Propongo** reparto sobre el total, con parte pendiente visible e intervalos conservadores,
-sin convertir todo lo conocido en 100 %. Con 600 redondillas, 200 romances y 200 posiciones
-sin identificar, el peso de redondillas es 60–80 %, no 75 % ni un 60 % exacto. Las candidatas no
-son probabilidades ni garantizan una lista exhaustiva. Solo estrechar un intervalo con evidencia
-que descarte alternativas. Arquitectura, tradición y rasgos tienen coberturas independientes.
+**Propuesta reformulada:** reparto confirmado sobre el total y parte pendiente por separado.
+Con 600 redondillas, 200 romances y 200 posiciones sin identificar, se muestran 60 % confirmado
+de redondillas, 20 % confirmado de romance y 20 % pendiente. No se reparte ese 20 % entre las
+formas presentes ni se presupone que pertenezca a ellas: puede corresponder íntegramente a otras
+clases. Tampoco se renormalizan 600/800 como si el 75 % describiera toda la obra.
+
+El 60–80 % de la propuesta anterior era solo el límite matemático más amplio si nada descarta
+que parte de lo pendiente sea redondilla. No expresa probabilidad, no dice que sea una resolución
+verosímil y puede no aportar utilidad filológica. Se retira como presentación por defecto;
+solo tendría sentido como escenario explícito de sensibilidad. Las candidatas no son
+probabilidades ni garantizan una lista exhaustiva. Arquitectura, tradición y rasgos tienen
+coberturas independientes.
 
 Una ausencia puede demostrarse sin resolver absolutamente todo si la evidencia restante descarta
 esa forma; en otro caso permanece desconocida. No penalizar por sistema una básica completamente
@@ -189,14 +211,16 @@ identificada: para esa medida puede aportar un valor exacto igual que una detall
 
 ### D03 · Diversidad y registros sin forma
 
-**Propongo** distinguir forma pendiente de clasificación explícita sin forma —verso aislado,
-versificación irregular—. Estos últimos conservan su extensión en el reparto, pero no suman una
-forma al recuento ni a la diversidad de formas. Para esa diversidad, el dominio serían los versos
-clasificados como formas, con denominador propio y cobertura visible respecto de `T`; si no hay
-ninguno, no aplicable. Lo pendiente que pueda alterar ese dominio impide un valor exacto global.
-La dominancia se definiría en ese mismo dominio para acompañar al índice; el peso de la forma
-más frecuente sobre `T` seguiría disponible en el perfil. Esto cambia deliberadamente la fórmula
-vigente cuando hay registros sin forma y necesita aprobación expresa.
+**Corregido por el responsable:** verso aislado y versificación irregular identificados sí
+contribuyen a la diversidad. Su clasificación como registros «sin forma» en el catálogo no
+autoriza a excluirlos del análisis. Se retira la propuesta de eliminarlos del recuento y del índice.
+
+Se calcula sobre clases métricas identificadas, incluidas esas categorías, con sus extensiones.
+Un verso aislado conserva su medida conocida; no es un verso pendiente de identificar. El nivel
+de agrupación del índice debe ser común a básicas y detalladas: incluir la categoría no implica
+crear automáticamente otra categoría por cada rasgo o medida. Cualquier desglose analítico por
+medidas deberá definirse expresamente; no se da por aprobado ni cambia la taxonomía del catálogo.
+La dominancia incluye las clases identificadas, nunca un grupo artificial de pendientes.
 
 No propongo un umbral arbitrario de cobertura para dar por buena la diversidad. Hoy, una sola
 forma conocida en la mitad de la obra produce 1,414 en el cálculo de obra: no es la diversidad
@@ -210,9 +234,10 @@ exacto inventado. Una diversidad condicionada a lo identificado solo se añadir�
 segmentación antes de usar recuentos y longitudes como exactos; un remate no crea otra secuencia.
 Esa confirmación puede resultar de revisar la tabla y aplicar las equivalencias según nuestros
 criterios; no exige cotejar obligatoriamente el texto de cada obra ni auditar la edición.
-En transiciones, propongo analizar por defecto las contiguas **dentro de cada jornada**, y guardar
-las conexiones entre jornadas aparte. Esto sí cambia el cálculo actual: falta decidir si esa
-separación responde a vuestro criterio. A–desconocido–B nunca se transforma en A→B.
+**Confirmado por el responsable:** la transición entre jornadas es importante y entra en el
+cálculo general, junto con las transiciones interiores. Se conserva ese criterio actual. Puede
+marcarse el cambio de jornada para un desglose opcional, sin quitarlo del total ni rebajar su peso.
+A–desconocido–B nunca se transforma en A→B.
 
 ### D05 · Articulación y extremos
 
@@ -264,7 +289,7 @@ No repartirla uniformemente por años. Una fecha única expresamente registrada 
 como intervalo puntual; un dato incompleto no se convierte automáticamente en fecha cierta.
 La ausencia indebida de datación impide incorporar una básica, conforme al requisito ya acordado.
 
-### D10 · Alcance de las correcciones
+### D10 · Volumen, cobertura y estabilidad
 
 **Propongo** corregir los problemas técnicos descritos y sus lectores al implementar las reglas
 aprobadas, con una generación nueva de precomputados y pruebas sobre fuentes detalladas y básicas.
@@ -272,10 +297,42 @@ No activar ahora distancias ni fijar un único índice de «confianza» para tod
 incertidumbre se explica con la cobertura y los límites pertinentes; el experimento de sensibilidad
 servirá para decidir después qué resultados parciales son útiles.
 
-La etiqueta de fiabilidad actual depende solo del volumen: desde 6000 posiciones pasa a «alta».
-**Propongo llamarla volumen de muestra**, si se conserva la banda, y mostrar los recuentos y la
-cobertura por separado. No permite afirmar fiabilidad alta por reunir dos obras largas ni sustituye
-la incertidumbre del corpus básico. Los umbrales actuales tampoco quedan validados por esta auditoría.
+**Aceptado:** retirar la idea de «fiabilidad» deducida solo del volumen. La etiqueta actual depende
+solo de la extensión: desde 6000 posiciones pasa a «alta», sin medir incertidumbre. No se trasladan
+esas bandas al nuevo diseño bajo otro nombre.
+
+**Propuesta concreta para revisión:**
+
+1. **Volumen de muestra:** número de obras distintas, jornadas aportadas como unidades propias y
+   posiciones totales de las fuentes seleccionadas. Se informa también cuántas fichas son básicas
+   y detalladas, sin convertir su tipo en una penalización de peso. Son recuentos, sin bandas.
+2. **Cobertura de cada medida:** cantidad conocida dividida por la cantidad aplicable. Para
+   clasificación métrica, posiciones identificadas / posiciones totales; aislados e irregularidad
+   identificados cuentan como conocidos. Para arquitectura, posiciones con arquitectura conocida
+   / posiciones en las que es aplicable. Para transiciones clasificadas, límites con ambos lados
+   identificados / límites existentes, incluidos los de cambio de jornada. Un límite existente
+   puede estar contado aunque no se conozcan sus formas. Para fenómenos por secuencia,
+   respondidas / secuencias a las que se aplica la pregunta. Sin denominador aplicable no hay 0 %.
+3. **Composición de la cobertura:** conservar tanto posiciones como obras evaluables; una obra
+   larga no debe ocultar que muchas otras están pendientes. Los ámbitos no recogidos de una
+   básica son desconocidos; los no aplicables quedan fuera del denominador correspondiente.
+4. **Estabilidad del referente:** recalcular dejando fuera una obra cada vez, incluidas todas
+   sus jornadas, y medir cuánto cambian los pesos de clases y otros indicadores aprobados. Se
+   informa el rango de cambios observado, no una supuesta probabilidad de que la atribución sea
+   correcta. La variación entre obras es una propiedad del repertorio, distinta de datos ausentes.
+5. **Sensibilidad a lo desconocido:** partir de fuentes suficientemente identificadas para la
+   medida ensayada y ocultar sucesivamente parte de sus datos, manteniendo un resultado de
+   referencia. Probar pérdidas repartidas, concentradas en ciertas obras y concentradas en
+   categorías poco frecuentes; estas últimas pueden alterar mucho la diversidad con pocos versos.
+   Comparar desviación del resultado y pérdida de cobertura. No corregir ni puntuar la edición:
+   se estudia la pérdida de información respecto de la declaración de la fuente.
+
+Ejemplo: 20 obras y 60000 posiciones, de las que 54000 tienen clase métrica identificada, dan un
+volumen de 20 obras y una cobertura métrica del 90 %. No implican «90 % de fiabilidad», cobertura
+del 90 % para canto ni estabilidad de una comparación de autoría. El experimento determinará
+qué resultados siguen siendo útiles bajo cada patrón de pérdida, sin fijar un umbral universal.
+Estos resultados se generarán y guardarán en la precomputación; no se calcularán sobre anotaciones
+durante las visitas a la web.
 
 ## Comprobaciones exigidas después de decidir
 

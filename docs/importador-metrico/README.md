@@ -24,7 +24,7 @@ describen capacidades ya disponibles en la plataforma.
 | [Hoja de ruta](./hoja-de-ruta.md) | Etapas, resultados necesarios, decisiones abiertas e integración técnica |
 | [Diseño de integración](./diseno-integracion.md) | Estructura compartida, tabla métrica mínima separada, contrato de análisis y resultados agregados para fichas completas |
 | [Consultas y precomputación](./consultas-y-precomputacion.md) | Universos por consumidor, selección de una fuente por obra, productores de agregados, invalidación y permisos de las salidas |
-| [Inventario de medidas](./inventario-medidas.md) | Auditoría del cálculo vigente y propuestas D01–D10 sobre ceros, datos ausentes, cobertura y denominadores; pendientes de aprobación |
+| [Inventario general de medidas](../inventario-medidas-analiticas.md) | Auditoría transversal de obra, autor, comparativas y laboratorio; decisiones confirmadas y propuestas abiertas para detalladas y básicas |
 | [Campos mínimos y conexiones](./campos-minimos.md) | Tipo mínimo sin nuevo estado editorial, permiso individual para importar, consulta compartida y propuesta visible en v2 |
 | [Piloto](./piloto/README.md) | Materiales disponibles, referencias revisadas y procedimiento de los ensayos |
 | [Validador local](./validador-local.md) | Herramienta ya disponible para comprobar salidas nuevas del prompt sin depender del gold |

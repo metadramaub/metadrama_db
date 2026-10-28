@@ -29,6 +29,12 @@ en [arquitectura-artefactos-publicos.md](arquitectura-artefactos-publicos.md). L
 los contratos JSON son parte de la interfaz pública interna; cambiar de Postgres a R2 no debe
 cambiar el significado de las medidas descritas aquí.
 
+La [revisión general de medidas](./inventario-medidas-analiticas.md), iniciada al preparar la
+incorporación de fichas básicas, audita los cálculos de obra, autor, comparativas y laboratorio
+también para las detalladas. Distingue decisiones confirmadas y propuestas abiertas sobre ceros,
+ausencias, denominadores y cobertura. Aún no modifica las fórmulas vigentes descritas abajo;
+sus cambios se incorporarán aquí al implementarlos y verificarlos.
+
 ---
 
 ## 1. Métricas a nivel de obra (`obras_resumen`)

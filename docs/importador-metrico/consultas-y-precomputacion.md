@@ -134,9 +134,10 @@ No basta con un único porcentaje de cobertura para todo el corpus.
 
 ### Revisión de ceros y datos ausentes, medida por medida
 
-La auditoría del 28 de octubre está en el [inventario de medidas](./inventario-medidas.md):
+La auditoría del 28 de octubre está en el [inventario general de medidas](../inventario-medidas-analiticas.md):
 productores y lectores, condiciones de cero real, dato no recogido, no aplicabilidad y denominador.
-Sus propuestas D01–D10 están pendientes de revisión por el responsable; todavía no cambian SQL.
+Es una revisión transversal para detalladas y básicas; el importador depende de ella. El documento
+distingue decisiones confirmadas y propuestas aún abiertas D01–D10; todavía no cambian SQL.
 Se han comprobado ejemplos con SELECT sintéticos, sin ejecutar productores ni dar por probada
 su integración. La tabla siguiente orienta esa revisión; no sustituye decidir los casos concretos.
 
