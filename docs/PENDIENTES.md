@@ -58,7 +58,11 @@ El pareado final se registra como Dístico final / Presente y las asonancias exp
 como valores del rasgo Vocales de asonancia, conservando la notación original.
 La tabla comparte la presentación de forma y arquitectura con las fichas y separa los datos
 métricos estructurados del texto de notas, para revisar qué se guardará sin abrir cada secuencia.
-Conectar la confirmación desde la vista previa y el guardado definitivo;
+Antes de conectar confirmación y guardado, cerrar el [plan de consultas y precomputación](./importador-metrico/consultas-y-precomputacion.md):
+selección de una aportación por obra, lectores editoriales frente a productores del corpus mixto,
+versiones, invalidación y permisos de artefactos. El análisis seguirá usando datos precomputados;
+no se ampliarán indiscriminadamente los lectores públicos ni se filtrarán todas las mínimas fuera de los cálculos.
+Después conectar la confirmación desde la vista previa y el guardado definitivo;
 ampliar el piloto y ensayar
 sensibilidad. No se exige resolver todas las denominaciones: Canción con remate y encadenados
 con «serventesio final» como cierre 3+1 están aceptados; «tercetos» sin calificativo y «letrilla»

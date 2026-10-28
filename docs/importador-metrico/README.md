@@ -23,6 +23,7 @@ describen capacidades ya disponibles en la plataforma.
 | [Metodología](./metodologia.md) | Acuerdos sobre fuentes, identificación, equivalencias, incertidumbre y comparabilidad |
 | [Hoja de ruta](./hoja-de-ruta.md) | Etapas, resultados necesarios, decisiones abiertas e integración técnica |
 | [Diseño de integración](./diseno-integracion.md) | Estructura compartida, tabla métrica mínima separada, contrato de análisis y resultados agregados para fichas completas |
+| [Consultas y precomputación](./consultas-y-precomputacion.md) | Universos por consumidor, selección de una fuente por obra, productores de agregados, invalidación y permisos de las salidas |
 | [Campos mínimos y conexiones](./campos-minimos.md) | Tipo mínimo sin nuevo estado editorial, permiso individual para importar, consulta compartida y propuesta visible en v2 |
 | [Piloto](./piloto/README.md) | Materiales disponibles, referencias revisadas y procedimiento de los ensayos |
 | [Validador local](./validador-local.md) | Herramienta ya disponible para comprobar salidas nuevas del prompt sin depender del gold |

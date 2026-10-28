@@ -5,6 +5,10 @@ y un [validador técnico local](./validador-local.md). El resultado del piloto d
 de la base compartida. Ya existe una vista previa de ensayo en el dashboard, sin guardado.
 Las etapas siguientes no implican que esté integrado el recorrido completo ni que se hayan
 ejecutado experimentos de sensibilidad del corpus.
+La integración se rige por el [plan de consultas y precomputación](./consultas-y-precomputacion.md):
+el corpus mixto se construye en los productores de artefactos y las pantallas conservan su lectura
+de datos preparados. Antes de conectar el guardado se fija qué consumidores incluyen mínimas y
+cuáles mantienen su universo actual; no se aplica un filtro general a todas las consultas.
 
 ## Etapas y condiciones de avance
 

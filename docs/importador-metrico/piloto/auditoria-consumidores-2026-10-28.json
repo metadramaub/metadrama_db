@@ -1,0 +1,341 @@
+{
+  "alcance": "Funciones que mencionan obras o dashboard y vistas que mencionan obras o secuencias_metricas. No acredita ejecución ni auditoría transitiva completa.",
+  "fecha": "2026-10-28",
+  "funciones": [
+    {
+      "execute_anon": false,
+      "execute_authenticated": false,
+      "firma": "analisis_obra_publico_json(uuid)",
+      "nombre": "analisis_obra_publico_json",
+      "security_definer": true,
+      "sha256_definicion": "95a285b64f26a4082656f2a847c31c5b04c17e7cfea96838a697e05ce1feee42"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "auth_puede_editar_obra(uuid)",
+      "nombre": "auth_puede_editar_obra",
+      "security_definer": true,
+      "sha256_definicion": "26cba74286dcf9981ad396c434b8b2382eaefe2ac306c33914ffde42cc2178af"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "auth_puede_ver_obra(uuid)",
+      "nombre": "auth_puede_ver_obra",
+      "security_definer": true,
+      "sha256_definicion": "b6787454ad7b74d23e1961c77264826bd986b488a5d6331afc413bf161d62e69"
+    },
+    {
+      "execute_anon": false,
+      "execute_authenticated": false,
+      "firma": "autor_ficha_artefacto_json(uuid,text)",
+      "nombre": "autor_ficha_artefacto_json",
+      "security_definer": true,
+      "sha256_definicion": "c41af4221981744a15cc3c982ca8dcecdf2ab74c02905b9e3384bca1f0b8134f"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "can_view_obra_ficha_publica(uuid,boolean)",
+      "nombre": "can_view_obra_ficha_publica",
+      "security_definer": true,
+      "sha256_definicion": "8ee888e27ceec4176fbc4c79c75a6ac5cf067f586275cba384716168947f3379"
+    },
+    {
+      "execute_anon": false,
+      "execute_authenticated": false,
+      "firma": "corpus_comparativas_artefacto_json(text)",
+      "nombre": "corpus_comparativas_artefacto_json",
+      "security_definer": true,
+      "sha256_definicion": "96964cb53dcd882da67991877545f932020a295d49809b5d04f8c6aa23ca80f6"
+    },
+    {
+      "execute_anon": false,
+      "execute_authenticated": false,
+      "firma": "ficha_publica_base_json(uuid,boolean)",
+      "nombre": "ficha_publica_base_json",
+      "security_definer": true,
+      "sha256_definicion": "44a416959eda03a248bee1ad8e12d4291737800340939fb308c524b58d718162"
+    },
+    {
+      "execute_anon": false,
+      "execute_authenticated": false,
+      "firma": "ficha_publica_dominio_json(uuid,boolean)",
+      "nombre": "ficha_publica_dominio_json",
+      "security_definer": true,
+      "sha256_definicion": "165e2e318461960fd93e975e568bff44a47748e4e8cb0bf6161559b3f3cc5b2d"
+    },
+    {
+      "execute_anon": false,
+      "execute_authenticated": false,
+      "firma": "ficha_publica_json(uuid,boolean)",
+      "nombre": "ficha_publica_json",
+      "security_definer": true,
+      "sha256_definicion": "07b9287519d2ed0092c2f6ee3a6efdbf90a36db2736c528e9d6abbfce087e6a6"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "finalizar_recompute_datos_publicos()",
+      "nombre": "finalizar_recompute_datos_publicos",
+      "security_definer": true,
+      "sha256_definicion": "ddf152948e7850fe8feefe19c76532eb0eaa14625e7d1e9a0e78189f0e087b88"
+    },
+    {
+      "execute_anon": false,
+      "execute_authenticated": true,
+      "firma": "gestionar_asignaciones_lote(text,uuid,jsonb)",
+      "nombre": "gestionar_asignaciones_lote",
+      "security_definer": true,
+      "sha256_definicion": "ce2f7c4d802ca61cc77bdcc7da255e9b29d3ecd9c7eaaa9ce87c02f3bd81bd3d"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "get_autor_publico(text)",
+      "nombre": "get_autor_publico",
+      "security_definer": true,
+      "sha256_definicion": "d222f1495efcaa01ad462176fcd84f922f506f8fd6444affa8e63b2df206948a"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "get_autores_listado_publico()",
+      "nombre": "get_autores_listado_publico",
+      "security_definer": true,
+      "sha256_definicion": "feb8d4161292f77ff658638d5d50f5af92a1ab03187cb32c12087a24592cfb0c"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "get_equipo_publico()",
+      "nombre": "get_equipo_publico",
+      "security_definer": true,
+      "sha256_definicion": "5e9b98ff1a38393f58b4258d96a39ad4dc0e1ca99b186129af3e334ba4e44bcf"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "get_obra_comentarios_publicos(uuid,boolean)",
+      "nombre": "get_obra_comentarios_publicos",
+      "security_definer": true,
+      "sha256_definicion": "d1be8d10be1722f1c78e8c6dd25df171e6843c104cf26d65e510fcda4c2585fe"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "get_obra_ficha_publica(uuid,boolean)",
+      "nombre": "get_obra_ficha_publica",
+      "security_definer": true,
+      "sha256_definicion": "4501e0b3525b8082adcecaaa53ac5a45377caf2b4b5b0cf0afec07ea715b827f"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "get_obra_ficha_publica_base_without_slugs(uuid,boolean)",
+      "nombre": "get_obra_ficha_publica_base_without_slugs",
+      "security_definer": true,
+      "sha256_definicion": "82d1329e62570f47988224edcb6581fcf1aba83683008f6e109ebf24409b6ede"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "get_portada_publica(uuid)",
+      "nombre": "get_portada_publica",
+      "security_definer": false,
+      "sha256_definicion": "fedd6718b4b225712c23dadf68045b28c164cb505384f01ac5dbbfb19566cbd5"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "guardar_anotacion_metrica(jsonb)",
+      "nombre": "guardar_anotacion_metrica",
+      "security_definer": true,
+      "sha256_definicion": "fad772716c6841367a9037ff592ce9878155756c1e55adaac551cc83500d4d11"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "marcar_artefactos_obra_sucios()",
+      "nombre": "marcar_artefactos_obra_sucios",
+      "security_definer": true,
+      "sha256_definicion": "c16da2464dc95e154caae009c1ca37638f7bedf373dd88e4e8316a77748ef19f"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "mark_obra_resumen_dirty()",
+      "nombre": "mark_obra_resumen_dirty",
+      "security_definer": true,
+      "sha256_definicion": "a1e16a6f578ab8ab93418dc3f2ddf13364d3d9125eb4c79ade7f0eb68abdcd5b"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "mark_obra_resumen_dirty_by_cuadro()",
+      "nombre": "mark_obra_resumen_dirty_by_cuadro",
+      "security_definer": true,
+      "sha256_definicion": "9377bc0981082c53905a889f485fb69dd9133754e648cc22c3acc519372937d4"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "mark_obra_resumen_dirty_by_editor_asignado()",
+      "nombre": "mark_obra_resumen_dirty_by_editor_asignado",
+      "security_definer": true,
+      "sha256_definicion": "13602112f16da25226e534301d6fb1763d1f89441113ffef4045192d880ed635"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "mark_obra_resumen_dirty_by_secuencia()",
+      "nombre": "mark_obra_resumen_dirty_by_secuencia",
+      "security_definer": true,
+      "sha256_definicion": "9c71f5f56eade98ecc61b3356cb29644131db61eeb83ba11c86fe225cb6cc154"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "mark_public_data_dirty_for_obra(uuid)",
+      "nombre": "mark_public_data_dirty_for_obra",
+      "security_definer": true,
+      "sha256_definicion": "808d599df84d605b84ede19d7e3dbf42b61751df6b17ad64c0d2d2094ab0af9f"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "next_obras_slug(text,uuid)",
+      "nombre": "next_obras_slug",
+      "security_definer": false,
+      "sha256_definicion": "a030a852fa40ec9cc14dfc17c9642b54c26d74dcfeedaf9e4bdbf475cdfb7411"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "obra_publica_visible(uuid)",
+      "nombre": "obra_publica_visible",
+      "security_definer": true,
+      "sha256_definicion": "bb5f87c9d771ef68e90d9ddb71e0bd57e88b4fafb3375dda3021bd3dcc9fb169"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "obra_publicada_asignada(uuid,uuid)",
+      "nombre": "obra_publicada_asignada",
+      "security_definer": true,
+      "sha256_definicion": "2a71629112da39bb25ab8b7664a41f9c8b4f14e4ff9618d9480faa5df441c060"
+    },
+    {
+      "execute_anon": false,
+      "execute_authenticated": false,
+      "firma": "perfil_artefacto_obra_rango(uuid,integer,integer,text)",
+      "nombre": "perfil_artefacto_obra_rango",
+      "security_definer": true,
+      "sha256_definicion": "c21f3af6db925d7b2ce35d1c58c9a1f459153d886c540612b083f15ad4940dfb"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "plan_recompute_datos_publicos()",
+      "nombre": "plan_recompute_datos_publicos",
+      "security_definer": true,
+      "sha256_definicion": "ff5ca69ad7d8ef7cf47013c5c68931c43ecbbec0c816e6e884d4931f54c7eb97"
+    },
+    {
+      "execute_anon": false,
+      "execute_authenticated": false,
+      "firma": "recompute_all()",
+      "nombre": "recompute_all",
+      "security_definer": true,
+      "sha256_definicion": "6fc8ea2f39edbd3e5eadf53cae3d0c6b5948028b9d4fd1cd18ddb312d632471c"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "recompute_artefactos_globales()",
+      "nombre": "recompute_artefactos_globales",
+      "security_definer": true,
+      "sha256_definicion": "2b987f3e9de5f69c8fc7560e0ceaaacf8e6580b1efafd5c1ee5f54c85db0a38e"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "recompute_artefactos_obra(uuid)",
+      "nombre": "recompute_artefactos_obra",
+      "security_definer": true,
+      "sha256_definicion": "cb8691c3ef79d70b94fe40e1b755f74872085971134acc50059c8d7014a44851"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "recompute_autor_resumen(uuid)",
+      "nombre": "recompute_autor_resumen",
+      "security_definer": true,
+      "sha256_definicion": "e7e01a41fd3d9e65344183a9072f7afa455e0feb21572803ae32796d84967e80"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "recompute_obra_resumen(uuid)",
+      "nombre": "recompute_obra_resumen",
+      "security_definer": true,
+      "sha256_definicion": "4f26d96850795b8bdc1187c1e4e02f6fbf425a8f7350ae5aaa3b1a8d3f40719e"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "recompute_obra_resumen_estructura(uuid)",
+      "nombre": "recompute_obra_resumen_estructura",
+      "security_definer": true,
+      "sha256_definicion": "7b5d07b16801eb8d94006fdc5ba503565f34e8ba1be4dc752246f52eb00fc180"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "recompute_obra_resumen_metricas(uuid)",
+      "nombre": "recompute_obra_resumen_metricas",
+      "security_definer": true,
+      "sha256_definicion": "93fe773a2625811cfb6ee5f1d444f1b05436abf1a8b931e8f8c28879bbeb0b0e"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "secuencia_respeta_lo_declarado_en_la_obra()",
+      "nombre": "secuencia_respeta_lo_declarado_en_la_obra",
+      "security_definer": false,
+      "sha256_definicion": "bd1af5dcaa1fa641fdd057e643d7ed6d75813484e49d4939965996ac4b0b97eb"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "set_obras_slug()",
+      "nombre": "set_obras_slug",
+      "security_definer": false,
+      "sha256_definicion": "37d1bb12a24897527d8879ae27bca15d0506d7b14cc622a4900073d3af4f81ee"
+    },
+    {
+      "execute_anon": true,
+      "execute_authenticated": true,
+      "firma": "sync_editor_identity_in_public_summaries()",
+      "nombre": "sync_editor_identity_in_public_summaries",
+      "security_definer": true,
+      "sha256_definicion": "54d8f4ff64cae05c316ffead38a453d15c0c5a6fe4c0c63e1a3565abf6b29793"
+    },
+    {
+      "execute_anon": false,
+      "execute_authenticated": false,
+      "firma": "trasladar_observaciones_a_comentarios(uuid[],uuid)",
+      "nombre": "trasladar_observaciones_a_comentarios",
+      "security_definer": false,
+      "sha256_definicion": "2074ff8d3c948d18cd22acac05f0d3ea27b0aac77f335831194417d0ef17aa31"
+    }
+  ],
+  "origen": "SELECT de solo lectura; firmas, huellas y permisos, sin datos de obras o personas",
+  "vistas": [
+    {
+      "nombre": "propuesta_metrica_secuencia",
+      "sha256_definicion": "cbe59068db1c7f1658ea7d83cfb23b3417d4849d26bd3cf7fc8a44875e94a222"
+    }
+  ]
+}

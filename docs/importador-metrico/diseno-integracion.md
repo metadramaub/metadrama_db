@@ -103,9 +103,14 @@ las reglas de cómputo deben distinguir numeración del pasaje y extensión norm
 
 ## Una capa común para calcular, sin mezclar las anotaciones
 
+**Esta lectura común pertenece a los productores de datos precomputados.** Las pantallas no
+consultarán las dos anotaciones para calcular al abrirlas. El plan de
+[consultas y precomputación](./consultas-y-precomputacion.md) concreta universos, elección de fuente,
+permisos, invalidación y sustitución coherente de agregados antes de integrar el guardado.
+
 Se propone una proyección analítica que traduzca cada fuente a un contrato compartido: obra,
 secuencia, rango, forma confirmada o desconocida, profundidad, evidencia y cobertura por dimensión.
-Los adaptadores de mínima y v2 alimentan ese contrato; los cálculos comunes se definen una sola vez.
+Los adaptadores de mínima y v2 alimentan ese contrato durante la precomputación; los cálculos comunes se definen una sola vez.
 La proyección no completa datos ni transforma la mínima en anotación detallada.
 En términos de funcionamiento, el código sabe leer formas y rangos desde una u otra tabla para
 calcular medidas equivalentes. No implica validar la segmentación importada: el editor elige entre
