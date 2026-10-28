@@ -71,6 +71,7 @@ export function obtenerReferenciaImportador() {
 			(f: { slug: string; nombre: string; arquitecturas: { slug: string; nombre: string }[] }) => ({
 				slug: f.slug,
 				nombre: f.nombre,
+				secciones: referencia.secciones.filter((s: { forma: string }) => s.forma === f.slug),
 				arquitecturas: f.arquitecturas.map((a) => ({ slug: a.slug, nombre: a.nombre }))
 			})
 		)

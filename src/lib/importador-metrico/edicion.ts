@@ -17,7 +17,7 @@ export const edicionesSchema = z
 								v_fin: entero,
 								identificacion: destino.nullable(),
 								nota: texto.nullable(),
-								conservar_remate: z.boolean()
+								remate: z.object({ n_versos: entero }).strict().nullable()
 							})
 							.strict()
 					)
@@ -32,6 +32,12 @@ export type FormaEditable = {
 	slug: string;
 	nombre: string;
 	arquitecturas: { slug: string; nombre: string }[];
+	secciones?: {
+		tipo_seccion: string;
+		arquitectura: string;
+		versos_min?: number | null;
+		versos_max?: number | null;
+	}[];
 };
 
 /** Solo modifica la interpretación. El origen y el ámbito se reconstruyen desde la entrada. */
@@ -110,12 +116,29 @@ export function aplicarEdiciones(datos: FichaMinima, entrada: unknown): FichaMin
 						),
 				regla_id: mismoDestino ? originales[0].regla_id : null,
 				nota: p.nota,
-				detalles_fuente: structuredClone(
-					detalles.filter(
-						(d) =>
-							d.tipo_seccion !== 'remate' || (i === cambio.partes.length - 1 && p.conservar_remate)
-					)
-				),
+				detalles_fuente: [
+					...structuredClone(detalles.filter((d) => d.tipo_seccion !== 'remate')),
+					...(p.remate
+						? [
+								{
+									...structuredClone(
+										originales
+											.find((s) => s.v_fin === p.v_fin)
+											?.detalles_fuente.find(
+												(d) => d.tipo_seccion === 'remate' && d.n_versos === p.remate!.n_versos
+											) ?? {
+											literal: 'remate final',
+											dimension: 'estructura',
+											tipo_seccion: 'remate',
+											nombre: 'Remate',
+											posicion: 'final'
+										}
+									),
+									n_versos: p.remate.n_versos
+								}
+							]
+						: [])
+				],
 				desviaciones: structuredClone(
 					desviaciones.filter((d) => Number(d.v_ini) >= p.v_ini && Number(d.v_fin) <= p.v_fin)
 				)

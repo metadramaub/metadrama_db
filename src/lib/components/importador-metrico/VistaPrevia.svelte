@@ -63,7 +63,7 @@
 	{#if vista.resumen && vista.datos}
 		{#if editando && editable}
 			{#key editando}
-				<EditorSecuencia datos={vista.datos} tramoRef={editando} {formas} {ocupado}
+				<EditorSecuencia datos={vista.datos} tramoRef={editando} {formas} {ocupado} errores={vista.errores.map((e: { mensaje: string }) => e.mensaje)}
 					onaplicar={(cambio) => aplicar(cambio.tramo_ref, cambio)}
 					onrestablecer={() => editando && aplicar(editando, null)} oncancelar={() => { editando = null; oncancelar?.(); }} />
 			{/key}

@@ -51,7 +51,9 @@ del dashboard ya prepara entradas, metadatos y secuencias por jornadas para admi
 El contrato 0.2 y el borrador SQL ya conservan original, copia confirmada, versión de reglas y decisiones
 particulares breves, sin estados ni fundamentos generales repetidos por secuencia. La vista previa
 ya permite editar formas y arquitecturas, dividir y reunir partes de una fila original, comprobar
-en servidor y restablecer. Conectar la confirmación desde la vista previa y el guardado definitivo;
+en servidor y restablecer. El modal compartido con v2 mantiene la edición general; la división
+muestra los rangos antes de crear la parte nueva y el remate permite añadir, corregir o quitar
+su dato. Conectar la confirmación desde la vista previa y el guardado definitivo;
 ampliar el piloto y ensayar
 sensibilidad. No se exige resolver todas las denominaciones: Canción con remate y encadenados
 con «serventesio final» como cierre 3+1 están aceptados; «tercetos» sin calificativo y «letrilla»

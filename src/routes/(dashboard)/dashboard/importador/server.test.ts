@@ -91,7 +91,7 @@ describe('acciones de la vista previa del importador', () => {
 						v_fin: 532,
 						identificacion: null,
 						nota: 'Pendiente de resolver.',
-						conservar_remate: false
+						remate: null
 					}
 				]
 			}

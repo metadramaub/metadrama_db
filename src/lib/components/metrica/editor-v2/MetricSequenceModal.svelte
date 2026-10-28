@@ -48,6 +48,9 @@
 		alEliminar?: (() => void) | null;
 		alCerrar: () => void;
 		alGuardar: () => void;
+		/** Etiqueta alternativa para usos sin guardado, como la vista previa del importador. */
+		etiquetaGuardar?: string;
+		etiquetaProcesando?: string;
 		children: Snippet;
 	}>();
 
@@ -61,6 +64,9 @@
 	-->
 	<div
 		class="flex max-h-[92vh] w-full max-w-6xl flex-col overflow-hidden border border-[color:var(--border)] bg-[color:var(--gray-50)]"
+		role="dialog"
+		aria-modal="true"
+		aria-label={props.titulo}
 		inert={props.guardando}
 		aria-busy={props.guardando}
 	>
@@ -129,9 +135,9 @@
 						onclick={props.alGuardar}
 						disabled={props.guardando}
 						loading={props.guardando}
-						loadingLabel="Guardando…"
+						loadingLabel={props.etiquetaProcesando ?? 'Guardando…'}
 					>
-						Guardar
+						{props.etiquetaGuardar ?? 'Guardar'}
 					</Button>
 				</div>
 			</div>

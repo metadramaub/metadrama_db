@@ -12,21 +12,21 @@ const cambio = (): EdicionFila => ({
 			v_fin: 100,
 			identificacion: { forma_slug: 'redondilla', arquitectura_slug: null },
 			nota: null,
-			conservar_remate: false
+			remate: null
 		},
 		{
 			v_ini: 101,
 			v_fin: 200,
 			identificacion: { forma_slug: 'romance', arquitectura_slug: null },
 			nota: 'Cambio de forma en la fila.',
-			conservar_remate: false
+			remate: null
 		},
 		{
 			v_ini: 201,
 			v_fin: 532,
 			identificacion: { forma_slug: 'redondilla', arquitectura_slug: null },
 			nota: null,
-			conservar_remate: false
+			remate: null
 		}
 	]
 });
@@ -79,7 +79,7 @@ describe('edición de las secuencias preparadas', () => {
 	it('conserva cada desviación en su parte y rechaza cortarla por la mitad', () => {
 		const datos = analizarEntrada(entrada('los-locos-de-valencia')).datos!;
 		const s = datos.segmentos.find((s) => s.ref === 't16')!;
-		const parte = { identificacion: s.identificacion, nota: null, conservar_remate: false };
+		const parte = { identificacion: s.identificacion, nota: null, remate: null };
 		const c = {
 			tramo_ref: 't16',
 			partes: [
@@ -97,11 +97,15 @@ describe('edición de las secuencias preparadas', () => {
 	it('mantiene un remate solo en la parte final y permite retirarlo expresamente', () => {
 		const datos = analizarEntrada(entrada('el-verdadero-amante')).datos!;
 		const s = datos.segmentos[1];
-		const parte = { identificacion: s.identificacion, nota: null, conservar_remate: true };
+		const parte: {
+			identificacion: typeof s.identificacion;
+			nota: null;
+			remate: { n_versos: number } | null;
+		} = { identificacion: s.identificacion, nota: null, remate: { n_versos: 2 } };
 		const c = {
 			tramo_ref: 't02',
 			partes: [
-				{ ...parte, v_ini: 221, v_fin: 250 },
+				{ ...parte, v_ini: 221, v_fin: 250, remate: null },
 				{ ...parte, v_ini: 251, v_fin: 287 }
 			]
 		};
@@ -110,7 +114,7 @@ describe('edición de las secuencias preparadas', () => {
 				.segmentos.filter((s) => s.origen.tramo_ref === 't02')
 				.map((s) => s.detalles_fuente.length)
 		).toEqual([0, 1]);
-		c.partes[1].conservar_remate = false;
+		c.partes[1].remate = null;
 		expect(
 			aplicarEdiciones(datos, [c])
 				.segmentos.filter((s) => s.origen.tramo_ref === 't02')
@@ -124,6 +128,43 @@ describe('edición de las secuencias preparadas', () => {
 		expect(vista.errores.some((e) => e.codigo === 'edicion')).toBe(true);
 		expect(vista.datos).toEqual(base());
 		expect(vista.filas).toHaveLength(base().segmentos.length);
+	});
+	it('añade un remate ausente y permite cambiarlo sin alterar la cita literal de la edición', () => {
+		const datos = analizarEntrada(entrada('el-verdadero-amante')).datos!;
+		const s = datos.segmentos.find((s) => s.ref === 't07')!;
+		s.detalles_fuente = [];
+		const c: EdicionFila = {
+			tramo_ref: 't07',
+			partes: [
+				{
+					v_ini: s.v_ini,
+					v_fin: s.v_fin,
+					identificacion: s.identificacion,
+					nota: null,
+					remate: { n_versos: 1 }
+				}
+			]
+		};
+		expect(
+			aplicarEdiciones(datos, [c]).segmentos.find((s) => s.ref === 't07')!.detalles_fuente[0]
+		).toMatchObject({ tipo_seccion: 'remate', n_versos: 1 });
+		const cancion = datos.segmentos[1];
+		const modificada = aplicarEdiciones(datos, [
+			{
+				tramo_ref: 't02',
+				partes: [
+					{
+						v_ini: 221,
+						v_fin: 287,
+						identificacion: cancion.identificacion,
+						nota: null,
+						remate: { n_versos: 3 }
+					}
+				]
+			}
+		]);
+		expect(modificada.segmentos[1].detalles_fuente[0].literal).toBe('remate final');
+		expect(cancion.detalles_fuente[0].literal).toBe('pareado final');
 	});
 	it('aplica el cambio en servidor sin confirmar ni alterar la huella, y restablece desde la entrada', () => {
 		const inicial = analizarEntrada(entrada('el-molino'));

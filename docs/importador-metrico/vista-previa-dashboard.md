@@ -45,22 +45,35 @@ consultar todas las mínimas sin obtener acceso al laboratorio. No es un cambio 
 
 ## Edición de formas y secuencias
 
-El botón **Editar** de cada secuencia abre un panel fuera de la tabla, con la denominación original
-siempre visible. Permite seleccionar forma y arquitectura opcional, dejar la forma sin resolver
-y añadir una nota breve. Las arquitecturas ofrecidas pertenecen a la forma elegida.
+El lápiz abre el mismo modal que usa v2, con la denominación original visible. La vista habitual
+ofrece forma y arquitectura opcional; permite dejar la forma sin resolver. La nota se pliega en
+**Añadir datos**, mediante la sección plegable de v2. No se despliega el cuestionario completo ni
+se añaden ahora esquemas de rima: se mantiene el nivel general de las mínimas.
 
-**Dividir** fija un corte dentro del ámbito original. Si hay varias partes, cambiar el último
+**Dividir secuencia** abre un paso independiente: se escribe el **primer verso de la nueva
+secuencia** y se muestran ambos rangos antes de crearla. Por ejemplo, 101 produce 1–100 y 101–532.
+La parte nueva queda sin forma hasta que la persona elige una; no hereda una identificación
+por haber dividido. Cada parte tiene identidad estable en pantalla y la forma nueva recibe el foco.
+El corte se puede cancelar sin tocar la propuesta. Si hay varias partes, cambiar el último
 verso de una ajusta el inicio de la siguiente. **Unir con la siguiente** reúne partes de la misma
 fila original cuando tienen la misma forma y arquitectura; no elige entre dos identificaciones
 distintas silenciosamente. Así puede representarse A → B → A como tres secuencias.
 
-El remate se conserva únicamente en la parte final, con opción expresa de retirarlo. Las
+Los remates conocidos aparecen abiertos, con número de versos y reparto entre cuerpo y remate.
+Se pueden añadir cuando el catálogo de referencia los admite, corregir o quitar el dato. Quitar
+el dato no declara ausencia ni elimina versos. El cuerpo de los tercetos encadenados se contrasta
+con la extensión de terceto conservada en el catálogo: 43 versos con remate de uno dejan 42 en
+el cuerpo; sin ese dato aparece un aviso, sin cambiar la numeración ni bloquear la forma general.
+Al dividir, el remate pasa a la parte final; se rechazan cortes que lo atraviesen o lo separen
+solo como otra secuencia. Si esos versos pertenecen a otra forma, hay que revisar expresamente
+el dato de remate. Si la primera
+parte tiene un remate, se pide revisarlo antes de unirla para no perderlo silenciosamente. Las
 desviaciones mantienen su localización: se rechaza cualquier corte que las atraviese. El servidor
 reconstruye el origen, valida límites y catálogo y comprueba el contexto del remate. No acepta
 campos de procedencia o aprobaciones añadidos al formulario de edición.
 
-**Comprobar secuencias** aplica los cambios y actualiza la tabla solo tras la comprobación en
-servidor. Si falla, conserva el panel para corregirlo y muestra la última tabla válida. Los cambios
+**Comprobar cambios**, en la cabecera del modal, aplica los cambios y actualiza la tabla solo tras la comprobación en
+servidor. Si falla, conserva el modal para corregirlo y muestra la última tabla válida. Los cambios
 ya comprobados viajan también al corregir metadatos. **Restablecer fila** vuelve al resultado
 preparado desde la entrada. Preparar otra entrada descarta sus modificaciones anteriores.
 
@@ -90,6 +103,12 @@ dashboard real con una sesión admin/IP ya abierta, consultando autores y títul
 El 27 de octubre se comprobó también la edición en el dashboard real con sesión abierta:
 división A → B → A, unión, ajuste de límites, conservación al corregir metadatos, rechazo de un
 remate incompatible, cancelación sin perder cambios anteriores y restablecimiento del ejemplo.
+
+El 28 de octubre se probó el nuevo modal compartido con v2 en el montaje visual aislado, con
+los mismos componentes y motor de servidor: propuesta de corte, A → B → A, foco en la forma
+nueva, reapertura, restablecimiento, retirada y adición de remates y rechazo de extensión
+incompatible. Se añadieron pruebas de límites, remate y desviaciones. La sesión del dashboard
+requería volver a introducir su contraseña; ese ensayo visual no acredita autenticación HTTP.
 
 La denominación «tercetos encadenados con serventesio final» se acepta como Terceto encadenado
 con remate final de un verso (3+1). Los dos pasajes de El verdadero amante aportan 170 versos;
