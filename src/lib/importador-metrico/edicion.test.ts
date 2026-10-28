@@ -32,6 +32,22 @@ const cambio = (): EdicionFila => ({
 });
 
 describe('edición de las secuencias preparadas', () => {
+	it.each([
+		['el-verdadero-amante', 'romance en -io', 'i-o', '-io'],
+		['los-locos-de-valencia', 'romance en á-e', 'a-e', 'á-e']
+	])('convierte la asonancia explícita de %s en su valor de catálogo y permite corregirla', (obra, denominacion, valor, literal) => {
+		const texto = entrada(obra);
+		const vista = analizarEntrada(texto);
+		expect(vista.errores).toEqual([]);
+		const s = vista.datos!.segmentos.find((s) => s.origen.denominacion_literal === denominacion)!;
+		expect(s.detalles_fuente).toContainEqual({literal, rasgo_slug: 'vocales_asonancia', valor_slug: valor});
+		expect(s.detalles_fuente.some((d) => d.dimension === 'asonancia')).toBe(false);
+		const parte = {v_ini: s.v_ini, v_fin: s.v_fin, identificacion: s.identificacion, nota: null, remate: null, rasgos: [{rasgo_slug: 'vocales_asonancia', valor_slug: 'e-o'}]};
+		const corregida = analizarEntrada(texto, {}, [{tramo_ref: s.origen.tramo_ref, partes: [parte]}]);
+		expect(corregida.errores).toEqual([]);
+		expect(corregida.datos!.segmentos.find((n) => n.origen.tramo_ref === s.origen.tramo_ref)!.detalles_fuente).toEqual([{rasgo_slug: 'vocales_asonancia', valor_slug: 'e-o'}]);
+		expect(s.origen.denominacion_literal).toBe(denominacion);
+	});
 	it('registra el pareado final como Dístico final / Presente y lo conserva solo al final al dividir', () => {
 		const datos = analizarEntrada(entrada('el-verdadero-amante')).datos!;
 		const s = datos.segmentos.find((s) => s.detalles_fuente.some((d) => d.rasgo_slug === 'distico_final'))!;

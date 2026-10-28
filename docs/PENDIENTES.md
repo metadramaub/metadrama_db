@@ -53,8 +53,9 @@ particulares breves, sin estados ni fundamentos generales repetidos por secuenci
 ya permite editar formas y arquitecturas, dividir y reunir partes de una fila original, comprobar
 en servidor y restablecer. El modal compartido con v2 mantiene la edición general; la división
 muestra los rangos antes de crear la parte nueva y el remate permite añadir, corregir o quitar
-su dato. «Añadir datos» permite rasgos de catálogo y desviaciones documentadas por notas de la
-edición; el pareado final de los endecasílabos sueltos se registra como Dístico final / Presente.
+su dato. Los datos incorporados se muestran fuera de «Añadir datos», que sirve solo para añadir.
+El pareado final se registra como Dístico final / Presente y las asonancias explícitas del romance
+como valores del rasgo Vocales de asonancia, conservando la notación original.
 Conectar la confirmación desde la vista previa y el guardado definitivo;
 ampliar el piloto y ensayar
 sensibilidad. No se exige resolver todas las denominaciones: Canción con remate y encadenados

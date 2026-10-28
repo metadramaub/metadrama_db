@@ -98,7 +98,7 @@ describe('contrato local de la ficha mínima', () => {
 		const datos = prepararFichaMinima(read('normalizadas/el-molino.json'));
 		expect(validar(datos).errores.some((e) => e.ruta === 'metadatos.genero')).toBe(true);
 	});
-	it('comprueba los géneros y metros, sin convertir una asonancia pendiente en hecho', () => {
+	it('comprueba géneros y metros, y conserva la asonancia declarada como rasgo del catálogo', () => {
 		const datos = preparar('los-locos-de-valencia');
 		datos.metadatos.genero = 'genero_inventado';
 		datos.segmentos.find((s) => s.ref === 't13').desviaciones[0].metro_observado_slug =
@@ -106,12 +106,12 @@ describe('contrato local de la ficha mínima', () => {
 		expect(validar(datos).errores.map((e) => e.codigo)).toEqual(
 			expect.arrayContaining(['genero_desconocido', 'metro_desconocido'])
 		);
-		const pendiente = preparar()
+		const asonancia = preparar()
 			.segmentos.flatMap((s) => s.detalles_fuente)
-			.find((d) => d.dimension === 'asonancia');
-		expect(pendiente).toMatchObject({ dimension: 'asonancia' });
-		expect(pendiente).not.toHaveProperty('estado');
-		expect(pendiente).not.toHaveProperty('esquema_rima_id');
+			.find((d) => d.rasgo_slug === 'vocales_asonancia');
+		expect(asonancia).toMatchObject({ rasgo_slug: 'vocales_asonancia', valor_slug: 'i-o', literal: '-io' });
+		expect(asonancia).not.toHaveProperty('estado');
+		expect(asonancia).not.toHaveProperty('esquema_rima_id');
 	});
 	it.each(['estado', 'visible_publico', 'editor_asignado', 'confirmado_por', 'confianza'])(
 		'no permite introducir un campo de otro recorrido: %s',

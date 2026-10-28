@@ -128,7 +128,7 @@ describe('vista previa del importador sin persistencia', () => {
 	});
 	it('distingue por sus nombres las arquitecturas propuestas y candidatas', () => {
 		const ficha = structuredClone(preparada.datos) as FichaMinima;
-		const segmento = ficha.segmentos.find((s) => s.identificacion?.arquitectura_slug);
+		const segmento = ficha.segmentos.find((s) => s.identificacion?.arquitectura_slug && !s.detalles_fuente.length);
 		expect(segmento).toBeDefined();
 		const destino = segmento!.identificacion!;
 		const propuesta = analizarEntrada(JSON.stringify(ficha));

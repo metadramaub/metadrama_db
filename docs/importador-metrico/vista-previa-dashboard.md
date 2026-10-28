@@ -46,15 +46,22 @@ consultar todas las mínimas sin obtener acceso al laboratorio. No es un cambio 
 ## Edición de formas y secuencias
 
 El lápiz abre el mismo modal que usa v2, con la denominación original visible. La vista habitual
-ofrece forma y arquitectura opcional; permite dejar la forma sin resolver. **Añadir datos**, mediante
-la sección plegable de v2, ofrece rasgos del catálogo aplicables a la forma y arquitectura conocidas,
-desviaciones documentadas por notas de la edición y una nota libre aparte. Las desviaciones se
+ofrece forma y arquitectura opcional; permite dejar la forma sin resolver. Los datos incorporados
+por la importación se muestran fuera de **Añadir datos**, siempre visibles y editables: rasgos,
+remates, desviaciones y notas. **Añadir datos** permanece cerrado y sirve solo para incorporar otro
+rasgo aplicable, un remate, una desviación documentada o una nota. Al añadirlo, su campo aparece
+fuera del desplegable y recibe el foco. Las desviaciones se
 registran con dimensión (metro o estructura), relación con la norma, versos y, si se conoce, metro
 observado. No se aceptan notas de origen inventadas ni desviaciones fuera de su secuencia. Los
 campos no aportados se mantienen sin especificar. No se despliega el cuestionario completo ni
 se añaden ahora esquemas de rima.
-Se muestran primero los rasgos ya declarados; **Añadir rasgo** permite escoger otro dato sin
-desplegar de entrada todos los campos vacíos.
+**Añadir rasgo** permite escoger otro dato sin desplegar de entrada todos los campos vacíos.
+
+Las reglas v0.7 convierten también «romance en -io» y «romance en á-e» al rasgo **Vocales de
+asonancia**, valores `i-o` y `a-e`. Conservan las notaciones `-io` y `á-e` como literales. El valor
+queda seleccionado al abrir el editor, con Añadir datos cerrado, y viaja como rasgo estructurado
+en el documento mínimo y en su almacenamiento JSONB. No queda únicamente como texto de detalle.
+Esto no supone conocer un esquema completo de rima.
 
 «Endecasílabos sueltos con pareado final» conserva el rasgo **Dístico final → Presente**, admitido
 por la arquitectura endecasilábica, dentro de la misma tirada. No se convierte en sección de remate.
@@ -129,6 +136,12 @@ la desviación estructural del v. 2666 de Los locos de Valencia desde su nota or
 el JSON original y la ausencia de guardados. El borrador SQL pasó además 54 comprobaciones reales
 en PostgreSQL aislado, incluidas referencias de rasgos y contraste del texto de las desviaciones
 con las notas originales.
+
+El ajuste de esa misma revisión comprueba las asonancias declaradas como rasgos (`-io` → `i-o`,
+`á-e` → `a-e`) en el motor, el guardado PostgreSQL aislado y la pantalla real. Con Añadir datos
+cerrado se ven el dístico, la asonancia y las desviaciones ya incorporadas. Añadir un rasgo crea
+su campo fuera del desplegable; dejarlo sin valor no fabrica un dato. El ensayo de persistencia
+alcanza 55 comprobaciones, incluida la recuperación de las dos asonancias estructuradas.
 
 La denominación «tercetos encadenados con serventesio final» se acepta como Terceto encadenado
 con remate final de un verso (3+1). Los dos pasajes de El verdadero amante aportan 170 versos;

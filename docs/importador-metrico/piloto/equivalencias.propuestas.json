@@ -182,12 +182,12 @@
         }
       ],
       "exhaustividad": "pendiente_de_validacion",
-      "fundamento": "El catálogo activo distingue Romance como forma octosilábica. Se conserva la asonancia literal con su notación, sin identificar aún una opción de respuesta ni normalizar sus vocales automáticamente.",
+      "fundamento": "Romance octosilábico con vocales de asonancia i-o, declaradas en la denominación editorial -io. Se conserva la notación literal junto al valor del catálogo.",
       "detalles_fuente": [
         {
           "literal": "-io",
-          "dimension": "asonancia",
-          "estado": "pendiente"
+          "rasgo_slug": "vocales_asonancia",
+          "valor_slug": "i-o"
         }
       ]
     },
@@ -204,12 +204,12 @@
         }
       ],
       "exhaustividad": "pendiente_de_validacion",
-      "fundamento": "La misma propuesta de forma, conservando la asonancia exactamente como aparece en la edición.",
+      "fundamento": "Romance octosilábico con vocales de asonancia a-e. La notación editorial á-e se conserva literalmente junto al valor del catálogo.",
       "detalles_fuente": [
         {
           "literal": "á-e",
-          "dimension": "asonancia",
-          "estado": "pendiente"
+          "rasgo_slug": "vocales_asonancia",
+          "valor_slug": "a-e"
         }
       ]
     },
@@ -304,6 +304,6 @@
       ]
     }
   ],
-  "version": "v0.6",
+  "version": "v0.7",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }
