@@ -4,7 +4,10 @@
 	import EditorSecuencia from './EditorSecuencia.svelte';
 	import type { EdicionFila, FormaEditable } from '$lib/importador-metrico/edicion';
 	import type { ResultadoVistaPrevia, FilaVistaPrevia, FichaMinima } from '$lib/importador-metrico/types';
-	import { rasgosImportador } from '$lib/importador-metrico/catalogo';
+	import { formasImportador } from '$lib/importador-metrico/catalogo';
+	import { datosMetricos, notasMetricas } from '$lib/importador-metrico/presentacion';
+	import FormaSecuencia from '$lib/components/metrica/FormaSecuencia.svelte';
+	import InlineNotePopover from '$lib/components/ui/inline-note-popover.svelte';
 
 	let { vista, desactualizada = false, formas = [], ocupado = false, editable = false, oneditar, oncancelar } = $props<{
 		vista: ResultadoVistaPrevia; desactualizada?: boolean; formas?: FormaEditable[]; ocupado?: boolean;
@@ -32,23 +35,6 @@
 	})));
 	const numero = (n: number) => new Intl.NumberFormat('es-ES').format(n);
 	const fuente = (id: string | null) => (id ?? '').replace(/^foto-/, 'Foto ');
-	function detalle(d: Record<string, unknown>, fila: FilaVistaPrevia) {
-		if (d.tipo_seccion === 'remate' && d.n_versos === 1 && fila.identificacion?.forma_slug === 'terceto_encadenado') return 'Remate final de 1 verso (3+1)';
-		if (d.tipo_seccion === 'remate') return 'Remate: ' + String(d.literal) +
-			(d.n_versos ? ' · ' + String(d.n_versos) + (d.n_versos === 1 ? ' verso' : ' versos') : '');
-		if (d.dimension === 'asonancia') return 'Asonancia: ' + String(d.literal);
-		if (d.rasgo_slug === 'distico_final') return 'Dístico final · 2 versos';
-		if (d.rasgo_slug) {
-			const rasgo = rasgosImportador.find((r) => r.slug === d.rasgo_slug);
-			return (rasgo?.nombre ?? String(d.rasgo_slug)) + ': ' + (rasgo?.valores.find((v) => v.slug === d.valor_slug)?.nombre ?? String(d.valor_slug));
-		}
-		return String(d.literal ?? '');
-	}
-	function desviacion(d: Record<string, unknown>) {
-		const versos = d.v_ini === d.v_fin ? 'v. ' + String(d.v_ini) : 'vv. ' + String(d.v_ini) + '–' + String(d.v_fin);
-		if (d.dimension === 'estructura') return versos + ': ' + (d.relacion_norma === 'sobra' ? 'verso añadido' : d.relacion_norma === 'falta' ? 'verso ausente' : 'desviación estructural');
-		return versos + ': ' + (d.metro_observado_slug ? String(d.metro_observado_slug).replaceAll('_', ' ') : 'desviación de medida');
-	}
 </script>
 
 <section class="space-y-4" aria-label="Vista previa métrica">
@@ -108,33 +94,35 @@
 						<h3 class="font-semibold">Jornada {jornada.numero}</h3>
 						<span class="text-xs text-[color:var(--muted-foreground)]">vv. {jornada.v_ini}–{jornada.v_fin}</span>
 					</header>
-					<div class="overflow-x-auto border border-[color:var(--border)] bg-white">
-						<table class="w-full min-w-[780px] table-fixed text-left text-sm">
+					<div class="card overflow-x-auto">
+						<table class="w-full min-w-[860px] table-fixed text-left text-sm">
 							<caption class="sr-only">Esquema métrico de la jornada {jornada.numero}</caption>
-							<colgroup><col class="w-[11%]" /><col class="w-[8%]" /><col class="w-[20%]" /><col class="w-[22%]" /><col class="w-[23%]" /><col class="w-[10%]" />{#if oneditar}<col class="w-[6%]" />{/if}</colgroup>
-							<thead class="bg-[color:var(--muted)] text-xs text-[color:var(--muted-foreground)]">
-								<tr><th class="px-3 py-3">Versos</th><th class="px-3 py-3">N.º versos</th><th class="px-3 py-3">En la edición</th><th class="px-3 py-3">Forma en Versología</th><th class="px-3 py-3">Detalles y notas</th><th class="px-3 py-3">Fuente</th>{#if oneditar}<th class="px-3 py-3"><span class="sr-only">Acciones</span></th>{/if}</tr>
+							<colgroup><col class="w-[11%]" /><col class="w-[18%]" /><col class="w-[17%]" /><col class="w-[25%]" /><col class="w-[16%]" /><col class="w-[8%]" />{#if oneditar}<col class="w-[5%]" />{/if}</colgroup>
+							<thead class="bg-[color:var(--muted)]">
+								<tr><th class="px-3 py-2">Versos</th><th class="px-3 py-2">En la edición</th><th class="px-3 py-2">Forma</th><th class="px-3 py-2"><span class="form-label-with-help">Datos métricos<FieldHelpTooltip label="Datos métricos que se guardarán" text="Rasgos y valores, remates y desviaciones incorporados a la ficha mínima. Los campos sin especificar quedan sin dato." /></span></th><th class="px-3 py-2">Notas</th><th class="px-3 py-2">Fuente</th>{#if oneditar}<th class="px-3 py-2"><span class="sr-only">Acciones</span></th>{/if}</tr>
 							</thead>
 							<tbody>
 								{#each jornada.filas as fila (fila.ref)}
+									{@const forma = (formas.length ? formas : formasImportador).find((f: FormaEditable) => f.slug === fila.identificacion?.forma_slug)}
+									{@const arquitectura = forma?.arquitecturas.find((a: {slug: string; nombre: string}) => a.slug === fila.identificacion?.arquitectura_slug)}
+									{@const datos = datosMetricos(fila)}
+									{@const notas = notasMetricas(fila)}
 									<tr class="border-t border-[color:var(--border)] align-top">
-										<td class="px-3 py-3 tabular-nums">{fila.v_ini}–{fila.v_fin}</td>
-										<td class="px-3 py-3 tabular-nums">{fila.extension}</td>
-										<td class="break-words px-3 py-3">{fila.origen.denominacion_literal ?? '—'}</td>
-										<td class="break-words px-3 py-3">
-											<p class="font-medium">{fila.forma_nombre ?? 'Forma sin resolver'}</p>
+										<td class="px-3 py-2 tabular-nums"><span class="whitespace-nowrap">{fila.v_ini}–{fila.v_fin}</span><span class="block text-xs text-[color:var(--muted-foreground)]">{fila.extension} vv.</span></td>
+										<td class="break-words px-3 py-2">{fila.origen.denominacion_literal ?? '—'}</td>
+										<td class="break-words px-3 py-2">
+											<FormaSecuencia forma={forma?.nombre ?? null} arquitectura={arquitectura?.nombre ?? null} pendiente="Forma sin resolver" />
 											{#if sinEquivalencia(fila) && fila.candidatas_nombres.length}
 												<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">Posibilidades: {fila.candidatas_nombres.join(' / ')}</p>
 											{/if}
 										</td>
-										<td class="break-words px-3 py-3">
-											{#each fila.detalles_fuente as d}<p class="mb-1">{detalle(d, fila)}</p>{/each}
-											{#each fila.desviaciones as d}<p class="mb-1 font-medium">{desviacion(d)}</p>{/each}
-											{#each fila.notas_fuente ?? [] as nota}<p class="mb-1 text-xs text-[color:var(--muted-foreground)]">{nota.texto_literal}</p>{/each}
-											{#if fila.nota}<p class="mb-1 text-xs text-[color:var(--muted-foreground)]">{fila.nota}</p>{/if}
-											{#if !fila.detalles_fuente.length && !fila.desviaciones.length && !fila.notas_fuente?.length && !fila.nota}<span class="text-[color:var(--muted-foreground)]">—</span>{/if}
+										<td class="break-words px-3 py-2">
+											{#if datos.length}<dl class="space-y-2 text-xs">{#each datos as dato}<div><dt class="font-medium">{dato.etiqueta}</dt><dd>{dato.valor}</dd></div>{/each}</dl>{:else}<span class="text-[color:var(--muted-foreground)]">—</span>{/if}
 										</td>
-										<td class="px-3 py-3 text-xs text-[color:var(--muted-foreground)]">
+										<td class="break-words px-3 py-2 text-xs text-[color:var(--muted-foreground)]">
+											{#if notas.length}<p class="line-clamp-3">{notas[0]}</p><span class="inline-flex items-center">{#if notas.length > 1}{notas.length} notas{/if}<InlineNotePopover text={notas.join('\n\n')} label={'Mostrar notas de la secuencia ' + fila.v_ini + '–' + fila.v_fin} multilinea /></span>{:else}—{/if}
+										</td>
+										<td class="px-3 py-2 text-xs text-[color:var(--muted-foreground)]">
 											{fuente(fila.origen.fuente_id)}
 											{#if fila.origen.pagina}<p class="mt-1">p. {fila.origen.pagina}</p>{/if}
 										</td>

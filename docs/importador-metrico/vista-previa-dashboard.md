@@ -13,14 +13,24 @@ datos al corpus. No requiere aplicar el borrador SQL a Supabase.
    aplicar silenciosamente los metadatos de la obra anterior.
 3. Elegir el autor en un único selector. Una coincidencia nominal exacta y única se preselecciona;
    el servidor comprueba su ID y obtiene su nombre vigente al comprobar los cambios.
-4. Consultar una tabla por jornada con versos inicial/final, número de versos, denominación
-   editorial, forma, notas y fuente. Los recuentos distinguen versos de secuencias propuestas. Se usan
+4. Consultar una tabla por jornada con rango y número de versos, denominación editorial,
+   forma y arquitectura, **Datos métricos**, **Notas** y fuente. Los recuentos distinguen versos de secuencias propuestas. Se usan
    los estilos de campos del dashboard y ayudas puntuales `?`, sin citas del chat ni fundamentos
    extensos en la tabla. Se puede filtrar por forma sin resolver o por desviaciones. Se muestra la
    correspondencia de forma sin etiquetas «propuesta» o «revisada». Las posibilidades se muestran
    solo cuando no hay una correspondencia única; la arquitectura solo cuando se conoce.
 5. Corregir errores y volver a comprobar. Los cambios pendientes dejan la vista anterior marcada
    como desactualizada. Una respuesta tardía no debe sobrescribir cambios escritos durante el envío.
+
+La forma y la arquitectura utilizan el mismo componente `FormaSecuencia` que la tabla de
+secuencias de las fichas completas: forma destacada, arquitectura debajo en texto pequeño y
+atenuado. El rango y su número de versos comparten celda, siguiendo esa misma tabla.
+**Datos métricos** muestra nombres y valores de rasgos del catálogo, extensión del remate y
+desviaciones con rango, dimensión, relación y metro observado cuando se conoce. **Notas** conserva
+el texto de fuente o de revisión y los detalles literales sin normalizar, sin hacerlos pasar por
+rasgos registrados. Muestra un extracto y utiliza el componente existente de notas emergentes
+para leer el texto completo sin abrir el editor ni alargar las filas. La vista mínima no fabrica
+unidades, esquemas de rima ni respuestas v2.
 
 Los avisos de título consultan las obras actuales; una coincidencia por título no prueba identidad
 ni autoriza sobrescribir una ficha. No es todavía un sistema de detección de duplicados por

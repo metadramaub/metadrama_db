@@ -56,6 +56,8 @@ muestra los rangos antes de crear la parte nueva y el remate permite añadir, co
 su dato. Los datos incorporados se muestran fuera de «Añadir datos», que sirve solo para añadir.
 El pareado final se registra como Dístico final / Presente y las asonancias explícitas del romance
 como valores del rasgo Vocales de asonancia, conservando la notación original.
+La tabla comparte la presentación de forma y arquitectura con las fichas y separa los datos
+métricos estructurados del texto de notas, para revisar qué se guardará sin abrir cada secuencia.
 Conectar la confirmación desde la vista previa y el guardado definitivo;
 ampliar el piloto y ensayar
 sensibilidad. No se exige resolver todas las denominaciones: Canción con remate y encadenados

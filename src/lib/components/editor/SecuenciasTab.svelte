@@ -36,6 +36,7 @@
 	import { displayTerm } from '$lib/utils/vocabulario';
 	import MetricSequenceEditor from '$lib/components/metrica/editor-v2/MetricSequenceEditor.svelte';
 	import MetricSequenceModal from '$lib/components/metrica/editor-v2/MetricSequenceModal.svelte';
+	import FormaSecuencia from '$lib/components/metrica/FormaSecuencia.svelte';
 	import MetricPanelSection from '$lib/components/metrica/editor-v2/MetricPanelSection.svelte';
 	import { draftFromRows } from '$lib/components/metrica/editor-v2/sequence-draft';
 	import type {
@@ -1629,12 +1630,7 @@
 									<td class="px-3 py-2">
 										<!-- La forma nombra el pasaje y la arquitectura lo precisa: dos quintillas de distinto
 										     esquema son la misma forma, y solo con ella no se distinguían en la lista. -->
-										<span class={resumen.formaNombre ? 'font-medium' : 'italic text-[color:var(--muted-foreground)]'}>
-											{resumen.formaNombre ?? 'Pendiente'}
-										</span>
-										{#if resumen.arquitecturaNombre && resumen.arquitecturaNombre !== resumen.formaNombre}
-											<span class="block text-xs text-[color:var(--muted-foreground)]">{resumen.arquitecturaNombre}</span>
-										{/if}
+										<FormaSecuencia forma={resumen.formaNombre} arquitectura={resumen.arquitecturaNombre} />
 									</td>
 									<!-- **Iconos encendidos o apagados**, para leer de un vistazo qué hay dentro sin abrir la
 									     secuencia. El apagado se queda dibujado y tenue, no desaparece: así la columna se lee

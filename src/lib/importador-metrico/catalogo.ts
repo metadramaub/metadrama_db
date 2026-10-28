@@ -2,6 +2,7 @@
 import referencia from '../../../docs/importador-metrico/piloto/catalogo-referencia.json';
 export const rasgosImportador = referencia.rasgos;
 export const metrosImportador = referencia.metros;
+export const formasImportador = referencia.formas;
 export function rasgosAdmitidos(forma: string, arquitectura: string) {
 	return rasgosImportador.map((r) => {
 		const contextos = r.contextos.filter((c) => c.forma === forma && (!arquitectura || c.arquitectura === arquitectura));
