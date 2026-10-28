@@ -46,9 +46,22 @@ consultar todas las mínimas sin obtener acceso al laboratorio. No es un cambio 
 ## Edición de formas y secuencias
 
 El lápiz abre el mismo modal que usa v2, con la denominación original visible. La vista habitual
-ofrece forma y arquitectura opcional; permite dejar la forma sin resolver. La nota se pliega en
-**Añadir datos**, mediante la sección plegable de v2. No se despliega el cuestionario completo ni
-se añaden ahora esquemas de rima: se mantiene el nivel general de las mínimas.
+ofrece forma y arquitectura opcional; permite dejar la forma sin resolver. **Añadir datos**, mediante
+la sección plegable de v2, ofrece rasgos del catálogo aplicables a la forma y arquitectura conocidas,
+desviaciones documentadas por notas de la edición y una nota libre aparte. Las desviaciones se
+registran con dimensión (metro o estructura), relación con la norma, versos y, si se conoce, metro
+observado. No se aceptan notas de origen inventadas ni desviaciones fuera de su secuencia. Los
+campos no aportados se mantienen sin especificar. No se despliega el cuestionario completo ni
+se añaden ahora esquemas de rima.
+Se muestran primero los rasgos ya declarados; **Añadir rasgo** permite escoger otro dato sin
+desplegar de entrada todos los campos vacíos.
+
+«Endecasílabos sueltos con pareado final» conserva el rasgo **Dístico final → Presente**, admitido
+por la arquitectura endecasilábica, dentro de la misma tirada. No se convierte en sección de remate.
+El dato aparece al abrir el editor y se puede corregir o retirar. Si se divide la tirada, el dístico
+queda solo en la parte final; no se permite cortarlo por la mitad ni separarlo como una secuencia
+sin revisar antes el dato. Cambiar de forma no descarta silenciosamente los rasgos incompatibles:
+hay que revisarlos. Esta correspondencia está incluida en las reglas v0.6.
 
 **Dividir secuencia** abre un paso independiente: se escribe el **primer verso de la nueva
 secuencia** y se muestran ambos rangos antes de crearla. Por ejemplo, 101 produce 1–100 y 101–532.
@@ -109,6 +122,13 @@ los mismos componentes y motor de servidor: propuesta de corte, A → B → A, f
 nueva, reapertura, restablecimiento, retirada y adición de remates y rechazo de extensión
 incompatible. Se añadieron pruebas de límites, remate y desviaciones. La sesión del dashboard
 requería volver a introducir su contraseña; ese ensayo visual no acredita autenticación HTTP.
+
+En la revisión posterior del 28 de octubre se comprobó el dashboard real con sesión abierta:
+Dístico final / Presente en los endecasílabos, retirada y restablecimiento del dato, y registro de
+la desviación estructural del v. 2666 de Los locos de Valencia desde su nota original. Se mantienen
+el JSON original y la ausencia de guardados. El borrador SQL pasó además 54 comprobaciones reales
+en PostgreSQL aislado, incluidas referencias de rasgos y contraste del texto de las desviaciones
+con las notas originales.
 
 La denominación «tercetos encadenados con serventesio final» se acepta como Terceto encadenado
 con remate final de un verso (3+1). Los dos pasajes de El verdadero amante aportan 170 versos;

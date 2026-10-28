@@ -3,7 +3,7 @@
   "estado": "borrador_de_trabajo",
   "apta_para_corpus": false,
   "obra_ref": "el-molino",
-  "reglas_version": "v0.5",
+  "reglas_version": "v0.6",
   "catalogo_referencia": {
     "estado": {
       "actualizado_en": "2026-10-19T11:26:16.630786+00:00",
@@ -338,14 +338,14 @@
       },
       "candidatas": [],
       "exhaustividad": null,
-      "fundamento": "La misma identificación con cierre expresamente declarado. El catálogo dispone del rasgo distico_final; su representación normalizada precisa revisión. No se crea automáticamente otra secuencia para el pareado.",
+      "fundamento": "Pareado final corresponde al rasgo Dístico final, valor Presente, admitido por la arquitectura endecasilábica. Se conserva dentro de la misma secuencia.",
       "aprobacion": null,
       "evidencias_bibliograficas": [],
       "detalles_fuente": [
         {
           "literal": "pareado final",
-          "rasgo_slug_propuesto": "distico_final",
-          "estado": "pendiente"
+          "rasgo_slug": "distico_final",
+          "valor_slug": "presente"
         }
       ],
       "caracterizaciones": [],
@@ -408,14 +408,14 @@
       },
       "candidatas": [],
       "exhaustividad": null,
-      "fundamento": "La misma identificación con cierre expresamente declarado. El catálogo dispone del rasgo distico_final; su representación normalizada precisa revisión. No se crea automáticamente otra secuencia para el pareado.",
+      "fundamento": "Pareado final corresponde al rasgo Dístico final, valor Presente, admitido por la arquitectura endecasilábica. Se conserva dentro de la misma secuencia.",
       "aprobacion": null,
       "evidencias_bibliograficas": [],
       "detalles_fuente": [
         {
           "literal": "pareado final",
-          "rasgo_slug_propuesto": "distico_final",
-          "estado": "pendiente"
+          "rasgo_slug": "distico_final",
+          "valor_slug": "presente"
         }
       ],
       "caracterizaciones": [],
@@ -812,8 +812,8 @@
     "fecha": "2026-10-22"
   },
   "entradas_sha256": {
-    "equivalencias.propuestas.json": "1b170b5cf19fb39f5c498797a3f5b20a220e5c8075e1ec30032b0cf66a963ef7",
-    "catalogo-referencia.json": "d6badfed625b31755d9549fd6d8362ab3ad09449f5c0d8c51cb6ca88b27a365f",
+    "equivalencias.propuestas.json": "ada67b5a778773b9824675f758568ec27878529ab9432d3147a438bcf55576b6",
+    "catalogo-referencia.json": "8820c655eb5c0e73f5c9869d0d1898a9e017ec953c7115c84cb64cfd38346252",
     "auditoria-tercetos-2026-10-26.json": "433367a2e24b8e6e5fb213b907c2d810ff2078eda0e2364771070231e8cfc112",
     "segmentacion.propuestas.json": "66bfd37373162eaf06c046093f11cbd7188d0e72519bea0c30c6caefc738cd0f",
     "revision-humana.json": "81cebad4c31f2cdead342675b2d668cc50461187e2da5c600d69c6634ade24a0",

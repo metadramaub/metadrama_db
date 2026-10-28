@@ -38,7 +38,7 @@ const referencia = {
 	generos: JSON.parse(auditoriaRaw)
 		.vocabularios.filter((v: { categoria: string }) => v.categoria === 'genero')
 		.map((v: { termino: string }) => v.termino),
-	metros: campos.metros_ejemplo.map((m: { slug: string }) => m.slug),
+	metros: catalogo.metros.map((m: { slug: string }) => m.slug),
 	secciones: [...(catalogo.secciones ?? []), ...campos.secciones_cancion]
 };
 const pilotos = [molino, amante, donaires, locos].map((entrada) => {
@@ -206,7 +206,10 @@ export function analizarEntrada(
 				'Formato no admitido. Se acepta extracción 0.1, ficha mínima 0.2 o vista previa mínima 0.2.'
 			);
 		try {
-			const editados = aplicarEdiciones(datos, ediciones);
+			const notas = entrada.esquema === 'versologia-extraccion/0.1' && Array.isArray(entrada.notas)
+				? entrada.notas.map(objeto).filter((n) => typeof n.id === 'string' && typeof n.texto_literal === 'string')
+					.map((n) => ({id: n.id as string, texto_literal: n.texto_literal as string})) : [];
+			const editados = aplicarEdiciones(datos, ediciones, notas);
 			const comprobacion = validarFichaMinima(editados, { catalogo: referencia });
 			if (comprobacion.errores.length)
 				throw new Error(comprobacion.errores.map((e) => e.mensaje).join(' '));

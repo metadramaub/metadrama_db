@@ -100,7 +100,7 @@ La contraseña local de ensayo no es una credencial de Supabase. El script no ac
 no importa clientes remotos ni ejecuta `db push`. El volcado se obtiene aparte mediante el comando
 de solo lectura documentado en el README del repositorio. No es una copia completa de seguridad.
 
-Resultado del contrato 0.2: **51 comprobaciones correctas**, incluidas cuatro obras, 12 jornadas,
+Resultado del contrato 0.2, repetido el 28 de octubre: **54 comprobaciones correctas**, incluidas cuatro obras, 12 jornadas,
 78 segmentos y 11.754 posiciones numeradas; 11.473 con identificación y 281 sin resolver.
 Canción y los dos pasajes de Terceto encadenado de El verdadero amante conservan arquitectura
 desconocida; rechazo de un supuesto remate de cuatro versos donde el catálogo admite uno;

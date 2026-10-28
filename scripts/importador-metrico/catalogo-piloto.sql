@@ -38,3 +38,19 @@ select jsonb_build_object(
     where r.slug in ('distico_final', 'asonancia', 'encadenamiento_interior')
   )
 ) as catalogo;
+
+-- Consulta complementaria del 28-10-2026 para la edición de datos mínimos.
+-- En la referencia local se conservan solo los contextos de las formas del piloto.
+select r.slug,r.nombre,
+  (select jsonb_agg(jsonb_build_object('slug',v.slug,'nombre',v.nombre) order by v.orden)
+   from public.rasgo_valores v where v.rasgo_id=r.rasgo_id and v.activo) valores,
+  jsonb_agg(distinct jsonb_build_object('forma',f.slug,'arquitectura',a.slug,'valor_slug',v.slug)) contextos
+from public.rasgos_metricos r
+join public.arquitectura_rasgos ar using(rasgo_id)
+join public.arquitecturas_forma a using(arquitectura_id)
+join public.formas_metricas f using(forma_id)
+left join public.rasgo_valores v on v.valor_id=ar.valor_id
+where r.activo and a.activo and f.activo and r.tipo_valor='catalogo'
+group by r.rasgo_id order by r.slug;
+
+select slug,nombre from public.metros where activo order by silabas,nombre;

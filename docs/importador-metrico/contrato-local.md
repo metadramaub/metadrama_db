@@ -31,8 +31,10 @@ la API de obras ni resuelve todavía el nombre de autor a un UUID de Supabase.
   arquitectura o con posibilidades de arquitectura, sin perder su cobertura de forma.
 - Comprueba destinos en las referencias conservadas del catálogo: formas, arquitecturas,
   géneros, metros observados y remates de Canción y Terceto encadenado. No utiliza una arquitectura principal por defecto.
-- Conserva los detalles pendientes de asonancia o dístico sin convertirlos en respuestas
-  confirmadas. Admite los remates revisados y las desviaciones de metro y estructura del piloto.
+- Conserva los detalles literales de asonancia y los rasgos conocidos como pareja de referencias
+  `rasgo_slug` / `valor_slug`, comprobando su contexto de catálogo. El pareado final de los
+  endecasílabos sueltos corresponde a `distico_final` / `presente`, sin inventar una sección ni una
+  secuencia independiente. Admite los remates revisados y las desviaciones de metro y estructura.
   «Serventesio final» se conserva literalmente y se interpreta como remate de un verso del
   Terceto encadenado, sin crear otra forma. Comprueba los límites de extensión de sección cuando
   el catálogo de referencia los declara.

@@ -1,30 +1,38 @@
 <script lang="ts">
 	import { onMount, tick, untrack } from 'svelte';
 	import type { FichaMinima, SegmentoMinimo } from '$lib/importador-metrico/types';
-	import type { EdicionFila, FormaEditable } from '$lib/importador-metrico/edicion';
+	import { desviacionEditableSchema, type DesviacionBorrador, type EdicionFila, type FormaEditable } from '$lib/importador-metrico/edicion';
+	import DatosSecuencia from './DatosSecuencia.svelte';
 	import { proponerDivision, resumenCuerpo } from '$lib/importador-metrico/division';
 	import type { MetricDeviationRange } from '$lib/metrica/structural-additions';
 	import MetricSequenceModal from '$lib/components/metrica/editor-v2/MetricSequenceModal.svelte';
 	import MetricPanelSection from '$lib/components/metrica/editor-v2/MetricPanelSection.svelte';
 	import Button from '$lib/components/ui/button.svelte';
-	let { datos, tramoRef, formas, ocupado = false, errores = [], onaplicar, onrestablecer, oncancelar } = $props<{
+	let { datos, tramoRef, formas, ocupado = false, errores = [], notasFuente = [], onaplicar, onrestablecer, oncancelar } = $props<{
 		datos: FichaMinima; tramoRef: string; formas: FormaEditable[]; ocupado?: boolean; errores?: string[];
+		notasFuente?: {id: string; texto_literal: string}[];
 		onaplicar: (cambio: EdicionFila) => void; onrestablecer: () => void; oncancelar: () => void;
 	}>();
 	const originales = $derived<SegmentoMinimo[]>(datos.segmentos.filter((s: SegmentoMinimo) => s.origen.tramo_ref === tramoRef));
 	const inicio = $derived(originales[0].v_ini);
 	const fin = $derived(originales.at(-1)!.v_fin);
-	const desviaciones = $derived<MetricDeviationRange[]>(originales.flatMap((s: SegmentoMinimo) => s.desviaciones).map((d: Record<string, unknown>) => ({
-		v_ini: Number(d.v_ini), v_fin: Number(d.v_fin), dimension: String(d.dimension), relacion_norma: String(d.relacion_norma)
-	})));
-	type Parte = { id: number; fin: string; forma: string; arquitectura: string; nota: string; remate: string | null; extras: boolean };
+	const notas = $derived([...new Map([...notasFuente, ...originales.flatMap((s) => s.desviaciones.map((d) => ({id: String(d.nota_ref), texto_literal: String(d.texto_fuente)})))].map((n) => [n.id, n])).values()]);
+	type Parte = { id: number; fin: string; forma: string; arquitectura: string; nota: string; remate: string | null; extras: boolean; rasgos: {rasgo_slug: string; valor_slug: string}[]; desviaciones: DesviacionBorrador[] };
 	let siguienteId = untrack(() => originales.length);
 	let partes = $state<Parte[]>(untrack(() => originales.map((s: SegmentoMinimo, i: number) => ({
 		id: i, fin: String(s.v_fin), forma: s.identificacion?.forma_slug ?? '', arquitectura: s.identificacion?.arquitectura_slug ?? '',
-		nota: s.nota ?? '', remate: s.detalles_fuente.some((d: Record<string, unknown>) => d.tipo_seccion === 'remate') ? String(s.detalles_fuente.find((d: Record<string, unknown>) => d.tipo_seccion === 'remate')!.n_versos) : null, extras: Boolean(s.nota)
+		nota: s.nota ?? '', remate: s.detalles_fuente.some((d: Record<string, unknown>) => d.tipo_seccion === 'remate') ? String(s.detalles_fuente.find((d: Record<string, unknown>) => d.tipo_seccion === 'remate')!.n_versos) : null,
+		rasgos: s.detalles_fuente.filter((d) => d.rasgo_slug).map((d) => ({rasgo_slug: String(d.rasgo_slug), valor_slug: String(d.valor_slug)})),
+		desviaciones: s.desviaciones.map((d) => ({v_ini: String(d.v_ini), v_fin: String(d.v_fin), dimension: d.dimension as 'metro' | 'estructura', relacion_norma: d.relacion_norma as DesviacionBorrador['relacion_norma'], nota_ref: String(d.nota_ref), nota: d.nota as string | null, ...(d.metro_observado_slug ? {metro_observado_slug: String(d.metro_observado_slug)} : {})})),
+		extras: Boolean(s.nota || s.desviaciones.length || s.detalles_fuente.some((d) => d.rasgo_slug))
 	}))));
+	const desviaciones = $derived<MetricDeviationRange[]>(partes.flatMap((p) => p.desviaciones).map((d) => ({
+		v_ini: Number(d.v_ini), v_fin: Number(d.v_fin), dimension: String(d.dimension), relacion_norma: String(d.relacion_norma)
+	})));
 	let mensaje = $state('');
 	let sucio = $state(false);
+	const contenidoInicial = untrack(() => JSON.stringify(partes));
+	$effect(() => { if (JSON.stringify(partes) !== contenidoInicial) sucio = true; });
 	let panel = $state<HTMLElement>();
 	let dividiendo = $state<number | null>(null);
 	let nuevoInicio = $state('');
@@ -36,6 +44,8 @@
 	}
 	function propuesta(i: number) {
 		try {
+			if (partes[i].desviaciones.some((d) => !desviacionEditableSchema.safeParse({...d, v_ini: Number(d.v_ini), v_fin: Number(d.v_fin)}).success)) throw new Error('Completa las desviaciones antes de dividir.');
+			if (partes[i].rasgos.some((r) => r.rasgo_slug === 'distico_final') && Number(nuevoInicio) >= Number(partes[i].fin) - 1) throw new Error('El dístico final pertenece a la tirada: conserva sus dos versos dentro de la nueva secuencia.');
 			if (partes[i].remate !== null && (!Number.isInteger(Number(partes[i].remate)) || Number(partes[i].remate) < 1)) throw new Error('Revisa la extensión del remate antes de dividir.');
 			return { rangos: proponerDivision(principio(i), Number(partes[i].fin), Number(nuevoInicio), desviaciones, Number(partes[i].remate)), error: '' };
 		}
@@ -56,8 +66,8 @@
 		const calculo = propuesta(i);
 		if (!calculo.rangos) { mensaje = calculo.error; return; }
 		const p = partes[i], id = siguienteId++;
-		partes.splice(i, 1, { ...p, fin: String(calculo.rangos.anterior.v_fin), remate: null },
-			{ ...p, id, forma: '', arquitectura: '', nota: '', extras: false });
+		partes.splice(i, 1, { ...p, fin: String(calculo.rangos.anterior.v_fin), remate: null, rasgos: p.rasgos.filter((r) => r.rasgo_slug !== 'distico_final'), desviaciones: p.desviaciones.filter((d) => Number(d.v_fin) < Number(nuevoInicio)) },
+			{ ...p, id, forma: '', arquitectura: '', nota: '', rasgos: p.rasgos.map((r) => ({...r})), desviaciones: p.desviaciones.filter((d) => Number(d.v_ini) >= Number(nuevoInicio)), extras: Boolean(p.rasgos.length || p.desviaciones.some((d) => Number(d.v_ini) >= Number(nuevoInicio))) });
 		dividiendo = null; nuevoInicio = ''; mensaje = ''; sucio = true;
 		await tick(); document.getElementById('forma-importada-' + id)?.focus();
 	}
@@ -65,7 +75,10 @@
 		const p = partes[i], siguiente = partes[i + 1];
 		if (p.forma !== siguiente.forma || p.arquitectura !== siguiente.arquitectura) { mensaje = 'Elige la misma forma y arquitectura antes de unir las secuencias.'; return; }
 		if (p.remate !== null) { mensaje = 'La primera secuencia tiene un remate. Revísalo antes de unirla con la siguiente.'; return; }
+		if (p.rasgos.some((r) => r.rasgo_slug === 'distico_final')) { mensaje = 'Revisa el dístico final de la primera secuencia antes de unirla.'; return; }
+		if (p.rasgos.some((r) => siguiente.rasgos.some((s) => r.rasgo_slug === s.rasgo_slug && r.valor_slug !== s.valor_slug))) { mensaje = 'Revisa los rasgos diferentes antes de unir las secuencias.'; return; }
 		partes.splice(i, 2, { ...p, fin: siguiente.fin, remate: siguiente.remate,
+			rasgos: [...new Map([...p.rasgos, ...siguiente.rasgos].map((r) => [r.rasgo_slug, r])).values()], desviaciones: [...p.desviaciones, ...siguiente.desviaciones],
 			nota: [...new Set([p.nota, siguiente.nota].filter(Boolean))].join(' '), extras: p.extras || siguiente.extras });
 		dividiendo = null; mensaje = ''; sucio = true;
 	}
@@ -73,9 +86,12 @@
 		if (dividiendo !== null) { mensaje = 'Termina o cancela la división antes de comprobar.'; return; }
 		const problema = partes.map((p: Parte) => problemaRemate(p)).find(Boolean);
 		if (problema) { mensaje = problema; return; }
+		const desviacionesValidadas = partes.map((p) => p.desviaciones.map((d) => desviacionEditableSchema.safeParse({...d, v_ini: Number(d.v_ini), v_fin: Number(d.v_fin), nota: d.nota?.trim() || null, ...(d.metro_observado_slug === '' ? {metro_observado_slug: undefined} : {})})));
+		if (desviacionesValidadas.some((ds) => ds.some((d) => !d.success))) { mensaje = 'Completa la nota de origen, la dimensión, la relación y los versos de cada desviación.'; return; }
 		const cambio: EdicionFila = { tramo_ref: tramoRef, partes: partes.map((p: Parte, i: number) => ({
 			v_ini: principio(i), v_fin: Number(p.fin), identificacion: p.forma ? { forma_slug: p.forma, arquitectura_slug: p.arquitectura || null } : null,
-			nota: p.nota.trim() || null, remate: p.remate !== null ? { n_versos: Number(p.remate) } : null
+			nota: p.nota.trim() || null, remate: p.remate !== null ? { n_versos: Number(p.remate) } : null, rasgos: p.rasgos,
+			desviaciones: desviacionesValidadas[i].map((d) => { if (!d.success) throw new Error('Desviación incompleta'); return d.data; })
 		})) };
 		if (cambio.partes.some((p) => !Number.isInteger(p.v_fin) || p.v_fin < p.v_ini || (p.remate && (!Number.isInteger(p.remate.n_versos) || p.remate.n_versos < 1 || p.remate.n_versos > p.v_fin - p.v_ini + 1))) || cambio.partes.at(-1)!.v_fin !== fin) {
 			mensaje = 'Revisa los límites y la extensión del remate. No se cambia la numeración original.'; return;
@@ -131,6 +147,7 @@
 					</div>
 				{/if}
 				<MetricPanelSection id={'datos-importados-' + parte.id} titulo="Añadir datos" abierta={parte.extras} alAlternar={() => parte.extras = !parte.extras} sinContenedor resumen={parte.nota || null}>
+					<DatosSecuencia forma={parte.forma} arquitectura={parte.arquitectura} bind:rasgos={parte.rasgos} bind:desviaciones={parte.desviaciones} {notas} inicio={principio(i)} fin={Number(parte.fin)} />
 					<label class="form-field"><span class="form-label">Nota <span class="font-normal">(opcional)</span></span><textarea aria-label={'Nota · secuencia ' + (i + 1) + ' (opcional)'} rows="2" maxlength="4000" bind:value={parte.nota} class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"></textarea></label>
 				</MetricPanelSection>
 			</fieldset>

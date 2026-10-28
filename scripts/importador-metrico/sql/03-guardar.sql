@@ -161,6 +161,17 @@ begin
       end if;
     end loop;
     for v_detalle in select value from jsonb_array_elements(v_fila->'detalles_fuente') loop
+      if v_detalle ? 'rasgo_slug' and (v_forma is null or
+        (v_detalle->>'rasgo_slug'='distico_final' and v_fin::bigint-v_inicio+1<2) or not exists (
+          select 1 from public.rasgos_metricos r join public.rasgo_valores rv using(rasgo_id)
+          join public.arquitectura_rasgos ar using(rasgo_id)
+          join public.arquitecturas_forma a using(arquitectura_id)
+          where r.slug=v_detalle->>'rasgo_slug' and rv.slug=v_detalle->>'valor_slug'
+            and r.activo and rv.activo and a.activo and a.forma_id=v_forma
+            and (ar.valor_id is null or ar.valor_id=rv.valor_id)
+            and (v_arquitectura is null or a.arquitectura_id=v_arquitectura))) then
+        raise exception using errcode='23514',message='Rasgo o valor ajeno a la forma y arquitectura conocidas';
+      end if;
       if v_detalle->>'tipo_seccion'='remate' and (
         (v_detalle->>'n_versos')::integer>v_fin::bigint-v_inicio+1 or v_forma is null or not exists (
           select 1 from public.estructuras_secciones s join public.arquitecturas_forma a using(arquitectura_id)
@@ -175,6 +186,9 @@ begin
       if (v_desviacion->>'v_ini')::integer<v_inicio or (v_desviacion->>'v_fin')::integer>v_fin
         or (v_desviacion->>'v_fin')::integer<(v_desviacion->>'v_ini')::integer
         or not (v_fila#>'{origen,notas_ref}' ? (v_desviacion->>'nota_ref'))
+        or not exists (select 1 from jsonb_array_elements(p_entrada_original->'notas') n
+          where n->>'id'=v_desviacion->>'nota_ref'
+            and n->>'texto_literal'=v_desviacion->>'texto_fuente')
         or (v_desviacion->>'dimension'='metro' and v_desviacion->>'relacion_norma' in ('sobra','falta'))
         or (v_desviacion->>'dimension'='estructura' and v_desviacion->>'relacion_norma' in ('menor_que_norma','mayor_que_norma'))
         or (v_desviacion->>'metro_observado_slug' is not null and not exists (

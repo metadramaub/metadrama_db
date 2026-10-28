@@ -2,7 +2,7 @@
 
 **Borrador de trabajo. No importado ni apto para incorporarse automáticamente al corpus.**
 
-Reglas v0.5; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
+Reglas v0.6; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
 
 Fechas conservadas: 1589–1603. Fuente: VEGA CARPIO, Lope de, Los donaires de Matico, ed. Marco Presotto, en Comedias de Lope de Vega. Parte I, Lérida, Milenio-Universitat Autònoma de Barcelona, 1997, 3 vols, I, pp. 115-254.
 

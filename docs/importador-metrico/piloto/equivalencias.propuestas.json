@@ -87,12 +87,12 @@
         }
       ],
       "exhaustividad": "pendiente_de_validacion",
-      "fundamento": "La misma identificación con cierre expresamente declarado. El catálogo dispone del rasgo distico_final; su representación normalizada precisa revisión. No se crea automáticamente otra secuencia para el pareado.",
+      "fundamento": "Pareado final corresponde al rasgo Dístico final, valor Presente, admitido por la arquitectura endecasilábica. Se conserva dentro de la misma secuencia.",
       "detalles_fuente": [
         {
           "literal": "pareado final",
-          "rasgo_slug_propuesto": "distico_final",
-          "estado": "pendiente"
+          "rasgo_slug": "distico_final",
+          "valor_slug": "presente"
         }
       ]
     },
@@ -304,6 +304,6 @@
       ]
     }
   ],
-  "version": "v0.5",
+  "version": "v0.6",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }

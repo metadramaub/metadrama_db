@@ -150,6 +150,12 @@ values(${lit(f.forma_id)},${lit(f.slug)},${lit(f.nombre)},${lit(f.definicion)},$
 			seed += `insert into public.arquitecturas_forma(arquitectura_id,forma_id,slug,nombre,demarcable)
 values(${lit(a.arquitectura_id)},${lit(f.forma_id)},${lit(a.slug)},${lit(a.nombre)},${f.tipo_registro !== 'sin_forma'});\n`;
 	}
+	for (const r of json('catalogo-referencia.json').rasgos) {
+		// Solo ejercitamos referencias y contexto; la escala de recuento no interviene en estas pruebas.
+		seed += `insert into public.rasgos_metricos(slug,nombre,tipo_valor,escala_recuento,naturaleza) values(${lit(r.slug)},${lit(r.nombre)},'catalogo','secuencia','construccion');\n`;
+		for (const v of r.valores) seed += `insert into public.rasgo_valores(rasgo_id,slug,nombre) select rasgo_id,${lit(v.slug)},${lit(v.nombre)} from public.rasgos_metricos where slug=${lit(r.slug)};\n`;
+		for (const c of r.contextos) seed += `insert into public.arquitectura_rasgos(arquitectura_id,rasgo_id,valor_id,modalidad) select a.arquitectura_id,r.rasgo_id,${c.valor_slug ? `(select valor_id from public.rasgo_valores where rasgo_id=r.rasgo_id and slug=${lit(c.valor_slug)})` : 'null'},'admitida' from public.arquitecturas_forma a join public.formas_metricas f using(forma_id) cross join public.rasgos_metricos r where f.slug=${lit(c.forma)} and a.slug=${lit(c.arquitectura)} and r.slug=${lit(r.slug)};\n`;
+	}
 	seed += `insert into public.estructuras_secciones(arquitectura_id,tipo_seccion,nombre,slug,orden)
 select a.arquitectura_id,'remate','Remate o envío','remate',1 from public.arquitecturas_forma a
 join public.formas_metricas f using(forma_id) where f.slug='cancion';\n`;
@@ -186,6 +192,9 @@ values('prueba/corpus','corpus_comparativas','publico',2,'{}');\n` + sesion(2);
 		'obras con tipo mínimo'
 	);
 	sql += ok('(select count(*)=12 from public.jornadas)', 'doce jornadas compartidas');
+	sql += rechaza(llamada(3, "||jsonb_build_object('metadatos',(datos->'metadatos')||jsonb_build_object('titulo','Texto de fuente inventado')) ||jsonb_build_object('segmentos',jsonb_set(datos->'segmentos','{15,desviaciones,0,texto_fuente}','\"Inventado\"'))", 91), '23514', 'texto de desviación contrastado con la nota original');
+	sql += ok("(select count(*)>0 from public.metrica_minima_secuencias m cross join lateral jsonb_array_elements(m.datos_minimos->'detalles_fuente') d where d->>'rasgo_slug'='distico_final' and d->>'valor_slug'='presente')", 'dístico final conservado como rasgo del catálogo');
+	sql += rechaza(llamada(0, "||jsonb_build_object('metadatos',(datos->'metadatos')||jsonb_build_object('titulo','Dístico incompatible')) ||jsonb_build_object('segmentos',jsonb_set(datos->'segmentos','{0,detalles_fuente}','[{\"literal\":\"pareado final\",\"rasgo_slug\":\"distico_final\",\"valor_slug\":\"presente\"}]'))", 90), '23514', 'dístico final rechazado en una forma incompatible');
 	sql += ok(
 		'(select count(*)=78 and sum(n_versos)=11754 from public.secuencias_metricas)',
 		'78 segmentos y 11754 posiciones'

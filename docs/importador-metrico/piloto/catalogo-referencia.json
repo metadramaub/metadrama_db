@@ -455,5 +455,409 @@
       "versos_max": 1
     }
   ],
-  "secciones_procedencia": "auditoria-tercetos-2026-10-26.json"
+  "secciones_procedencia": "auditoria-tercetos-2026-10-26.json",
+  "rasgos": [
+    {
+      "contextos": [
+        {
+          "arquitectura": "estancias_consonantes_variables",
+          "forma": "cancion",
+          "valor_slug": "total"
+        },
+        {
+          "arquitectura": "endecasilabica",
+          "forma": "endecasilabo_suelto",
+          "valor_slug": "esporadica"
+        },
+        {
+          "arquitectura": "endecasilabica",
+          "forma": "endecasilabo_suelto",
+          "valor_slug": "ninguna"
+        },
+        {
+          "arquitectura": "consonante_irregular",
+          "forma": "silva",
+          "valor_slug": "mayoritaria"
+        },
+        {
+          "arquitectura": "endecasilabica",
+          "forma": "silva",
+          "valor_slug": "mayoritaria"
+        },
+        {
+          "arquitectura": "libre",
+          "forma": "silva",
+          "valor_slug": "mayoritaria"
+        },
+        {
+          "arquitectura": "consonante_irregular",
+          "forma": "silva",
+          "valor_slug": "total"
+        },
+        {
+          "arquitectura": "consonante_regular",
+          "forma": "silva",
+          "valor_slug": "total"
+        },
+        {
+          "arquitectura": "libre",
+          "forma": "silva",
+          "valor_slug": "total"
+        }
+      ],
+      "nombre": "Densidad de rima",
+      "slug": "densidad_de_rima",
+      "valores": [
+        {
+          "nombre": "Ninguna",
+          "slug": "ninguna"
+        },
+        {
+          "nombre": "Esporádica",
+          "slug": "esporadica"
+        },
+        {
+          "nombre": "Mayoritaria",
+          "slug": "mayoritaria"
+        },
+        {
+          "nombre": "Total",
+          "slug": "total"
+        }
+      ]
+    },
+    {
+      "contextos": [
+        {
+          "arquitectura": "endecasilabica",
+          "forma": "endecasilabo_encadenado",
+          "valor_slug": null
+        },
+        {
+          "arquitectura": "endecasilabica",
+          "forma": "endecasilabo_suelto",
+          "valor_slug": null
+        }
+      ],
+      "nombre": "Dístico final",
+      "slug": "distico_final",
+      "valores": [
+        {
+          "nombre": "Presente",
+          "slug": "presente"
+        }
+      ]
+    },
+    {
+      "contextos": [
+        {
+          "arquitectura": "endecasilabica",
+          "forma": "endecasilabo_encadenado",
+          "valor_slug": "presente"
+        }
+      ],
+      "nombre": "Encadenamiento interior",
+      "slug": "encadenamiento_interior",
+      "valores": [
+        {
+          "nombre": "Presente",
+          "slug": "presente"
+        }
+      ]
+    },
+    {
+      "contextos": [
+        {
+          "arquitectura": "sin_rima_con_pareado_final",
+          "forma": "cancion_sin_rima",
+          "valor_slug": "esdrujulo"
+        },
+        {
+          "arquitectura": "endecasilabica",
+          "forma": "endecasilabo_encadenado",
+          "valor_slug": "esdrujulo"
+        },
+        {
+          "arquitectura": "endecasilabica",
+          "forma": "endecasilabo_suelto",
+          "valor_slug": "esdrujulo"
+        },
+        {
+          "arquitectura": "endecasilabica_consonante",
+          "forma": "octava_real",
+          "valor_slug": "esdrujulo"
+        },
+        {
+          "arquitectura": "endecasilabica_consonante",
+          "forma": "soneto",
+          "valor_slug": "esdrujulo"
+        },
+        {
+          "arquitectura": "endecasilabica_consonante",
+          "forma": "terceto",
+          "valor_slug": "esdrujulo"
+        }
+      ],
+      "nombre": "Final acentual",
+      "slug": "final_acentual",
+      "valores": [
+        {
+          "nombre": "Esdrújulo",
+          "slug": "esdrujulo"
+        },
+        {
+          "nombre": "Agudo",
+          "slug": "agudo"
+        }
+      ]
+    },
+    {
+      "contextos": [
+        {
+          "arquitectura": "endecasilabica",
+          "forma": "endecasilabo_suelto",
+          "valor_slug": "ninguna"
+        },
+        {
+          "arquitectura": "endecasilabica",
+          "forma": "endecasilabo_suelto",
+          "valor_slug": "ocasionales"
+        },
+        {
+          "arquitectura": "endecasilabica",
+          "forma": "silva",
+          "valor_slug": "habituales"
+        },
+        {
+          "arquitectura": "libre",
+          "forma": "silva",
+          "valor_slug": "ninguna"
+        },
+        {
+          "arquitectura": "consonante_irregular",
+          "forma": "silva",
+          "valor_slug": "predominantes"
+        },
+        {
+          "arquitectura": "endecasilabica",
+          "forma": "silva",
+          "valor_slug": "predominantes"
+        },
+        {
+          "arquitectura": "consonante_irregular",
+          "forma": "silva",
+          "valor_slug": "regulares"
+        },
+        {
+          "arquitectura": "consonante_regular",
+          "forma": "silva",
+          "valor_slug": "regulares"
+        }
+      ],
+      "nombre": "Organización en pareados",
+      "slug": "organizacion_en_pareados",
+      "valores": [
+        {
+          "nombre": "Ninguna",
+          "slug": "ninguna"
+        },
+        {
+          "nombre": "Ocasionales",
+          "slug": "ocasionales"
+        },
+        {
+          "nombre": "Habituales",
+          "slug": "habituales"
+        },
+        {
+          "nombre": "Predominantes",
+          "slug": "predominantes"
+        },
+        {
+          "nombre": "Regulares",
+          "slug": "regulares"
+        }
+      ]
+    },
+    {
+      "contextos": [
+        {
+          "arquitectura": "octosilabica",
+          "forma": "romance",
+          "valor_slug": null
+        },
+        {
+          "arquitectura": "heptasilabica",
+          "forma": "romancillo",
+          "valor_slug": null
+        },
+        {
+          "arquitectura": "hexasilabica",
+          "forma": "romancillo",
+          "valor_slug": null
+        },
+        {
+          "arquitectura": "pentasilabica",
+          "forma": "romancillo",
+          "valor_slug": null
+        },
+        {
+          "arquitectura": "tetrasilabica",
+          "forma": "romancillo",
+          "valor_slug": null
+        },
+        {
+          "arquitectura": "arromanzada",
+          "forma": "silva",
+          "valor_slug": null
+        },
+        {
+          "arquitectura": "hexasilabica",
+          "forma": "terceto",
+          "valor_slug": null
+        },
+        {
+          "arquitectura": "octosilabica",
+          "forma": "terceto",
+          "valor_slug": null
+        },
+        {
+          "arquitectura": "estribillo_inicial",
+          "forma": "villancico",
+          "valor_slug": null
+        }
+      ],
+      "nombre": "Vocales de la asonancia",
+      "slug": "vocales_asonancia",
+      "valores": [
+        {
+          "nombre": "a",
+          "slug": "a"
+        },
+        {
+          "nombre": "a-a",
+          "slug": "a-a"
+        },
+        {
+          "nombre": "a-e",
+          "slug": "a-e"
+        },
+        {
+          "nombre": "a-o",
+          "slug": "a-o"
+        },
+        {
+          "nombre": "e",
+          "slug": "e"
+        },
+        {
+          "nombre": "e-a",
+          "slug": "e-a"
+        },
+        {
+          "nombre": "e-e",
+          "slug": "e-e"
+        },
+        {
+          "nombre": "e-o",
+          "slug": "e-o"
+        },
+        {
+          "nombre": "i",
+          "slug": "i"
+        },
+        {
+          "nombre": "i-a",
+          "slug": "i-a"
+        },
+        {
+          "nombre": "i-e",
+          "slug": "i-e"
+        },
+        {
+          "nombre": "i-o",
+          "slug": "i-o"
+        },
+        {
+          "nombre": "o",
+          "slug": "o"
+        },
+        {
+          "nombre": "o-a",
+          "slug": "o-a"
+        },
+        {
+          "nombre": "o-e",
+          "slug": "o-e"
+        },
+        {
+          "nombre": "o-o",
+          "slug": "o-o"
+        },
+        {
+          "nombre": "u",
+          "slug": "u"
+        },
+        {
+          "nombre": "u-a",
+          "slug": "u-a"
+        },
+        {
+          "nombre": "u-e",
+          "slug": "u-e"
+        },
+        {
+          "nombre": "u-o",
+          "slug": "u-o"
+        }
+      ]
+    }
+  ],
+  "metros": [
+    {
+      "nombre": "Trisílabo",
+      "slug": "trisilabo"
+    },
+    {
+      "nombre": "Tetrasílabo",
+      "slug": "tetrasilabo"
+    },
+    {
+      "nombre": "Pentasílabo",
+      "slug": "pentasilabo"
+    },
+    {
+      "nombre": "Hexasílabo",
+      "slug": "hexasilabo"
+    },
+    {
+      "nombre": "Heptasílabo",
+      "slug": "heptasilabo"
+    },
+    {
+      "nombre": "Octosílabo",
+      "slug": "octosilabo"
+    },
+    {
+      "nombre": "Decasílabo",
+      "slug": "decasilabo"
+    },
+    {
+      "nombre": "Endecasílabo",
+      "slug": "endecasilabo"
+    },
+    {
+      "nombre": "Dodecasílabo",
+      "slug": "dodecasilabo"
+    },
+    {
+      "nombre": "Dodecasílabo compuesto 6 + 6",
+      "slug": "dodecasilabo_compuesto_6_6"
+    },
+    {
+      "nombre": "Alejandrino",
+      "slug": "alejandrino"
+    }
+  ],
+  "fecha_consulta_rasgos": "2026-10-28"
 }

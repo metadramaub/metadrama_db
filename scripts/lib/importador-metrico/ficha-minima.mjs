@@ -23,7 +23,8 @@ const detalleLiteral = z
 		dimension: z.literal('asonancia').optional()
 	})
 	.strict();
-const detalle = z.union([remate, detalleLiteral]);
+const rasgo = z.object({ literal: texto.optional(), rasgo_slug: texto, valor_slug: texto }).strict();
+const detalle = z.union([remate, rasgo, detalleLiteral]);
 const desviacion = z
 	.object({
 		...rango,
@@ -182,6 +183,12 @@ export function validarFichaMinima(input, { catalogo } = {}) {
 				'Una arquitectura ya identificada no mantiene candidatas.'
 			);
 		for (const [k, d] of s.detalles_fuente.entries()) {
+			if (d.rasgo_slug && (s.v_fin - s.v_ini + 1 < (d.rasgo_slug === 'distico_final' ? 2 : 1) ||
+				!s.identificacion || (catalogo?.rasgos && !catalogo.rasgos.some((r) =>
+					r.slug === d.rasgo_slug && r.valores.some((v) => v.slug === d.valor_slug) &&
+					r.contextos.some((c) => c.forma === s.identificacion.forma_slug && (!c.valor_slug || c.valor_slug === d.valor_slug) &&
+						(!s.identificacion.arquitectura_slug || c.arquitectura === s.identificacion.arquitectura_slug))))))
+				add('rasgo_contexto', `${ruta}.detalles_fuente.${k}`, 'El rasgo y su valor deben corresponder a la forma y arquitectura conocidas.');
 			if (d.tipo_seccion === 'remate' && d.n_versos > s.v_fin - s.v_ini + 1)
 				add(
 					'detalle_extension',
@@ -310,7 +317,9 @@ export function prepararFichaMinima(normalizada, { genero, metadatos = {} } = {}
 							n_versos: d.n_versos,
 							posicion: d.posicion
 						}
-					: { literal: d.literal, ...(d.dimension ? { dimension: d.dimension } : {}) }
+					: d.rasgo_slug
+						? { literal: d.literal, rasgo_slug: d.rasgo_slug, valor_slug: d.valor_slug }
+						: { literal: d.literal, ...(d.dimension ? { dimension: d.dimension } : {}) }
 			),
 			desviaciones: s.desviaciones.map(({ fundamento, ...d }) => ({
 				...structuredClone(d),
@@ -377,6 +386,8 @@ export function crearCopiaConfirmada(input, contexto, opciones = {}) {
 		result.datos.segmentos.some((s) => s.detalles_fuente.some((d) => d.tipo_seccion === 'remate'))
 	)
 		throw new Error('Falta el catálogo de secciones declaradas');
+	if (!opciones.catalogo.rasgos && result.datos.segmentos.some((s) => s.detalles_fuente.some((d) => d.rasgo_slug)))
+		throw new Error('Falta el catálogo de rasgos declarados');
 	const datos = JSON.parse(JSON.stringify(result.datos));
 	return congelar({
 		esquema: 'versologia-copia-minima/0.2',

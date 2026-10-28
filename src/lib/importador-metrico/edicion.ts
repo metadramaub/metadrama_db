@@ -4,6 +4,15 @@ import type { FichaMinima, SegmentoMinimo } from './types';
 const texto = z.string().trim().min(1).max(4000);
 const entero = z.number().int().positive().max(2147483647);
 const destino = z.object({ forma_slug: texto, arquitectura_slug: texto.nullable() }).strict();
+export const desviacionEditableSchema = z.object({
+	v_ini: entero, v_fin: entero, dimension: z.enum(['metro', 'estructura']),
+	relacion_norma: z.enum(['menor_que_norma', 'mayor_que_norma', 'sobra', 'falta', 'otra']),
+	metro_observado_slug: texto.optional(), nota_ref: texto, nota: texto.nullable()
+}).strict();
+export type DesviacionEditable = z.infer<typeof desviacionEditableSchema>;
+export type DesviacionBorrador = Omit<DesviacionEditable, 'v_ini' | 'v_fin' | 'dimension' | 'relacion_norma'> & {
+	v_ini: string; v_fin: string; dimension: '' | DesviacionEditable['dimension']; relacion_norma: '' | DesviacionEditable['relacion_norma'];
+};
 export const edicionesSchema = z
 	.array(
 		z
@@ -17,7 +26,9 @@ export const edicionesSchema = z
 								v_fin: entero,
 								identificacion: destino.nullable(),
 								nota: texto.nullable(),
-								remate: z.object({ n_versos: entero }).strict().nullable()
+								remate: z.object({ n_versos: entero }).strict().nullable(),
+								rasgos: z.array(z.object({rasgo_slug: texto, valor_slug: texto}).strict()).max(100).optional(),
+								desviaciones: z.array(desviacionEditableSchema).max(1000).optional()
 							})
 							.strict()
 					)
@@ -41,7 +52,7 @@ export type FormaEditable = {
 };
 
 /** Solo modifica la interpretación. El origen y el ámbito se reconstruyen desde la entrada. */
-export function aplicarEdiciones(datos: FichaMinima, entrada: unknown): FichaMinima {
+export function aplicarEdiciones(datos: FichaMinima, entrada: unknown, notas: {id: string; texto_literal: string}[] = []): FichaMinima {
 	const parsed = edicionesSchema.safeParse(entrada);
 	if (!parsed.success) throw new Error('Los cambios de secuencias tienen un formato inválido.');
 	const copia = structuredClone(datos);
@@ -71,6 +82,7 @@ export function aplicarEdiciones(datos: FichaMinima, entrada: unknown): FichaMin
 			).values()
 		];
 		for (const d of desviaciones) {
+			if (cambio.partes.every((p) => p.desviaciones !== undefined)) break;
 			if (!cambio.partes.some((p) => Number(d.v_ini) >= p.v_ini && Number(d.v_fin) <= p.v_fin))
 				throw new Error(
 					'El corte atraviesa una desviación. Ajusta el límite para conservarla entera.'
@@ -87,6 +99,16 @@ export function aplicarEdiciones(datos: FichaMinima, entrada: unknown): FichaMin
 			).values()
 		];
 		const nuevas = cambio.partes.map((p, i): SegmentoMinimo => {
+			const notasPermitidas = new Set(originales.flatMap((s) => s.origen.notas_ref));
+			const desviacionesParte = p.desviaciones === undefined
+				? desviaciones.filter((d) => Number(d.v_ini) >= p.v_ini && Number(d.v_fin) <= p.v_fin)
+				: p.desviaciones.map((d) => {
+					const fuente = notas.find((n) => n.id === d.nota_ref)?.texto_literal ??
+						desviaciones.find((n) => n.nota_ref === d.nota_ref)?.texto_fuente;
+					if (!notasPermitidas.has(d.nota_ref) || typeof fuente !== 'string') throw new Error('La desviación debe referirse a una nota de la edición vinculada a esta fila.');
+					if (d.v_ini < p.v_ini || d.v_fin > p.v_fin || d.v_fin < d.v_ini) throw new Error('La desviación debe quedar dentro de su secuencia.');
+					return {...d, texto_fuente: fuente};
+				});
 			let ref = originales[0].ref;
 			if (cambio.partes.length > 1) {
 				ref = `${originales[0].ref}-parte-${i + 1}`;
@@ -117,7 +139,14 @@ export function aplicarEdiciones(datos: FichaMinima, entrada: unknown): FichaMin
 				regla_id: mismoDestino ? originales[0].regla_id : null,
 				nota: p.nota,
 				detalles_fuente: [
-					...structuredClone(detalles.filter((d) => d.tipo_seccion !== 'remate')),
+					...structuredClone(detalles.filter((d) => d.tipo_seccion !== 'remate' && !d.rasgo_slug)),
+					...(p.rasgos === undefined
+						? structuredClone(detalles.filter((d) => d.rasgo_slug && (d.rasgo_slug !== 'distico_final' || p.v_fin === fin)))
+						: p.rasgos.map((r) => {
+							const literal = detalles.find((d) => d.rasgo_slug === r.rasgo_slug && d.valor_slug === r.valor_slug)?.literal;
+							// Elegir un valor no inventa una cita literal de la fuente.
+							return {...r, ...(typeof literal === 'string' ? {literal} : {})};
+						})),
 					...(p.remate
 						? [
 								{
@@ -139,9 +168,7 @@ export function aplicarEdiciones(datos: FichaMinima, entrada: unknown): FichaMin
 							]
 						: [])
 				],
-				desviaciones: structuredClone(
-					desviaciones.filter((d) => Number(d.v_ini) >= p.v_ini && Number(d.v_fin) <= p.v_fin)
-				)
+				desviaciones: structuredClone(desviacionesParte)
 			};
 		});
 		const indice = copia.segmentos.findIndex((s) => s.origen.tramo_ref === cambio.tramo_ref);

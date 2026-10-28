@@ -336,6 +336,28 @@
                       "type": "string",
                       "minLength": 1
                     },
+                    "rasgo_slug": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "valor_slug": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "rasgo_slug",
+                    "valor_slug"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "literal": {
+                      "type": "string",
+                      "minLength": 1
+                    },
                     "dimension": {
                       "type": "string",
                       "const": "asonancia"

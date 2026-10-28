@@ -4,6 +4,7 @@
 	import EditorSecuencia from './EditorSecuencia.svelte';
 	import type { EdicionFila, FormaEditable } from '$lib/importador-metrico/edicion';
 	import type { ResultadoVistaPrevia, FilaVistaPrevia, FichaMinima } from '$lib/importador-metrico/types';
+	import { rasgosImportador } from '$lib/importador-metrico/catalogo';
 
 	let { vista, desactualizada = false, formas = [], ocupado = false, editable = false, oneditar, oncancelar } = $props<{
 		vista: ResultadoVistaPrevia; desactualizada?: boolean; formas?: FormaEditable[]; ocupado?: boolean;
@@ -36,6 +37,11 @@
 		if (d.tipo_seccion === 'remate') return 'Remate: ' + String(d.literal) +
 			(d.n_versos ? ' · ' + String(d.n_versos) + (d.n_versos === 1 ? ' verso' : ' versos') : '');
 		if (d.dimension === 'asonancia') return 'Asonancia: ' + String(d.literal);
+		if (d.rasgo_slug === 'distico_final') return 'Dístico final · 2 versos';
+		if (d.rasgo_slug) {
+			const rasgo = rasgosImportador.find((r) => r.slug === d.rasgo_slug);
+			return (rasgo?.nombre ?? String(d.rasgo_slug)) + ': ' + (rasgo?.valores.find((v) => v.slug === d.valor_slug)?.nombre ?? String(d.valor_slug));
+		}
 		return String(d.literal ?? '');
 	}
 	function desviacion(d: Record<string, unknown>) {
@@ -63,7 +69,7 @@
 	{#if vista.resumen && vista.datos}
 		{#if editando && editable}
 			{#key editando}
-				<EditorSecuencia datos={vista.datos} tramoRef={editando} {formas} {ocupado} errores={vista.errores.map((e: { mensaje: string }) => e.mensaje)}
+				<EditorSecuencia datos={vista.datos} tramoRef={editando} {formas} {ocupado} notasFuente={vista.filas.filter((f: FilaVistaPrevia) => f.origen.tramo_ref === editando).flatMap((f: FilaVistaPrevia) => f.notas_fuente ?? [])} errores={vista.errores.map((e: { mensaje: string }) => e.mensaje)}
 					onaplicar={(cambio) => aplicar(cambio.tramo_ref, cambio)}
 					onrestablecer={() => editando && aplicar(editando, null)} oncancelar={() => { editando = null; oncancelar?.(); }} />
 			{/key}

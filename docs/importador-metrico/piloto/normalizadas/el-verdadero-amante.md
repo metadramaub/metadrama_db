@@ -2,7 +2,7 @@
 
 **Borrador de trabajo. No importado ni apto para incorporarse automáticamente al corpus.**
 
-Reglas v0.5; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
+Reglas v0.6; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
 
 Fechas conservadas: 1591–1595. Fuente: VEGA CARPIO, Lope de, El verdadero amante, ed. Eva Rodríguez, en Comedias de Lope de Vega. Parte XIV, coord. José Enrique López Martínez, Madrid, Gredos, 2015, 2 vols, II, pp. 203-378.
 

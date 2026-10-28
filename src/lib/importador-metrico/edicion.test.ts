@@ -32,6 +32,51 @@ const cambio = (): EdicionFila => ({
 });
 
 describe('edición de las secuencias preparadas', () => {
+	it('registra el pareado final como Dístico final / Presente y lo conserva solo al final al dividir', () => {
+		const datos = analizarEntrada(entrada('el-verdadero-amante')).datos!;
+		const s = datos.segmentos.find((s) => s.detalles_fuente.some((d) => d.rasgo_slug === 'distico_final'))!;
+		expect(s).toBeDefined();
+		expect(s.detalles_fuente).toContainEqual({literal: 'pareado final', rasgo_slug: 'distico_final', valor_slug: 'presente'});
+		expect(s.detalles_fuente.some((d) => d.tipo_seccion === 'remate')).toBe(false);
+		const p = {identificacion: s.identificacion, nota: null, remate: null};
+		const editada = aplicarEdiciones(datos, [{tramo_ref: s.origen.tramo_ref, partes: [
+			{...p, v_ini: s.v_ini, v_fin: s.v_ini + 2}, {...p, v_ini: s.v_ini + 3, v_fin: s.v_fin}
+		]}]);
+		expect(editada.segmentos.filter((n) => n.origen.tramo_ref === s.origen.tramo_ref).map((n) => n.detalles_fuente.filter((d) => d.rasgo_slug === 'distico_final').length)).toEqual([0, 1]);
+	});
+	it('permite añadir, editar y quitar una desviación documentada sin aceptar texto de fuente inventado', () => {
+		const original = JSON.parse(entrada('los-locos-de-valencia'));
+		// Al cambiar el original, no se heredan las decisiones particulares del piloto.
+		original.metadatos.titulo += ' (prueba)';
+		const datos = analizarEntrada(JSON.stringify(original)).datos!;
+		const s = datos.segmentos.find((s) => s.ref === 't16')!;
+		expect(s.desviaciones).toEqual([]);
+		const p = {v_ini: s.v_ini, v_fin: s.v_fin, identificacion: s.identificacion, remate: null, nota: null, desviaciones: [{v_ini: 2666, v_fin: 2666, dimension: 'estructura', relacion_norma: 'sobra', nota_ref: 'n02', nota: null}]};
+		const texto = JSON.stringify(original);
+		const vista = analizarEntrada(texto, {}, [{tramo_ref: 't16', partes: [p]}]);
+		expect(vista.errores).toEqual([]);
+		expect(vista.datos!.segmentos.find((s) => s.ref === 't16')!.desviaciones[0]).toMatchObject({texto_fuente: original.notas.find((n: {id: string}) => n.id === 'n02').texto_literal, v_ini: 2666});
+		for (const d of [{...p.desviaciones[0], nota_ref: 'n01'}, {...p.desviaciones[0], v_ini: 1}, {...p.desviaciones[0], texto_fuente: 'Inventado'}]) {
+			expect(analizarEntrada(texto, {}, [{tramo_ref: 't16', partes: [{...p, desviaciones: [d]}]}]).errores.some((e) => e.codigo === 'edicion')).toBe(true);
+		}
+		expect(analizarEntrada(texto, {}, [{tramo_ref: 't16', partes: [{...p, desviaciones: []}]}]).datos!.segmentos.find((s) => s.ref === 't16')!.desviaciones).toEqual([]);
+	});
+	it('rechaza un rasgo o valor incompatible con la forma aunque llegue del cliente', () => {
+		const c = cambio();
+		c.partes[0].rasgos = [{rasgo_slug: 'distico_final', valor_slug: 'presente'}];
+		expect(analizarEntrada(entrada('el-molino'), {}, [c]).errores.some((e) => e.codigo === 'edicion')).toBe(true);
+	});
+	it('permite añadir y retirar un rasgo, exige el valor admitido y conserva la extracción', () => {
+		const texto = entrada('el-verdadero-amante');
+		const s = analizarEntrada(texto).datos!.segmentos.find((s) => s.ref === 't15')!;
+		const p = {v_ini: s.v_ini, v_fin: s.v_fin, identificacion: s.identificacion, nota: null, remate: null, rasgos: [{rasgo_slug: 'distico_final', valor_slug: 'presente'}]};
+		const vista = analizarEntrada(texto, {}, [{tramo_ref: 't15', partes: [p]}]);
+		expect(vista.errores).toEqual([]);
+		expect(vista.datos!.segmentos.find((s) => s.ref === 't15')!.detalles_fuente[0]).toMatchObject(p.rasgos[0]);
+		expect(analizarEntrada(texto, {}, [{tramo_ref: 't15', partes: [{...p, rasgos: [{rasgo_slug: 'distico_final', valor_slug: 'ausente'}]}]}]).errores.some((e) => e.codigo === 'edicion')).toBe(true);
+		expect(analizarEntrada(texto, {}, [{tramo_ref: 't15', partes: [{...p, rasgos: []}]}]).datos!.segmentos.find((s) => s.ref === 't15')!.detalles_fuente).toEqual([]);
+		expect(analizarEntrada(texto).datos!.segmentos.find((s) => s.ref === 't15')!.detalles_fuente).toEqual([]);
+	});
 	it('representa A → B → A como tres secuencias con el mismo origen, sin cambiar el original', () => {
 		const datos = base();
 		datos.segmentos[0].identificacion = { arquitectura_slug: null, forma_slug: 'redondilla' };
