@@ -442,8 +442,16 @@ real en versos.
 
 ### 4.4 Enunciación, cuadros y extremos de jornada
 
-Canto, prosa y evocación métrica se cuentan por versos tras fusionar rangos solapados o contiguos.
-El corpus conserva su presencia anotada entre obras y la distribución de su peso. La articulación
+El productor auditado cuenta canto, prosa y evocación métrica por versos tras fusionar rangos
+solapados o contiguos. **Corrección metodológica precisada el 29 de octubre, pendiente de
+implementación:** ese tratamiento de prosa no es válido. Sus extremos localizan la inserción
+entre versos anterior y posterior; el editor no anota su longitud. Prosa se conserva como
+presencia y localización, sin cantidad de versos ni porcentaje de extensión. Hay que separar
+su contrato y sus lectores del cálculo de extensión de canto y evocación, según el
+[inventario general](./inventario-medidas-analiticas.md#d06--enunciación-y-fenómenos).
+
+El corpus conserva la presencia anotada de los fenómenos entre obras; las distribuciones de
+extensión solo corresponden a los que realmente la registran. La articulación
 dramática compara `cambios de cuadro con cambio de secuencia / cambios de cuadro con cobertura`;
 el matiz «cambia la secuencia pero continúa la misma forma» se conserva como diagnóstico, no como
 segundo agregado principal. Las formas de apertura, cierre y pareja apertura–cierre se cuentan por

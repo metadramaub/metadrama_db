@@ -17,6 +17,11 @@ pendiente de revisión, sin interpretar el silencio como aprobación. Este docum
 los cálculos vigentes. Las definiciones aprobadas se incorporarán a la
 [metodología canónica](./metodologia-perfil-metrico.md) al implementar y verificar los cambios.
 
+Últimas precisiones del 29 de octubre: se retira la propuesta de excluir por defecto las lagunas
+atribuidas del perfil principal; se propone mantenerlas contabilizadas con reconstrucción
+explícita. Las silvas no proporcionan un recuento de versos por medida por el mero hecho de
+admitir 7 y 11. La prosa se localiza entre versos, sin medir su longitud ni calcular porcentaje.
+
 ## Qué se ha comprobado
 
 Se han leído las definiciones vigentes de doce funciones de Supabase y seguido sus salidas hasta
@@ -123,7 +128,8 @@ filtros y comparativas. La medida de canto del resumen anterior y la del anális
 
 | Medida | Comportamiento observado | Propuesta |
 | --- | --- | --- |
-| Canto, prosa, evocación métrica: extensión y proporción | Análisis: unión de rangos por tipo, dividida por `T`. Corpus y lector del laboratorio convierten la clave ausente en 0 | Mantener unión, sin duplicar solapes. 0 con revisión exhaustiva que establece ausencia; en básica sin dato: desconocido. Una presencia sin extensión delimitada no da una proporción exacta. D06 |
+| Canto y evocación métrica: extensión y proporción | Análisis: unión de rangos por tipo, dividida por `T`. Corpus y lector del laboratorio convierten la clave ausente en 0 | Mantener unión, sin duplicar solapes. 0 con revisión exhaustiva que establece ausencia; en básica sin dato: desconocido. Una presencia sin extensión delimitada no da una proporción exacta. D06 |
+| Prosa: presencia y localización | El editor registra versos anterior/posterior, pero la agregación genérica auditada aplica longitud de rango y proporción también a prosa | Corregir ese desacuerdo: conservar presencia y localización entre versos. Ningún número de versos de prosa ni porcentaje de extensión. D06 |
 | `obras_resumen.pct_cantado` | Suma de longitudes, sin unión, multiplicada por 100 | Una definición compartida basada en unión; almacenar proporción 0–1 y convertir a porcentaje al presentar. Revisar compatibilidad de consumidores. D06 |
 | Versos partidos | Secuencias con sí / secuencias respondidas | Mantener denominador de secuencias respondidas, no versos ni casos individuales. Sin respuestas: desconocido. Con respuestas negativas y ningún sí: 0. D06 |
 | Cambios de espacio | Inicios con sí / inicios respondidos | Mismo tratamiento; mide inicios, no número total de cambios dentro de una secuencia. D06 |
@@ -138,9 +144,10 @@ incluso habiendo un positivo. Afirmar la existencia de un caso y conocer la dist
 son preguntas distintas. Las fichas detalladas publicadas deben cumplir su integridad editorial;
 los pendientes aquí importan para básicas y para detectar incidencias del recorrido técnico.
 
-La unidad actual de «prosa» procede de posiciones numeradas de rangos. Antes de rotularla como
-cantidad de versos hay que precisar esa convención; una extensión no medida no es cero ni una
-estimación libre. La fuente métrica por sí sola tampoco declara exhaustivamente todos los cantos.
+Los extremos de una anotación de prosa son referencias de localización, no posiciones cuya
+distancia mida el pasaje. La conversión genérica del productor a extensión es una discrepancia
+con el criterio editorial, no una unidad pendiente de elegir. La fuente métrica por sí sola
+tampoco declara exhaustivamente todos los cantos.
 
 ## Agregación, autoría y filtros
 
@@ -194,16 +201,23 @@ un verso añadido, se registran los cinco y se declara la adición. El comprobad
 si el OCR produjo cinco donde la foto tiene cuatro, se corrige la extracción y se registran cuatro.
 El ajuste del comprobador y la corrección de la extracción son operaciones distintas. Si la
 corrección editorial cambia realmente la extensión del texto base elegido, se usa esa extensión.
-La cuestión de contar posiciones de una laguna frente a versos conservados necesita explicitar
-su convención antes de cerrar D01; no se da por resuelta con esta aclaración.
+El responsable precisa la práctica vigente: los versos perdidos cuantificados y atribuidos a
+una forma, por ejemplo dentro de un romance, se cuentan en ella. **Se retira la propuesta de
+excluirlos por defecto del perfil principal.** Se propone mantener la práctica y hacer explícita
+la reconstrucción, sin confundirla con observación de versos conservados ni inventar su texto.
 
-El responsable señala que una laguna interior puede atribuirse por contexto a la forma que la
-rodea, pero esa expectativa no permite observar lo perdido. Conservar la extensión perdida
-cuantificada y la hipótesis métrica con su fundamento, distinguiéndolas de los versos conservados
-identificados. No rellenar el hueco automáticamente como si se hubiera leído ni asignar un
-porcentaje de certeza inventado. Que el comprobador estructural admita completar la norma no
-convierte esa reconstrucción en evidencia directa para el perfil observado. Sigue pendiente
-elegir la base del perfil principal; la propuesta es conservados y reconstrucción por separado.
+Ejemplo: 98 versos conservados de romance y dos perdidos cuantificados y atribuidos al mismo
+romance aportan 100 posiciones de romance al perfil editorial adoptado, dos de ellas reconstruidas.
+Esas dos entran una sola vez tanto en la extensión total como en la de romance. Si la numeración
+ya las incluye, no se vuelven a sumar. No se calcula `100/98` ni se mezcla un numerador reconstruido
+con un denominador solo de conservados.
+
+El resultado debe conservar cuántas posiciones son perdidas y cómo se atribuyeron. Los porcentajes
+describen el análisis editorial con esa reconstrucción; no se rotulan todas esas posiciones como
+directamente observadas. Un ensayo de sensibilidad podrá comprobar qué cambia al excluirlas o
+variar las atribuciones dudosas, sin convertir esa variante en el perfil principal por defecto.
+Si no se conoce cuántos versos faltan o no se puede atribuir su forma, se conserva esa limitación:
+no se completa automáticamente una redondilla ni se inventa una cantidad para cerrar el cálculo.
 
 ### D02 · Perfiles y datos parciales
 
@@ -276,7 +290,8 @@ La dominancia incluye las clases identificadas, nunca un grupo artificial de pen
 
 **Recomendación metodológica pendiente de aprobación:** el índice principal compara la
 distribución de clases generales del catálogo, con una categoría de verso aislado y otra de
-versificación irregular. Mantener las medidas conocidas y calcular aparte un perfil por medida;
+versificación irregular. Mantener las medidas conocidas para consultas adicionales cuando su
+evidencia permita responderlas, sin prometer un reparto completo de versos por medida;
 no subdividir solo el verso aislado por heptasílabo/octosílabo/endecasílabo en el índice principal.
 Razones:
 
@@ -288,13 +303,23 @@ Razones:
    aumenta el índice cuando se mantiene la misma extensión total. No es un error matemático:
    se ha cambiado el nivel de clasificación. La elección debe fijarse antes de interpretar
    diferencias entre autores y mantenerse versionada.
-4. No se pierde la diferencia entre medidas: se estudia en su propio perfil y su propia cobertura.
+4. No se pierde la diferencia entre medidas: se conserva la información disponible y su alcance.
    «Verso aislado sin medida informada» conserva clase conocida y medida desconocida; no se
    transforma todo el verso en dato sin identificar ni se crea una medida artificial «desconocida».
 
 Por ejemplo, dos versos aislados de medidas distintas constituyen una clase en el perfil general
-y dos medidas en el perfil por medida. El segundo análisis requiere la misma definición para
-el resto de la obra: el patrón de medidas de una forma mixta no puede inventarse si no se conoce.
+y conservan dos medidas concretas conocidas. **Corrección a la propuesta anterior:** una silva
+que admite heptasílabos y endecasílabos no informa cuántos versos de cada medida contiene. Saber
+que su repertorio admite 7 y 11 tampoco demuestra que ambas aparezcan en ese pasaje. No se
+reparte a medias ni se atribuye toda su extensión a las dos medidas.
+
+No se exige anotar verso a verso ni se propone un porcentaje global de 7 y 11 con esos datos.
+Una consulta sobre medidas conocidas se limita a ámbitos con información suficiente y declara
+lo que excluye; no se presenta automáticamente como distribución de medidas de toda la obra
+o del autor. La forma Silva puede estar completamente identificada sin ese desglose. Su falta
+de recuento interno no reduce la cobertura de identificación de formas ni impide por sí sola
+calcular la diversidad por clases. La recomendación de índice principal por clases sigue pendiente
+de aprobación y no depende de crear un nuevo perfil universal de medidas.
 Se recomienda documentar separadamente recuento de clases y diversidad efectiva, que pondera su
 extensión: un verso aislado cuenta, pero no tiene el mismo peso que mil versos de romance.
 La interpretación del índice efectivo se apoya en
@@ -344,9 +369,19 @@ No demuestra ausencia en las veinte obras. Se comprobaron visualmente las mencio
 en El molino y Las ferias de Madrid; no permiten marcar canto. Si falta un caso positivo de fuente,
 la comprobación técnica deberá usar otro ejemplo documental o un caso sintético explícito.
 
-Sobre prosa, **propongo** conservar de momento el recuento de posiciones numeradas que usa el
-sistema y rotularlo así cuando proceda; no afirmar que cuantifica extensión textual en prosa.
-Una medida distinta de extensión en prosa requeriría unidad propia antes de combinarla con versos.
+**Precisado por el responsable:** la prosa siempre se localiza entre versos; su longitud no se
+mide en este proyecto. El editor v2 registra el verso anterior y el posterior. Se retira la
+propuesta de conservar un recuento de posiciones o buscar otra unidad de extensión para prosa.
+No se calcularán «versos de prosa» ni porcentaje de extensión en prosa. Se conservan presencia
+y localización; cualquier agregado de número de pasajes u obras con prosa se definirá aparte,
+sin confundirlo con longitud ni presumir un recuento exhaustivo en una básica.
+
+Comprobación de código del 29 de octubre: `CaracterizacionesPorRango.svelte` ya explica «prosa
+(no numerada)» y pide entre qué versos aparece. En cambio, `caracterizacionesDeLaObra` en
+`analisis-ficha.ts` suma `v_fin - v_ini + 1` para todos los tipos, y el laboratorio define prosa
+como proporción de versos. La auditoría SQL del 28 también encontró esa agrupación genérica.
+Se registra la corrección pendiente de productores, contratos y lectores; no se modifica el
+editor para medir prosa ni se cambia la anotación válida de sus extremos.
 El rastreo del lote ha permitido comprobar visualmente un caso concreto: «carta en prosa» sin
 rango numerado en Nacimiento de Ursón y Valentín, p. 996. La fuente aporta presencia, pero no
 una extensión en versos: no se puede completar automáticamente una proporción a partir de ella.
@@ -460,10 +495,10 @@ verdad filológica ni el error de los editores de las fuentes.
 
 | Punto | Decisión pendiente y propuesta para facilitar su revisión |
 | --- | --- |
-| D01: lagunas | Elegir si las proporciones describen versos conservados o extensión que incluye posiciones perdidas cuantificadas. Propuesta: conservados para el perfil observado y reconstrucción aparte. El contexto puede sostener una hipótesis, no observación de lo perdido. La corrección de errores ya está aceptada. |
-| D03: nivel de agrupación | Incluir aislados e irregularidad ya está aceptado. Aprobar o ajustar la recomendación razonada de clases generales para el índice principal y medidas en un análisis separado. |
+| D01: lagunas | Se retira excluirlas por defecto del perfil principal. Propuesta ajustada a la práctica indicada: contar las posiciones perdidas cuantificadas y atribuidas en su forma y en el total, sin duplicarlas, conservando su carácter reconstruido. No inventar cantidad ni forma desconocidas. |
+| D03: nivel de agrupación | Incluir aislados e irregularidad ya está aceptado. Aprobar o ajustar el índice principal por clases generales; se retira prometer un reparto universal por medidas, que no está anotado en las silvas. |
 | D05: detalle de denominador | Extremos conocidos y exclusión de básicas sin cuadros están aceptados. Resta confirmar la distinción entre recuento cero de límites y proporción no aplicable cuando no hay límites. |
-| D06: unidades de fenómenos/prosa | Cero analizado de detalladas publicadas y desconocido por silencio de básicas están aceptados. Resta concretar unidades, denominadores por respuestas y tratamiento de extensión en prosa. |
+| D06: fenómenos | Cero analizado de detalladas publicadas y desconocido por silencio de básicas están aceptados. Prosa queda definida como presencia/localización entre versos, sin extensión. Resta concretar los denominadores de otros fenómenos y corregir los cálculos que tratan prosa como longitud. |
 | D07: dos lecturas | Revisar la explicación con porcentajes y ejemplo, y confirmar si se conservan las dos medianas y la medida de presencia con sus nombres explícitos. La elegibilidad no elimina sesgos de selección. |
 | D08: referente | Mantener perfil agregado ponderado por extensión y distribución por obras aparte; excluir la obra contrastada y sus jornadas del referente. Mantener atribución por obra/jornada ya acordada. |
 | D09: fechas | Seleccionar por solapamiento como «compatible con el periodo», sin inventar año puntual. No interpretar ventanas que se solapan como periodos disjuntos al sumar recuentos. |

@@ -122,6 +122,9 @@ ese recorrido completo; una optimización incremental futura deberá demostrar e
 | Perfil de formas | Parte identificada y pendiente sobre el total numerado; no convertir la parte conocida en un falso 100 % |
 | Arquitecturas | Cobertura propia, distinta de la cobertura de formas; no excluir por ello una forma conocida |
 | Rima, remates y otros rasgos | Presencias documentadas; ausencia de dato no significa ausencia del fenómeno ni anotación exhaustiva |
+| Medidas silábicas | No inferir cuántos versos de 7 y 11 tiene una silva a partir de sus medidas admitidas. Puede estar identificada como forma sin ese desglose |
+| Lagunas atribuidas | Mantener en su forma y total las posiciones perdidas cuantificadas y atribuidas, sin duplicarlas; conservar el carácter reconstruido |
+| Prosa | Presencia y localización entre versos, sin convertir extremos de referencia en longitud ni porcentaje |
 | Secuencias y transiciones | No certificar límites provisionales ni saltar un tramo desconocido creando una transición entre sus vecinos |
 | Cuadros, personajes y caracterizaciones | No disponibles en una mínima por defecto; no generar ceros ni incluirla en esos denominadores |
 | Cronología | Conservar intervalos; el criterio de inclusión en un periodo debe declararse, sin inventar una fecha puntual |
@@ -234,9 +237,10 @@ fallo y reintento de generación; aislamiento entre payload privado y comparaci�
 Las pruebas de los cargadores comprobarán que las consultas analíticas solo leen artefactos:
 no disparan productores ni usan las tablas de anotaciones como cálculo alternativo si falta uno.
 
-Las métricas conocidas de las completas deben conservar sus valores. Las diferencias debidas a
-corregir ceros que representaban datos desconocidos se documentan y versionan, no se introducen
-como un efecto lateral del importador. Se comparan los resultados anteriores con casos de control.
+Las métricas de las completas cuya definición sigue siendo válida deben conservar sus valores.
+Las correcciones de ceros que representaban desconocidos o de medidas inválidas —como longitud
+de prosa calculada entre versos— se documentan y versionan; no se introducen como un efecto
+lateral del importador. Se comparan los resultados anteriores con casos de control.
 
 Quedan decisiones metodológicas antes de publicar afinidades: ponderación por obra o versos,
 exclusión de la obra comparada y sus versiones, tratamiento operativo de intervalos cronológicos

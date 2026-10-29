@@ -46,6 +46,8 @@ un porcentaje de extensión inventado. Es un caso documental para revisar las un
 También se comprobó visualmente `34_casamiento_muerte_1.HEIC`: declara un pasaje en prosa entre
 los vv. 524–525, dentro de la entrada de octavas 469–556. Es una localización entre versos, no
 dos versos en prosa. Ninguno de estos dos hallazgos cuantifica por sí solo la extensión de la prosa.
+El responsable precisó después el criterio general del proyecto: su longitud no se mide; se
+registran los versos anterior y posterior. No se propone completar esa supuesta medida más tarde.
 
 ## Uso de este resultado
 
