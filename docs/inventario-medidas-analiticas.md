@@ -1,6 +1,6 @@
 # Inventario general de medidas analíticas: ceros, ausencias y denominadores
 
-28 de octubre de 2026. Revisión tras las observaciones del responsable.
+Auditoría del 28 de octubre de 2026; decisiones y propuestas actualizadas el 29 de octubre.
 **Ámbito: medidas de obra, autor, comparativas y laboratorio de toda la plataforma**, para fichas
 detalladas y básicas. No es una auditoría de todas las tablas ni de toda la lógica de la base.
 La incorporación de las básicas motivó la revisión, pero sus reglas analíticas son generales.
@@ -9,7 +9,10 @@ Se han confirmado dos correcciones de criterio: incluir los registros declarados
 diversidad y mantener las transiciones entre jornadas en el cálculo general. Se ha aceptado
 abandonar la etiqueta de fiabilidad por volumen y separar volumen, cobertura y estabilidad.
 El experimento de sensibilidad se realizará con el corpus de Lope reunido y formará parte del
-artículo científico de presentación de Versología. D01–D02 se aclaran y reformulan; el resto sigue
+artículo científico de presentación de Versología. Están aceptados el aprovechamiento de extremos
+identificados y la exclusión de básicas sin cuadros de las medidas de cuadros, así como el cero
+de ausencia analizada en detalladas publicadas frente al desconocido por silencio de la básica.
+D01–D02 se aclaran y reformulan; el resto sigue
 pendiente de revisión, sin interpretar el silencio como aprobación. Este documento no modifica
 los cálculos vigentes. Las definiciones aprobadas se incorporarán a la
 [metodología canónica](./metodologia-perfil-metrico.md) al implementar y verificar los cambios.
@@ -181,7 +184,7 @@ Las etiquetas D01–D10 permiten resolver los puntos sin aprobar todo en bloque.
 
 ### D01 · Extensión
 
-**Aclaración pendiente de confirmar:** el dato corregido es el que se utiliza. Si la extracción o
+**Aclaración aceptada:** el dato corregido es el que se utiliza. Si la extracción o
 un rango era erróneo y se corrige, el total se recalcula con la corrección aceptada; el valor
 original se conserva solo como procedencia. No se impone la numeración errónea de la edición.
 
@@ -193,6 +196,14 @@ El ajuste del comprobador y la corrección de la extracción son operaciones dis
 corrección editorial cambia realmente la extensión del texto base elegido, se usa esa extensión.
 La cuestión de contar posiciones de una laguna frente a versos conservados necesita explicitar
 su convención antes de cerrar D01; no se da por resuelta con esta aclaración.
+
+El responsable señala que una laguna interior puede atribuirse por contexto a la forma que la
+rodea, pero esa expectativa no permite observar lo perdido. Conservar la extensión perdida
+cuantificada y la hipótesis métrica con su fundamento, distinguiéndolas de los versos conservados
+identificados. No rellenar el hueco automáticamente como si se hubiera leído ni asignar un
+porcentaje de certeza inventado. Que el comprobador estructural admita completar la norma no
+convierte esa reconstrucción en evidencia directa para el perfil observado. Sigue pendiente
+elegir la base del perfil principal; la propuesta es conservados y reconstrucción por separado.
 
 ### D02 · Perfiles y datos parciales
 
@@ -263,6 +274,33 @@ crear automáticamente otra categoría por cada rasgo o medida. Cualquier desglo
 medidas deberá definirse expresamente; no se da por aprobado ni cambia la taxonomía del catálogo.
 La dominancia incluye las clases identificadas, nunca un grupo artificial de pendientes.
 
+**Recomendación metodológica pendiente de aprobación:** el índice principal compara la
+distribución de clases generales del catálogo, con una categoría de verso aislado y otra de
+versificación irregular. Mantener las medidas conocidas y calcular aparte un perfil por medida;
+no subdividir solo el verso aislado por heptasílabo/octosílabo/endecasílabo en el índice principal.
+Razones:
+
+1. La pregunta principal es variedad de clases métricas. Medida, arquitectura y rasgos son
+   dimensiones adicionales; si se cruzan solo en algunas clases, el índice cambia de pregunta.
+2. La misma regla de agrupación debe aplicarse a todas las obras, sin que una ficha detallada
+   se vuelva más diversa que una básica únicamente por responder más campos.
+3. En la fórmula exponencial de Shannon, dividir una clase en varias subclases con presencia
+   aumenta el índice cuando se mantiene la misma extensión total. No es un error matemático:
+   se ha cambiado el nivel de clasificación. La elección debe fijarse antes de interpretar
+   diferencias entre autores y mantenerse versionada.
+4. No se pierde la diferencia entre medidas: se estudia en su propio perfil y su propia cobertura.
+   «Verso aislado sin medida informada» conserva clase conocida y medida desconocida; no se
+   transforma todo el verso en dato sin identificar ni se crea una medida artificial «desconocida».
+
+Por ejemplo, dos versos aislados de medidas distintas constituyen una clase en el perfil general
+y dos medidas en el perfil por medida. El segundo análisis requiere la misma definición para
+el resto de la obra: el patrón de medidas de una forma mixta no puede inventarse si no se conoce.
+Se recomienda documentar separadamente recuento de clases y diversidad efectiva, que pondera su
+extensión: un verso aislado cuenta, pero no tiene el mismo peso que mil versos de romance.
+La interpretación del índice efectivo se apoya en
+[Jost (2006)](https://nsojournals.onlinelibrary.wiley.com/doi/abs/10.1111/j.2006.0030-1299.14714.x);
+la agrupación métrica propuesta aquí es una decisión de este proyecto, no una conclusión de ese artículo.
+
 No propongo un umbral arbitrario de cobertura para dar por buena la diversidad. Hoy, una sola
 forma conocida en la mitad de la obra produce 1,414 en el cálculo de obra: no es la diversidad
 exacta de la obra ni la diversidad de esa parte conocida, que sería 1. El piloto deberá estudiar
@@ -282,25 +320,58 @@ A–desconocido–B nunca se transforma en A→B.
 
 ### D05 · Articulación y extremos
 
-**Propongo** permitir aperturas y cierres conocidos aunque el interior sea parcial, verificando
+**Aceptado:** permitir aperturas y cierres conocidos aunque el interior sea parcial, verificando
 la cobertura del verso extremo. Básicas sin cuadros no entran en medidas de cuadros. Cero límites
 es un recuento válido cuando se estudió la estructura; su proporción de coincidencias no es 0 %,
 sino no aplicable. Donde haya límites parcialmente cubiertos, mostrar el denominador cubierto.
 
 ### D06 · Enunciación y fenómenos
 
-**Propongo** conservar los ceros de ausencia comprobada en detalladas y en cualquier básica que
-aporte evidencia exhaustiva de ese ámbito. Si una básica calla sobre canto, el dato es desconocido.
+**Confirmado por el responsable:** en una detallada publicada, el cero declara una ausencia
+analizada. En una básica —la nueva denominación propuesta para mínima—, el silencio de la fuente
+suele ser lo esperable y significa desconocido. Una básica sí puede aportar una presencia u otro
+dato explícito si su fuente lo declara. No aplicar la garantía de integridad de una detallada
+publicada a una detallada en elaboración. Una básica que excepcionalmente declare una ausencia
+exhaustiva de ese ámbito puede aportar un cero documentado. Si calla sobre canto, es desconocido.
 Una mención positiva sirve para presencia; solo rangos y cobertura suficientes permiten proporción
 exacta. Canto y demás extensiones: unión de rangos, proporción 0–1. Fenómenos por secuencia:
 sí/respondidas, con cobertura; sin respuestas no se calcula. Presencia global: sí con algún
 positivo, no solo con todos los casos negativos.
 
+El [rastreo preliminar del lote](./importador-metrico/piloto/rastreo-canto-2026-10-29.md) no localizó
+declaraciones explícitas de canto en las cuatro extracciones ni mediante OCR de las 38 fotos.
+No demuestra ausencia en las veinte obras. Se comprobaron visualmente las menciones de letrilla
+en El molino y Las ferias de Madrid; no permiten marcar canto. Si falta un caso positivo de fuente,
+la comprobación técnica deberá usar otro ejemplo documental o un caso sintético explícito.
+
 Sobre prosa, **propongo** conservar de momento el recuento de posiciones numeradas que usa el
 sistema y rotularlo así cuando proceda; no afirmar que cuantifica extensión textual en prosa.
 Una medida distinta de extensión en prosa requeriría unidad propia antes de combinarla con versos.
+El rastreo del lote ha permitido comprobar visualmente un caso concreto: «carta en prosa» sin
+rango numerado en Nacimiento de Ursón y Valentín, p. 996. La fuente aporta presencia, pero no
+una extensión en versos: no se puede completar automáticamente una proporción a partir de ella.
+El casamiento en la muerte también declara un pasaje en prosa entre los vv. 524–525: ese intervalo
+localiza una inserción entre versos, no cuantifica dos versos de prosa. Debe conservarse esa
+diferencia al diseñar su representación, sin forzarla como rango de versos cantados/prosa.
 
 ### D07 · Población y ceros de las estadísticas
+
+«Peso» se había usado de forma ambigua. Aquí significa la proporción de versos de una clase
+dentro de una obra, no un coeficiente de confianza ni un peso asignado a una ficha básica.
+Se recomienda sustituirlo en los rótulos por «porcentaje de versos» y nombrar el resumen:
+
+- **Mediana del porcentaje por obra, incluyendo ausencias comprobadas:** usa todas las obras
+  evaluables para esa pregunta, cada una una vez. Una ausencia comprobada aporta 0 %.
+- **Mediana del porcentaje en obras donde aparece:** solo usa obras con presencia conocida y
+  porcentaje evaluable. Responde a cuánto ocupa esa clase cuando se utiliza.
+- **Presencia en el corpus:** obras donde aparece / obras cuya presencia o ausencia es evaluable.
+  Es otra medida; la cobertura de obras desconocidas acompaña al resultado.
+
+Ejemplo con dos obras completamente identificadas: una tiene 60 % de romance y otra 0 %. La
+mediana por obra es 30 %, la mediana donde aparece es 60 % y la presencia es una de dos obras.
+Ninguno de esos tres resultados es necesariamente el porcentaje agregado de versos de romance
+del autor: este último divide los versos de romance sumados entre la extensión sumada y depende
+también de la longitud de cada obra. Esa ponderación por extensión se discute en D08.
 
 **Propongo** conservar dos resultados con nombres distintos: «peso en las obras evaluables»
 incluye ceros reales; «peso donde aparece» solo incluye presencias. Añadir difusión con cobertura
@@ -389,11 +460,11 @@ verdad filológica ni el error de los editores de las fuentes.
 
 | Punto | Decisión pendiente y propuesta para facilitar su revisión |
 | --- | --- |
-| D01: lagunas | Elegir si las proporciones describen versos conservados o extensión que incluye posiciones perdidas cuantificadas. Propuesta inicial: versos conservados para el perfil observado y extensión reconstruida aparte; contrastarlo con la práctica del catálogo antes de implementarlo. La corrección de errores sí sustituye al dato erróneo. |
-| D03: nivel de agrupación | Verso aislado e irregularidad ya están incluidos. Falta decidir si la diversidad principal agrupa por clases generales del catálogo y estudia medidas aparte, o distingue algunas por medida. Propongo clases generales comunes a básicas y detalladas, sin perder medidas registradas. |
-| D05: cuadros y extremos | Aprovechar aperturas/cierres identificados aunque el interior no lo esté; excluir de medidas de cuadros las básicas que no los registran. Cero límites estudiados es un recuento válido, pero no una proporción de coincidencias del 0 %. |
-| D06: fenómenos y prosa | Ausencia solo si está comprobada; silencio de la edición es desconocido. Proporciones por secuencias respondidas donde esa sea la unidad. Para prosa, no llamar versos a una unidad textual no medida. |
-| D07: dos lecturas | Mantener peso en todas las obras evaluables, incluidos ceros reales, y peso donde la clase aparece, con nombres y denominadores diferentes. La elegibilidad no elimina la necesidad de estudiar sesgos de selección. |
+| D01: lagunas | Elegir si las proporciones describen versos conservados o extensión que incluye posiciones perdidas cuantificadas. Propuesta: conservados para el perfil observado y reconstrucción aparte. El contexto puede sostener una hipótesis, no observación de lo perdido. La corrección de errores ya está aceptada. |
+| D03: nivel de agrupación | Incluir aislados e irregularidad ya está aceptado. Aprobar o ajustar la recomendación razonada de clases generales para el índice principal y medidas en un análisis separado. |
+| D05: detalle de denominador | Extremos conocidos y exclusión de básicas sin cuadros están aceptados. Resta confirmar la distinción entre recuento cero de límites y proporción no aplicable cuando no hay límites. |
+| D06: unidades de fenómenos/prosa | Cero analizado de detalladas publicadas y desconocido por silencio de básicas están aceptados. Resta concretar unidades, denominadores por respuestas y tratamiento de extensión en prosa. |
+| D07: dos lecturas | Revisar la explicación con porcentajes y ejemplo, y confirmar si se conservan las dos medianas y la medida de presencia con sus nombres explícitos. La elegibilidad no elimina sesgos de selección. |
 | D08: referente | Mantener perfil agregado ponderado por extensión y distribución por obras aparte; excluir la obra contrastada y sus jornadas del referente. Mantener atribución por obra/jornada ya acordada. |
 | D09: fechas | Seleccionar por solapamiento como «compatible con el periodo», sin inventar año puntual. No interpretar ventanas que se solapan como periodos disjuntos al sumar recuentos. |
 

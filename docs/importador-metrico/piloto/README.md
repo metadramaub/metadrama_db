@@ -83,6 +83,9 @@ DOCX permanecen externos. La raíz local puede cambiar sin cambiar los identific
 - «Letrilla» en *El molino*: conservar la declaración y examinar sus correspondencias sin dar por
   establecida ninguna forma ni su carácter cantado.
 - Notas sobre versos excepcionales dentro de una tirada en *Los locos de Valencia*.
+- [Rastreo preliminar de canto](./rastreo-canto-2026-10-29.md) en las 38 fotografías: no se
+  localizaron declaraciones explícitas; «letrilla» y «Canción» no bastan para registrar canto.
+  No constituye comprobación de ausencia ni amplía las cuatro transcripciones aceptadas.
 - Totales y resúmenes porcentuales para contrastar la extracción sin duplicar los versos.
 - Variantes de título y dataciones alternativas en el DOCX. El intervalo 1995–1995 de *El casamiento
   en la muerte* requiere revisión de metadatos; no se sustituye automáticamente por otra fecha.

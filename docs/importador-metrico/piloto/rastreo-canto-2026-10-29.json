@@ -1,0 +1,351 @@
+{
+  "fecha": "2026-10-29",
+  "tipo": "rastreo_preliminar_no_gold",
+  "metodo": {
+    "fotografias": 38,
+    "obras_segun_prefijo_archivo": 20,
+    "lector_heic": "pillow-heif 1.8.1",
+    "ocr": "Windows.Media.Ocr",
+    "idioma": "es-ES",
+    "lado_maximo_lectura": 2400,
+    "busqueda": "raices cant, music, cancion, letrilla; segunda pasada sin acentos",
+    "limitacion": "Un resultado negativo de OCR no demuestra ausencia de canto ni sustituye una lectura exhaustiva."
+  },
+  "fotografias": [
+    {
+      "archivo": "12_verdadero_amante.HEIC",
+      "sha256_original": "53a6f9b98e90417d1014158bf05929744e5f97236fba0cec1a95b19467300192",
+      "lineas_ocr": 85,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "13_donaires_Matico_1.HEIC",
+      "sha256_original": "6c9b6ecf9881d5aa5934909b4f200e53cba2661a93d338f86067dd23b1228ff9",
+      "lineas_ocr": 77,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "13_Donaires_Matico_2.HEIC",
+      "sha256_original": "1e4cf00fad4b5e116888189bd64be6f848778cf45112dc2df42eba2f66a23b44",
+      "lineas_ocr": 19,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "14_molino_1.HEIC",
+      "sha256_original": "4e7eec457d97459d7dcc8b822e72c07b2eb5277ad91cf95a9e4fe2cf47c08c97",
+      "lineas_ocr": 58,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "14_molino_2.HEIC",
+      "sha256_original": "b85f95ed5eaf28b09758558f9b4d05af946473a0bc63f4f7d1fb0780e67035dc",
+      "lineas_ocr": 57,
+      "error_ocr": null,
+      "coincidencias": [
+        "Letrilla",
+        "letrilla"
+      ],
+      "coincidencias_comprobadas_visualmente": true
+    },
+    {
+      "archivo": "15_ferias_madrid_1.HEIC",
+      "sha256_original": "31ddf635f92d16f06a106e3738a0a92b18f664522ff4ac2d47992dba2ea95594",
+      "lineas_ocr": 42,
+      "error_ocr": null,
+      "coincidencias": [
+        "a una boda y han escrito unas letrillas satíricas que piensan leer a sus amadas",
+        "ofendidas por el contenido de sus letrillas. EI alguacil que acompaña a los"
+      ],
+      "coincidencias_comprobadas_visualmente": true
+    },
+    {
+      "archivo": "15_ferias_madrid_2.HEIC",
+      "sha256_original": "84ca073cb936e5c576cb9495fabf729b002c30930c5efaef58327511bcca522c",
+      "lineas_ocr": 106,
+      "error_ocr": null,
+      "coincidencias": [
+        "letrillas",
+        "letrilla",
+        "letrilla",
+        "letrilla",
+        "letrilla"
+      ],
+      "coincidencias_comprobadas_visualmente": true
+    },
+    {
+      "archivo": "20_hijo_Reduan_1.HEIC",
+      "sha256_original": "4ad21356a60ce6bff0daa78023ac1f104e6a0b97787a966bd1a3da4bfb451cda",
+      "lineas_ocr": 74,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "20_hijo_Reduan_2.HEIC",
+      "sha256_original": "535466c3f9fc184ed3871f7f2c304b23f37e3a41958a055621dab76bdf7f34cb",
+      "lineas_ocr": 32,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "23_nacimiento_Urson_y_valentin_1.HEIC",
+      "sha256_original": "ec9aee29e2ca08c1ec024cb3dea3f75ad5b5de4682914ccfb74cfa1d9367a5e2",
+      "lineas_ocr": 49,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "23_nacimiento_Urson_y_valentin_2.HEIC",
+      "sha256_original": "e6dd3b09da7abdd602d8d388dd3d1f22674b1e5cbfa17c2ebe4c486b65f5459a",
+      "lineas_ocr": 95,
+      "error_ocr": null,
+      "coincidencias": [
+        "Canción",
+        "canción"
+      ],
+      "coincidencias_comprobadas_visualmente": true
+    },
+    {
+      "archivo": "25_traicion_acertada_1.HEIC",
+      "sha256_original": "e18ad469638f70492767ef4312fdd42ccaefbacf46d25799b154d37f012a36d2",
+      "lineas_ocr": 75,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "25_traicion_acertada_2.HEIC",
+      "sha256_original": "bda2c0965df39a4d0f543e5c98f98143beea4948f4e503a8fb1b4391f8d1926f",
+      "lineas_ocr": 23,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "28_domine_Lucas_1.HEIC",
+      "sha256_original": "bbb1d297f755351582aafacad80fc5455cbca736e0b0b84700dde1942115ffb9",
+      "lineas_ocr": 24,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "28_domine_Lucas_2.HEIC",
+      "sha256_original": "2853f490d33d94fc0e441e438f238270051dd1b4c83846b4be5e6aa26a20f582",
+      "lineas_ocr": 67,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "29_ingratitud_vengada_1.heic",
+      "sha256_original": "83e8dd07a45237b23745d18f32bf12879bd82acc7761af876932ed076a72b208",
+      "lineas_ocr": 20,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "29_ingratitud_vengada_2.HEIC",
+      "sha256_original": "5c0ab95db8741c35bbe38bbfafa84e71954e2b4a92c0b9165329348cdd5a7452",
+      "lineas_ocr": 19,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "30_locos_Valencia.HEIC",
+      "sha256_original": "b18038cb09a16cd14e0b22ec0ff69d3ee360aff351c557479aa43aba61e83d3f",
+      "lineas_ocr": 78,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "31_perseguido_1.HEIC",
+      "sha256_original": "f34e4b3e07e9e81bef9a4b23e9043c1c36f7c425dc1e0c7da879d5a7dcb9035a",
+      "lineas_ocr": 49,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "31_perseguido_2.HEIC",
+      "sha256_original": "c35664444b64af4cd1016febf02f23338289f65493c55603a56f3a8d2dfd66db",
+      "lineas_ocr": 81,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "32_serrana_Tormes_1.heic",
+      "sha256_original": "03281e03e047955b63fff269c94453fc90ae67624bac4137a1c2cf186795c997",
+      "lineas_ocr": 60,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "32_serrana_Tormes_2.heic",
+      "sha256_original": "17c2e40a797d9843f1b8462b2325a7014a83627902f4a60cd1880011edbac216",
+      "lineas_ocr": 37,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "33_Jorge_toledano_1.heic",
+      "sha256_original": "af704bf600e4597f716b419e81ec81324723d163f6b528752ca1710afa992ddb",
+      "lineas_ocr": 51,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "33_Jorge_toledano_2.HEIC",
+      "sha256_original": "fbd2014929d1fc8f595ceeecb29335a544ff98b73826d5eadcc9413e5186c0b6",
+      "lineas_ocr": 64,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "34_casamiento_muerte_1.HEIC",
+      "sha256_original": "b213034b93b486556013e1843451c62252f426480139b7572bf80b8e40f0c122",
+      "lineas_ocr": 62,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "34_casamiento_muerte_2.HEIC",
+      "sha256_original": "0921e771f2513f8f3c58cb82753f397c9b23f1e1ff5bc098148310f205a1e706",
+      "lineas_ocr": 84,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "36_marmol_Felisardo_1.HEIC",
+      "sha256_original": "b9eaa378d825c69e2205516bbb594d4dd48b82fdba055f82adb57bf061b3d500",
+      "lineas_ocr": 51,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "36_marmol_Felisardo_2.HEIC",
+      "sha256_original": "cf5738a5b152995109f47f07467cf395fa9e1c142df90833a500a0f7f8c67a3b",
+      "lineas_ocr": 103,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "3_caballero_milagro_1.HEIC",
+      "sha256_original": "cf5bc2fb0b744cdfaf6691e16ba3d3a48fddda3ed9321302f7e5221bee374e69",
+      "lineas_ocr": 74,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "3_caballero_milagro_2.HEIC",
+      "sha256_original": "63cc3bc07a6333f8355f5ea26a04517df2cc260ca906bb2ff4e753e0d734887f",
+      "lineas_ocr": 51,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "4_favor_agradecido_1.HEIC",
+      "sha256_original": "a7c850c197e95595e6fd7a1edb241ac622a7bebd940075fb8a827d4ad7ab9f51",
+      "lineas_ocr": 38,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "4_favor_agradecido_2.HEIC",
+      "sha256_original": "4f32607ee14ff978d4192806533217677f4ffdc3281932cb8815d458b3b91c83",
+      "lineas_ocr": 64,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "5_Laura_perseguida_1.HEIC",
+      "sha256_original": "be87caa345e64ad1a91668842cc5c4d783b33696c8e3fcc7144aecd535cfddf0",
+      "lineas_ocr": 83,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "5_Laura_perseguida_2.HEIC",
+      "sha256_original": "b654bd327448763d5ad3eb582166de99c098cbcc019f2738d7f6112d0a5646cb",
+      "lineas_ocr": 48,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "6_leal_criado_1.HEIC",
+      "sha256_original": "100ac120a42183bd562eb6f7a001d55522514541676e381c50c2caf6d85388e9",
+      "lineas_ocr": 53,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "6_leal_criado_2.HEIC",
+      "sha256_original": "0b880553aa24f48718597cb0aac63886e09b3db34584977e77323df8f853b610",
+      "lineas_ocr": 81,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "7_maestro_danzar_1.HEIC",
+      "sha256_original": "f97994af3d379b7e6b8dc6bd2a8b890f7ce3a408de1e2c940ed6d54054767240",
+      "lineas_ocr": 32,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    },
+    {
+      "archivo": "7_maestro_danzar_2.HEIC",
+      "sha256_original": "187148aae2b69ea7a161623a975b743e546975b0331904b964784be9664ddfee",
+      "lineas_ocr": 68,
+      "error_ocr": null,
+      "coincidencias": [],
+      "coincidencias_comprobadas_visualmente": false
+    }
+  ],
+  "hallazgos_adicionales_comprobados_visualmente": [
+    {
+      "archivo": "23_nacimiento_Urson_y_valentin_2.HEIC",
+      "tipo": "prosa",
+      "declaracion": "carta en prosa",
+      "localizacion": "Entrada sin rango antes de los vv. 1931–1954; p. 996",
+      "extension_cuantificada": false
+    },
+    {
+      "archivo": "34_casamiento_muerte_1.HEIC",
+      "tipo": "prosa",
+      "declaracion": "pasaje en prosa entre los vv. 524–525",
+      "localizacion": "Dentro de la entrada de octavas 469–556",
+      "extension_cuantificada": false
+    }
+  ]
+}

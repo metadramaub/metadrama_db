@@ -39,6 +39,11 @@ Se incluyen verso aislado e irregularidad identificados en la diversidad y trans
 jornadas en el total. Se abandona «fiabilidad» basada solo en volumen; marco aceptado de volumen,
 cobertura por medida y estabilidad, con su desarrollo estadístico aún por validar. Aclarar extensión corregida y reformular los datos parciales
 como parte confirmada y pendiente, sin repartir lo desconocido entre formas conocidas.
+Aceptados extremos identificados aunque haya interior pendiente y exclusión de básicas sin
+cuadros de sus medidas; cero analizado en detalladas publicadas frente a desconocido por silencio
+de básicas. Registrar la reconstrucción de lagunas como hipótesis, sin confundirla con versos
+observados. Revisar la propuesta razonada de clases generales para diversidad y medidas aparte,
+y sustituir «peso» ambiguo por porcentajes y poblaciones explícitos.
 Revisar los demás puntos D01–D10 antes de cambiar cálculos. La auditoría contiene ejemplos
 sintéticos comprobados, sin recálculos ni cambios en la base compartida. Esta revisión general
 es una dependencia de la incorporación analítica del importador.
