@@ -5,6 +5,7 @@
 
 	const props = $props<{
 		profile: EditorProfile;
+		puedeImportar?: boolean;
 		notificationsUnreadCount?: number;
 		collapsed?: boolean;
 		onToggle?: () => void;
@@ -257,7 +258,7 @@
 			<span class={collapsed ? 'md:sr-only' : ''}>Autores</span>
 		</a>
 
-		{#if isAdminIp}
+		{#if isAdminIp || props.puedeImportar}
 			<a
 				class={`flex items-center gap-2 px-3 py-2 text-[color:var(--foreground)] transition-colors hover:bg-[color:var(--muted)] ${collapsed ? 'md:h-11 md:w-11 md:self-center md:justify-center md:px-0' : ''}`}
 				href="/dashboard/importador" aria-label="Importador métrico (ensayo)" title="Importador métrico (ensayo)"
@@ -265,6 +266,8 @@
 				{#if BookOpenTextIcon}<BookOpenTextIcon size={16} aria-hidden="true" />{/if}
 				<span class={collapsed ? 'md:sr-only' : ''}>Importador métrico <span class="text-xs text-[color:var(--muted-foreground)]">· ensayo</span></span>
 			</a>
+		{/if}
+		{#if isAdminIp}
 			<a
 				class={`flex items-center gap-2 px-3 py-2 text-[color:var(--foreground)] transition-colors hover:bg-[color:var(--muted)] ${collapsed ? 'md:h-11 md:w-11 md:self-center md:justify-center md:px-0' : ''}`}
 				href="/dashboard/editores" aria-label="Editores" title="Editores"
