@@ -32,6 +32,13 @@ estado con `npm run equivalencias:informe`
 
 ## Medidas analíticas y precomputación
 
+Primer [ensayo local combinado](./analitica/ensayo-precomputacion-combinada.md) ejecutado con
+cuatro básicas y doce detalladas; perfiles conocidos contrastados, sin cambios en Supabase.
+Continuar desde esos adaptadores y controles, sin conectar todavía el ensayo a las páginas.
+Resolver la confirmación de segmentación de básicas antes de dar transiciones definitivas;
+el guardado actual conserva las cuatro como provisionales. Se han señalado once secuencias sin
+v2 en siete detalladas publicadas de prueba, sin modificar sus datos ni estado.
+
 **Implementar las definiciones aprobadas y corregir sus productores.** El
 [inventario de medidas](./inventario-medidas-analiticas.md) revisa obra, autor, comparativas y
 laboratorio para fichas detalladas y básicas; no es una auditoría de toda la lógica de la DB.

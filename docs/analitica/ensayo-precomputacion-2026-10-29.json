@@ -1,0 +1,42 @@
+{
+  "esquema": "perfil-comparable-ensayo/0.1",
+  "entorno": "docker_aislado",
+  "escrituras_remotas": false,
+  "detalladas": 12,
+  "detalladas_cotejadas_con_productor_vigente": 12,
+  "detalladas_con_incidencias": 7,
+  "secuencias_detalladas_sin_v2": 11,
+  "basicas": [
+    {
+      "titulo": "El verdadero amante",
+      "extension": 2878,
+      "pendientes": 0,
+      "filas": 19,
+      "segmentacion_confirmada": false
+    },
+    {
+      "titulo": "El molino",
+      "extension": 2992,
+      "pendientes": 9,
+      "filas": 21,
+      "segmentacion_confirmada": false
+    },
+    {
+      "titulo": "Los locos de Valencia",
+      "extension": 3072,
+      "pendientes": 0,
+      "filas": 20,
+      "segmentacion_confirmada": false
+    },
+    {
+      "titulo": "Los donaires de Matico",
+      "extension": 2812,
+      "pendientes": 272,
+      "filas": 18,
+      "segmentacion_confirmada": false
+    }
+  ],
+  "fuentes_previas_intactas": true,
+  "artefactos_previos_intactos": true,
+  "determinista": true
+}

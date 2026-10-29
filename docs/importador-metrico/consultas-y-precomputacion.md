@@ -4,6 +4,11 @@
 [diseño acordado](./diseno-integracion.md), sin modificar todavía consultas, cálculos ni DB.
 La implementación pendiente se mantiene en [PENDIENTES](../PENDIENTES.md).
 
+**Avance del 29 de octubre:** guardado desplegado y primera prueba local de lectura común y
+precomputación ejecutada con cuatro básicas y doce detalladas de la copia. Véase el
+[ensayo y sus límites](../analitica/ensayo-precomputacion-combinada.md). No modifica los
+productores ni lectores reales y no incorpora todavía las básicas a los análisis de la web.
+
 ## Terminología y criterio editorial
 
 El responsable autoriza revisar los términos ahora, incluyendo SQL, tipos, claves y pantallas,
@@ -257,6 +262,7 @@ Las correcciones de ceros que representaban desconocidos o de medidas inválidas
 de prosa calculada entre versos— se documentan y versionan; no se introducen como un efecto
 lateral del importador. Se comparan los resultados anteriores con casos de control.
 
-Quedan decisiones metodológicas antes de publicar afinidades: ponderación por obra o versos,
-exclusión de la obra comparada y sus versiones, tratamiento operativo de intervalos cronológicos
-y requisitos de muestra/estabilidad. Se formularán con ejemplos; no se inventan umbrales con cuatro obras.
+Ya se aceptaron la ponderación por extensión para el perfil del autor, la distribución por obras
+como lectura separada, la exclusión de la obra contrastada y sus jornadas y la cronología por
+solapamiento. Antes de publicar afinidades faltan el método bajo identificación parcial y los
+requisitos de muestra/estabilidad; no se inventan umbrales con cuatro obras.
