@@ -70,9 +70,12 @@ la métrica mínima de v2. El diseño contrasta el esquema vivo y contempla agre
 para comparar fichas completas sin publicar las mínimas individuales. Campos revisados: género
 obligatorio, fuente de datación y fundamentos de autoría opcionales; registro de quién importa.
 Próxima entrega acotada: [guardar y volver a abrir una ficha básica](./importador-metrico/hoja-de-ruta.md#siguiente-entrega-guardar-y-volver-a-abrir-una-ficha-básica),
-con la vista previa ya revisada, separación editorial y contrato de análisis aprobado; aún falta
-decidir vinculación/reimportación ante coincidencias. Propuesta inicial: nuevas obras sin
-sobrescrituras ni duplicados deliberados. No esperar al experimento científico para este recorrido.
+con la vista previa ya revisada, separación editorial y contrato de análisis aprobado. Alcance
+aprobado: crear nuevas y detener coincidencias. Una detallada en cualquier estado impide una
+nueva importación básica; hacer cumplir la identidad y el bloqueo en servidor y guardado.
+Reimportaciones/correcciones de básicas tendrán recorrido posterior explícito. No se retira
+por ello la copia básica previa mientras se elabora la detallada. No esperar al experimento
+científico para este recorrido.
 El editor podrá corregir o vaciar la estructura; verá la propuesta importada sin aprobación en v2.
 Se conserva una copia mínima fija hasta publicar la completa y entonces se sustituye su aporte.
 Mínima es un tipo, sin nuevo estado ni segundo validador. Admin/IP y editores autorizados importan

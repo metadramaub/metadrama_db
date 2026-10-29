@@ -82,6 +82,11 @@ su selección explícita. Un permiso de lectura tampoco determina por sí solo l
 
 La selección precede al cálculo y al reparto por autoría:
 
+La prioridad editorial impide importar una nueva básica para una obra que ya existe como
+detallada, incluso en borrador. No confundir ese bloqueo de nuevas importaciones con retirar
+una copia básica confirmada antes de comenzar la detallada: esa copia se conserva hasta su
+publicación, como establecen las reglas siguientes.
+
 1. Si la completa está publicada, la fuente seleccionada es v2; la disponibilidad de cada medida
    se evalúa después, sin recuperar datos de la antigua mínima para rellenarla.
 2. Mientras esa publicación no se produzca, puede aportar la copia mínima confirmada seleccionada.

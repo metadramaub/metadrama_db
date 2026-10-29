@@ -233,6 +233,19 @@ de versiones del registrador v2. Ningún borrado ni cambio de estado se ejecuta 
 
 ## Qué está comprobado y qué falta implementar
 
+### Prioridad de la detallada ante una nueva importación
+
+Regla acordada el 29 de octubre: si una obra ya existe como detallada, no se le puede importar
+una básica, cualquiera que sea su estado editorial o visibilidad. Se rechaza esa nueva importación;
+no se sobrescribe la detallada, no se le adjunta otra base mínima y no se crea una segunda obra
+por cambiar de edición. Resolver identidad va más allá de comparar el título literal; los casos
+dudosos se detienen para revisión. La regla se comprobará en servidor y al guardar.
+
+No cambia el tránsito ya acordado de básica a detallada: se conserva su copia confirmada previa
+hasta publicar la detallada. Esa conservación no es permiso para importar otra básica durante
+la elaboración. La primera entrega crea obras nuevas; reimportar o corregir una básica existente
+requiere un recorrido posterior explícito.
+
 La [consulta del 26 de octubre](../../scripts/importador-metrico/auditar-flujo-minimo.sql) y su
 [evidencia](./piloto/auditoria-flujo-2026-10-26.json) confirman que fuente de datación, fuente de
 autoría y editor asignado admiten valores vacíos en la DB. El importador sí exigirá género, aunque

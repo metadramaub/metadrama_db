@@ -28,11 +28,17 @@ los usuarios previstos. Antes del primer guardado real deben estar adaptados los
 que podrían tratar la básica como detallada o exponerla individualmente. Se probará en copia
 aislada antes de promover el SQL definitivo a Supabase. No se aplica el borrador local tal cual.
 
-**Propuesta de alcance inicial, aún no aprobada:** crear obras nuevas; ante una coincidencia
-plausible con una existente, mostrarla y detener esa creación para resolver la identidad. No
-sobrescribir una detallada ni crear deliberadamente otra obra por cambiar su edición. Vincular
-una importación a una obra existente y reimportar una corregida requieren operaciones explícitas
-posteriores. Se puede avanzar en el guardado seguro mientras se concreta esa política.
+**Alcance inicial aprobado:** crear obras nuevas; ante una coincidencia plausible con una
+existente, mostrarla y detener esa creación para resolver la identidad. **Una obra que ya existe
+como detallada no admite una nueva importación básica**, aunque su detallada esté en borrador
+o no sea visible. No se ofrece vincularle la importación ni crear otra obra por cambiar de edición,
+título o identificación del autor. Una coincidencia de título por sí sola no establece identidad.
+La comprobación se hará en servidor y en el guardado, no solo en la interfaz.
+
+Si la obra existente es básica, repetir la misma petición conserva la idempotencia; una corrección
+o reimportación con otra petición requiere un recorrido explícito posterior, fuera de esta primera
+entrega. Esto no retira la copia básica ya confirmada cuando empieza la elaboración de su detallada:
+esa copia sigue como referente hasta publicarse la detallada, conforme al acuerdo anterior.
 
 Tras ese recorrido se ampliarán las extracciones de cuatro a veinte y el repertorio de
 equivalencias con los casos reales. No se espera tener todas las formas resueltas para guardar.
@@ -85,7 +91,7 @@ se desarrollan en el [inventario general de medidas](../inventario-medidas-anali
 | Disponibilidad en la plataforma | Admin/IP y editores con permiso específico importan y consultan todas las mínimas, mostrando quién importó cada una. Laboratorio reservado a admin/IP; elegibilidad por medida y agregados seleccionados para fichas completas |
 | Elaboración de la ficha completa | Elección entre conservar/corregir jornadas y secuencias o vaciarlas. Propuesta visible del importador sin aprobación automática en v2; copia mínima fija hasta publicar la completa |
 | Tipo mínimo y presentación | Mínima como tipo, sin nuevo estado editorial. Importación en preparación → confirmación → ficha mínima; se propone una pestaña Fichas mínimas en Obras |
-| Ediciones y reimportaciones | Cómo reconocer una obra existente y actualizarla sin sobrescribir trabajo completo ni contar dos veces la obra |
+| Ediciones y reimportaciones | Aprobado: una detallada impide nueva importación básica en cualquier estado. Primera entrega solo crea obras nuevas; coincidencias se detienen y correcciones de básicas tendrán un recorrido explícito posterior |
 | Cálculo del referente | Aceptados perfil agregado ponderado por versos, distribución por obras aparte y exclusión de la propia obra/jornadas. Mediana y Q1–Q3 como lectura principal entre obras, media accesible. Implementar selección y cobertura |
 | Publicación de comparaciones | Qué evidencia, tamaño de muestra y estabilidad permiten redactar una comparación, y qué incertidumbre se muestra |
 | Archivos del piloto | Formato de intercambio, datos que se versionan y ubicación de fotografías y demás materiales externos |
