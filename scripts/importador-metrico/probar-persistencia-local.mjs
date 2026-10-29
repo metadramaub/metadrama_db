@@ -112,7 +112,7 @@ $$;
 grant usage on schema auth,extensions to anon,authenticated,service_role;
 ${esquema}`);
 	// Ejecutar el borrador dos veces comprueba su repetibilidad, sin silenciar errores.
-	const borrador = ['01-almacenamiento.sql', '02-esquema-documento.sql', '03-guardar.sql']
+	const borrador = ['01-almacenamiento.sql', '02-esquema-documento.sql', '03-guardar.sql', '04-consulta.sql']
 		.map((n) => read(`./sql/${n}`))
 		.join('\n');
 	psql(borrador);
@@ -378,6 +378,7 @@ select pg_temp.comprobar((select count(*)=0 from cambiadas),'consultar otra impo
 		'23514',
 		'no se publica una ficha mínima'
 	);
+	sql += rechaza("update public.obras set tipo_ficha='completa' where tipo_ficha='minima'",'23514','no se elude la separación cambiando el tipo directamente');
 	sql += `insert into public.obras(titulo,estado) values('Completa de control',(select termino_id from public.vocabularios where categoria='estado' and termino='borrador'));\n`;
 	sql += ok(
 		"(select tipo_ficha='completa' from public.obras where titulo='Completa de control')",
@@ -402,6 +403,16 @@ delete from public.jornadas where obra_id=(select (valor->>'obra_id')::uuid from
 	);
 	// La identidad se resuelve expresamente: ni título/autor ni una variante son clave única.
 	const tituloPiloto = lit(json(`preparadas/${refs[0]}.json`).datos.metadatos.titulo);
+	sql += sesion(3);
+	sql += ok(`(public.capacidades_importador_metrico()->>'guardado_disponible')::boolean`, 'sesión importadora tiene disponible el recorrido instalado');
+	sql += ok(`jsonb_array_length(public.listar_fichas_basicas())=4`, 'otro importador lista las cuatro fichas y sus responsables');
+	sql += ok(`(public.consultar_importacion_metrica((select (valor->>'importacion_id')::uuid from resultados where n=0))#>'{datos_confirmados}')=(select datos from entradas where n=0)`, 'consulta devuelve la copia íntegra aunque la estructura se haya vaciado');
+	sql += sesion(6);
+	sql += ok(`public.consultar_importacion_metrica((select (valor->>'importacion_id')::uuid from resultados where n=0)) is not null`, 'el editor asignado consulta la copia sin permiso de importar');
+	sql += rechaza('select public.listar_fichas_basicas()', '42501', 'el editor asignado no obtiene por ello la lista de todas');
+	sql += ok(`public.consultar_importacion_metrica((select (valor->>'importacion_id')::uuid from resultados where n=1)) is null`, 'la consulta no revela una copia ajena a un editor sin permiso');
+	sql += sesion(5) + rechaza('select public.listar_fichas_basicas()', '42501', 'una sesión inactiva no lista importaciones');
+	sql += sesion(2) + rechaza('select public.listar_fichas_basicas(-1)', '22023', 'se rechaza paginación inválida');
 	sql += sesion(2);
 	sql += `create temporary table revisadas as select array_agg(obra_id order by obra_id) ids
  from public.coincidencias_importacion_metrica(${tituloPiloto});\n`;
@@ -450,6 +461,13 @@ delete from public.jornadas where obra_id=(select (valor->>'obra_id')::uuid from
 		throw new Error('Se inventaron fuentes o asignaciones');
 	pruebas++;
 	console.log('OK fechas y fundamentos sin fuente textual admitidos');
+	const simultanea=structuredClone(concurrente);
+	simultanea.metadatos.titulo='Dos peticiones independientes sin revisar coincidencia';
+	const intentos=await Promise.allSettled([991,992].map(n=>psqlConcurrente(`${sesion(2)}select public.guardar_ficha_minima(
+ '10000000-0000-4000-8000-${String(n).padStart(12,'0')}',${lit(autor)},${doc(simultanea)},${doc(json(`extracciones/${refs[0]}.json`))});`)));
+	if(intentos.filter(r=>r.status==='fulfilled').length!==1 || psql(`select count(*) from public.obras where titulo=${lit(simultanea.metadatos.titulo)};`).trim()!=='1')
+		throw new Error('Dos peticiones independientes crearon una coincidencia sin revisar');
+	pruebas++; console.log('OK dos peticiones distintas simultáneas no duplican sin revisión');
 	console.log(
 		`${pruebas} comprobaciones PostgreSQL; esquema real restaurado, datos y sesiones sintéticos. Sin acceso a Supabase.`
 	);

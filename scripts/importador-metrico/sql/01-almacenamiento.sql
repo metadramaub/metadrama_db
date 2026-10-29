@@ -131,6 +131,9 @@ create policy secuencias_minimas_limite on public.secuencias_metricas as restric
 create or replace function public.impedir_publicacion_minima() returns trigger
 language plpgsql set search_path = '' as $$
 begin
+  if TG_OP='UPDATE' and new.tipo_ficha is distinct from old.tipo_ficha then
+    raise exception using errcode='23514',message='El cambio a ficha detallada requiere su operación específica';
+  end if;
   if new.tipo_ficha='minima' and (coalesce(new.visible_publico,false) or not exists (
     select 1 from public.vocabularios v where v.termino_id=new.estado
       and v.categoria='estado' and v.termino='borrador')) then
