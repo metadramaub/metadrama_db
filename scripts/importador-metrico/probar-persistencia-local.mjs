@@ -364,6 +364,8 @@ select pg_temp.comprobar((select count(*)=0 from cambiadas),'consultar otra impo
 	sql += ok("(select count(*)=0 from public.formas_de_la_obra(current_setting('prueba.obra_basica')::uuid))",'RPC pública no filtra rangos de una básica');
 	sql += ok("public.get_obra_ficha_publica(current_setting('prueba.obra_basica')::uuid,true) is null",'RPC pública no expone básica ni con include_hidden');
 	sql += `reset role;\n`;
+	for(const funcion of ['ficha_publica_base_json','ficha_publica_dominio_json'])
+		sql += rechaza(`select public.${funcion}(current_setting('prueba.obra_basica')::uuid,true)`,'42501', `${funcion} bloquea también su ejecución privilegiada`);
 	sql += `delete from public.secuencias_metricas where obra_id=(select (valor->>'obra_id')::uuid from resultados where n=0);
 delete from public.jornadas where obra_id=(select (valor->>'obra_id')::uuid from resultados where n=0);\n`;
 	sql += ok(
