@@ -17,8 +17,41 @@ end;
 $$;
 revoke all on function public.comprobar_destino_minimo(jsonb) from public,anon,authenticated;
 
+create or replace function public.normalizar_titulo_importacion(p_titulo text) returns text
+language sql immutable set search_path = '' as $$
+  select btrim(regexp_replace(translate(lower(coalesce(p_titulo,'')),
+    'áéíóúüñ','aeiouun'),'[^[:alnum:]]+',' ','g'));
+$$;
+revoke all on function public.normalizar_titulo_importacion(text) from public,anon,authenticated;
+
+-- Solo metadatos para resolver identidad; no abre el editor ni las fichas detalladas.
+create or replace function public.coincidencias_importacion_metrica(p_titulo text)
+returns table(obra_id uuid,titulo text,tipo_ficha text,autores text[])
+language plpgsql stable security definer set search_path = '' as $$
+begin
+  if not public.auth_puede_importar_metrica() then
+    raise exception using errcode='42501',message='La sesión no puede consultar coincidencias de importación';
+  end if;
+  return query select o.obra_id,o.titulo,o.tipo_ficha,coalesce((
+    select array_agg(distinct au.nombre_completo::text order by au.nombre_completo::text)
+    from public.atribuciones a join public.atribucion_autores aa on aa.atribucion_id=a.atribucion_id
+    join public.autores au on au.autor_id=aa.autor_id where a.obra_id=o.obra_id
+  ),array[]::text[])
+  from public.obras o
+  where public.normalizar_titulo_importacion(p_titulo)<>'' and exists (
+    select 1 from unnest(array[o.titulo] || coalesce(o.variantes_titulo,array[]::text[])) t(valor)
+    where public.normalizar_titulo_importacion(t.valor)=public.normalizar_titulo_importacion(p_titulo))
+  order by lower(o.titulo),o.obra_id;
+end;
+$$;
+revoke all on function public.coincidencias_importacion_metrica(text) from public,anon;
+grant execute on function public.coincidencias_importacion_metrica(text) to authenticated;
+
+-- El borrador anterior nunca se desplegó. Evita sobrecargas ambiguas para PostgREST.
+drop function if exists public.guardar_ficha_minima(uuid,uuid,jsonb,jsonb);
 create or replace function public.guardar_ficha_minima(
-  p_peticion uuid,p_autor uuid,p_datos jsonb,p_entrada_original jsonb
+  p_peticion uuid,p_autor uuid,p_datos jsonb,p_entrada_original jsonb,
+  p_coincidencias_revisadas uuid[] default '{}'
 ) returns jsonb language plpgsql security definer set search_path = '' as $$
 <<importar>>
 declare
@@ -29,6 +62,7 @@ declare
   v_meta jsonb; v_fila jsonb; v_candidata jsonb; v_detalle jsonb; v_desviacion jsonb;
   v_forma uuid; v_arquitectura uuid; v_inicio integer; v_fin integer;
   v_prev integer; v_num integer; v_total bigint:=0; v_ahora timestamptz:=now();
+  v_revisadas uuid[]; v_coincidencias uuid[];
 begin
   if not public.auth_puede_importar_metrica() then
     raise exception using errcode='42501',message='La sesión no puede importar métrica';
@@ -38,13 +72,16 @@ begin
     or pg_column_size(p_datos)>10485760 then
     raise exception using errcode='22023',message='Petición incompleta o documento demasiado grande';
   end if;
+  select coalesce(array_agg(distinct id order by id),array[]::uuid[]) into v_revisadas
+    from unnest(coalesce(p_coincidencias_revisadas,array[]::uuid[])) ids(id) where id is not null;
   -- La misma clave se serializa incluso entre dos transacciones simultáneas.
   perform pg_advisory_xact_lock(hashtextextended(v_actor::text||':'||p_peticion::text,0));
   select * into v_anterior from public.importaciones_metricas
     where importado_por=v_actor and peticion_id=p_peticion;
   if found then
     if v_anterior.datos_confirmados is distinct from p_datos or v_anterior.autor_id<>p_autor
-      or v_anterior.entrada_original is distinct from p_entrada_original then
+      or v_anterior.entrada_original is distinct from p_entrada_original
+      or v_anterior.coincidencias_revisadas is distinct from v_revisadas then
       raise exception using errcode='23505',message='La petición ya se usó con otros datos';
     end if;
     return jsonb_build_object('obra_id',v_anterior.obra_id,'importacion_id',v_anterior.importacion_id,'repetida',true);
@@ -76,12 +113,12 @@ begin
   if (v_meta->>'fecha_inicio')::integer>(v_meta->>'fecha_fin')::integer then
     raise exception using errcode='23514',message='Fechas invertidas';
   end if;
-  -- Evita doble clic con otra clave: no decide que dos títulos parecidos sean la misma obra.
-  perform pg_advisory_xact_lock(hashtextextended(p_autor::text||':'||lower(btrim(v_meta->>'titulo')),1));
-  if exists (select 1 from public.obras o join public.atribuciones a on a.obra_id=o.obra_id
-    join public.atribucion_autores aa on aa.atribucion_id=a.atribucion_id
-    where aa.autor_id=p_autor and lower(btrim(o.titulo))=lower(btrim(v_meta->>'titulo'))) then
-    raise exception using errcode='23505',message='Ya existe ese título para el autor; revisar antes de importar';
+  -- Un título coincidente pide revisión; no impone identidad, ni siquiera con el mismo autor.
+  perform pg_advisory_xact_lock(hashtextextended(public.normalizar_titulo_importacion(v_meta->>'titulo'),1));
+  select coalesce(array_agg(c.obra_id order by c.obra_id),array[]::uuid[]) into v_coincidencias
+    from public.coincidencias_importacion_metrica(v_meta->>'titulo') c;
+  if v_coincidencias is distinct from v_revisadas then
+    raise exception using errcode='23505',message='Revisa las coincidencias antes de confirmar que se trata de otra obra';
   end if;
   v_prev:=null; v_num:=0;
   for v_fila in select value from jsonb_array_elements(p_datos->'jornadas') loop
@@ -116,9 +153,9 @@ begin
     select v_obra,(j->>'numero')::integer,(j->>'v_ini')::integer,(j->>'v_fin')::integer
     from jsonb_array_elements(p_datos->'jornadas') as r(j);
   insert into public.importaciones_metricas(importacion_id,obra_id,peticion_id,importado_por,
-    importado_en,autor_id,genero_id,entrada_original,datos_confirmados,sha256_jsonb)
+    importado_en,autor_id,genero_id,entrada_original,datos_confirmados,sha256_jsonb,coincidencias_revisadas)
   values(v_importacion,v_obra,p_peticion,v_actor,v_ahora,p_autor,v_genero,
-    p_entrada_original,p_datos,encode(extensions.digest(convert_to(p_datos::text,'UTF8'),'sha256'),'hex'));
+    p_entrada_original,p_datos,encode(extensions.digest(convert_to(p_datos::text,'UTF8'),'sha256'),'hex'),v_revisadas);
 
   v_prev:=null;
   for v_fila in select value from jsonb_array_elements(p_datos->'segmentos') loop
@@ -208,6 +245,6 @@ begin
   return jsonb_build_object('obra_id',v_obra,'importacion_id',v_importacion,'repetida',false);
 end;
 $$;
-revoke all on function public.guardar_ficha_minima(uuid,uuid,jsonb,jsonb) from public,anon;
-grant execute on function public.guardar_ficha_minima(uuid,uuid,jsonb,jsonb) to authenticated;
+revoke all on function public.guardar_ficha_minima(uuid,uuid,jsonb,jsonb,uuid[]) from public,anon;
+grant execute on function public.guardar_ficha_minima(uuid,uuid,jsonb,jsonb,uuid[]) to authenticated;
 commit;

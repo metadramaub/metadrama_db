@@ -32,7 +32,7 @@ en orden: almacenamiento, esquemas de documentos y operación de guardado.
 - Quién confirma y cuándo se registra una sola vez en `importado_por` e `importado_en`, tomados de
   la sesión y del reloj del servidor. No hay una segunda persona ni atribución por secuencia.
 
-`guardar_ficha_minima(p_peticion, p_autor, p_datos, p_entrada_original)` crea en una sola
+`guardar_ficha_minima(p_peticion, p_autor, p_datos, p_entrada_original, p_coincidencias_revisadas)` crea en una sola
 transacción la obra, su autoría tradicional individual, jornadas, secuencias, métrica mínima e
 importación. No exige fundamentos textuales ni editor asignado. Selecciona género y categorías
 del vocabulario, comprueba el autor seleccionado y los destinos métricos contra el catálogo.
@@ -42,9 +42,15 @@ y cada segmento debe caber en una jornada y corresponder a su fila de origen.
 
 La misma persona y clave de petición devuelven la misma importación al repetir el envío. Si
 cambia su contenido, se rechaza. Dos sesiones concurrentes con esa clave crean una sola obra.
-Otra clave con el mismo título y autor se bloquea para revisar la coincidencia. Esto no detecta
-variantes de título, autorías alternativas ni obras anteriores sin atribución: esa detección y la
-reimportación siguen pendientes. La operación actual solo crea obras nuevas.
+El último parámetro es un array de identidades revisadas como obras distintas (vacío por defecto).
+`coincidencias_importacion_metrica` busca título y variantes normalizados y devuelve solo título,
+autoría y tipo de ficha a quienes pueden importar. No filtra por autor: también detecta una obra
+con atribución distinta o sin atribución. La normalización nominal no acredita identidad.
+Si falta revisar alguna coincidencia actual, se rechaza el guardado; si se confirma que son otras
+obras, permite crear incluso un homónimo del mismo autor. Se conservan los IDs revisados en la
+importación y la idempotencia incluye esa decisión. Las coincidencias se comprueban dentro de la
+transacción con serialización por título. Nunca se sobrescribe ni se vincula la obra existente.
+La reimportación sigue pendiente; esta operación solo crea obras nuevas.
 
 El documento de extracción sigue siendo el original `borrador_ia`, aunque su transcripción se haya
 aceptado después. La confirmación acepta el resultado mínimo mostrado, sin acreditar una revisión
@@ -117,6 +123,12 @@ del catálogo, tanto en JavaScript como en el borrador SQL. «Serventesio final�
 literal; el dato aceptado es remate final de un verso dentro del Terceto encadenado (3+1).
 
 ## Límite de este bloque
+
+El 29 de octubre se han ejecutado **63 comprobaciones correctas** sobre el esquema público real
+exportado ese día y datos sintéticos: añade homónimos del mismo autor, variantes de detalladas
+en borrador, coincidencia nueva entre revisión y guardado, decisión conservada y su reintento.
+La consulta de coincidencias también comprueba permiso y actividad. El borrador sigue sin aplicar
+a Supabase; no modifica todavía el guardado desde HTTP ni la vista previa.
 
 La marca `usada_en_corpus` selecciona una copia mínima, pero los cálculos actuales todavía no la
 consumen. Tampoco existe la sustitución al publicar la completa, la elección editorial entre

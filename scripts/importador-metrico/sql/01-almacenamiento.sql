@@ -42,9 +42,11 @@ create table if not exists public.importaciones_metricas (
   datos_confirmados jsonb not null check (datos_confirmados->>'esquema'='versologia-ficha-minima/0.2'),
   -- Hash del texto de JSONB producido por PostgreSQL, diferente del hash canónico local.
   sha256_jsonb text not null check (sha256_jsonb ~ '^[0-9a-f]{64}$'),
+  coincidencias_revisadas uuid[] not null default '{}',
   usada_en_corpus boolean not null default true,
   unique (importado_por,peticion_id)
 );
+alter table public.importaciones_metricas add column if not exists coincidencias_revisadas uuid[] not null default '{}';
 create unique index if not exists una_importacion_metrica_vigente_por_obra
   on public.importaciones_metricas(obra_id) where usada_en_corpus;
 

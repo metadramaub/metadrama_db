@@ -239,7 +239,7 @@ values('prueba/corpus','corpus_comparativas','publico',2,'{}');\n` + sesion(2);
 		'23505',
 		'misma petición con contenido cambiado se rechaza'
 	);
-	sql += rechaza(llamada(0, '', 9), '23505', 'otra petición no duplica título y autor');
+	sql += rechaza(llamada(0, '', 9), '23505', 'otra petición exige revisar las coincidencias');
 	sql += rechaza(
 		llamada(
 			1,
@@ -400,6 +400,24 @@ delete from public.jornadas where obra_id=(select (valor->>'obra_id')::uuid from
 		"(select bool_and(sha256_jsonb=encode(extensions.digest(convert_to(datos_confirmados::text,'UTF8'),'sha256'),'hex')) from public.importaciones_metricas)",
 		'hash verificable después de guardar como JSONB'
 	);
+	// La identidad se resuelve expresamente: ni título/autor ni una variante son clave única.
+	const tituloPiloto = lit(json(`preparadas/${refs[0]}.json`).datos.metadatos.titulo);
+	sql += sesion(2);
+	sql += `create temporary table revisadas as select array_agg(obra_id order by obra_id) ids
+ from public.coincidencias_importacion_metrica(${tituloPiloto});\n`;
+	sql += ok(`(select count(*)=1 from public.coincidencias_importacion_metrica(${tituloPiloto}))`, 'encuentra la básica existente por título');
+	sql += `reset role; update public.obras set variantes_titulo=array[${tituloPiloto}] where titulo='Completa de control';\n` + sesion(2);
+	const homonima = `select public.guardar_ficha_minima('10000000-0000-4000-8000-000000000901',${lit(autor)},
+ (select datos from entradas where n=0),(select original from entradas where n=0),(select ids from revisadas))`;
+	sql += rechaza(homonima, '23505', 'una coincidencia nueva exige revisar de nuevo antes de guardar');
+	sql += ok(`(select count(*)=2 and bool_or(tipo_ficha='completa') from public.coincidencias_importacion_metrica(${tituloPiloto}))`, 'incluye variantes de detalladas incluso en borrador');
+	sql += `update revisadas set ids=(select array_agg(obra_id order by obra_id) from public.coincidencias_importacion_metrica(${tituloPiloto}));
+ insert into resultados values(90,(${homonima.replace(/^select /,'')}));\n`;
+	sql += ok(`(select (valor->>'obra_id')::uuid<>(select (valor->>'obra_id')::uuid from resultados where n=0) from resultados where n=90)`, 'la decisión otra obra permite un homónimo del mismo autor');
+	sql += ok(`(${homonima.replace(/^select /,'')})->>'repetida'='true'`, 'reintento del homónimo conserva la misma importación');
+	sql += ok(`(select coincidencias_revisadas=(select ids from revisadas) from public.importaciones_metricas where obra_id=(select (valor->>'obra_id')::uuid from resultados where n=90))`, 'conserva una sola decisión de coincidencias por importación');
+	sql += ok(`(select tipo_ficha='completa' from public.obras where titulo='Completa de control')`, 'no sobrescribe la detallada coincidente');
+	sql += sesion(5) + rechaza(`select * from public.coincidencias_importacion_metrica(${tituloPiloto})`, '42501', 'la consulta de coincidencias respeta actividad y permiso');
 	const salida = psql(sql);
 	console.log(
 		salida
