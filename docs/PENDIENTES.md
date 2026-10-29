@@ -32,7 +32,7 @@ estado con `npm run equivalencias:informe`
 
 ## Medidas analíticas y precomputación
 
-**Cerrar definiciones generales y corregir sus productores.** El
+**Implementar las definiciones aprobadas y corregir sus productores.** El
 [inventario de medidas](./inventario-medidas-analiticas.md) revisa obra, autor, comparativas y
 laboratorio para fichas detalladas y básicas; no es una auditoría de toda la lógica de la DB.
 Se incluyen verso aislado e irregularidad identificados en la diversidad y transiciones entre
@@ -43,8 +43,8 @@ Aceptados extremos identificados aunque haya interior pendiente y exclusión de 
 cuadros de sus medidas; cero analizado en detalladas publicadas frente a desconocido por silencio
 de básicas. Mantener en el perfil las posiciones perdidas cuantificadas y atribuidas según la
 práctica indicada, con reconstrucción explícita y sin duplicarlas en el total. No inventar
-desgloses de 7/11 en silvas: una forma identificada no exige ese recuento interno. Revisar el
-índice principal por clases y limitar consultas por medida a evidencia suficiente. La prosa
+desgloses de 7/11 en silvas: una forma identificada no exige ese recuento interno. Índice principal
+por formas aprobado; limitar consultas por medida a evidencia suficiente. La prosa
 solo se localiza entre versos. Corrección implementada en ficha, laboratorio y productores V3,
 probada en copia con 16 comprobaciones PostgreSQL: desplegar lectores compatibles y después
 aplicar `20261029120000_la_prosa_se_localiza_entre_versos.sql`, que regenera los precomputados.
@@ -52,9 +52,9 @@ Se conserva la anotación válida del editor. Sustituir «peso» ambiguo
 por porcentajes y poblaciones explícitos.
 Aceptados perfil de autor ponderado por extensión y distribución por obras aparte, exclusión de
 la obra contrastada y sus jornadas, y cronología por solapamiento sin año medio del rango.
-Concretar diversidad por formas y revisar mediana/cuartiles como resumen principal entre obras,
-con media accesible y presencia explícita; no construir un perfil compuesto de medianas.
-Revisar los demás puntos D01–D10 antes de cambiar cálculos. La auditoría contiene ejemplos
+Inventario D01–D10 aprobado: diversidad por formas y mediana/cuartiles como resumen principal
+entre obras, con media accesible y presencia explícita; no construir un perfil de medianas.
+No repetir esta aprobación para implementar los criterios. La auditoría contiene ejemplos
 sintéticos comprobados, sin recálculos ni cambios en la base compartida. Esta revisión general
 es una dependencia de la incorporación analítica del importador.
 Tras reunir el corpus de Lope, ejecutar el experimento de sensibilidad para el artículo científico
@@ -69,6 +69,10 @@ validador y normalizador locales con pruebas. Se reutilizan obras/jornadas/secue
 la métrica mínima de v2. El diseño contrasta el esquema vivo y contempla agregados del corpus mínimo
 para comparar fichas completas sin publicar las mínimas individuales. Campos revisados: género
 obligatorio, fuente de datación y fundamentos de autoría opcionales; registro de quién importa.
+Próxima entrega acotada: [guardar y volver a abrir una ficha básica](./importador-metrico/hoja-de-ruta.md#siguiente-entrega-guardar-y-volver-a-abrir-una-ficha-básica),
+con la vista previa ya revisada, separación editorial y contrato de análisis aprobado; aún falta
+decidir vinculación/reimportación ante coincidencias. Propuesta inicial: nuevas obras sin
+sobrescrituras ni duplicados deliberados. No esperar al experimento científico para este recorrido.
 El editor podrá corregir o vaciar la estructura; verá la propuesta importada sin aprobación en v2.
 Se conserva una copia mínima fija hasta publicar la completa y entonces se sustituye su aporte.
 Mínima es un tipo, sin nuevo estado ni segundo validador. Admin/IP y editores autorizados importan
@@ -90,7 +94,7 @@ El pareado final se registra como Dístico final / Presente y las asonancias exp
 como valores del rasgo Vocales de asonancia, conservando la notación original.
 La tabla comparte la presentación de forma y arquitectura con las fichas y separa los datos
 métricos estructurados del texto de notas, para revisar qué se guardará sin abrir cada secuencia.
-Antes de conectar confirmación y guardado, cerrar el [plan de consultas y precomputación](./importador-metrico/consultas-y-precomputacion.md):
+Antes de conectar confirmación y guardado, implementar el [plan de consultas y precomputación](./importador-metrico/consultas-y-precomputacion.md):
 selección de una aportación por obra, lectores editoriales frente a productores del corpus mixto,
 versiones, invalidación y permisos de artefactos. El análisis seguirá usando datos precomputados;
 no se ampliarán indiscriminadamente los lectores públicos ni se filtrarán todas las mínimas fuera de los cálculos.

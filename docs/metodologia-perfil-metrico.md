@@ -297,8 +297,9 @@ conservadora: ante la duda, no cuenta.
 Para el futuro contraste con el corpus mixto quedó aceptado el 29 de octubre mantener esta
 ponderación por extensión y estudiar aparte la variación entre obras. El referente de una obra
 excluirá esa propia obra y todas sus jornadas; esa comparación todavía debe implementarse y
-validarse. La elección de media/mediana para resumir indicadores entre obras se desarrolla en
-el [inventario general](./inventario-medidas-analiticas.md#media-y-mediana-propuesta-de-presentación-pendiente-de-aprobación).
+validarse. Para resumir indicadores entre obras se aprobaron mediana y cuartiles como lectura
+principal, manteniendo la media accesible y las poblaciones explícitas, según
+el [inventario general](./inventario-medidas-analiticas.md#media-y-mediana-presentación-acordada).
 No se construye el perfil agregado normalizando medianas por forma: no tienen por qué sumar 100 %.
 
 ### 2.3 Dos medidas de diversidad — y por qué las jornadas se tratan distinto

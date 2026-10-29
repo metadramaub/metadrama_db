@@ -10,6 +10,35 @@ el corpus mixto se construye en los productores de artefactos y las pantallas co
 de datos preparados. Antes de conectar el guardado se fija qué consumidores incluyen mínimas y
 cuáles mantienen su universo actual; no se aplica un filtro general a todas las consultas.
 
+## Siguiente entrega: guardar y volver a abrir una ficha básica
+
+29 de octubre de 2026. El responsable aprueba los criterios del inventario general. Se vuelve
+al recorrido del importador: **entrada → vista previa corregida → confirmación → consulta de la
+ficha básica guardada**. La próxima entrega no incorpora conclusiones automáticas de afinidad.
+
+La vista previa y el guardado SQL aislado existen, pero aún no están conectados. El trabajo técnico
+inmediato es completar la separación de lectores/editorial y el contrato precomputado aprobado,
+conectar confirmación con una validación de servidor y abrir la importación desde Fichas básicas.
+La aportación al corpus se activa cuando el productor común y sus permisos estén comprobados;
+guardar una ficha y que sus análisis estén actualizados son operaciones distintas.
+
+La entrega debe demostrar que se guarda exactamente la revisión mostrada, se conserva la copia
+fija aunque cambie la estructura de trabajo, no se duplica por repetir el envío y solo acceden
+los usuarios previstos. Antes del primer guardado real deben estar adaptados los consumidores
+que podrían tratar la básica como detallada o exponerla individualmente. Se probará en copia
+aislada antes de promover el SQL definitivo a Supabase. No se aplica el borrador local tal cual.
+
+**Propuesta de alcance inicial, aún no aprobada:** crear obras nuevas; ante una coincidencia
+plausible con una existente, mostrarla y detener esa creación para resolver la identidad. No
+sobrescribir una detallada ni crear deliberadamente otra obra por cambiar su edición. Vincular
+una importación a una obra existente y reimportar una corregida requieren operaciones explícitas
+posteriores. Se puede avanzar en el guardado seguro mientras se concreta esa política.
+
+Tras ese recorrido se ampliarán las extracciones de cuatro a veinte y el repertorio de
+equivalencias con los casos reales. No se espera tener todas las formas resueltas para guardar.
+El protocolo científico se prepara aparte y su experimento se ejecutará con el corpus de Lope
+reunido, según lo acordado; no se vuelve a exigir como condición previa de la primera importación.
+
 ## Etapas y condiciones de avance
 
 | Etapa | Trabajo y resultado verificable | Condición de avance |
@@ -17,7 +46,7 @@ cuáles mantienen su universo actual; no se aplica un filtro general a todas las
 | 1. Contrato del piloto | Ejemplos de transcripción, metadatos, identificación parcial, candidatas y trazabilidad | Distinguir fielmente la declaración editorial de sus interpretaciones |
 | 2. Referencia de transcripción | Inventario y extracciones revisadas de las veinte obras fotografiadas, empezando por una muestra pequeña para ajustar el procedimiento | Cada extracción aceptada tiene revisión humana y conserva las incidencias de la fuente |
 | 3. Correspondencias y prompt | Inventario de denominaciones, equivalencias revisadas, candidatas justificadas y prompt versionado; ampliar el repertorio con cada lote | Conocer qué se resuelve, qué queda abierto y qué errores introduce el procedimiento, sin exigir un repertorio exhaustivo |
-| 4. Sensibilidad | Resultados reproducibles de degradación y límites por lagunas sistemáticas | Determinar qué preguntas pueden responderse y con qué condiciones de cobertura |
+| 4. Sensibilidad | Preparar protocolo reproducible y ejecutar degradación y escenarios tras reunir el corpus de Lope | Determinar qué preguntas pueden responderse; no bloquea el primer guardado seguro |
 | 5. Modelo y lectura para cálculos | Obras/jornadas/secuencias compartidas, tabla de métrica mínima separada de v2, procedencia y análisis con incertidumbre | Resolver con los casos reales las restricciones de integridad y los consumidores afectados; este diseño puede avanzar con las cuatro obras |
 | 6. Recorrido completo | Importar, confirmar y asignar; permitir corregir o vaciar la estructura y mostrar la propuesta importada en cada secuencia | Conservar el aporte mínimo mediante una copia fija durante la edición y sustituirlo por la completa al publicar, sin doble cómputo |
 | 7. Ampliación y resultados compartibles | Procesar más obras, ampliar equivalencias y seleccionar agregados del corpus mínimo/completo para contrastar fichas completas | Resultados interpretables y trazables con cobertura y universo explícitos; privacidad de las fichas mínimas de origen |
@@ -57,7 +86,7 @@ se desarrollan en el [inventario general de medidas](../inventario-medidas-anali
 | Elaboración de la ficha completa | Elección entre conservar/corregir jornadas y secuencias o vaciarlas. Propuesta visible del importador sin aprobación automática en v2; copia mínima fija hasta publicar la completa |
 | Tipo mínimo y presentación | Mínima como tipo, sin nuevo estado editorial. Importación en preparación → confirmación → ficha mínima; se propone una pestaña Fichas mínimas en Obras |
 | Ediciones y reimportaciones | Cómo reconocer una obra existente y actualizarla sin sobrescribir trabajo completo ni contar dos veces la obra |
-| Cálculo del referente | Aceptado perfil agregado ponderado por versos y distribución por obras aparte; excluir la propia obra y todas sus jornadas del referente. Implementar selección y cobertura; media/mediana entre obras sigue en revisión |
+| Cálculo del referente | Aceptados perfil agregado ponderado por versos, distribución por obras aparte y exclusión de la propia obra/jornadas. Mediana y Q1–Q3 como lectura principal entre obras, media accesible. Implementar selección y cobertura |
 | Publicación de comparaciones | Qué evidencia, tamaño de muestra y estabilidad permiten redactar una comparación, y qué incertidumbre se muestra |
 | Archivos del piloto | Formato de intercambio, datos que se versionan y ubicación de fotografías y demás materiales externos |
 

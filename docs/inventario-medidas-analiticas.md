@@ -1,6 +1,10 @@
 # Inventario general de medidas analíticas: ceros, ausencias y denominadores
 
 Auditoría del 28 de octubre de 2026; decisiones y propuestas actualizadas el 29 de octubre.
+**Criterios del inventario aprobados por el responsable el 29 de octubre de 2026.** La aprobación
+incluye diversidad por formas, mediana y Q1–Q3 como resumen principal entre obras con media
+accesible, poblaciones explícitas y las restantes precisiones D01–D10. Cierra su revisión de
+criterios; no afirma que los cambios estén desplegados ni valida todavía un método de afinidad.
 **Ámbito: medidas de obra, autor, comparativas y laboratorio de toda la plataforma**, para fichas
 detalladas y básicas. No es una auditoría de todas las tablas ni de toda la lógica de la base.
 La incorporación de las básicas motivó la revisión, pero sus reglas analíticas son generales.
@@ -12,9 +16,9 @@ El experimento de sensibilidad se realizará con el corpus de Lope reunido y for
 artículo científico de presentación de Versología. Están aceptados el aprovechamiento de extremos
 identificados y la exclusión de básicas sin cuadros de las medidas de cuadros, así como el cero
 de ausencia analizada en detalladas publicadas frente al desconocido por silencio de la básica.
-D01–D02 se aclaran y reformulan; el resto sigue
-pendiente de revisión, sin interpretar el silencio como aprobación. Este documento no modifica
-los cálculos vigentes. Las definiciones aprobadas se incorporarán a la
+D01–D02 incluyen las aclaraciones incorporadas durante la revisión. La aceptación final sustituye
+los rótulos de propuesta de esa discusión; el protocolo inferencial sigue en desarrollo.
+Este documento no aplica cambios de cálculo por sí mismo. Las definiciones aprobadas se incorporarán a la
 [metodología canónica](./metodologia-perfil-metrico.md) al implementar y verificar los cambios.
 
 Últimas precisiones del 29 de octubre: se retira la propuesta de excluir por defecto las lagunas
@@ -49,7 +53,7 @@ con esa regla requiere revisión; no autoriza a tratar como cero el dato ausente
 la cobertura depende de la información disponible para cada medida, no de una supuesta ficha
 detallada incompleta.
 
-## Convenciones propuestas
+## Convenciones acordadas
 
 - **Cero:** se estudió el ámbito necesario y se puede afirmar que no hay casos.
 - **Desconocido:** no se recogió el dato o queda una parte que podría cambiar el resultado.
@@ -291,7 +295,7 @@ crear automáticamente otra categoría por cada rasgo o medida. Cualquier desglo
 medidas deberá definirse expresamente; no se da por aprobado ni cambia la taxonomía del catálogo.
 La dominancia incluye las clases identificadas, nunca un grupo artificial de pendientes.
 
-**Recomendación metodológica pendiente de aprobación:** el índice principal compara la
+**Criterio aprobado:** el índice principal compara la
 distribución de clases generales del catálogo, con una categoría de verso aislado y otra de
 versificación irregular. Mantener las medidas conocidas para consultas adicionales cuando su
 evidencia permita responderlas, sin prometer un reparto completo de versos por medida;
@@ -325,8 +329,8 @@ Una consulta sobre medidas conocidas se limita a ámbitos con información sufic
 lo que excluye; no se presenta automáticamente como distribución de medidas de toda la obra
 o del autor. La forma Silva puede estar completamente identificada sin ese desglose. Su falta
 de recuento interno no reduce la cobertura de identificación de formas ni impide por sí sola
-calcular la diversidad por clases. La recomendación de índice principal por clases sigue pendiente
-de aprobación y no depende de crear un nuevo perfil universal de medidas.
+calcular la diversidad por clases. El índice principal por formas está aprobado y no depende
+de crear un nuevo perfil universal de medidas.
 Se recomienda documentar separadamente recuento de clases y diversidad efectiva, que pondera su
 extensión: un verso aislado cuenta, pero no tiene el mismo peso que mil versos de romance.
 La interpretación del índice efectivo se apoya en
@@ -426,7 +430,7 @@ Con dos obras, una con 60 % de romance y otra con ausencia confirmada, la median
 el peso típico donde aparece es 60 % y la difusión es 50 %. Los tres son correctos. Si la segunda
 obra es desconocida, la difusión del grupo está entre 50 % y 100 %; no es un 50 % exacto.
 
-#### Media y mediana: propuesta de presentación pendiente de aprobación
+#### Media y mediana: presentación acordada
 
 «Típico» no identifica una operación estadística. Se propone evitarlo como rótulo aislado y
 usar «media», «mediana» y la población correspondiente. La media aritmética del porcentaje por
@@ -547,15 +551,18 @@ por ocultación se necesitan ámbitos suficientemente resueltos de partida para 
 la incertidumbre original que permanezca se documentará por separado. No se pretende medir la
 verdad filológica ni el error de los editores de las fuentes.
 
-## Qué necesita aún revisión del responsable
+## Cierre de criterios y trabajo restante
 
-| Punto | Decisión pendiente y propuesta para facilitar su revisión |
+La aprobación final cierra las decisiones de esta tabla; no se pedirán de nuevo para implementar
+lo acordado. Permanecen las comprobaciones técnicas y el protocolo científico de comparación.
+
+| Punto | Criterio adoptado y estado |
 | --- | --- |
-| D01: lagunas | Se retira excluirlas por defecto del perfil principal. Propuesta ajustada a la práctica indicada: contar las posiciones perdidas cuantificadas y atribuidas en su forma y en el total, sin duplicarlas, conservando su carácter reconstruido. No inventar cantidad ni forma desconocidas. |
-| D03: nivel de agrupación | Aclarado que se propone diversidad por formas, incluidos aislados e irregularidad, sin cruzarlas con arquitecturas/esquemas/metros. Confirmar ese nivel principal; no se promete un reparto universal por medidas. |
+| D01: lagunas | Contar las posiciones perdidas cuantificadas y atribuidas en su forma y en el total, sin duplicarlas, conservando su carácter reconstruido. No inventar cantidad ni forma desconocidas. |
+| D03: nivel de agrupación | Diversidad por formas, incluidos aislados e irregularidad, sin cruzarlas con arquitecturas/esquemas/metros. No se promete un reparto universal por medidas. |
 | D05: detalle de denominador | Extremos conocidos y exclusión de básicas sin cuadros están aceptados. Un recuento cero de límites puede ser válido; dividir por cero no da 0 %, por lo que esa proporción es no aplicable. Es una regla técnica derivada, no otra aprobación necesaria. |
 | D06: fenómenos | Cero analizado de detalladas publicadas y desconocido por silencio de básicas están aceptados. Prosa definida como presencia/localización; corrección implementada y probada en copia, pendiente de despliegue. Los otros fenómenos conservan la unidad que se anota y declaran sus respuestas conocidas; no se exige aprobar cada caso aritmético. |
-| D07: centralidad y población | Revisar la propuesta de mediana y Q1–Q3 como resumen principal entre obras, media accesible y presencia en el corpus; distinguir todas las obras evaluables de las presencias. La elección sigue pendiente y no sustituye resolver la incertidumbre de identificación. |
+| D07: centralidad y población | Mediana y Q1–Q3 como resumen principal entre obras, media accesible y presencia en el corpus; distinguir todas las obras evaluables de las presencias. No sustituye resolver la incertidumbre de identificación. |
 | D08: referente | Aceptado: perfil agregado ponderado por extensión y distribución por obras aparte; excluir la obra contrastada y sus jornadas. Autoría por obra/jornada se mantiene. Pendiente de implementación en la comparación mixta, no de otra aprobación. |
 | D09: fechas | Aceptado: solapamiento como «compatible con el periodo», sin usar la media del intervalo como fecha. No interpretar ventanas que se solapan como periodos disjuntos al sumar recuentos. |
 
