@@ -58,7 +58,7 @@ async function previsualizar(
 	const texto = (key: string) => (typeof form.get(key) === 'string' ? String(form.get(key)) : '');
 	const entrada = texto('entrada');
 	if (entrada.length > 2_000_000)
-		return fail(413, { mensaje: 'La entrada supera el límite de este ensayo.' });
+		return fail(413, { mensaje: 'La entrada supera el límite. Pega una obra cada vez.' });
 	const autorId = editar ? texto('autor_id') : '';
 	const ediciones = editar ? texto('ediciones') || '[]' : '[]';
 	let cambiosSecuencias: unknown;

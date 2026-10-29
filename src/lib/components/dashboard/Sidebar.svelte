@@ -261,10 +261,10 @@
 		{#if isAdminIp || props.puedeImportar}
 			<a
 				class={`flex items-center gap-2 px-3 py-2 text-[color:var(--foreground)] transition-colors hover:bg-[color:var(--muted)] ${collapsed ? 'md:h-11 md:w-11 md:self-center md:justify-center md:px-0' : ''}`}
-				href="/dashboard/importador" aria-label="Importador métrico (ensayo)" title="Importador métrico (ensayo)"
+				href="/dashboard/importador" aria-label="Importador métrico" title="Importador métrico"
 			>
 				{#if BookOpenTextIcon}<BookOpenTextIcon size={16} aria-hidden="true" />{/if}
-				<span class={collapsed ? 'md:sr-only' : ''}>Importador métrico <span class="text-xs text-[color:var(--muted-foreground)]">· ensayo</span></span>
+				<span class={collapsed ? 'md:sr-only' : ''}>Importador métrico</span>
 			</a>
 		{/if}
 		{#if isAdminIp}

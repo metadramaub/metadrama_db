@@ -116,7 +116,6 @@
 	<header class="flex flex-wrap items-baseline justify-between gap-3">
 		<h1 class="font-display text-3xl">Importador métrico</h1>
 		{#if data.guardadoDisponible}<a href="/dashboard/importador/fichas" class="text-sm underline">Fichas básicas</a>{/if}
-		<span class="text-xs text-[color:var(--muted-foreground)]">Ensayo · no guarda obras</span>
 	</header>
 	<div class="card space-y-4 p-4 sm:p-6">
 		<div class="flex flex-wrap items-center justify-between gap-3">

@@ -1,4 +1,4 @@
-/** Adaptador de servidor: ensaya el intercambio existente sin DB, confirmación ni archivos escritos. */
+/** Reconstruye la vista previa y presenta la copia confirmada sin reaplicar equivalencias. */
 import { createHash } from 'node:crypto';
 import { aplicarEdiciones } from '$lib/importador-metrico/edicion';
 import { normalizarExtraccion } from '../../../../scripts/lib/importador-metrico/normalizacion.mjs';
