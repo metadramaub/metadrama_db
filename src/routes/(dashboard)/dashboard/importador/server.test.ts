@@ -4,7 +4,12 @@ import { obtenerPilotos } from '$lib/server/importador-metrico/vista-previa';
 import type { ResultadoVistaPrevia } from '$lib/importador-metrico/types';
 
 const { autorizar } = vi.hoisted(() => ({ autorizar: vi.fn() }));
-vi.mock('$lib/server/importador-metrico/acceso', () => ({ requireImportadorPreview: autorizar }));
+vi.mock('$lib/server/importador-metrico/acceso', () => ({
+	estadoImportador: async (event: unknown) => ({
+		profile: await autorizar(event),
+		guardadoDisponible: false
+	})
+}));
 
 const piloto = obtenerPilotos()[0];
 const metadatos = {

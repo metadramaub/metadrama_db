@@ -7,8 +7,12 @@ import assert from 'node:assert/strict';
 import { compilarPromocion } from './compilar-promocion.mjs';
 
 const args = process.argv.slice(2);
-if (args.length !== 2 || args[0] !== '--copia')
-	throw Error('Uso: ensayar-promocion.mjs --copia backups/<copia>');
+if (
+	![2, 3].includes(args.length) ||
+	args[0] !== '--copia' ||
+	(args[2] && args[2] !== '--solo-actual')
+)
+	throw Error('Uso: ensayar-promocion.mjs --copia backups/<copia> [--solo-actual]');
 const carpeta = resolve(args[1]);
 const schema = readFileSync(join(carpeta, 'schema.sql'), 'utf8');
 const datos = readFileSync(join(carpeta, 'data.sql'), 'utf8');
@@ -146,7 +150,7 @@ function reversion(antes, despues) {
 	return s + `notify pgrst,'reload schema';\ncommit;\n`;
 }
 mkdirSync(carpeta, { recursive: true });
-for (const conProsa of [false, true]) {
+for (const conProsa of args[2] ? [false] : [false, true]) {
 	const db = 'importador_promocion_' + randomUUID().replaceAll('-', '');
 	const nombre = conProsa ? 'prosa-primero' : 'esquema-actual';
 	let creada = false;
