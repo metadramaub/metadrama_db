@@ -5,9 +5,9 @@ import { randomUUID } from 'node:crypto';
 import { semillaImportador } from './fixtures-locales.mjs';
 
 const args = process.argv.slice(2);
-if (args.length !== 2 || args[0] !== '--esquema')
+if (![2,4].includes(args.length) || args[0] !== '--esquema' || (args.length===4 && args[2]!=='--migracion'))
 	throw new Error(
-		'Uso: node scripts/importador-metrico/probar-persistencia-local.mjs --esquema <volcado público>'
+		'Uso: node scripts/importador-metrico/probar-persistencia-local.mjs --esquema <volcado público> [--migracion <candidata SQL>]'
 	);
 const esquema = readFileSync(args[1], 'utf8');
 const contenedor = 'versologia-importador-pruebas';
@@ -113,7 +113,7 @@ $$;
 grant usage on schema auth,extensions to anon,authenticated,service_role;
 ${esquema}`);
 	// Ejecutar el borrador dos veces comprueba su repetibilidad, sin silenciar errores.
-	const borrador = ['01-almacenamiento.sql', '02-esquema-documento.sql', '03-guardar.sql', '04-consulta.sql', '05-aislamiento.sql']
+	const borrador = args[3] ? readFileSync(args[3],'utf8') : ['01-almacenamiento.sql', '02-esquema-documento.sql', '03-guardar.sql', '04-consulta.sql', '05-aislamiento.sql']
 		.map((n) => read(`./sql/${n}`))
 		.join('\n');
 	psql(borrador);
