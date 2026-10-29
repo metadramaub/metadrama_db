@@ -16,9 +16,11 @@ cuáles mantienen su universo actual; no se aplica un filtro general a todas las
 al recorrido del importador: **entrada → vista previa corregida → confirmación → consulta de la
 ficha básica guardada**. La próxima entrega no incorpora conclusiones automáticas de afinidad.
 
-La vista previa y el guardado SQL aislado existen, pero aún no están conectados. El trabajo técnico
-inmediato es completar la separación de lectores/editorial y el contrato precomputado aprobado,
-conectar confirmación con una validación de servidor y abrir la importación desde Fichas básicas.
+La confirmación ya está conectada en código, con reconstrucción de servidor, decisión de homónimos
+y consulta desde Fichas básicas. Se ha probado por capas: PostgreSQL aislado y acciones con RPC
+simulada; falta el recorrido con navegador y Auth real en un entorno local. El listado detallado y
+su editor separan las básicas. Antes del despliegue queda auditar el resto de lectores privilegiados,
+contadores y artefactos, y completar el contrato precomputado aprobado.
 La aportación al corpus se activa cuando el productor común y sus permisos estén comprobados;
 guardar una ficha y que sus análisis estén actualizados son operaciones distintas.
 
@@ -121,12 +123,13 @@ El [primer contrato local](./contrato-local.md) ya comprueba los campos y produc
 de las cuatro obras. La copia fija y el contexto de permisos están probados con identidades
 sintéticas. El [borrador SQL](./persistencia-local.md) ya ejecuta guardado transaccional, permisos RLS
 e idempotencia concurrente en PostgreSQL aislado con el esquema real exportado. La conexión con
-guardado desde sesiones HTTP y la sustitución en el corpus siguen pendientes, sin aplicar a Supabase.
+guardado conectado a las acciones de servidor; la prueba con Auth real y la sustitución en el corpus
+siguen pendientes, sin aplicar a Supabase.
 La [vista previa del dashboard](./vista-previa-dashboard.md) ya permite pegar y comprobar la entrada,
 revisar metadatos y consultar secuencias propuestas por jornadas, con acceso de ensayo para admin/IP
 y sin escritura. El contrato 0.2 y el borrador SQL ya conservan original, resultado confirmado y reglas
 utilizadas, sin estados de revisión ni fundamentos generales repetidos por secuencia. El siguiente paso
-es conectar corrección y confirmación con el guardado y sus consumidores;
+es completar la auditoría de consumidores y el productor precomputado;
 la revisión de todas las equivalencias no se traslada a quien importa.
 
 ## Evaluación del procedimiento

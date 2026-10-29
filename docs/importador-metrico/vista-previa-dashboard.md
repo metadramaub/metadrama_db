@@ -1,8 +1,9 @@
 # Vista previa del importador en el dashboard
 
-26 de octubre de 2026. El código incorpora `/dashboard/importador`, enlazado como **Importador
-métrico · ensayo** en el menú de admin/IP. No guarda obras, no confirma importaciones ni incorpora
-datos al corpus. No requiere aplicar el borrador SQL a Supabase.
+Actualizado el 29 de octubre de 2026. `/dashboard/importador` mantiene la vista previa sin guardado
+en la base compartida. El código ya permite confirmar y consultar fichas básicas cuando se instalan
+las RPC de persistencia en una DB de ensayo. **No se ha aplicado el borrador a Supabase.**
+El guardado no activa todavía los análisis del corpus.
 
 ## Qué permite probar
 
@@ -32,9 +33,10 @@ rasgos registrados. Muestra un extracto y utiliza el componente existente de not
 para leer el texto completo sin abrir el editor ni alargar las filas. La vista mínima no fabrica
 unidades, esquemas de rima ni respuestas v2.
 
-Los avisos de título consultan las obras actuales; una coincidencia por título no prueba identidad
-ni autoriza sobrescribir una ficha. No es todavía un sistema de detección de duplicados por
-variantes de título o atribuciones.
+Con las RPC instaladas, los avisos buscan título y variantes normalizados, sin filtrar por autor;
+muestran autoría y tipo de ficha. Hay que declarar «otra obra» para continuar o descartar si es la
+misma. La identidad no se deduce de una coincidencia nominal. Al confirmar se reconstruyen los datos
+en servidor y se vuelven a comprobar las coincidencias. Nunca se sobrescribe una obra existente.
 
 ## Datos y límites
 
@@ -48,10 +50,16 @@ contenido de la extracción original, no porque un JSON declare el mismo `obra_r
 puede corregir metadatos conservando el original como procedencia. Las revisiones declaradas por
 un JSON de ficha mínima no se acreditan como confirmaciones humanas realizadas desde esta pantalla.
 
-El ensayo se limita por ahora a admin/IP tanto en la carga como en cada acción POST. No intenta
-leer la columna futura de permisos individuales. El acceso de editores concretos se conectará
-cuando exista la capacidad en la DB, manteniendo el acuerdo de que los importadores podrán
-consultar todas las mínimas sin obtener acceso al laboratorio. No es un cambio de ese acuerdo.
+Sin las RPC, el ensayo sigue limitado a admin/IP. Cuando están instaladas, la capacidad de sesión
+autoriza también a editores específicos, tanto en la carga como en cada POST. Todos los importadores
+ven las básicas propias y ajenas, con quién importó y cuándo; el permiso no abre el laboratorio.
+El listado está en `/dashboard/importador/fichas`, enlazado desde el importador y Obras. La ficha
+guardada es una consulta de su copia fija. Un editor asignado puede consultarla sin permiso de
+importar; no puede escribirla mediante el editor detallado.
+
+Para guardar hay que partir de la extracción original 0.1. Los formatos preparados sin original
+siguen sirviendo para previsualizar, pero no para confirmar. Se conserva el mismo identificador de
+petición al reintentar y se bloquea confirmar si quedan cambios sin comprobar.
 
 ## Edición de formas y secuencias
 

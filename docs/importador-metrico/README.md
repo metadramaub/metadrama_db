@@ -10,15 +10,16 @@ Este directorio conserva el diseño y el procedimiento de trabajo. El 22 de octu
 preparó un [primer lote de cuatro extracciones](./piloto/informe-inicial.md), un prompt y propuestas
 de equivalencia para cotejo humano. El responsable aceptó las cuatro transcripciones sin
 correcciones: [registro y hashes](./piloto/revision-humana.json). Ya existe una
-[vista previa de ensayo en el dashboard](./vista-previa-dashboard.md). **Todavía no hay guardado
-del importador, cambios de esquema aplicados ni experimentos de sensibilidad ejecutados.** Los archivos del piloto no
+[vista previa de ensayo en el dashboard](./vista-previa-dashboard.md). El guardado y la consulta ya están conectados en código y probados por capas contra PostgreSQL
+aislado y RPC simulada. **Todavía no hay cambios de esquema aplicados a Supabase, prueba de
+navegador con Auth real ni experimentos de sensibilidad ejecutados.** Los archivos del piloto no
 describen capacidades ya disponibles en la plataforma.
 
 ## Lectura y organización
 
 | Documento | Contenido |
 | --- | --- |
-| [Vista previa del dashboard](./vista-previa-dashboard.md) | Pegado, metadatos, jornadas, secuencias y advertencias; ensayo sin guardado |
+| [Vista previa del dashboard](./vista-previa-dashboard.md) | Pegado, edición, confirmación condicionada a RPC y consulta de copia fija |
 | [Persistencia local](./persistencia-local.md) | Borrador SQL fuera de las migraciones y ensayo de guardado, permisos y concurrencia en PostgreSQL aislado |
 | [Metodología](./metodologia.md) | Acuerdos sobre fuentes, identificación, equivalencias, incertidumbre y comparabilidad |
 | [Hoja de ruta](./hoja-de-ruta.md) | Etapas, resultados necesarios, decisiones abiertas e integración técnica |

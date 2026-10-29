@@ -1,6 +1,8 @@
 # Guardado mínimo: borrador SQL y ensayo local
 
-26 de octubre de 2026. **No aplicado a Supabase ni conectado al dashboard.** El SQL permanece
+Actualizado el 29 de octubre de 2026. **No aplicado a Supabase.** El código del dashboard ya
+conecta la confirmación y la consulta cuando detecta las RPC instaladas; la base compartida mantiene
+la vista previa sin guardado. El SQL permanece
 fuera de `supabase/migrations/` para que un despliegue habitual no lo aplique por accidente.
 
 El borrador ensaya el contrato 0.2, con una identificación opcional y sin estados ni fundamentos
@@ -16,8 +18,8 @@ se restauró para ejecutar las funciones nuevas con los disparadores existentes.
 
 ## Qué guarda el borrador
 
-Los [tres archivos SQL](../../scripts/importador-metrico/sql/01-almacenamiento.sql) se ejecutan
-en orden: almacenamiento, esquemas de documentos y operación de guardado.
+Los [cuatro archivos SQL](../../scripts/importador-metrico/sql/01-almacenamiento.sql) se ejecutan
+en orden: almacenamiento, esquemas de documentos, operación de guardado y consultas de sesión.
 
 - `obras.tipo_ficha`: `completa` por defecto; `minima` para lo importado. Ningún estado nuevo.
 - `editores.puede_importar_metrica`: desactivado por defecto. Admin/IP mantienen su acceso;
@@ -36,8 +38,8 @@ en orden: almacenamiento, esquemas de documentos y operación de guardado.
 transacción la obra, su autoría tradicional individual, jornadas, secuencias, métrica mínima e
 importación. No exige fundamentos textuales ni editor asignado. Selecciona género y categorías
 del vocabulario, comprueba el autor seleccionado y los destinos métricos contra el catálogo.
-Los nombres del documento deben coincidir con el autor elegido; todavía falta la interfaz de
-reconocimiento y selección de autores. La numeración de jornadas y segmentos debe ser continua,
+Los nombres del documento deben coincidir con el autor elegido; el selector del dashboard resuelve
+el ID y el servidor obtiene su nombre antes de reconstruir la vista. La numeración de jornadas y segmentos debe ser continua,
 y cada segmento debe caber en una jornada y corresponder a su fila de origen.
 
 La misma persona y clave de petición devuelven la misma importación al repetir el envío. Si
@@ -63,7 +65,8 @@ La columna `sha256_jsonb` usa el texto que PostgreSQL produce al serializar el J
 el `sha256_datos` canónico del contrato local ni el hash de los bytes del archivo original.
 Sirve para comprobar la copia guardada; la idempotencia compara también el contenido JSONB.
 Los hashes de procedencia se conservan, pero la DB no certifica archivos que no ha recibido.
-El futuro endpoint deberá verificar las entradas y la referencia al catálogo vigente.
+La acción de servidor reconstruye la vista con las referencias versionadas del piloto y verifica
+la huella de datos, autor y coincidencias. El SQL contrasta destinos con el catálogo de la DB.
 
 ## Acceso que se ha probado
 
@@ -124,15 +127,31 @@ literal; el dato aceptado es remate final de un verso dentro del Terceto encaden
 
 ## Límite de este bloque
 
-El 29 de octubre se han ejecutado **63 comprobaciones correctas** sobre el esquema público real
+El 29 de octubre se han ejecutado **73 comprobaciones correctas** sobre el esquema público real
 exportado ese día y datos sintéticos: añade homónimos del mismo autor, variantes de detalladas
 en borrador, coincidencia nueva entre revisión y guardado, decisión conservada y su reintento.
-La consulta de coincidencias también comprueba permiso y actividad. El borrador sigue sin aplicar
-a Supabase; no modifica todavía el guardado desde HTTP ni la vista previa.
+También se comprueban las consultas de lista/copia, los permisos, el bloqueo de cambios directos
+de tipo de ficha y dos peticiones distintas concurrentes sin coincidencias revisadas. La lista
+muestra todas las básicas a los importadores y toma título, autor y fechas de la copia fija.
+
+Las acciones de servidor y su adaptador cuentan con pruebas de formulario y RPC simulada: incluyen
+reconstrucción, huella desactualizada, coincidencias nuevas, reintentos y permisos. No sustituyen una
+prueba de navegador con Supabase Auth/JWT, todavía pendiente. Svelte-check pasa sin errores ni avisos.
+
+El guardado admite la extracción original 0.1, también después de corregirla en la vista previa.
+Una ficha preparada o su envoltorio sin original se pueden previsualizar, pero no confirmar: no se
+fabrica una procedencia. La consulta guardada lee la copia sin volver a ejecutar equivalencias.
+`capacidades_importador_metrico` habilita las pantallas según el permiso de sesión. Si la RPC no
+existe, admin/IP mantienen el ensayo sin guardado; un fallo de conexión no se interpreta como
+ausencia del esquema.
 
 La marca `usada_en_corpus` selecciona una copia mínima, pero los cálculos actuales todavía no la
 consumen. Tampoco existe la sustitución al publicar la completa, la elección editorial entre
-conservar y vaciar estructura, la reimportación ni la vista Fichas mínimas. No se debe aplicar
+conservar y vaciar estructura ni la reimportación. Sí existe la sección Fichas básicas y su consulta.
+El editor detallado rechaza escrituras de básicas, y su listado las separa cuando existe el esquema.
+La conversión de tipo queda bloqueada hasta disponer del recorrido editorial explícito.
+Queda auditar el resto de consumidores privilegiados, contadores del dashboard y artefactos públicos.
+No se debe aplicar
 este borrador como si esos flujos estuvieran resueltos. Las migraciones definitivas deberán
 acompañarse de lectores, permisos de servidor, adaptación de los consumidores y copias de seguridad
 según las reglas del repositorio. El diseño de esos flujos ya está acordado en
