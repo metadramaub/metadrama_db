@@ -10,10 +10,11 @@ Este directorio conserva el diseño y el procedimiento de trabajo. El 22 de octu
 preparó un [primer lote de cuatro extracciones](./piloto/informe-inicial.md), un prompt y propuestas
 de equivalencia para cotejo humano. El responsable aceptó las cuatro transcripciones sin
 correcciones: [registro y hashes](./piloto/revision-humana.json). Ya existe una
-[vista previa de ensayo en el dashboard](./vista-previa-dashboard.md). El guardado y la consulta ya están conectados en código y probados por capas contra PostgreSQL
-aislado, RPC simulada, Auth/JWT local real y navegador. **Todavía no hay cambios de esquema
-aplicados al Supabase compartido ni experimentos de sensibilidad ejecutados.** Los archivos del piloto no
-describen capacidades ya disponibles en la plataforma.
+[vista previa en el dashboard](./vista-previa-dashboard.md). **El guardado y la consulta están
+desplegados en la web real y el Supabase compartido desde el 29 de octubre.** Se ha guardado y
+reabierto El molino con la sesión editorial del responsable. Las básicas permanecen privadas y
+todavía no contribuyen a los análisis: falta el productor precomputado combinado. Tampoco se han
+ejecutado los experimentos de sensibilidad. Véase el [registro del despliegue](../despliegues/2026-10-29-importador.md).
 
 ## Lectura y organización
 

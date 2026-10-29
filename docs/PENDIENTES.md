@@ -65,13 +65,17 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
-**Concretar la persistencia mínima y ampliar el piloto.** Cuatro transcripciones aceptadas,
+**Incorporar las básicas a la precomputación y ampliar el piloto.** Guardado y consulta
+desplegados en Supabase y en la web real el 29 de octubre; El molino confirmado y reabierto
+con la sesión editorial del responsable. [Registro del despliegue](./despliegues/2026-10-29-importador.md).
+Las básicas siguen privadas y fuera de los análisis hasta implementar el productor combinado.
+Cuatro transcripciones aceptadas,
 validador y normalizador locales con pruebas. Se reutilizan obras/jornadas/secuencias y se separa
 la métrica mínima de v2. El diseño contrasta el esquema vivo y contempla agregados del corpus mínimo
 para comparar fichas completas sin publicar las mínimas individuales. Campos revisados: género
 obligatorio, fuente de datación y fundamentos de autoría opcionales; registro de quién importa.
-Próxima entrega acotada: [guardar y volver a abrir una ficha básica](./importador-metrico/hoja-de-ruta.md#siguiente-entrega-guardar-y-volver-a-abrir-una-ficha-básica),
-con la vista previa ya revisada, separación editorial y contrato de análisis aprobado. Alcance
+Ya completada la entrega de guardar y volver a abrir una ficha básica,
+con la vista previa revisada, separación editorial y contrato de análisis aprobado. Alcance
 aprobado: crear nuevas y avisar de coincidencias para decidir «otra obra: continuar» o «misma:
 descartar». Título/autor no son clave única: permitir homónimos revisados y adaptar el rechazo
 automático del borrador SQL. Una detallada de la misma obra en cualquier estado impide una
@@ -89,15 +93,13 @@ aislado y prueba permisos, copia fija e idempotencia concurrente contra el esque
 El 29 de octubre se conecta en código vista previa → confirmación reconstruida en servidor →
 consulta fija, con revisión explícita de homónimos y lista Fichas básicas. La capacidad de sesión
 habilita a importadores concretos sin abrir el laboratorio. Se separan listado y editor detallados.
-Pruebas: 89 comprobaciones PostgreSQL, 25 HTTP con Auth/JWT real local, 100 pruebas de código
+Pruebas: 89 comprobaciones PostgreSQL, 25 HTTP con Auth/JWT real local, 117 pruebas de código
 y recorrido de navegador con cuentas sintéticas. La [auditoría de aislamiento](./importador-metrico/auditoria-aislamiento.md)
 cierra este bloque de consumidores: contadores y reparto detallados separados, escrituras directas
-y constructores privilegiados protegidos. La base compartida mantiene el ensayo sin guardado.
-Ya está la [propuesta de despliegue](./importador-metrico/promocion-guardado.md): candidata única
-fuera de migraciones, copia reciente de 145 obras y 57 tablas, fallo/repetición/recuperación
-verificados y orden prosa → importador. La prosa ya está desplegada; el importador no.
-Pendiente para el importador: aprobación, backup completo y
-aplicación controlada; precomputación combinada y sustitución editorial. Reimportación en un bloque posterior.
+y constructores privilegiados protegidos. La candidata ya fue promovida a migración y aplicada,
+tras backup completo y ensayo sobre copia reciente. El primer guardado y su repetición conservan
+una sola obra; filas previas y artefactos detallados permanecen intactos.
+Pendiente: precomputación combinada y sustitución editorial. Reimportación en un bloque posterior.
 El contrato 0.2 y el borrador SQL ya conservan original, copia confirmada, versión de reglas y decisiones
 particulares breves, sin estados ni fundamentos generales repetidos por secuencia. La vista previa
 ya permite editar formas y arquitecturas, dividir y reunir partes de una fila original, comprobar
@@ -119,12 +121,11 @@ al corpus existente, no solo a la importación.
 El recálculo combinado procesa ambas fuentes; se preparan documentos por consumidor y un manifiesto
 coherente para su almacenamiento actual en Supabase y futura distribución en R2, manteniendo permisos
 y autoría por obra/jornada. No se integra R2 todavía.
-Después preparar y aprobar el despliegue del guardado definitivo;
-ampliar el piloto y ensayar
+Ampliar el piloto y ensayar
 sensibilidad. No se exige resolver todas las denominaciones: Canción con remate y encadenados
 con «serventesio final» como cierre 3+1 están aceptados; «tercetos» sin calificativo y «letrilla»
 conservan su ambigüedad sin cotejo obligatorio del texto. Trabajo en `main`,
-con archivos locales y sin importaciones ni migraciones en Supabase.
+con ensayos locales antes de cada despliegue controlado en Supabase.
 → [diseño de integración](./importador-metrico/diseno-integracion.md)
 → [campos mínimos y conexiones](./importador-metrico/campos-minimos.md)
 → [contrato local e informe del ensayo](./importador-metrico/contrato-local.md)

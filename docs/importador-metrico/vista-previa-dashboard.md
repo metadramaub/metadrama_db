@@ -1,8 +1,8 @@
 # Vista previa del importador en el dashboard
 
-Actualizado el 29 de octubre de 2026. `/dashboard/importador` mantiene la vista previa sin guardado
-en la base compartida. El código ya permite confirmar y consultar fichas básicas cuando se instalan
-las RPC de persistencia en una DB de ensayo. **No se ha aplicado el borrador a Supabase.**
+Actualizado el 29 de octubre de 2026. `/dashboard/importador` permite preparar, confirmar y
+consultar fichas básicas en la web real, con las RPC instaladas en el Supabase compartido.
+Se ha guardado y reabierto El molino: [registro del despliegue](../despliegues/2026-10-29-importador.md).
 El guardado no activa todavía los análisis del corpus. El recorrido con Auth real local y navegador
 ya se ha probado: véase la [auditoría de aislamiento](./auditoria-aislamiento.md).
 
@@ -124,11 +124,11 @@ Los rangos y su referencia común documentan la división sin generar una nota r
 
 Los límites exteriores siguen siendo los de la fila original: corregir un error de transcripción
 en esos límites requiere corregir el JSON y preparar otra vez. No se unen filas originales
-distintas con una procedencia ficticia. Tampoco hay reimportación, promoción a completa ni confirmación.
+distintas con una procedencia ficticia. Tampoco hay reimportación ni promoción a detallada.
 El contrato 0.2 ya aplica los
 [datos que se conservarán](./campos-minimos.md#qué-se-conserva-de-las-decisiones-y-dónde).
-El siguiente bloque debe conectar confirmación, guardado y consumidores con las garantías descritas en
-[persistencia local](./persistencia-local.md), antes de aplicar la migración definitiva.
+Confirmación y guardado están desplegados con las garantías descritas en
+[persistencia local](./persistencia-local.md). El siguiente bloque es la precomputación combinada.
 
 ## Verificación y revisión del responsable
 

@@ -1,9 +1,10 @@
 # Guardado mínimo: borrador SQL y ensayo local
 
-Actualizado el 29 de octubre de 2026. **No aplicado a Supabase.** El código del dashboard ya
-conecta la confirmación y la consulta cuando detecta las RPC instaladas; la base compartida mantiene
-la vista previa sin guardado. El SQL permanece
-fuera de `supabase/migrations/` para que un despliegue habitual no lo aplique por accidente.
+Actualizado el 29 de octubre de 2026. **Promovido y aplicado al Supabase compartido** mediante
+`20261029180000_importador_fichas_basicas.sql`; guardado y reapertura reales comprobados.
+Este documento conserva el procedimiento de ensayo local. Los SQL de trabajo siguen fuera de
+las migraciones; la migración aplicada es la versión desplegada y no debe editarse.
+Véase el [registro del despliegue](../despliegues/2026-10-29-importador.md).
 
 El borrador ensaya el contrato 0.2, con una identificación opcional y sin estados ni fundamentos
 generales de equivalencias por secuencia, según

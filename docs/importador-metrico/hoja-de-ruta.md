@@ -2,7 +2,8 @@
 
 El proyecto trabaja con documentos y archivos de ensayo en `main`. Ya hay cuatro transcripciones aceptadas
 y un [validador técnico local](./validador-local.md). El resultado del piloto debe guiar la adaptación
-de la base compartida. Ya existe una vista previa de ensayo en el dashboard, sin guardado.
+de la base compartida. El guardado y la consulta ya están desplegados en la web real y Supabase;
+El molino se ha confirmado y reabierto con la sesión editorial del responsable.
 Las etapas siguientes no implican que esté integrado el recorrido completo ni que se hayan
 ejecutado experimentos de sensibilidad del corpus.
 La integración se rige por el [plan de consultas y precomputación](./consultas-y-precomputacion.md):
@@ -10,20 +11,20 @@ el corpus mixto se construye en los productores de artefactos y las pantallas co
 de datos preparados. Antes de conectar el guardado se fija qué consumidores incluyen mínimas y
 cuáles mantienen su universo actual; no se aplica un filtro general a todas las consultas.
 
-## Siguiente entrega: guardar y volver a abrir una ficha básica
+## Entrega completada: guardar y volver a abrir una ficha básica
 
 29 de octubre de 2026. El responsable aprueba los criterios del inventario general. Se vuelve
 al recorrido del importador: **entrada → vista previa corregida → confirmación → consulta de la
-ficha básica guardada**. La próxima entrega no incorpora conclusiones automáticas de afinidad.
+ficha básica guardada**. Este recorrido está desplegado y comprobado; no incorpora conclusiones automáticas de afinidad.
 
 La confirmación ya está conectada en código, con reconstrucción de servidor, decisión de homónimos
 y consulta desde Fichas básicas. Se ha probado por capas: PostgreSQL aislado y acciones con RPC
 simulada y, después, Auth/JWT real y navegador en un entorno local. El listado detallado, el
 editor, los contadores y el reparto separan las básicas; los productores anteriores rechazan
 procesarlas como detalladas. La [auditoría de aislamiento](./auditoria-aislamiento.md) recoge
-las comprobaciones. La [propuesta de despliegue](./promocion-guardado.md) ya prepara candidata,
-ensayo sobre copia reciente y recuperación; falta aprobar su aplicación. El productor combinado
-sigue pendiente.
+las comprobaciones. La [propuesta de despliegue](./promocion-guardado.md) se ejecutó tras el
+backup y el ensayo sobre copia reciente: [resultado real](../despliegues/2026-10-29-importador.md).
+El siguiente bloque es el productor combinado, todavía pendiente.
 La aportación al corpus se activa cuando el productor común y sus permisos estén comprobados;
 guardar una ficha y que sus análisis estén actualizados son operaciones distintas.
 
@@ -127,12 +128,12 @@ de las cuatro obras. La copia fija y el contexto de permisos están probados con
 sintéticas. El [borrador SQL](./persistencia-local.md) ya ejecuta guardado transaccional, permisos RLS
 e idempotencia concurrente en PostgreSQL aislado con el esquema real exportado. El guardado está
 conectado a las acciones de servidor y probado con Auth real local. La sustitución en el
-corpus sigue pendiente, sin aplicar a Supabase compartido.
+corpus sigue pendiente. El guardado sí está aplicado al Supabase compartido.
 La [vista previa del dashboard](./vista-previa-dashboard.md) ya permite pegar y comprobar la entrada,
 revisar metadatos y consultar secuencias propuestas por jornadas. Con las RPC instaladas habilita
-confirmación y consulta para admin/IP y editores autorizados; la base compartida sigue sin guardado. El contrato 0.2 y el borrador SQL ya conservan original, resultado confirmado y reglas
+confirmación y consulta para admin/IP y editores autorizados en la base compartida. El contrato 0.2 y el SQL desplegado conservan original, resultado confirmado y reglas
 utilizadas, sin estados de revisión ni fundamentos generales repetidos por secuencia. El siguiente paso
-es revisar/aprobar la promoción y, en el bloque analítico, implementar el productor precomputado;
+es implementar el productor precomputado combinado;
 la revisión de todas las equivalencias no se traslada a quien importa.
 
 ## Evaluación del procedimiento
@@ -170,10 +171,10 @@ validación métrica, checklist editorial, asignaciones, perfiles, artefactos e 
 que una identificación pendiente no se convierta en forma del catálogo, ausencia o conformidad
 normativa, y que una candidata no se convierta en un hecho al generar un resumen.
 
-El piloto permanecerá fuera de la base compartida. La futura implementación introducirá primero
-los cambios compatibles necesarios y después sus lectores y escritores, con verificación de las
-funciones SQL que cambien. Las sustituciones o retiradas se harán una vez que sus consumidores
-estén adaptados. Se seguirán las copias, snapshots y reglas de migración del repositorio.
+La primera obra del piloto, El molino, ya está en la base compartida como básica real.
+Los datos sintéticos siguen limitados a los ensayos locales. La incorporación analítica y las
+sustituciones o retiradas se harán una vez que sus consumidores estén adaptados. Se seguirán
+las copias, snapshots y reglas de migración del repositorio.
 
 Trabajar en `main` es la opción elegida para convivir con las mejoras habituales. Se mantendrán
 cambios pequeños y se revisarán las modificaciones existentes antes de editar archivos comunes.

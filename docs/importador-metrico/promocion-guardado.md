@@ -1,6 +1,9 @@
 # Propuesta de despliegue del guardado básico
 
-29 de octubre de 2026. **Preparada y ensayada en local; no aplicada a Supabase.**
+29 de octubre de 2026. **Desplegada en Supabase y en la web real.** Se completaron el backup,
+la promoción de la candidata, el recálculo y el primer guardado real de El molino.
+El resto del documento conserva la propuesta y sus ensayos previos; el resultado ejecutado
+figura en el [registro del despliegue](../despliegues/2026-10-29-importador.md).
 
 ## Resultado propuesto
 
@@ -10,7 +13,8 @@ detalladas y básicas ya descritas en la [auditoría de aislamiento](./auditoria
 Las básicas guardadas **todavía no aportarán datos a los análisis**: falta el productor combinado.
 
 La [candidata SQL única](../../scripts/importador-metrico/promocion/importador-basico.sql) está
-fuera de `supabase/migrations/`. Un despliegue habitual de la web no debe instalarla por accidente.
+fuera de `supabase/migrations/` como entrada del ensayo. Su versión promovida y aplicada es
+`supabase/migrations/20261029180000_importador_fichas_basicas.sql`.
 El [compilador](../../scripts/importador-metrico/compilar-promocion.mjs) reúne exactamente los cinco
 SQL revisados en una sola transacción, sin sus COMMIT intermedios. No incluye la corrección de
 prosa, datos del piloto, usuarios de prueba, importaciones ni un recálculo automático.
@@ -128,5 +132,6 @@ pero la DB rechaza nuevas confirmaciones. La
 [reanudación](../../scripts/importador-metrico/promocion/reanudar-guardado.sql) se ejecuta solo
 después de comprobar la corrección y con aprobación.
 
-La aplicación y cualquiera de estas operaciones de recuperación en la base compartida requieren
-autorización explícita. Hasta entonces todos los archivos permanecen como propuesta revisable.
+La aplicación fue autorizada y ejecutada. Cualquier operación de recuperación en la base
+compartida requiere su propia autorización explícita. Ya existe una importación real:
+los desmontajes previos a la primera importación no son aplicables al estado actual.
