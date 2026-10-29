@@ -2,6 +2,7 @@
 import { spawn, spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
+import { semillaImportador } from './fixtures-locales.mjs';
 
 const args = process.argv.slice(2);
 if (args.length !== 2 || args[0] !== '--esquema')
@@ -112,7 +113,7 @@ $$;
 grant usage on schema auth,extensions to anon,authenticated,service_role;
 ${esquema}`);
 	// Ejecutar el borrador dos veces comprueba su repetibilidad, sin silenciar errores.
-	const borrador = ['01-almacenamiento.sql', '02-esquema-documento.sql', '03-guardar.sql', '04-consulta.sql']
+	const borrador = ['01-almacenamiento.sql', '02-esquema-documento.sql', '03-guardar.sql', '04-consulta.sql', '05-aislamiento.sql']
 		.map((n) => read(`./sql/${n}`))
 		.join('\n');
 	psql(borrador);
@@ -124,53 +125,7 @@ begin if p is distinct from true then raise exception 'FALLO: %',n; end if; retu
 create function pg_temp.rechaza(s text,c text,n text) returns text language plpgsql as $$
 begin begin execute s; exception when others then if sqlstate=c then return 'OK '||n; end if; raise; end;
 raise exception 'FALLO: se aceptó %',n; end; $$;\n`;
-	for (const v of json('auditoria-flujo-2026-10-26.json').vocabularios)
-		seed += `insert into public.vocabularios(termino_id,categoria,termino) values(${lit(v.termino_id)},${lit(v.categoria)},${lit(v.termino)});\n`;
-	for (const [i, role] of [
-		'admin',
-		'ip',
-		'editor',
-		'editor',
-		'editor',
-		'editor',
-		'revisor'
-	].entries()) {
-		const rol = `20000000-0000-4000-8000-${String(i + 1).padStart(12, '0')}`;
-		seed += `insert into public.vocabularios(termino_id,categoria,termino) values(${lit(rol)},'rol',${lit(role)}) on conflict (categoria,termino) do nothing;
-insert into auth.users(id) values(${lit(ids[i])});
-insert into public.editores(user_id,nombre_completo,email,role,activo,puede_importar_metrica)
-values(${lit(ids[i])},'Persona de prueba ${i}',${lit(`prueba${i}@example.invalid`)},(select termino_id from public.vocabularios where categoria='rol' and termino=${lit(role)}),${i !== 5},${i === 2 || i === 3 || i === 5});\n`;
-	}
-	const nombre = json(`preparadas/${refs[0]}.json`).datos.metadatos.autor_nombre;
-	seed += `insert into public.autores(autor_id,nombre_completo,slug) values(${lit(autor)},${lit(nombre)},'autor-de-prueba');\n`;
-	for (const f of json('catalogo-referencia.json').formas) {
-		seed += `insert into public.formas_metricas(forma_id,slug,nombre,definicion,tipo_registro)
-values(${lit(f.forma_id)},${lit(f.slug)},${lit(f.nombre)},${lit(f.definicion)},${lit(f.tipo_registro)});\n`;
-		for (const a of f.arquitecturas)
-			seed += `insert into public.arquitecturas_forma(arquitectura_id,forma_id,slug,nombre,demarcable)
-values(${lit(a.arquitectura_id)},${lit(f.forma_id)},${lit(a.slug)},${lit(a.nombre)},${f.tipo_registro !== 'sin_forma'});\n`;
-	}
-	for (const r of json('catalogo-referencia.json').rasgos) {
-		// Solo ejercitamos referencias y contexto; la escala de recuento no interviene en estas pruebas.
-		seed += `insert into public.rasgos_metricos(slug,nombre,tipo_valor,escala_recuento,naturaleza) values(${lit(r.slug)},${lit(r.nombre)},'catalogo','secuencia','construccion');\n`;
-		for (const v of r.valores) seed += `insert into public.rasgo_valores(rasgo_id,slug,nombre) select rasgo_id,${lit(v.slug)},${lit(v.nombre)} from public.rasgos_metricos where slug=${lit(r.slug)};\n`;
-		for (const c of r.contextos) seed += `insert into public.arquitectura_rasgos(arquitectura_id,rasgo_id,valor_id,modalidad) select a.arquitectura_id,r.rasgo_id,${c.valor_slug ? `(select valor_id from public.rasgo_valores where rasgo_id=r.rasgo_id and slug=${lit(c.valor_slug)})` : 'null'},'admitida' from public.arquitecturas_forma a join public.formas_metricas f using(forma_id) cross join public.rasgos_metricos r where f.slug=${lit(c.forma)} and a.slug=${lit(c.arquitectura)} and r.slug=${lit(r.slug)};\n`;
-	}
-	seed += `insert into public.estructuras_secciones(arquitectura_id,tipo_seccion,nombre,slug,orden)
-select a.arquitectura_id,'remate','Remate o envío','remate',1 from public.arquitecturas_forma a
-join public.formas_metricas f using(forma_id) where f.slug='cancion';\n`;
-	for (const seccion of json('catalogo-referencia.json').secciones ?? []) {
-		const forma = json('catalogo-referencia.json').formas.find((f) => f.slug === seccion.forma);
-		const arquitectura = forma.arquitecturas.find((a) => a.slug === seccion.arquitectura);
-		seed += `insert into public.estructuras_secciones(arquitectura_id,tipo_seccion,nombre,slug,orden,versos_min,versos_max)
-values(${lit(arquitectura.arquitectura_id)},${lit(seccion.tipo_seccion)},${lit(seccion.seccion)},${lit(seccion.tipo_seccion)},${seccion.tipo_seccion === 'remate' ? 2 : 1},${seccion.versos_min},${seccion.versos_max});\n`;
-	}
-	for (const [slug, silabas] of [
-		['heptasilabo', 7],
-		['endecasilabo', 11],
-		['octosilabo', 8]
-	])
-		seed += `insert into public.metros(slug,nombre,silabas) values(${lit(slug)},${lit(slug)},${silabas});\n`;
+	seed += semillaImportador(ids);
 	for (const [i, ref] of refs.entries())
 		seed += `insert into entradas values(${i},${doc(json(`preparadas/${ref}.json`).datos)},${doc(json(`extracciones/${ref}.json`))});\n`;
 	let sql = seed + sesion(2);
@@ -390,6 +345,24 @@ select pg_temp.comprobar((select count(*)=0 from cambiadas),'consultar otra impo
 			'(select count(*)=1 from public.obras)',
 			'el límite mínimo no cambia la política anterior para completas'
 		);
+	sql += `reset role;\n`;
+	sql += sesion(0);
+	sql += ok("not public.auth_puede_editar_obra((select (valor->>'obra_id')::uuid from resultados where n=1))", 'v2 no considera editable una básica ni para admin');
+	sql += ok("public.auth_puede_editar_obra((select obra_id from public.obras where titulo='Completa de control'))", 'admin mantiene la edición de una detallada');
+	sql += ok("(select count(*)=0 from public.perfil_metrico_unidades())", 'el productor detallado no incluye autorías importadas');
+	for (const tabla of ['obras','jornadas','secuencias_metricas']) {
+		const campo=tabla==='obras'?'titulo':tabla==='jornadas'?'v_ini':'sinopsis';
+		const valor=tabla==='obras'?"'Cambio directo'":tabla==='jornadas'?'v_ini':"'Cambio directo'";
+		sql += `with cambiadas as (update public.${tabla} set ${campo}=${valor} where obra_id=(select (valor->>'obra_id')::uuid from resultados where n=1) returning 1) select pg_temp.comprobar(count(*)=0,${lit(`RLS impide modificar ${tabla} de una básica incluso como admin`)}) from cambiadas;\n`;
+		pruebas++;
+	}
+	sql += rechaza("select public.guardar_anotacion_metrica(jsonb_build_object('secuencia_id',(select secuencia_id from public.secuencias_metricas where obra_id=(select (valor->>'obra_id')::uuid from resultados where n=1) limit 1),'v_ini',1,'v_fin',4))",'42501','RPC v2 rechaza una secuencia básica');
+	sql += rechaza(`select public.gestionar_asignaciones_lote('editor',${lit(ids[4])},jsonb_build_array(jsonb_build_object('obra_id',(select valor->>'obra_id' from resultados where n=1),'editor_asignado',null,'reviewer_ids','[]'::jsonb)))`,'42501','reparto detallado no inicia implícitamente la elaboración de una básica');
+	for(const funcion of ['recompute_obra_resumen_metricas','recompute_obra_resumen_estructura','recompute_artefactos_obra','analisis_obra_publico_json'])
+		sql += rechaza(`select public.${funcion}((select (valor->>'obra_id')::uuid from resultados where n=1))`,'42501', `${funcion} no trata la básica como detallada`);
+	sql += `reset role; select set_config('prueba.obra_basica',(select valor->>'obra_id' from resultados where n=1),false); set role anon;\n`;
+	sql += ok("(select count(*)=0 from public.formas_de_la_obra(current_setting('prueba.obra_basica')::uuid))",'RPC pública no filtra rangos de una básica');
+	sql += ok("public.get_obra_ficha_publica(current_setting('prueba.obra_basica')::uuid,true) is null",'RPC pública no expone básica ni con include_hidden');
 	sql += `reset role;\n`;
 	sql += `delete from public.secuencias_metricas where obra_id=(select (valor->>'obra_id')::uuid from resultados where n=0);
 delete from public.jornadas where obra_id=(select (valor->>'obra_id')::uuid from resultados where n=0);\n`;
