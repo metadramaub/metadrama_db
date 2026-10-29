@@ -46,8 +46,9 @@ práctica indicada, con reconstrucción explícita y sin duplicarlas en el total
 desgloses de 7/11 en silvas: una forma identificada no exige ese recuento interno. Índice principal
 por formas aprobado; limitar consultas por medida a evidencia suficiente. La prosa
 solo se localiza entre versos. Corrección implementada en ficha, laboratorio y productores V3,
-probada en copia con 16 comprobaciones PostgreSQL: desplegar lectores compatibles y después
-aplicar `20261029120000_la_prosa_se_localiza_entre_versos.sql`, que regenera los precomputados.
+probada en copia con 16 comprobaciones PostgreSQL y **desplegada el 29 de octubre**: lector
+compatible publicado, migración registrada y precomputados V3 regenerados en Supabase.
+[Registro y verificación](./despliegues/2026-10-29-prosa.md).
 Se conserva la anotación válida del editor. Sustituir «peso» ambiguo
 por porcentajes y poblaciones explícitos.
 Aceptados perfil de autor ponderado por extensión y distribución por obras aparte, exclusión de
@@ -94,7 +95,8 @@ cierra este bloque de consumidores: contadores y reparto detallados separados, e
 y constructores privilegiados protegidos. La base compartida mantiene el ensayo sin guardado.
 Ya está la [propuesta de despliegue](./importador-metrico/promocion-guardado.md): candidata única
 fuera de migraciones, copia reciente de 145 obras y 57 tablas, fallo/repetición/recuperación
-verificados y orden recomendado prosa → importador. Pendiente: aprobación, backup completo y
+verificados y orden prosa → importador. La prosa ya está desplegada; el importador no.
+Pendiente para el importador: aprobación, backup completo y
 aplicación controlada; precomputación combinada y sustitución editorial. Reimportación en un bloque posterior.
 El contrato 0.2 y el borrador SQL ya conservan original, copia confirmada, versión de reglas y decisiones
 particulares breves, sin estados ni fundamentos generales repetidos por secuencia. La vista previa

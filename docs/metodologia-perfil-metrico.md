@@ -451,8 +451,7 @@ real en versos.
 ### 4.4 Enunciación, cuadros y extremos de jornada
 
 El productor V2 auditado contaba canto, prosa y evocación métrica por versos tras fusionar rangos
-solapados o contiguos. **Corrección del 29 de octubre, implementada y probada en copia local;
-pendiente de despliegue:** ese tratamiento de prosa no es válido. Sus extremos localizan la inserción
+solapados o contiguos. **Corrección del 29 de octubre, desplegada en Supabase y en la web:** ese tratamiento de prosa no es válido. Sus extremos localizan la inserción
 entre versos anterior y posterior; el editor no anota su longitud. Prosa se conserva como
 presencia y localización, sin cantidad de versos ni porcentaje de extensión. El contrato V3
 separa esos datos del cálculo de extensión de canto y evocación, según el

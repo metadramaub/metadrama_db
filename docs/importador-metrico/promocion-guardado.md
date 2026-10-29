@@ -24,12 +24,14 @@ El límite de espera de bloqueos es cinco segundos y el de ejecución de la cand
 Si falla una instrucción, también se revierten extensión, columnas, permisos y funciones. El aviso
 de recarga a PostgREST se confirma al final, junto con el resto de la transacción.
 
-## Contraste con la base actual
+## Contraste previo de la base
 
 Se exportaron esquema y datos públicos recientes a `backups/importador-promocion-20261029/`,
 ignorado por Git. El esquema coincide con el usado en el ensayo anterior. La base compartida no
 tiene las columnas del importador ni `pg_jsonschema` instalado. La migración de prosa tampoco
-figura como aplicada.
+figuraba como aplicada. **Actualización posterior:** la corrección de prosa ya se ha aplicado y
+verificado en Supabase y en la web; el importador sigue sin instalarse. Véase el
+[registro del despliegue de prosa](../despliegues/2026-10-29-prosa.md).
 
 La copia de ensayo contiene **145 obras y 57 tablas originales**. Se restaura exclusivamente en
 el contenedor sin red ni puertos `versologia-importador-pruebas`, con un esquema Auth mínimo y UUID
@@ -78,7 +80,8 @@ node scripts/importador-metrico/ensayar-promocion.mjs --copia backups/importador
 ## Orden y aprobación
 
 **Propuesta: corrección de prosa primero; importador después, como dos cambios separados.**
-La candidata del importador funciona sobre ambos estados ensayados, pero la migración pendiente
+La prosa ya está aplicada; queda el despliegue del importador. La candidata funciona sobre ambos
+estados ensayados, pero la migración
 de prosa redefine dos de sus constructores. Aplicarla después podría retirar esos límites.
 Por eso no se propone instalar el importador y dejar que un `db push` posterior aplique aquella
 migración antigua sin revisar el orden. La corrección de prosa conserva su archivo y su aprobación

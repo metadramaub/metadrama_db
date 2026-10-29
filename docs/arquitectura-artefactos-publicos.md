@@ -64,6 +64,9 @@ presentación están en [plan-comparativas-corpus.md](plan-comparativas-corpus.m
 
 ### Corrección de prosa: contrato V3 preparado el 29 de octubre
 
+**Desplegado y verificado en Supabase y la web el 29 de octubre.**
+[Registro de aplicación y backup](./despliegues/2026-10-29-prosa.md).
+
 La migración `20261029120000_la_prosa_se_localiza_entre_versos.sql` separa prosa de las medidas de
 extensión en `obra_analisis` y `corpus_comparativas`, que pasan a V3. La ficha y los índices
 mantienen V1. No cambia la anotación editorial ni las políticas de acceso.

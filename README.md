@@ -134,6 +134,8 @@ npx supabase db dump --linked --role-only -f (Join-Path $dir 'roles.sql')
 Get-ChildItem -LiteralPath $dir | Select-Object Name,Length
 ```
 
+Ejecutar estos comandos de Supabase **secuencialmente**, incluido el snapshot siguiente: comparten una credencial temporal de `cli_login_postgres`. Lanzarlos en paralelo puede renovar esa credencial mientras otro proceso la usa y provocar fallos de autenticación.
+
 No aplicar migraciones si alguno de los archivos queda con `Length` 0 o si la CLI informa errores. En ese caso, revisar que Docker Desktop esté activo y repetir el proceso en una carpeta nueva.
 
 ### Foto legible de lo anotado

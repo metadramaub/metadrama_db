@@ -387,14 +387,15 @@ No se calcularán «versos de prosa» ni porcentaje de extensión en prosa. Se c
 y localización; cualquier agregado de número de pasajes u obras con prosa se definirá aparte,
 sin confundirlo con longitud ni presumir un recuento exhaustivo en una básica.
 
-Comprobación de código del 29 de octubre: `CaracterizacionesPorRango.svelte` ya explica «prosa
+Auditoría inicial de código del 29 de octubre, antes de corregirlo: `CaracterizacionesPorRango.svelte` ya explica «prosa
 (no numerada)» y pide entre qué versos aparece. En cambio, `caracterizacionesDeLaObra` en
-`analisis-ficha.ts` suma `v_fin - v_ini + 1` para todos los tipos, y el laboratorio define prosa
+`analisis-ficha.ts` sumaba `v_fin - v_ini + 1` para todos los tipos, y el laboratorio definía prosa
 como proporción de versos. La auditoría SQL del 28 también encontró esa agrupación genérica.
 La corrección de productores, contratos y lectores ya está implementada en el repositorio y
 probada en copia aislada: contrato V3 y compatibilidad temporal con V2. No se modifica el editor
-para medir prosa ni se cambia la anotación válida de sus extremos. Falta desplegar código y
-migración en ese orden, según [arquitectura de artefactos](./arquitectura-artefactos-publicos.md#corrección-de-prosa-contrato-v3-preparado-el-29-de-octubre).
+para medir prosa ni se cambia la anotación válida de sus extremos. Código y migración ya se
+desplegaron en ese orden el 29 de octubre; los precomputados de Supabase están en V3 y se verificó
+la ficha en la web real. [Registro del despliegue](./despliegues/2026-10-29-prosa.md).
 El rastreo del lote ha permitido comprobar visualmente un caso concreto: «carta en prosa» sin
 rango numerado en Nacimiento de Ursón y Valentín, p. 996. La fuente aporta presencia, pero no
 una extensión en versos: no se puede completar automáticamente una proporción a partir de ella.
