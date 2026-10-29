@@ -13,12 +13,13 @@ export const load: PageServerLoad = async ({ locals, parent, depends }) => {
 	const parentData = await parent();
 	const profile = parentData.profile;
 	const isAdminOrIp = profile.roleTerm === 'admin' || profile.roleTerm === 'ip';
+	const separarBasicas = parentData.importador != null;
 
 	const [kpis, recentActivity, assignedEditorObras, publishedAssignedSummary, informesMigracion] =
 		await Promise.all([
-			getDashboardKpis(locals, profile),
-			getRecentActivity(locals, profile, 7, 20),
-			isAdminOrIp ? Promise.resolve([]) : getAssignedEditorObras(locals, profile),
+			getDashboardKpis(locals, profile, separarBasicas),
+			getRecentActivity(locals, profile, 7, 20, separarBasicas),
+			isAdminOrIp ? Promise.resolve([]) : getAssignedEditorObras(locals, profile, separarBasicas),
 			isAdminOrIp
 				? Promise.resolve({ total: 0, items: [] })
 				: getPublishedAssignedSummary(locals, profile),

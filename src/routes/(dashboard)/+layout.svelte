@@ -24,6 +24,7 @@
 		const obraTitle = ($page.data as { obra?: { titulo?: string } } | undefined)?.obra?.titulo?.trim();
 		const authorName = ($page.data as { autor?: { nombre_completo?: string } } | undefined)?.autor?.nombre_completo?.trim();
 		const editorName = ($page.data as { editor?: { nombre_completo?: string } } | undefined)?.editor?.nombre_completo?.trim();
+		const importacionTitle = ($page.data as { vista?: { metadatos?: { titulo?: string } } } | undefined)?.vista?.metadatos?.titulo?.trim();
 		const isObraDetailPath =
 			pathSegments.length >= 3 && pathSegments[0] === 'dashboard' && pathSegments[1] === 'obras';
 		const isAuthorDetailPath =
@@ -32,6 +33,10 @@
 		return pathSegments.map((segment, index): BreadcrumbItem => {
 			// href acumulativo hasta este segmento (el último lo deja sin href = activo).
 			const href = '/' + pathSegments.slice(0, index + 1).join('/');
+			if (pathSegments[1] === 'importador' && pathSegments[2] === 'fichas') {
+				if (index === 2) return { label: 'Fichas básicas', preserveCase: true, href };
+				if (index === 3 && importacionTitle) return { label: importacionTitle, preserveCase: true, href };
+			}
 			if (isObraDetailPath && index === 2 && obraTitle) {
 				return { label: obraTitle, preserveCase: true, href };
 			}
@@ -176,6 +181,7 @@
 >
 	<Sidebar
 		profile={data.profile}
+		puedeImportar={data.importador?.puede_importar ?? false}
 		notificationsUnreadCount={notificationsUnreadCount}
 		collapsed={sidebarCollapsed}
 		onToggle={toggleSidebarCollapsed}

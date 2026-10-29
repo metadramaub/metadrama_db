@@ -238,7 +238,11 @@ async function loadCommentContextLabels(
 	};
 }
 
-export async function getDashboardKpis(locals: App.Locals, profile: EditorProfile): Promise<DashboardKpis> {
+export async function getDashboardKpis(locals: App.Locals, profile: EditorProfile, separarBasicas = false): Promise<DashboardKpis> {
+	const contar = () => {
+		const query = locals.supabase.from('obras').select('obra_id', { count: 'exact', head: true });
+		return separarBasicas ? query.eq('tipo_ficha', 'completa') : query;
+	};
 	const estadoIdsByTerm = await loadEstadoIdsByTerm(locals);
 	const borradorId = estadoIdsByTerm.get('borrador');
 	const vistaPreviaId = estadoIdsByTerm.get('vista_previa');
@@ -247,18 +251,16 @@ export async function getDashboardKpis(locals: App.Locals, profile: EditorProfil
 
 	if (isAdminOrIp(profile)) {
 		const [totalResp, borradorResp, previewListoResp, publicadoResp] = await Promise.all([
-			locals.supabase.from('obras').select('obra_id', { count: 'exact', head: true }),
+			contar(),
 			borradorId
-				? locals.supabase.from('obras').select('obra_id', { count: 'exact', head: true }).eq('estado', borradorId)
+				? contar().eq('estado', borradorId)
 				: Promise.resolve({ count: 0 }),
 			vistaPreviaId || listoParaPublicarId
-				? locals.supabase
-						.from('obras')
-						.select('obra_id', { count: 'exact', head: true })
+				? contar()
 						.in('estado', [vistaPreviaId, listoParaPublicarId].filter(Boolean) as string[])
 				: Promise.resolve({ count: 0 }),
 			publicadoId
-				? locals.supabase.from('obras').select('obra_id', { count: 'exact', head: true }).eq('estado', publicadoId)
+				? contar().eq('estado', publicadoId)
 				: Promise.resolve({ count: 0 })
 		]);
 		return {
@@ -270,6 +272,7 @@ export async function getDashboardKpis(locals: App.Locals, profile: EditorProfil
 	}
 
 	let query = locals.supabase.from('obras').select('estado').eq('editor_asignado', profile.userId).limit(2000);
+	if (separarBasicas) query = query.eq('tipo_ficha', 'completa');
 	const { data } = await query;
 	const rows = data ?? [];
 	const total = rows.length;
@@ -288,15 +291,18 @@ export async function getDashboardKpis(locals: App.Locals, profile: EditorProfil
 
 export async function getAssignedEditorObras(
 	locals: App.Locals,
-	profile: EditorProfile
+	profile: EditorProfile,
+	separarBasicas = false
 ): Promise<DashboardAssignedObra[]> {
-	const { data } = await locals.supabase
+	let query = locals.supabase
 		.from('obras')
 		.select('obra_id,titulo,estado,updated_at')
 		.eq('editor_asignado', profile.userId)
 		.order('updated_at', { ascending: false })
 		.limit(200);
 
+	if (separarBasicas) query = query.eq('tipo_ficha', 'completa');
+	const { data } = await query;
 	const rows = data ?? [];
 	const estadoMap = await loadEstadoTerms(
 		locals,
@@ -350,7 +356,8 @@ export async function getRecentActivity(
 	locals: App.Locals,
 	profile: EditorProfile,
 	days = DEFAULT_DAYS,
-	limit = 20
+	limit = 20,
+	separarBasicas = false
 ): Promise<DashboardActivityItem[]> {
 	const sinceIso = cutoffIso(days);
 	const scoped = !isAdminOrIp(profile);
@@ -372,6 +379,7 @@ export async function getRecentActivity(
 		.order('created_at', { ascending: false })
 		.limit(300);
 
+	if (separarBasicas) stateChangesQuery = stateChangesQuery.eq('tipo_ficha', 'completa');
 	if (scoped) {
 		if (scopeIds.length === 0) {
 			return [];
@@ -430,7 +438,8 @@ export async function getNotifications(
 	locals: App.Locals,
 	profile: EditorProfile,
 	days = DEFAULT_DAYS,
-	limit = 100
+	limit = 100,
+	separarBasicas = false
 ): Promise<DashboardNotificationItem[]> {
 	const sinceIso = cutoffIso(days);
 	const admin = isAdminOrIp(profile);
@@ -466,6 +475,11 @@ export async function getNotifications(
 		.gte('created_at', sinceIso)
 		.order('created_at', { ascending: false })
 		.limit(400);
+
+	if (separarBasicas) {
+		editAssignmentsQuery = editAssignmentsQuery.eq('tipo_ficha', 'completa');
+		stateChangesQuery = stateChangesQuery.eq('tipo_ficha', 'completa');
+	}
 
 	if (!admin) {
 		editAssignmentsQuery = editAssignmentsQuery.eq('editor_asignado', profile.userId);
@@ -617,7 +631,8 @@ export async function markDashboardActivitySeen(
 export async function countUnreadNotifications(
 	locals: App.Locals,
 	profile: EditorProfile,
-	days = DEFAULT_DAYS
+	days = DEFAULT_DAYS,
+	separarBasicas = false
 ): Promise<number> {
 	const admin = isAdminOrIp(profile);
 	const sinceIso = cutoffIso(days);
@@ -661,6 +676,11 @@ export async function countUnreadNotifications(
 		'created_at',
 		unreadWindow
 	);
+
+	if (separarBasicas) {
+		editAssignmentsQuery = editAssignmentsQuery.eq('tipo_ficha', 'completa');
+		stateChangesQuery = stateChangesQuery.eq('tipo_ficha', 'completa');
+	}
 
 	if (!admin) {
 		editAssignmentsQuery = editAssignmentsQuery.eq('editor_asignado', profile.userId);

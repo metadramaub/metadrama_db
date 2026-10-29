@@ -2,6 +2,7 @@ import { error } from '@sveltejs/kit';
 import { requireEditorProfile } from '$lib/server/auth';
 import { canManageEditors, normalizeRole } from '$lib/utils/permissions';
 import { getSupabaseAdmin } from '$lib/server/supabase-admin';
+import { capacidadesImportador, clienteImportador } from '$lib/server/importador-metrico/persistencia';
 import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import type { ManagedEditor } from '$lib/types/editor-management.types';
 import type { User } from '@supabase/supabase-js';
@@ -55,10 +56,11 @@ export function authInvitationState(
 
 export async function loadManagedEditors(locals: App.Locals) {
 	const admin = getSupabaseAdmin();
+	const importador = await capacidadesImportador(clienteImportador(locals.supabase));
 	const [editorsResponse, roles, works] = await Promise.all([
 		admin.from('editores').select('*').order('nombre_completo'),
 		loadInternalVocabulario(locals.supabase, ['role_editor']),
-		loadAssignmentWorks(locals)
+		loadAssignmentWorks(locals, importador !== null)
 	]);
 	if (editorsResponse.error) throw error(500, 'No se pudieron cargar los editores.');
 	const users = new Map<string, User>();

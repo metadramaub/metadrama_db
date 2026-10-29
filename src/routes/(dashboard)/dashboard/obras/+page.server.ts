@@ -5,10 +5,6 @@ import { resolveDashboardObrasScopePlan } from '$lib/server/dashboard-obras';
 import { loadAssignmentWorks } from '$lib/server/editor-management';
 import type { Tables } from '$lib/types/database.types';
 import { error } from '@sveltejs/kit';
-import {
-	capacidadesImportador,
-	clienteImportador
-} from '$lib/server/importador-metrico/persistencia';
 
 const SCOPE_COOKIE = 'dashboard_obras_scope';
 const OBRAS_LIST_SELECT = 'obra_id,titulo,slug,estado,editor_asignado,updated_at,visible_publico';
@@ -29,7 +25,7 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 	cookies.set(SCOPE_COOKIE, scope, { path: '/dashboard/obras', sameSite: 'lax' });
 	const isAdminOrIp = profile.roleTerm === 'admin' || profile.roleTerm === 'ip';
 	// La RPC no existe antes de la migración: no se consulta una columna futura en ese caso.
-	const capacidadImportador = await capacidadesImportador(clienteImportador(locals.supabase));
+	const capacidadImportador = parentData.importador;
 
 	const reviewerAssignedResp = await locals.supabase
 		.from('obras_revisores')

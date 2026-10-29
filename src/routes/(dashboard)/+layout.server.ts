@@ -1,6 +1,10 @@
 import { redirect } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
 import { findEditorProfile } from '$lib/server/auth';
+import {
+	capacidadesImportador,
+	clienteImportador
+} from '$lib/server/importador-metrico/persistencia';
 
 export const load: LayoutServerLoad = async ({ locals, url }) => {
 	const { user } = await locals.safeGetSession();
@@ -20,6 +24,7 @@ export const load: LayoutServerLoad = async ({ locals, url }) => {
 
 	return {
 		user,
-		profile
+		profile,
+		importador: await capacidadesImportador(clienteImportador(locals.supabase))
 	};
 };

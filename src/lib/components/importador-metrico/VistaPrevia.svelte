@@ -37,7 +37,7 @@
 	const fuente = (id: string | null) => (id ?? '').replace(/^foto-/, 'Foto ');
 </script>
 
-<section class="space-y-4" aria-label="Vista previa métrica">
+<section class="space-y-4" aria-label={vista.persistido ? 'Métrica importada' : 'Vista previa métrica'}>
 	<header class="flex flex-wrap items-center justify-between gap-3">
 		<h2 class="text-lg font-semibold">{vista.persistido?'Secuencias registradas':'Secuencias propuestas'}</h2>
 		<span class="text-xs text-[color:var(--muted-foreground)]">{vista.persistido?'Copia de la importación':'Vista previa · sin guardar'}</span>
@@ -68,7 +68,7 @@
 				<p class="text-2xl font-semibold">{numero(vista.resumen.extension)}</p>
 			</div>
 			<div class="card p-4">
-				<p class="form-label"><span class="form-label-with-help">Secuencias propuestas
+				<p class="form-label"><span class="form-label-with-help">{vista.persistido ? 'Secuencias' : 'Secuencias propuestas'}
 					<FieldHelpTooltip label="Cómo se proponen las secuencias" text="Se parte de las filas de la edición. Una fila puede necesitar varias secuencias si cambia de forma en su interior." />
 				</span></p>
 				<p class="text-2xl font-semibold">{vista.resumen.bloques}</p>
