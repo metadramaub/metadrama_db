@@ -241,6 +241,13 @@ no se sobrescribe la detallada, no se le adjunta otra base mínima y no se crea 
 por cambiar de edición. Resolver identidad va más allá de comparar el título literal; los casos
 dudosos se detienen para revisión. La regla se comprobará en servidor y al guardar.
 
+La coincidencia nominal no acredita esa identidad. Según la precisión posterior del responsable,
+el importador debe avisar mostrando título, autoría y tipo de ficha y permitir confirmar que es
+otra obra para crearla, o descartar si es la misma. El título sirve para localizar candidatas y
+el autor para contextualizarlas; no se impone unicidad por título ni por título/autor. Confirmar
+«otra obra» no modifica la existente ni elude la prioridad de su detallada: registra otra identidad.
+El servidor revalida las coincidencias al guardar y conserva la decisión con la importación.
+
 No cambia el tránsito ya acordado de básica a detallada: se conserva su copia confirmada previa
 hasta publicar la detallada. Esa conservación no es permiso para importar otra básica durante
 la elaboración. La primera entrega crea obras nuevas; reimportar o corregir una básica existente

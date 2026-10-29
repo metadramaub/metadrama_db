@@ -71,7 +71,9 @@ para comparar fichas completas sin publicar las mínimas individuales. Campos re
 obligatorio, fuente de datación y fundamentos de autoría opcionales; registro de quién importa.
 Próxima entrega acotada: [guardar y volver a abrir una ficha básica](./importador-metrico/hoja-de-ruta.md#siguiente-entrega-guardar-y-volver-a-abrir-una-ficha-básica),
 con la vista previa ya revisada, separación editorial y contrato de análisis aprobado. Alcance
-aprobado: crear nuevas y detener coincidencias. Una detallada en cualquier estado impide una
+aprobado: crear nuevas y avisar de coincidencias para decidir «otra obra: continuar» o «misma:
+descartar». Título/autor no son clave única: permitir homónimos revisados y adaptar el rechazo
+automático del borrador SQL. Una detallada de la misma obra en cualquier estado impide una
 nueva importación básica; hacer cumplir la identidad y el bloqueo en servidor y guardado.
 Reimportaciones/correcciones de básicas tendrán recorrido posterior explícito. No se retira
 por ello la copia básica previa mientras se elabora la detallada. No esperar al experimento

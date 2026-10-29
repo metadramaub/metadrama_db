@@ -29,11 +29,23 @@ que podrían tratar la básica como detallada o exponerla individualmente. Se pr
 aislada antes de promover el SQL definitivo a Supabase. No se aplica el borrador local tal cual.
 
 **Alcance inicial aprobado:** crear obras nuevas; ante una coincidencia plausible con una
-existente, mostrarla y detener esa creación para resolver la identidad. **Una obra que ya existe
+existente, mostrar un aviso y pedir resolver la identidad antes de guardar. **Una obra que ya existe
 como detallada no admite una nueva importación básica**, aunque su detallada esté en borrador
 o no sea visible. No se ofrece vincularle la importación ni crear otra obra por cambiar de edición,
 título o identificación del autor. Una coincidencia de título por sí sola no establece identidad.
 La comprobación se hará en servidor y en el guardado, no solo en la interfaz.
+
+Precisado por el responsable: título y autor son señales de coincidencia, no una clave única de
+obra. Se buscará por título normalizado y variantes disponibles; el autor ayuda a ordenar y
+contextualizar los resultados, sin ocultar automáticamente coincidencias con otra atribución.
+Incluso título y autor coincidentes pueden corresponder a obras distintas. El aviso mostrará
+título, autoría y tipo de ficha, con dos salidas claras: **«Es otra obra: continuar»** para crear
+una nueva, o **«Es la misma obra: descartar importación»**. La primera no permite sobrescribir
+la existente ni adjuntarle la básica; declara que se trata de una identidad diferente.
+La decisión sobre las coincidencias se conservará una vez por importación, sin categorías por
+secuencia ni probabilidades. Al confirmar se comprobarán de nuevo las coincidencias; una nueva
+coincidencia no revisada se mostrará antes de escribir. El borrador SQL que rechaza automáticamente
+todo título/autor igual debe adaptarse para permitir homónimos explícitamente revisados.
 
 Si la obra existente es básica, repetir la misma petición conserva la idempotencia; una corrección
 o reimportación con otra petición requiere un recorrido explícito posterior, fuera de esta primera

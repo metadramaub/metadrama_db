@@ -86,6 +86,10 @@ La prioridad editorial impide importar una nueva básica para una obra que ya ex
 detallada, incluso en borrador. No confundir ese bloqueo de nuevas importaciones con retirar
 una copia básica confirmada antes de comenzar la detallada: esa copia se conserva hasta su
 publicación, como establecen las reglas siguientes.
+La identidad no se deduce automáticamente de título y autor. Una coincidencia nominal genera
+aviso para decidir si es otra obra —puede crearse como nueva— o la misma —se descarta importar—.
+Las obras homónimas distintas pueden aportar por separado; la sustitución de básica por detallada
+se resuelve por identidad de obra, nunca agrupando automáticamente títulos coincidentes.
 
 1. Si la completa está publicada, la fuente seleccionada es v2; la disponibilidad de cada medida
    se evalúa después, sin recuperar datos de la antigua mínima para rellenarla.
