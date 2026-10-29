@@ -80,6 +80,7 @@
 	<div class="flex items-end justify-between gap-4">
 		<div>
 			<h1 class="text-lg font-semibold">Obras</h1>
+			{#if data.puedeVerBasicas}<a href="/dashboard/importador/fichas" class="text-sm underline">Fichas básicas</a>{/if}
 			<p class="text-sm text-[color:var(--muted-foreground)]">Listado de obras disponibles para edición.</p>
 		</div>
 		{#if canCreate}

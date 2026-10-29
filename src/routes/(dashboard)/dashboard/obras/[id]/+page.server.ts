@@ -1,5 +1,7 @@
 import type { PageServerLoad } from './$types';
-import { error as httpError } from '@sveltejs/kit';
+import { error as httpError, redirect } from '@sveltejs/kit';
+import { esFichaBasica } from '$lib/importador-metrico/tipo-ficha';
+import { clienteImportador, localizarImportacion } from '$lib/server/importador-metrico/persistencia';
 import { enunciationType } from '$lib/metrica/enunciation';
 import { countAutoriaGroupsWithProposals } from '$lib/server/autoria';
 import { getObraContext } from '$lib/server/auth';
@@ -23,6 +25,12 @@ export const load: PageServerLoad = async ({ locals, params, depends }) => {
 			requireEdit: false
 		}
 	);
+
+	if (esFichaBasica(obra)) {
+		const id = await localizarImportacion(clienteImportador(locals.supabase), obra.obra_id);
+		if (!id) throw httpError(404, 'Importación no disponible.');
+		throw redirect(303, '/dashboard/importador/fichas/' + id);
+	}
 
 	const [jornadasResp, secuenciasResp, vocabularios] = await Promise.all([
 		locals.supabase

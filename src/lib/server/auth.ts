@@ -12,6 +12,7 @@ import {
 } from '$lib/utils/permissions';
 import type { EditorProfile, ObraAccessFlags } from '$lib/types/obra.types';
 import { getEstadoTerm, getObraOrFail } from '$lib/server/obras';
+import { esFichaBasica } from '$lib/importador-metrico/tipo-ficha';
 
 type EventWithLocals = Pick<RequestEvent, 'locals'>;
 
@@ -99,6 +100,11 @@ export function buildObraCapabilities(
 ): ObraAccessFlags {
 	const adminOrIp = isAdminOrIp(profile.roleTerm);
 	const assignedEditor = obra.editor_asignado === profile.userId;
+	if(esFichaBasica(obra)) {
+		return {canRead:adminOrIp||assignedEditor,canEditContent:false,canComment:false,
+			canReview:false,canChangeState:false,canPreviewPublicFicha:false,
+			canManageReviewers:false,canToggleVisibility:false,canDeleteObra:false};
+	}
 	const canPreview = canPreviewPublicFicha(profile.roleTerm, estadoTerm, { assignedEditor });
 
 	// Admin/IP: full control for every work.

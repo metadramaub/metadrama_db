@@ -5,6 +5,10 @@ import { resolveDashboardObrasScopePlan } from '$lib/server/dashboard-obras';
 import { loadAssignmentWorks } from '$lib/server/editor-management';
 import type { Tables } from '$lib/types/database.types';
 import { error } from '@sveltejs/kit';
+import {
+	capacidadesImportador,
+	clienteImportador
+} from '$lib/server/importador-metrico/persistencia';
 
 const SCOPE_COOKIE = 'dashboard_obras_scope';
 const OBRAS_LIST_SELECT = 'obra_id,titulo,slug,estado,editor_asignado,updated_at,visible_publico';
@@ -24,18 +28,29 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 	const scope = rawScope === 'all' ? 'all' : 'mine';
 	cookies.set(SCOPE_COOKIE, scope, { path: '/dashboard/obras', sameSite: 'lax' });
 	const isAdminOrIp = profile.roleTerm === 'admin' || profile.roleTerm === 'ip';
+	// La RPC no existe antes de la migración: no se consulta una columna futura en ese caso.
+	const capacidadImportador = await capacidadesImportador(clienteImportador(locals.supabase));
 
 	const reviewerAssignedResp = await locals.supabase
 		.from('obras_revisores')
 		.select('obra_id')
 		.eq('revisor_id', profile.userId);
 	if (reviewerAssignedResp.error) {
-		throw error(500, `No se pudieron cargar asignaciones de revisor: ${reviewerAssignedResp.error.message}`);
+		throw error(
+			500,
+			`No se pudieron cargar asignaciones de revisor: ${reviewerAssignedResp.error.message}`
+		);
 	}
-	const reviewerAssignedIds = [...new Set((reviewerAssignedResp.data ?? []).map((row) => row.obra_id))];
+	const reviewerAssignedIds = [
+		...new Set((reviewerAssignedResp.data ?? []).map((row) => row.obra_id))
+	];
 	const reviewerAssignedSet = new Set(reviewerAssignedIds);
 
-	let query = locals.supabase.from('obras').select(OBRAS_LIST_SELECT).order('updated_at', { ascending: false });
+	let query = locals.supabase
+		.from('obras')
+		.select(OBRAS_LIST_SELECT)
+		.order('updated_at', { ascending: false });
+	if (capacidadImportador) query = query.eq('tipo_ficha', 'completa');
 
 	if (scope === 'mine') {
 		const scopePlan = resolveDashboardObrasScopePlan(scope, profile.userId, reviewerAssignedIds);
@@ -49,16 +64,28 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 	}
 
 	// Administración necesita el corpus completo para repartirlo, sin el antiguo límite de 200.
-	const allAssignmentWorks = isAdminOrIp ? await loadAssignmentWorks(locals) : null;
+	const allAssignmentWorks = isAdminOrIp
+		? await loadAssignmentWorks(locals, capacidadImportador !== null)
+		: null;
 	const { data: obras, error: obrasError } = allAssignmentWorks
-		? { data: allAssignmentWorks.filter((work) => scope === 'all' || work.editor_asignado === profile.userId || reviewerAssignedSet.has(work.obra_id)), error: null }
+		? {
+				data: allAssignmentWorks.filter(
+					(work) =>
+						scope === 'all' ||
+						work.editor_asignado === profile.userId ||
+						reviewerAssignedSet.has(work.obra_id)
+				),
+				error: null
+			}
 		: await query.limit(200);
 	if (obrasError) {
 		throw error(500, `No se pudieron cargar las obras: ${obrasError.message}`);
 	}
 
 	const obraRows = (obras ?? []) as DashboardObraRow[];
-	const editorIds = [...new Set(obraRows.map((obra) => obra.editor_asignado).filter(Boolean) as string[])];
+	const editorIds = [
+		...new Set(obraRows.map((obra) => obra.editor_asignado).filter(Boolean) as string[])
+	];
 
 	const [estadoOptions, editoresResp, editoresOptionsResp] = await Promise.all([
 		loadInternalVocabulario(locals.supabase, ['estado']),
@@ -66,7 +93,10 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 			? locals.supabase.from('editores').select('user_id,nombre_completo').in('user_id', editorIds)
 			: Promise.resolve({ data: [] }),
 		isAdminOrIp
-			? locals.supabase.from('editores').select('user_id,nombre_completo,activo').order('nombre_completo')
+			? locals.supabase
+					.from('editores')
+					.select('user_id,nombre_completo,activo')
+					.order('nombre_completo')
 			: Promise.resolve({ data: [] })
 	]);
 
@@ -79,10 +109,15 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 		throw error(500, `No se pudo cargar el listado de editores: ${editoresOptionsError.message}`);
 	}
 
-	const estadoMap = new Map(estadoOptions.map((estadoItem) => [estadoItem.termino_id, estadoItem.termino]));
-	const editoresMap = new Map((editoresResp.data ?? []).map((row) => [row.user_id, row.nombre_completo]));
+	const estadoMap = new Map(
+		estadoOptions.map((estadoItem) => [estadoItem.termino_id, estadoItem.termino])
+	);
+	const editoresMap = new Map(
+		(editoresResp.data ?? []).map((row) => [row.user_id, row.nombre_completo])
+	);
 
 	return {
+		puedeVerBasicas: capacidadImportador?.puede_importar ?? false,
 		profile,
 		scope,
 		estadoOptions,
@@ -97,7 +132,8 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 			);
 			return {
 				...obra,
-				reviewer_ids: allAssignmentWorks?.find((work) => work.obra_id === obra.obra_id)?.reviewer_ids ?? [],
+				reviewer_ids:
+					allAssignmentWorks?.find((work) => work.obra_id === obra.obra_id)?.reviewer_ids ?? [],
 				estadoTerm,
 				editorNombre: obra.editor_asignado
 					? (editoresMap.get(obra.editor_asignado) ?? 'Sin nombre')

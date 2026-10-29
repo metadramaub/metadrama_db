@@ -17,6 +17,11 @@ function profile(roleTerm: string, userId = '00000000-0000-0000-0000-00000000000
 }
 
 describe('buildObraCapabilities', () => {
+	it.each(['admin','ip','editor'])('una básica no abre escritura detallada ni publicación para %s',(rol)=>{
+		const obra={editor_asignado:profile(rol).userId,tipo_ficha:'minima'};
+		expect(buildObraCapabilities(profile(rol),obra,'borrador',false)).toMatchObject({canRead:true,
+			canEditContent:false,canChangeState:false,canPreviewPublicFicha:false,canToggleVisibility:false});
+	});
 	it('enables canDeleteObra for admin/ip', () => {
 		const obra = { editor_asignado: '00000000-0000-0000-0000-000000000010' };
 		expect(buildObraCapabilities(profile('admin'), obra, 'borrador', false).canDeleteObra).toBe(true);

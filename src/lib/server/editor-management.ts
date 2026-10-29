@@ -14,15 +14,17 @@ export async function requireEditorManager(locals: App.Locals) {
 }
 
 // PostgREST limita cada respuesta; se recorren todas las páginas sin truncar el reparto.
-export async function loadAssignmentWorks(locals: App.Locals) {
+export async function loadAssignmentWorks(locals: App.Locals, soloDetalladas = false) {
 	const works = [];
 	const reviewers: { obra_id: string; revisor_id: string }[] = [];
 	for (let offset = 0; ; offset += 500) {
-		const response = await locals.supabase
+		let query = locals.supabase
 			.from('obras')
 			.select('obra_id,titulo,slug,estado,editor_asignado,updated_at,visible_publico')
 			.order('obra_id')
 			.range(offset, offset + 499);
+		if(soloDetalladas) query=query.eq('tipo_ficha','completa');
+		const response=await query;
 		if (response.error) throw error(500, 'No se pudieron cargar las obras.');
 		works.push(...response.data);
 		if (response.data.length < 500) break;
