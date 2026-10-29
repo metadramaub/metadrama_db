@@ -1,5 +1,8 @@
 export type EnunciationType = 'cantado' | 'prosa' | 'evocacion_metrica';
 
+/** Referencias entre las que se inserta prosa; no expresan su longitud. */
+export type ProseLocation = { v_anterior: number; v_posterior: number };
+
 export function enunciationType(value: string): EnunciationType | null {
 	const normalized = value
 		.normalize('NFD')

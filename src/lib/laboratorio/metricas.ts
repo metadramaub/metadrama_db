@@ -69,7 +69,7 @@ const phenomenon = (
 });
 
 const enunciation = (
-	id: string,
+	id: 'cantado' | 'evocacion_metrica',
 	definition: Omit<LaboratoryMetric, 'id' | 'read'>
 ): LaboratoryMetric => ({
 	id: `enunciacion:${id}`,
@@ -183,14 +183,6 @@ export const LABORATORY_METRICS: LaboratoryMetric[] = [
 		group: 'Enunciación',
 		label: 'Canto',
 		description: 'Extensión de los pasajes cantados anotados por rango.',
-		measurement: 'proporcion_versos',
-		unit: 'porcentaje',
-		denominator: 'Versos de la obra'
-	}),
-	enunciation('prosa', {
-		group: 'Enunciación',
-		label: 'Prosa',
-		description: 'Extensión de los pasajes en prosa anotados por rango.',
 		measurement: 'proporcion_versos',
 		unit: 'porcentaje',
 		denominator: 'Versos de la obra'

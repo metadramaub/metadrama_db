@@ -1,11 +1,6 @@
 <script lang="ts">
 	import MetricAnalysisHeading from './MetricAnalysisHeading.svelte';
-	interface EnunciationSummary {
-		tipo: string;
-		versos: number;
-		porcentaje: number;
-		formas: string[];
-	}
+	import type { EnunciationSummary } from '$lib/metrica/analisis-ficha';
 
 	const props = $props<{ rows: EnunciationSummary[] }>();
 	const percentFormatter = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 2 });
@@ -22,17 +17,24 @@
 	<MetricAnalysisHeading
 		id="metric-enunciation-title"
 		title="Canto, prosa y evocación"
-		description="Cuánto ocupan estos pasajes y dentro de qué formas aparecen."
+		description="Extensión del canto y la evocación, y localización de la prosa."
 	/>
 	<ul class="divide-y divide-[color:var(--border)] rounded-lg border border-[color:var(--border)] bg-white">
 		{#each props.rows as row (row.tipo)}
 			<li class="grid gap-2 px-4 py-3 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1.4fr)] sm:items-center sm:gap-5">
 				<h3 class="font-semibold">{labelFor(row.tipo)}</h3>
 				<div>
-					<p class="text-lg font-semibold tabular-nums">
-						{row.versos} <span class="text-sm font-normal text-[color:var(--muted-foreground)]">vv.</span>
-					</p>
-					<p class="text-xs text-[color:var(--muted-foreground)]">{percentFormatter.format(row.porcentaje)} %</p>
+					{#if row.tipo === 'prosa'}
+						<p class="font-semibold">Presente</p>
+						{#each row.localizaciones as lugar}
+							<p class="text-sm tabular-nums">Entre vv. {lugar.v_anterior} y {lugar.v_posterior}</p>
+						{/each}
+					{:else}
+						<p class="text-lg font-semibold tabular-nums">
+							{row.versos} <span class="text-sm font-normal text-[color:var(--muted-foreground)]">vv.</span>
+						</p>
+						<p class="text-xs text-[color:var(--muted-foreground)]">{percentFormatter.format(row.porcentaje)} %</p>
+					{/if}
 				</div>
 				<p class="text-sm"><span class="text-[color:var(--muted-foreground)]">En</span> {row.formas.join(' · ')}</p>
 			</li>
