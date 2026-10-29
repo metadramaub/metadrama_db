@@ -1,0 +1,536 @@
+{
+  "fecha": "2026-10-29",
+  "soloLocal": true,
+  "sha256Esquema": "d4251d915d303eb98dd3b099b1c387940768bce330a1555a3fba8862391de728",
+  "sha256Datos": "6fce6ece3c22444b683a1aeea637f22bbfe3c355694e94f33b29d7af8f09b7c8",
+  "sha256Candidata": "f9a444ccfa4c57ba06275193a10e50d7e455b70487c1878b0e7bf273d13aadba",
+  "sha256Prosa": "03fb15a97322e030b9c57ca0e546339519c449174ea61fdbcefdf7226f8f69c1",
+  "resultados": [
+    {
+      "caso": "esquema-actual",
+      "tablasOriginales": 57,
+      "clavesForaneasVerificadas": 163,
+      "obras": 145,
+      "datosSinCambios": true,
+      "salidasSinCambios": true,
+      "falloAtomico": true,
+      "repetible": true,
+      "reversionVerificada": true,
+      "pausaVerificada": true,
+      "recalculoComparado": true,
+      "funcionesModificadas": [
+        "public.analisis_obra_publico_json(uuid)",
+        "public.auth_puede_editar_obra(uuid)",
+        "public.ficha_publica_base_json(uuid, boolean)",
+        "public.ficha_publica_dominio_json(uuid, boolean)",
+        "public.formas_de_la_obra(uuid)",
+        "public.gestionar_asignaciones_lote(text, uuid, jsonb)",
+        "public.perfil_artefacto_obra_rango(uuid, integer, integer, text)",
+        "public.perfil_metrico_unidades()",
+        "public.recompute_artefactos_obra(uuid)",
+        "public.recompute_obra_resumen_estructura(uuid)",
+        "public.recompute_obra_resumen_metricas(uuid)"
+      ],
+      "sha256Recuperacion": "98c2b27df50dcfc1841d69c5132657ca24d191589938b8d32ab88ea364c7a23d",
+      "tablas": [
+        {
+          "tabla": "afirmaciones_fuentes_metricas",
+          "filas": 326
+        },
+        {
+          "tabla": "anotacion_desviaciones",
+          "filas": 58
+        },
+        {
+          "tabla": "anotacion_elecciones",
+          "filas": 6595
+        },
+        {
+          "tabla": "anotacion_escenarios_prueba",
+          "filas": 1
+        },
+        {
+          "tabla": "anotacion_realizaciones",
+          "filas": 7517
+        },
+        {
+          "tabla": "anotaciones_metricas",
+          "filas": 579
+        },
+        {
+          "tabla": "arquitectura_rasgos",
+          "filas": 92
+        },
+        {
+          "tabla": "arquitecturas_forma",
+          "filas": 100
+        },
+        {
+          "tabla": "artefactos_publicos",
+          "filas": 38
+        },
+        {
+          "tabla": "asignaciones_historial",
+          "filas": 3
+        },
+        {
+          "tabla": "atribucion_autores",
+          "filas": 24
+        },
+        {
+          "tabla": "atribucion_evidencias",
+          "filas": 13
+        },
+        {
+          "tabla": "atribuciones",
+          "filas": 24
+        },
+        {
+          "tabla": "autores",
+          "filas": 37
+        },
+        {
+          "tabla": "autores_resumen",
+          "filas": 8
+        },
+        {
+          "tabla": "catalogo_metrico_estado",
+          "filas": 1
+        },
+        {
+          "tabla": "comentarios_internos",
+          "filas": 154
+        },
+        {
+          "tabla": "cuadros",
+          "filas": 308
+        },
+        {
+          "tabla": "dashboard_activity_state",
+          "filas": 3
+        },
+        {
+          "tabla": "denominaciones_metricas",
+          "filas": 139
+        },
+        {
+          "tabla": "editores",
+          "filas": 24
+        },
+        {
+          "tabla": "equivalencias_respuestas_legadas",
+          "filas": 26
+        },
+        {
+          "tabla": "esquema_metrico_opciones",
+          "filas": 86
+        },
+        {
+          "tabla": "esquema_metrico_posiciones",
+          "filas": 315
+        },
+        {
+          "tabla": "esquema_rima_enlaces",
+          "filas": 21
+        },
+        {
+          "tabla": "esquema_rima_posiciones",
+          "filas": 782
+        },
+        {
+          "tabla": "esquema_rima_restricciones",
+          "filas": 18
+        },
+        {
+          "tabla": "esquemas_metricos",
+          "filas": 104
+        },
+        {
+          "tabla": "esquemas_rima",
+          "filas": 172
+        },
+        {
+          "tabla": "estrofa_tipo_metros",
+          "filas": 133
+        },
+        {
+          "tabla": "estructuras_secciones",
+          "filas": 86
+        },
+        {
+          "tabla": "forma_relaciones",
+          "filas": 72
+        },
+        {
+          "tabla": "formas_metricas",
+          "filas": 50
+        },
+        {
+          "tabla": "formas_tradiciones",
+          "filas": 47
+        },
+        {
+          "tabla": "fuentes_metricas",
+          "filas": 6
+        },
+        {
+          "tabla": "grupos_atribucion",
+          "filas": 24
+        },
+        {
+          "tabla": "grupos_eleccion_metrica",
+          "filas": 146
+        },
+        {
+          "tabla": "jornadas",
+          "filas": 89
+        },
+        {
+          "tabla": "metro_segmentos",
+          "filas": 4
+        },
+        {
+          "tabla": "metros",
+          "filas": 11
+        },
+        {
+          "tabla": "migracion_secuencias",
+          "filas": 83
+        },
+        {
+          "tabla": "obras",
+          "filas": 145
+        },
+        {
+          "tabla": "obras_resumen",
+          "filas": 21
+        },
+        {
+          "tabla": "obras_revisores",
+          "filas": 0
+        },
+        {
+          "tabla": "proyecto_activo",
+          "filas": 107
+        },
+        {
+          "tabla": "rasgo_valores",
+          "filas": 33
+        },
+        {
+          "tabla": "rasgos_metricos",
+          "filas": 7
+        },
+        {
+          "tabla": "repeticion_posiciones",
+          "filas": 108
+        },
+        {
+          "tabla": "repeticiones_metricas",
+          "filas": 9
+        },
+        {
+          "tabla": "secciones_publicas",
+          "filas": 18
+        },
+        {
+          "tabla": "secuencias_caracterizaciones_rango",
+          "filas": 251
+        },
+        {
+          "tabla": "secuencias_metricas",
+          "filas": 774
+        },
+        {
+          "tabla": "secuencias_subtipos_estrofa",
+          "filas": 336
+        },
+        {
+          "tabla": "tradiciones_metricas",
+          "filas": 2
+        },
+        {
+          "tabla": "traslados_observaciones_caracterizacion",
+          "filas": 7
+        },
+        {
+          "tabla": "variedades_arquitectura",
+          "filas": 8
+        },
+        {
+          "tabla": "vocabularios",
+          "filas": 190
+        }
+      ],
+      "salidas": {
+        "fichas": "d54a447a0ffd75050403336652032982",
+        "formas": "96a395010b61b869cf919e7bd1893784",
+        "analisis": "7a9d98a4a48da0500b0d9e149f2384d2",
+        "unidades": "8beb9f81e341566fa4f317100858ddfe"
+      }
+    },
+    {
+      "caso": "prosa-primero",
+      "tablasOriginales": 57,
+      "clavesForaneasVerificadas": 163,
+      "obras": 145,
+      "datosSinCambios": true,
+      "salidasSinCambios": true,
+      "falloAtomico": true,
+      "repetible": true,
+      "reversionVerificada": true,
+      "pausaVerificada": true,
+      "recalculoComparado": true,
+      "funcionesModificadas": [
+        "public.analisis_obra_publico_json(uuid)",
+        "public.auth_puede_editar_obra(uuid)",
+        "public.ficha_publica_base_json(uuid, boolean)",
+        "public.ficha_publica_dominio_json(uuid, boolean)",
+        "public.formas_de_la_obra(uuid)",
+        "public.gestionar_asignaciones_lote(text, uuid, jsonb)",
+        "public.perfil_artefacto_obra_rango(uuid, integer, integer, text)",
+        "public.perfil_metrico_unidades()",
+        "public.recompute_artefactos_obra(uuid)",
+        "public.recompute_obra_resumen_estructura(uuid)",
+        "public.recompute_obra_resumen_metricas(uuid)"
+      ],
+      "sha256Recuperacion": "75bc80eaefa13e85b4d7a19957ec08f5e6bba9a48812a9fed0945536288bd16c",
+      "tablas": [
+        {
+          "tabla": "afirmaciones_fuentes_metricas",
+          "filas": 326
+        },
+        {
+          "tabla": "anotacion_desviaciones",
+          "filas": 58
+        },
+        {
+          "tabla": "anotacion_elecciones",
+          "filas": 6595
+        },
+        {
+          "tabla": "anotacion_escenarios_prueba",
+          "filas": 1
+        },
+        {
+          "tabla": "anotacion_realizaciones",
+          "filas": 7517
+        },
+        {
+          "tabla": "anotaciones_metricas",
+          "filas": 579
+        },
+        {
+          "tabla": "arquitectura_rasgos",
+          "filas": 92
+        },
+        {
+          "tabla": "arquitecturas_forma",
+          "filas": 100
+        },
+        {
+          "tabla": "artefactos_publicos",
+          "filas": 38
+        },
+        {
+          "tabla": "asignaciones_historial",
+          "filas": 3
+        },
+        {
+          "tabla": "atribucion_autores",
+          "filas": 24
+        },
+        {
+          "tabla": "atribucion_evidencias",
+          "filas": 13
+        },
+        {
+          "tabla": "atribuciones",
+          "filas": 24
+        },
+        {
+          "tabla": "autores",
+          "filas": 37
+        },
+        {
+          "tabla": "autores_resumen",
+          "filas": 8
+        },
+        {
+          "tabla": "catalogo_metrico_estado",
+          "filas": 1
+        },
+        {
+          "tabla": "comentarios_internos",
+          "filas": 154
+        },
+        {
+          "tabla": "cuadros",
+          "filas": 308
+        },
+        {
+          "tabla": "dashboard_activity_state",
+          "filas": 3
+        },
+        {
+          "tabla": "denominaciones_metricas",
+          "filas": 139
+        },
+        {
+          "tabla": "editores",
+          "filas": 24
+        },
+        {
+          "tabla": "equivalencias_respuestas_legadas",
+          "filas": 26
+        },
+        {
+          "tabla": "esquema_metrico_opciones",
+          "filas": 86
+        },
+        {
+          "tabla": "esquema_metrico_posiciones",
+          "filas": 315
+        },
+        {
+          "tabla": "esquema_rima_enlaces",
+          "filas": 21
+        },
+        {
+          "tabla": "esquema_rima_posiciones",
+          "filas": 782
+        },
+        {
+          "tabla": "esquema_rima_restricciones",
+          "filas": 18
+        },
+        {
+          "tabla": "esquemas_metricos",
+          "filas": 104
+        },
+        {
+          "tabla": "esquemas_rima",
+          "filas": 172
+        },
+        {
+          "tabla": "estrofa_tipo_metros",
+          "filas": 133
+        },
+        {
+          "tabla": "estructuras_secciones",
+          "filas": 86
+        },
+        {
+          "tabla": "forma_relaciones",
+          "filas": 72
+        },
+        {
+          "tabla": "formas_metricas",
+          "filas": 50
+        },
+        {
+          "tabla": "formas_tradiciones",
+          "filas": 47
+        },
+        {
+          "tabla": "fuentes_metricas",
+          "filas": 6
+        },
+        {
+          "tabla": "grupos_atribucion",
+          "filas": 24
+        },
+        {
+          "tabla": "grupos_eleccion_metrica",
+          "filas": 146
+        },
+        {
+          "tabla": "jornadas",
+          "filas": 89
+        },
+        {
+          "tabla": "metro_segmentos",
+          "filas": 4
+        },
+        {
+          "tabla": "metros",
+          "filas": 11
+        },
+        {
+          "tabla": "migracion_secuencias",
+          "filas": 83
+        },
+        {
+          "tabla": "obras",
+          "filas": 145
+        },
+        {
+          "tabla": "obras_resumen",
+          "filas": 21
+        },
+        {
+          "tabla": "obras_revisores",
+          "filas": 0
+        },
+        {
+          "tabla": "proyecto_activo",
+          "filas": 107
+        },
+        {
+          "tabla": "rasgo_valores",
+          "filas": 33
+        },
+        {
+          "tabla": "rasgos_metricos",
+          "filas": 7
+        },
+        {
+          "tabla": "repeticion_posiciones",
+          "filas": 108
+        },
+        {
+          "tabla": "repeticiones_metricas",
+          "filas": 9
+        },
+        {
+          "tabla": "secciones_publicas",
+          "filas": 18
+        },
+        {
+          "tabla": "secuencias_caracterizaciones_rango",
+          "filas": 251
+        },
+        {
+          "tabla": "secuencias_metricas",
+          "filas": 774
+        },
+        {
+          "tabla": "secuencias_subtipos_estrofa",
+          "filas": 336
+        },
+        {
+          "tabla": "tradiciones_metricas",
+          "filas": 2
+        },
+        {
+          "tabla": "traslados_observaciones_caracterizacion",
+          "filas": 7
+        },
+        {
+          "tabla": "variedades_arquitectura",
+          "filas": 8
+        },
+        {
+          "tabla": "vocabularios",
+          "filas": 190
+        }
+      ],
+      "salidas": {
+        "fichas": "d54a447a0ffd75050403336652032982",
+        "formas": "96a395010b61b869cf919e7bd1893784",
+        "analisis": "e781a8c0d22be2496c955e8675922b87",
+        "unidades": "8beb9f81e341566fa4f317100858ddfe"
+      }
+    }
+  ]
+}

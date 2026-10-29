@@ -20,6 +20,7 @@ describen capacidades ya disponibles en la plataforma.
 | Documento | Contenido |
 | --- | --- |
 | [Vista previa del dashboard](./vista-previa-dashboard.md) | Pegado, edición, confirmación condicionada a RPC y consulta de copia fija |
+| [Propuesta de despliegue](./promocion-guardado.md) | Candidata transaccional, ensayo sobre copia reciente, orden de prosa y recuperación |
 | [Auditoría de aislamiento](./auditoria-aislamiento.md) | Accesos directos, contadores y reparto, pruebas con Auth real local y pasos de promoción |
 | [Persistencia local](./persistencia-local.md) | Borrador SQL fuera de las migraciones y ensayo de guardado, permisos y concurrencia en PostgreSQL aislado |
 | [Metodología](./metodologia.md) | Acuerdos sobre fuentes, identificación, equivalencias, incertidumbre y comparabilidad |

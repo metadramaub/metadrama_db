@@ -21,7 +21,9 @@ y consulta desde Fichas básicas. Se ha probado por capas: PostgreSQL aislado y 
 simulada y, después, Auth/JWT real y navegador en un entorno local. El listado detallado, el
 editor, los contadores y el reparto separan las básicas; los productores anteriores rechazan
 procesarlas como detalladas. La [auditoría de aislamiento](./auditoria-aislamiento.md) recoge
-las comprobaciones y el recorrido de promoción pendiente. El productor combinado sigue pendiente.
+las comprobaciones. La [propuesta de despliegue](./promocion-guardado.md) ya prepara candidata,
+ensayo sobre copia reciente y recuperación; falta aprobar su aplicación. El productor combinado
+sigue pendiente.
 La aportación al corpus se activa cuando el productor común y sus permisos estén comprobados;
 guardar una ficha y que sus análisis estén actualizados son operaciones distintas.
 
@@ -130,7 +132,7 @@ La [vista previa del dashboard](./vista-previa-dashboard.md) ya permite pegar y 
 revisar metadatos y consultar secuencias propuestas por jornadas. Con las RPC instaladas habilita
 confirmación y consulta para admin/IP y editores autorizados; la base compartida sigue sin guardado. El contrato 0.2 y el borrador SQL ya conservan original, resultado confirmado y reglas
 utilizadas, sin estados de revisión ni fundamentos generales repetidos por secuencia. El siguiente paso
-es preparar la promoción y, en el bloque analítico, implementar el productor precomputado;
+es revisar/aprobar la promoción y, en el bloque analítico, implementar el productor precomputado;
 la revisión de todas las equivalencias no se traslada a quien importa.
 
 ## Evaluación del procedimiento

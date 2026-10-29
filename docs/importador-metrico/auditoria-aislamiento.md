@@ -81,8 +81,9 @@ El ensayo PostgreSQL sin Auth sigue usando su contenedor aislado sin red ni puer
 
 ## Antes de promover a la base compartida
 
-La revisión y las pruebas anteriores permiten preparar la promoción del primer guardado. Faltan
-estos pasos operativos; no son decisiones metodológicas nuevas:
+La [propuesta de despliegue](./promocion-guardado.md) ya reúne candidata única, contraste del
+esquema reciente, ensayo con los datos actuales y recuperaciones verificadas. Su aplicación sigue
+pendiente de aprobación. Los pasos operativos previstos son los siguientes:
 
 1. Exportar otra vez el esquema y contrastar las funciones y permisos con los probados, por si
    hubo cambios mientras se desarrolla la web. Las adaptaciones SQL fallan si cambian sus anclas;

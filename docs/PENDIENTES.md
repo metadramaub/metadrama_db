@@ -92,8 +92,10 @@ Pruebas: 89 comprobaciones PostgreSQL, 25 HTTP con Auth/JWT real local, 100 prue
 y recorrido de navegador con cuentas sintéticas. La [auditoría de aislamiento](./importador-metrico/auditoria-aislamiento.md)
 cierra este bloque de consumidores: contadores y reparto detallados separados, escrituras directas
 y constructores privilegiados protegidos. La base compartida mantiene el ensayo sin guardado.
-Pendiente: preparar y aprobar la promoción transaccional sobre esquema reciente, con backup;
-precomputación combinada y sustitución editorial. Reimportación en un bloque posterior.
+Ya está la [propuesta de despliegue](./importador-metrico/promocion-guardado.md): candidata única
+fuera de migraciones, copia reciente de 145 obras y 57 tablas, fallo/repetición/recuperación
+verificados y orden recomendado prosa → importador. Pendiente: aprobación, backup completo y
+aplicación controlada; precomputación combinada y sustitución editorial. Reimportación en un bloque posterior.
 El contrato 0.2 y el borrador SQL ya conservan original, copia confirmada, versión de reglas y decisiones
 particulares breves, sin estados ni fundamentos generales repetidos por secuencia. La vista previa
 ya permite editar formas y arquitecturas, dividir y reunir partes de una fila original, comprobar

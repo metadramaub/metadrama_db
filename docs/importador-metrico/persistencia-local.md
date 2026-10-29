@@ -163,3 +163,11 @@ acompañarse de lectores, permisos de servidor, adaptación de los consumidores 
 según las reglas del repositorio. El diseño de esos flujos ya está acordado en
 [campos mínimos y conexiones](./campos-minimos.md); el trabajo restante está en
 [PENDIENTES](../PENDIENTES.md).
+
+## Candidata de promoción
+
+El 29 de octubre se compilan los cinco SQL en una transacción fuera de `supabase/migrations`.
+Las 89 comprobaciones pasan también con esa candidata y el esquema recién exportado. El ensayo
+sobre la copia reciente verifica datos de las 57 tablas y 145 obras, claves foráneas, salidas,
+recálculo, fallo atómico, repetición, pausa y recuperación. Véase la
+[propuesta de despliegue](./promocion-guardado.md). No se aplica nada a la DB compartida.
