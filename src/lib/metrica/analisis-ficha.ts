@@ -1,4 +1,4 @@
-import { enunciationType } from './enunciation';
+import { enunciationType, type EnunciationType, type ProseLocation } from './enunciation';
 
 /**
  * Lo que se puede decir de una obra **sin volver a preguntar a la base**.
@@ -355,11 +355,20 @@ export function cortesDeCuadro(
 	};
 }
 
-/** Qué se canta y qué va en prosa: cuántos versos y en qué formas. */
-export function caracterizacionesDeLaObra(secuencias: SecuenciaAnalizable[]) {
+export type EnunciationSummary =
+	| { tipo: 'prosa'; localizaciones: ProseLocation[]; formas: string[] }
+	| {
+			tipo: Exclude<EnunciationType, 'prosa'>;
+			versos: number;
+			porcentaje: number;
+			formas: string[];
+	  };
+
+/** Canto/evocación tienen extensión; la prosa se localiza entre versos. */
+export function caracterizacionesDeLaObra(secuencias: SecuenciaAnalizable[]): EnunciationSummary[] {
 	const total = versosDe(secuencias);
 	const porTipo = new Map<
-		string,
+		EnunciationType,
 		{ rangos: { v_ini: number; v_fin: number }[]; formas: Set<string> }
 	>();
 	for (const s of secuencias) {
@@ -373,7 +382,23 @@ export function caracterizacionesDeLaObra(secuencias: SecuenciaAnalizable[]) {
 		}
 	}
 	return [...porTipo.entries()]
-		.map(([tipo, { rangos, formas }]) => {
+		.map(([tipo, { rangos, formas }]): EnunciationSummary => {
+			if (tipo === 'prosa') {
+				// Dos inserciones próximas no se fusionan como si fueran extensión textual.
+				const localizaciones = [
+					...new Map(
+						rangos.map((r) => [
+							`${r.v_ini}:${r.v_fin}`,
+							{ v_anterior: r.v_ini, v_posterior: r.v_fin }
+						])
+					).values()
+				].sort((a, b) => a.v_anterior - b.v_anterior || a.v_posterior - b.v_posterior);
+				return {
+					tipo,
+					localizaciones,
+					formas: [...formas].sort((a, b) => a.localeCompare(b, 'es'))
+				};
+			}
 			const ordenados = [...rangos].sort((a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin);
 			const unidos: { v_ini: number; v_fin: number }[] = [];
 			for (const rango of ordenados) {
@@ -392,7 +417,7 @@ export function caracterizacionesDeLaObra(secuencias: SecuenciaAnalizable[]) {
 				formas: [...formas].sort((a, b) => a.localeCompare(b, 'es'))
 			};
 		})
-		.sort((a, b) => b.versos - a.versos);
+		.sort((a, b) => (b.tipo === 'prosa' ? 0 : b.versos) - (a.tipo === 'prosa' ? 0 : a.versos));
 }
 
 /**

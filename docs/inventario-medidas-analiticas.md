@@ -380,8 +380,10 @@ Comprobación de código del 29 de octubre: `CaracterizacionesPorRango.svelte` y
 (no numerada)» y pide entre qué versos aparece. En cambio, `caracterizacionesDeLaObra` en
 `analisis-ficha.ts` suma `v_fin - v_ini + 1` para todos los tipos, y el laboratorio define prosa
 como proporción de versos. La auditoría SQL del 28 también encontró esa agrupación genérica.
-Se registra la corrección pendiente de productores, contratos y lectores; no se modifica el
-editor para medir prosa ni se cambia la anotación válida de sus extremos.
+La corrección de productores, contratos y lectores ya está implementada en el repositorio y
+probada en copia aislada: contrato V3 y compatibilidad temporal con V2. No se modifica el editor
+para medir prosa ni se cambia la anotación válida de sus extremos. Falta desplegar código y
+migración en ese orden, según [arquitectura de artefactos](./arquitectura-artefactos-publicos.md#corrección-de-prosa-contrato-v3-preparado-el-29-de-octubre).
 El rastreo del lote ha permitido comprobar visualmente un caso concreto: «carta en prosa» sin
 rango numerado en Nacimiento de Ursón y Valentín, p. 996. La fuente aporta presencia, pero no
 una extensión en versos: no se puede completar automáticamente una proporción a partir de ella.
@@ -497,8 +499,8 @@ verdad filológica ni el error de los editores de las fuentes.
 | --- | --- |
 | D01: lagunas | Se retira excluirlas por defecto del perfil principal. Propuesta ajustada a la práctica indicada: contar las posiciones perdidas cuantificadas y atribuidas en su forma y en el total, sin duplicarlas, conservando su carácter reconstruido. No inventar cantidad ni forma desconocidas. |
 | D03: nivel de agrupación | Incluir aislados e irregularidad ya está aceptado. Aprobar o ajustar el índice principal por clases generales; se retira prometer un reparto universal por medidas, que no está anotado en las silvas. |
-| D05: detalle de denominador | Extremos conocidos y exclusión de básicas sin cuadros están aceptados. Resta confirmar la distinción entre recuento cero de límites y proporción no aplicable cuando no hay límites. |
-| D06: fenómenos | Cero analizado de detalladas publicadas y desconocido por silencio de básicas están aceptados. Prosa queda definida como presencia/localización entre versos, sin extensión. Resta concretar los denominadores de otros fenómenos y corregir los cálculos que tratan prosa como longitud. |
+| D05: detalle de denominador | Extremos conocidos y exclusión de básicas sin cuadros están aceptados. Un recuento cero de límites puede ser válido; dividir por cero no da 0 %, por lo que esa proporción es no aplicable. Es una regla técnica derivada, no otra aprobación necesaria. |
+| D06: fenómenos | Cero analizado de detalladas publicadas y desconocido por silencio de básicas están aceptados. Prosa definida como presencia/localización; corrección implementada y probada en copia, pendiente de despliegue. Los otros fenómenos conservan la unidad que se anota y declaran sus respuestas conocidas; no se exige aprobar cada caso aritmético. |
 | D07: dos lecturas | Revisar la explicación con porcentajes y ejemplo, y confirmar si se conservan las dos medianas y la medida de presencia con sus nombres explícitos. La elegibilidad no elimina sesgos de selección. |
 | D08: referente | Mantener perfil agregado ponderado por extensión y distribución por obras aparte; excluir la obra contrastada y sus jornadas del referente. Mantener atribución por obra/jornada ya acordada. |
 | D09: fechas | Seleccionar por solapamiento como «compatible con el periodo», sin inventar año puntual. No interpretar ventanas que se solapan como periodos disjuntos al sumar recuentos. |

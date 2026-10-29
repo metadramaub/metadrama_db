@@ -5,6 +5,7 @@ import type {
 } from '$lib/autores/perfil-autor';
 import type { CatalogStructureTramo, CatalogTramo } from '$lib/catalogo/catalog-filters';
 import type { PublicObraFichaPayload } from '$lib/types/public-ficha.types';
+import type { ProseLocation } from '$lib/metrica/enunciation';
 
 export type PublicArtifactScope = 'publico' | 'completo';
 
@@ -131,6 +132,12 @@ export type ObraEnunciationEntry = {
 	formas: string[];
 };
 
+export type ObraEnunciation = Partial<
+	Record<'cantado' | 'evocacion_metrica', ObraEnunciationEntry>
+> & {
+	prosa?: { presente: true; localizaciones: ProseLocation[]; formas: string[] };
+};
+
 export type ObraPhenomenonEntry = {
 	si: number;
 	no: number;
@@ -142,14 +149,14 @@ export type ObraPhenomenonEntry = {
 };
 
 export type ObraAnalysisArtifactPayload = {
-	schema_version: 2;
+	schema_version: 3;
 	obra_id: string;
 	total_secuencias: number;
 	total_transiciones: number;
 	metricas: ObraComparativeMetrics;
 	perfil_formas: Record<string, ObraFormProfileEntry>;
 	articulacion: ObraDramaticArticulation;
-	enunciacion: Record<string, ObraEnunciationEntry>;
+	enunciacion: ObraEnunciation;
 	secuencias: ObraAnalysisSequenceFact[];
 	transiciones: Array<{ de: string; a: string; veces: number }>;
 	fenomenos: Record<string, ObraPhenomenonEntry>;
@@ -169,7 +176,7 @@ export type CorpusComparisonWork = {
 	metricas: ObraComparativeMetrics;
 	perfil_formas: Record<string, ObraFormProfileEntry>;
 	articulacion: ObraDramaticArticulation;
-	enunciacion: Record<string, ObraEnunciationEntry>;
+	enunciacion: ObraEnunciation;
 	fenomenos: Record<string, ObraPhenomenonEntry>;
 	transiciones: Array<{ de: string; a: string; veces: number }>;
 };
@@ -219,7 +226,7 @@ export type CorpusExtremePairEntry = {
 
 /** Banco de trabajo privado; `alcance` describe el universo, no su visibilidad por RLS. */
 export type CorpusComparisonsArtifactPayload = {
-	schema_version: 2;
+	schema_version: 3;
 	privado: true;
 	alcance: PublicArtifactScope;
 	criterio_universo: {
@@ -232,7 +239,9 @@ export type CorpusComparisonsArtifactPayload = {
 	formas: CorpusFormComparison[];
 	transiciones: CorpusTransitionComparison[];
 	fenomenos: Record<string, StatisticalSummary>;
-	enunciacion: Record<string, CorpusEnunciationComparison>;
+	enunciacion: Partial<Record<'cantado' | 'evocacion_metrica', CorpusEnunciationComparison>> & {
+		prosa?: Omit<CorpusEnunciationComparison, 'proporcion_versos'>;
+	};
 	extremos_jornada: {
 		aperturas: CorpusExtremeEntry[];
 		cierres: CorpusExtremeEntry[];

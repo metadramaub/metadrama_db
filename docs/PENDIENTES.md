@@ -45,8 +45,10 @@ de básicas. Mantener en el perfil las posiciones perdidas cuantificadas y atrib
 práctica indicada, con reconstrucción explícita y sin duplicarlas en el total. No inventar
 desgloses de 7/11 en silvas: una forma identificada no exige ese recuento interno. Revisar el
 índice principal por clases y limitar consultas por medida a evidencia suficiente. La prosa
-solo se localiza entre versos; corregir productores y lectores que calculan longitud/porcentaje
-a partir de sus extremos, conservando la anotación válida del editor. Sustituir «peso» ambiguo
+solo se localiza entre versos. Corrección implementada en ficha, laboratorio y productores V3,
+probada en copia con 16 comprobaciones PostgreSQL: desplegar lectores compatibles y después
+aplicar `20261029120000_la_prosa_se_localiza_entre_versos.sql`, que regenera los precomputados.
+Se conserva la anotación válida del editor. Sustituir «peso» ambiguo
 por porcentajes y poblaciones explícitos.
 Revisar los demás puntos D01–D10 antes de cambiar cálculos. La auditoría contiene ejemplos
 sintéticos comprobados, sin recálculos ni cambios en la base compartida. Esta revisión general

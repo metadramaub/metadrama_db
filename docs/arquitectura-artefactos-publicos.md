@@ -62,6 +62,37 @@ La matriz no se entregará a la ficha. Cuando el laboratorio haya validado qué 
 leer una obra se generará una proyección pública pequeña por obra. El orden y las ideas de
 presentación están en [plan-comparativas-corpus.md](plan-comparativas-corpus.md).
 
+### Corrección de prosa: contrato V3 preparado el 29 de octubre
+
+La migración `20261029120000_la_prosa_se_localiza_entre_versos.sql` separa prosa de las medidas de
+extensión en `obra_analisis` y `corpus_comparativas`, que pasan a V3. La ficha y los índices
+mantienen V1. No cambia la anotación editorial ni las políticas de acceso.
+
+Cuando hay prosa, `enunciacion.prosa` del análisis contiene `presente: true`, `localizaciones`
+con `v_anterior`/`v_posterior`, y las formas de sus secuencias. No contiene `versos` ni
+`proporcion_versos`. Las localizaciones repetidas se deduplican, sin fusionar inserciones próximas.
+El agregado del corpus conserva obras con presencia y su proporción entre obras analizadas;
+esa proporción no mide extensión de prosa. Canto y evocación conservan su cálculo por versos.
+
+Despliegue: publicar primero los lectores compatibles y después aplicar la migración, que llama
+al recorrido completo `recompute_all()`. El laboratorio admite temporalmente V2 mediante
+`corpus-compat.ts`: conserva sus medidas válidas y omite los datos inválidos de extensión de prosa,
+sin convertir su omisión en una ausencia analizada. V3 se sirve directamente. Esta adaptación
+solo transforma JSON ya precomputado; no consulta anotaciones ni recalcula análisis en una visita.
+
+La migración se ha ejecutado dos veces en una copia aislada del esquema y datos de aplicación,
+con 16 comprobaciones de contenido, persistencia, privacidad e integridad de las anotaciones.
+Ensayo reproducible, con el contenedor aislado `versologia-prosa-pruebas` iniciado según el mismo
+procedimiento de [persistencia local](./importador-metrico/persistencia-local.md), cambiando su nombre:
+
+```sh
+node scripts/probar-prosa-local.mjs backups/prosa-correccion/public-schema.sql backups/prosa-correccion/public-data.sql
+```
+
+Los dos volcados se obtienen con `supabase db dump --linked --schema public` y su variante
+`--data-only`, sin sustituir la copia completa previa exigida para aplicar en remoto. El ensayo
+no se conecta a Supabase ni expone puertos. El estado del despliegue se mantiene en PENDIENTES.
+
 ## Flujo de actualización
 
 Las notas históricas trasladadas a comentarios se registran en la tabla privada

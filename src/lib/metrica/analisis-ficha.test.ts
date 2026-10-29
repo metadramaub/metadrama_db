@@ -238,6 +238,33 @@ describe('cortesDeCuadro', () => {
 });
 
 describe('caracterizacionesDeLaObra', () => {
+	it('localiza la prosa sin contar sus versos de referencia ni fusionar inserciones próximas', () => {
+		const entrada = secuencia({
+			v_ini: 1,
+			n_versos: 100,
+			caracterizaciones: [
+				{ tipo: 'prosa', v_ini: 56, v_fin: 57 },
+				{ tipo: 'Prosa', v_ini: 56, v_fin: 57 },
+				{ tipo: 'prosa', v_ini: 57, v_fin: 58 },
+				{ tipo: 'prosa', v_ini: 80, v_fin: 99 },
+				{ tipo: 'cantado', v_ini: 1, v_fin: 4 },
+				{ tipo: 'cantado', v_ini: 3, v_fin: 6 }
+			]
+		});
+		expect(caracterizacionesDeLaObra([entrada])).toEqual([
+			{ tipo: 'cantado', versos: 6, porcentaje: 6, formas: ['Redondilla'] },
+			{
+				tipo: 'prosa',
+				localizaciones: [
+					{ v_anterior: 56, v_posterior: 57 },
+					{ v_anterior: 57, v_posterior: 58 },
+					{ v_anterior: 80, v_posterior: 99 }
+				],
+				formas: ['Redondilla']
+			}
+		]);
+	});
+
 	it('cuenta los versos del rango, no los de la secuencia entera', () => {
 		expect(caracterizacionesDeLaObra(OBRA)).toEqual([
 			{ tipo: 'cantado', versos: 16, porcentaje: 5.33, formas: ['Romance'] }
