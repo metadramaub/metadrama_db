@@ -73,8 +73,8 @@ export type FilaVistaPrevia = SegmentoMinimo & {
 	candidatas_nombres: string[];
 };
 export type ResultadoVistaPrevia = {
-	persistido: false;
-	confirmacion: null;
+	persistido: boolean;
+	confirmacion: { obra_id: string; importacion_id: string } | null;
 	formato: string | null;
 	metadatos: MetadatosEditables;
 	datos: FichaMinima | null;

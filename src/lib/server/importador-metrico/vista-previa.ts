@@ -108,6 +108,27 @@ function nombreDestino(destino: { forma_slug: string; arquitectura_slug: string 
 	return `${forma} · ${arquitectura}`;
 }
 
+function filasDeFicha(ficha: FichaMinima, notasOriginales: Registro[] | null = null) {
+	return ficha.segmentos.map((s) => ({
+		...s,
+		...(notasOriginales ? {notas_fuente:notasOriginales.filter(n=>s.origen.notas_ref.includes(n.id as string))
+			.map(n=>({id:n.id as string,texto_literal:n.texto_literal as string}))} : {}),
+		jornada: ficha.jornadas.find(j=>s.v_ini>=j.v_ini && s.v_fin<=j.v_fin)?.numero ?? null,
+		extension:s.v_fin-s.v_ini+1,
+		forma_nombre:s.identificacion?nombreDestino(s.identificacion):null,
+		candidatas_nombres:s.candidatas.map(nombreDestino)
+	}));
+}
+
+/** Lee la copia ya guardada sin reinterpretar reglas ni validar otra vez el catálogo histórico. */
+export function vistaDeFichaGuardada(ficha: FichaMinima, original: Registro,
+	confirmacion: NonNullable<ResultadoVistaPrevia['confirmacion']>): ResultadoVistaPrevia {
+	const notas=Array.isArray(original.notas)?original.notas.map(objeto)
+		.filter(n=>typeof n.id==='string' && typeof n.texto_literal==='string'):null;
+	return {persistido:true,confirmacion,formato:ficha.esquema,metadatos:leerMetadatos(ficha.metadatos),
+		datos:ficha,resumen:resumirFichaMinima(ficha),filas:filasDeFicha(ficha,notas),errores:[],avisos:[]};
+}
+
 /** Los valores vacíos aportados expresamente sustituyen al original para poder borrar una fuente opcional. */
 export function analizarEntrada(
 	texto: string,
@@ -234,21 +255,7 @@ export function analizarEntrada(
 					: null;
 			resultado.datos = ficha;
 			resultado.resumen = resumirFichaMinima(ficha);
-			resultado.filas = ficha.segmentos.map((s) => ({
-				...s,
-				...(notasOriginales
-					? {
-							notas_fuente: notasOriginales
-								.filter((n) => s.origen.notas_ref.includes(n.id as string))
-								.map((n) => ({ id: n.id as string, texto_literal: n.texto_literal as string }))
-						}
-					: {}),
-				jornada:
-					ficha.jornadas.find((j) => s.v_ini >= j.v_ini && s.v_fin <= j.v_fin)?.numero ?? null,
-				extension: s.v_fin - s.v_ini + 1,
-				forma_nombre: s.identificacion ? nombreDestino(s.identificacion) : null,
-				candidatas_nombres: s.candidatas.map(nombreDestino)
-			}));
+			resultado.filas = filasDeFicha(ficha,notasOriginales);
 		}
 	} catch (error) {
 		resultado.errores.push({

@@ -26,11 +26,19 @@
 	let edicionesComprobadas = $state(untrack(() => respuesta()?.vista.errores.length ? '[]' : respuesta()?.ediciones ?? '[]'));
 	let vistaComprobada = $state<ResultadoVistaPrevia | null>(untrack(() => respuesta()?.vista.errores.length ? null : respuesta()?.vista ?? null));
 	let formComprobacion = $state<HTMLFormElement>();
+	let peticionId = $state(untrack(()=>data.peticionId));
+	let otraObra = $state(false);
+	function descartarImportacion() {
+		ultimaRespuesta=null; vistaComprobada=null; entrada=''; autorId=''; ediciones='[]';
+		metadatos={...vacios}; otraObra=false; entradaCambiada=false; desactualizada=false;
+		peticionId=crypto.randomUUID();
+	}
 	const vista = $derived(ultimaRespuesta?.vista ?? null);
 	const coincidencias = $derived(ultimaRespuesta?.coincidencias ?? []);
 	$effect(() => {
 		const r = respuesta();
 		if (r) {
+			if(r.huella !== untrack(()=>ultimaRespuesta?.huella)) otraObra=false;
 			const anterior = untrack(() => ultimaRespuesta?.entrada === r.entrada ? vistaComprobada : null);
 			if (!r.vista.errores.length) {
 				vistaComprobada = r.vista;
@@ -107,6 +115,7 @@
 <section class="mx-auto max-w-7xl space-y-6">
 	<header class="flex flex-wrap items-baseline justify-between gap-3">
 		<h1 class="font-display text-3xl">Importador métrico</h1>
+		{#if data.guardadoDisponible}<a href="/dashboard/importador/fichas" class="text-sm underline">Fichas básicas</a>{/if}
 		<span class="text-xs text-[color:var(--muted-foreground)]">Ensayo · no guarda obras</span>
 	</header>
 	<div class="card space-y-4 p-4 sm:p-6">
@@ -188,11 +197,34 @@
 	{/if}
 	{#if coincidencias.length && !entradaCambiada}
 		<aside class="border-l-2 border-amber-400 bg-amber-50 p-3 text-sm">
-			<h2 class="font-semibold">Obras existentes con este título</h2>
-			<ul class="mt-1 list-disc pl-5">{#each coincidencias as c}<li><a class="underline" href={'/dashboard/obras/' + c.obra_id}>{c.titulo}</a></li>{/each}</ul>
+			<h2 class="font-semibold">Posibles coincidencias</h2>
+			<ul class="mt-1 list-disc pl-5">{#each coincidencias as c}<li>{c.titulo} · {c.autores.join(', ') || 'Autoría no indicada'} · {c.tipo_ficha==='minima'?'Básica':'Detallada'}</li>{/each}</ul>
 		</aside>
 	{/if}
 	{#if vista}<VistaPrevia {vista} {desactualizada} formas={data.referencia.formas} ocupado={pendiente} editable={!entradaCambiada} oneditar={editarSecuencias} oncancelar={cancelarEdicion} />{/if}
+	{#if vista?.datos && !vista.errores.length}
+		<section class="card space-y-3 p-4 sm:p-6">
+			<h2 class="text-lg font-semibold">Confirmar importación</h2>
+			{#if !data.guardadoDisponible}
+				<p class="text-sm text-[color:var(--muted-foreground)]">El guardado aún no está habilitado en esta base.</p>
+			{:else}
+				<form method="POST" action="?/confirmar" use:enhance={enviar} class="space-y-3">
+					<input type="hidden" name="entrada" value={entrada} />
+					<input type="hidden" name="autor_id" value={autorId} />
+					<input type="hidden" name="ediciones" value={ediciones} />
+					<input type="hidden" name="peticion_id" value={peticionId} />
+					<input type="hidden" name="huella" value={ultimaRespuesta?.huella ?? ''} />
+					{#each Object.entries(metadatos) as [nombre,valor]}<input type="hidden" name={nombre} value={valor} />{/each}
+					{#if coincidencias.length}
+						<label class="flex items-start gap-2 text-sm"><input type="checkbox" name="decision_coincidencias" value="otra_obra" bind:checked={otraObra} />He revisado las coincidencias: es otra obra.</label>
+						<button type="button" onclick={descartarImportacion} class="rounded-md border px-3 py-2 text-sm" disabled={pendiente}>Es la misma obra: descartar importación</button>
+					{/if}
+					<button class="rounded-md bg-[color:var(--foreground)] px-5 py-2.5 text-sm font-medium text-[color:var(--background)] disabled:opacity-50" disabled={pendiente || desactualizada || entradaCambiada || !ultimaRespuesta?.huella || (coincidencias.length>0 && !otraObra)}>Guardar ficha básica</button>
+					{#if !ultimaRespuesta?.huella || desactualizada || entradaCambiada}<p class="text-sm">Comprueba los cambios antes de guardar.</p>{/if}
+				</form>
+			{/if}
+		</section>
+	{/if}
 </section>
 
 <style>

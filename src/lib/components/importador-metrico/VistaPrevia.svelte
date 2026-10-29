@@ -39,8 +39,8 @@
 
 <section class="space-y-4" aria-label="Vista previa métrica">
 	<header class="flex flex-wrap items-center justify-between gap-3">
-		<h2 class="text-lg font-semibold">Secuencias propuestas</h2>
-		<span class="text-xs text-[color:var(--muted-foreground)]">Vista previa · sin guardar</span>
+		<h2 class="text-lg font-semibold">{vista.persistido?'Secuencias registradas':'Secuencias propuestas'}</h2>
+		<span class="text-xs text-[color:var(--muted-foreground)]">{vista.persistido?'Copia de la importación':'Vista previa · sin guardar'}</span>
 	</header>
 	{#if desactualizada}
 		<p role="status" class="border-l-2 border-amber-400 bg-amber-50 px-3 py-2 text-sm">Cambios sin comprobar.</p>
