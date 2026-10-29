@@ -294,6 +294,13 @@ conservadora: ante la duda, no cuenta.
   lectura, ya la aporta el `numero_efectivo_formas_medio` (§2.3), sin necesidad de cambiar la
   ponderación del perfil.
 
+Para el futuro contraste con el corpus mixto quedó aceptado el 29 de octubre mantener esta
+ponderación por extensión y estudiar aparte la variación entre obras. El referente de una obra
+excluirá esa propia obra y todas sus jornadas; esa comparación todavía debe implementarse y
+validarse. La elección de media/mediana para resumir indicadores entre obras se desarrolla en
+el [inventario general](./inventario-medidas-analiticas.md#media-y-mediana-propuesta-de-presentación-pendiente-de-aprobación).
+No se construye el perfil agregado normalizando medianas por forma: no tienen por qué sumar 100 %.
+
 ### 2.3 Dos medidas de diversidad — y por qué las jornadas se tratan distinto
 
 Son **dos métricas con dominios distintos**, no redundantes:

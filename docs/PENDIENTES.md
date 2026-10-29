@@ -50,6 +50,10 @@ probada en copia con 16 comprobaciones PostgreSQL: desplegar lectores compatible
 aplicar `20261029120000_la_prosa_se_localiza_entre_versos.sql`, que regenera los precomputados.
 Se conserva la anotación válida del editor. Sustituir «peso» ambiguo
 por porcentajes y poblaciones explícitos.
+Aceptados perfil de autor ponderado por extensión y distribución por obras aparte, exclusión de
+la obra contrastada y sus jornadas, y cronología por solapamiento sin año medio del rango.
+Concretar diversidad por formas y revisar mediana/cuartiles como resumen principal entre obras,
+con media accesible y presencia explícita; no construir un perfil compuesto de medianas.
 Revisar los demás puntos D01–D10 antes de cambiar cálculos. La auditoría contiene ejemplos
 sintéticos comprobados, sin recálculos ni cambios en la base compartida. Esta revisión general
 es una dependencia de la incorporación analítica del importador.

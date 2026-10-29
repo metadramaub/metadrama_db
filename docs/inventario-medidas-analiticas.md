@@ -21,6 +21,9 @@ los cálculos vigentes. Las definiciones aprobadas se incorporarán a la
 atribuidas del perfil principal; se propone mantenerlas contabilizadas con reconstrucción
 explícita. Las silvas no proporcionan un recuento de versos por medida por el mero hecho de
 admitir 7 y 11. La prosa se localiza entre versos, sin medir su longitud ni calcular porcentaje.
+También están aceptados el perfil agregado del autor ponderado por extensión, la distribución
+por obras como lectura separada, la exclusión de la propia obra y sus jornadas del referente,
+y el filtro cronológico por solapamiento, sin convertir un intervalo en su año medio.
 
 ## Qué se ha comprobado
 
@@ -293,6 +296,10 @@ distribución de clases generales del catálogo, con una categoría de verso ais
 versificación irregular. Mantener las medidas conocidas para consultas adicionales cuando su
 evidencia permita responderlas, sin prometer un reparto completo de versos por medida;
 no subdividir solo el verso aislado por heptasílabo/octosílabo/endecasílabo en el índice principal.
+En términos del dominio de Versología, se propone **diversidad por formas**, incluyendo los
+registros identificados de aislados e irregularidad. No se cruzan formas con arquitecturas,
+esquemas de rima, metros ni rasgos para multiplicar las categorías del índice principal.
+Esta aclaración de vocabulario no transforma esos registros del catálogo en formas normativas.
 Razones:
 
 1. La pregunta principal es variedad de clases métricas. Medida, arquitectura y rasgos son
@@ -419,22 +426,69 @@ Con dos obras, una con 60 % de romance y otra con ausencia confirmada, la median
 el peso típico donde aparece es 60 % y la difusión es 50 %. Los tres son correctos. Si la segunda
 obra es desconocida, la difusión del grupo está entre 50 % y 100 %; no es un 50 % exacto.
 
+#### Media y mediana: propuesta de presentación pendiente de aprobación
+
+«Típico» no identifica una operación estadística. Se propone evitarlo como rótulo aislado y
+usar «media», «mediana» y la población correspondiente. La media aritmética del porcentaje por
+obra da el mismo peso a cada obra; la mediana es el punto central de esos porcentajes ordenados.
+La proporción agregada del autor de D08 responde a otra pregunta: suma posiciones de la forma
+y divide entre la extensión sumada, equivalente a ponderar los porcentajes por extensión.
+
+La mediana resiste mejor valores extremos que la media; eso no la convierte en universalmente
+mejor ni convierte una obra excepcional en un dato erróneo. La elección depende de la pregunta
+y la distribución. [NIST, medidas de localización](https://itl.nist.gov/div898/handbook/eda/section3/eda351.htm)
+explica esa diferencia; su [guía sobre asimetría](https://www.itl.nist.gov/div898/handbook/eda/section3/eda33d6.htm)
+aconseja describirla con más de una medida de centralidad. Aún no se ha caracterizado la distribución
+del corpus real de Lope para cada variable; no se afirma que todas sean asimétricas.
+
+Recomendación para Versología:
+
+1. Para resumir variación entre obras, mostrar **mediana y cuartiles Q1–Q3** como lectura principal,
+   acompañados de número de obras y cobertura; conservar la **media** accesible en la tabla o
+   exportación y en la metodología. Los cuartiles son descriptivos, no un intervalo de confianza.
+2. Para clases poco frecuentes, acompañar siempre la centralidad de la proporción de obras donde
+   aparecen. La mediana de todas puede ser 0 aunque sí se utilicen. Ofrecer el resumen donde
+   aparecen responde a una pregunta adicional, no autoriza a ocultar las ausencias del corpus.
+3. Conservar las obras excepcionales válidas y los valores individuales. No recortar ni excluir
+   extremos por defecto. La media conserva información sobre su magnitud; la mediana refleja
+   otra propiedad del reparto. No elegir la que produzca la diferencia más llamativa entre autores.
+4. El perfil agregado del autor mantiene su ponderación por extensión, ya aceptada. **No se
+   construye una composición a partir de medianas por forma**: aunque todas las obras tengan
+   perfiles completos, esas medianas no tienen por qué sumar 100 %. Renormalizarlas cambiaría
+   su significado. Medias y medianas de cada indicador se conservan como resúmenes separados.
+5. Ni media ni mediana resuelven identificación pendiente o sesgos de selección. Se aplican las
+   condiciones de D02 antes de presentar valores exactos y se declaran las obras que aportan
+   información a cada resultado. Una respuesta no recogida no entra como cero.
+
+Ejemplos sintéticos, no resultados del corpus:
+
+- Porcentajes de una forma en cinco obras: `0, 0, 0, 10, 40`. Media: 10 %; mediana: 0 %;
+  presencia: dos de cinco obras. Entre las dos presencias, media y mediana son 25 %. La media
+  global no dice que una obra concreta tenga un 10 %; la mediana 0 no dice que la forma no exista.
+- Tres perfiles completos sobre tres clases: `(80,20,0)`, `(0,80,20)`, `(20,0,80)`. Las medianas
+  por componente son `(20,20,20)`, que suman 60 %. Su media componente a componente es
+  `(100/3, 100/3, 100/3)`, que sí suma 100 % en esta población común y completamente clasificada.
+
+La recomendación conserva comparabilidad con estudios que usan media. El artículo debe declarar
+qué se compara, qué población entra y qué resumen es principal antes de interpretar las diferencias;
+la validación de afinidad no se sustituye por escoger media o mediana.
+
 ### D08 · Referente de autor y autoría por jornada
 
-**Propongo** mantener como perfil de autor el reparto agregado ponderado por posiciones. Añadir
+**Aceptado por el responsable el 29 de octubre:** mantener como perfil de autor el reparto agregado ponderado por posiciones. Añadir
 por separado la distribución por obras: una obra larga pesa más en el primero; cada obra cuenta
 una vez en la segunda. Mantener las jornadas atribuidas como unidades propias con sus rangos,
 sin llamarlas obras completas. Mostrar número de obras, jornadas y posiciones aportadas.
 
-Para contrastar una obra con su autor, **propongo excluir esa misma obra y todas sus jornadas
+Para contrastar una obra con su autor, **se excluyen esa misma obra y todas sus jornadas
 del referente**, evitando que contribuya a la base con la que se la juzga. Si no queda referente,
 no hay comparación. Este resultado también se prepararía en la precomputación.
 
 ### D09 · Fechas
 
-**Propongo** conservar el filtro por solapamiento y llamarlo «obras compatibles con el periodo».
+**Aceptado por el responsable el 29 de octubre:** conservar el filtro por solapamiento y llamarlo «obras compatibles con el periodo».
 Un intervalo 1590–1600 es compatible con 1595–1596, pero no permite fechar la obra en 1595.
-No repartirla uniformemente por años. Una fecha única expresamente registrada puede representarse
+No sustituir el intervalo por su media ni repartirlo uniformemente por años. Una fecha única expresamente registrada puede representarse
 como intervalo puntual; un dato incompleto no se convierte automáticamente en fecha cierta.
 La ausencia indebida de datación impide incorporar una básica, conforme al requisito ya acordado.
 
@@ -498,12 +552,12 @@ verdad filológica ni el error de los editores de las fuentes.
 | Punto | Decisión pendiente y propuesta para facilitar su revisión |
 | --- | --- |
 | D01: lagunas | Se retira excluirlas por defecto del perfil principal. Propuesta ajustada a la práctica indicada: contar las posiciones perdidas cuantificadas y atribuidas en su forma y en el total, sin duplicarlas, conservando su carácter reconstruido. No inventar cantidad ni forma desconocidas. |
-| D03: nivel de agrupación | Incluir aislados e irregularidad ya está aceptado. Aprobar o ajustar el índice principal por clases generales; se retira prometer un reparto universal por medidas, que no está anotado en las silvas. |
+| D03: nivel de agrupación | Aclarado que se propone diversidad por formas, incluidos aislados e irregularidad, sin cruzarlas con arquitecturas/esquemas/metros. Confirmar ese nivel principal; no se promete un reparto universal por medidas. |
 | D05: detalle de denominador | Extremos conocidos y exclusión de básicas sin cuadros están aceptados. Un recuento cero de límites puede ser válido; dividir por cero no da 0 %, por lo que esa proporción es no aplicable. Es una regla técnica derivada, no otra aprobación necesaria. |
 | D06: fenómenos | Cero analizado de detalladas publicadas y desconocido por silencio de básicas están aceptados. Prosa definida como presencia/localización; corrección implementada y probada en copia, pendiente de despliegue. Los otros fenómenos conservan la unidad que se anota y declaran sus respuestas conocidas; no se exige aprobar cada caso aritmético. |
-| D07: dos lecturas | Revisar la explicación con porcentajes y ejemplo, y confirmar si se conservan las dos medianas y la medida de presencia con sus nombres explícitos. La elegibilidad no elimina sesgos de selección. |
-| D08: referente | Mantener perfil agregado ponderado por extensión y distribución por obras aparte; excluir la obra contrastada y sus jornadas del referente. Mantener atribución por obra/jornada ya acordada. |
-| D09: fechas | Seleccionar por solapamiento como «compatible con el periodo», sin inventar año puntual. No interpretar ventanas que se solapan como periodos disjuntos al sumar recuentos. |
+| D07: centralidad y población | Revisar la propuesta de mediana y Q1–Q3 como resumen principal entre obras, media accesible y presencia en el corpus; distinguir todas las obras evaluables de las presencias. La elección sigue pendiente y no sustituye resolver la incertidumbre de identificación. |
+| D08: referente | Aceptado: perfil agregado ponderado por extensión y distribución por obras aparte; excluir la obra contrastada y sus jornadas. Autoría por obra/jornada se mantiene. Pendiente de implementación en la comparación mixta, no de otra aprobación. |
+| D09: fechas | Aceptado: solapamiento como «compatible con el periodo», sin usar la media del intervalo como fecha. No interpretar ventanas que se solapan como periodos disjuntos al sumar recuentos. |
 
 D02 permite una presentación descriptiva sencilla, pero no cierra todavía el procedimiento para
 declarar semejanza o diferencia en el artículo. Es una tarea de diseño y validación estadística,

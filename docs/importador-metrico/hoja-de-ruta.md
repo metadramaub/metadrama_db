@@ -52,12 +52,12 @@ se desarrollan en el [inventario general de medidas](../inventario-medidas-anali
 | --- | --- |
 | Candidatas | Quién aprueba una correspondencia, qué evidencia la sostiene y cuándo la lista es exhaustiva o solo orientativa. No asignar pesos sin fundamento |
 | Aceptación de la extracción | Quien importa revisa y confirma el guardado, sin segundo validador. Representar las filas ilegibles y las inconsistencias de la fuente sin inventar datos |
-| Fechas y autoría | Fechas obligatorias con fuente opcional; autor sin fundamentos obligatorios, priorizando obras no discutidas. Concretar intervalos y alternativas para cada estudio |
+| Fechas y autoría | Fechas obligatorias con fuente opcional; autor sin fundamentos obligatorios, priorizando obras no discutidas. Aceptado filtro por solapamiento («compatible con el periodo»), sin sustituir rangos por su año medio |
 | Disponibilidad en la plataforma | Admin/IP y editores con permiso específico importan y consultan todas las mínimas, mostrando quién importó cada una. Laboratorio reservado a admin/IP; elegibilidad por medida y agregados seleccionados para fichas completas |
 | Elaboración de la ficha completa | Elección entre conservar/corregir jornadas y secuencias o vaciarlas. Propuesta visible del importador sin aprobación automática en v2; copia mínima fija hasta publicar la completa |
 | Tipo mínimo y presentación | Mínima como tipo, sin nuevo estado editorial. Importación en preparación → confirmación → ficha mínima; se propone una pestaña Fichas mínimas en Obras |
 | Ediciones y reimportaciones | Cómo reconocer una obra existente y actualizarla sin sobrescribir trabajo completo ni contar dos veces la obra |
-| Cálculo del referente | Si se resume por obra o por versos; excluir o incluir la obra de referencia de manera explícita; selección por periodo y cobertura |
+| Cálculo del referente | Aceptado perfil agregado ponderado por versos y distribución por obras aparte; excluir la propia obra y todas sus jornadas del referente. Implementar selección y cobertura; media/mediana entre obras sigue en revisión |
 | Publicación de comparaciones | Qué evidencia, tamaño de muestra y estabilidad permiten redactar una comparación, y qué incertidumbre se muestra |
 | Archivos del piloto | Formato de intercambio, datos que se versionan y ubicación de fotografías y demás materiales externos |
 

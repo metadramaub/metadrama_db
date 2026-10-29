@@ -97,6 +97,12 @@ corrigiendo, ni de los metadatos de otra edición introducidos durante ese traba
 La selección de autoría utiliza los identificadores de su fuente y conserva, para completas, las
 unidades de obra/jornada del modelo existente. No se duplica una obra por varias atribuciones.
 
+Acuerdos del 29 de octubre: el perfil agregado del autor pondera por extensión; la distribución
+entre obras se mantiene como lectura separada. Al contrastar una obra se excluyen del referente
+esa misma obra y todas sus jornadas. La selección cronológica conserva intervalos y usa
+solapamiento como compatibilidad con el periodo, sin calcular una fecha media del rango.
+Las salidas se preparan en los productores, bajo la fuente y versión elegidas.
+
 La copia retirada se conserva como historia. Retirar de publicación una completa no debe reactivar
 automáticamente una importación histórica: esa transición requiere una política explícita.
 Esta última regla se propone para concretar el caso aún no acordado, no como flujo implementado.
