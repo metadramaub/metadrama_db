@@ -11,8 +11,8 @@ preparó un [primer lote de cuatro extracciones](./piloto/informe-inicial.md), u
 de equivalencia para cotejo humano. El responsable aceptó las cuatro transcripciones sin
 correcciones: [registro y hashes](./piloto/revision-humana.json). Ya existe una
 [vista previa de ensayo en el dashboard](./vista-previa-dashboard.md). El guardado y la consulta ya están conectados en código y probados por capas contra PostgreSQL
-aislado y RPC simulada. **Todavía no hay cambios de esquema aplicados a Supabase, prueba de
-navegador con Auth real ni experimentos de sensibilidad ejecutados.** Los archivos del piloto no
+aislado, RPC simulada, Auth/JWT local real y navegador. **Todavía no hay cambios de esquema
+aplicados al Supabase compartido ni experimentos de sensibilidad ejecutados.** Los archivos del piloto no
 describen capacidades ya disponibles en la plataforma.
 
 ## Lectura y organización
@@ -20,6 +20,7 @@ describen capacidades ya disponibles en la plataforma.
 | Documento | Contenido |
 | --- | --- |
 | [Vista previa del dashboard](./vista-previa-dashboard.md) | Pegado, edición, confirmación condicionada a RPC y consulta de copia fija |
+| [Auditoría de aislamiento](./auditoria-aislamiento.md) | Accesos directos, contadores y reparto, pruebas con Auth real local y pasos de promoción |
 | [Persistencia local](./persistencia-local.md) | Borrador SQL fuera de las migraciones y ensayo de guardado, permisos y concurrencia en PostgreSQL aislado |
 | [Metodología](./metodologia.md) | Acuerdos sobre fuentes, identificación, equivalencias, incertidumbre y comparabilidad |
 | [Hoja de ruta](./hoja-de-ruta.md) | Etapas, resultados necesarios, decisiones abiertas e integración técnica |

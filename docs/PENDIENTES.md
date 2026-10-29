@@ -88,10 +88,12 @@ aislado y prueba permisos, copia fija e idempotencia concurrente contra el esque
 El 29 de octubre se conecta en código vista previa → confirmación reconstruida en servidor →
 consulta fija, con revisión explícita de homónimos y lista Fichas básicas. La capacidad de sesión
 habilita a importadores concretos sin abrir el laboratorio. Se separan listado y editor detallados.
-Pruebas por capas: 73 comprobaciones PostgreSQL y pruebas de acciones con RPC simulada; falta
-recorrido con navegador y Auth real. La base compartida mantiene el ensayo sin guardado.
-Pendiente: auditar demás consumidores privilegiados, contadores y artefactos; integrar migración
-definitiva, precomputación combinada y sustitución editorial. Reimportación en un bloque posterior.
+Pruebas: 89 comprobaciones PostgreSQL, 25 HTTP con Auth/JWT real local, 100 pruebas de código
+y recorrido de navegador con cuentas sintéticas. La [auditoría de aislamiento](./importador-metrico/auditoria-aislamiento.md)
+cierra este bloque de consumidores: contadores y reparto detallados separados, escrituras directas
+y constructores privilegiados protegidos. La base compartida mantiene el ensayo sin guardado.
+Pendiente: preparar y aprobar la promoción transaccional sobre esquema reciente, con backup;
+precomputación combinada y sustitución editorial. Reimportación en un bloque posterior.
 El contrato 0.2 y el borrador SQL ya conservan original, copia confirmada, versión de reglas y decisiones
 particulares breves, sin estados ni fundamentos generales repetidos por secuencia. La vista previa
 ya permite editar formas y arquitecturas, dividir y reunir partes de una fila original, comprobar
@@ -102,7 +104,7 @@ El pareado final se registra como Dístico final / Presente y las asonancias exp
 como valores del rasgo Vocales de asonancia, conservando la notación original.
 La tabla comparte la presentación de forma y arquitectura con las fichas y separa los datos
 métricos estructurados del texto de notas, para revisar qué se guardará sin abrir cada secuencia.
-Antes del primer guardado real, implementar el [plan de consultas y precomputación](./importador-metrico/consultas-y-precomputacion.md):
+Para incorporar básicas a los análisis, implementar el [plan de consultas y precomputación](./importador-metrico/consultas-y-precomputacion.md):
 selección de una aportación por obra, lectores editoriales frente a productores del corpus mixto,
 versiones, invalidación y permisos de artefactos. El análisis seguirá usando datos precomputados;
 no se ampliarán indiscriminadamente los lectores públicos ni se filtrarán todas las mínimas fuera de los cálculos.
@@ -113,7 +115,7 @@ al corpus existente, no solo a la importación.
 El recálculo combinado procesa ambas fuentes; se preparan documentos por consumidor y un manifiesto
 coherente para su almacenamiento actual en Supabase y futura distribución en R2, manteniendo permisos
 y autoría por obra/jornada. No se integra R2 todavía.
-Después verificar el recorrido con Auth real y aprobar el despliegue del guardado definitivo;
+Después preparar y aprobar el despliegue del guardado definitivo;
 ampliar el piloto y ensayar
 sensibilidad. No se exige resolver todas las denominaciones: Canción con remate y encadenados
 con «serventesio final» como cierre 3+1 están aceptados; «tercetos» sin calificativo y «letrilla»

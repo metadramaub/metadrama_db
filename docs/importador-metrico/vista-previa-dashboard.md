@@ -3,7 +3,8 @@
 Actualizado el 29 de octubre de 2026. `/dashboard/importador` mantiene la vista previa sin guardado
 en la base compartida. El código ya permite confirmar y consultar fichas básicas cuando se instalan
 las RPC de persistencia en una DB de ensayo. **No se ha aplicado el borrador a Supabase.**
-El guardado no activa todavía los análisis del corpus.
+El guardado no activa todavía los análisis del corpus. El recorrido con Auth real local y navegador
+ya se ha probado: véase la [auditoría de aislamiento](./auditoria-aislamiento.md).
 
 ## Qué permite probar
 

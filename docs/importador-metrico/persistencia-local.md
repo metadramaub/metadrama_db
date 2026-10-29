@@ -18,8 +18,8 @@ se restauró para ejecutar las funciones nuevas con los disparadores existentes.
 
 ## Qué guarda el borrador
 
-Los [cuatro archivos SQL](../../scripts/importador-metrico/sql/01-almacenamiento.sql) se ejecutan
-en orden: almacenamiento, esquemas de documentos, operación de guardado y consultas de sesión.
+Los [cinco archivos SQL](../../scripts/importador-metrico/sql/01-almacenamiento.sql) se ejecutan
+en orden: almacenamiento, esquemas de documentos, operación de guardado, consultas de sesión y aislamiento del editor/productor detallado.
 
 - `obras.tipo_ficha`: `completa` por defecto; `minima` para lo importado. Ningún estado nuevo.
 - `editores.puede_importar_metrica`: desactivado por defecto. Admin/IP mantienen su acceso;
@@ -78,9 +78,9 @@ ajenas. Una mínima no puede pasar a Publicado ni activar su visibilidad públic
 Las políticas existentes de obras permiten lecturas amplias y se combinan con OR. El borrador
 añade un límite **restrictivo**, que sí se combina con AND, para las mínimas. Jornadas y secuencias
 tienen el mismo límite, incluido el antiguo rol revisor. No se retiran políticas anteriores de las
-completas. Esto no constituye aún una auditoría de todas las funciones SECURITY DEFINER ni de los
-consumidores que usan credenciales de servicio: su adaptación sigue siendo necesaria antes de
-desplegar el importador.
+completas. La revisión posterior de las funciones privilegiadas y los consumidores afectados se
+recoge en la [auditoría de aislamiento](./auditoria-aislamiento.md). El despliegue requiere todavía
+contrastar el esquema reciente y promover explícitamente el borrador probado.
 
 ## Ensayo reproducible
 
@@ -127,7 +127,7 @@ literal; el dato aceptado es remate final de un verso dentro del Terceto encaden
 
 ## Límite de este bloque
 
-El 29 de octubre se han ejecutado **73 comprobaciones correctas** sobre el esquema público real
+El 29 de octubre se han ejecutado **89 comprobaciones correctas** sobre el esquema público real
 exportado ese día y datos sintéticos: añade homónimos del mismo autor, variantes de detalladas
 en borrador, coincidencia nueva entre revisión y guardado, decisión conservada y su reintento.
 También se comprueban las consultas de lista/copia, los permisos, el bloqueo de cambios directos
@@ -135,8 +135,11 @@ de tipo de ficha y dos peticiones distintas concurrentes sin coincidencias revis
 muestra todas las básicas a los importadores y toma título, autor y fechas de la copia fija.
 
 Las acciones de servidor y su adaptador cuentan con pruebas de formulario y RPC simulada: incluyen
-reconstrucción, huella desactualizada, coincidencias nuevas, reintentos y permisos. No sustituyen una
-prueba de navegador con Supabase Auth/JWT, todavía pendiente. Svelte-check pasa sin errores ni avisos.
+reconstrucción, huella desactualizada, coincidencias nuevas, reintentos y permisos. Se completan con **25 comprobaciones HTTP de Supabase Auth/JWT real local** y el recorrido de
+navegador con cuentas sintéticas: carga, corrección, comprobación, guardado, recarga y consulta;
+también se comprueban administración y editor sin permiso. **100 pruebas de código pasan** y
+Svelte-check no presenta errores ni avisos. Reproducción y alcance en la
+[auditoría de aislamiento](./auditoria-aislamiento.md).
 
 El guardado admite la extracción original 0.1, también después de corregirla en la vista previa.
 Una ficha preparada o su envoltorio sin original se pueden previsualizar, pero no confirmar: no se
@@ -150,7 +153,10 @@ consumen. Tampoco existe la sustitución al publicar la completa, la elección e
 conservar y vaciar estructura ni la reimportación. Sí existe la sección Fichas básicas y su consulta.
 El editor detallado rechaza escrituras de básicas, y su listado las separa cuando existe el esquema.
 La conversión de tipo queda bloqueada hasta disponer del recorrido editorial explícito.
-Queda auditar el resto de consumidores privilegiados, contadores del dashboard y artefactos públicos.
+La [auditoría de aislamiento](./auditoria-aislamiento.md) revisa los lectores privilegiados,
+contadores, reparto y artefactos de esta entrega. El SQL de aislamiento añade límites de escritura
+y protege también llamadas directas y constructores internos; los productores detallados no
+consumen las básicas. El productor combinado y su invalidación siguen pendientes.
 No se debe aplicar
 este borrador como si esos flujos estuvieran resueltos. Las migraciones definitivas deberán
 acompañarse de lectores, permisos de servidor, adaptación de los consumidores y copias de seguridad
