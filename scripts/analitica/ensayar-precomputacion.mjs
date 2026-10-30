@@ -113,10 +113,13 @@ select public.guardar_ficha_minima(${lit(randomUUID())},${lit(autor)},${lit(JSON
 	}
 	const extractor = cargar(resolve('scripts/analitica/extraer-aportaciones-local.sql'));
 	cargar(resolve('scripts/lib/analitica/aportaciones.mjs'));
+	cargar(resolve('scripts/lib/analitica/datos-comparables.mjs'));
 	cargar(resolve('scripts/analitica/ensayar-precomputacion.mjs'));
 	const extraer = () => consulta(extractor);
 	const entrada = extraer();
-	const aportaciones = entrada.registros.map(seleccionarAportacion).filter(Boolean);
+	const aportaciones = entrada.registros
+		.map((r) => seleccionarAportacion(r, entrada.referencias))
+		.filter(Boolean);
 	assert.equal(new Set(aportaciones.map((a) => a.obra_id)).size, aportaciones.length);
 	const calcular = () => ({
 		'fuentes-extraidas.json': entrada,
@@ -125,6 +128,18 @@ select public.guardar_ficha_minima(${lit(randomUUID())},${lit(autor)},${lit(JSON
 		'referente-lope.json': precomputarReferente(aportaciones, entrada.catalogo, { autor_id: autor })
 	});
 	const documentos = calcular();
+	for (const p of documentos['perfiles-obras.json']) {
+		assert.deepEqual(
+			p.medidas?.datos_adicionales.incidencias,
+			[],
+			'Hay datos adicionales que el adaptador no ha traducido'
+		);
+		for (const c of p.medidas.datos_adicionales.cobertura)
+			assert.equal(
+				c.secuencias_con_dato + c.ausencias_comprobadas + c.sin_dato,
+				c.denominador_secuencias
+			);
+	}
 	const perfilesAnteriores =
 		consulta(`select jsonb_object_agg(o.obra_id,public.perfil_formas_rango(o.obra_id,1,2147483647))
 from public.obras o join public.vocabularios v on v.termino_id=o.estado where o.tipo_ficha='completa' and v.termino='publicado';`);
@@ -175,8 +190,19 @@ from public.obras o join public.vocabularios v on v.termino_id=o.estado where o.
 			extension: p.medidas.extension,
 			pendientes: p.medidas.cobertura_formas.pendientes,
 			filas: p.medidas.segmentacion.filas_origen,
-			segmentacion_confirmada: p.medidas.segmentacion.confirmada
+			segmentacion_confirmada: p.medidas.segmentacion.confirmada,
+			datos_adicionales: p.medidas.datos_adicionales.valores.map((v) => ({
+				dimension: v.dimension,
+				propiedad: v.propiedad,
+				valor: v.valor,
+				forma_slug: v.forma_slug,
+				arquitectura_slug: v.arquitectura_slug,
+				metro_observado: v.metro_observado,
+				secuencias: v.secuencias_con_evidencia,
+				extension_documentada: v.extension_documentada
+			}))
 		})),
+		datos_adicionales_sin_incidencias: true,
 		fuentes_previas_intactas: true,
 		artefactos_previos_intactos: true,
 		determinista: true

@@ -2,6 +2,18 @@
 -- Las básicas se leen de la copia fija, nunca de jornadas/secuencias de trabajo.
 begin read only;
 select jsonb_build_object(
+ 'referencias',jsonb_build_object(
+   'formas',(select coalesce(jsonb_object_agg(f.forma_id,jsonb_build_object('slug',f.slug)),'{}'::jsonb) from public.formas_metricas f),
+   'metros',(select coalesce(jsonb_object_agg(m.metro_id,to_jsonb(m)),'{}'::jsonb) from public.metros m),
+   'rasgos',(select coalesce(jsonb_object_agg(r.rasgo_id,to_jsonb(r)),'{}'::jsonb) from public.rasgos_metricos r),
+   'valores',(select coalesce(jsonb_object_agg(v.valor_id,to_jsonb(v)),'{}'::jsonb) from public.rasgo_valores v),
+   'rimas',(select coalesce(jsonb_object_agg(r.esquema_rima_id,to_jsonb(r)),'{}'::jsonb) from public.esquemas_rima r),
+   'esquemas_metricos',(select coalesce(jsonb_object_agg(m.esquema_metrico_id,to_jsonb(m)),'{}'::jsonb) from public.esquemas_metricos m),
+   'secciones',(select coalesce(jsonb_object_agg(s.seccion_id,to_jsonb(s)),'{}'::jsonb) from public.estructuras_secciones s),
+   'arquitecturas',(select coalesce(jsonb_object_agg(a.arquitectura_id,to_jsonb(a)),'{}'::jsonb) from public.arquitecturas_forma a),
+   'preguntas',(select coalesce(jsonb_object_agg(p.grupo_eleccion_id,to_jsonb(p)),'{}'::jsonb) from public.preguntas_metricas p),
+   'repeticiones',(select coalesce(jsonb_object_agg(r.repeticion_id,to_jsonb(r)),'{}'::jsonb) from public.repeticiones_metricas r),
+   'variedades',(select coalesce(jsonb_object_agg(v.variedad_id,to_jsonb(v)),'{}'::jsonb) from public.variedades_arquitectura v)),
  'catalogo',(select jsonb_agg(jsonb_build_object('slug',f.slug,'tipo_registro',f.tipo_registro,
    'arquitecturas',coalesce((select jsonb_agg(a.slug order by a.slug) from public.arquitecturas_forma a where a.forma_id=f.forma_id),'[]'::jsonb)) order by f.slug)
    from public.formas_metricas f),
@@ -22,13 +34,13 @@ select jsonb_build_object(
        'ref',s.secuencia_id,'v_ini',s.v_ini,'v_fin',s.v_fin,
        'forma_slug',s.forma_slug,'arquitectura_slug',s.arquitectura_slug,
        'n_anotaciones',(select count(*) from public.anotaciones_metricas x where x.secuencia_id=s.secuencia_id),
-       'detalles',coalesce((select jsonb_agg(to_jsonb(e) order by e.eleccion_id) from public.anotacion_elecciones e where e.anotacion_id=a.anotacion_id),'[]'::jsonb),
+       'detalles',coalesce((select jsonb_agg(to_jsonb(e) order by e.eleccion_id) from public.anotacion_elecciones_resueltas e where e.anotacion_id=a.anotacion_id),'[]'::jsonb),
        'desviaciones',coalesce((select jsonb_agg(to_jsonb(d) order by d.v_ini,d.desviacion_id) from public.anotacion_desviaciones d where d.anotacion_id=a.anotacion_id),'[]'::jsonb)
        ) order by s.v_ini,s.secuencia_id)
        from public.formas_de_la_obra(o.obra_id) s
        left join lateral (select x.anotacion_id from public.anotaciones_metricas x where x.secuencia_id=s.secuencia_id order by x.orden,x.anotacion_id limit 1) a on true),'[]'::jsonb),
      'evidencia_adicional',jsonb_build_object('estado_editorial','publicado','exhaustividad_auditada',false,
-       'realizaciones',coalesce((select jsonb_agg(to_jsonb(r) order by r.anotacion_id,r.orden,r.realizacion_id)
+       'realizaciones',coalesce((select jsonb_agg(to_jsonb(r)||jsonb_build_object('secuencia_id',am.secuencia_id) order by r.anotacion_id,r.orden,r.realizacion_id)
          from public.anotacion_realizaciones r join public.anotaciones_metricas am using(anotacion_id)
          join public.secuencias_metricas sm using(secuencia_id) where sm.obra_id=o.obra_id),'[]'::jsonb),
        'caracterizaciones',coalesce((select jsonb_agg(to_jsonb(c) order by c.secuencia_id,c.v_ini,c.v_fin,c.caracterizacion_rango_id)

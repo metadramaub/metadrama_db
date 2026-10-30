@@ -109,6 +109,11 @@ de cuatro obras como el corpus de Lope ni como una comparación científica vali
 
 ## Lo que aún no acredita
 
+**Avance del 30 de octubre:** los adaptadores y los resúmenes de arquitectura, rasgos, remates,
+esquemas, metro y desviaciones están implementados y probados en el [ensayo 0.3](./datos-comparables.md).
+El párrafo siguiente identifica el alcance del primer ensayo; los detalles y límites actuales
+figuran en ese nuevo documento. La integración con productores y lectores reales sigue pendiente.
+
 Faltan los adaptadores y denominadores específicos de rasgos, rima, realizaciones, fenómenos y
 cuadros; la distribución por obras con mediana/cuartiles; la comparación bajo identificación
 parcial y el experimento de sensibilidad. La prosa se conserva como evidencia de localización:

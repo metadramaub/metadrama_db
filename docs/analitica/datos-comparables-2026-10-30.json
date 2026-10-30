@@ -1,0 +1,130 @@
+{
+  "esquema": "perfil-comparable-ensayo/0.3",
+  "entorno": "docker_aislado",
+  "escrituras_remotas": false,
+  "detalladas": 12,
+  "detalladas_cotejadas_con_productor_vigente": 12,
+  "detalladas_con_incidencias": 7,
+  "secuencias_detalladas_sin_v2": 11,
+  "basicas": [
+    {
+      "titulo": "Los donaires de Matico",
+      "extension": 2812,
+      "pendientes": 272,
+      "filas": 18,
+      "segmentacion_confirmada": true,
+      "datos_adicionales": []
+    },
+    {
+      "titulo": "El molino",
+      "extension": 2992,
+      "pendientes": 9,
+      "filas": 21,
+      "segmentacion_confirmada": true,
+      "datos_adicionales": [
+        {
+          "dimension": "rasgo",
+          "propiedad": "distico_final",
+          "valor": "presente",
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica",
+          "metro_observado": null,
+          "secuencias": 2,
+          "extension_documentada": null
+        }
+      ]
+    },
+    {
+      "titulo": "Los locos de Valencia",
+      "extension": 3072,
+      "pendientes": 0,
+      "filas": 20,
+      "segmentacion_confirmada": true,
+      "datos_adicionales": [
+        {
+          "dimension": "desviacion",
+          "propiedad": "estructura",
+          "valor": "sobra",
+          "forma_slug": "redondilla",
+          "arquitectura_slug": null,
+          "metro_observado": null,
+          "secuencias": 1,
+          "extension_documentada": 1
+        },
+        {
+          "dimension": "desviacion",
+          "propiedad": "metro",
+          "valor": "menor_que_norma",
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica",
+          "metro_observado": "heptasilabo",
+          "secuencias": 1,
+          "extension_documentada": 1
+        },
+        {
+          "dimension": "rasgo",
+          "propiedad": "vocales_asonancia",
+          "valor": "a-e",
+          "forma_slug": "romance",
+          "arquitectura_slug": "octosilabica",
+          "metro_observado": null,
+          "secuencias": 1,
+          "extension_documentada": null
+        }
+      ]
+    },
+    {
+      "titulo": "El verdadero amante",
+      "extension": 2878,
+      "pendientes": 0,
+      "filas": 19,
+      "segmentacion_confirmada": true,
+      "datos_adicionales": [
+        {
+          "dimension": "rasgo",
+          "propiedad": "distico_final",
+          "valor": "presente",
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica",
+          "metro_observado": null,
+          "secuencias": 3,
+          "extension_documentada": null
+        },
+        {
+          "dimension": "rasgo",
+          "propiedad": "vocales_asonancia",
+          "valor": "i-o",
+          "forma_slug": "romance",
+          "arquitectura_slug": "octosilabica",
+          "metro_observado": null,
+          "secuencias": 1,
+          "extension_documentada": null
+        },
+        {
+          "dimension": "remate",
+          "propiedad": "seccion",
+          "valor": "remate",
+          "forma_slug": "cancion",
+          "arquitectura_slug": null,
+          "metro_observado": null,
+          "secuencias": 1,
+          "extension_documentada": 2
+        },
+        {
+          "dimension": "remate",
+          "propiedad": "seccion",
+          "valor": "remate",
+          "forma_slug": "terceto_encadenado",
+          "arquitectura_slug": null,
+          "metro_observado": null,
+          "secuencias": 2,
+          "extension_documentada": 2
+        }
+      ]
+    }
+  ],
+  "datos_adicionales_sin_incidencias": true,
+  "fuentes_previas_intactas": true,
+  "artefactos_previos_intactos": true,
+  "determinista": true
+}

@@ -35,6 +35,11 @@ estado con `npm run equivalencias:informe`
 Primer [ensayo local combinado](./analitica/ensayo-precomputacion-combinada.md) ejecutado con
 cuatro básicas y doce detalladas; perfiles conocidos contrastados, sin cambios en Supabase.
 Continuar desde esos adaptadores y controles, sin conectar todavía el ensayo a las páginas.
+El [bloque de datos adicionales](./analitica/datos-comparables.md) ya traduce el contrato básico
+y las elecciones/realizaciones v2: arquitectura, rasgos, remates, metro, esquemas, repeticiones
+y desviaciones, con sus ámbitos y coberturas. Ensayo 0.3 ejecutado en copia aislada y 109 pruebas.
+No repetir esos adaptadores: el siguiente bloque es integrar el productor, actualización y
+permisos, además de ampliar a veinte obras para probar más variedad de fuentes.
 Acuerdo del 30 de octubre: guardar la básica confirma la segmentación mostrada, sin casilla
 adicional. Los límites con forma desconocida quedan fuera de los pares evaluables y no cuentan
 como ausencia de transición. El ensayo 0.2 aplica ese criterio también a copias anteriores,
