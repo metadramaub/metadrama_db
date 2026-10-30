@@ -12,6 +12,17 @@ const gold = JSON.parse(
 );
 const evaluar = (d) => evaluarRespuestaModelo(JSON.stringify(d), gold);
 describe('cotejo de modelos de extracción', () => {
+	it('separa un número escrito como texto de una lectura numérica distinta, sin aceptar ni corregir la respuesta', () => {
+		const d = structuredClone(gold);
+		d.tramos[0].pagina = String(gold.tramos[0].pagina);
+		d.tramos[1].v_fin = String(gold.tramos[1].v_fin + 1);
+		const resultado = evaluar(d);
+		expect(resultado.diferencias_formato.map((x) => x.ruta)).toEqual(['tramos.0.pagina']);
+		expect(resultado.diferencias.map((x) => x.ruta)).toContain('tramos.1.v_fin');
+		expect(resultado.estructura_valida).toBe(false);
+		expect(resultado.lista_para_importar_sin_corregir).toBe(false);
+		expect(typeof d.tramos[0].pagina).toBe('string');
+	});
 	it('acepta la transcripción de referencia sin premiar un nombre de proveedor', () =>
 		expect(evaluar(gold).lista_para_importar_sin_corregir).toBe(true));
 	it('no confunde mismo total con mismos rangos', () => {

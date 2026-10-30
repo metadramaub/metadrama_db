@@ -29,6 +29,7 @@ console.log(
 		json_valido: informe.json_valido,
 		estructura_valida: informe.estructura_valida,
 		diferencias: informe.diferencias?.length ?? null,
+		diferencias_formato: informe.diferencias_formato?.length ?? null,
 		lista_para_importar_sin_corregir: informe.lista_para_importar_sin_corregir
 	})
 );

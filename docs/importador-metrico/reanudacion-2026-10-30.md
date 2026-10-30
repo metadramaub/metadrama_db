@@ -1,5 +1,10 @@
 # Punto de reanudación · 30 de octubre de 2026
 
+**Actualización tras reanudar:** esta pausa ya terminó. La ronda de cuatro obras está cerrada,
+los errores de entrada son legibles y Matico se guardó y recargó en la instancia sintética.
+Estado vigente y próximos pasos en [prueba-gemini-gratuita-2026-10-30.md](prueba-gemini-gratuita-2026-10-30.md).
+Lo que sigue conserva el punto de parada anterior como registro histórico.
+
 Trabajo detenido por petición del responsable para apagar el ordenador. No aplicar migraciones.
 Prioridad: importador operativo para colaboradores; después integrar la precomputación de ambos
 orígenes. R2 se aplaza hasta necesitar espacio (ocupación indicada por el responsable: 12 %).

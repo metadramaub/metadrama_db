@@ -3,14 +3,31 @@ import { extraccionSchema, validarTextoExtraccion } from './validacion.mjs';
 const normalizar = (v) =>
 	typeof v === 'string' ? v.normalize('NFC').replace(/\s+/gu, ' ').trim() : v;
 const igual = (a, b) => JSON.stringify(a) === JSON.stringify(b);
-const comparar = (esperada, obtenida, campos, ruta, diferencias) => {
+const camposNumericos = new Set([
+	'fecha_inicio',
+	'fecha_fin',
+	'numero',
+	'jornada',
+	'v_ini',
+	'v_fin',
+	'n_versos_fuente',
+	'pagina'
+]);
+const comparar = (esperada, obtenida, campos, ruta, diferencias, diferenciasFormato) => {
 	for (const campo of campos)
-		if (!igual(normalizar(esperada?.[campo]), normalizar(obtenida?.[campo])))
-			diferencias.push({
+		if (!igual(normalizar(esperada?.[campo]), normalizar(obtenida?.[campo]))) {
+			const soloTipo =
+				camposNumericos.has(campo) &&
+				typeof esperada?.[campo] === 'number' &&
+				typeof obtenida?.[campo] === 'string' &&
+				/^\d+$/.test(obtenida[campo]) &&
+				Number(obtenida[campo]) === esperada[campo];
+			(soloTipo ? diferenciasFormato : diferencias).push({
 				ruta: `${ruta}.${campo}`,
 				esperado: esperada?.[campo] ?? null,
 				obtenido: obtenida?.[campo] ?? null
 			});
+		}
 };
 export function evaluarRespuestaModelo(texto, gold) {
 	const limpio = texto.trim();
@@ -28,6 +45,7 @@ export function evaluarRespuestaModelo(texto, gold) {
 	}
 	const schema = extraccionSchema.safeParse(respuesta);
 	const diferencias = [];
+	const diferenciasFormato = [];
 	comparar(
 		gold.metadatos,
 		respuesta.metadatos,
@@ -41,7 +59,8 @@ export function evaluarRespuestaModelo(texto, gold) {
 			'edicion_base'
 		],
 		'metadatos',
-		diferencias
+		diferencias,
+		diferenciasFormato
 	);
 	const tablas = [
 		['jornadas', ['numero', 'rotulo_literal']],
@@ -72,7 +91,14 @@ export function evaluarRespuestaModelo(texto, gold) {
 				obtenido: obtenidas.length
 			});
 		for (let i = 0; i < Math.max(esperadas.length, obtenidas.length); i++)
-			comparar(esperadas[i], obtenidas[i], campos, `${tabla}.${i}`, diferencias);
+			comparar(
+				esperadas[i],
+				obtenidas[i],
+				campos,
+				`${tabla}.${i}`,
+				diferencias,
+				diferenciasFormato
+			);
 	}
 	// Los identificadores pueden cambiar sin alterar el texto ni los vínculos de las notas.
 	const notas = (doc) =>
@@ -86,8 +112,18 @@ export function evaluarRespuestaModelo(texto, gold) {
 		}));
 	const notasGold = notas(gold),
 		notasRespuesta = notas(respuesta ?? {});
-	if (!igual(notasGold, notasRespuesta))
+	if (notasGold.length !== notasRespuesta.length)
 		diferencias.push({ ruta: 'notas', esperado: notasGold, obtenido: notasRespuesta });
+	else
+		for (let i = 0; i < notasGold.length; i++)
+			comparar(
+				notasGold[i],
+				notasRespuesta[i],
+				['marca', 'texto', 'fuente', 'pagina', 'v_ini', 'v_fin'],
+				`notas.${i}`,
+				diferencias,
+				diferenciasFormato
+			);
 	const enlaces = (doc, t) =>
 		[
 			...new Set(
@@ -113,6 +149,7 @@ export function evaluarRespuestaModelo(texto, gold) {
 		tramos_esperados: gold.tramos.length,
 		tramos_obtenidos: Array.isArray(respuesta?.tramos) ? respuesta.tramos.length : 0,
 		diferencias,
+		diferencias_formato: diferenciasFormato,
 		lista_para_importar_sin_corregir: schema.success && diferencias.length === 0,
 		validacion_tecnica: validarTextoExtraccion(texto),
 		criterio:
