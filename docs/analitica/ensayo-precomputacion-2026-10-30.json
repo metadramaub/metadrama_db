@@ -1,0 +1,42 @@
+{
+  "fecha": "2026-10-30",
+  "esquema": "perfil-comparable-ensayo/0.2",
+  "entorno": "recalculo_local_de_extraccion_postgresql_del_29",
+  "postgresql_repetido": false,
+  "motivo": "Docker apagado; no hay cambios SQL",
+  "escrituras_remotas": false,
+  "fuente_sha256": "ecee8e1797f70a4a79c8ebfc4937213bcb5cd4193318101703c1dd319cd32558",
+  "perfiles_cotejados": 16,
+  "perfiles_formas_sin_cambios": true,
+  "fuente_sin_modificar": true,
+  "basicas": [
+    {
+      "titulo": "El molino",
+      "secuencias": 21,
+      "limites_totales": 20,
+      "limites_evaluables": 18,
+      "limites_con_forma_pendiente": 2
+    },
+    {
+      "titulo": "El verdadero amante",
+      "secuencias": 19,
+      "limites_totales": 18,
+      "limites_evaluables": 18,
+      "limites_con_forma_pendiente": 0
+    },
+    {
+      "titulo": "Los donaires de Matico",
+      "secuencias": 18,
+      "limites_totales": 17,
+      "limites_evaluables": 14,
+      "limites_con_forma_pendiente": 3
+    },
+    {
+      "titulo": "Los locos de Valencia",
+      "secuencias": 20,
+      "limites_totales": 19,
+      "limites_evaluables": 19,
+      "limites_con_forma_pendiente": 0
+    }
+  ]
+}

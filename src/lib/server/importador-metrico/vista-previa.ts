@@ -126,7 +126,7 @@ export function vistaDeFichaGuardada(ficha: FichaMinima, original: Registro,
 	const notas=Array.isArray(original.notas)?original.notas.map(objeto)
 		.filter(n=>typeof n.id==='string' && typeof n.texto_literal==='string'):null;
 	return {persistido:true,confirmacion,formato:ficha.esquema,metadatos:leerMetadatos(ficha.metadatos),
-		datos:ficha,resumen:resumirFichaMinima(ficha),filas:filasDeFicha(ficha,notas),errores:[],avisos:[]};
+		datos:ficha,resumen:{...resumirFichaMinima(ficha),segmentacion_confirmada:true},filas:filasDeFicha(ficha,notas),errores:[],avisos:[]};
 }
 
 /** Los valores vacíos aportados expresamente sustituyen al original para poder borrar una fuente opcional. */
@@ -231,6 +231,8 @@ export function analizarEntrada(
 				? entrada.notas.map(objeto).filter((n) => typeof n.id === 'string' && typeof n.texto_literal === 'string')
 					.map((n) => ({id: n.id as string, texto_literal: n.texto_literal as string})) : [];
 			const editados = aplicarEdiciones(datos, ediciones, notas);
+			// La confirmación pertenece al acto de guardar, no a la entrada de una IA.
+			for (const s of editados.segmentos) s.segmentacion = 'provisional';
 			const comprobacion = validarFichaMinima(editados, { catalogo: referencia });
 			if (comprobacion.errores.length)
 				throw new Error(comprobacion.errores.map((e) => e.mensaje).join(' '));

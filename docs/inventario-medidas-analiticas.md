@@ -125,6 +125,10 @@ Lectores: laboratorio y comparativas; no todas las columnas tienen hoy un indica
 | Pares apertura–cierre | Agregados por forma, jornadas y obras | Cada extremo tiene su cobertura; el par requiere ambos. Denominadores de jornadas y obras explícitos y distintos. D05 |
 
 El recuento de límites entre secuencias no es automáticamente un recuento de cambios de forma.
+Acuerdo del 30 de octubre: guardar una básica acepta la segmentación mostrada, sin una casilla
+adicional. La forma desconocida no invalida esa segmentación. Los límites con algún extremo
+sin identificar se mantienen fuera de los pares evaluables, sin computar como presencia ni
+ausencia de un par. Se conserva su cobertura separada.
 La densidad actual tampoco mide exactamente esos límites: con una secuencia de 100 versos vale 1,
 mientras que los límites entre secuencias son 0.
 

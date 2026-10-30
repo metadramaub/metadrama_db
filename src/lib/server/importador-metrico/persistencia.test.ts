@@ -40,11 +40,25 @@ describe('confirmación de importación', () => {
 			'guardar_ficha_minima',
 			expect.objectContaining({
 				p_peticion: peticionId,
-				p_datos: p.datos,
+				p_datos: {
+					...p.datos,
+					segmentos: p.datos.segmentos.map((s) => ({ ...s, segmentacion: 'confirmada' }))
+				},
 				p_entrada_original: JSON.parse(piloto.entrada),
 				p_coincidencias_revisadas: []
 			})
 		);
+	});
+	it('guardar confirma los límites sin identificar formas pendientes ni mutar la vista', async () => {
+		const cliente = db(),
+			p = caso();
+		const antes = structuredClone(p.datos);
+		await guardarImportacion(cliente, p);
+		const guardados = cliente.rpc.mock.calls[0][1]!.p_datos as typeof p.datos;
+		expect(guardados.segmentos.every((s) => s.segmentacion === 'confirmada')).toBe(true);
+		expect(guardados.segmentos.filter((s) => !s.identificacion)).toHaveLength(1);
+		expect(p.datos).toEqual(antes);
+		expect(huellaConfirmacion(p.datos, autorId, [])).toBe(p.huella);
 	});
 	it('no escribe si cambiaron los datos después de comprobarlos', async () => {
 		const cliente = db(),
@@ -113,5 +127,6 @@ describe('confirmación de importación', () => {
 		expect(vista.datos).toEqual(p.datos);
 		expect(vista.filas).toHaveLength(p.datos.segmentos.length);
 		expect(vista.avisos).toEqual([]);
+		expect(vista.resumen?.segmentacion_confirmada).toBe(true);
 	});
 });

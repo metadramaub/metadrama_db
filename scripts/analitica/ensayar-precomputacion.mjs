@@ -156,7 +156,7 @@ from public.obras o join public.vocabularios v on v.termino_id=o.estado where o.
 			p.medidas.perfil_formas.map((f) => ({ forma_slug: f.forma_slug, versos: f.versos })),
 			esperado.perfil_formas.map((f) => ({ forma_slug: f.forma_slug, versos: f.versos }))
 		);
-		assert.equal(p.medidas.segmentacion.n_secuencias.valor, null);
+		assert.equal(p.medidas.segmentacion.n_secuencias.valor, esperado.bloques);
 	}
 	const informe = {
 		esquema: VERSION_CALCULO,

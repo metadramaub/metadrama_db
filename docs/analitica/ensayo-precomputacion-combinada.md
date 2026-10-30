@@ -5,6 +5,14 @@
 del [inventario general](../inventario-medidas-analiticas.md). Afecta al diseño analítico de
 detalladas y básicas; no es una nueva funcionalidad del editor.
 
+**Actualización del 30 de octubre:** ensayo 0.2. Guardar confirma la segmentación, sin casilla
+adicional. El [nuevo informe](./ensayo-precomputacion-2026-10-30.json) sustituye la interpretación
+del marcador provisional del primer ensayo. Las formas pendientes excluyen solo sus límites
+de los pares evaluables, sin computar como ausencia ni conectar artificialmente sus vecinos.
+Verificación del 30: 84 pruebas y comprobación de tipos correctas; recálculo de las 16 entradas
+extraídas el día anterior, sin cambios en sus perfiles de formas. No se repitió PostgreSQL porque
+Docker estaba apagado; no se modificó SQL ni se escribió en Supabase.
+
 **Solo local.** No instala funciones en Supabase, no cambia sus artefactos ni conecta lectores
 de la web. Las básicas reales siguen fuera de sus análisis. No valida científicamente una
 comparación de autoría ni implementa todas las medidas del inventario.
@@ -85,10 +93,10 @@ entrada, pero aún no se homologan todos los rasgos y realizaciones v2 para agre
 
 Dos hallazgos requieren continuidad:
 
-- Las cuatro entradas mantienen `segmentacion=provisional`, incluso tras confirmar el guardado.
-  El campo existe; el flujo actual no resuelve su confirmación. Antes de ofrecer transiciones de
-  básicas hay que concretar cuándo y cómo se confirma la segmentación, sin confundir revisar la
-  transcripción con asegurar la división según Versología.
+- El primer ensayo detectó el marcador provisional que se conservaba al guardar. Resuelto por
+  el acuerdo del 30 de octubre: el propio guardado confirma los límites. El ensayo 0.2 aplica
+  también esta interpretación a las copias anteriores sin reescribirlas. Los pares con forma
+  pendiente no entran en el denominador evaluable de las transiciones.
 - En siete detalladas publicadas de prueba hay once secuencias sin anotación v2. Se señala la
   discrepancia con la regla editorial de publicación íntegra. Sus posiciones quedan con forma
   pendiente, sin asignarles el vocabulario legado ni cambiar su estado. El diagnóstico detallado

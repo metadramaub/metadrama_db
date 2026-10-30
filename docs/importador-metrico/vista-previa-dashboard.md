@@ -6,6 +6,11 @@ Se ha guardado y reabierto El molino: [registro del despliegue](../despliegues/2
 El guardado no activa todavía los análisis del corpus. El recorrido con Auth real local y navegador
 ya se ha probado: véase la [auditoría de aislamiento](./auditoria-aislamiento.md).
 
+Acuerdo del 30 de octubre: **Guardar ficha básica confirma también la segmentación mostrada**,
+sin casilla ni revisión adicional. Se mantiene la forma sin identificar donde corresponda.
+Los límites que la tocan no son pares evaluables para las comparaciones; no se cuentan como
+ausencia ni se conectan sus vecinos. La vista previa permanece provisional hasta guardar.
+
 ## Qué permite probar
 
 1. Copiar el prompt de extracción y pegar el JSON recibido de una IA, o cargar una de las cuatro

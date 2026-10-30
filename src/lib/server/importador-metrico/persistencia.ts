@@ -105,10 +105,13 @@ export async function guardarImportacion(
 			409,
 			'Revisa si las coincidencias corresponden a otra obra antes de continuar.'
 		);
+	// Guardar confirma la segmentación revisada, no identifica las formas pendientes.
+	const datos = structuredClone(p.datos);
+	for (const s of datos.segmentos) s.segmentacion = 'confirmada';
 	const r = await db.rpc('guardar_ficha_minima', {
 		p_peticion: p.peticionId,
 		p_autor: p.autorId,
-		p_datos: p.datos,
+		p_datos: datos,
 		p_entrada_original: extraccionOriginal(p.entrada),
 		p_coincidencias_revisadas: p.coincidencias.map((c) => c.obra_id)
 	});

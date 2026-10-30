@@ -36,6 +36,15 @@ se representa como A → B → A, con tres secuencias y sin solapamientos. La tr
 editoriales a secuencias analíticas conserva su trazabilidad. Si la fuente no permite localizar
 una inserción o decidir su identificación, se registra la limitación sin inventar límites.
 
+**Acuerdo del 30 de octubre de 2026:** guardar la ficha básica confirma la segmentación mostrada,
+normalmente la de la edición, con las divisiones necesarias para el criterio de Versología.
+No se exige una casilla ni una segunda validación. Una forma sin identificar no invalida por sí
+sola los límites: los pares que la tocan quedan fuera de las transiciones evaluables, sin contar
+como presencia ni ausencia de una transición entre formas. No se salta el tramo desconocido para
+unir sus vecinos. Los recuentos distinguen límites totales, evaluables y pendientes.
+Las copias anteriores cuyo JSON conservó el marcador provisional se interpretan bajo este
+acuerdo por haber sido guardadas; se mantiene intacto su documento original.
+
 Las fechas son obligatorias para la ficha mínima destinada al corpus cronológico; su fuente es
 opcional, aunque puede ser la propia edición base. El género es obligatorio, con Comedia como
 valor inicial para este lote. Se registra el autor sin exigir fundamentos de autoría: se priorizan

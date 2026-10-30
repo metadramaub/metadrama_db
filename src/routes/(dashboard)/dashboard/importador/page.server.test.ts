@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { actions } from './+page.server';
+import type { SegmentoMinimo } from '$lib/importador-metrico/types';
 import { analizarEntrada, obtenerPilotos } from '$lib/server/importador-metrico/vista-previa';
 
 vi.mock('$lib/server/importador-metrico/acceso', () => ({
@@ -69,7 +70,13 @@ describe('acciones HTTP del importador', () => {
 			expect.objectContaining({
 				p_peticion: importacion,
 				p_entrada_original: JSON.parse(entrada),
-				p_datos: previa.vista.datos
+				p_datos: {
+					...previa.vista.datos,
+					segmentos: previa.vista.datos!.segmentos.map((s: SegmentoMinimo) => ({
+						...s,
+						segmentacion: 'confirmada'
+					}))
+				}
 			})
 		);
 	});

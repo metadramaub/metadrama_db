@@ -35,8 +35,10 @@ estado con `npm run equivalencias:informe`
 Primer [ensayo local combinado](./analitica/ensayo-precomputacion-combinada.md) ejecutado con
 cuatro básicas y doce detalladas; perfiles conocidos contrastados, sin cambios en Supabase.
 Continuar desde esos adaptadores y controles, sin conectar todavía el ensayo a las páginas.
-Resolver la confirmación de segmentación de básicas antes de dar transiciones definitivas;
-el guardado actual conserva las cuatro como provisionales. Se han señalado once secuencias sin
+Acuerdo del 30 de octubre: guardar la básica confirma la segmentación mostrada, sin casilla
+adicional. Los límites con forma desconocida quedan fuera de los pares evaluables y no cuentan
+como ausencia de transición. El ensayo 0.2 aplica ese criterio también a copias anteriores,
+sin reescribirlas. Se han señalado once secuencias sin
 v2 en siete detalladas publicadas de prueba, sin modificar sus datos ni estado.
 
 **Implementar las definiciones aprobadas y corregir sus productores.** El

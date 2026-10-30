@@ -135,7 +135,8 @@ describe('segmentación y extremos', () => {
 			]
 		});
 		const m = calcular(a).medidas;
-		expect(m.segmentacion.transiciones.total).toBe(2);
+		expect(m.segmentacion.transiciones.limites_totales).toBe(2);
+		expect(m.segmentacion.transiciones.limites_evaluables).toBe(1);
 		expect(m.segmentacion.transiciones.pares_identificados).toEqual([
 			{ de: 'redondilla', a: 'romance', cambio_jornada: true }
 		]);
@@ -172,6 +173,26 @@ describe('fuente, autoría y cronología', () => {
 		expect(a.metadatos.fecha_inicio).toBe(1585);
 		expect(a.secuencias).toHaveLength(21);
 		expect(a.autorias[0].autor_id).toBe('autor1');
+	});
+	it('la copia guardada confirma límites aun con el antiguo marcador provisional', () => {
+		const r = registro(),
+			antes = structuredClone(r.basica.datos_confirmados);
+		const a = seleccionarAportacion(r);
+		const cat = JSON.parse(
+			readFileSync(
+				new URL(
+					'../../../docs/importador-metrico/piloto/catalogo-referencia.json',
+					import.meta.url
+				),
+				'utf8'
+			)
+		).formas.map((f) => ({ slug: f.slug, arquitecturas: f.arquitecturas.map((a) => a.slug) }));
+		const limites = precomputarAportacion(a, cat).medidas.segmentacion.transiciones;
+		expect(limites.limites_totales).toBe(20);
+		expect(limites.limites_evaluables).toBe(18);
+		expect(limites.limites_con_forma_pendiente).toBe(2);
+		expect(limites.pares_identificados.some((p) => !p.de || !p.a)).toBe(false);
+		expect(r.basica.datos_confirmados).toEqual(antes);
 	});
 	it('publicar sustituye la básica, sin rellenar la detallada ni duplicar el aporte', () => {
 		const r = registro();

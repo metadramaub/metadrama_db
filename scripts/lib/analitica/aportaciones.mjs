@@ -2,7 +2,7 @@
 import { createHash } from 'node:crypto';
 import { fichaMinimaSchema } from '../importador-metrico/ficha-minima.mjs';
 
-export const VERSION_CALCULO = 'perfil-comparable-ensayo/0.1';
+export const VERSION_CALCULO = 'perfil-comparable-ensayo/0.2';
 const ordenar = (a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin;
 const longitud = (r) => r.v_fin - r.v_ini + 1;
 const clonar = (v) => structuredClone(v);
@@ -61,7 +61,9 @@ export function seleccionarAportacion(registro) {
 			v_fin: s.v_fin,
 			forma_slug: s.identificacion?.forma_slug ?? null,
 			arquitectura_slug: s.identificacion?.arquitectura_slug ?? null,
-			segmentacion: s.segmentacion,
+			// La copia persistida acredita la aceptación de la división, también en importaciones
+			// anteriores que conservaron por defecto el marcador provisional de la vista previa.
+			segmentacion: 'confirmada',
 			detalles: clonar(s.detalles_fuente),
 			desviaciones: clonar(s.desviaciones)
 		})),
@@ -242,7 +244,8 @@ export function precomputarAportacion(a, catalogo) {
 					: sinValor('segmentacion_provisional'),
 				transiciones: confirmada
 					? {
-							total: secuencias.length - 1,
+							limites_totales: secuencias.length - 1,
+							limites_evaluables: pares.length,
 							pares_identificados: pares,
 							limites_con_forma_pendiente: limitesPendientes
 						}

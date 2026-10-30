@@ -68,7 +68,7 @@
 				<p class="text-2xl font-semibold">{numero(vista.resumen.extension)}</p>
 			</div>
 			<div class="card p-4">
-				<p class="form-label"><span class="form-label-with-help">{vista.persistido ? 'Secuencias' : 'Secuencias propuestas'}
+				<p class="form-label"><span class="form-label-with-help">{vista.resumen.segmentacion_confirmada ? 'Secuencias' : 'Secuencias propuestas'}
 					<FieldHelpTooltip label="Cómo se proponen las secuencias" text="Se parte de las filas de la edición. Una fila puede necesitar varias secuencias si cambia de forma en su interior." />
 				</span></p>
 				<p class="text-2xl font-semibold">{vista.resumen.bloques}</p>
