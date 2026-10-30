@@ -1,8 +1,15 @@
 /** Núcleo del ensayo de precomputación. Sin DB, red ni uso desde las páginas. */
 import { createHash } from 'node:crypto';
 import { fichaMinimaSchema } from '../importador-metrico/ficha-minima.mjs';
+import {
+	normalizarDatosComparables,
+	precomputarDatosComparables,
+	rangosArquitectura,
+	recortarSecuenciaComparable,
+	precomputarArquitecturas
+} from './datos-comparables.mjs';
 
-export const VERSION_CALCULO = 'perfil-comparable-ensayo/0.2';
+export const VERSION_CALCULO = 'perfil-comparable-ensayo/0.3';
 const ordenar = (a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin;
 const longitud = (r) => r.v_fin - r.v_ini + 1;
 const clonar = (v) => structuredClone(v);
@@ -23,52 +30,58 @@ export const huella = (v) =>
 const sinValor = (motivo) => ({ valor: null, motivo });
 
 /** Se decide ANTES de traducir: una detallada publicada no se rellena desde la básica. */
-export function seleccionarAportacion(registro) {
+export function seleccionarAportacion(registro, referencias = {}) {
 	if (registro.publicada) {
 		if (!registro.detallada) throw Error('Publicada sin fuente detallada');
 		const d = registro.detallada;
-		return {
-			obra_id: registro.obra_id,
-			tipo: 'detallada',
-			fuente: { id: registro.obra_id, huella: huella(d), version: 'anotacion-v2' },
-			metadatos: clonar(d.metadatos),
-			jornadas: clonar(d.jornadas),
-			autorias: clonar(d.autorias),
-			secuencias: d.secuencias.map((s) => ({ ...clonar(s), segmentacion: 'confirmada' })),
-			evidencia_adicional: clonar(d.evidencia_adicional)
-		};
+		return normalizarDatosComparables(
+			{
+				obra_id: registro.obra_id,
+				tipo: 'detallada',
+				fuente: { id: registro.obra_id, huella: huella(d), version: 'anotacion-v2' },
+				metadatos: clonar(d.metadatos),
+				jornadas: clonar(d.jornadas),
+				autorias: clonar(d.autorias),
+				secuencias: d.secuencias.map((s) => ({ ...clonar(s), segmentacion: 'confirmada' })),
+				evidencia_adicional: clonar(d.evidencia_adicional)
+			},
+			referencias
+		);
 	}
 	const i = registro.basica;
 	if (!i?.usada_en_corpus) return null;
 	const d = fichaMinimaSchema.parse(i.datos_confirmados);
-	return {
-		obra_id: registro.obra_id,
-		tipo: 'basica',
-		fuente: {
-			id: i.importacion_id,
-			huella: huella(d),
-			version: d.esquema,
-			procedencia: clonar(d.procedencia)
+	return normalizarDatosComparables(
+		{
+			obra_id: registro.obra_id,
+			tipo: 'basica',
+			fuente: {
+				id: i.importacion_id,
+				huella: huella(d),
+				version: d.esquema,
+				procedencia: clonar(d.procedencia)
+			},
+			metadatos: clonar(d.metadatos),
+			jornadas: d.jornadas.map((j) => ({ ...clonar(j), ref: `j${j.numero}` })),
+			autorias: [
+				{ autor_id: i.autor_id, ambito: 'obra', jornada_id: null, v_ini: null, v_fin: null }
+			],
+			secuencias: d.segmentos.map((s) => ({
+				ref: s.ref,
+				v_ini: s.v_ini,
+				v_fin: s.v_fin,
+				forma_slug: s.identificacion?.forma_slug ?? null,
+				arquitectura_slug: s.identificacion?.arquitectura_slug ?? null,
+				// La copia persistida acredita la aceptación de la división, también en importaciones
+				// anteriores que conservaron por defecto el marcador provisional de la vista previa.
+				segmentacion: 'confirmada',
+				detalles: clonar(s.detalles_fuente),
+				desviaciones: clonar(s.desviaciones)
+			})),
+			evidencia_adicional: { recogida_exhaustiva: false }
 		},
-		metadatos: clonar(d.metadatos),
-		jornadas: d.jornadas.map((j) => ({ ...clonar(j), ref: `j${j.numero}` })),
-		autorias: [
-			{ autor_id: i.autor_id, ambito: 'obra', jornada_id: null, v_ini: null, v_fin: null }
-		],
-		secuencias: d.segmentos.map((s) => ({
-			ref: s.ref,
-			v_ini: s.v_ini,
-			v_fin: s.v_fin,
-			forma_slug: s.identificacion?.forma_slug ?? null,
-			arquitectura_slug: s.identificacion?.arquitectura_slug ?? null,
-			// La copia persistida acredita la aceptación de la división, también en importaciones
-			// anteriores que conservaron por defecto el marcador provisional de la vista previa.
-			segmentacion: 'confirmada',
-			detalles: clonar(s.detalles_fuente),
-			desviaciones: clonar(s.desviaciones)
-		})),
-		evidencia_adicional: { recogida_exhaustiva: false }
-	};
+		referencias
+	);
 }
 
 function validarRangos(filas, nombre, incidencias) {
@@ -115,6 +128,17 @@ export function precomputarAportacion(a, catalogo) {
 		incidencias.push('fechas:intervalo_invertido');
 	const formas = new Map(catalogo.map((f) => [f.slug, f]));
 	for (const s of secuencias) {
+		for (const r of s.arquitecturas_realizadas ?? []) {
+			if (
+				!Number.isInteger(r.v_ini) ||
+				!Number.isInteger(r.v_fin) ||
+				r.v_ini < s.v_ini ||
+				r.v_fin > s.v_fin ||
+				r.v_fin < r.v_ini ||
+				!formas.get(s.forma_slug)?.arquitecturas.includes(r.arquitectura_slug)
+			)
+				incidencias.push('arquitectura:realizacion_invalida');
+		}
 		if (s.n_anotaciones > 1) incidencias.push('anotacion:varias_por_secuencia');
 		if (a.tipo === 'detallada' && s.n_anotaciones === 0)
 			incidencias.push('publicacion:secuencia_sin_anotacion_v2');
@@ -172,11 +196,17 @@ export function precomputarAportacion(a, catalogo) {
 				arquitecturas: {}
 			};
 			g.versos += n;
-			if (s.arquitectura_slug) {
-				g.arquitecturas[s.arquitectura_slug] = (g.arquitecturas[s.arquitectura_slug] ?? 0) + n;
-				arquitecturaConocida += n;
-			} else if (!formas.get(s.forma_slug).arquitecturas.length) arquitecturaNoAplica += n;
-			else arquitecturaPendiente += n;
+			for (const r of rangosArquitectura(s)) {
+				const extension = longitud(r);
+				if (r.conflicto) base.incidencias.push('arquitectura:realizaciones_en_conflicto');
+				if (r.arquitectura_slug) {
+					g.arquitecturas[r.arquitectura_slug] =
+						(g.arquitecturas[r.arquitectura_slug] ?? 0) + extension;
+					arquitecturaConocida += extension;
+				} else if (!formas.get(s.forma_slug).arquitecturas.length)
+					arquitecturaNoAplica += extension;
+				else arquitecturaPendiente += extension;
+			}
 			grupos.set(s.forma_slug, g);
 		}
 		for (const d of s.desviaciones)
@@ -205,6 +235,8 @@ export function precomputarAportacion(a, catalogo) {
 	return {
 		...base,
 		medidas: {
+			perfil_arquitecturas: precomputarArquitecturas(secuencias, catalogo),
+			datos_adicionales: precomputarDatosComparables(a),
 			extension: total,
 			versos_reconstruidos_atribuidos: unionLongitudes(reconstruidos),
 			cobertura_formas: {
@@ -318,13 +350,12 @@ export function precomputarReferente(
 			excluidas.push({ obra_id: a.obra_id, motivo: 'autoria_fuera_de_la_fuente' });
 			continue;
 		}
-		const secuencias = a.secuencias.flatMap((s) =>
+		const origen = a.secuencias.every((s) => Array.isArray(s.datos_comparables))
+			? a
+			: normalizarDatosComparables(a);
+		const secuencias = origen.secuencias.flatMap((s) =>
 			ordenados
-				.map((r) => ({
-					...s,
-					v_ini: Math.max(s.v_ini, r.v_ini),
-					v_fin: Math.min(s.v_fin, r.v_fin)
-				}))
+				.map((r) => recortarSecuenciaComparable(s, r, a.obra_id, a.tipo))
 				.filter((s) => s.v_ini <= s.v_fin)
 		);
 		const extension = secuencias.reduce((n, s) => n + longitud(s), 0);
@@ -355,6 +386,13 @@ export function precomputarReferente(
 		excluidas,
 		extension: total,
 		pendiente,
+		perfil_arquitecturas: precomputarArquitecturas(secuencias, catalogo),
+		datos_adicionales: {
+			...precomputarDatosComparables({ tipo: 'mixto', secuencias }),
+			ambito: seleccion.some((s) => s.ambito === 'jornada')
+				? 'partes_atribuidas_de_secuencias'
+				: 'secuencias'
+		},
 		perfil_formas: catalogo.map((f) => {
 			const versos = secuencias
 				.filter((s) => s.forma_slug === f.slug)
