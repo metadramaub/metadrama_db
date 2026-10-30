@@ -9,3 +9,7 @@ export function normalizarExtraccion(
 	}
 ): Record<string, unknown>;
 export function informeNormalizacion(input: unknown): string;
+export class ErrorExtraccion extends Error {
+	incidencias: { codigo: string; ruta: string; mensaje: string }[];
+	constructor(incidencias: { codigo: string; ruta: string; mensaje: string }[]);
+}

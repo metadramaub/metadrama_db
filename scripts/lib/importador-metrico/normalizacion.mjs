@@ -2,6 +2,14 @@
 import { z } from 'zod';
 import { validarExtraccion } from './validacion.mjs';
 
+export class ErrorExtraccion extends Error {
+	constructor(incidencias) {
+		super('La extracción contiene datos que hay que corregir.');
+		this.name = 'ErrorExtraccion';
+		this.incidencias = incidencias;
+	}
+}
+
 const texto = z.string().trim().min(1);
 const candidataSchema = z.object({ forma_slug: texto, arquitectura_slug: texto.nullable() });
 const aprobacionSchema = z
@@ -83,9 +91,7 @@ export function normalizarExtraccion(
 ) {
 	const validation = validarExtraccion(extraccion, fuentes ? { fuentes } : {});
 	if (validation.errores.length || validation.advertencias.length)
-		throw new Error(
-			`Extracción con discrepancias técnicas: ${JSON.stringify([...validation.errores, ...validation.advertencias])}`
-		);
+		throw new ErrorExtraccion([...validation.errores, ...validation.advertencias]);
 	const reference = indexRules(reglas, catalogo, bibliografia);
 	const source = structuredClone(extraccion);
 	const rowsById = new Map(source.tramos.map((r) => [r.id, r]));

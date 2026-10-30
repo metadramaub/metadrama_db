@@ -1,7 +1,7 @@
 /** Reconstruye la vista previa y presenta la copia confirmada sin reaplicar equivalencias. */
 import { createHash } from 'node:crypto';
 import { aplicarEdiciones } from '$lib/importador-metrico/edicion';
-import { normalizarExtraccion } from '../../../../scripts/lib/importador-metrico/normalizacion.mjs';
+import { ErrorExtraccion, normalizarExtraccion } from '../../../../scripts/lib/importador-metrico/normalizacion.mjs';
 import {
 	prepararFichaMinima,
 	validarFichaMinima,
@@ -30,6 +30,14 @@ const objeto = (v: unknown): Registro =>
 	v !== null && typeof v === 'object' && !Array.isArray(v) ? (v as Registro) : {};
 const cadena = (v: unknown) => (typeof v === 'string' || typeof v === 'number' ? String(v) : '');
 const sha = (v: string) => createHash('sha256').update(v).digest('hex');
+function localizarIncidencia(ruta: string) {
+	const [tabla, indice, campo] = ruta.split('.');
+	const tablas: Record<string, string> = { tramos: 'Fila de la edición', notas: 'Nota', resumen_fuente: 'Fila del resumen', jornadas: 'Jornada' };
+	const campos: Record<string, string> = { pagina: 'página', marca: 'marca', v_ini: 'verso inicial', v_fin: 'verso final', n_versos_fuente: 'número de versos', denominacion_literal: 'denominación', texto_literal: 'texto' };
+	if (tablas[tabla] && /^\d+$/.test(indice ?? ''))
+		return `${tablas[tabla]} ${Number(indice) + 1}${campo ? ` (${campos[campo] ?? campo})` : ''}`;
+	return ruta;
+}
 const catalogo = JSON.parse(catalogoRaw);
 const reglas = JSON.parse(reglasRaw);
 const campos = JSON.parse(camposRaw);
@@ -260,7 +268,10 @@ export function analizarEntrada(
 			resultado.filas = filasDeFicha(ficha,notasOriginales);
 		}
 	} catch (error) {
-		resultado.errores.push({
+		if (error instanceof ErrorExtraccion) {
+			resultado.errores.push(...error.incidencias.map(i => ({ ...i,
+				mensaje: `${localizarIncidencia(i.ruta)}: ${i.mensaje}` })));
+		} else resultado.errores.push({
 			codigo: 'entrada',
 			ruta: '',
 			mensaje: error instanceof Error ? error.message : 'No se pudo interpretar la entrada.'

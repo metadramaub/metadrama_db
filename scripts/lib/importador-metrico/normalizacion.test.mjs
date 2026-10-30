@@ -213,7 +213,7 @@ describe('normalizador local', () => {
 	it('rechaza rangos solapados en vez de producir porcentajes engañosos', () => {
 		const input = raw();
 		input.tramos[1].v_ini = input.tramos[0].v_fin;
-		expect(() => normalizarExtraccion(input, context())).toThrow(/discrepancias técnicas/);
+		expect(() => normalizarExtraccion(input, context())).toThrow(/datos que hay que corregir/);
 	});
 	it('mantiene segmentos sin rango como desconocidos, sin imputar cero versos', () => {
 		const input = raw();

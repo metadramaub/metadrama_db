@@ -5,6 +5,19 @@ import { analizarEntrada, obtenerPilotos, obtenerReferenciaImportador } from './
 import preparada from '../../../../docs/importador-metrico/piloto/preparadas/el-verdadero-amante.json';
 
 describe('vista previa del importador sin persistencia', () => {
+	it('sitúa los errores de extracción en la fila y el campo sin mostrar JSON técnico', () => {
+		const raw = JSON.parse(obtenerPilotos().find(p => p.id === 'los-locos-de-valencia')!.entrada);
+		raw.notas[1].marca = '';
+		raw.tramos[0].pagina = String(raw.tramos[0].pagina);
+		const vista = analizarEntrada(JSON.stringify(raw));
+		expect(vista.datos).toBeNull();
+		expect(vista.errores).toEqual(expect.arrayContaining([
+			expect.objectContaining({ruta: 'notas.1.marca', mensaje: 'Nota 2 (marca): Debe contener texto'}),
+			expect.objectContaining({ruta: 'tramos.0.pagina', mensaje: 'Fila de la edición 1 (página): Debe ser un número entero sin comillas, o null si no consta.'})
+		]));
+		expect(vista.errores.every(e => !e.mensaje.includes('{'))).toBe(true);
+		expect(raw.notas[1].marca).toBe('');
+	});
 	it.each(obtenerPilotos())('prepara el intercambio real de $titulo', (piloto) => {
 		const vista = analizarEntrada(piloto.entrada);
 		expect(vista.errores).toEqual([]);

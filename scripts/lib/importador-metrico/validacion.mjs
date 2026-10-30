@@ -160,7 +160,11 @@ function erroresDeEsquema(informe, resultado, prefijo = '') {
 			'errores',
 			'formato_invalido',
 			[prefijo, ...issue.path.map(String)].filter(Boolean).join('.'),
-			issue.message
+			issue.code === 'invalid_type' && issue.expected === 'number'
+				? issue.path.at(-1) === 'numero'
+					? 'Debe ser un número entero sin comillas.'
+					: 'Debe ser un número entero sin comillas, o null si no consta.'
+				: issue.message
 		);
 }
 
