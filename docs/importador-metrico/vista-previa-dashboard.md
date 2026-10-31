@@ -1,5 +1,9 @@
 # Vista previa del importador en el dashboard
 
+Actualización del 31 de octubre: [metadatos opcionales durante la preparación](./metadatos-opcionales.md).
+El prompt activo pasa a v0.5: admite fotos solas o metadatos aportados, y estos solo se exigen
+completos al guardar. Los ejemplos y formatos anteriores siguen siendo compatibles.
+
 Actualizado el 29 de octubre de 2026. `/dashboard/importador` permite preparar, confirmar y
 consultar fichas básicas en la web real, con las RPC instaladas en el Supabase compartido.
 Se ha guardado y reabierto El molino: [registro del despliegue](../despliegues/2026-10-29-importador.md).
