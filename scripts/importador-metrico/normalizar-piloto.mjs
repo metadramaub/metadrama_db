@@ -53,7 +53,7 @@ try {
 		if (
 			accepted?.archivo !== archivo ||
 			accepted.sha256 !== sha256 ||
-			accepted.resultado !== 'aceptada_sin_correcciones'
+			!['aceptada_sin_correcciones', 'aceptada_con_correccion'].includes(accepted.resultado)
 		)
 			throw new Error(`La extracción no coincide con la versión aceptada: ${ref}`);
 		const result = normalizarExtraccion(JSON.parse(raw.toString('utf8')), {
@@ -65,8 +65,8 @@ try {
 		});
 		result.revision_transcripcion = {
 			...accepted,
-			responsable: revision.responsable,
-			fecha: revision.fecha
+			responsable: accepted.responsable ?? revision.responsable,
+			fecha: accepted.fecha ?? revision.fecha
 		};
 		result.entradas_sha256 = Object.fromEntries(
 			[

@@ -39,7 +39,7 @@ Denominador: 3072 versos con rango conocido; 0 segmentos sin rango. Las arquitec
 | t14 | 3 | 2223–2470 | redondillas | propuesta | — | redondilla | — | — | — |
 | t15 | 3 | 2471–2621 | endecasílabos sueltos | propuesta | — | endecasilabo_suelto | — | — | — |
 | t16 | 3 | 2622–2754 | redondillas | propuesta | — | redondilla | — | — | 2666–2666: estructura/sobra |
-| t17 | 3 | 2755–2804 | quintilla | propuesta | — | quintilla | — | — | — |
+| t17 | 3 | 2755–2804 | quintillas | propuesta | — | quintilla | — | — | — |
 | t18 | 3 | 2805–2900 | redondillas | propuesta | — | redondilla | — | — | — |
 | t19 | 3 | 2901–2964 | romance en á-e | propuesta | — | romance | — | á-e | — |
 | t20 | 3 | 2965–3072 | redondillas | propuesta | — | redondilla | — | — | — |

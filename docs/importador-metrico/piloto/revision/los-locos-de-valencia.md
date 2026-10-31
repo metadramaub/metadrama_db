@@ -46,7 +46,7 @@ Los originales permanecen en la ubicación externa indicada en [fuentes.json](..
 | t14 | 3 | 2223 | 2470 | redondillas | 248 | 248 | foto-30 | 188 |  |
 | t15 | 3 | 2471 | 2621 | endecasílabos sueltos | 151 | 151 | foto-30 | 188 |  |
 | t16 | 3 | 2622 | 2754 | redondillas | 133 | 133 | foto-30 | 188 | n02 |
-| t17 | 3 | 2755 | 2804 | quintilla | 50 | 50 | foto-30 | 188 |  |
+| t17 | 3 | 2755 | 2804 | quintillas | 50 | 50 | foto-30 | 188 |  |
 | t18 | 3 | 2805 | 2900 | redondillas | 96 | 96 | foto-30 | 188 |  |
 | t19 | 3 | 2901 | 2964 | romance en á-e | 64 | 64 | foto-30 | 188 |  |
 | t20 | 3 | 2965 | 3072 | redondillas | 108 | 108 | foto-30 | 188 |  |
@@ -67,7 +67,7 @@ No hay un resumen global completo transcribible en las fotografías aportadas.
 
 - resumen_recortado: En el borde derecho aparece un fragmento de resumen de la página contigua, insuficiente para transcribirlo. No se reconstruye.
 
-- Cotejo humano aceptado sin correcciones el 22 de octubre de 2026. La salida original conserva su estado de borrador; el registro externo identifica por SHA-256 la versión aceptada.
+- Cotejo humano aceptado el 22 de octubre de 2026; las correcciones posteriores, su fecha y las versiones previas figuran en revision-humana.json. La extracción conserva su estado de borrador; el registro externo identifica por SHA-256 la versión aceptada.
 
 - [Criterios acordados](../segmentacion.propuestas.json): n01 es desviación de metro; n02 es adición estructural. Se conservan ambos tramos sin partición. Estas decisiones no alteran las filas de la fuente.
 

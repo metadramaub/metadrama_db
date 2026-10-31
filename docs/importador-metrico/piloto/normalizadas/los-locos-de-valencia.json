@@ -604,7 +604,7 @@
         "jornada": 3,
         "v_ini": 2755,
         "v_fin": 2804,
-        "denominacion_literal": "quintilla",
+        "denominacion_literal": "quintillas",
         "n_versos_fuente": 50,
         "fuente_id": "foto-30",
         "pagina": 188,
@@ -774,17 +774,40 @@
   "revision_transcripcion": {
     "obra_ref": "los-locos-de-valencia",
     "archivo": "extracciones/los-locos-de-valencia.json",
-    "sha256": "e2ce185b06e82d983b6ea2d4beb10d3373401bceae4ad50e671c24ddec4abb5d",
-    "resultado": "aceptada_sin_correcciones",
-    "responsable": "Responsable del proyecto, usuario de este chat",
-    "fecha": "2026-10-22"
+    "sha256": "a555c6ef148c98ace3d15278131a07458a602606bc0185e413622a8db60f29af",
+    "resultado": "aceptada_con_correccion",
+    "historial": [
+      {
+        "fecha": "2026-10-22",
+        "sha256": "e2ce185b06e82d983b6ea2d4beb10d3373401bceae4ad50e671c24ddec4abb5d",
+        "resultado": "aceptada_sin_correcciones",
+        "evidencia": {
+          "tipo": "confirmacion_usuario_en_chat",
+          "texto": "revisé las 4. todo está correcto."
+        }
+      }
+    ],
+    "fecha": "2026-10-31",
+    "responsable": "David Merino Recalde, responsable del proyecto",
+    "correcciones": [
+      {
+        "ruta": "tramos.16.denominacion_literal",
+        "antes": "quintilla",
+        "despues": "quintillas",
+        "fundamento": "Cotejo de foto 30, vv. 2755–2804; corrección del literal, sin cambiar forma ni rangos.",
+        "evidencia": {
+          "tipo": "confirmacion_usuario_en_chat",
+          "texto": "Sí, corregir a «quintillas»"
+        }
+      }
+    ]
   },
   "entradas_sha256": {
     "equivalencias.propuestas.json": "af618ad333d225990e8b847d0515ed6638bc560fb8bd82e7fb9f5912291b282c",
     "catalogo-referencia.json": "8820c655eb5c0e73f5c9869d0d1898a9e017ec953c7115c84cb64cfd38346252",
     "auditoria-tercetos-2026-10-26.json": "433367a2e24b8e6e5fb213b907c2d810ff2078eda0e2364771070231e8cfc112",
     "segmentacion.propuestas.json": "66bfd37373162eaf06c046093f11cbd7188d0e72519bea0c30c6caefc738cd0f",
-    "revision-humana.json": "81cebad4c31f2cdead342675b2d668cc50461187e2da5c600d69c6634ade24a0",
+    "revision-humana.json": "9a08d338ceff41556955e48d036cc4f028e2d047e3f3fda53e7235b6626f2e2f",
     "bibliografia-contraste.json": "6e31365d616e6222be70f396f3e653462fa29f0ab2e1e1ad5938236538c778ab"
   }
 }

@@ -11,8 +11,8 @@ Generado de las cuatro extracciones. Se conservan variantes literales, sin fusio
 | letrilla | 1 | 9 | letrilla | candidatas_orientativas | villancico; zejel; romance; romancillo | pendiente |
 | octava real | 1 | 56 | octava-real | equivalencia_propuesta | octava_real/endecasilabica_consonante | pendiente |
 | octavas reales | 4 | 208 | octava-real | equivalencia_propuesta | octava_real/endecasilabica_consonante | pendiente |
-| quintilla | 7 | 1025 | quintilla | equivalencia_propuesta | quintilla | pendiente |
-| quintillas | 6 | 1475 | quintilla | equivalencia_propuesta | quintilla | pendiente |
+| quintilla | 6 | 975 | quintilla | equivalencia_propuesta | quintilla | pendiente |
+| quintillas | 7 | 1525 | quintilla | equivalencia_propuesta | quintilla | pendiente |
 | redondilla | 6 | 1404 | redondilla | equivalencia_propuesta | redondilla | pendiente |
 | redondillas | 23 | 5649 | redondilla | equivalencia_propuesta | redondilla | pendiente |
 | romance en -io | 1 | 26 | romance-io | equivalencia_propuesta | romance/octosilabica | pendiente |

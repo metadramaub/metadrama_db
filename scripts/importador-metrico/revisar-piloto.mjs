@@ -28,7 +28,7 @@ if (revision) {
     const entry = revision.revisiones.find((r) => r.obra_ref === ref);
     const archivo = `extracciones/${ref}.json`;
     const sha256 = createHash('sha256').update(readFileSync(join(root, archivo))).digest('hex');
-    check(entry?.archivo === archivo && entry?.sha256 === sha256 && entry?.resultado === 'aceptada_sin_correcciones', `La revisión humana no corresponde a la versión conservada: ${ref}`);
+    check(entry?.archivo === archivo && entry?.sha256 === sha256 && ['aceptada_sin_correcciones', 'aceptada_con_correccion'].includes(entry?.resultado), `La revisión humana no corresponde a la versión conservada: ${ref}`);
   }
 }
 const revisado = Boolean(revision);
@@ -194,7 +194,7 @@ for (const obra of obras) {
     ] : ['No hay un resumen global completo transcribible en las fotografías aportadas.']),
     '## Incidencias y revisión pendiente',
     ...obra.incidencias.map((row) => `- ${row.tipo}: ${row.descripcion}`),
-    revisado ? '- Cotejo humano aceptado sin correcciones el 22 de octubre de 2026. La salida original conserva su estado de borrador; el registro externo identifica por SHA-256 la versión aceptada.' : '- Cotejar todos los rangos, etiquetas, recuentos, notas, páginas y metadatos; registrar responsable, fecha y correcciones antes de aceptar el gold.',
+    revisado ? '- Cotejo humano aceptado el 22 de octubre de 2026; las correcciones posteriores, su fecha y las versiones previas figuran en revision-humana.json. La extracción conserva su estado de borrador; el registro externo identifica por SHA-256 la versión aceptada.' : '- Cotejar todos los rangos, etiquetas, recuentos, notas, páginas y metadatos; registrar responsable, fecha y correcciones antes de aceptar el gold.',
     ...(obra.obra_ref === 'los-locos-de-valencia' ? ['- [Criterios acordados](../segmentacion.propuestas.json): n01 es desviación de metro; n02 es adición estructural. Se conservan ambos tramos sin partición. Estas decisiones no alteran las filas de la fuente.'] : []),
     '- Las [equivalencias](../equivalencias.propuestas.json) se registran aparte: estancias → Canción está aceptada solo al nivel de forma, con remate declarado; las demás siguen pendientes. No modifican las extracciones literales.'
   ];
@@ -214,7 +214,7 @@ derivados.set('inventario-terminos.md', [
 ].join('\n\n')+'\n');
 derivados.set('informe-inicial.md', [
   '# Primer lote del piloto del importador',
-  revisado ? '**Cuatro transcripciones aceptadas sin correcciones el 22 de octubre de 2026.** [Registro de aceptación y hashes](./revision-humana.json). La normalización sigue en revisión; no hay importación en Supabase.' : '**Cuatro borradores para revisión humana. No hay gold validado ni importación en Supabase.**',
+  revisado ? '**Cuatro transcripciones aceptadas el 22 de octubre de 2026, con correcciones posteriores registradas cuando corresponda.** [Registro de aceptación y hashes](./revision-humana.json). Este ensayo genera archivos locales; no crea importaciones en Supabase.' : '**Cuatro borradores para revisión humana. No hay gold validado ni importación en Supabase.**',
   'Los datos proceden de lectura visual asistida de seis fotografías y de los bloques bibliográficos del DOCX. El prompt 0.1 queda preparado para ensayos posteriores; esta lectura no es una evaluación ciega ni una comparación entre proveedores.',
   table(['Obra','Fechas DOCX','Fotos','Filas fuente','Versos por rangos','Resumen impreso','Cotejo'], obras.map((obra) => [obra.metadatos.titulo,`${obra.metadatos.fecha_inicio}–${obra.metadatos.fecha_fin}`,fuentes.fotografias.filter((foto) => foto.obra_ref === obra.obra_ref).length,obra.tramos.length,controles.get(obra.obra_ref).total,obra.resumen_fuente.length ? 'recuentos compatibles' : 'no aportado completo',`[Abrir tabla](./revision/${obra.obra_ref}.md)`])),
   `En conjunto: **${obras.reduce((n, obra) => n+obra.tramos.length,0)} filas y ${[...controles.values()].reduce((n, c) => n+c.total,0)} versos por rangos**, distribuidos en ${terminos.length} denominaciones literales. Los resúmenes no se suman de nuevo.`,

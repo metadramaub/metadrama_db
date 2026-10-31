@@ -66,6 +66,6 @@ No hay un resumen global completo transcribible en las fotografías aportadas.
 
 - resumen_no_aportado: La fotografía no aporta un resumen global de formas; no se inventa uno como dato de fuente.
 
-- Cotejo humano aceptado sin correcciones el 22 de octubre de 2026. La salida original conserva su estado de borrador; el registro externo identifica por SHA-256 la versión aceptada.
+- Cotejo humano aceptado el 22 de octubre de 2026; las correcciones posteriores, su fecha y las versiones previas figuran en revision-humana.json. La extracción conserva su estado de borrador; el registro externo identifica por SHA-256 la versión aceptada.
 
 - Las [equivalencias](../equivalencias.propuestas.json) se registran aparte: estancias → Canción está aceptada solo al nivel de forma, con remate declarado; las demás siguen pendientes. No modifican las extracciones literales.

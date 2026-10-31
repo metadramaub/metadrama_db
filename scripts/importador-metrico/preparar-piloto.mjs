@@ -52,7 +52,7 @@ try {
 		const normalizada = read(`normalizadas/${ref}.json`);
 		const aceptada = revision.revisiones.find((r) => r.obra_ref === ref);
 		if (
-			aceptada.resultado !== 'aceptada_sin_correcciones' ||
+			!['aceptada_sin_correcciones', 'aceptada_con_correccion'].includes(aceptada.resultado) ||
 			aceptada.sha256 !== digest(aceptada.archivo) ||
 			normalizada.revision_transcripcion?.sha256 !== aceptada.sha256 ||
 			normalizada.obra_ref !== ref

@@ -28,7 +28,7 @@ Edición: VEGA CARPIO, Lope de, Los locos de Valencia, ed. Carlos Peña, en Come
 | t14 | 2223–2470 | redondillas | redondilla | — |
 | t15 | 2471–2621 | endecasílabos sueltos | endecasilabo_suelto | — |
 | t16 | 2622–2754 | redondillas | redondilla | — |
-| t17 | 2755–2804 | quintilla | quintilla | — |
+| t17 | 2755–2804 | quintillas | quintilla | — |
 | t18 | 2805–2900 | redondillas | redondilla | — |
 | t19 | 2901–2964 | romance en á-e | romance | — |
 | t20 | 2965–3072 | redondillas | redondilla | — |

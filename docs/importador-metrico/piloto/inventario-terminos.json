@@ -197,8 +197,8 @@
     },
     {
       "literal": "quintilla",
-      "tramos": 7,
-      "versos": 1025,
+      "tramos": 6,
+      "versos": 975,
       "apariciones": [
         {
           "obra_ref": "el-verdadero-amante",
@@ -235,19 +235,13 @@
           "tramo_ref": "t18",
           "fuente_id": "foto-13a",
           "pagina": 128
-        },
-        {
-          "obra_ref": "los-locos-de-valencia",
-          "tramo_ref": "t17",
-          "fuente_id": "foto-30",
-          "pagina": 188
         }
       ]
     },
     {
       "literal": "quintillas",
-      "tramos": 6,
-      "versos": 1475,
+      "tramos": 7,
+      "versos": 1525,
       "apariciones": [
         {
           "obra_ref": "el-molino",
@@ -282,6 +276,12 @@
         {
           "obra_ref": "los-locos-de-valencia",
           "tramo_ref": "t12",
+          "fuente_id": "foto-30",
+          "pagina": 188
+        },
+        {
+          "obra_ref": "los-locos-de-valencia",
+          "tramo_ref": "t17",
           "fuente_id": "foto-30",
           "pagina": 188
         }

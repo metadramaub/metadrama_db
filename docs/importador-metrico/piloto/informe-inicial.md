@@ -1,6 +1,6 @@
 # Primer lote del piloto del importador
 
-**Cuatro transcripciones aceptadas sin correcciones el 22 de octubre de 2026.** [Registro de aceptación y hashes](./revision-humana.json). La normalización sigue en revisión; no hay importación en Supabase.
+**Cuatro transcripciones aceptadas el 22 de octubre de 2026, con correcciones posteriores registradas cuando corresponda.** [Registro de aceptación y hashes](./revision-humana.json). Este ensayo genera archivos locales; no crea importaciones en Supabase.
 
 Los datos proceden de lectura visual asistida de seis fotografías y de los bloques bibliográficos del DOCX. El prompt 0.1 queda preparado para ensayos posteriores; esta lectura no es una evaluación ciega ni una comparación entre proveedores.
 

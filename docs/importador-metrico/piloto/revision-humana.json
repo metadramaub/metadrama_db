@@ -29,8 +29,33 @@
     {
       "obra_ref": "los-locos-de-valencia",
       "archivo": "extracciones/los-locos-de-valencia.json",
-      "sha256": "e2ce185b06e82d983b6ea2d4beb10d3373401bceae4ad50e671c24ddec4abb5d",
-      "resultado": "aceptada_sin_correcciones"
+      "sha256": "a555c6ef148c98ace3d15278131a07458a602606bc0185e413622a8db60f29af",
+      "resultado": "aceptada_con_correccion",
+      "historial": [
+        {
+          "fecha": "2026-10-22",
+          "sha256": "e2ce185b06e82d983b6ea2d4beb10d3373401bceae4ad50e671c24ddec4abb5d",
+          "resultado": "aceptada_sin_correcciones",
+          "evidencia": {
+            "tipo": "confirmacion_usuario_en_chat",
+            "texto": "revisé las 4. todo está correcto."
+          }
+        }
+      ],
+      "fecha": "2026-10-31",
+      "responsable": "David Merino Recalde, responsable del proyecto",
+      "correcciones": [
+        {
+          "ruta": "tramos.16.denominacion_literal",
+          "antes": "quintilla",
+          "despues": "quintillas",
+          "fundamento": "Cotejo de foto 30, vv. 2755–2804; corrección del literal, sin cambiar forma ni rangos.",
+          "evidencia": {
+            "tipo": "confirmacion_usuario_en_chat",
+            "texto": "Sí, corregir a «quintillas»"
+          }
+        }
+      ]
     }
   ]
 }
