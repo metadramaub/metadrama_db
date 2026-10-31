@@ -46,6 +46,13 @@ No se necesita migración ni se han cambiado datos de Supabase real.
 
 ## Verificación
 
+El 31 de octubre se ajustó además la apertura: metadatos y tablas solo aparecen tras pulsar
+«Preparar importación»; editar el JSON los oculta hasta prepararlo de nuevo. Comprobado en navegador
+con Los locos: cero campos/tablas antes de preparar, ambos visibles después y otra vez ocultos
+al cambiar la entrada. El error de jornadas 2, 3, 4 aparece una sola vez, con esos números.
+La batería dirigida reúne ahora 201 pruebas; la suite de CLI se repitió con un límite de 15 segundos
+por un timeout de arranque de procesos. La comprobación de tipos pasa sin errores ni avisos.
+
 200 pruebas dirigidas correctas, compilación de producción correcta y comprobación de tipos
 sin errores ni avisos. La constante
 SQL del esquema confirmado sigue coincidiendo, comprobada sin conexión ni escritura en DB.

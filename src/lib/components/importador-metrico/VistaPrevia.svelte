@@ -37,12 +37,12 @@
 	const fuente = (id: string | null) => (id ?? '').replace(/^foto-/, 'Foto ');
 </script>
 
-<section class="space-y-4" aria-label={vista.persistido ? 'Métrica importada' : 'Vista previa métrica'}>
+<section class="space-y-4" aria-label={vista.persistido ? 'Métrica importada' : 'Métrica de la importación'}>
 	<header class="flex flex-wrap items-center justify-between gap-3">
 		<h2 class="text-lg font-semibold">{vista.persistido?'Secuencias registradas':'Secuencias propuestas'}</h2>
-		<span class="text-xs text-[color:var(--muted-foreground)]">{vista.persistido?'Copia de la importación':'Vista previa · sin guardar'}</span>
+		<span class="text-xs text-[color:var(--muted-foreground)]">{vista.persistido?'Copia de la importación':'Sin guardar'}</span>
 	</header>
-	{#if desactualizada}
+	{#if desactualizada && vista.datos}
 		<p role="status" class="border-l-2 border-amber-400 bg-amber-50 px-3 py-2 text-sm">Cambios sin comprobar.</p>
 	{/if}
 	{#if vista.errores.length}

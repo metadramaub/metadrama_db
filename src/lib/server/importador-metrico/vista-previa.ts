@@ -238,9 +238,10 @@ export function analizarEntrada(
 			} as FichaMinima;
 		} else
 			throw new Error(
-				'Formato no admitido. Se acepta extracción 0.1, ficha mínima 0.2 o vista previa mínima 0.2.'
+				'Formato no admitido. Se acepta extracción 0.1, ficha mínima 0.2 o importación preparada 0.2.'
 			);
-		try {
+		let validacion = validarFichaMinima(datos, { catalogo: referencia, vistaPrevia: true });
+		if (!validacion.errores.length) try {
 			const notas = entrada.esquema === 'versologia-extraccion/0.1' && Array.isArray(entrada.notas)
 				? entrada.notas.map(objeto).filter((n) => typeof n.id === 'string' && typeof n.texto_literal === 'string')
 					.map((n) => ({id: n.id as string, texto_literal: n.texto_literal as string})) : [];
@@ -251,6 +252,7 @@ export function analizarEntrada(
 			if (comprobacion.errores.length)
 				throw new Error(comprobacion.errores.map((e) => e.mensaje).join(' '));
 			datos = editados;
+			validacion = comprobacion;
 		} catch (error) {
 			resultado.errores.push({
 				codigo: 'edicion',
@@ -258,7 +260,6 @@ export function analizarEntrada(
 				mensaje: error instanceof Error ? error.message : 'No se pudieron aplicar los cambios.'
 			});
 		}
-		const validacion = validarFichaMinima(datos, { catalogo: referencia, vistaPrevia: true });
 		const completa = validarFichaMinima(datos, { catalogo: referencia });
 		resultado.pendientes_metadatos = completa.errores.filter(e => e.ruta.startsWith('metadatos'));
 		resultado.errores.push(...validacion.errores);
@@ -295,7 +296,7 @@ export function analizarEntrada(
 			codigo: 'cotejo_pendiente',
 			ruta: '',
 			mensaje:
-				'La vista previa no confirma la extracción, la segmentación ni las equivalencias. Revisa los datos con las fotografías antes de importar.'
+				'Revisa los datos con las fotografías antes de guardar la importación.'
 		}
 	);
 	return resultado;

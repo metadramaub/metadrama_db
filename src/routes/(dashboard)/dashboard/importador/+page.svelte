@@ -33,7 +33,7 @@
 		metadatos={...vacios}; otraObra=false; entradaCambiada=false; desactualizada=false;
 		peticionId=crypto.randomUUID();
 	}
-	const vista = $derived(ultimaRespuesta?.vista ?? null);
+	const vista = $derived(!entradaCambiada && ultimaRespuesta?.entrada === entrada ? ultimaRespuesta.vista : null);
 	const coincidencias = $derived(ultimaRespuesta?.coincidencias ?? []);
 	$effect(() => {
 		const r = respuesta();
@@ -70,6 +70,8 @@
 					return;
 				}
 				await update({ reset:false, invalidateAll:false });
+				if (!respuesta()) { ultimaRespuesta = null; vistaComprobada = null; }
+				entradaCambiada = false;
 			} finally { pendiente = false; }
 		};
 	};
@@ -77,7 +79,7 @@
 		const p = data.pilotos.find((p: { id: string; entrada: string }) => p.id === ejemplo);
 		if (p) { entrada = p.entrada; entradaCambiada = true; desactualizada = true; }
 	}
-	function cambioEntrada() { entradaCambiada = true; desactualizada = true; }
+	function cambioEntrada() { entradaCambiada = true; desactualizada = false; respuestaDescartada = false; }
 	function cambioMetadatos() { desactualizada = true; }
 	function cancelarEdicion() {
 		if (!ultimaRespuesta) return;
@@ -141,11 +143,11 @@
 		<form method="POST" action="?/leer" use:enhance={enviar} class="space-y-3">
 			<label class="form-field" for="entrada-importador"><span class="form-label">Transcripción (JSON) <span class="required" aria-label="obligatorio">*</span></span></label>
 			<textarea id="entrada-importador" name="entrada" bind:value={entrada} oninput={cambioEntrada} rows="6" spellcheck="false" class="w-full rounded-md border border-[color:var(--border)] bg-white p-3 font-mono text-xs" placeholder="Pega la transcripción de una obra" required></textarea>
-			<button class="rounded-md bg-[color:var(--foreground)] px-5 py-2.5 text-sm font-medium text-white disabled:opacity-50" disabled={pendiente || !entrada.trim()}>{pendiente ? 'Comprobando…' : 'Preparar vista previa'}</button>
+			<button class="rounded-md bg-[color:var(--foreground)] px-5 py-2.5 text-sm font-medium text-white disabled:opacity-50" disabled={pendiente || !entrada.trim()}>{pendiente ? 'Preparando…' : 'Preparar importación'}</button>
 		</form>
 	</div>
-	{#if form && 'mensaje' in form}<p role="alert" class="border border-red-200 bg-red-50 p-3 text-sm">{form.mensaje}</p>{/if}
-	{#if respuestaDescartada}<p role="status" class="border-l-2 border-amber-400 bg-amber-50 p-3 text-sm">Datos modificados durante el envío. Vuelve a comprobarlos.</p>{/if}
+	{#if !entradaCambiada && form && 'mensaje' in form}<p role="alert" class="border border-red-200 bg-red-50 p-3 text-sm">{form.mensaje}</p>{/if}
+	{#if respuestaDescartada && !entradaCambiada}<p role="status" class="border-l-2 border-amber-400 bg-amber-50 p-3 text-sm">Datos modificados durante el envío. Vuelve a comprobarlos.</p>{/if}
 	{#if vista && !entradaCambiada}
 		<form bind:this={formComprobacion} method="POST" action="?/comprobar" use:enhance={enviar} novalidate class="card space-y-4 p-4 sm:p-6">
 			<h2 class="text-lg font-semibold">2. Datos de la obra</h2>

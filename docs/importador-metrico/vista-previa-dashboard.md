@@ -1,5 +1,11 @@
 # Vista previa del importador en el dashboard
 
+Flujo actualizado el 31 de octubre: pegar el JSON no muestra metadatos, tablas ni avisos.
+Solo aparecen al pulsar **Preparar importación**. Al modificar la entrada se oculta el resultado
+anterior hasta prepararla otra vez. La interfaz utiliza «Sin guardar» para el resultado preparado.
+Los errores de orden de jornadas se muestran una sola vez e incluyen los números recibidos;
+el importador no los renumera automáticamente.
+
 Actualización del 31 de octubre: [metadatos opcionales durante la preparación](./metadatos-opcionales.md).
 El prompt activo pasa a v0.5: admite fotos solas o metadatos aportados, y estos solo se exigen
 completos al guardar. Los ejemplos y formatos anteriores siguen siendo compatibles.

@@ -5,6 +5,16 @@ import { analizarEntrada, obtenerPilotos, obtenerReferenciaImportador } from './
 import preparada from '../../../../docs/importador-metrico/piloto/preparadas/el-verdadero-amante.json';
 
 describe('vista previa del importador sin persistencia', () => {
+	it('explica una sola vez las jornadas fuera de orden, indicando los números recibidos', () => {
+		const raw = JSON.parse(obtenerPilotos()[0].entrada);
+		for (const j of raw.jornadas) j.numero += 1;
+		for (const t of raw.tramos) t.jornada += 1;
+		const vista = analizarEntrada(JSON.stringify(raw));
+		expect(vista.errores).toHaveLength(1);
+		expect(vista.errores[0]).toMatchObject({codigo:'orden_jornadas',ruta:'jornadas'});
+		expect(vista.errores[0].mensaje).toContain('2, 3, 4');
+		expect(vista.datos).toBeNull();
+	});
 	it('precarga el género aportado si tiene correspondencia y deja elegir si no la tiene', () => {
 		const raw = JSON.parse(obtenerPilotos()[0].entrada);
 		raw.metadatos.genero_literal = 'Tragedia';

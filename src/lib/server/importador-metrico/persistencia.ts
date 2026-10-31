@@ -101,7 +101,7 @@ export async function guardarImportacion(
 	if (p.huella !== huellaConfirmacion(p.datos, p.autorId, p.coincidencias))
 		throw new ErrorImportacion(
 			409,
-			'Los datos o las coincidencias han cambiado. Revisa la vista previa antes de guardar.'
+			'Los datos o las coincidencias han cambiado. Revisa la importación antes de guardar.'
 		);
 	if (p.coincidencias.length && !p.otraObra)
 		throw new ErrorImportacion(

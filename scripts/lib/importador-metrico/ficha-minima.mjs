@@ -147,10 +147,8 @@ export function validarFichaMinima(input, { catalogo, vistaPrevia = false } = {}
 	};
 	revisarParticion(datos.jornadas, 'jornadas');
 	revisarParticion(datos.segmentos, 'segmentos');
-	for (const [i, j] of datos.jornadas.entries()) {
-		if (j.numero !== i + 1)
-			add('orden_jornadas', `jornadas.${i}.numero`, 'Jornadas numeradas desde 1 y en orden.');
-	}
+	if (datos.jornadas.some((j, i) => j.numero !== i + 1))
+		add('orden_jornadas', 'jornadas', `Las jornadas deben comenzar por 1 y seguir en orden (1, 2, 3…). En el JSON aparecen: ${datos.jornadas.map(j => j.numero).join(', ')}.`);
 	if (
 		datos.jornadas[0].v_ini !== datos.segmentos[0].v_ini ||
 		datos.jornadas.at(-1).v_fin !== datos.segmentos.at(-1).v_fin
