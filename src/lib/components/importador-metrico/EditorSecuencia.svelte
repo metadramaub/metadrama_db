@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, tick, untrack } from 'svelte';
-	import type { FichaMinima, SegmentoMinimo } from '$lib/importador-metrico/types';
+	import type { BorradorFichaMinima, SegmentoMinimo } from '$lib/importador-metrico/types';
 	import { desviacionEditableSchema, type DesviacionBorrador, type EdicionFila, type FormaEditable } from '$lib/importador-metrico/edicion';
 	import DatosSecuencia from './DatosSecuencia.svelte';
 	import { proponerDivision, resumenCuerpo } from '$lib/importador-metrico/division';
@@ -9,7 +9,7 @@
 	import MetricPanelSection from '$lib/components/metrica/editor-v2/MetricPanelSection.svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	let { datos, tramoRef, formas, ocupado = false, errores = [], notasFuente = [], onaplicar, onrestablecer, oncancelar } = $props<{
-		datos: FichaMinima; tramoRef: string; formas: FormaEditable[]; ocupado?: boolean; errores?: string[];
+		datos: BorradorFichaMinima; tramoRef: string; formas: FormaEditable[]; ocupado?: boolean; errores?: string[];
 		notasFuente?: {id: string; texto_literal: string}[];
 		onaplicar: (cambio: EdicionFila) => void; onrestablecer: () => void; oncancelar: () => void;
 	}>();

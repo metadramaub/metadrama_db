@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { FichaMinima, SegmentoMinimo } from './types';
+import type { SegmentoMinimo } from './types';
 
 const texto = z.string().trim().min(1).max(4000);
 const entero = z.number().int().positive().max(2147483647);
@@ -52,7 +52,7 @@ export type FormaEditable = {
 };
 
 /** Solo modifica la interpretación. El origen y el ámbito se reconstruyen desde la entrada. */
-export function aplicarEdiciones(datos: FichaMinima, entrada: unknown, notas: {id: string; texto_literal: string}[] = []): FichaMinima {
+export function aplicarEdiciones<T extends {segmentos: SegmentoMinimo[]}>(datos: T, entrada: unknown, notas: {id: string; texto_literal: string}[] = []): T {
 	const parsed = edicionesSchema.safeParse(entrada);
 	if (!parsed.success) throw new Error('Los cambios de secuencias tienen un formato inválido.');
 	const copia = structuredClone(datos);

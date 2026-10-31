@@ -5,6 +5,39 @@ import { analizarEntrada, obtenerPilotos, obtenerReferenciaImportador } from './
 import preparada from '../../../../docs/importador-metrico/piloto/preparadas/el-verdadero-amante.json';
 
 describe('vista previa del importador sin persistencia', () => {
+	it('precarga el género aportado si tiene correspondencia y deja elegir si no la tiene', () => {
+		const raw = JSON.parse(obtenerPilotos()[0].entrada);
+		raw.metadatos.genero_literal = 'Tragedia';
+		expect(analizarEntrada(JSON.stringify(raw)).metadatos.genero).toBe('tragedia');
+		raw.metadatos.genero_literal = 'Denominación sin correspondencia';
+		const vista = analizarEntrada(JSON.stringify(raw));
+		expect(vista.metadatos.genero).toBe('');
+		expect(vista.errores).toEqual([]);
+		expect(vista.filas.length).toBeGreaterThan(0);
+		expect(vista.pendientes_metadatos!.length).toBeGreaterThan(0);
+	});
+	it('permite revisar y editar sin metadatos y conserva los cambios al completarlos', () => {
+		const raw = JSON.parse(obtenerPilotos()[0].entrada);
+		raw.metadatos = null;
+		const texto = JSON.stringify(raw);
+		const inicial = analizarEntrada(texto);
+		expect(inicial.errores).toEqual([]);
+		expect(inicial.filas).toHaveLength(raw.tramos.length);
+		expect(inicial.datos?.metadatos.fecha_inicio).toBeNull();
+		expect(inicial.pendientes_metadatos!.length).toBeGreaterThan(0);
+		const s = inicial.filas.find(s => s.identificacion?.forma_slug === 'redondilla')!;
+		const ediciones = [{tramo_ref:s.origen.tramo_ref,partes:[{v_ini:s.v_ini,v_fin:s.v_fin,
+			identificacion:s.identificacion,nota:'Revisión conservada',remate:null}]}];
+		const editada = analizarEntrada(texto, {}, ediciones);
+		expect(editada.errores).toEqual([]);
+		expect(editada.filas.find(f => f.v_ini === s.v_ini)?.nota).toBe('Revisión conservada');
+		const completa = analizarEntrada(texto, {titulo:'Título de prueba',autor_nombre:'Lope de Vega',
+			edicion_base:'Edición de prueba',fecha_inicio:'1585',fecha_fin:'1593'}, ediciones);
+		expect(completa.errores).toEqual([]);
+		expect(completa.pendientes_metadatos).toEqual([]);
+		expect(completa.filas.find(f => f.v_ini === s.v_ini)?.nota).toBe('Revisión conservada');
+		expect(JSON.parse(texto).metadatos).toBeNull();
+	});
 	it('sitúa los errores de extracción en la fila y el campo sin mostrar JSON técnico', () => {
 		const raw = JSON.parse(obtenerPilotos().find(p => p.id === 'los-locos-de-valencia')!.entrada);
 		raw.notas[1].marca = '';
@@ -42,9 +75,9 @@ describe('vista previa del importador sin persistencia', () => {
 			fecha_fin: 1590
 		});
 	});
-	it('no admite fechas vacías ni invertidas', () => {
+	it('deja revisar con fechas vacías, pero impide guardar; rechaza fechas invertidas', () => {
 		expect(
-			analizarEntrada(obtenerPilotos()[0].entrada, { fecha_inicio: '' }).errores.length
+			analizarEntrada(obtenerPilotos()[0].entrada, { fecha_inicio: '' }).pendientes_metadatos!.length
 		).toBeGreaterThan(0);
 		expect(
 			analizarEntrada(obtenerPilotos()[0].entrada, {

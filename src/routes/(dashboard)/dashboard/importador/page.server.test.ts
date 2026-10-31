@@ -59,6 +59,14 @@ async function comprobar() {
 	return r;
 }
 describe('acciones HTTP del importador', () => {
+	it('sin fechas prepara las filas, no emite huella y bloquea confirmar aunque se fuerce el POST', async () => {
+		const previa = await actions.comprobar!(event({fecha_inicio:'',fecha_fin:''}));
+		expect(previa).toMatchObject({huella:null,vista:{errores:[]}});
+		expect(previa && 'vista' in previa && previa.vista.filas.length).toBeGreaterThan(0);
+		const r = await actions.confirmar!(event({fecha_inicio:'',fecha_fin:'',huella:'forzada'}));
+		expect(r).toMatchObject({status:400});
+		expect(rpc.mock.calls.some(([name])=>name==='guardar_ficha_minima')).toBe(false);
+	});
 	it('reconstruye la vista en servidor y redirige a la copia guardada', async () => {
 		const previa = await comprobar();
 		await expect(actions.confirmar!(event({ huella: previa.huella! }))).rejects.toMatchObject({

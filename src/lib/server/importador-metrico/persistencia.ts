@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { z } from 'zod';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '$lib/types/database.types';
-import type { FichaMinima } from '$lib/importador-metrico/types';
+import type { BorradorFichaMinima } from '$lib/importador-metrico/types';
 import {
 	fichaMinimaSchema,
 	serializarCanonico
@@ -58,7 +58,7 @@ export async function buscarCoincidencias(db: ClienteImportador, titulo: string)
 	return z.array(coincidenciaSchema).parse(r.data);
 }
 export function huellaConfirmacion(
-	datos: FichaMinima,
+	datos: BorradorFichaMinima,
 	autorId: string,
 	coincidencias: CoincidenciaImportacion[]
 ) {
@@ -84,7 +84,7 @@ export function extraccionOriginal(texto: string): Record<string, unknown> {
 export async function guardarImportacion(
 	db: ClienteImportador,
 	p: {
-		datos: FichaMinima;
+		datos: BorradorFichaMinima;
 		autorId: string;
 		entrada: string;
 		peticionId: string;
@@ -95,6 +95,9 @@ export async function guardarImportacion(
 ) {
 	if (!uuid.safeParse(p.autorId).success || !uuid.safeParse(p.peticionId).success)
 		throw new ErrorImportacion(400, 'Autor o identificador de petición inválidos.');
+	const completa = fichaMinimaSchema.safeParse(p.datos);
+	if (!completa.success)
+		throw new ErrorImportacion(400, 'Completa los datos obligatorios de la obra antes de guardar.');
 	if (p.huella !== huellaConfirmacion(p.datos, p.autorId, p.coincidencias))
 		throw new ErrorImportacion(
 			409,
@@ -106,7 +109,7 @@ export async function guardarImportacion(
 			'Revisa si las coincidencias corresponden a otra obra antes de continuar.'
 		);
 	// Guardar confirma la segmentación revisada, no identifica las formas pendientes.
-	const datos = structuredClone(p.datos);
+	const datos = structuredClone(completa.data);
 	for (const s of datos.segmentos) s.segmentacion = 'confirmada';
 	const r = await db.rpc('guardar_ficha_minima', {
 		p_peticion: p.peticionId,

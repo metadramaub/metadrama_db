@@ -109,7 +109,11 @@ describe('contrato local de la ficha mínima', () => {
 		const asonancia = preparar()
 			.segmentos.flatMap((s) => s.detalles_fuente)
 			.find((d) => d.rasgo_slug === 'vocales_asonancia');
-		expect(asonancia).toMatchObject({ rasgo_slug: 'vocales_asonancia', valor_slug: 'i-o', literal: '-io' });
+		expect(asonancia).toMatchObject({
+			rasgo_slug: 'vocales_asonancia',
+			valor_slug: 'i-o',
+			literal: '-io'
+		});
 		expect(asonancia).not.toHaveProperty('estado');
 		expect(asonancia).not.toHaveProperty('esquema_rima_id');
 	});
@@ -302,6 +306,14 @@ describe('contrato local de la ficha mínima', () => {
 });
 
 describe('copia fija y contexto de confirmación', () => {
+	it('la opción de vista previa nunca permite confirmar una copia incompleta', () => {
+		const datos = preparar();
+		datos.metadatos.fecha_inicio = null;
+		expect(validarFichaMinima(datos, { catalogo, vistaPrevia: true }).errores).toEqual([]);
+		expect(() => crearCopiaConfirmada(datos, actor(), { catalogo, vistaPrevia: true })).toThrow(
+			/no confirmable/
+		);
+	});
 	it('congela una copia independiente de las jornadas, secuencias y edición de trabajo', () => {
 		const datos = preparar();
 		const copia = crearCopiaConfirmada(datos, actor(), { catalogo });

@@ -18,9 +18,10 @@ import molino from '../../../../docs/importador-metrico/piloto/extracciones/el-m
 import amante from '../../../../docs/importador-metrico/piloto/extracciones/el-verdadero-amante.json?raw';
 import donaires from '../../../../docs/importador-metrico/piloto/extracciones/los-donaires-de-matico.json?raw';
 import locos from '../../../../docs/importador-metrico/piloto/extracciones/los-locos-de-valencia.json?raw';
-import prompt from '../../../../prompts/importador-metrico/extraccion-v0.1.md?raw';
+import prompt from '../../../../prompts/importador-metrico/extraccion-v0.5.md?raw';
 import type {
 	FichaMinima,
+	BorradorFichaMinima,
 	MetadatosEditables,
 	ResultadoVistaPrevia
 } from '$lib/importador-metrico/types';
@@ -87,10 +88,15 @@ export function obtenerReferenciaImportador() {
 }
 function leerMetadatos(raw: unknown): MetadatosEditables {
 	const m = objeto(raw);
+	const literalGenero = cadena(m.genero_literal);
+	const normalizarGenero = (v: string) => v.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replaceAll('_', ' ').trim();
+	const generoLiteral = ['comedia', 'tragicomedia'].includes(normalizarGenero(literalGenero))
+		? 'comedia_o_tragicomedia'
+		: referencia.generos.find((g: string) => normalizarGenero(g) === normalizarGenero(literalGenero));
 	return {
 		titulo: cadena(m.titulo),
 		autor_nombre: cadena(m.autor_nombre ?? m.autoria),
-		genero: cadena(m.genero) || 'comedia_o_tragicomedia',
+		genero: cadena(m.genero) || (literalGenero ? generoLiteral ?? '' : 'comedia_o_tragicomedia'),
 		edicion_base: cadena(m.edicion_base),
 		fecha_inicio: cadena(m.fecha_inicio),
 		fecha_fin: cadena(m.fecha_fin),
@@ -116,7 +122,7 @@ function nombreDestino(destino: { forma_slug: string; arquitectura_slug: string 
 	return `${forma} · ${arquitectura}`;
 }
 
-function filasDeFicha(ficha: FichaMinima, notasOriginales: Registro[] | null = null) {
+function filasDeFicha(ficha: BorradorFichaMinima, notasOriginales: Registro[] | null = null) {
 	return ficha.segmentos.map((s) => ({
 		...s,
 		...(notasOriginales ? {notas_fuente:notasOriginales.filter(n=>s.origen.notas_ref.includes(n.id as string))
@@ -170,12 +176,12 @@ export function analizarEntrada(
 		resultado.metadatos = { ...leerMetadatos(minima.metadatos), ...cambios };
 		const metadatos = {
 			...resultado.metadatos,
-			fecha_inicio: Number(resultado.metadatos.fecha_inicio),
-			fecha_fin: Number(resultado.metadatos.fecha_fin),
+			fecha_inicio: resultado.metadatos.fecha_inicio.trim() ? Number(resultado.metadatos.fecha_inicio) : null,
+			fecha_fin: resultado.metadatos.fecha_fin.trim() ? Number(resultado.metadatos.fecha_fin) : null,
 			fuente_fecha: resultado.metadatos.fuente_fecha.trim() || null,
 			fundamento_autoria: resultado.metadatos.fundamento_autoria.trim() || null
 		};
-		let datos: FichaMinima;
+		let datos: BorradorFichaMinima;
 		if (entrada.esquema === 'versologia-extraccion/0.1') {
 			const esPiloto = huellasPiloto.has(sha(serializarCanonico(entrada)));
 			const segmentacion = JSON.parse(segmentacionRaw);
@@ -241,7 +247,7 @@ export function analizarEntrada(
 			const editados = aplicarEdiciones(datos, ediciones, notas);
 			// La confirmación pertenece al acto de guardar, no a la entrada de una IA.
 			for (const s of editados.segmentos) s.segmentacion = 'provisional';
-			const comprobacion = validarFichaMinima(editados, { catalogo: referencia });
+			const comprobacion = validarFichaMinima(editados, { catalogo: referencia, vistaPrevia: true });
 			if (comprobacion.errores.length)
 				throw new Error(comprobacion.errores.map((e) => e.mensaje).join(' '));
 			datos = editados;
@@ -252,7 +258,9 @@ export function analizarEntrada(
 				mensaje: error instanceof Error ? error.message : 'No se pudieron aplicar los cambios.'
 			});
 		}
-		const validacion = validarFichaMinima(datos, { catalogo: referencia });
+		const validacion = validarFichaMinima(datos, { catalogo: referencia, vistaPrevia: true });
+		const completa = validarFichaMinima(datos, { catalogo: referencia });
+		resultado.pendientes_metadatos = completa.errores.filter(e => e.ruta.startsWith('metadatos'));
 		resultado.errores.push(...validacion.errores);
 		resultado.avisos.push(...validacion.avisos);
 		if (validacion.datos && !validacion.errores.length) {
@@ -264,7 +272,7 @@ export function analizarEntrada(
 							.filter((n) => typeof n.id === 'string' && typeof n.texto_literal === 'string')
 					: null;
 			resultado.datos = ficha;
-			resultado.resumen = resumirFichaMinima(ficha);
+			resultado.resumen = resumirFichaMinima(ficha, {vistaPrevia:true});
 			resultado.filas = filasDeFicha(ficha,notasOriginales);
 		}
 	} catch (error) {

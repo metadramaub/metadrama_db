@@ -7,12 +7,13 @@ import {
 	type ClienteImportador
 } from './persistencia';
 import { analizarEntrada, obtenerPilotos, vistaDeFichaGuardada } from './vista-previa';
+import { fichaMinimaSchema } from '../../../../scripts/lib/importador-metrico/ficha-minima.mjs';
 
 const autorId = '00000000-0000-4000-8000-000000000001';
 const peticionId = '00000000-0000-4000-8000-000000000002';
 const piloto = obtenerPilotos()[0];
 function caso() {
-	const datos = analizarEntrada(piloto.entrada).datos!;
+	const datos = fichaMinimaSchema.parse(analizarEntrada(piloto.entrada).datos);
 	return {
 		datos,
 		autorId,
@@ -32,6 +33,13 @@ function db() {
 	} satisfies ClienteImportador;
 }
 describe('confirmación de importación', () => {
+	it('rechaza una vista con metadatos pendientes aunque su huella sea correcta', async () => {
+		const cliente = db();
+		const datos = analizarEntrada(piloto.entrada, {fecha_inicio:''}).datos!;
+		await expect(guardarImportacion(cliente, {...caso(),datos,huella:huellaConfirmacion(datos,autorId,[])}))
+			.rejects.toMatchObject({status:400});
+		expect(cliente.rpc).not.toHaveBeenCalled();
+	});
 	it('envía solo la copia revisada y la extracción original con una petición estable', async () => {
 		const cliente = db(),
 			p = caso();

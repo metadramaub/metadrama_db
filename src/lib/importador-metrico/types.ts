@@ -65,6 +65,12 @@ export type ResumenMinimo = {
 	sin_identificacion: number;
 	perfil_formas: { forma_slug: string; versos: number; proporcion_sobre_total: number }[];
 };
+export type BorradorFichaMinima = Omit<FichaMinima, 'metadatos'> & {
+	metadatos: Omit<FichaMinima['metadatos'], 'fecha_inicio' | 'fecha_fin'> & {
+		fecha_inicio: number | null;
+		fecha_fin: number | null;
+	};
+};
 export type FilaVistaPrevia = SegmentoMinimo & {
 	notas_fuente?: { id: string; texto_literal: string }[];
 	jornada: number | null;
@@ -77,7 +83,8 @@ export type ResultadoVistaPrevia = {
 	confirmacion: { obra_id: string; importacion_id: string } | null;
 	formato: string | null;
 	metadatos: MetadatosEditables;
-	datos: FichaMinima | null;
+	datos: BorradorFichaMinima | null;
+	pendientes_metadatos?: IncidenciaImportador[];
 	resumen: ResumenMinimo | null;
 	filas: FilaVistaPrevia[];
 	errores: IncidenciaImportador[];

@@ -147,7 +147,7 @@
 	{#if form && 'mensaje' in form}<p role="alert" class="border border-red-200 bg-red-50 p-3 text-sm">{form.mensaje}</p>{/if}
 	{#if respuestaDescartada}<p role="status" class="border-l-2 border-amber-400 bg-amber-50 p-3 text-sm">Datos modificados durante el envío. Vuelve a comprobarlos.</p>{/if}
 	{#if vista && !entradaCambiada}
-		<form bind:this={formComprobacion} method="POST" action="?/comprobar" use:enhance={enviar} class="card space-y-4 p-4 sm:p-6">
+		<form bind:this={formComprobacion} method="POST" action="?/comprobar" use:enhance={enviar} novalidate class="card space-y-4 p-4 sm:p-6">
 			<h2 class="text-lg font-semibold">2. Datos de la obra</h2>
 			<input type="hidden" name="entrada" value={entrada} />
 			<input type="hidden" name="ediciones" value={ediciones} />
@@ -167,6 +167,7 @@
 				<label class="form-field">
 					<span class="form-label">Género <span class="required" aria-label="obligatorio">*</span></span>
 					<select name="genero" bind:value={metadatos.genero} onchange={cambioMetadatos} required class="w-full rounded-md border border-[color:var(--border)] bg-white px-3 py-2">
+						<option value="">Seleccionar género</option>
 						{#each data.generos as g}<option value={g.termino}>{g.etiqueta ?? g.termino.replaceAll('_',' ')}</option>{/each}
 					</select>
 				</label>
@@ -201,7 +202,10 @@
 		</aside>
 	{/if}
 	{#if vista}<VistaPrevia {vista} {desactualizada} formas={data.referencia.formas} ocupado={pendiente} editable={!entradaCambiada} oneditar={editarSecuencias} oncancelar={cancelarEdicion} />{/if}
-	{#if vista?.datos && !vista.errores.length}
+	{#if vista?.datos && vista.pendientes_metadatos?.length}
+		<p role="status" class="text-sm text-[color:var(--muted-foreground)]">Completa los datos obligatorios de la obra para guardar.</p>
+	{/if}
+	{#if vista?.datos && !vista.errores.length && !vista.pendientes_metadatos?.length}
 		<section class="card space-y-3 p-4 sm:p-6">
 			<h2 class="text-lg font-semibold">Confirmar importación</h2>
 			{#if !data.guardadoDisponible}

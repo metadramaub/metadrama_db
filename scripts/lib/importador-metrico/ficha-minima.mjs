@@ -23,7 +23,9 @@ const detalleLiteral = z
 		dimension: z.literal('asonancia').optional()
 	})
 	.strict();
-const rasgo = z.object({ literal: texto.optional(), rasgo_slug: texto, valor_slug: texto }).strict();
+const rasgo = z
+	.object({ literal: texto.optional(), rasgo_slug: texto, valor_slug: texto })
+	.strict();
 const detalle = z.union([remate, rasgo, detalleLiteral]);
 const desviacion = z
 	.object({
@@ -97,9 +99,21 @@ export const fichaMinimaSchema = z
 
 const error = (codigo, ruta, mensaje) => ({ codigo, ruta, mensaje });
 
+// Solo preparación editorial: nunca es el contrato de una copia confirmada.
+const borradorSchema = fichaMinimaSchema.extend({
+	metadatos: fichaMinimaSchema.shape.metadatos.extend({
+		titulo: z.string().trim(),
+		autor_nombre: z.string().trim(),
+		genero: z.string().trim(),
+		edicion_base: z.string().trim(),
+		fecha_inicio: entero.nullable(),
+		fecha_fin: entero.nullable()
+	})
+});
+
 /** Comprueba la representación, no decide equivalencias ni acepta una transcripción. */
-export function validarFichaMinima(input, { catalogo } = {}) {
-	const parsed = fichaMinimaSchema.safeParse(input);
+export function validarFichaMinima(input, { catalogo, vistaPrevia = false } = {}) {
+	const parsed = (vistaPrevia ? borradorSchema : fichaMinimaSchema).safeParse(input);
 	if (!parsed.success)
 		return {
 			datos: null,
@@ -110,7 +124,11 @@ export function validarFichaMinima(input, { catalogo } = {}) {
 	const errores = [];
 	const avisos = [];
 	const add = (codigo, ruta, mensaje) => errores.push(error(codigo, ruta, mensaje));
-	if (datos.metadatos.fecha_inicio > datos.metadatos.fecha_fin)
+	if (
+		datos.metadatos.fecha_inicio !== null &&
+		datos.metadatos.fecha_fin !== null &&
+		datos.metadatos.fecha_inicio > datos.metadatos.fecha_fin
+	)
 		add('fechas_invertidas', 'metadatos', 'La fecha inicial supera la final.');
 	const revisarParticion = (rows, path) => {
 		const ids = new Set();
@@ -143,7 +161,11 @@ export function validarFichaMinima(input, { catalogo } = {}) {
 		avisos.push(
 			error('catalogo_pendiente', '', 'Falta comprobar las referencias con un catálogo.')
 		);
-	if (catalogo?.generos && !catalogo.generos.includes(datos.metadatos.genero))
+	if (
+		catalogo?.generos &&
+		!(vistaPrevia && !datos.metadatos.genero) &&
+		!catalogo.generos.includes(datos.metadatos.genero)
+	)
 		add(
 			'genero_desconocido',
 			'metadatos.genero',
@@ -183,12 +205,29 @@ export function validarFichaMinima(input, { catalogo } = {}) {
 				'Una arquitectura ya identificada no mantiene candidatas.'
 			);
 		for (const [k, d] of s.detalles_fuente.entries()) {
-			if (d.rasgo_slug && (s.v_fin - s.v_ini + 1 < (d.rasgo_slug === 'distico_final' ? 2 : 1) ||
-				!s.identificacion || (catalogo?.rasgos && !catalogo.rasgos.some((r) =>
-					r.slug === d.rasgo_slug && r.valores.some((v) => v.slug === d.valor_slug) &&
-					r.contextos.some((c) => c.forma === s.identificacion.forma_slug && (!c.valor_slug || c.valor_slug === d.valor_slug) &&
-						(!s.identificacion.arquitectura_slug || c.arquitectura === s.identificacion.arquitectura_slug))))))
-				add('rasgo_contexto', `${ruta}.detalles_fuente.${k}`, 'El rasgo y su valor deben corresponder a la forma y arquitectura conocidas.');
+			if (
+				d.rasgo_slug &&
+				(s.v_fin - s.v_ini + 1 < (d.rasgo_slug === 'distico_final' ? 2 : 1) ||
+					!s.identificacion ||
+					(catalogo?.rasgos &&
+						!catalogo.rasgos.some(
+							(r) =>
+								r.slug === d.rasgo_slug &&
+								r.valores.some((v) => v.slug === d.valor_slug) &&
+								r.contextos.some(
+									(c) =>
+										c.forma === s.identificacion.forma_slug &&
+										(!c.valor_slug || c.valor_slug === d.valor_slug) &&
+										(!s.identificacion.arquitectura_slug ||
+											c.arquitectura === s.identificacion.arquitectura_slug)
+								)
+						)))
+			)
+				add(
+					'rasgo_contexto',
+					`${ruta}.detalles_fuente.${k}`,
+					'El rasgo y su valor deben corresponder a la forma y arquitectura conocidas.'
+				);
 			if (d.tipo_seccion === 'remate' && d.n_versos > s.v_fin - s.v_ini + 1)
 				add(
 					'detalle_extension',
@@ -373,7 +412,7 @@ export function crearCopiaConfirmada(input, contexto, opciones = {}) {
 		throw new Error('La sesión no tiene permiso de importación');
 	if (!opciones.catalogo) throw new Error('Es necesario comprobar las referencias del catálogo');
 	if (!opciones.catalogo.generos) throw new Error('Falta el catálogo de géneros');
-	const result = validarFichaMinima(input, opciones);
+	const result = validarFichaMinima(input, { ...opciones, vistaPrevia: false });
 	if (result.errores.length)
 		throw new Error(`Ficha mínima no confirmable: ${JSON.stringify(result.errores)}`);
 	if (
@@ -386,7 +425,10 @@ export function crearCopiaConfirmada(input, contexto, opciones = {}) {
 		result.datos.segmentos.some((s) => s.detalles_fuente.some((d) => d.tipo_seccion === 'remate'))
 	)
 		throw new Error('Falta el catálogo de secciones declaradas');
-	if (!opciones.catalogo.rasgos && result.datos.segmentos.some((s) => s.detalles_fuente.some((d) => d.rasgo_slug)))
+	if (
+		!opciones.catalogo.rasgos &&
+		result.datos.segmentos.some((s) => s.detalles_fuente.some((d) => d.rasgo_slug))
+	)
 		throw new Error('Falta el catálogo de rasgos declarados');
 	const datos = JSON.parse(JSON.stringify(result.datos));
 	return congelar({
@@ -399,8 +441,8 @@ export function crearCopiaConfirmada(input, contexto, opciones = {}) {
 }
 
 /** Perfil del resultado preparado o confirmado; solo una confirmación habilita su uso en el corpus. */
-export function resumirFichaMinima(input) {
-	const result = validarFichaMinima(input);
+export function resumirFichaMinima(input, opciones = {}) {
+	const result = validarFichaMinima(input, opciones);
 	if (result.errores.length) throw new Error('No se resumen datos con errores estructurales');
 	const datos = result.datos;
 	const total = datos.segmentos.reduce((n, s) => n + s.v_fin - s.v_ini + 1, 0);
