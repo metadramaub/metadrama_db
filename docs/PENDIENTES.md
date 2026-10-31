@@ -79,6 +79,11 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
+Orden operativo actualizado: [estado acordado del 31 de octubre](./importador-metrico/estado-2026-10-31.md).
+Primero mejorar y probar el prompt, cerrar notas/desviaciones y el procedimiento para colaboradores;
+después integrar la precomputación real. La primera ronda de Gemini gratuita está documentada en
+[su informe](./importador-metrico/prueba-gemini-gratuita-2026-10-30.md).
+
 **Incorporar las básicas a la precomputación y ampliar el piloto.** Guardado y consulta
 desplegados en Supabase y en la web real el 29 de octubre; El molino confirmado y reabierto
 con la sesión editorial del responsable. [Registro del despliegue](./despliegues/2026-10-29-importador.md).

@@ -18,6 +18,9 @@ ejecutado los experimentos de sensibilidad. Véase el [registro del despliegue](
 
 ## Lectura y organización
 
+Referencia de reanudación: [estado acordado el 31 de octubre](./estado-2026-10-31.md), que separa
+lo desplegado, los ensayos locales y el orden de entrega para colaboradores.
+
 | Documento | Contenido |
 | --- | --- |
 | [Vista previa del dashboard](./vista-previa-dashboard.md) | Pegado, edición, confirmación condicionada a RPC y consulta de copia fija |
