@@ -75,6 +75,36 @@ inicial de autorización del borrador quedó resuelto. La carga de imagen por la
 pendiente del límite de revisión por tamaño, y se pidió adjuntarla manualmente. No hay resultados
 de extracción de ChatGPT que comparar todavía.
 
+### Respuesta aportada por David
+
+Posteriormente David pegó en el chat la respuesta de ChatGPT para Los locos, con v0.4.
+Se conserva el archivo pegado íntegro y una copia que retira exclusivamente el rótulo externo
+`json` anterior al bloque, sin modificar el JSON. Captura por aportación del usuario, no por
+API ni lectura de una respuesta oculta. Modelo exacto y estado de cuenta no verificados en
+este archivo; la prueba se había preparado sin iniciar sesión.
+
+Resultado del cotejo contra la referencia corregida: 20 filas de 20, todos los rangos,
+denominaciones y recuentos, dos notas con marcas, versos y enlaces, y todos los metadatos
+aportados —también los auxiliares— coinciden. No hay errores de estructura ni advertencias
+técnicas. La respuesta no inventa un resumen global y registra la página contigua recortada.
+La única discrepancia del cotejo automático es la redacción y el nombre del tipo de incidencia:
+`fuente_parcial` frente a `resumen_recortado`. El cotejo asistido confirma que describen la
+misma limitación y que ninguna reconstruye el contenido. No se ha declarado revisión humana
+ni cambiado esa respuesta para hacerla coincidir literalmente.
+
+Archivos `chatgpt-los-locos-de-valencia.*` en la carpeta privada de la ronda v0.4. Este único
+caso no establece superioridad general de ChatGPT respecto a Gemini.
+
+## Propuesta de flujo de metadatos tras comentar el resultado
+
+David plantea prescindir de un DOCX por obra en el trabajo habitual. La propuesta es reservar
+el prompt a las fotos métricas y completar título, autor del catálogo, género, edición y fechas
+en el formulario antes del guardado, con fuente de datación opcional. Los metadatos del DOCX
+de las veinte obras siguen siendo entrada del piloto, no un requisito para futuros colaboradores.
+Una futura adaptación debe permitir revisar la tabla sin todos los metadatos y exigirlos al
+confirmar, sin perder la compatibilidad con los JSON del piloto que ya los incorporan.
+Es una propuesta de flujo, todavía no una modificación del formulario ni del prompt activo.
+
 ## Estado de publicación
 
 Los nuevos prompts son candidatos de ensayo. El botón del dashboard sigue utilizando v0.1 hasta
