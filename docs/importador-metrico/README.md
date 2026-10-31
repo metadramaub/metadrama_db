@@ -20,6 +20,8 @@ ejecutado los experimentos de sensibilidad. Véase el [registro del despliegue](
 
 Referencia de reanudación: [estado acordado el 31 de octubre](./estado-2026-10-31.md), que separa
 lo desplegado, los ensayos locales y el orden de entrega para colaboradores.
+Ensayo más reciente del prompt: [ajuste del 31 de octubre](./ajuste-prompt-2026-10-31.md),
+con corrección de captura Markdown, resultados de v0.4 y sus límites pendientes.
 
 | Documento | Contenido |
 | --- | --- |

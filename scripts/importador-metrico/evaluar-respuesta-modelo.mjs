@@ -30,6 +30,7 @@ console.log(
 		estructura_valida: informe.estructura_valida,
 		diferencias: informe.diferencias?.length ?? null,
 		diferencias_formato: informe.diferencias_formato?.length ?? null,
+		requiere_cotejo_incidencias: informe.requiere_cotejo_incidencias ?? null,
 		lista_para_importar_sin_corregir: informe.lista_para_importar_sin_corregir
 	})
 );

@@ -83,6 +83,11 @@ Orden operativo actualizado: [estado acordado del 31 de octubre](./importador-me
 Primero mejorar y probar el prompt, cerrar notas/desviaciones y el procedimiento para colaboradores;
 después integrar la precomputación real. La primera ronda de Gemini gratuita está documentada en
 [su informe](./importador-metrico/prueba-gemini-gratuita-2026-10-30.md).
+El [ensayo del 31 de octubre](./importador-metrico/ajuste-prompt-2026-10-31.md) deja v0.4 como
+candidata: reproduce los datos métricos de las cuatro obras, pero omite algunos metadatos
+auxiliares y avisos de fuente. Se corrigió el gold de «quintillas» con aprobación de David.
+Cerrar esos casos antes de sustituir el prompt del dashboard. La prueba de ChatGPT es un
+contraste adicional pendiente, no un requisito para empezar con un proveedor adecuado.
 
 **Incorporar las básicas a la precomputación y ampliar el piloto.** Guardado y consulta
 desplegados en Supabase y en la web real el 29 de octubre; El molino confirmado y reabierto

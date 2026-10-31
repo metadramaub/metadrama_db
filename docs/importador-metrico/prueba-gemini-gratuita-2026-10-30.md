@@ -1,5 +1,17 @@
 # Prueba de extracción con Gemini · 30 de octubre de 2026
 
+**Corrección de referencia del 31 de octubre:** David ha confirmado que vv. 2755–2804 de Los locos
+dicen «quintillas». Se ha corregido el gold, preservando su historial. La diferencia singular/plural
+de la tabla histórica inferior no se atribuye ya al modelo.
+
+**Rectificación del 31 de octubre:** se ha comprobado que la presentación Markdown de Gemini
+puede consumir asteriscos del JSON como cursiva. La captura utilizada aquí fue texto renderizado,
+no el contenido original del botón Copiar. Por tanto, las marcas vacías no se pueden atribuir
+con seguridad al modelo. Se conservan los archivos y el resultado operativo observado, pero
+se retira esa atribución de error de extracción. El nuevo ensayo solicita un bloque de código
+JSON y comprueba sus literales. La primera ronda tampoco cotejaba las incidencias de fuente;
+«sin diferencias» se refiere solo a los campos que entonces se compararon, no a integridad total.
+
 Primera ronda cerrada con cuatro obras de ajuste. Sesión gratuita facilitada por el responsable,
 modo visible Automático («Modelos de Gemini 3» en el selector). Modelo exacto desconocido.
 Una conversación nueva por obra, mismo prompt `extraccion-v0.1.md`, fotografías JPEG y metadatos.

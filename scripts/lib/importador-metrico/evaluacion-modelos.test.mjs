@@ -12,6 +12,15 @@ const gold = JSON.parse(
 );
 const evaluar = (d) => evaluarRespuestaModelo(JSON.stringify(d), gold);
 describe('cotejo de modelos de extracción', () => {
+	it('no declara íntegra una extracción que omite las limitaciones visibles de la fuente', () => {
+		const d = structuredClone(gold);
+		d.incidencias = [];
+		expect(evaluar(d)).toMatchObject({
+			requiere_cotejo_incidencias: true,
+			lista_para_importar_sin_corregir: false
+		});
+		expect(evaluar(d).incidencias_para_cotejo.referencia).toHaveLength(gold.incidencias.length);
+	});
 	it('separa un número escrito como texto de una lectura numérica distinta, sin aceptar ni corregir la respuesta', () => {
 		const d = structuredClone(gold);
 		d.tramos[0].pagina = String(gold.tramos[0].pagina);
@@ -53,6 +62,10 @@ describe('cotejo de modelos de extracción', () => {
 		expect(evaluarRespuestaModelo('{', gold).json_valido).toBe(false);
 	});
 	it('los bloques de código admitidos por el importador se registran como tales', () => {
+		expect(
+			evaluarRespuestaModelo('```json\n' + JSON.stringify(gold) + '\n```', gold).validacion_tecnica
+				.estructura_valida
+		).toBe(true);
 		expect(
 			evaluarRespuestaModelo('```json\n' + JSON.stringify(gold) + '\n```', gold)
 		).toMatchObject({

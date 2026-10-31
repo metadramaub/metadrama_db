@@ -56,7 +56,11 @@ export function evaluarRespuestaModelo(texto, gold) {
 			'fecha_inicio',
 			'fecha_fin',
 			'fuente_fecha',
-			'edicion_base'
+			'edicion_base',
+			'observaciones',
+			'fuente_id',
+			'autoria_procedencia',
+			'bloque_docx_literal'
 		],
 		'metadatos',
 		diferencias,
@@ -139,6 +143,11 @@ export function evaluarRespuestaModelo(texto, gold) {
 			b = enlaces(respuesta, respuesta.tramos?.[i]);
 		if (!igual(a, b)) diferencias.push({ ruta: `tramos.${i}.notas_ref`, esperado: a, obtenido: b });
 	}
+	// Las incidencias son texto libre: una redacción distinta requiere cotejo, no una
+	// declaración automática de error ni de equivalencia semántica.
+	const incidenciasGold = gold.incidencias ?? [];
+	const incidenciasRespuesta = respuesta.incidencias ?? [];
+	const revisionIncidencias = !igual(incidenciasGold, incidenciasRespuesta);
 	return {
 		json_valido: true,
 		formato: bloque ? 'bloque_json' : 'json_directo',
@@ -150,8 +159,11 @@ export function evaluarRespuestaModelo(texto, gold) {
 		tramos_obtenidos: Array.isArray(respuesta?.tramos) ? respuesta.tramos.length : 0,
 		diferencias,
 		diferencias_formato: diferenciasFormato,
-		lista_para_importar_sin_corregir: schema.success && diferencias.length === 0,
-		validacion_tecnica: validarTextoExtraccion(texto),
+		incidencias_para_cotejo: { referencia: incidenciasGold, respuesta: incidenciasRespuesta },
+		requiere_cotejo_incidencias: revisionIncidencias,
+		lista_para_importar_sin_corregir:
+			schema.success && diferencias.length === 0 && !revisionIncidencias,
+		validacion_tecnica: validarTextoExtraccion(bloque ? bloque[1] : texto),
 		criterio:
 			'Cotejo literal con transcripción aceptada. Diferencias por fila y campo; no son tasas independientes ni un ranking de modelos.'
 	};
