@@ -20,6 +20,7 @@
 		bookOpenText: IconComponent | null;
 		circleHelp: IconComponent | null;
 		doorOpen: IconComponent | null;
+		fileUp: IconComponent | null;
 		home: IconComponent | null;
 		libraryBig: IconComponent | null;
 		panelLeftClose: IconComponent | null;
@@ -33,6 +34,7 @@
 		bookOpenText: null,
 		circleHelp: null,
 		doorOpen: null,
+		fileUp: null,
 		home: null,
 		libraryBig: null,
 		panelLeftClose: null,
@@ -51,6 +53,7 @@
 	const BookOpenTextIcon = $derived(icons.bookOpenText);
 	const CircleHelpIcon = $derived(icons.circleHelp);
 	const DoorOpenIcon = $derived(icons.doorOpen);
+	const FileUpIcon = $derived(icons.fileUp);
 	const HomeIcon = $derived(icons.home);
 	const LibraryBigIcon = $derived(icons.libraryBig);
 	const PanelLeftCloseIcon = $derived(icons.panelLeftClose);
@@ -74,6 +77,7 @@
 					bookOpenTextModule,
 					circleHelpModule,
 					doorOpenModule,
+					fileUpModule,
 					homeModule,
 					libraryBigModule,
 					panelLeftCloseModule,
@@ -87,6 +91,7 @@
 					import('lucide-svelte/icons/book-open-text'),
 					import('lucide-svelte/icons/circle-help'),
 					import('lucide-svelte/icons/door-open'),
+					import('lucide-svelte/icons/file-up'),
 					import('lucide-svelte/icons/home'),
 					import('lucide-svelte/icons/library-big'),
 					import('lucide-svelte/icons/panel-left-close'),
@@ -104,6 +109,7 @@
 					bookOpenText: bookOpenTextModule.default,
 					circleHelp: circleHelpModule.default,
 					doorOpen: doorOpenModule.default,
+					fileUp: fileUpModule.default,
 					home: homeModule.default,
 					libraryBig: libraryBigModule.default,
 					panelLeftClose: panelLeftCloseModule.default,
@@ -263,7 +269,7 @@
 				class={`flex items-center gap-2 px-3 py-2 text-[color:var(--foreground)] transition-colors hover:bg-[color:var(--muted)] ${collapsed ? 'md:h-11 md:w-11 md:self-center md:justify-center md:px-0' : ''}`}
 				href="/dashboard/importador" aria-label="Importador métrico" title="Importador métrico"
 			>
-				{#if BookOpenTextIcon}<BookOpenTextIcon size={16} aria-hidden="true" />{/if}
+				{#if FileUpIcon}<FileUpIcon size={16} aria-hidden="true" />{/if}
 				<span class={collapsed ? 'md:sr-only' : ''}>Importador métrico</span>
 			</a>
 		{/if}
