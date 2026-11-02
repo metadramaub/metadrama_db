@@ -53,3 +53,17 @@ El prompt v0.11 separa letra de rima y caja por posición, incluye el contraste 
 pide cotejar desde el final con la imagen y declarar la posición concreta si no se distingue.
 Mantiene el JSON 0.1 y no pide tablas auxiliares en la salida. Se conserva v0.10 sin cambios;
 el nuevo prompt queda pendiente de ensayo real, sin atribuirle aún una mejora demostrada.
+
+## Resultado recibido de v0.11
+
+Validación técnica correcta: veinte filas y 3042 versos, sin cambios de jornadas, rangos,
+recuentos ni esquema respecto a v0.10. Persiste **AaBbCC** por **AabBCC**, sin incidencia
+que declare duda en las posiciones 3 y 4. La instrucción de comprobación por posición no
+ha resuelto el fallo en esta ejecución; no se acredita una mejora de extracción.
+
+El título pasa a null, aunque es legible en la cabecera de la segunda foto. Las fuentes
+pasan a foto-01/foto-02, coherentes en todo el JSON: esos identificadores son admisibles
+si no se facilitaron nombres de archivo. La nota 110 sigue sin cuerpo y correctamente
+enlazada. Se conserva el JSON recibido intacto como respuesta-v0.11-original.json.
+El pasaje mixto requiere la consulta del texto y división manual ya acordadas; no se
+considera un fallo del prompt que no deduzca esos cortes. No se ha guardado la obra.

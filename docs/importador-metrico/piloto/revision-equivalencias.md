@@ -922,7 +922,7 @@ Datos adicionales: [{"literal":"pareado final declarado en nota","rasgo_slug":"d
 - El favor agradecido: `backups/importador-local/favor-agradecido-2026-11-02/respuesta-v0.7-original.json`, SHA-256 `3e8c28deb103ff958d3a38fd4f8e0f2c6d436fdbe876de2a6fd392dca2319209`.
 - Laura perseguida: `backups/importador-local/laura-perseguida-2026-11-02/respuesta-v0.8-original.json`, SHA-256 `e62a8815100e3d21afd56c6dc3d870ca35c60e79579652ba94b0d554e9bf6598`.
 - El leal criado: `backups/importador-local/leal-criado-2026-11-02/respuesta-v0.9-original.json`, SHA-256 `c35671800d8f050244b880734b7240c244f142b461cf63062c42a2db9b3b8ec6`.
-- El maestro de danzar: `backups/importador-local/maestro-danzar-2026-11-02/respuesta-v0.10-original.json`, SHA-256 `59bbe47a80331dc31782e769ba090ab5f8cb59bde874079fa8ed53af8eea8735`.
+- El maestro de danzar: `backups/importador-local/maestro-danzar-2026-11-02/respuesta-v0.11-original.json`, SHA-256 `b144e32f98afc686a5b53c1657f13c35aca8881d6668ea9c9c6e9000a75f78e0`.
 - El verdadero amante: `docs/importador-metrico/piloto/extracciones/el-verdadero-amante.json`, SHA-256 `744cc1758ae8e779fd3fb05f0c8ff182b8c7547b439a7fc48ccf4d05c0f7aa1b`.
 - Los donaires de Matico: `docs/importador-metrico/piloto/extracciones/los-donaires-de-matico.json`, SHA-256 `61abbca56ef343d278cf86439686cd19224e90fb1259cb2dc40847135d8d6008`.
 - El molino: `docs/importador-metrico/piloto/extracciones/el-molino.json`, SHA-256 `b17b3882c3414f0dcf63a5360cb73f8e4afe537b722b06d6dfdc3fd3ab687224`.
