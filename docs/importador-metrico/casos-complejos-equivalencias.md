@@ -3,6 +3,19 @@
 Recopilación para el futuro documento de revisión con el IP. Son casos particulares que requieren
 criterio editorial: no autorizan equivalencias generales ni divisiones automáticas.
 
+## El leal criado · 870–999 · nota 5
+
+La edición denomina «coplas reales» a los 130 versos. La nota sitúa una quintilla aislada
+en 930–934 y declara que el patrón regular continúa desde 935. Separar literalmente esas
+tres partes produciría 60 + 5 + 65 versos: la última parte no sería múltiplo de diez.
+El múltiplo del conjunto tampoco demuestra su regularidad interna.
+
+**Acuerdo del responsable, 02-11-2026:** conservar una secuencia de **Copla real** con
+la nota original. No implementar ni ofrecer una división resuelta a partir de esta nota.
+**Criterio pendiente:** examinar el texto para entender la agrupación de quintillas y
+sus consecuencias para la segmentación. La consulta a Artelope no estaba disponible;
+no se considera cotejado el pasaje ni se presupone un error de la edición.
+
 ## Laura perseguida · 617–876 · nota 32
 
 **Fuente:** `5_Laura_perseguida_1.HEIC`, p. 55, acto primero, fila t02, «Quintillas», 260 versos.

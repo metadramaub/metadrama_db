@@ -26,3 +26,8 @@ La respuesta original se conserva sin alteraciones en
 Las equivalencias de «endecasílabos blancos» y «coplas reales», así como la quintilla insertada
 de la nota 5, se revisarán después de obtener una extracción válida; no las resuelve este cambio
 del prompt ni se da por revisada toda la tabla o su resumen.
+
+La nueva respuesta v0.9 carga correctamente. Se incorporan las equivalencias de
+«endecasílabos blancos» y «coplas reales». El pasaje 870–999 se conserva unido:
+el corte sugerido por la nota produciría 60 + 5 + 65 versos y requiere cotejar el texto.
+Véase [el caso pendiente](./casos-complejos-equivalencias.md).

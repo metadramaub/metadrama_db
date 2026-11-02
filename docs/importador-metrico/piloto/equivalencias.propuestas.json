@@ -60,7 +60,9 @@
     {
       "id": "endecasilabos-sueltos",
       "literales": [
-        "endecasílabos sueltos"
+        "endecasílabos sueltos",
+        "endecasílabo blanco",
+        "endecasílabos blancos"
       ],
       "tipo": "equivalencia_propuesta",
       "candidatas": [
@@ -72,6 +74,20 @@
       "exhaustividad": "pendiente_de_validacion",
       "fundamento": "La etiqueta declara forma y medida. No afirma ausencia de pareados ni de rima ocasional; tampoco encadenamiento interior.",
       "detalles_fuente": []
+    },
+    {
+      "id": "copla-real",
+      "literales": ["copla real", "coplas reales"],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [{"forma_slug": "copla_real", "arquitectura_slug": "octosilabica_consonante"}],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Equivalencia confirmada por el responsable del proyecto. El catálogo activo admite una arquitectura octosílaba consonante. Las excepciones descritas en notas no autorizan cortes automáticos ni garantizan la regularidad interna.",
+      "detalles_fuente": [],
+      "aprobacion": {
+        "responsable": "Responsable del proyecto",
+        "fecha": "2026-11-02",
+        "fundamento": "Confirma coplas reales como Copla real. La segmentación de El leal criado queda pendiente de examinar el texto."
+      }
     },
     {
       "id": "endecasilabos-sueltos-pareado",
@@ -431,6 +447,6 @@
       ]
     }
   ],
-  "version": "v0.11",
+  "version": "v0.12",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }

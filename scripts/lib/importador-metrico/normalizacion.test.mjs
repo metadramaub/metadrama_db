@@ -30,6 +30,25 @@ const approval = {
 };
 
 describe('normalizador local', () => {
+	it('identifica blancos y coplas reales sin dividir por la nota de una quintilla aislada', () => {
+		for (const [literal, forma_slug, arquitectura_slug] of [
+			['endecasílabos blancos', 'endecasilabo_suelto', 'endecasilabica'],
+			['coplas reales', 'copla_real', 'octosilabica_consonante']
+		]) {
+			const input = raw();
+			input.obra_ref = 'obra-importada';
+			input.jornadas = [{ numero: 1, rotulo_literal: null }];
+			input.tramos = [{ id: 't01', jornada: 1, v_ini: 870, v_fin: 999, denominacion_literal: literal, n_versos_fuente: 130, fuente_id: 'foto-01', pagina: null, notas_ref: ['n01'] }];
+			input.notas = [{ id: 'n01', marca: '5', texto_literal: 'En los vv. 930-934 hay una quintilla aislada, con rima ccddc. A partir del v. 935 continúa el patrón regular de coplas reales.', fuente_id: 'foto-01', pagina: null, tramos_ref: ['t01'], v_ini: 930, v_fin: 934 }];
+			input.resumen_fuente = []; input.incidencias = [];
+			const before = structuredClone(input);
+			const result = normalizarExtraccion(input, context({ fuentes: undefined }));
+			expect(input).toEqual(before);
+			expect(result.segmentos).toHaveLength(1);
+			expect(result.segmentos[0]).toMatchObject({ v_ini: 870, v_fin: 999, fuente: before.tramos[0] });
+			expect(result.segmentos[0].identificacion_revisada ?? result.segmentos[0].propuesta).toMatchObject({ forma_slug, arquitectura_slug });
+		}
+	});
 	it('divide solo el soneto con estrambote explícito y extensión suficiente, preservando el original', () => {
 		for (const n of [13, 14, 17, 20]) {
 			const input = raw();
