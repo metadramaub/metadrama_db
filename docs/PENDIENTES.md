@@ -87,8 +87,9 @@ ni identifican formas por divisibilidad. Las formas sin regla fija no se dan por
 Preparar la revisión de equivalencias recogiendo los [casos complejos](./importador-metrico/casos-complejos-equivalencias.md).
 
 Método precisado el 02-11: mejorar el prompt y repetir la extracción con la IA; no dar por
-cerrados los casos mediante JSON corregidos a mano. Prompt activo v0.8 para el siguiente ensayo
-de [Laura perseguida](./importador-metrico/revision-laura-perseguida-2026-11-02.md).
+cerrados los casos mediante JSON corregidos a mano. Prompt activo v0.9 para el siguiente ensayo
+de [El leal criado](./importador-metrico/revision-leal-criado-2026-11-02.md), con énfasis en claves
+obligatorias de todas las filas, continuidad de jornadas y llamadas junto al recuento.
 
 El 02-11 se revisa [El caballero del milagro](./importador-metrico/revision-caballero-milagro-2026-11-02.md)
 con prompt v0.6 y equivalencias v0.8. Seguir obra a obra con las veinte, registrando versiones y
