@@ -373,13 +373,15 @@
       "detalles_fuente": []
     },
     {
-      "id": "lira-seis-versos-aabbcc",
-      "literales": ["lira (AabBCC)"],
+      "id": "lira-con-esquema-seis-posiciones",
+      "literales": ["lira con esquema explícito de seis letras"],
+      "patron": "lira_con_esquema_seis_posiciones",
       "tipo": "equivalencia_propuesta",
       "candidatas": [{"forma_slug":"sexteto_lira","arquitectura_slug":"heterometrica_consonante"}],
       "exhaustividad": "forma_y_arquitectura_sin_esquema_estructurado",
-      "fundamento": "La edición llama lira a una estrofa de seis posiciones, distinta de la Lira de cinco versos del catálogo. Consulta SELECT de Sexteto-lira el 02-11-2026: admite rima aabbcc y metro 11-7-7-11-11-11, correspondientes a AabBCC. Se identifica forma y arquitectura; el esquema conserva sus mayúsculas en el literal original, sin convertirlo en un dato estructurado que el contrato mínimo aún no admite. El cotejo de la foto detecta aAbbCC en la respuesta v0.9: es error de extracción, no variante aprobada. La coincidencia del normalizador ignora mayúsculas en nombres, por lo que esta regla no certifica las medidas del esquema ni corrige ese error.",
-      "detalles_fuente": []
+      "fundamento": "Criterio confirmado por el responsable: lira con un esquema explícito de seis letras se identifica como Sexteto-lira, no como nuestra Lira de cinco versos. La equivalencia depende de las seis posiciones, no de AabBCC ni de una rima concreta. No se generaliza al nombre lira sin esquema, ni a cinco o siete posiciones. Se usa la arquitectura heterométrica consonante del catálogo, sin registrar un esquema específico ni certificar sus medidas. El literal conserva exactamente su caja. El error aAbbCC por AabBCC en El maestro de danzar debe corregirse relanzando el prompt, no mediante esta regla.",
+      "detalles_fuente": [],
+      "aprobacion": {"responsable":"Responsable del proyecto","fecha":"2026-11-02","fundamento":"Confirma en el chat el criterio de seis posiciones, independiente de la disposición concreta."}
     },
     {
       "id": "redondillas-y-quintillas",
@@ -474,6 +476,6 @@
       ]
     }
   ],
-  "version": "v0.13",
+  "version": "v0.14",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }

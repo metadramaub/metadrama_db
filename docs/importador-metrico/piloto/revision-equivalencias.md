@@ -1,6 +1,6 @@
 # Equivalencias del importador: documento de revisión
 
-Reglas v0.13; catálogo consultado el 2026-11-02.
+Reglas v0.14; catálogo consultado el 2026-11-02.
 
 Para revisar: decisiones pendientes y tabla resumen. La procedencia y los casos complejos permiten comprobar ejemplos; el anexo conserva todas las apariciones y las reglas completas.
 
@@ -34,7 +34,7 @@ Formas identificadas o planteadas como candidatas en las entradas disponibles. �
 | Redondilla | [redondilla](#termino-18); [redondillas](#termino-19) | Sin especificar | Correspondencias pendientes de revisión | El verdadero amante; El caballero del milagro |
 | Romance | [letrilla](#termino-10) (candidata); [romance](#termino-22); [romance en -io](#termino-23); [Romance en a-a](#termino-24); [romance en á-e](#termino-25); [romance en e-a](#termino-26); [romance en e-e](#termino-27); [romance en i-a](#termino-28) | Octosílabo | Correspondencias pendientes de revisión | El molino; El maestro de danzar |
 | Romancillo | [letrilla](#termino-10) (candidata) | Sin especificar | Solo candidata; sin equivalencia directa | El molino |
-| Sexteto-lira | [lira (aAbbCC)](#termino-11); [sexteto-lira](#termino-29); [Sextetos alirados](#termino-30); [sextetos-liras](#termino-31) | Heterométrico consonante | Reglas parcialmente revisadas | El maestro de danzar; El favor agradecido |
+| Sexteto-lira | [lira (aAbbCC)](#termino-11); [sexteto-lira](#termino-29); [Sextetos alirados](#termino-30); [sextetos-liras](#termino-31) | Heterométrico consonante | Reglas aprobadas | El maestro de danzar; El favor agradecido |
 | Soneto | [soneto](#termino-32); [soneto con estrambote](#termino-34) | Endecasílabo consonante | Reglas parcialmente revisadas | El caballero del milagro; El favor agradecido |
 | Terceto | [tercetos](#termino-35) (candidata) | Sin especificar | Solo candidata; sin equivalencia directa | El favor agradecido; Los donaires de Matico |
 | Terceto encadenado | [tercetos](#termino-35); [tercetos encadenados](#termino-36); [tercetos encadenados con serventesio final](#termino-37) | Sin especificar | Reglas parcialmente revisadas | El favor agradecido; Los donaires de Matico |
@@ -141,7 +141,7 @@ en pareado
 ### lira (aAbbCC)
 
 - El maestro de danzar, t19 (2863–2970).
-- Resultado: sexteto_lira / heterometrica_consonante (lira-seis-versos-aabbcc).
+- Resultado: sexteto_lira / heterometrica_consonante (lira-con-esquema-seis-posiciones).
 
 <a id="termino-12"></a>
 
@@ -429,7 +429,7 @@ Se conservan los literales de la edición. Una sola entrada seleccionada por obr
 | endecasílabos sueltos rematados en pareado | El caballero del milagro, t04 (749–824); El caballero del milagro, t08 (1505–1562); El caballero del milagro, t15 (2448–2485); El caballero del milagro, t17 (2630–2745); El caballero del milagro, t20 (2868–2885) | endecasilabo_suelto / endecasilabica (endecasilabos-sueltos-pareado) |
 | estancias con pareado final | El verdadero amante, t02 (221–287) | cancion (estancias-pareado) |
 | letrilla | El molino, t20 (2880–2888) | Sin resolver; candidatas: villancico, zejel, romance, romancillo |
-| lira (aAbbCC) | El maestro de danzar, t19 (2863–2970) | sexteto_lira / heterometrica_consonante (lira-seis-versos-aabbcc) |
+| lira (aAbbCC) | El maestro de danzar, t19 (2863–2970) | sexteto_lira / heterometrica_consonante (lira-con-esquema-seis-posiciones) |
 | octava real | El maestro de danzar, t04 (1017–1120); El verdadero amante, t18 (2772–2827) | octava_real / endecasilabica_consonante (octava-real) |
 | octavas reales | El caballero del milagro, t02 (353–456); El caballero del milagro, t06 (981–1028); El caballero del milagro, t22 (2958–2989); El favor agradecido, t13 (1434–1561); El favor agradecido, t16 (1842–1937); El leal criado, t11 (1290–1377); El leal criado, t23 (2852–2899); Los donaires de Matico, t05 (934–1005); El molino, t07 (1254–1333); El molino, t14 (2248–2271); Los locos de Valencia, t07 (1051–1082) | octava_real / endecasilabica_consonante (octava-real) |
 | Octavas reales | Laura perseguida, t05 (1076–1203); Laura perseguida, t07 (1476–1507) | octava_real / endecasilabica_consonante (octava-real) |
@@ -500,7 +500,7 @@ Se conservan los literales de la edición. Una sola entrada seleccionada por obr
 | Septilla | — | — |
 | Septilla enlazada | — | — |
 | Sexteto | — | — |
-| Sexteto-lira | sexteto-lira, lira-seis-versos-aabbcc | — |
+| Sexteto-lira | sexteto-lira, lira-con-esquema-seis-posiciones | — |
 | Sextilla | — | — |
 | Sextilla enlazada | — | — |
 | Sextina | — | — |
@@ -590,7 +590,7 @@ Se indican solo reglas que seleccionan explícitamente la arquitectura. Una regl
 | Sexteto | Alejandrino | — |
 | Sexteto | Dodecasílabo | — |
 | Sexteto | Endecasílabo | — |
-| Sexteto-lira | Heterométrico consonante | sexteto-lira, lira-seis-versos-aabbcc |
+| Sexteto-lira | Heterométrico consonante | sexteto-lira, lira-con-esquema-seis-posiciones |
 | Sextilla | Heptasílaba | — |
 | Sextilla | Hexasílaba | — |
 | Sextilla | Octosílaba | — |
@@ -817,15 +817,17 @@ El catálogo define romance sin calificativos como la serie octosilábica; roman
 
 Datos adicionales: ninguno.
 
-#### lira-seis-versos-aabbcc
+#### lira-con-esquema-seis-posiciones
 
-Literales: «lira (AabBCC)».
+Literales: «lira con esquema explícito de seis letras».
 
 Resultado: identificación directa. Sexteto-lira / heterometrica_consonante.
 
-Revisión de la regla: pendiente. Ámbito: general.
+Revisión de la regla: aprobada (2026-11-02). Ámbito: general.
 
-La edición llama lira a una estrofa de seis posiciones, distinta de la Lira de cinco versos del catálogo. Consulta SELECT de Sexteto-lira el 02-11-2026: admite rima aabbcc y metro 11-7-7-11-11-11, correspondientes a AabBCC. Se identifica forma y arquitectura; el esquema conserva sus mayúsculas en el literal original, sin convertirlo en un dato estructurado que el contrato mínimo aún no admite. El cotejo de la foto detecta aAbbCC en la respuesta v0.9: es error de extracción, no variante aprobada. La coincidencia del normalizador ignora mayúsculas en nombres, por lo que esta regla no certifica las medidas del esquema ni corrige ese error.
+Criterio confirmado por el responsable: lira con un esquema explícito de seis letras se identifica como Sexteto-lira, no como nuestra Lira de cinco versos. La equivalencia depende de las seis posiciones, no de AabBCC ni de una rima concreta. No se generaliza al nombre lira sin esquema, ni a cinco o siete posiciones. Se usa la arquitectura heterométrica consonante del catálogo, sin registrar un esquema específico ni certificar sus medidas. El literal conserva exactamente su caja. El error aAbbCC por AabBCC en El maestro de danzar debe corregirse relanzando el prompt, no mediante esta regla.
+
+Patrón de reconocimiento: lira_con_esquema_seis_posiciones.
 
 Datos adicionales: ninguno.
 

@@ -30,6 +30,24 @@ const approval = {
 };
 
 describe('normalizador local', () => {
+	it.each(['AabBCC', 'aBaBcC', 'abBaCC', 'aabbcc', 'ABCDEF', 'a B a B c C'])('reconoce lira de seis posiciones %s sin anotar una rima concreta', (esquema) => {
+		const input = raw();
+		input.obra_ref = 'obra-importada'; input.jornadas = [{ numero: 1, rotulo_literal: null }];
+		input.notas = []; input.resumen_fuente = []; input.incidencias = [];
+		input.tramos = [{ id: 't01', jornada: 1, v_ini: 1, v_fin: 108, denominacion_literal: `lira (${esquema})`, n_versos_fuente: 108, fuente_id: 'foto-01', pagina: null, notas_ref: [] }];
+		const result = normalizarExtraccion(input, context({ fuentes: undefined }));
+		expect(result.segmentos[0].identificacion_revisada).toEqual({ forma_slug: 'sexteto_lira', arquitectura_slug: 'heterometrica_consonante' });
+		expect(result.segmentos[0].fuente.denominacion_literal).toBe(`lira (${esquema})`);
+		expect(result.segmentos[0].detalles_fuente).toEqual([]);
+	});
+	it.each(['lira', 'lira (aBabB)', 'lira (aBabBCC)', 'lira (suelta)', 'romance (AabBCC)'])('no deduce sexteto-lira de %s', (literal) => {
+		const input = raw();
+		input.obra_ref = 'obra-importada'; input.jornadas = [{ numero: 1, rotulo_literal: null }];
+		input.notas = []; input.resumen_fuente = []; input.incidencias = [];
+		input.tramos = [{ id: 't01', jornada: 1, v_ini: 1, v_fin: 108, denominacion_literal: literal, n_versos_fuente: 108, fuente_id: 'foto-01', pagina: null, notas_ref: [] }];
+		const result = normalizarExtraccion(input, context({ fuentes: undefined }));
+		expect(result.segmentos[0].regla_id).not.toBe('lira-con-esquema-seis-posiciones');
+	});
 	it('reconoce el romance sin vocales y la lira explícita de seis posiciones sin inventar cortes', () => {
 		const input = raw();
 		input.obra_ref = 'obra-importada'; input.jornadas = [{ numero: 1, rotulo_literal: null }];
@@ -43,7 +61,7 @@ describe('normalizador local', () => {
 		expect(result.segmentos[0].propuesta).toEqual({ forma_slug: 'romance', arquitectura_slug: 'octosilabica' });
 		expect(result.segmentos[0].detalles_fuente).toEqual([]);
 		expect(result.segmentos[1]).toMatchObject({ propuesta: null, candidatas: [], estado_identificacion: 'sin_resolver', v_ini: 117, v_fin: 269 });
-		expect(result.segmentos[2].propuesta).toEqual({ forma_slug: 'sexteto_lira', arquitectura_slug: 'heterometrica_consonante' });
+		expect(result.segmentos[2].identificacion_revisada).toEqual({ forma_slug: 'sexteto_lira', arquitectura_slug: 'heterometrica_consonante' });
 		expect(result.segmentos[2].fuente.denominacion_literal).toBe('lira (AabBCC)');
 		expect(result.segmentos[2].detalles_fuente).toEqual([]);
 		expect(result.segmentos[3].propuesta).toBeNull();

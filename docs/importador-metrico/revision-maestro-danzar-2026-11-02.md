@@ -17,6 +17,9 @@ Los rangos y recuentos coinciden con las fotos, también los del resumen.
   una equivalencia indiscriminada de «lira» a Sexteto-lira: nuestra Lira tiene cinco versos.
   El contrato mínimo no incluye todavía esquemas estructurados: la notación queda en el
   literal, sin presentarla como esquema métrico o de rima registrado.
+  Aclaración del responsable: la equivalencia depende del nombre «lira» junto a un esquema
+  de **seis posiciones**, no de la disposición AabBCC. Se aplica también a otras rimas de
+  seis letras, sin elegir automáticamente el esquema del catálogo.
 - La llamada 110 está en 1670–1780 y el cuerpo de la nota no aparece en la fotografía.
   El JSON lo declara con null e incidencia: no se reconstruye su contenido ni se supone remate.
 

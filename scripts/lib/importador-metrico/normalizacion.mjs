@@ -31,7 +31,7 @@ const reglaSchema = z.object({
 	ambito: z.object({ obras: z.array(texto).min(1) }).optional(),
 	division: z.literal('soneto_y_estrambote_sin_identificar').optional(),
 	nota_contiene: z.array(texto).min(1).optional(),
-	patron: z.literal('romance_con_asonancia').optional(),
+	patron: z.enum(['romance_con_asonancia', 'lira_con_esquema_seis_posiciones']).optional(),
 	aprobacion: aprobacionSchema.optional()
 });
 const reglasSchema = z.object({ version: texto, reglas: z.array(reglaSchema) });
@@ -123,9 +123,11 @@ export function normalizarExtraccion(
 		const claveLiteral = (literal) => literal?.replace(/\s+/gu, ' ').trim().toLowerCase();
 		const vocales = literalComparado?.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase()
 			.match(/^romances? en\s+[-–—]?\s*([aeiou])(?:\s*[-–—]?\s*([aeiou]))?$/u);
+		const liraDeSeis = /^liras?\s*\(\s*[a-f](?:\s*[a-f]){5}\s*\)$/iu.test(literalComparado ?? '');
 		const matches = reference.reglas.filter(
 			(r) =>
 				(r.patron === 'romance_con_asonancia' ? Boolean(vocales) :
+					r.patron === 'lira_con_esquema_seis_posiciones' ? liraDeSeis :
 					r.literales.some((l) => claveLiteral(l) === claveLiteral(literalComparado))) &&
 				(!r.ambito || r.ambito.obras.includes(source.obra_ref)) &&
 				(!r.nota_contiene || row.notas_ref.some((id) => {
