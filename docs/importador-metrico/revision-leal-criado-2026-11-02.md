@@ -39,3 +39,7 @@ No se divide al preparar la importación ni se altera el JSON original. La propu
 la declaración explícita de quintilla aislada y reanudación, corroborada por el localizador
 y el enlace recíproco; las notas ambiguas requieren división manual. Si hay cambios locales,
 remate, rasgos o desviaciones, no se reemplazan con esta propuesta: se conserva la vía manual.
+
+El aviso de división y la incompatibilidad resultante se muestran también en la tabla,
+sin abrir el editor. Después de aplicar los cortes desaparece la propuesta y permanece
+el aviso de longitud de la secuencia de 65 versos.

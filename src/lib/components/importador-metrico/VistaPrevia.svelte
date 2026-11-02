@@ -8,6 +8,7 @@
 	import { datosMetricos, notasMetricas, sugerenciaTercetos } from '$lib/importador-metrico/presentacion';
 	import FormaSecuencia from '$lib/components/metrica/FormaSecuencia.svelte';
 	import InlineNotePopover from '$lib/components/ui/inline-note-popover.svelte';
+	import { proponerDivisionDesdeNota } from '$lib/importador-metrico/division-nota';
 
 	let { vista, desactualizada = false, formas = [], ocupado = false, editable = false, oneditar, oncancelar } = $props<{
 		vista: ResultadoVistaPrevia; desactualizada?: boolean; formas?: FormaEditable[]; ocupado?: boolean;
@@ -37,6 +38,13 @@
 	})));
 	const numero = (n: number) => new Intl.NumberFormat('es-ES').format(n);
 	const fuente = (id: string | null) => (id ?? '').replace(/^foto-/, 'Foto ');
+	function propuestasDivision(fila: FilaVistaPrevia) {
+		if (vista.filas.filter((f: FilaVistaPrevia) => f.origen.tramo_ref === fila.origen.tramo_ref).length !== 1) return [];
+		return (fila.notas_fuente ?? []).flatMap((nota) => {
+			const propuesta = proponerDivisionDesdeNota(fila, nota);
+			return propuesta ? [propuesta] : [];
+		});
+	}
 </script>
 
 <section class="space-y-4" aria-label={vista.persistido ? 'Métrica importada' : 'Métrica de la importación'}>
@@ -130,6 +138,15 @@
 											{#if fila.longitud?.estado === 'revisar'}
 												<p class="mt-2 border-l-2 border-amber-400 bg-amber-50 p-2 text-xs">{fila.longitud.mensaje}</p>
 											{/if}
+											{#each propuestasDivision(fila) as propuesta}
+												<div class="mt-2 space-y-1 border-l-2 border-amber-400 bg-amber-50 p-2 text-xs">
+													<p>Revisar división: la nota describe una quintilla aislada en {propuesta.partes[1].v_ini}–{propuesta.partes[1].v_fin}.</p>
+													<p>Propuesta: {propuesta.partes.map((p) => p.v_fin - p.v_ini + 1).join(' + ')} versos.</p>
+													{#each propuesta.avisos.filter((p) => p.longitud.estado === 'revisar') as aviso}
+														<p>Al dividir, vv. {aviso.v_ini}–{aviso.v_fin}: {aviso.longitud.mensaje}</p>
+													{/each}
+												</div>
+											{/each}
 										</td>
 										<td class="break-words px-3 py-2 text-xs text-[color:var(--muted-foreground)]">
 											{#if notas.length}<p class="line-clamp-3">{notas[0]}</p><span class="inline-flex items-center">{#if notas.length > 1}{notas.length} notas{/if}<InlineNotePopover text={notas.join('\n\n')} label={'Mostrar notas de la secuencia ' + fila.v_ini + '–' + fila.v_fin} multilinea /></span>{:else}—{/if}

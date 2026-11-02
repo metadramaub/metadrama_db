@@ -4,6 +4,7 @@ import { proponerDivisionDesdeNota } from './division-nota';
 import type { NotaFuenteImportador } from './types';
 import { analizarEntrada, obtenerPilotos, obtenerReferenciaImportador } from '$lib/server/importador-metrico/vista-previa';
 import EditorSecuencia from '$lib/components/importador-metrico/EditorSecuencia.svelte';
+import VistaPrevia from '$lib/components/importador-metrico/VistaPrevia.svelte';
 
 function entrada() {
 	const raw = JSON.parse(obtenerPilotos()[0].entrada);
@@ -23,6 +24,21 @@ function escenario() {
 }
 
 describe('división propuesta por una nota localizada', () => {
+	it('avisa en la tabla sin abrir el editor y retira la propuesta después de dividir', () => {
+		const { raw, vista, secuencia, nota } = escenario();
+		const mostrar = (datos: typeof vista) => render(VistaPrevia, { props: { vista: datos } }).body
+			.replace(/<!--[\s\S]*?-->/g, '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
+		const tabla = mostrar(vista);
+		expect(tabla).toContain('Revisar división: la nota describe una quintilla aislada en 930–934');
+		expect(tabla).toContain('Propuesta: 60 + 5 + 65 versos');
+		expect(tabla).toContain('Al dividir, vv. 935–999: 65 versos. Copla real requiere');
+		expect(tabla).not.toContain('Dividir según la nota');
+		const propuesta = proponerDivisionDesdeNota(secuencia, nota)!;
+		const editada = analizarEntrada(raw, {}, [{ tramo_ref: 't01', partes: propuesta.partes.map((p) => ({ ...p, nota: null, remate: null })) }]);
+		const posterior = mostrar(editada);
+		expect(posterior).not.toContain('Revisar división:');
+		expect(posterior).toContain('65 versos. Copla real requiere');
+	});
 	it('propone 60 + 5 + 65 y avisa del descuadre aunque el conjunto sea compatible', () => {
 		const { secuencia, nota } = escenario();
 		const antes = structuredClone({ secuencia, nota });
