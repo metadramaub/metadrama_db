@@ -41,8 +41,13 @@ Resultado: 269 pruebas Vitest, comprobación de tipos sin errores ni advertencia
 de producción correctos. La migración exacta pasa 91 comprobaciones en PostgreSQL aislado.
 El dry-run remoto lista únicamente `20261102170000_importador_ejecucion_ia.sql`.
 
-**Estado de despliegue:** preparado, pendiente de aprobación explícita para aplicar a
-Supabase compartido. La revisión automática rechazó `db push` por no identificar esa
-aprobación para este cambio concreto; no se ejecutó la migración. Las huellas de las
-cuatro importaciones existentes están conservadas antes de la aplicación. Tras autorizarla,
-aplicar la migración, comprobar compatibilidad y huellas, y publicar el commit de la aplicación.
+**Estado de despliegue, 02-11-2026:** migración aplicada a Supabase compartido tras la
+autorización explícita del responsable («aplica la migración»). La revisión automática había
+bloqueado el primer intento por no identificar aprobación para este cambio concreto;
+ese intento no ejecutó SQL. Tras la autorización, el dry-run confirmó que solo estaba
+pendiente esta migración y `db push` la aplicó correctamente.
+
+Verificación remota posterior mediante SELECT: las cuatro importaciones anteriores conservan
+las mismas huellas de `entrada_original` y `datos_confirmados`; cero documentos incompatibles.
+Las nuevas propiedades opcionales están en los dos contratos y la migración figura registrada.
+Evidencia local: `backups/supabase/20261102-ia-ejecucion/verificacion-despues.json`.

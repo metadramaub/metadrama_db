@@ -79,6 +79,11 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
+El 02-11 se aplica la ampliación opcional de [datos de ejecución IA](./importador-metrico/ejecucion-ia.md)
+tras backup y autorización: servicio, modelo, modo, cuenta y parámetros editables antes de guardar.
+Prompt v0.12; cuatro importaciones anteriores verificadas intactas. Pendiente ensayo del nuevo
+prompt por el responsable con datos de ejecución declarados por la IA.
+
 Seguimiento de las veinte obras e informe del catálogo disponibles mediante
 [generación de informes](./importador-metrico/seguimiento-e-informe-equivalencias.md).
 Consulta remota del 02-11: cuatro guardadas. El leal criado queda aplazado por decisión
