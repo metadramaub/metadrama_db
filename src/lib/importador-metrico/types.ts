@@ -10,6 +10,11 @@ export type MetadatosEditables = {
 	fecha_fin: string;
 	fuente_fecha: string;
 	fundamento_autoria: string;
+	ia_generador?: string;
+	ia_modelo?: string;
+	ia_modo?: string;
+	ia_plan?: string;
+	ia_parametros?: string;
 };
 export type SegmentoMinimo = {
 	ref: string;
@@ -35,7 +40,8 @@ export type FichaMinima = {
 	obra_ref: string;
 	metadatos: Omit<
 		MetadatosEditables,
-		'fecha_inicio' | 'fecha_fin' | 'fuente_fecha' | 'fundamento_autoria'
+		'fecha_inicio' | 'fecha_fin' | 'fuente_fecha' | 'fundamento_autoria' |
+		'ia_generador' | 'ia_modelo' | 'ia_modo' | 'ia_plan' | 'ia_parametros'
 	> & {
 		fecha_inicio: number;
 		fecha_fin: number;
@@ -50,6 +56,14 @@ export type FichaMinima = {
 		catalogo_revision: number;
 		extraccion_sha256: string;
 		entradas_sha256: Record<string, string>;
+		ejecucion?: {
+			generador: string | null;
+			modelo: string | null;
+			modo?: string | null;
+			plan?: string | null;
+			parametros?: string | null;
+			prompt_version: string | null;
+		};
 	};
 };
 export type ResumenMinimo = {

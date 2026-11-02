@@ -106,6 +106,7 @@ psql(`create database ${db} template template0;`, 'postgres');
 try {
 	psql(`create schema auth; create schema extensions;
 create extension "uuid-ossp" with schema extensions; create extension pgcrypto with schema extensions;
+create extension if not exists pg_jsonschema with schema extensions;
 create table auth.users(id uuid primary key);
 create function auth.uid() returns uuid language sql stable as $$
  select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid;
@@ -128,7 +129,10 @@ raise exception 'FALLO: se aceptó %',n; end; $$;\n`;
 	seed += semillaImportador(ids);
 	for (const [i, ref] of refs.entries())
 		seed += `insert into entradas values(${i},${doc(json(`preparadas/${ref}.json`).datos)},${doc(json(`extracciones/${ref}.json`))});\n`;
-	let sql = seed + sesion(2);
+	let sql = seed + `update entradas set
+datos=jsonb_set(datos,'{procedencia,ejecucion}','{"generador":"ChatGPT","modelo":null,"modo":"Instant","plan":"Plus","parametros":"top_p=0.8","prompt_version":"extraccion/0.12"}'::jsonb),
+original=jsonb_set(original,'{procedencia}',(original->'procedencia')||'{"generador":"ChatGPT","modelo":"Modelo declarado","modo":"Instant","plan":null,"parametros":null}'::jsonb)
+where n=0;\n` + sesion(2);
 	sql +=
 		`reset role; insert into public.artefactos_publicos(clave,tipo,alcance,version_esquema,payload)
 values('prueba/corpus','corpus_comparativas','publico',2,'{}');\n` + sesion(2);
@@ -138,6 +142,8 @@ values('prueba/corpus','corpus_comparativas','publico',2,'{}');\n` + sesion(2);
 		'capacidad de importar no abre el corpus del laboratorio'
 	);
 	for (let i = 0; i < 4; i++) sql += `insert into resultados values(${i},(${llamada(i)}));\n`;
+	sql += ok("(select datos_confirmados#>>'{procedencia,ejecucion,plan}'='Plus' and datos_confirmados#>'{procedencia,ejecucion,modelo}'='null'::jsonb and entrada_original#>>'{procedencia,modelo}'='Modelo declarado' and datos_confirmados#>>'{procedencia,ejecucion,parametros}'='top_p=0.8' from public.importaciones_metricas where importacion_id=(select (valor->>'importacion_id')::uuid from resultados where n=0))", 'ejecución corregida conservada sin sobrescribir la declaración original');
+	sql += ok("(select not (datos_confirmados->'procedencia' ? 'ejecucion') from public.importaciones_metricas where importacion_id=(select (valor->>'importacion_id')::uuid from resultados where n=1))", 'compatibilidad con documentos anteriores sin ejecución');
 	sql += ok(
 		'(select count(*)=4 from public.importaciones_metricas)',
 		'se guardan las cuatro importaciones'

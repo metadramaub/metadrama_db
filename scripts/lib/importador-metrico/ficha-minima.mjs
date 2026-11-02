@@ -1,6 +1,7 @@
 /** Contrato local de la ficha mínima. Sin DB, red, reloj ni escritura de archivos. */
 import { createHash } from 'node:crypto';
 import { z } from 'zod';
+import { ejecucionSchema } from './ejecucion.mjs';
 
 const texto = z.string().trim().min(1);
 const entero = z.number().int().positive().max(2147483647);
@@ -91,7 +92,8 @@ export const fichaMinimaSchema = z
 				reglas_version: texto,
 				catalogo_revision: z.number().int().nonnegative(),
 				extraccion_sha256: hash,
-				entradas_sha256: z.record(texto, hash)
+				entradas_sha256: z.record(texto, hash),
+				ejecucion: ejecucionSchema.optional()
 			})
 			.strict()
 	})

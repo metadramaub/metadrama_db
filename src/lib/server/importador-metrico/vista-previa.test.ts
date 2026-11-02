@@ -5,6 +5,27 @@ import { analizarEntrada, obtenerPilotos, obtenerReferenciaImportador, vistaDeFi
 import preparada from '../../../../docs/importador-metrico/piloto/preparadas/el-verdadero-amante.json';
 
 describe('vista previa del importador sin persistencia', () => {
+	it('permite corregir y borrar la ejecución declarada sin modificar el original; se conserva al reabrir', () => {
+		const raw = JSON.parse(obtenerPilotos()[0].entrada);
+		raw.procedencia = { ...raw.procedencia, generador: 'ChatGPT', modelo: 'Modelo declarado', modo: 'Instant', plan: null, parametros: null };
+		const texto = JSON.stringify(raw);
+		const leida = analizarEntrada(texto);
+		expect(leida.errores).toEqual([]);
+		expect(leida.metadatos.ia_modelo).toBe('Modelo declarado');
+		expect(leida.metadatos.ia_modo).toBe('Instant');
+		const corregida = analizarEntrada(texto, { ia_generador: 'ChatGPT', ia_modelo: '', ia_modo: 'Instant', ia_plan: 'Plus', ia_parametros: 'top_p=0.8' });
+		expect(corregida.errores).toEqual([]);
+		expect(corregida.datos!.procedencia.ejecucion).toMatchObject({ generador: 'ChatGPT', modelo: null, modo: 'Instant', plan: 'Plus', parametros: 'top_p=0.8' });
+		expect(corregida.datos!.metadatos).not.toHaveProperty('ia_modelo');
+		expect(JSON.parse(texto).procedencia.modelo).toBe('Modelo declarado');
+		const guardada = vistaDeFichaGuardada(corregida.datos as FichaMinima, raw, { obra_id: 'obra', importacion_id: 'imp' });
+		expect(guardada.metadatos.ia_modelo).toBe('');
+		expect(guardada.metadatos.ia_plan).toBe('Plus');
+		expect(guardada.metadatos.ia_parametros).toBe('top_p=0.8');
+		const antigua = structuredClone(corregida.datos) as FichaMinima;
+		delete antigua.procedencia.ejecucion;
+		expect(vistaDeFichaGuardada(antigua, raw, { obra_id: 'obra', importacion_id: 'imp' }).metadatos.ia_modelo).toBe('Modelo declarado');
+	});
 	it('avisa del descuadre métrico y recalcula tras declarar una adición, sin cambiar la extensión', () => {
 		const raw=JSON.parse(obtenerPilotos()[0].entrada);
 		raw.obra_ref='obra-importada';raw.jornadas=[{numero:1,rotulo_literal:null}];raw.resumen_fuente=[];raw.incidencias=[];
@@ -300,7 +321,7 @@ describe('vista previa del importador sin persistencia', () => {
 	});
 	it('ofrece el prompt literal y el carácter local del catálogo', () => {
 		expect(obtenerReferenciaImportador().prompt).toContain('Transcribe las fotografías');
-		expect(obtenerReferenciaImportador().prompt_version).toBe('0.11');
+		expect(obtenerReferenciaImportador().prompt_version).toBe('0.12');
 		expect(obtenerReferenciaImportador().prompt).toContain('Letra de rima | Caja impresa');
 		expect(obtenerReferenciaImportador().prompt).toContain('posición 3: no se distingue b/B');
 		expect(

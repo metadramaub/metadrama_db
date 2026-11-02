@@ -86,6 +86,13 @@ beforeEach(() => {
 });
 
 describe('acciones de la vista previa del importador', () => {
+	it('recibe las correcciones de ejecución en el formulario sin mezclarlas con los datos de la obra', async () => {
+		const { event } = entorno({ ...metadatos, ia_generador: 'ChatGPT', ia_modelo: '', ia_modo: 'Instant', ia_plan: 'Plus', ia_parametros: 'top_p=0.8' });
+		const resultado = await actions.comprobar(event as never) as Devuelto;
+		expect(resultado.vista.errores).toEqual([]);
+		expect(resultado.vista.datos!.procedencia.ejecucion).toMatchObject({ generador: 'ChatGPT', modelo: null, modo: 'Instant', plan: 'Plus', parametros: 'top_p=0.8' });
+		expect(resultado.vista.datos!.metadatos).not.toHaveProperty('ia_modelo');
+	});
 	it('comprueba y devuelve las ediciones junto a los metadatos, sin escritura', async () => {
 		const ediciones = JSON.stringify([
 			{

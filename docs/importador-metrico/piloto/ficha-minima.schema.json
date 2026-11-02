@@ -482,6 +482,89 @@
             "type": "string",
             "pattern": "^[a-f0-9]{64}$"
           }
+        },
+        "ejecucion": {
+          "type": "object",
+          "properties": {
+            "generador": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2000
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "modelo": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2000
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "modo": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2000
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "plan": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2000
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "parametros": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2000
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "prompt_version": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2000
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "generador",
+            "modelo",
+            "prompt_version"
+          ],
+          "additionalProperties": false
         }
       },
       "required": [

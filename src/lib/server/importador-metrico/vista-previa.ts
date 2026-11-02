@@ -20,7 +20,7 @@ import molino from '../../../../docs/importador-metrico/piloto/extracciones/el-m
 import amante from '../../../../docs/importador-metrico/piloto/extracciones/el-verdadero-amante.json?raw';
 import donaires from '../../../../docs/importador-metrico/piloto/extracciones/los-donaires-de-matico.json?raw';
 import locos from '../../../../docs/importador-metrico/piloto/extracciones/los-locos-de-valencia.json?raw';
-import prompt from '../../../../prompts/importador-metrico/extraccion-v0.11.md?raw';
+import prompt from '../../../../prompts/importador-metrico/extraccion-v0.12.md?raw';
 import type {
 	FichaMinima,
 	BorradorFichaMinima,
@@ -68,6 +68,11 @@ export const metadatosIniciales = (): MetadatosEditables => ({
 	fuente_fecha: '',
 	fundamento_autoria: ''
 });
+function leerEjecucion(raw: unknown) {
+	const e = objeto(raw);
+	return { ia_generador: cadena(e.generador), ia_modelo: cadena(e.modelo),
+		ia_modo: cadena(e.modo), ia_plan: cadena(e.plan), ia_parametros: cadena(e.parametros) };
+}
 export function obtenerPilotos() {
 	return pilotos.map((p) => ({ ...p }));
 }
@@ -145,7 +150,8 @@ export function vistaDeFichaGuardada(ficha: FichaMinima, original: Registro,
 	confirmacion: NonNullable<ResultadoVistaPrevia['confirmacion']>): ResultadoVistaPrevia {
 	const notas=Array.isArray(original.notas)?original.notas.map(objeto)
 		.filter(n=>typeof n.id==='string' && typeof n.texto_literal==='string'):null;
-	return {persistido:true,confirmacion,formato:ficha.esquema,metadatos:leerMetadatos(ficha.metadatos),
+	return {persistido:true,confirmacion,formato:ficha.esquema,metadatos:{...leerMetadatos(ficha.metadatos),
+		...leerEjecucion(ficha.procedencia.ejecucion ?? original.procedencia)},
 		datos:ficha,resumen:{...resumirFichaMinima(ficha),segmentacion_confirmada:true},filas:filasDeFicha(ficha,notas),errores:[],avisos:[]};
 }
 
@@ -179,9 +185,12 @@ export function analizarEntrada(
 		resultado.formato = cadena(entrada.esquema) || null;
 		const minima =
 			entrada.esquema === 'versologia-vista-previa-minima/0.2' ? objeto(entrada.datos) : entrada;
-		resultado.metadatos = { ...leerMetadatos(minima.metadatos), ...cambios };
+		const ejecucionOriginal = entrada.esquema === 'versologia-extraccion/0.1'
+			? objeto(entrada.procedencia) : objeto(objeto(minima.procedencia).ejecucion);
+		resultado.metadatos = { ...leerMetadatos(minima.metadatos), ...leerEjecucion(ejecucionOriginal), ...cambios };
+		const { ia_generador, ia_modelo, ia_modo, ia_plan, ia_parametros, ...datosObra } = resultado.metadatos;
 		const metadatos = {
-			...resultado.metadatos,
+			...datosObra,
 			fecha_inicio: resultado.metadatos.fecha_inicio.trim() ? Number(resultado.metadatos.fecha_inicio) : null,
 			fecha_fin: resultado.metadatos.fecha_fin.trim() ? Number(resultado.metadatos.fecha_fin) : null,
 			fuente_fecha: resultado.metadatos.fuente_fecha.trim() || null,
@@ -247,6 +256,15 @@ export function analizarEntrada(
 			throw new Error(
 				'Formato no admitido. Se acepta extracción 0.1, ficha mínima 0.2 o importación preparada 0.2.'
 			);
+		if (entrada.esquema === 'versologia-extraccion/0.1' || Object.keys(ejecucionOriginal).length ||
+			[ia_generador, ia_modelo, ia_modo, ia_plan, ia_parametros].some(Boolean)) {
+			datos.procedencia.ejecucion = {
+				generador: ia_generador?.trim() || null, modelo: ia_modelo?.trim() || null,
+				modo: ia_modo?.trim() || null, plan: ia_plan?.trim() || null,
+				parametros: ia_parametros?.trim() || null,
+				prompt_version: cadena(ejecucionOriginal.prompt_version) || null
+			};
+		}
 		let validacion = validarFichaMinima(datos, { catalogo: referencia, vistaPrevia: true });
 		if (!validacion.errores.length) try {
 			const notas = entrada.esquema === 'versologia-extraccion/0.1' && Array.isArray(entrada.notas)

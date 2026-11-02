@@ -8,11 +8,12 @@
 	import VistaPrevia from '$lib/components/importador-metrico/VistaPrevia.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import EstadoComprobacion from '$lib/components/importador-metrico/EstadoComprobacion.svelte';
+	import DatosEjecucion from '$lib/components/importador-metrico/DatosEjecucion.svelte';
 
 	let { data, form } = $props<{ data: PageData; form: ActionData }>();
 	const respuesta = () => form && 'vista' in form ? form : null;
 	let ultimaRespuesta = $state(untrack(respuesta));
-	const vacios: MetadatosEditables = { titulo:'',autor_nombre:'',genero:'comedia_o_tragicomedia',edicion_base:'',fecha_inicio:'',fecha_fin:'',fuente_fecha:'',fundamento_autoria:'' };
+	const vacios: MetadatosEditables = { titulo:'',autor_nombre:'',genero:'comedia_o_tragicomedia',edicion_base:'',fecha_inicio:'',fecha_fin:'',fuente_fecha:'',fundamento_autoria:'',ia_generador:'',ia_modelo:'',ia_modo:'',ia_plan:'',ia_parametros:'' };
 	let entrada = $state(untrack(() => respuesta()?.entrada ?? ''));
 	let metadatos = $state<MetadatosEditables>(untrack(() => ({ ...vacios, ...respuesta()?.vista.metadatos })));
 	let autorId = $state(untrack(() => respuesta()?.autorId ?? ''));
@@ -204,6 +205,7 @@
 					<textarea name="fundamento_autoria" bind:value={metadatos.fundamento_autoria} oninput={cambioMetadatos} rows="3" class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"></textarea>
 				</label>
 			</div>
+			<DatosEjecucion bind:metadatos alCambiar={cambioMetadatos} />
 			<div class="flex flex-wrap items-center gap-3">
 				<button class="rounded-md border border-[color:var(--foreground)] px-5 py-2.5 text-sm font-medium hover:bg-[color:var(--muted)] disabled:opacity-50" disabled={pendiente}>{pendiente ? 'Comprobando…' : 'Comprobar cambios'}</button>
 				{#if !pendiente && comprobacionTerminada}

@@ -77,9 +77,10 @@ async function previsualizar(
 			'fecha_inicio',
 			'fecha_fin',
 			'fuente_fecha',
-			'fundamento_autoria'
+			'fundamento_autoria',
+			'ia_generador', 'ia_modelo', 'ia_modo', 'ia_plan', 'ia_parametros'
 		] as const)
-			cambios[key] = texto(key);
+			if (!key.startsWith('ia_') || form.has(key)) cambios[key] = texto(key);
 	}
 	if (autorId) {
 		const { data: autor, error: autorError } = await event.locals.supabase

@@ -1,5 +1,6 @@
 /** Validación técnica del intercambio 0.1. Sin archivos, red, catálogo ni escrituras. */
 import { z } from 'zod';
+import { camposEjecucionSchema } from './ejecucion.mjs';
 
 const texto = z.string().regex(/\S/, 'Debe contener texto');
 const entero = z.number().int().positive().max(Number.MAX_SAFE_INTEGER);
@@ -31,6 +32,7 @@ export const extraccionSchema = z
 				procedimiento: z.enum(['lectura_visual_asistida', 'ejecucion_prompt']),
 				generador: texto.nullable(),
 				modelo: texto.nullable(),
+				...camposEjecucionSchema,
 				prompt_version: texto,
 				ensayo_controlado: z.boolean()
 			})
