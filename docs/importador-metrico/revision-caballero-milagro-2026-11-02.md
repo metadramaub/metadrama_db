@@ -1,5 +1,25 @@
 # El caballero del milagro: revisión de la respuesta v0.5
 
+## Comprobación de la importación real
+
+Tras el aviso de David, consulta de solo lectura al Supabase real el 02-11-2026. Importación
+`4822994f-5836-44a1-8cce-d821df1af228`, obra `074310f3-76cf-47db-874c-dfd74116b3a8`.
+La entrada original guardada coincide con la respuesta v0.6 aportada. La copia confirmada
+y las 24 filas persistidas coinciden campo a campo con la preparación acordada: rangos,
+longitudes, forma y arquitectura, referencias de origen, rasgos, notas, candidatas y desviaciones.
+Las tres jornadas cubren 1–1028, 1029–2085 y 2086–3001, sin huecos ni solapamientos.
+
+Perfil guardado: Redondilla 2324 versos, Octava real 184, Endecasílabo suelto 306,
+Sexteto-lira 156, Soneto 28 y tres sin identificar (1679–1681). Las cinco tiradas de sueltos
+conservan Dístico final presente. Redondilla sigue sin arquitectura. Se conserva la llamada 66
+incompleta con su incidencia y la nota del estrambote termina en «criterio pendiente».
+Todas las secuencias figuran con segmentación confirmada.
+
+Metadatos guardados: Lope de Vega, comedia o tragicomedia, 1593–1593, edición de Santiago Restrepo
+y Ramón Valdés Gázquez, Parte XV (2016). Se comprueba su persistencia; no se vuelve a fundamentar
+la datación. No se modifica ningún dato remoto. Evidencia privada: `lectura-guardado-real.json`
+y `auditoria-guardado-real.json` en la carpeta de este caso.
+
 ## Continuación con v0.6 y acuerdos del responsable
 
 La segunda respuesta aportada corrige las tres jornadas y conserva la llamada 66 con texto
