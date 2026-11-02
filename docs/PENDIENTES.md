@@ -81,7 +81,8 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 Mostrar en el listado una columna [Por revisar](./importador-metrico/pendientes-en-listado.md):
 formas pendientes con rangos y avisos concretos, distinguiendo incidencias de fuente y
-resultados históricos de comprobaciones actuales. Pendiente de implementar; no certificar
+resultados históricos de comprobaciones actuales. Guardar y mostrar también última
+modificación real, separada de la fecha de importación. Pendiente de implementar; no certificar
 ausencia de avisos antiguos que no se guardaron. Ya corregido el contador de «Comprobar
 cambios» para que muestre el texto y los pasajes de cada aviso antes del guardado.
 

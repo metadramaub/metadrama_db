@@ -21,6 +21,29 @@ hasta una decisión editorial, sin selección automática de candidatas ni remat
 
 ## Implementación
 
+### Fechas de importación y última modificación
+
+Petición adicional del responsable: guardar y mostrar ambas fechas por ficha básica.
+La importación es el alta original y no cambia. La última modificación representa el
+último cambio efectivamente guardado en el contenido básico vigente (metadatos, estructura
+o métrica), no una visita, una comprobación sin guardar ni una actualización de cálculos.
+Al crear la ficha, ambas fechas pueden coincidir.
+
+El esquema vivo ya conserva `importaciones_metricas.importado_en` y `updated_at` en obras,
+jornadas y secuencias, pero no una fecha propia de modificación del registro de importación.
+No usar sin más `obras.updated_at` como fecha de toda la ficha: no demuestra por sí solo
+cuándo cambió la métrica o una secuencia. Los cambios del futuro borrador detallado tampoco
+deben presentarse como modificaciones de la copia básica que sigue aportando al corpus.
+
+La implementación debe conservar una fecha explícita del aporte básico y actualizarla en
+la misma operación que guarda su corrección. La copia original y su fecha de importación
+permanecen inmutables. Para registros existentes no se inventará una fecha histórica: usar
+la importación si se acredita que no hubo cambios, o señalar que la modificación no consta.
+Definirlo junto a la edición/reimportación de básicas y el resumen del listado; no introducir
+una actualización ficticia de la copia solo para mostrar una fecha más reciente.
+
+### Lectura del resumen
+
 La consulta del listado debe devolver un resumen compacto por importación y mantener la
 paginación y los permisos actuales. Evitar cargar todas las copias completas o hacer una
 consulta por ficha. Las formas pendientes salen de la copia confirmada, no de la estructura
