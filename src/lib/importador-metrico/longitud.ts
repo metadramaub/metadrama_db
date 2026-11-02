@@ -46,5 +46,5 @@ export function comprobarLongitud(secuencia: Entrada): ComprobacionLongitud {
 	const explicaciones = [...new Set(conocidas.map((r) => r.explicacion))].join(' o ');
 	return { estado: 'revisar', mensaje:
 		`${total} versos${ajustes.length ? `; descontando ${ajustes.join(' y ')}, quedan ${total - adiciones - remate} para el cuerpo` : ''}. ` +
-		`${forma?.nombre ?? destino.forma_slug} requiere ${explicaciones}. Revisa la numeración, el remate y las desviaciones declaradas.` };
+		`${forma?.nombre ?? destino.forma_slug} requiere ${explicaciones}. Revisa la secuencia.` };
 }
