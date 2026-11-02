@@ -1,63 +1,49 @@
-# Pendientes y avisos en el listado de fichas básicas
+# Gestión y pendientes en el listado de fichas básicas
 
-Mejora solicitada por el responsable, pendiente de implementar. El objetivo es poder
-localizar y retomar las importaciones que conservan datos por revisar, sin abrirlas todas.
+Implementación del 2 de noviembre de 2026. El listado permite localizar importaciones por
+revisar y eliminar explícitamente una básica desde una cuenta admin/IP.
 
 ## Columna Por revisar
 
-- Formas sin identificar: denominación original y rangos de la copia confirmada.
-  Ejemplo: «tercetos · 1–127, 1523–1667». La ambigüedad no implica error de extracción.
-- Avisos detectados: texto y pasaje concretos, distinguiendo los de longitud métrica
-  de las incidencias declaradas por la fuente o la extracción original.
-- Si una incidencia del original ya fue corregida al preparar la ficha, no presentarla
-  automáticamente como un error todavía vigente.
-- Las fichas anteriores no guardan el resultado completo de los avisos al importar.
-  No se reconstruirá un supuesto historial ni se mostrará «sin avisos al importar» por
-  ausencia de ese registro. Los avisos recalculados hoy deben distinguirse de los históricos.
+- Formas sin identificar: denominación original y rangos de la copia confirmada, agrupados.
+- Avisos de longitud guardados: pasaje y explicación del comprobador compartido con el editor.
+  Las nuevas importaciones guardan `comprobacion.avisos_longitud` en `datos_confirmados`.
+  Se recalcula al comprobar cambios; corregir una secuencia retira su aviso antes de guardar.
+- Incidencias del JSON original: separadas, con su texto accesible. Pueden haberse corregido
+  durante la preparación y no se afirman como errores vigentes.
+- Las copias anteriores no conservan la comprobación de longitud: muestran «sin registro al
+  importar». Su ausencia no certifica que se importaran sin avisos. No se reescriben estas copias.
 
-No llamar «errores» a todos los pendientes o avisos. Un aviso de compatibilidad de longitud
-no demuestra por sí solo error de la edición. Las formas sin resolver deben seguir pendientes
-hasta una decisión editorial, sin selección automática de candidatas ni remate por longitud.
+Las formas pendientes no implican error de extracción. La longitud tampoco autoriza por sí
+sola una equivalencia ni un remate: se mantiene la decisión editorial.
 
-## Implementación
+## Fechas
 
-### Fechas de importación y última modificación
+`importado_en` conserva el alta original. La nueva columna `modificado_en` registra la fecha
+propia de la copia básica; al crearla coincide con el alta. Los registros anteriores quedan
+sin fecha acreditada y muestran «No consta», sin inventar historia ni usar `obras.updated_at`.
 
-Petición adicional del responsable: guardar y mostrar ambas fechas por ficha básica.
-La importación es el alta original y no cambia. La última modificación representa el
-último cambio efectivamente guardado en el contenido básico vigente (metadatos, estructura
-o métrica), no una visita, una comprobación sin guardar ni una actualización de cálculos.
-Al crear la ficha, ambas fechas pueden coincidir.
+Las copias siguen siendo inmutables. Aún no existe edición/reimportación general de básicas:
+cuando se implemente, deberá definir la sustitución de la copia y guardar la fecha del cambio
+en esa misma operación. Visitar, comprobar sin guardar, recalcular análisis o modificar el
+borrador detallado no cambia la fecha de la copia básica.
 
-El esquema vivo ya conserva `importaciones_metricas.importado_en` y `updated_at` en obras,
-jornadas y secuencias, pero no una fecha propia de modificación del registro de importación.
-No usar sin más `obras.updated_at` como fecha de toda la ficha: no demuestra por sí solo
-cuándo cambió la métrica o una secuencia. Los cambios del futuro borrador detallado tampoco
-deben presentarse como modificaciones de la copia básica que sigue aportando al corpus.
+## Consulta
 
-La implementación debe conservar una fecha explícita del aporte básico y actualizarla en
-la misma operación que guarda su corrección. La copia original y su fecha de importación
-permanecen inmutables. Para registros existentes no se inventará una fecha histórica: usar
-la importación si se acredita que no hubo cambios, o señalar que la modificación no consta.
-Definirlo junto a la edición/reimportación de básicas y el resumen del listado; no introducir
-una actualización ficticia de la copia solo para mostrar una fecha más reciente.
+`listar_fichas_basicas` devuelve metadatos y resúmenes compactos, con paginación de 50 fichas
+y un registro adicional para detectar la siguiente página. No descarga documentos completos,
+no realiza una consulta por ficha ni recalcula métricas. Usa la copia confirmada, no secuencias
+compartidas que un editor pueda modificar al preparar una detallada.
 
-### Lectura del resumen
+## Eliminación
 
-La consulta del listado debe devolver un resumen compacto por importación y mantener la
-paginación y los permisos actuales. Evitar cargar todas las copias completas o hacer una
-consulta por ficha. Las formas pendientes salen de la copia confirmada, no de la estructura
-compartida que un editor pueda modificar después.
+La papelera aparece al final de la fila para admin/IP. El diálogo exige escribir el título y
+explica el alcance. El servidor y `eliminar_ficha_basica` comprueban permisos de sesión activa,
+título, tipo básico vigente, ausencia de editor asignado y ausencia de anotaciones detalladas.
+La operación elimina la obra y, por las claves foráneas, jornadas, secuencias e importaciones.
+No hay recuperación desde la interfaz. La implementación no elimina ninguna obra real.
 
-Antes de implementar: ampliar el contrato de lectura de la lista y concretar qué avisos
-se conservarán al guardar las nuevas importaciones, usando el mismo comprobador del editor.
-Mantener compatibilidad con las fichas existentes y sin modificar las copias inmutables.
-La ampliación SQL deberá probarse en PostgreSQL aislado y seguir el procedimiento de backup
-y despliegue del proyecto. No aplicar ahora una migración solo para el contador de avisos.
-
-## Corrección inmediata ya implementada
-
-Tras «Comprobar cambios» se muestran el contador y el texto de todos los avisos revisables.
-El aviso de formas pendientes incluye denominaciones y rangos. Los recordatorios técnicos
-del flujo siguen excluidos del contador. Esto permite entender la advertencia antes de guardar,
-sin alterar la validación ni añadir requisitos a la ficha básica.
+Migración: `20261102190000_gestion_listado_fichas_basicas.sql`. Copia de seguridad completa en
+`backups/supabase/20261102-listado-basicas/`. Probada en PostgreSQL aislado con 107 comprobaciones,
+incluidos permisos, confirmación, cascadas y conservación de las otras obras. Pruebas de servidor
+y componente, comprobación de tipos y compilación completadas.
