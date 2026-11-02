@@ -173,7 +173,7 @@ export function normalizarExtraccion(
 			{ ...structuredClone(segmento), id: `${row.id}.2`, v_ini: row.v_ini + 14,
 				estado_identificacion: 'sin_resolver', identificacion_revisada: null, propuesta: null,
 				candidatas: [], detalles_fuente: [],
-				nota: 'Estrambote declarado por la edición. Se conserva como secuencia sin forma identificada mientras el catálogo no admite este remate en el soneto; criterio pendiente del IP.' }
+				nota: 'Estrambote declarado por la edición. Se conserva como secuencia sin forma identificada mientras el catálogo no admite este remate en el soneto; criterio pendiente.' }
 		];
 	});
 	const total = unionLength(segmentos);

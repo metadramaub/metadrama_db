@@ -345,12 +345,12 @@
       ],
       "division": "soneto_y_estrambote_sin_identificar",
       "exhaustividad": "solo_nucleo_soneto",
-      "fundamento": "Criterio provisional acordado: primeros catorce versos como Soneto y resto como secuencia sin identificar. No se registra estrambote como remate de soneto ni se inventan forma o metro para el resto; pendiente de decisión del IP.",
+      "fundamento": "Criterio provisional acordado: primeros catorce versos como Soneto y resto como secuencia sin identificar. No se registra estrambote como remate de soneto ni se inventan forma o metro para el resto; criterio pendiente.",
       "detalles_fuente": [],
       "aprobacion": {
         "responsable": "Responsable del proyecto",
         "fecha": "2026-11-02",
-        "fundamento": "El responsable indica partir provisionalmente: soneto y secuencia desconocida; pendiente de decisión del IP sobre el catálogo."
+        "fundamento": "El responsable indica partir provisionalmente: soneto y secuencia desconocida; criterio pendiente sobre el catálogo."
       }
     }
   ],

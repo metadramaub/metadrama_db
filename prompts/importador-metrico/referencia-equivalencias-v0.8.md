@@ -236,7 +236,7 @@ Tipo: equivalencia_propuesta. Revisión: aprobada en el ámbito indicado.
 
 Destinos o candidatas: soneto/endecasilabica_consonante. Exhaustividad: solo_nucleo_soneto.
 
-Criterio provisional acordado: primeros catorce versos como Soneto y resto como secuencia sin identificar. No se registra estrambote como remate de soneto ni se inventan forma o metro para el resto; pendiente de decisión del IP.
+Criterio provisional acordado: primeros catorce versos como Soneto y resto como secuencia sin identificar. No se registra estrambote como remate de soneto ni se inventan forma o metro para el resto; criterio pendiente.
 
 Detalles de la fuente: sin otros detalles declarados.
 

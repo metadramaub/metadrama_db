@@ -514,7 +514,7 @@
       "catalogo_revision": 4948,
       "extraccion_sha256": "a555c6ef148c98ace3d15278131a07458a602606bc0185e413622a8db60f29af",
       "entradas_sha256": {
-        "equivalencias.propuestas.json": "effe5025e9561c9cce2955487023a8775450c77b786d1b8b55f7b2227a15665f",
+        "equivalencias.propuestas.json": "835278a47d9bb1cd00f95828143e096bb105f3ac1aec135b7520f59a803094fe",
         "catalogo-referencia.json": "0f65680900ccab33fb9a258e5aca1ae6b2c0373c6dc2aab4192e80d7088e7b06",
         "auditoria-tercetos-2026-10-26.json": "433367a2e24b8e6e5fb213b907c2d810ff2078eda0e2364771070231e8cfc112",
         "segmentacion.propuestas.json": "66bfd37373162eaf06c046093f11cbd7188d0e72519bea0c30c6caefc738cd0f",

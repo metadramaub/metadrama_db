@@ -25,7 +25,7 @@ describe('vista previa del importador sin persistencia', () => {
 		expect(partes[1].identificacion).toEqual({forma_slug:'sexteto_lira',arquitectura_slug:'heterometrica_consonante'});
 		expect(partes[2]).toMatchObject({v_ini:179,v_fin:192,origen:{tramo_ref:'t03'},identificacion:{forma_slug:'soneto'}});
 		expect(partes[3]).toMatchObject({v_ini:193,v_fin:195,origen:{tramo_ref:'t03'},identificacion:null,candidatas:[]});
-		expect(partes[3].nota).toContain('pendiente del IP');
+		expect(partes[3].nota).toContain('criterio pendiente');
 		// La división propuesta sigue siendo editable por la fila original.
 		const edicion = [{tramo_ref:'t03',partes:[
 			{v_ini:179,v_fin:192,identificacion:{forma_slug:'soneto',arquitectura_slug:'endecasilabica_consonante'},nota:null,remate:null},
