@@ -79,6 +79,11 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
+Condición principal de los próximos ensayos: Gemini gratuita, según el responsable.
+Prompt v0.13 pendiente de ensayo: asociación de nombres de varias líneas con sus rangos y
+distinción de recuentos frente a superíndices. El verdadero amante ya está guardado con la
+respuesta de ChatGPT; repetirlo en Gemini es prueba de regresión, sin nuevo guardado.
+
 El 02-11 se aplica la ampliación opcional de [datos de ejecución IA](./importador-metrico/ejecucion-ia.md)
 tras backup y autorización: servicio, modelo, modo, cuenta y parámetros editables antes de guardar.
 Prompt v0.12; cuatro importaciones anteriores verificadas intactas. Pendiente ensayo del nuevo

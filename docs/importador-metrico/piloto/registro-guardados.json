@@ -1,5 +1,5 @@
 {
-  "consultado_en": "2026-11-02T13:39:00.323Z",
+  "consultado_en": "2026-11-02T17:40:23.862Z",
   "importaciones": [
     {
       "importacion_id": "3f6a8587-7761-4f26-851f-ec38a71f49eb",
@@ -27,6 +27,13 @@
       "importado_en": "2026-11-02 11:45:20.151954+00",
       "obra_id": "05230c1a-a875-49c1-840b-0b6897fbb9e5",
       "titulo": "Laura perseguida",
+      "usada_en_corpus": true
+    },
+    {
+      "importacion_id": "7bfa86c6-639a-4637-88d6-3d67f8e5dffe",
+      "importado_en": "2026-11-02 17:37:56.53608+00",
+      "obra_id": "0a0af654-d8bc-4117-b4e1-c3c2f90a17e1",
+      "titulo": "El verdadero amante",
       "usada_en_corpus": true
     }
   ]

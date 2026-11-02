@@ -1,8 +1,8 @@
 # Seguimiento de las veinte obras del piloto
 
-Guardados contrastados por SELECT en Supabase: 2026-11-02T13:39:00.323Z. No se escribe en la base.
+Guardados contrastados por SELECT en Supabase: 2026-11-02T17:40:23.862Z. No se escribe en la base.
 
-**4 guardadas de 20.** El resto no tiene guardado confirmado en este registro.
+**5 guardadas de 20.** El resto no tiene guardado confirmado en este registro.
 
 El guardado se acredita por obra_id, no por semejanza de títulos. Sin guardado confirmado no significa extracción incorrecta. La revisión y el motivo son anotaciones humanas, separadas del estado de persistencia.
 
@@ -13,7 +13,7 @@ El guardado se acredita por obra_id, no por semejanza de títulos. Sin guardado 
 | 5 | Laura perseguida | [Guardada 2026-11-02](https://versologia.metadrama.org/dashboard/importador/fichas/736ef3b5-c87a-46dc-9085-5b27be7851c1) | Guardada. 617–876 se mantiene como Quintilla; caso complejo pendiente. [Detalle](../revision-laura-perseguida-2026-11-02.md) |
 | 6 | El leal criado | Sin guardado confirmado | Aplazada por decisión del responsable. No guardar: pendiente resolver 870–999 y la nota 5 (división 60 + 5 + 65); también 1392–1866 y 2407–2851 tienen longitudes incompatibles con coplas reales regulares. Texto no cotejado. [Detalle](../revision-leal-criado-2026-11-02.md) |
 | 7 | El maestro de danzar | Sin guardado confirmado | Respuesta ChatGPT Plus Instant v0.11 cotejada: AabBCC correcto; validación técnica correcta. La respuesta Gemini gratuita v0.11 produce AaBbCC; ChatGPT Plus Instant v0.11 conserva AabBCC. El editor debe consultar el texto y dividir manualmente 1517–1669 (redondillas y quintillas); nota 110 fuera de la foto. [Detalle](../revision-maestro-danzar-2026-11-02.md) |
-| 12 | El verdadero amante | Sin guardado confirmado | ChatGPT GPT-6 Instant v0.12 corrige el desplazamiento; pendiente guardado. 19 filas y 2878 versos correctos; sin formas pendientes. Diferencia literal: -ío por -io. La respuesta Gemini fallida y la referencia inicial aceptada permanecen intactas. [Detalle](../revision-verdadero-amante-2026-11-02.md) |
+| 12 | El verdadero amante | [Guardada 2026-11-02](https://versologia.metadrama.org/dashboard/importador/fichas/7bfa86c6-639a-4637-88d6-3d67f8e5dffe) | Guardada con la respuesta ChatGPT GPT-6 Instant v0.12. 19 filas y 2878 versos correctos; sin formas pendientes. Diferencia literal: -ío por -io. La respuesta Gemini fallida y la referencia inicial aceptada permanecen intactas. [Detalle](../revision-verdadero-amante-2026-11-02.md) |
 | 13 | Los donaires de Matico | Sin guardado confirmado | Transcripción inicial aceptada; pendiente de nueva pasada |
 | 14 | El molino | [Guardada 2026-10-29](https://versologia.metadrama.org/dashboard/importador/fichas/3f6a8587-7761-4f26-851f-ec38a71f49eb) | Guardada y reabierta en producción. Primera importación real, 29-10-2026 |
 | 15 | Las ferias de Madrid | Sin guardado confirmado | Pendiente de ensayo |

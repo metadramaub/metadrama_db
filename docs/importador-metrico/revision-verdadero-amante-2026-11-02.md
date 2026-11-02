@@ -60,3 +60,25 @@ En esta ejecución, ChatGPT corrige los errores estructurales presentes en la re
 Gemini 3.5 Flash-Lite. No se generaliza este resultado a todos los casos o modelos.
 Queda pendiente el guardado por el responsable; el cambio de estado del ensayo no acredita
 una nueva importación en Supabase. La referencia del inventario sigue siendo la inicial aceptada.
+
+## Guardado y prueba de regresión en Gemini gratuita
+
+El responsable confirma el guardado. SELECT remoto confirma obra
+`0a0af654-d8bc-4117-b4e1-c3c2f90a17e1`, importación
+`7bfa86c6-639a-4637-88d6-3d67f8e5dffe`, guardada el 02-11-2026.
+El seguimiento queda vinculado por obra_id; son cinco obras guardadas del lote.
+
+El responsable fija Gemini gratuita como condición principal de los siguientes ensayos.
+GPT-6 Instant queda como contraste en estos casos, sin atribuirle acierto universal.
+El modelo efectivo de Gemini se registrará desde los detalles de cada respuesta si aparece.
+
+Prompt v0.13: prioriza leer cada fila por su intervalo, unir las denominaciones de varias
+líneas antes de pasar al siguiente rango, revisar en sentido inverso la asociación completa
+y distinguir recuentos normales de llamadas tipográficas. Incluye un ejemplo ficticio de
+dos filas, no los datos de esta obra. Conserva el formato y todas las reglas previas.
+
+Pendiente probarlo en Gemini gratuita, preferiblemente en conversación nueva con las mismas
+fotos y sin pegar la respuesta fallida, para evitar que la arrastre. Esta obra será una
+prueba de regresión para el fallo conocido, no una evaluación independiente del prompt.
+Después se comprobarán nuevas obras para observar si la mejora se mantiene. No hace falta
+volver a guardar esta obra; se conservan por separado los originales de cada ensayo.

@@ -12,6 +12,25 @@ const gold = JSON.parse(
 );
 const evaluar = (d) => evaluarRespuestaModelo(JSON.stringify(d), gold);
 describe('cotejo de modelos de extracción', () => {
+	it('detecta formas desplazadas aunque conserve todos los rangos y recuentos', () => {
+		const d = structuredClone(gold);
+		d.tramos[0].denominacion_literal = gold.tramos[1].denominacion_literal;
+		d.tramos[1].denominacion_literal = gold.tramos[0].denominacion_literal;
+		const resultado = evaluar(d);
+		expect(resultado.estructura_valida).toBe(true);
+		expect(resultado.lista_para_importar_sin_corregir).toBe(false);
+		expect(resultado.diferencias.map((x) => x.ruta)).toContain('tramos.0.denominacion_literal');
+		expect(d.tramos.map((t) => [t.v_ini, t.v_fin, t.n_versos_fuente])).toEqual(gold.tramos.map((t) => [t.v_ini, t.v_fin, t.n_versos_fuente]));
+	});
+	it('no acepta una llamada inventada a partir de un recuento normal', () => {
+		const d = structuredClone(gold), fila = d.tramos[0];
+		d.notas.push({ id: 'n-extra', marca: String(fila.n_versos_fuente), texto_literal: null, fuente_id: fila.fuente_id, pagina: fila.pagina, tramos_ref: [fila.id], v_ini: null, v_fin: null });
+		fila.notas_ref.push('n-extra');
+		const resultado = evaluar(d);
+		expect(resultado.estructura_valida).toBe(true);
+		expect(resultado.lista_para_importar_sin_corregir).toBe(false);
+		expect(resultado.diferencias.map((x) => x.ruta)).toContain('notas');
+	});
 	it('no declara íntegra una extracción que omite las limitaciones visibles de la fuente', () => {
 		const d = structuredClone(gold);
 		d.incidencias = [];
