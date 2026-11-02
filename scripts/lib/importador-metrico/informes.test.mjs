@@ -1,0 +1,33 @@
+import { describe, expect, it } from 'vitest';
+import { informeEquivalencias, informeSeguimiento } from './informes.mjs';
+
+describe('informes del piloto', () => {
+	it('acredita guardados por identidad, nunca por coincidencia de título', () => {
+		const lote = { obras: [
+			{ numero: 1, titulo: 'La misma', obra_id: 'obra-1', revision: 'Revisada' },
+			{ numero: 2, titulo: 'La misma', revision: 'Aplazada', observacion: 'Numeración pendiente' }
+		] };
+		const informe = informeSeguimiento(lote, { consultado_en: '2026-11-02', importaciones: [
+			{ titulo: 'La misma', obra_id: 'obra-1', importacion_id: 'imp-1', importado_en: '2026-11-02' }
+		] });
+		expect(informe).toContain('1 guardadas de 2');
+		expect(informe).toContain('Sin guardado confirmado | Aplazada. Numeración pendiente');
+	});
+	it('una candidata no cubre una forma y una forma no cubre sus arquitecturas', () => {
+		const catalogo = { fecha_consulta_formas: '2026-11-02', formas: [
+			{ nombre: 'Forma A', slug: 'a', arquitecturas: [{ nombre: 'Arquitectura A', slug: 'arq' }] },
+			{ nombre: 'Forma B', slug: 'b', arquitecturas: [] },
+			{ nombre: 'Forma C', slug: 'c', arquitecturas: [] }
+		] };
+		const reglas = { version: 'v1', reglas: [
+			{ id: 'directa', literales: ['nombre'], tipo: 'equivalencia_propuesta', candidatas: [{ forma_slug: 'a', arquitectura_slug: null }], fundamento: 'Sin inferencias' },
+			{ id: 'ambigua', literales: ['dudoso'], tipo: 'candidatas_orientativas', candidatas: [{ forma_slug: 'b', arquitectura_slug: null }], fundamento: 'Pendiente' }
+		] };
+		const informe = informeEquivalencias(catalogo, reglas, [{ literal: 'rima | texto', origenes: ['Obra, t01'], resultados: new Set(['Sin equivalencia']) }]);
+		expect(informe).toContain('3 formas; 2 sin regla directa');
+		expect(informe).toContain('| Forma B | — | ambigua |');
+		expect(informe).toContain('| Forma C | — | — |');
+		expect(informe).toContain('| Forma A | Arquitectura A | — |');
+		expect(informe).toContain('rima \\| texto');
+	});
+});

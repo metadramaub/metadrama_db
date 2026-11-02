@@ -23,10 +23,11 @@ lo desplegado, los ensayos locales y el orden de entrega para colaboradores.
 Ensayo más reciente del prompt: [ajuste del 31 de octubre](./ajuste-prompt-2026-10-31.md),
 con corrección de captura Markdown, resultados de v0.4 y sus límites pendientes.
 Flujo ya implementado: [fotos con o sin metadatos](./metadatos-opcionales.md); el dashboard
-copia v0.5 y permite revisar la tabla antes de completar los datos obligatorios del guardado.
+copia la versión vigente del prompt y permite revisar la tabla antes de completar los datos obligatorios del guardado.
 
 | Documento | Contenido |
 | --- | --- |
+| [Seguimiento e informe de equivalencias](./seguimiento-e-informe-equivalencias.md) | Veinte obras, guardados reales, motivos de aplazamiento y generación del documento de revisión del catálogo |
 | [Vista previa del dashboard](./vista-previa-dashboard.md) | Pegado, edición, confirmación condicionada a RPC y consulta de copia fija |
 | [Propuesta de despliegue](./promocion-guardado.md) | Candidata transaccional, ensayo sobre copia reciente, orden de prosa y recuperación |
 | [Auditoría de aislamiento](./auditoria-aislamiento.md) | Accesos directos, contadores y reparto, pruebas con Auth real local y pasos de promoción |

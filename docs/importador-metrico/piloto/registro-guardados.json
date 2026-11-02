@@ -1,0 +1,33 @@
+{
+  "consultado_en": "2026-11-02T13:39:00.323Z",
+  "importaciones": [
+    {
+      "importacion_id": "3f6a8587-7761-4f26-851f-ec38a71f49eb",
+      "importado_en": "2026-10-29 21:06:05.382878+00",
+      "obra_id": "55db5a13-38c7-4574-b8fb-3ad874b65909",
+      "titulo": "El molino",
+      "usada_en_corpus": true
+    },
+    {
+      "importacion_id": "4822994f-5836-44a1-8cce-d821df1af228",
+      "importado_en": "2026-11-02 09:21:54.56956+00",
+      "obra_id": "074310f3-76cf-47db-874c-dfd74116b3a8",
+      "titulo": "El caballero del milagro",
+      "usada_en_corpus": true
+    },
+    {
+      "importacion_id": "d1ec59f7-4526-42f6-b0a3-b99fbe71745b",
+      "importado_en": "2026-11-02 10:22:26.25615+00",
+      "obra_id": "4d25c17b-858e-440d-8af0-eb4132155e64",
+      "titulo": "El favor agradecido",
+      "usada_en_corpus": true
+    },
+    {
+      "importacion_id": "736ef3b5-c87a-46dc-9085-5b27be7851c1",
+      "importado_en": "2026-11-02 11:45:20.151954+00",
+      "obra_id": "05230c1a-a875-49c1-840b-0b6897fbb9e5",
+      "titulo": "Laura perseguida",
+      "usada_en_corpus": true
+    }
+  ]
+}

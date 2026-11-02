@@ -79,6 +79,11 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
+Seguimiento de las veinte obras e informe del catálogo disponibles mediante
+[generación de informes](./importador-metrico/seguimiento-e-informe-equivalencias.md).
+Consulta remota del 02-11: cuatro guardadas. El leal criado queda aplazado por decisión
+del responsable; continuar con otra obra y actualizar el registro y las equivalencias al avanzar.
+
 Implementada el 02-11 la [comprobación de longitudes](./importador-metrico/comprobacion-longitudes.md)
 con las reglas compartidas del catálogo, remates, lagunas numeradas y adiciones declaradas.
 Los descuadres se muestran como avisos por secuencia y se pueden filtrar; no corrigen la fuente
