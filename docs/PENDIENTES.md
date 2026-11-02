@@ -79,6 +79,10 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
+Método precisado el 02-11: mejorar el prompt y repetir la extracción con la IA; no dar por
+cerrados los casos mediante JSON corregidos a mano. Prompt activo v0.8 para el siguiente ensayo
+de [Laura perseguida](./importador-metrico/revision-laura-perseguida-2026-11-02.md).
+
 El 02-11 se revisa [El caballero del milagro](./importador-metrico/revision-caballero-milagro-2026-11-02.md)
 con prompt v0.6 y equivalencias v0.8. Seguir obra a obra con las veinte, registrando versiones y
 conservando respuestas originales. Al cerrar el lote se decidirá qué repetir con el prompt final
