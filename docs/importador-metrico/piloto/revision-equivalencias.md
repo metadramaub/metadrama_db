@@ -925,5 +925,5 @@ Datos adicionales: [{"literal":"pareado final declarado en nota","rasgo_slug":"d
 - El maestro de danzar: `backups/importador-local/maestro-danzar-2026-11-02/respuesta-v0.11-chatgpt-plus-instant-original.json`, SHA-256 `ad3791cffab559f279a62c29a1b09c99d7412b7cfe3f4c756ee02546015cc4a9`.
 - El verdadero amante: `docs/importador-metrico/piloto/extracciones/el-verdadero-amante.json`, SHA-256 `744cc1758ae8e779fd3fb05f0c8ff182b8c7547b439a7fc48ccf4d05c0f7aa1b`.
 - Los donaires de Matico: `backups/importador-local/donaires-matico-2026-11-02/respuesta-v0.13-gemini-original.json`, SHA-256 `6c414f0f05d95455e94cd41d4783219f7205fef93da219a160c7f60f03098405`.
-- El molino: `docs/importador-metrico/piloto/extracciones/el-molino.json`, SHA-256 `b17b3882c3414f0dcf63a5360cb73f8e4afe537b722b06d6dfdc3fd3ab687224`.
+- El molino: `backups/importador-local/molino-2026-11-02/respuesta-v0.13-gemini-flash-lite-original.json`, SHA-256 `66f85c01e091610446832fcc964172aa30e94077ba35e4180078aab7d44ca522`.
 - Los locos de Valencia: `docs/importador-metrico/piloto/extracciones/los-locos-de-valencia.json`, SHA-256 `a555c6ef148c98ace3d15278131a07458a602606bc0185e413622a8db60f29af`.

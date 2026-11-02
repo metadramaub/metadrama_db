@@ -1,0 +1,21 @@
+{
+  "obra": "El molino",
+  "fecha_registro": "2026-11-02",
+  "ensayos": [
+    {
+      "servicio": "Gemini",
+      "plan": "gratuito",
+      "modo": "Automático",
+      "modelo": "3.5 Flash-Lite",
+      "modelo_procedencia": "Datos facilitados expresamente por el responsable al aportar esta respuesta.",
+      "parametros": null,
+      "prompt": "extraccion/0.13",
+      "respuesta": "backups/importador-local/molino-2026-11-02/respuesta-v0.13-gemini-flash-lite-original.json",
+      "validacion_tecnica": true,
+      "resultado_cotejo": "Coincide con la extracción original y los datos métricos confirmados de la importación real: 21 secuencias, 2992 versos; letrilla 2880–2888 sin identificar."
+    }
+  ],
+  "importacion_comparada": "3f6a8587-7761-4f26-851f-ec38a71f49eb",
+  "modelo_de_importacion_original": null,
+  "limitacion": "La coincidencia de datos no identifica el modelo de la extracción original. El ensayo nuevo se conserva separado; no se reimporta ni modifica la copia confirmada."
+}
