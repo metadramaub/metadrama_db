@@ -364,6 +364,33 @@
       ]
     },
     {
+      "id": "romance-sin-asonancia-explicita",
+      "literales": ["romance", "romances"],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [{"forma_slug":"romance","arquitectura_slug":"octosilabica"}],
+      "exhaustividad": "forma_y_arquitectura_sin_asonancia",
+      "fundamento": "El catálogo define romance sin calificativos como la serie octosilábica; romancillo y romance heroico tienen nombre propio. No se deducen las vocales de asonancia ni otros rasgos. Observado en El maestro de danzar, 93–208.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "lira-seis-versos-aabbcc",
+      "literales": ["lira (AabBCC)"],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [{"forma_slug":"sexteto_lira","arquitectura_slug":"heterometrica_consonante"}],
+      "exhaustividad": "forma_y_arquitectura_sin_esquema_estructurado",
+      "fundamento": "La edición llama lira a una estrofa de seis posiciones, distinta de la Lira de cinco versos del catálogo. Consulta SELECT de Sexteto-lira el 02-11-2026: admite rima aabbcc y metro 11-7-7-11-11-11, correspondientes a AabBCC. Se identifica forma y arquitectura; el esquema conserva sus mayúsculas en el literal original, sin convertirlo en un dato estructurado que el contrato mínimo aún no admite. El cotejo de la foto detecta aAbbCC en la respuesta v0.9: es error de extracción, no variante aprobada. La coincidencia del normalizador ignora mayúsculas en nombres, por lo que esta regla no certifica las medidas del esquema ni corrige ese error.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "redondillas-y-quintillas",
+      "literales": ["redondillas y quintillas"],
+      "tipo": "sin_resolver",
+      "candidatas": [],
+      "exhaustividad": "formas_mezcladas_sin_localizadores",
+      "fundamento": "El maestro de danzar, 1517–1669: la fuente declara ambas formas sin localizar su alternancia. No son candidatas excluyentes ni se identifica una única forma para los 153 versos. Conservar el literal sin resolver hasta localizar los cambios; la aritmética no permite reconstruirlos.",
+      "detalles_fuente": []
+    },
+    {
       "id": "romance-asonancia",
       "literales": [
         "romance en vocal o pareja de vocales"
@@ -447,6 +474,6 @@
       ]
     }
   ],
-  "version": "v0.12",
+  "version": "v0.13",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }

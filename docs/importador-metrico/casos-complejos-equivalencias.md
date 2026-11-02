@@ -3,6 +3,17 @@
 Recopilación para el futuro documento de revisión con el IP. Son casos particulares que requieren
 criterio editorial: no autorizan equivalencias generales ni divisiones automáticas.
 
+## El maestro de danzar · 1517–1669 · redondillas y quintillas
+
+La edición agrupa 153 versos bajo «redondillas y quintillas», sin notas ni límites internos.
+Ambas formas están declaradas; no son candidatas excluyentes para todo el pasaje. No se
+pueden deducir los cambios por el total de versos. Se conserva la denominación y la forma
+sin resolver; identificar los cortes requiere información adicional.
+
+**Para revisar:** cómo representar y tratar analíticamente una agrupación de varias formas
+sin posiciones internas conocidas. No se da su segmentación como resuelta por conservar
+una única fila de origen. [Detalle del ensayo](./revision-maestro-danzar-2026-11-02.md).
+
 ## El leal criado · 870–999 · nota 5
 
 La edición denomina «coplas reales» a los 130 versos. La nota sitúa una quintilla aislada

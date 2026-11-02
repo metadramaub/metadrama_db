@@ -30,6 +30,24 @@ const approval = {
 };
 
 describe('normalizador local', () => {
+	it('reconoce el romance sin vocales y la lira explícita de seis posiciones sin inventar cortes', () => {
+		const input = raw();
+		input.obra_ref = 'obra-importada'; input.jornadas = [{ numero: 1, rotulo_literal: null }];
+		input.notas = []; input.resumen_fuente = []; input.incidencias = [];
+		const fila = (id, v_ini, v_fin, denominacion_literal) => ({ id, jornada: 1, v_ini, v_fin, denominacion_literal, n_versos_fuente: v_fin - v_ini + 1, fuente_id: 'foto-01', pagina: null, notas_ref: [] });
+		input.tramos = [fila('t01', 1, 116, 'romance'), fila('t02', 117, 269, 'redondillas y quintillas'), fila('t03', 270, 377, 'lira (AabBCC)'), fila('t04', 378, 387, 'lira')];
+		const antes = structuredClone(input);
+		const result = normalizarExtraccion(input, context({ fuentes: undefined }));
+		expect(input).toEqual(antes);
+		expect(result.segmentos).toHaveLength(4);
+		expect(result.segmentos[0].propuesta).toEqual({ forma_slug: 'romance', arquitectura_slug: 'octosilabica' });
+		expect(result.segmentos[0].detalles_fuente).toEqual([]);
+		expect(result.segmentos[1]).toMatchObject({ propuesta: null, candidatas: [], estado_identificacion: 'sin_resolver', v_ini: 117, v_fin: 269 });
+		expect(result.segmentos[2].propuesta).toEqual({ forma_slug: 'sexteto_lira', arquitectura_slug: 'heterometrica_consonante' });
+		expect(result.segmentos[2].fuente.denominacion_literal).toBe('lira (AabBCC)');
+		expect(result.segmentos[2].detalles_fuente).toEqual([]);
+		expect(result.segmentos[3].propuesta).toBeNull();
+	});
 	it('identifica blancos y coplas reales sin dividir por la nota de una quintilla aislada', () => {
 		for (const [literal, forma_slug, arquitectura_slug] of [
 			['endecasílabos blancos', 'endecasilabo_suelto', 'endecasilabica'],

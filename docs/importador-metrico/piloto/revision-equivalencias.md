@@ -1,6 +1,6 @@
 # Equivalencias del importador: documento de revisión
 
-Reglas v0.12; catálogo consultado el 2026-11-02.
+Reglas v0.13; catálogo consultado el 2026-11-02.
 
 Para revisar: decisiones pendientes y tabla resumen. La procedencia y los casos complejos permiten comprobar ejemplos; el anexo conserva todas las apariciones y las reglas completas.
 
@@ -12,6 +12,7 @@ Estas propuestas no modifican las equivalencias hasta que se acuerde el criterio
 
 | Término o caso | Criterio actual | Propuesta | Qué decidir |
 | --- | --- | --- | --- |
+| Redondillas y quintillas sin cortes | El maestro de danzar agrupa 1517–1669 bajo ambas formas; no hay límites internos. | Conservar el literal sin resolver, sin elegir una forma ni deducir los cortes por el total. | ¿Cómo representar esta mezcla y limitar los cálculos de segmentación mientras no se localicen los cambios? |
 | Redondillas: arquitectura habitual | Se identifica Redondilla, sin arquitectura. | Mantener la arquitectura sin especificar hasta acordar si el uso editorial permite asumir octosílabos. | ¿Puede el término sin calificativos identificar la arquitectura octosílaba? ¿Con qué límites? |
 | Tercetos sin precisar | Se conservan Terceto y Terceto encadenado como candidatas. La longitud 3n+1 solo orienta. | No elegir automáticamente por el nombre ni por el número de versos. | ¿Qué información de una nota o convención editorial basta para elegir? |
 | Tercetos encadenados: medida | La forma y el remate pueden quedar identificados sin arquitectura. | Mantener la medida sin especificar hasta fijar el criterio. | ¿Se puede asumir la arquitectura endecasílaba cuando la edición solo dice encadenados? |
@@ -28,15 +29,15 @@ Formas identificadas o planteadas como candidatas en las entradas disponibles. �
 | Canción | [estancias con pareado final](#termino-9) | Sin especificar | Reglas aprobadas | El verdadero amante |
 | Copla real | [coplas reales](#termino-1) | Octosílaba consonante | Reglas aprobadas | El leal criado |
 | Endecasílabo suelto | [endecasílabos blancos](#termino-2); [endecasílabos sueltos](#termino-3); [endecasílabos sueltos (con pareado final)](#termino-5); [endecasílabos sueltos con pareado](#termino-6); [endecasílabos sueltos con pareado final](#termino-7); [endecasílabos sueltos rematados en pareado](#termino-8) | Endecasílabo | Reglas parcialmente revisadas | El leal criado; El favor agradecido |
-| Octava real | [octava real](#termino-11); [octavas reales](#termino-12) | Endecasílaba consonante | Correspondencias pendientes de revisión | El verdadero amante; El caballero del milagro |
-| Quintilla | [quintilla](#termino-14); [quintillas](#termino-15) | Sin especificar | Correspondencias pendientes de revisión | El verdadero amante; Los donaires de Matico |
-| Redondilla | [redondilla](#termino-17); [redondillas](#termino-18) | Sin especificar | Correspondencias pendientes de revisión | El verdadero amante; El caballero del milagro |
-| Romance | [letrilla](#termino-10) (candidata); [romance en -io](#termino-20); [Romance en a-a](#termino-21); [romance en á-e](#termino-22); [romance en e-a](#termino-23); [romance en e-e](#termino-24); [romance en i-a](#termino-25) | Octosílabo | Correspondencias pendientes de revisión | El molino; El verdadero amante |
+| Octava real | [octava real](#termino-12); [octavas reales](#termino-13) | Endecasílaba consonante | Correspondencias pendientes de revisión | El maestro de danzar; El verdadero amante |
+| Quintilla | [quintilla](#termino-15); [quintillas](#termino-16) | Sin especificar | Correspondencias pendientes de revisión | El verdadero amante; Los donaires de Matico |
+| Redondilla | [redondilla](#termino-18); [redondillas](#termino-19) | Sin especificar | Correspondencias pendientes de revisión | El verdadero amante; El caballero del milagro |
+| Romance | [letrilla](#termino-10) (candidata); [romance](#termino-22); [romance en -io](#termino-23); [Romance en a-a](#termino-24); [romance en á-e](#termino-25); [romance en e-a](#termino-26); [romance en e-e](#termino-27); [romance en i-a](#termino-28) | Octosílabo | Correspondencias pendientes de revisión | El molino; El maestro de danzar |
 | Romancillo | [letrilla](#termino-10) (candidata) | Sin especificar | Solo candidata; sin equivalencia directa | El molino |
-| Sexteto-lira | [sexteto-lira](#termino-26); [Sextetos alirados](#termino-27); [sextetos-liras](#termino-28) | Heterométrico consonante | Reglas aprobadas | El favor agradecido; Laura perseguida |
-| Soneto | [soneto](#termino-29); [soneto con estrambote](#termino-31) | Endecasílabo consonante | Reglas parcialmente revisadas | El caballero del milagro; El favor agradecido |
-| Terceto | [tercetos](#termino-32) (candidata) | Sin especificar | Solo candidata; sin equivalencia directa | El favor agradecido; Los donaires de Matico |
-| Terceto encadenado | [tercetos](#termino-32); [tercetos encadenados](#termino-33); [tercetos encadenados con serventesio final](#termino-34) | Sin especificar | Reglas parcialmente revisadas | El favor agradecido; Los donaires de Matico |
+| Sexteto-lira | [lira (aAbbCC)](#termino-11); [sexteto-lira](#termino-29); [Sextetos alirados](#termino-30); [sextetos-liras](#termino-31) | Heterométrico consonante | Reglas parcialmente revisadas | El maestro de danzar; El favor agradecido |
+| Soneto | [soneto](#termino-32); [soneto con estrambote](#termino-34) | Endecasílabo consonante | Reglas parcialmente revisadas | El caballero del milagro; El favor agradecido |
+| Terceto | [tercetos](#termino-35) (candidata) | Sin especificar | Solo candidata; sin equivalencia directa | El favor agradecido; Los donaires de Matico |
+| Terceto encadenado | [tercetos](#termino-35); [tercetos encadenados](#termino-36); [tercetos encadenados con serventesio final](#termino-37) | Sin especificar | Reglas parcialmente revisadas | El favor agradecido; Los donaires de Matico |
 | Villancico | [letrilla](#termino-10) (candidata) | Sin especificar | Solo candidata; sin equivalencia directa | El molino |
 | Zéjel | [letrilla](#termino-10) (candidata) | Sin especificar | Solo candidata; sin equivalencia directa | El molino |
 
@@ -75,7 +76,7 @@ Uno o dos ejemplos por término. Las notas son transcripciones de ensayo; no se 
 
 - El favor agradecido, t07 (1040–1109).
   Nota de la edición: Los vv. 1056-1109 incluyen rimas internas.
-- El verdadero amante, t15 (2017–2064).
+- El maestro de danzar, t07 (1670–1780).
 - Resultado: endecasilabo_suelto / endecasilabica (endecasilabos-sueltos).
 
 <a id="termino-4"></a>
@@ -137,12 +138,20 @@ en pareado
 
 <a id="termino-11"></a>
 
+### lira (aAbbCC)
+
+- El maestro de danzar, t19 (2863–2970).
+- Resultado: sexteto_lira / heterometrica_consonante (lira-seis-versos-aabbcc).
+
+<a id="termino-12"></a>
+
 ### octava real
 
+- El maestro de danzar, t04 (1017–1120).
 - El verdadero amante, t18 (2772–2827).
 - Resultado: octava_real / endecasilabica_consonante (octava-real).
 
-<a id="termino-12"></a>
+<a id="termino-13"></a>
 
 ### octavas reales
 
@@ -150,7 +159,7 @@ en pareado
 - El caballero del milagro, t06 (981–1028).
 - Resultado: octava_real / endecasilabica_consonante (octava-real).
 
-<a id="termino-13"></a>
+<a id="termino-14"></a>
 
 ### Octavas reales
 
@@ -158,7 +167,7 @@ en pareado
 - Laura perseguida, t07 (1476–1507).
 - Resultado: octava_real / endecasilabica_consonante (octava-real).
 
-<a id="termino-14"></a>
+<a id="termino-15"></a>
 
 ### quintilla
 
@@ -166,7 +175,7 @@ en pareado
 - El verdadero amante, t03 (288–787).
 - Resultado: quintilla (quintilla).
 
-<a id="termino-15"></a>
+<a id="termino-16"></a>
 
 ### quintillas
 
@@ -176,7 +185,7 @@ en pareado
   Nota de la edición: Estrofas con rima ababa (95) y con rima aabba (90).
 - Resultado: quintilla (quintilla).
 
-<a id="termino-16"></a>
+<a id="termino-17"></a>
 
 ### Quintillas
 
@@ -185,7 +194,7 @@ en pareado
 - Laura perseguida, t08 (1508–1592).
 - Resultado: quintilla (quintilla).
 
-<a id="termino-17"></a>
+<a id="termino-18"></a>
 
 ### redondilla
 
@@ -193,7 +202,7 @@ en pareado
 - El verdadero amante, t06 (1202–1417).
 - Resultado: redondilla (redondilla).
 
-<a id="termino-18"></a>
+<a id="termino-19"></a>
 
 ### redondillas
 
@@ -201,7 +210,7 @@ en pareado
 - El caballero del milagro, t03 (457–748).
 - Resultado: redondilla (redondilla).
 
-<a id="termino-19"></a>
+<a id="termino-20"></a>
 
 ### Redondillas
 
@@ -209,28 +218,42 @@ en pareado
 - Laura perseguida, t06 (1204–1475).
 - Resultado: redondilla (redondilla).
 
-<a id="termino-20"></a>
+<a id="termino-21"></a>
+
+### redondillas y quintillas
+
+- El maestro de danzar, t06 (1517–1669).
+- Resultado: Sin equivalencia.
+
+<a id="termino-22"></a>
+
+### romance
+
+- El maestro de danzar, t02 (93–208).
+- Resultado: romance / octosilabica (romance-sin-asonancia-explicita).
+
+<a id="termino-23"></a>
 
 ### romance en -io
 
 - El verdadero amante, t09 (1641–1666).
 - Resultado: romance / octosilabica (romance-asonancia).
 
-<a id="termino-21"></a>
+<a id="termino-24"></a>
 
 ### Romance en a-a
 
 - Laura perseguida, t04 (1000–1075).
 - Resultado: romance / octosilabica (romance-asonancia).
 
-<a id="termino-22"></a>
+<a id="termino-25"></a>
 
 ### romance en á-e
 
 - Los locos de Valencia, t19 (2901–2964).
 - Resultado: romance / octosilabica (romance-asonancia).
 
-<a id="termino-23"></a>
+<a id="termino-26"></a>
 
 ### romance en e-a
 
@@ -238,21 +261,21 @@ en pareado
 - El leal criado, t09 (1186–1249).
 - Resultado: romance / octosilabica (romance-asonancia).
 
-<a id="termino-24"></a>
+<a id="termino-27"></a>
 
 ### romance en e-e
 
 - El leal criado, t15 (1895–1950).
 - Resultado: romance / octosilabica (romance-asonancia).
 
-<a id="termino-25"></a>
+<a id="termino-28"></a>
 
 ### romance en i-a
 
 - El favor agradecido, t21 (2261–2360).
 - Resultado: romance / octosilabica (romance-asonancia).
 
-<a id="termino-26"></a>
+<a id="termino-29"></a>
 
 ### sexteto-lira
 
@@ -260,7 +283,7 @@ en pareado
   Nota de la edición: La estructura es la siguiente: AaBbCC. Morley y Bruerton [1968:74] señalan su singularidad.
 - Resultado: sexteto_lira / heterometrica_consonante (sexteto-lira).
 
-<a id="termino-27"></a>
+<a id="termino-30"></a>
 
 ### Sextetos alirados
 
@@ -268,7 +291,7 @@ en pareado
   Nota de la edición: [ilegible]
 - Resultado: sexteto_lira / heterometrica_consonante (sexteto-lira).
 
-<a id="termino-28"></a>
+<a id="termino-31"></a>
 
 ### sextetos-liras
 
@@ -276,7 +299,7 @@ en pareado
 - El caballero del milagro, t18 (2746–2799).
 - Resultado: sexteto_lira / heterometrica_consonante (sexteto-lira).
 
-<a id="termino-29"></a>
+<a id="termino-32"></a>
 
 ### soneto
 
@@ -284,7 +307,7 @@ en pareado
 - El favor agradecido, t05 (890–903).
 - Resultado: soneto / endecasilabica_consonante (soneto).
 
-<a id="termino-30"></a>
+<a id="termino-33"></a>
 
 ### Soneto
 
@@ -292,7 +315,7 @@ en pareado
 - Laura perseguida, t12 (1876–1889).
 - Resultado: soneto / endecasilabica_consonante (soneto).
 
-<a id="termino-31"></a>
+<a id="termino-34"></a>
 
 ### soneto con estrambote
 
@@ -300,7 +323,7 @@ en pareado
 - El caballero del milagro, t10 (1679–1681).
 - Resultado: soneto / endecasilabica_consonante (soneto-con-estrambote); Sin equivalencia.
 
-<a id="termino-32"></a>
+<a id="termino-35"></a>
 
 ### tercetos
 
@@ -309,7 +332,7 @@ en pareado
 - El favor agradecido, t23 (2593–2635).
 - Resultado: terceto_encadenado (tercetos-nota-encadenados-con-cierre); Sin resolver; candidatas: terceto, terceto_encadenado.
 
-<a id="termino-33"></a>
+<a id="termino-36"></a>
 
 ### tercetos encadenados
 
@@ -317,7 +340,7 @@ en pareado
 - El molino, t10 (1832–1963).
 - Resultado: terceto_encadenado (tercetos-encadenados).
 
-<a id="termino-34"></a>
+<a id="termino-37"></a>
 
 ### tercetos encadenados con serventesio final
 
@@ -330,6 +353,17 @@ en pareado
 
 Recopilación para el futuro documento de revisión con el IP. Son casos particulares que requieren
 criterio editorial: no autorizan equivalencias generales ni divisiones automáticas.
+
+### El maestro de danzar · 1517–1669 · redondillas y quintillas
+
+La edición agrupa 153 versos bajo «redondillas y quintillas», sin notas ni límites internos.
+Ambas formas están declaradas; no son candidatas excluyentes para todo el pasaje. No se
+pueden deducir los cambios por el total de versos. Se conserva la denominación y la forma
+sin resolver; identificar los cortes requiere información adicional.
+
+**Para revisar:** cómo representar y tratar analíticamente una agrupación de varias formas
+sin posiciones internas conocidas. No se da su segmentación como resuelta por conservar
+una única fila de origen. [Detalle del ensayo](./revision-maestro-danzar-2026-11-02.md).
 
 ### El leal criado · 870–999 · nota 5
 
@@ -387,7 +421,7 @@ Se conservan los literales de la edición. Una sola entrada seleccionada por obr
 | --- | --- | --- |
 | coplas reales | El leal criado, t05 (870–999); El leal criado, t13 (1392–1866); El leal criado, t18 (2070–2179); El leal criado, t22 (2407–2851); El leal criado, t28 (3238–3387) | copla_real / octosilabica_consonante (copla-real) |
 | endecasílabos blancos | El leal criado, t04 (767–869); El leal criado, t14 (1867–1894); El leal criado, t16 (1951–1983); El leal criado, t17 (1984–2069); El leal criado, t19 (2180–2248); El leal criado, t24 (2900–2940); El leal criado, t25 (2941–2989); El leal criado, t27 (3190–3237) | endecasilabo_suelto / endecasilabica (endecasilabos-sueltos) |
-| endecasílabos sueltos | El favor agradecido, t07 (1040–1109); El verdadero amante, t15 (2017–2064); Los donaires de Matico, t11 (1848–1869); Los donaires de Matico, t14 (2058–2107); Los donaires de Matico, t16 (2604–2619); El molino, t02 (533–562); El molino, t18 (2660–2727); Los locos de Valencia, t04 (991–1006); Los locos de Valencia, t06 (1021–1050); Los locos de Valencia, t09 (1467–1544); Los locos de Valencia, t11 (1997–2022); Los locos de Valencia, t13 (2093–2222); Los locos de Valencia, t15 (2471–2621) | endecasilabo_suelto / endecasilabica (endecasilabos-sueltos) |
+| endecasílabos sueltos | El favor agradecido, t07 (1040–1109); El maestro de danzar, t07 (1670–1780); El maestro de danzar, t11 (2094–2139); El maestro de danzar, t13 (2154–2192); El maestro de danzar, t16 (2671–2731); El maestro de danzar, t18 (2832–2862); El verdadero amante, t15 (2017–2064); Los donaires de Matico, t11 (1848–1869); Los donaires de Matico, t14 (2058–2107); Los donaires de Matico, t16 (2604–2619); El molino, t02 (533–562); El molino, t18 (2660–2727); Los locos de Valencia, t04 (991–1006); Los locos de Valencia, t06 (1021–1050); Los locos de Valencia, t09 (1467–1544); Los locos de Valencia, t11 (1997–2022); Los locos de Valencia, t13 (2093–2222); Los locos de Valencia, t15 (2471–2621) | endecasilabo_suelto / endecasilabica (endecasilabos-sueltos) |
 | Endecasílabos sueltos | Laura perseguida, t03 (877–999); Laura perseguida, t13 (1890–1966); Laura perseguida, t15 (2007–2130); Laura perseguida, t17 (2207–2231); Laura perseguida, t22 (2641–2690); Laura perseguida, t26 (3048–3093) | endecasilabo_suelto / endecasilabica (endecasilabos-sueltos) |
 | endecasílabos sueltos (con pareado final) | El molino, t09 (1794–1831); El molino, t11 (1964–1988) | endecasilabo_suelto / endecasilabica (endecasilabos-sueltos-pareado) |
 | endecasílabos sueltos con pareado | El favor agradecido, t04 (836–889); El favor agradecido, t11 (1391–1413); El favor agradecido, t18 (2118–2176); El favor agradecido, t19 (2177–2244); El favor agradecido, t25 (2924–2962) | endecasilabo_suelto / endecasilabica (endecasilabos-sueltos-con-pareado-nota-rematada); endecasilabo_suelto / endecasilabica (endecasilabos-sueltos-con-pareado-nota-cerrada); endecasilabo_suelto / endecasilabica (endecasilabos-sueltos-con-pareado) |
@@ -395,15 +429,18 @@ Se conservan los literales de la edición. Una sola entrada seleccionada por obr
 | endecasílabos sueltos rematados en pareado | El caballero del milagro, t04 (749–824); El caballero del milagro, t08 (1505–1562); El caballero del milagro, t15 (2448–2485); El caballero del milagro, t17 (2630–2745); El caballero del milagro, t20 (2868–2885) | endecasilabo_suelto / endecasilabica (endecasilabos-sueltos-pareado) |
 | estancias con pareado final | El verdadero amante, t02 (221–287) | cancion (estancias-pareado) |
 | letrilla | El molino, t20 (2880–2888) | Sin resolver; candidatas: villancico, zejel, romance, romancillo |
-| octava real | El verdadero amante, t18 (2772–2827) | octava_real / endecasilabica_consonante (octava-real) |
+| lira (aAbbCC) | El maestro de danzar, t19 (2863–2970) | sexteto_lira / heterometrica_consonante (lira-seis-versos-aabbcc) |
+| octava real | El maestro de danzar, t04 (1017–1120); El verdadero amante, t18 (2772–2827) | octava_real / endecasilabica_consonante (octava-real) |
 | octavas reales | El caballero del milagro, t02 (353–456); El caballero del milagro, t06 (981–1028); El caballero del milagro, t22 (2958–2989); El favor agradecido, t13 (1434–1561); El favor agradecido, t16 (1842–1937); El leal criado, t11 (1290–1377); El leal criado, t23 (2852–2899); Los donaires de Matico, t05 (934–1005); El molino, t07 (1254–1333); El molino, t14 (2248–2271); Los locos de Valencia, t07 (1051–1082) | octava_real / endecasilabica_consonante (octava-real) |
 | Octavas reales | Laura perseguida, t05 (1076–1203); Laura perseguida, t07 (1476–1507) | octava_real / endecasilabica_consonante (octava-real) |
 | quintilla | El verdadero amante, t01 (1–220); El verdadero amante, t03 (288–787); El verdadero amante, t05 (1052–1201); El verdadero amante, t17 (2677–2771); Los donaires de Matico, t07 (1250–1254); Los donaires de Matico, t18 (2808–2812) | quintilla (quintilla) |
-| quintillas | El favor agradecido, t03 (596–835); El favor agradecido, t09 (1116–1300); Los donaires de Matico, t03 (216–525); El molino, t05 (729–973); El molino, t13 (2003–2247); El molino, t17 (2455–2659); Los locos de Valencia, t03 (591–990); Los locos de Valencia, t12 (2023–2092); Los locos de Valencia, t17 (2755–2804) | quintilla (quintilla) |
+| quintillas | El favor agradecido, t03 (596–835); El favor agradecido, t09 (1116–1300); El maestro de danzar, t08 (1781–1815); Los donaires de Matico, t03 (216–525); El molino, t05 (729–973); El molino, t13 (2003–2247); El molino, t17 (2455–2659); Los locos de Valencia, t03 (591–990); Los locos de Valencia, t12 (2023–2092); Los locos de Valencia, t17 (2755–2804) | quintilla (quintilla) |
 | Quintillas | Laura perseguida, t02 (617–876); Laura perseguida, t08 (1508–1592); Laura perseguida, t11 (1811–1875); Laura perseguida, t14 (1967–2006); Laura perseguida, t18 (2232–2316); Laura perseguida, t25 (2993–3047); Laura perseguida, t27 (3094–3203) | quintilla (quintilla) |
 | redondilla | El verdadero amante, t04 (788–1051); El verdadero amante, t06 (1202–1417); El verdadero amante, t08 (1461–1640); El verdadero amante, t11 (1702–1769); El verdadero amante, t13 (1897–1960); El verdadero amante, t16 (2065–2676) | redondilla (redondilla) |
-| redondillas | El caballero del milagro, t01 (1–352); El caballero del milagro, t03 (457–748); El caballero del milagro, t05 (825–980); El caballero del milagro, t07 (1029–1504); El caballero del milagro, t11 (1682–2085); El caballero del milagro, t12 (2086–2349); El caballero del milagro, t14 (2364–2447); El caballero del milagro, t16 (2486–2629); El caballero del milagro, t19 (2800–2867); El caballero del milagro, t21 (2886–2957); El caballero del milagro, t23 (2990–3001); El favor agradecido, t01 (1–504); El favor agradecido, t06 (904–1039); El favor agradecido, t12 (1414–1433); El favor agradecido, t15 (1646–1841); El favor agradecido, t17 (1938–2117); El favor agradecido, t20 (2245–2260); El favor agradecido, t22 (2361–2592); El favor agradecido, t24 (2636–2923); El favor agradecido, t26 (2963–3126); El leal criado, t01 (1–452); El leal criado, t03 (467–766); El leal criado, t07 (1014–1141); El leal criado, t08 (1142–1185); El leal criado, t10 (1250–1289); El leal criado, t20 (2249–2392); El leal criado, t26 (2990–3189); Los donaires de Matico, t02 (128–215); Los donaires de Matico, t04 (526–933); Los donaires de Matico, t06 (1006–1249); Los donaires de Matico, t08 (1255–1522); Los donaires de Matico, t10 (1668–1847); Los donaires de Matico, t12 (1870–1881); Los donaires de Matico, t13 (1882–2057); Los donaires de Matico, t15 (2108–2603); Los donaires de Matico, t17 (2620–2807); El molino, t01 (1–532); El molino, t03 (563–626); El molino, t06 (974–1253); El molino, t08 (1334–1793); El molino, t15 (2272–2387); El molino, t19 (2728–2879); El molino, t21 (2889–2992); Los locos de Valencia, t02 (131–590); Los locos de Valencia, t08 (1083–1466); Los locos de Valencia, t10 (1545–1996); Los locos de Valencia, t14 (2223–2470); Los locos de Valencia, t16 (2622–2754); Los locos de Valencia, t18 (2805–2900); Los locos de Valencia, t20 (2965–3072) | redondilla (redondilla) |
+| redondillas | El caballero del milagro, t01 (1–352); El caballero del milagro, t03 (457–748); El caballero del milagro, t05 (825–980); El caballero del milagro, t07 (1029–1504); El caballero del milagro, t11 (1682–2085); El caballero del milagro, t12 (2086–2349); El caballero del milagro, t14 (2364–2447); El caballero del milagro, t16 (2486–2629); El caballero del milagro, t19 (2800–2867); El caballero del milagro, t21 (2886–2957); El caballero del milagro, t23 (2990–3001); El favor agradecido, t01 (1–504); El favor agradecido, t06 (904–1039); El favor agradecido, t12 (1414–1433); El favor agradecido, t15 (1646–1841); El favor agradecido, t17 (1938–2117); El favor agradecido, t20 (2245–2260); El favor agradecido, t22 (2361–2592); El favor agradecido, t24 (2636–2923); El favor agradecido, t26 (2963–3126); El leal criado, t01 (1–452); El leal criado, t03 (467–766); El leal criado, t07 (1014–1141); El leal criado, t08 (1142–1185); El leal criado, t10 (1250–1289); El leal criado, t20 (2249–2392); El leal criado, t26 (2990–3189); El maestro de danzar, t01 (1–92); El maestro de danzar, t03 (209–1016); El maestro de danzar, t05 (1121–1516); El maestro de danzar, t10 (1830–2093); El maestro de danzar, t14 (2193–2656); El maestro de danzar, t17 (2732–2831); El maestro de danzar, t20 (2971–3042); Los donaires de Matico, t02 (128–215); Los donaires de Matico, t04 (526–933); Los donaires de Matico, t06 (1006–1249); Los donaires de Matico, t08 (1255–1522); Los donaires de Matico, t10 (1668–1847); Los donaires de Matico, t12 (1870–1881); Los donaires de Matico, t13 (1882–2057); Los donaires de Matico, t15 (2108–2603); Los donaires de Matico, t17 (2620–2807); El molino, t01 (1–532); El molino, t03 (563–626); El molino, t06 (974–1253); El molino, t08 (1334–1793); El molino, t15 (2272–2387); El molino, t19 (2728–2879); El molino, t21 (2889–2992); Los locos de Valencia, t02 (131–590); Los locos de Valencia, t08 (1083–1466); Los locos de Valencia, t10 (1545–1996); Los locos de Valencia, t14 (2223–2470); Los locos de Valencia, t16 (2622–2754); Los locos de Valencia, t18 (2805–2900); Los locos de Valencia, t20 (2965–3072) | redondilla (redondilla) |
 | Redondillas | Laura perseguida, t01 (1–616); Laura perseguida, t06 (1204–1475); Laura perseguida, t10 (1607–1810); Laura perseguida, t16 (2131–2206); Laura perseguida, t20 (2395–2626); Laura perseguida, t23 (2691–2978) | redondilla (redondilla) |
+| redondillas y quintillas | El maestro de danzar, t06 (1517–1669) | Sin equivalencia |
+| romance | El maestro de danzar, t02 (93–208) | romance / octosilabica (romance-sin-asonancia-explicita) |
 | romance en -io | El verdadero amante, t09 (1641–1666) | romance / octosilabica (romance-asonancia) |
 | Romance en a-a | Laura perseguida, t04 (1000–1075) | romance / octosilabica (romance-asonancia) |
 | romance en á-e | Los locos de Valencia, t19 (2901–2964) | romance / octosilabica (romance-asonancia) |
@@ -413,7 +450,7 @@ Se conservan los literales de la edición. Una sola entrada seleccionada por obr
 | sexteto-lira | El favor agradecido, t08 (1110–1115) | sexteto_lira / heterometrica_consonante (sexteto-lira) |
 | Sextetos alirados | Laura perseguida, t19 (2317–2394) | sexteto_lira / heterometrica_consonante (sexteto-lira) |
 | sextetos-liras | El caballero del milagro, t09 (1563–1664); El caballero del milagro, t18 (2746–2799); El favor agradecido, t10 (1301–1390) | sexteto_lira / heterometrica_consonante (sexteto-lira) |
-| soneto | El caballero del milagro, t13 (2350–2363); El favor agradecido, t05 (890–903); El leal criado, t02 (453–466); El leal criado, t06 (1000–1013); El leal criado, t12 (1378–1391); El leal criado, t21 (2393–2406); El molino, t12 (1989–2002); Los locos de Valencia, t05 (1007–1020) | soneto / endecasilabica_consonante (soneto) |
+| soneto | El caballero del milagro, t13 (2350–2363); El favor agradecido, t05 (890–903); El leal criado, t02 (453–466); El leal criado, t06 (1000–1013); El leal criado, t12 (1378–1391); El leal criado, t21 (2393–2406); El maestro de danzar, t09 (1816–1829); El maestro de danzar, t12 (2140–2153); El maestro de danzar, t15 (2657–2670); El molino, t12 (1989–2002); Los locos de Valencia, t05 (1007–1020) | soneto / endecasilabica_consonante (soneto) |
 | Soneto | Laura perseguida, t09 (1593–1606); Laura perseguida, t12 (1876–1889); Laura perseguida, t21 (2627–2640); Laura perseguida, t24 (2979–2992) | soneto / endecasilabica_consonante (soneto) |
 | soneto con estrambote | El caballero del milagro, t10 (1665–1678); El caballero del milagro, t10 (1679–1681) | soneto / endecasilabica_consonante (soneto-con-estrambote); Sin equivalencia |
 | tercetos | El favor agradecido, t02 (505–595); El favor agradecido, t23 (2593–2635); Los donaires de Matico, t01 (1–127); Los donaires de Matico, t09 (1523–1667) | terceto_encadenado (tercetos-nota-encadenados-con-cierre); Sin resolver; candidatas: terceto, terceto_encadenado |
@@ -454,7 +491,7 @@ Se conservan los literales de la edición. Una sola entrada seleccionada por obr
 | Quintilla | quintilla | — |
 | Redondilla | redondilla | — |
 | Redondilla enlazada | — | — |
-| Romance | romance-asonancia | letrilla |
+| Romance | romance-sin-asonancia-explicita, romance-asonancia | letrilla |
 | Romance heroico | — | — |
 | Romancillo | — | letrilla |
 | Seguidilla | — | — |
@@ -463,7 +500,7 @@ Se conservan los literales de la edición. Una sola entrada seleccionada por obr
 | Septilla | — | — |
 | Septilla enlazada | — | — |
 | Sexteto | — | — |
-| Sexteto-lira | sexteto-lira | — |
+| Sexteto-lira | sexteto-lira, lira-seis-versos-aabbcc | — |
 | Sextilla | — | — |
 | Sextilla enlazada | — | — |
 | Sextina | — | — |
@@ -532,7 +569,7 @@ Se indican solo reglas que seleccionan explícitamente la arquitectura. Una regl
 | Redondilla | Hexasílaba | — |
 | Redondilla | Octosílaba | — |
 | Redondilla enlazada | Octosílaba con quebrado | — |
-| Romance | Octosílabo | romance-asonancia |
+| Romance | Octosílabo | romance-sin-asonancia-explicita, romance-asonancia |
 | Romance heroico | Endecasílabo | — |
 | Romancillo | Heptasílabo | — |
 | Romancillo | Hexasílabo | — |
@@ -553,7 +590,7 @@ Se indican solo reglas que seleccionan explícitamente la arquitectura. Una regl
 | Sexteto | Alejandrino | — |
 | Sexteto | Dodecasílabo | — |
 | Sexteto | Endecasílabo | — |
-| Sexteto-lira | Heterométrico consonante | sexteto-lira |
+| Sexteto-lira | Heterométrico consonante | sexteto-lira, lira-seis-versos-aabbcc |
 | Sextilla | Heptasílaba | — |
 | Sextilla | Hexasílaba | — |
 | Sextilla | Octosílaba | — |
@@ -768,6 +805,42 @@ Condición: una nota enlazada debe contener «tercetos encadenados» y «se cier
 
 Datos adicionales: [{"literal":"serventesio final","dimension":"estructura","tipo_seccion":"remate","nombre":"Remate","n_versos":1,"posicion":"final","estado":"interpretacion_revisada","fundamento":"El verso de cierre completa la rima pendiente del último terceto. Se registra como remate de un verso dentro de la misma secuencia."}].
 
+#### romance-sin-asonancia-explicita
+
+Literales: «romance»; «romances».
+
+Resultado: identificación directa. Romance / octosilabica.
+
+Revisión de la regla: pendiente. Ámbito: general.
+
+El catálogo define romance sin calificativos como la serie octosilábica; romancillo y romance heroico tienen nombre propio. No se deducen las vocales de asonancia ni otros rasgos. Observado en El maestro de danzar, 93–208.
+
+Datos adicionales: ninguno.
+
+#### lira-seis-versos-aabbcc
+
+Literales: «lira (AabBCC)».
+
+Resultado: identificación directa. Sexteto-lira / heterometrica_consonante.
+
+Revisión de la regla: pendiente. Ámbito: general.
+
+La edición llama lira a una estrofa de seis posiciones, distinta de la Lira de cinco versos del catálogo. Consulta SELECT de Sexteto-lira el 02-11-2026: admite rima aabbcc y metro 11-7-7-11-11-11, correspondientes a AabBCC. Se identifica forma y arquitectura; el esquema conserva sus mayúsculas en el literal original, sin convertirlo en un dato estructurado que el contrato mínimo aún no admite. El cotejo de la foto detecta aAbbCC en la respuesta v0.9: es error de extracción, no variante aprobada. La coincidencia del normalizador ignora mayúsculas en nombres, por lo que esta regla no certifica las medidas del esquema ni corrige ese error.
+
+Datos adicionales: ninguno.
+
+#### redondillas-y-quintillas
+
+Literales: «redondillas y quintillas».
+
+Resultado: sin resolver. .
+
+Revisión de la regla: pendiente. Ámbito: general.
+
+El maestro de danzar, 1517–1669: la fuente declara ambas formas sin localizar su alternancia. No son candidatas excluyentes ni se identifica una única forma para los 153 versos. Conservar el literal sin resolver hasta localizar los cambios; la aritmética no permite reconstruirlos.
+
+Datos adicionales: ninguno.
+
 #### romance-asonancia
 
 Literales: «romance en vocal o pareja de vocales».
@@ -846,6 +919,7 @@ Datos adicionales: [{"literal":"pareado final declarado en nota","rasgo_slug":"d
 - El favor agradecido: `backups/importador-local/favor-agradecido-2026-11-02/respuesta-v0.7-original.json`, SHA-256 `3e8c28deb103ff958d3a38fd4f8e0f2c6d436fdbe876de2a6fd392dca2319209`.
 - Laura perseguida: `backups/importador-local/laura-perseguida-2026-11-02/respuesta-v0.8-original.json`, SHA-256 `e62a8815100e3d21afd56c6dc3d870ca35c60e79579652ba94b0d554e9bf6598`.
 - El leal criado: `backups/importador-local/leal-criado-2026-11-02/respuesta-v0.9-original.json`, SHA-256 `c35671800d8f050244b880734b7240c244f142b461cf63062c42a2db9b3b8ec6`.
+- El maestro de danzar: `backups/importador-local/maestro-danzar-2026-11-02/respuesta-v0.9-original.json`, SHA-256 `b989dacb85b29e552ac5bb986082d95e75244daf0f70626c8e26ab9b1f30fee9`.
 - El verdadero amante: `docs/importador-metrico/piloto/extracciones/el-verdadero-amante.json`, SHA-256 `744cc1758ae8e779fd3fb05f0c8ff182b8c7547b439a7fc48ccf4d05c0f7aa1b`.
 - Los donaires de Matico: `docs/importador-metrico/piloto/extracciones/los-donaires-de-matico.json`, SHA-256 `61abbca56ef343d278cf86439686cd19224e90fb1259cb2dc40847135d8d6008`.
 - El molino: `docs/importador-metrico/piloto/extracciones/el-molino.json`, SHA-256 `b17b3882c3414f0dcf63a5360cb73f8e4afe537b722b06d6dfdc3fd3ab687224`.
