@@ -79,6 +79,15 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
+Pendiente detectado el 02-11: la validación general del importador comprueba particiones,
+recuentos y referencias, pero no confronta sistemáticamente la longitud de cada secuencia con
+la norma de su forma/arquitectura. Incorporar la comprobación compartida del catálogo, teniendo
+en cuenta remates, lagunas y adiciones estructurales declaradas; no confundir este control con
+la identificación de formas por longitud ni modificar la transcripción. Debe concretarse el
+tratamiento de discrepancias antes de afirmar que todas las secuencias pasan la norma métrica.
+
+Preparar la revisión de equivalencias recogiendo los [casos complejos](./importador-metrico/casos-complejos-equivalencias.md).
+
 Método precisado el 02-11: mejorar el prompt y repetir la extracción con la IA; no dar por
 cerrados los casos mediante JSON corregidos a mano. Prompt activo v0.8 para el siguiente ensayo
 de [Laura perseguida](./importador-metrico/revision-laura-perseguida-2026-11-02.md).

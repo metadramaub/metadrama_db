@@ -1,5 +1,9 @@
 # Laura perseguida: enlaces de notas y prompt v0.8
 
+Acuerdo posterior del responsable: conservar 617–876 como una secuencia de Quintilla y llevar
+la discusión de la nota 32 a la revisión de equivalencias como [caso complejo](./casos-complejos-equivalencias.md).
+Se recibe una nueva respuesta v0.8; se archiva sin corregirla manualmente y sin declararla gold.
+
 La respuesta v0.7 aportada por el responsable duplica la nota impresa 32: `n01` tiene solo
 la llamada y `n04` contiene el cuerpo. La fila t02 enlaza n01, pero n04 afirma enlazar t02
 sin reciprocidad. Además, el texto enumera intervalos separados y la IA los convierte en

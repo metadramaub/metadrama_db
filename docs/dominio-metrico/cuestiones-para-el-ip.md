@@ -3,6 +3,10 @@
 Este archivo reúne **lo que sigue sin decidir y necesita criterio filológico**, forma por forma. No
 describe el catálogo: eso se lee en `/formas`, que se genera del dato y no puede quedarse viejo.
 
+Los casos particulares del importador que se llevarán a la revisión de equivalencias se
+recogen en [casos complejos](../importador-metrico/casos-complejos-equivalencias.md), empezando
+por las quintillas y coplas reales de *Laura perseguida*, vv. 617–876.
+
 **Solo entra aquí lo que las fuentes no resuelven**, en alguna de sus tres maneras: porque callan,
 porque se contradicen entre sí, o porque documentan algo y lo que falta por decidir es si el
 proyecto lo sigue. Lo que ya está en el catálogo, lo que es deuda técnica y lo que una fuente
