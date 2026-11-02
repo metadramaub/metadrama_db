@@ -114,7 +114,7 @@ $$;
 grant usage on schema auth,extensions to anon,authenticated,service_role;
 ${esquema}`);
 	// Ejecutar el borrador dos veces comprueba su repetibilidad, sin silenciar errores.
-	const borrador = args[3] ? readFileSync(args[3],'utf8') : ['01-almacenamiento.sql', '02-esquema-documento.sql', '03-guardar.sql', '04-consulta.sql', '05-aislamiento.sql']
+	const borrador = args[3] ? readFileSync(args[3],'utf8') : ['01-almacenamiento.sql', '02-esquema-documento.sql', '03-guardar.sql', '04-consulta.sql', '05-aislamiento.sql', '06-gestion.sql']
 		.map((n) => read(`./sql/${n}`))
 		.join('\n');
 	psql(borrador);
@@ -132,7 +132,8 @@ raise exception 'FALLO: se aceptó %',n; end; $$;\n`;
 	let sql = seed + `update entradas set
 datos=jsonb_set(datos,'{procedencia,ejecucion}','{"generador":"ChatGPT","modelo":null,"modo":"Instant","plan":"Plus","parametros":"top_p=0.8","prompt_version":"extraccion/0.12"}'::jsonb),
 original=jsonb_set(original,'{procedencia}',(original->'procedencia')||'{"generador":"ChatGPT","modelo":"Modelo declarado","modo":"Instant","plan":null,"parametros":null}'::jsonb)
-where n=0;\n` + sesion(2);
+where n=0;
+update entradas set datos=jsonb_set(datos,'{comprobacion}','{"avisos_longitud":[{"segmento_ref":"t01","v_ini":1,"v_fin":532,"mensaje":"Aviso sintético para probar su conservación"}]}'::jsonb) where n=0;\n` + sesion(2);
 	sql +=
 		`reset role; insert into public.artefactos_publicos(clave,tipo,alcance,version_esquema,payload)
 values('prueba/corpus','corpus_comparativas','publico',2,'{}');\n` + sesion(2);
@@ -410,6 +411,31 @@ delete from public.jornadas where obra_id=(select (valor->>'obra_id')::uuid from
 	sql += ok(`(select coincidencias_revisadas=(select ids from revisadas) from public.importaciones_metricas where obra_id=(select (valor->>'obra_id')::uuid from resultados where n=90))`, 'conserva una sola decisión de coincidencias por importación');
 	sql += ok(`(select tipo_ficha='completa' from public.obras where titulo='Completa de control')`, 'no sobrescribe la detallada coincidente');
 	sql += sesion(5) + rechaza(`select * from public.coincidencias_importacion_metrica(${tituloPiloto})`, '42501', 'la consulta de coincidencias respeta actividad y permiso');
+	// Gestión de lista y borrado: solo sobre estas fichas sintéticas, al final del ensayo.
+	sql += sesion(2);
+	sql += ok("(select jsonb_array_length(f->'formas_pendientes')=2 from jsonb_array_elements(public.listar_fichas_basicas(0)) f where f->>'importacion_id'=(select valor->>'importacion_id' from resultados where n=2))", 'la lista conserva los dos tercetos pendientes de la copia');
+	sql += ok("(select f->>'comprobacion_registrada'='true' and jsonb_array_length(f->'avisos_longitud')=1 from jsonb_array_elements(public.listar_fichas_basicas(0)) f where f->>'importacion_id'=(select valor->>'importacion_id' from resultados where n=0))", 'la lista conserva avisos registrados sin recalcularlos');
+	sql += ok("(select f->>'comprobacion_registrada'='false' from jsonb_array_elements(public.listar_fichas_basicas(0)) f where f->>'importacion_id'=(select valor->>'importacion_id' from resultados where n=1))", 'la lista no certifica comprobaciones antiguas ausentes');
+	sql += ok("(select bool_and(not (f ? 'datos_confirmados') and not (f ? 'entrada_original')) from jsonb_array_elements(public.listar_fichas_basicas(0)) f)", 'la lista no descarga las copias completas');
+	sql += ok('(select bool_and(modificado_en=importado_en) from public.importaciones_metricas)', 'nuevas importaciones conservan ambas fechas al crear la copia');
+	const objetivoBorrado = (n) => `(select (valor->>'importacion_id')::uuid from resultados where n=${n})`;
+	const tituloBorrado = (n) => `(select datos#>>'{metadatos,titulo}' from entradas where n=${n})`;
+	const borrar = (n, titulo = tituloBorrado(n)) => `select public.eliminar_ficha_basica(${objetivoBorrado(n)},${titulo})`;
+	sql += rechaza(borrar(2), '42501', 'un editor importador no puede eliminar fichas');
+	sql += sesion(5) + rechaza(borrar(2), '42501', 'una sesión inactiva no puede eliminar fichas');
+	sql += sesion(0) + rechaza(borrar(2, "'Otro título'"), '22023', 'el borrado exige confirmar el título actual');
+	sql += ok(`(select exists(select 1 from public.obras where obra_id=(select (valor->>'obra_id')::uuid from resultados where n=2)))`, 'una confirmación incorrecta no borra la obra');
+	sql += rechaza("select public.eliminar_ficha_basica((select obra_id from public.obras where titulo='Completa de control'), 'Completa de control')", 'P0002', 'no se elimina una detallada pasando su identificador de obra');
+	sql += "reset role; update public.obras set editor_asignado=" + lit(ids[4]) + " where obra_id=(select (valor->>'obra_id')::uuid from resultados where n=2);\n";
+	sql += sesion(0) + rechaza(borrar(2), '23514', 'no se elimina una básica ya asignada a elaboración');
+	sql += "reset role; update public.obras set editor_asignado=null where obra_id=(select (valor->>'obra_id')::uuid from resultados where n=2);\n";
+	sql += sesion(0) + borrar(2) + ';\n';
+	sql += ok("(select not exists(select 1 from public.obras where obra_id=(select (valor->>'obra_id')::uuid from resultados where n=2)) and not exists(select 1 from public.secuencias_metricas where obra_id=(select (valor->>'obra_id')::uuid from resultados where n=2)) and not exists(select 1 from public.importaciones_metricas where importacion_id=" + objetivoBorrado(2) + '))', 'admin elimina solo la obra elegida con su estructura y copia');
+	sql += rechaza(borrar(2), 'P0002', 'un segundo borrado no afecta a otra ficha');
+	sql += sesion(1) + borrar(3) + ';\n';
+	sql += ok("(select not exists(select 1 from public.importaciones_metricas where importacion_id=" + objetivoBorrado(3) + '))', 'IP también puede eliminar una básica');
+	sql += ok("(select count(*)=1 from public.obras where titulo='Completa de control')", 'el borrado de básicas conserva la detallada de control');
+	sql += "reset role; set role anon;\n" + rechaza("select public.eliminar_ficha_basica('00000000-0000-4000-8000-000000000001'::uuid,'El molino')", '42501', 'anónimo no puede ejecutar el borrado');
 	const salida = psql(sql);
 	console.log(
 		salida

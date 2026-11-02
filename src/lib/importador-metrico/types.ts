@@ -51,6 +51,9 @@ export type FichaMinima = {
 	};
 	jornadas: { numero: number; v_ini: number; v_fin: number; rotulo_literal: string | null }[];
 	segmentos: SegmentoMinimo[];
+	comprobacion?: {
+		avisos_longitud: { segmento_ref: string; v_ini: number; v_fin: number; mensaje: string }[];
+	};
 	procedencia: {
 		reglas_version: string;
 		catalogo_revision: number;

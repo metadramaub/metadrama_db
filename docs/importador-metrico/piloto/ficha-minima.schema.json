@@ -456,6 +456,48 @@
         "additionalProperties": false
       }
     },
+    "comprobacion": {
+      "type": "object",
+      "properties": {
+        "avisos_longitud": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "segmento_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "v_ini": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 2147483647
+              },
+              "v_fin": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 2147483647
+              },
+              "mensaje": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "segmento_ref",
+              "v_ini",
+              "v_fin",
+              "mensaje"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "avisos_longitud"
+      ],
+      "additionalProperties": false
+    },
     "procedencia": {
       "type": "object",
       "properties": {

@@ -13,6 +13,7 @@ type Rpc =
 	| 'coincidencias_importacion_metrica'
 	| 'guardar_ficha_minima'
 	| 'listar_fichas_basicas'
+	| 'eliminar_ficha_basica'
 	| 'localizar_importacion_metrica'
 	| 'consultar_importacion_metrica';
 type DbError = { code?: string; message?: string };
@@ -141,13 +142,29 @@ const filaGuardadaSchema = z.object({
 	titulo: z.string(),
 	autor_nombre: z.string(),
 	importado_por: z.string(),
-	importado_en: z.string()
+	importado_en: z.string(),
+	modificado_en: z.string().nullable().default(null),
+	formas_pendientes: z.array(z.object({ denominacion: z.string(), v_ini: z.number().int(), v_fin: z.number().int() })).default([]),
+	comprobacion_registrada: z.boolean().default(false),
+	avisos_longitud: z.array(z.object({ segmento_ref: z.string(), v_ini: z.number().int(), v_fin: z.number().int(), mensaje: z.string() })).default([]),
+	incidencias_fuente: z.array(z.object({ descripcion: z.string() })).default([])
 });
+export type FilaBasica = z.infer<typeof filaGuardadaSchema>;
 export async function listarBasicas(db: ClienteImportador, desde: number) {
 	const r = await db.rpc('listar_fichas_basicas', { p_desde: desde });
 	if (r.error) throw new ErrorImportacion(503, 'No se pudieron cargar las fichas básicas.');
 	const filas = z.array(filaGuardadaSchema).parse(r.data);
 	return { filas: filas.slice(0, 50), hayMas: filas.length > 50 };
+}
+export async function eliminarBasica(db: ClienteImportador, importacionId: string, confirmacion: string) {
+	if (!uuid.safeParse(importacionId).success || !confirmacion.trim() || confirmacion.length > 2000)
+		throw new ErrorImportacion(400, 'Revisa la ficha y escribe su título para confirmar.');
+	const r = await db.rpc('eliminar_ficha_basica', { p_importacion: importacionId, p_confirmacion: confirmacion.trim() });
+	if (r.error) {
+		const status = r.error.code === '42501' ? 403 : r.error.code === 'P0002' ? 404 : ['23514','22023','23503'].includes(r.error.code ?? '') ? 409 : 503;
+		throw new ErrorImportacion(status, status === 503 ? 'No se pudo eliminar la ficha.' : r.error.message ?? 'La ficha no se puede eliminar.');
+	}
+	return z.object({ eliminada: z.literal(true), obra_id: uuid }).parse(r.data);
 }
 export async function consultarImportacion(db: ClienteImportador, id: string) {
 	if (!uuid.safeParse(id).success) throw new ErrorImportacion(404, 'Importación no disponible.');

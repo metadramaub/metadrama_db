@@ -300,6 +300,9 @@ export function analizarEntrada(
 			resultado.datos = ficha;
 			resultado.resumen = resumirFichaMinima(ficha, {vistaPrevia:true});
 			resultado.filas = filasDeFicha(ficha,notasOriginales);
+			ficha.comprobacion = { avisos_longitud: resultado.filas
+				.filter((fila) => fila.longitud?.estado === 'revisar')
+				.map((fila) => ({ segmento_ref: fila.ref, v_ini: fila.v_ini, v_fin: fila.v_fin, mensaje: fila.longitud!.mensaje! })) };
 			for (const fila of resultado.filas) if (fila.longitud?.estado === 'revisar') {
 				resultado.avisos.push({ codigo: 'longitud_metrica', ruta: `segmentos.${fila.ref}`,
 					mensaje: `vv. ${fila.v_ini}–${fila.v_fin}: ${fila.longitud.mensaje}` });

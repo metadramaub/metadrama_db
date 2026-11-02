@@ -1487,6 +1487,7 @@ export type Database = {
           last_login: string | null
           nombre_completo: string
           orcid: string | null
+          puede_importar_metrica: boolean
           role: string
           updated_at: string
           user_id: string
@@ -1499,6 +1500,7 @@ export type Database = {
           last_login?: string | null
           nombre_completo: string
           orcid?: string | null
+          puede_importar_metrica?: boolean
           role: string
           updated_at?: string
           user_id: string
@@ -1511,6 +1513,7 @@ export type Database = {
           last_login?: string | null
           nombre_completo?: string
           orcid?: string | null
+          puede_importar_metrica?: boolean
           role?: string
           updated_at?: string
           user_id?: string
@@ -2571,6 +2574,83 @@ export type Database = {
           },
         ]
       }
+      importaciones_metricas: {
+        Row: {
+          autor_id: string
+          coincidencias_revisadas: string[]
+          datos_confirmados: Json
+          entrada_original: Json
+          genero_id: string
+          importacion_id: string
+          importado_en: string
+          importado_por: string
+          modificado_en: string | null
+          obra_id: string
+          peticion_id: string
+          sha256_jsonb: string
+          usada_en_corpus: boolean
+        }
+        Insert: {
+          autor_id: string
+          coincidencias_revisadas?: string[]
+          datos_confirmados: Json
+          entrada_original: Json
+          genero_id: string
+          importacion_id?: string
+          importado_en?: string
+          importado_por: string
+          modificado_en?: string | null
+          obra_id: string
+          peticion_id: string
+          sha256_jsonb: string
+          usada_en_corpus?: boolean
+        }
+        Update: {
+          autor_id?: string
+          coincidencias_revisadas?: string[]
+          datos_confirmados?: Json
+          entrada_original?: Json
+          genero_id?: string
+          importacion_id?: string
+          importado_en?: string
+          importado_por?: string
+          modificado_en?: string | null
+          obra_id?: string
+          peticion_id?: string
+          sha256_jsonb?: string
+          usada_en_corpus?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "importaciones_metricas_autor_id_fkey"
+            columns: ["autor_id"]
+            isOneToOne: false
+            referencedRelation: "autores"
+            referencedColumns: ["autor_id"]
+          },
+          {
+            foreignKeyName: "importaciones_metricas_genero_id_fkey"
+            columns: ["genero_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "importaciones_metricas_importado_por_fkey"
+            columns: ["importado_por"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "importaciones_metricas_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras"
+            referencedColumns: ["obra_id"]
+          },
+        ]
+      }
       jornadas: {
         Row: {
           created_at: string
@@ -2606,6 +2686,86 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "obras"
             referencedColumns: ["obra_id"]
+          },
+        ]
+      }
+      metrica_minima_secuencias: {
+        Row: {
+          arquitectura_id: string | null
+          datos_minimos: Json
+          forma_id: string | null
+          importacion_id: string
+          secuencia_id: string
+          segmentacion: string
+          segmento_ref: string
+        }
+        Insert: {
+          arquitectura_id?: string | null
+          datos_minimos: Json
+          forma_id?: string | null
+          importacion_id: string
+          secuencia_id: string
+          segmentacion: string
+          segmento_ref: string
+        }
+        Update: {
+          arquitectura_id?: string | null
+          datos_minimos?: Json
+          forma_id?: string | null
+          importacion_id?: string
+          secuencia_id?: string
+          segmentacion?: string
+          segmento_ref?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "metrica_minima_secuencias_arquitectura_id_fkey"
+            columns: ["arquitectura_id"]
+            isOneToOne: false
+            referencedRelation: "arquitecturas_forma"
+            referencedColumns: ["arquitectura_id"]
+          },
+          {
+            foreignKeyName: "metrica_minima_secuencias_arquitectura_id_fkey"
+            columns: ["arquitectura_id"]
+            isOneToOne: false
+            referencedRelation: "arquitecturas_reglas_longitud"
+            referencedColumns: ["arquitectura_id"]
+          },
+          {
+            foreignKeyName: "metrica_minima_secuencias_forma_id_fkey"
+            columns: ["forma_id"]
+            isOneToOne: false
+            referencedRelation: "formas_metricas"
+            referencedColumns: ["forma_id"]
+          },
+          {
+            foreignKeyName: "metrica_minima_secuencias_forma_id_fkey"
+            columns: ["forma_id"]
+            isOneToOne: false
+            referencedRelation: "propuesta_metrica_secuencia"
+            referencedColumns: ["forma_propuesta_id"]
+          },
+          {
+            foreignKeyName: "metrica_minima_secuencias_importacion_id_fkey"
+            columns: ["importacion_id"]
+            isOneToOne: false
+            referencedRelation: "importaciones_metricas"
+            referencedColumns: ["importacion_id"]
+          },
+          {
+            foreignKeyName: "metrica_minima_secuencias_secuencia_id_fkey"
+            columns: ["secuencia_id"]
+            isOneToOne: true
+            referencedRelation: "propuesta_metrica_secuencia"
+            referencedColumns: ["secuencia_id"]
+          },
+          {
+            foreignKeyName: "metrica_minima_secuencias_secuencia_id_fkey"
+            columns: ["secuencia_id"]
+            isOneToOne: true
+            referencedRelation: "secuencias_metricas"
+            referencedColumns: ["secuencia_id"]
           },
         ]
       }
@@ -2823,6 +2983,7 @@ export type Database = {
           sin_figuras_donaire: boolean
           sin_personajes_sobrenaturales: boolean
           slug: string
+          tipo_ficha: string
           titulo: string
           titulo_normalizado: string | null
           total_versos: number | null
@@ -2852,6 +3013,7 @@ export type Database = {
           sin_figuras_donaire?: boolean
           sin_personajes_sobrenaturales?: boolean
           slug?: string
+          tipo_ficha?: string
           titulo: string
           titulo_normalizado?: string | null
           total_versos?: number | null
@@ -2881,6 +3043,7 @@ export type Database = {
           sin_figuras_donaire?: boolean
           sin_personajes_sobrenaturales?: boolean
           slug?: string
+          tipo_ficha?: string
           titulo?: string
           titulo_normalizado?: string | null
           total_versos?: number | null
@@ -4041,8 +4204,15 @@ export type Database = {
         Returns: boolean
       }
       auth_is_admin_or_ip: { Args: never; Returns: boolean }
+      auth_obra_es_detallada: { Args: { p_obra: string }; Returns: boolean }
+      auth_puede_consultar_importacion: {
+        Args: { p_obra: string }
+        Returns: boolean
+      }
       auth_puede_editar_obra: { Args: { p_obra_id: string }; Returns: boolean }
+      auth_puede_importar_metrica: { Args: never; Returns: boolean }
       auth_puede_ver_obra: { Args: { p_obra_id: string }; Returns: boolean }
+      auth_respeta_limite_minima: { Args: { p_obra: string }; Returns: boolean }
       autor_ficha_artefacto_json: {
         Args: { p_alcance: string; p_autor_id: string }
         Returns: Json
@@ -4051,14 +4221,42 @@ export type Database = {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: boolean
       }
+      capacidades_importador_metrico: { Args: never; Returns: Json }
       catalogo_metrico_publico: { Args: never; Returns: boolean }
+      coincidencias_importacion_metrica: {
+        Args: { p_titulo: string }
+        Returns: {
+          autores: string[]
+          obra_id: string
+          tipo_ficha: string
+          titulo: string
+        }[]
+      }
+      comprobar_destino_minimo: {
+        Args: { p_destino: Json }
+        Returns: undefined
+      }
       comprobar_disposiciones_quebrados: {
         Args: { p_anotacion: string }
         Returns: undefined
       }
+      consultar_importacion_metrica: {
+        Args: { p_importacion: string }
+        Returns: Json
+      }
       corpus_comparativas_artefacto_json: {
         Args: { p_alcance: string }
         Returns: Json
+      }
+      eliminar_ficha_basica: {
+        Args: { p_confirmacion: string; p_importacion: string }
+        Returns: Json
+      }
+      esquema_documento_minimo: { Args: never; Returns: Json }
+      esquema_extraccion_minima: { Args: never; Returns: Json }
+      establecer_permiso_importacion: {
+        Args: { p_editor: string; p_permitir: boolean }
+        Returns: undefined
       }
       ficha_publica_base_json: {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
@@ -4145,8 +4343,23 @@ export type Database = {
         }
         Returns: undefined
       }
+      guardar_ficha_minima: {
+        Args: {
+          p_autor: string
+          p_coincidencias_revisadas?: string[]
+          p_datos: Json
+          p_entrada_original: Json
+          p_peticion: string
+        }
+        Returns: Json
+      }
       intervencion_femenina_desde_generos: {
         Args: { valores: string[] }
+        Returns: string
+      }
+      listar_fichas_basicas: { Args: { p_desde?: number }; Returns: Json }
+      localizar_importacion_metrica: {
+        Args: { p_obra: string }
         Returns: string
       }
       longitud_encaja_en_regla: {
@@ -4178,6 +4391,10 @@ export type Database = {
       }
       next_obras_slug: {
         Args: { base: string; current_obra_id: string }
+        Returns: string
+      }
+      normalizar_titulo_importacion: {
+        Args: { p_titulo: string }
         Returns: string
       }
       numero_efectivo_from_perfil: { Args: { p_perfil: Json }; Returns: number }

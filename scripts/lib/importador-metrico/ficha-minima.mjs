@@ -87,6 +87,13 @@ export const fichaMinimaSchema = z
 					.strict()
 			)
 			.min(1),
+		comprobacion: z.object({
+			avisos_longitud: z.array(z.object({
+				segmento_ref: texto,
+				...rango,
+				mensaje: texto
+			}).strict())
+		}).strict().optional(),
 		procedencia: z
 			.object({
 				reglas_version: texto,

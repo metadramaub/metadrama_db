@@ -34,6 +34,7 @@ describe('vista previa del importador sin persistencia', () => {
 		const sinAjuste=analizarEntrada(JSON.stringify(raw));
 		expect(sinAjuste.errores).toEqual([]);
 		expect(sinAjuste.filas[0].longitud?.estado).toBe('revisar');
+		expect(sinAjuste.datos!.comprobacion?.avisos_longitud).toEqual([expect.objectContaining({ v_ini: 1, v_fin: 53, segmento_ref: 't01' })]);
 		expect(sinAjuste.avisos).toContainEqual(expect.objectContaining({codigo:'longitud_metrica',ruta:'segmentos.t01'}));
 		expect(sinAjuste.datos!.procedencia.entradas_sha256['reglas-longitud.json']).toMatch(/^[a-f0-9]{64}$/);
 		const copia=structuredClone(sinAjuste.datos) as FichaMinima;
@@ -47,6 +48,7 @@ describe('vista previa del importador sin persistencia', () => {
 		const corregida=analizarEntrada(JSON.stringify(raw),{},ediciones);
 		expect(corregida.errores).toEqual([]);
 		expect(corregida.filas[0].longitud?.estado).toBe('compatible');
+		expect(corregida.datos!.comprobacion?.avisos_longitud).toEqual([]);
 		expect(corregida.avisos.some(a=>a.codigo==='longitud_metrica')).toBe(false);
 		expect(corregida.resumen!.extension).toBe(53);
 		expect(corregida.filas[0].v_ini).toBe(1);expect(corregida.filas[0].v_fin).toBe(53);
