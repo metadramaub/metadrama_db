@@ -140,7 +140,7 @@ async function previsualizar(
 		vista.datos && autorId && !vista.errores.length && !vista.pendientes_metadatos?.length
 			? huellaConfirmacion(vista.datos, autorId, coincidencias)
 			: null;
-	const respuesta = { entrada, autorId, vista, coincidencias, ediciones, huella };
+	const respuesta = { entrada, autorId, vista, coincidencias, ediciones, huella, comprobacion_realizada: editar && !confirmar };
 	if (confirmar) {
 		if (!vista.datos || vista.errores.length || vista.pendientes_metadatos?.length || !autorId)
 			return fail(400, { ...respuesta, mensaje: 'Comprueba los datos antes de guardar.' });

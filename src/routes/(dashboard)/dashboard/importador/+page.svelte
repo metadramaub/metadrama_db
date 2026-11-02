@@ -7,6 +7,7 @@
 	import type { MetadatosEditables, ResultadoVistaPrevia, IncidenciaImportador } from '$lib/importador-metrico/types';
 	import VistaPrevia from '$lib/components/importador-metrico/VistaPrevia.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
+	import EstadoComprobacion from '$lib/components/importador-metrico/EstadoComprobacion.svelte';
 
 	let { data, form } = $props<{ data: PageData; form: ActionData }>();
 	const respuesta = () => form && 'vista' in form ? form : null;
@@ -22,6 +23,9 @@
 	let copiado = $state(false);
 	let errorCopia = $state(false);
 	let respuestaDescartada = $state(false);
+	let comprobacionTerminada = $state(untrack(() => {
+		const r = respuesta(); return Boolean(r && 'comprobacion_realizada' in r && r.comprobacion_realizada);
+	}));
 	let ediciones = $state(untrack(() => respuesta()?.ediciones ?? '[]'));
 	let edicionesComprobadas = $state(untrack(() => respuesta()?.vista.errores.length ? '[]' : respuesta()?.ediciones ?? '[]'));
 	let vistaComprobada = $state<ResultadoVistaPrevia | null>(untrack(() => respuesta()?.vista.errores.length ? null : respuesta()?.vista ?? null));
@@ -31,6 +35,7 @@
 	function descartarImportacion() {
 		ultimaRespuesta=null; vistaComprobada=null; entrada=''; autorId=''; ediciones='[]';
 		metadatos={...vacios}; otraObra=false; entradaCambiada=false; desactualizada=false;
+		comprobacionTerminada=false;
 		peticionId=crypto.randomUUID();
 	}
 	const vista = $derived(!entradaCambiada && ultimaRespuesta?.entrada === entrada ? ultimaRespuesta.vista : null);
@@ -38,6 +43,7 @@
 	$effect(() => {
 		const r = respuesta();
 		if (r) {
+			comprobacionTerminada = 'comprobacion_realizada' in r && r.comprobacion_realizada === true;
 			if(r.huella !== untrack(()=>ultimaRespuesta?.huella)) otraObra=false;
 			const anterior = untrack(() => ultimaRespuesta?.entrada === r.entrada ? vistaComprobada : null);
 			if (!r.vista.errores.length) {
@@ -59,6 +65,7 @@
 		}
 	});
 	const enviar: SubmitFunction = () => {
+		comprobacionTerminada = false;
 		const enviados = JSON.stringify([entrada, metadatos, autorId, ediciones]);
 		respuestaDescartada = false;
 		pendiente = true;
@@ -77,11 +84,12 @@
 	};
 	function cargarEjemplo() {
 		const p = data.pilotos.find((p: { id: string; entrada: string }) => p.id === ejemplo);
-		if (p) { entrada = p.entrada; entradaCambiada = true; desactualizada = true; }
+		if (p) { entrada = p.entrada; cambioEntrada(); }
 	}
-	function cambioEntrada() { entradaCambiada = true; desactualizada = false; respuestaDescartada = false; }
-	function cambioMetadatos() { desactualizada = true; }
+	function cambioEntrada() { entradaCambiada = true; desactualizada = false; respuestaDescartada = false; comprobacionTerminada = false; }
+	function cambioMetadatos() { desactualizada = true; comprobacionTerminada = false; }
 	function cancelarEdicion() {
+		comprobacionTerminada = false;
 		if (!ultimaRespuesta) return;
 		ultimaRespuesta = { ...ultimaRespuesta, vista: { ...ultimaRespuesta.vista,
 			errores: ultimaRespuesta.vista.errores.filter((e: IncidenciaImportador) => e.codigo !== 'edicion') } };
@@ -89,6 +97,7 @@
 	}
 	async function editarSecuencias(tramo: string, cambio: EdicionFila | null) {
 		if (pendiente || entradaCambiada) return;
+		comprobacionTerminada = false;
 		let anteriores: EdicionFila[] = [];
 		try { anteriores = JSON.parse(ediciones); } catch { /* Se conserva el error del servidor hasta corregirlo. */ }
 		ediciones = JSON.stringify([...anteriores.filter((e) => e.tramo_ref !== tramo), ...(cambio ? [cambio] : [])]);
@@ -197,7 +206,9 @@
 			</div>
 			<div class="flex flex-wrap items-center gap-3">
 				<button class="rounded-md border border-[color:var(--foreground)] px-5 py-2.5 text-sm font-medium hover:bg-[color:var(--muted)] disabled:opacity-50" disabled={pendiente}>{pendiente ? 'Comprobando…' : 'Comprobar cambios'}</button>
-				{#if desactualizada && vista.datos}
+				{#if !pendiente && comprobacionTerminada}
+					<EstadoComprobacion {vista} />
+				{:else if !pendiente && desactualizada && vista.datos}
 					<p role="status" class="border-l-2 border-amber-400 bg-amber-50 px-3 py-2 text-sm">Cambios sin comprobar.</p>
 				{/if}
 			</div>

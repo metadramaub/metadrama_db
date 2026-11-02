@@ -103,7 +103,7 @@
 					<div class="card overflow-x-auto">
 						<table class="w-full min-w-[860px] table-fixed text-left text-sm">
 							<caption class="sr-only">Esquema métrico de la jornada {jornada.numero}</caption>
-							<colgroup><col class="w-[11%]" /><col class="w-[18%]" /><col class="w-[17%]" /><col class="w-[25%]" /><col class="w-[16%]" /><col class="w-[8%]" />{#if oneditar}<col class="w-[5%]" />{/if}</colgroup>
+							<colgroup><col class="w-[11%]" /><col class="w-[17%]" /><col class="w-[17%]" /><col class="w-[24%]" /><col class="w-[15%]" /><col class={oneditar ? 'w-[11%]' : 'w-[16%]'} />{#if oneditar}<col class="w-[5%]" />{/if}</colgroup>
 							<thead class="bg-[color:var(--muted)]">
 								<tr><th class="px-3 py-2">Versos</th><th class="px-3 py-2">En la edición</th><th class="px-3 py-2">Forma</th><th class="px-3 py-2"><span class="form-label-with-help">Datos métricos<FieldHelpTooltip label="Datos métricos que se guardarán" text="Rasgos y valores, remates y desviaciones incorporados a la ficha mínima. Los campos sin especificar quedan sin dato." /></span></th><th class="px-3 py-2">Notas</th><th class="px-3 py-2">Fuente</th>{#if oneditar}<th class="px-3 py-2"><span class="sr-only">Acciones</span></th>{/if}</tr>
 							</thead>
@@ -134,8 +134,8 @@
 										<td class="break-words px-3 py-2 text-xs text-[color:var(--muted-foreground)]">
 											{#if notas.length}<p class="line-clamp-3">{notas[0]}</p><span class="inline-flex items-center">{#if notas.length > 1}{notas.length} notas{/if}<InlineNotePopover text={notas.join('\n\n')} label={'Mostrar notas de la secuencia ' + fila.v_ini + '–' + fila.v_fin} multilinea /></span>{:else}—{/if}
 										</td>
-										<td class="px-3 py-2 text-xs text-[color:var(--muted-foreground)]">
-											{fuente(fila.origen.fuente_id)}
+										<td class="min-w-0 overflow-hidden px-3 py-2 text-xs text-[color:var(--muted-foreground)]">
+											<span class="block max-w-full truncate" title={fila.origen.fuente_id ?? ''}>{fuente(fila.origen.fuente_id)}</span>
 											{#if fila.origen.pagina}<p class="mt-1">p. {fila.origen.pagina}</p>{/if}
 										</td>
 										{#if oneditar}

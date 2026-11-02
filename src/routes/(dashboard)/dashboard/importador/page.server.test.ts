@@ -59,6 +59,10 @@ async function comprobar() {
 	return r;
 }
 describe('acciones HTTP del importador', () => {
+	it('marca la comprobación terminada solo en comprobar, no al preparar el JSON', async () => {
+		expect(await actions.comprobar!(event())).toMatchObject({comprobacion_realizada:true});
+		expect(await actions.leer!(event())).toMatchObject({comprobacion_realizada:false});
+	});
 	it('sin fechas prepara las filas, no emite huella y bloquea confirmar aunque se fuerce el POST', async () => {
 		const previa = await actions.comprobar!(event({fecha_inicio:'',fecha_fin:''}));
 		expect(previa).toMatchObject({huella:null,vista:{errores:[]}});

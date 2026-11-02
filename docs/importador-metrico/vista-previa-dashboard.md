@@ -1,5 +1,18 @@
 # Vista previa del importador en el dashboard
 
+El 02-11 se añade respuesta explícita junto a «Comprobar cambios»: final sin incidencias
+detectadas, número de avisos o errores para corregir. Los recordatorios técnicos del flujo
+no se cuentan como incidencias y los metadatos pendientes impiden mostrar un éxito completo.
+El resultado desaparece al modificar los datos o iniciar otra petición; una respuesta descartada
+o un fallo de la petición no se presentan como comprobación correcta. Preparar el JSON no
+equivale a haber pulsado Comprobar cambios. La ausencia de avisos no certifica la edición.
+
+La columna Fuente se amplía y limita el texto largo con puntos suspensivos, conservando el
+identificador completo en el atributo title. La columna del lápiz mantiene espacio propio.
+Verificación visual con los componentes Svelte renderizados y estilos de producción en una
+vista estática local, sin acceso a Supabase ni guardado de datos; captura privada en
+`backups/importador-local/tabla-comprobacion-2026-11-02/tabla-corregida.png`.
+
 El 02-11 se incorpora la [comprobación normativa de longitudes](./comprobacion-longitudes.md):
 avisos en cada fila y en su editor, con filtro «Longitud a revisar», respetando remates,
 lagunas numeradas y adiciones estructurales. No modifica la numeración ni bloquea automáticamente

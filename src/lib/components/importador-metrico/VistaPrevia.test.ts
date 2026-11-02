@@ -24,4 +24,12 @@ describe('avisos de longitud en la tabla del importador', () => {
 		expect(texto(body)).not.toContain('secuencia con longitud a revisar');
 		expect(texto(body)).not.toContain('Redondilla requiere');
 	});
+	it('mantiene nombres largos de archivo dentro de su columna y ofrece el nombre completo', () => {
+		const datos=vista(52);
+		datos.filas[0].origen.fuente_id='5_Laura_perseguida_1.HEIC';
+		const {body}=render(VistaPrevia,{props:{vista:datos,oneditar:()=>{},editable:true}});
+		expect(body).toContain('block max-w-full truncate');
+		expect(body).toContain('title="5_Laura_perseguida_1.HEIC"');
+		expect(body).toContain('Editar secuencia 1–52');
+	});
 });
