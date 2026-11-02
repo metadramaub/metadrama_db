@@ -32,3 +32,13 @@ La coincidencia terminológica del motor ignora caja en nombres de forma. Por el
 regla identifica la forma de seis versos también en la respuesta errónea, pero **no valida**
 la distribución de medidas que esta habría alterado. El esquema literal debe corregirse
 en la extracción, mediante nueva ejecución del prompt.
+
+## Resultado recibido de v0.10
+
+Se conserva la respuesta original v0.10 sin cambios. Valida técnicamente y conserva las
+veinte filas, las jornadas, los recuentos y 3042 versos. Solo cambia el literal de t19:
+ahora escribe **AaBbCC**, que sigue sin coincidir con **AabBCC** de la fotografía.
+El refuerzo del prompt no ha resuelto este error en esta ejecución. No se declara corregido
+ni gold. La identificación como Sexteto-lira sí funciona por las seis posiciones, sin validar
+las medidas concretas del literal erróneo. Continúan los 153 versos de redondillas y quintillas
+sin resolver y la nota 110 ausente; no se ha guardado la obra.

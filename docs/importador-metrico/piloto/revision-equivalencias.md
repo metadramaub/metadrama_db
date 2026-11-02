@@ -34,7 +34,7 @@ Formas identificadas o planteadas como candidatas en las entradas disponibles. �
 | Redondilla | [redondilla](#termino-18); [redondillas](#termino-19) | Sin especificar | Correspondencias pendientes de revisión | El verdadero amante; El caballero del milagro |
 | Romance | [letrilla](#termino-10) (candidata); [romance](#termino-22); [romance en -io](#termino-23); [Romance en a-a](#termino-24); [romance en á-e](#termino-25); [romance en e-a](#termino-26); [romance en e-e](#termino-27); [romance en i-a](#termino-28) | Octosílabo | Correspondencias pendientes de revisión | El molino; El maestro de danzar |
 | Romancillo | [letrilla](#termino-10) (candidata) | Sin especificar | Solo candidata; sin equivalencia directa | El molino |
-| Sexteto-lira | [lira (aAbbCC)](#termino-11); [sexteto-lira](#termino-29); [Sextetos alirados](#termino-30); [sextetos-liras](#termino-31) | Heterométrico consonante | Reglas aprobadas | El maestro de danzar; El favor agradecido |
+| Sexteto-lira | [lira (AaBbCC)](#termino-11); [sexteto-lira](#termino-29); [Sextetos alirados](#termino-30); [sextetos-liras](#termino-31) | Heterométrico consonante | Reglas aprobadas | El maestro de danzar; El favor agradecido |
 | Soneto | [soneto](#termino-32); [soneto con estrambote](#termino-34) | Endecasílabo consonante | Reglas parcialmente revisadas | El caballero del milagro; El favor agradecido |
 | Terceto | [tercetos](#termino-35) (candidata) | Sin especificar | Solo candidata; sin equivalencia directa | El favor agradecido; Los donaires de Matico |
 | Terceto encadenado | [tercetos](#termino-35); [tercetos encadenados](#termino-36); [tercetos encadenados con serventesio final](#termino-37) | Sin especificar | Reglas parcialmente revisadas | El favor agradecido; Los donaires de Matico |
@@ -138,7 +138,7 @@ en pareado
 
 <a id="termino-11"></a>
 
-### lira (aAbbCC)
+### lira (AaBbCC)
 
 - El maestro de danzar, t19 (2863–2970).
 - Resultado: sexteto_lira / heterometrica_consonante (lira-con-esquema-seis-posiciones).
@@ -429,7 +429,7 @@ Se conservan los literales de la edición. Una sola entrada seleccionada por obr
 | endecasílabos sueltos rematados en pareado | El caballero del milagro, t04 (749–824); El caballero del milagro, t08 (1505–1562); El caballero del milagro, t15 (2448–2485); El caballero del milagro, t17 (2630–2745); El caballero del milagro, t20 (2868–2885) | endecasilabo_suelto / endecasilabica (endecasilabos-sueltos-pareado) |
 | estancias con pareado final | El verdadero amante, t02 (221–287) | cancion (estancias-pareado) |
 | letrilla | El molino, t20 (2880–2888) | Sin resolver; candidatas: villancico, zejel, romance, romancillo |
-| lira (aAbbCC) | El maestro de danzar, t19 (2863–2970) | sexteto_lira / heterometrica_consonante (lira-con-esquema-seis-posiciones) |
+| lira (AaBbCC) | El maestro de danzar, t19 (2863–2970) | sexteto_lira / heterometrica_consonante (lira-con-esquema-seis-posiciones) |
 | octava real | El maestro de danzar, t04 (1017–1120); El verdadero amante, t18 (2772–2827) | octava_real / endecasilabica_consonante (octava-real) |
 | octavas reales | El caballero del milagro, t02 (353–456); El caballero del milagro, t06 (981–1028); El caballero del milagro, t22 (2958–2989); El favor agradecido, t13 (1434–1561); El favor agradecido, t16 (1842–1937); El leal criado, t11 (1290–1377); El leal criado, t23 (2852–2899); Los donaires de Matico, t05 (934–1005); El molino, t07 (1254–1333); El molino, t14 (2248–2271); Los locos de Valencia, t07 (1051–1082) | octava_real / endecasilabica_consonante (octava-real) |
 | Octavas reales | Laura perseguida, t05 (1076–1203); Laura perseguida, t07 (1476–1507) | octava_real / endecasilabica_consonante (octava-real) |
@@ -921,7 +921,7 @@ Datos adicionales: [{"literal":"pareado final declarado en nota","rasgo_slug":"d
 - El favor agradecido: `backups/importador-local/favor-agradecido-2026-11-02/respuesta-v0.7-original.json`, SHA-256 `3e8c28deb103ff958d3a38fd4f8e0f2c6d436fdbe876de2a6fd392dca2319209`.
 - Laura perseguida: `backups/importador-local/laura-perseguida-2026-11-02/respuesta-v0.8-original.json`, SHA-256 `e62a8815100e3d21afd56c6dc3d870ca35c60e79579652ba94b0d554e9bf6598`.
 - El leal criado: `backups/importador-local/leal-criado-2026-11-02/respuesta-v0.9-original.json`, SHA-256 `c35671800d8f050244b880734b7240c244f142b461cf63062c42a2db9b3b8ec6`.
-- El maestro de danzar: `backups/importador-local/maestro-danzar-2026-11-02/respuesta-v0.9-original.json`, SHA-256 `b989dacb85b29e552ac5bb986082d95e75244daf0f70626c8e26ab9b1f30fee9`.
+- El maestro de danzar: `backups/importador-local/maestro-danzar-2026-11-02/respuesta-v0.10-original.json`, SHA-256 `59bbe47a80331dc31782e769ba090ab5f8cb59bde874079fa8ed53af8eea8735`.
 - El verdadero amante: `docs/importador-metrico/piloto/extracciones/el-verdadero-amante.json`, SHA-256 `744cc1758ae8e779fd3fb05f0c8ff182b8c7547b439a7fc48ccf4d05c0f7aa1b`.
 - Los donaires de Matico: `docs/importador-metrico/piloto/extracciones/los-donaires-de-matico.json`, SHA-256 `61abbca56ef343d278cf86439686cd19224e90fb1259cb2dc40847135d8d6008`.
 - El molino: `docs/importador-metrico/piloto/extracciones/el-molino.json`, SHA-256 `b17b3882c3414f0dcf63a5360cb73f8e4afe537b722b06d6dfdc3fd3ab687224`.
