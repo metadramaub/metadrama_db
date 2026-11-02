@@ -29,6 +29,7 @@ const reglaSchema = z.object({
 	detalles_fuente: z.array(z.record(z.string(), z.unknown())),
 	evidencias_bibliograficas: z.array(texto).default([]),
 	ambito: z.object({ obras: z.array(texto).min(1) }).optional(),
+	division: z.literal('soneto_y_estrambote_sin_identificar').optional(),
 	aprobacion: aprobacionSchema.optional()
 });
 const reglasSchema = z.object({ version: texto, reglas: z.array(reglaSchema) });
@@ -115,18 +116,22 @@ export function normalizarExtraccion(
 		)
 			throw new Error('Desviación fuera del rango documentado en la nota');
 	}
-	const segmentos = source.tramos.map((row) => {
+	const segmentos = source.tramos.flatMap((row) => {
+		const literalComparado = row.denominacion_literal?.replace(/\s+/gu, ' ').trim();
 		const matches = reference.reglas.filter(
 			(r) =>
-				r.literales.includes(row.denominacion_literal) &&
+				r.literales.some((l) => l.replace(/\s+/gu, ' ').trim() === literalComparado) &&
 				(!r.ambito || r.ambito.obras.includes(source.obra_ref))
 		);
 		if (matches.length > 1)
 			throw new Error(`Equivalencias en conflicto para ${source.obra_ref}/${row.id}`);
-		const rule = matches[0];
+		let rule = matches[0];
+		// Sin extensión suficiente no se inventa ni el corte ni un soneto completo.
+		if (rule?.division && (row.v_ini === null || row.v_fin === null || row.v_fin - row.v_ini + 1 <= 14))
+			rule = undefined;
 		const exact = rule?.tipo === 'equivalencia_propuesta' ? rule.candidatas[0] : null;
 		const reviewed = exact && rule.aprobacion ? exact : null;
-		return {
+		const segmento = {
 			id: row.id,
 			jornada: row.jornada,
 			v_ini: row.v_ini,
@@ -160,6 +165,16 @@ export function normalizarExtraccion(
 					fundamento: d.fundamento
 				}))
 		};
+		if (!rule?.division) return [segmento];
+		if (rowsById.has(`${row.id}.1`) || rowsById.has(`${row.id}.2`))
+			throw new Error('Los identificadores de la división coinciden con otra fila fuente.');
+		return [
+			{ ...segmento, id: `${row.id}.1`, v_fin: row.v_ini + 13 },
+			{ ...structuredClone(segmento), id: `${row.id}.2`, v_ini: row.v_ini + 14,
+				estado_identificacion: 'sin_resolver', identificacion_revisada: null, propuesta: null,
+				candidatas: [], detalles_fuente: [],
+				nota: 'Estrambote declarado por la edición. Se conserva como secuencia sin forma identificada mientras el catálogo no admite este remate en el soneto; criterio pendiente del IP.' }
+		];
 	});
 	const total = unionLength(segmentos);
 	const measure = (predicate) => {
@@ -203,7 +218,7 @@ export function normalizarExtraccion(
 			sin_resolver: measure((s) => s.estado_identificacion === 'sin_resolver')
 		},
 		limites: [
-			'Una fila fuente conserva un segmento provisional: no se confirma la segmentación definitiva de una ficha.',
+			'Las filas fuente se conservan; una regla explícita puede dividirlas en segmentos provisionales para revisar antes de guardar.',
 			'La aceptación de la transcripción no aprueba equivalencias ni afirma conformidad normativa.',
 			'Los porcentajes miden cobertura; no son probabilidades de acierto ni tolerancias del corpus.',
 			'Las candidatas no se cuentan como formas identificadas; los tramos pendientes conservan sus versos.',

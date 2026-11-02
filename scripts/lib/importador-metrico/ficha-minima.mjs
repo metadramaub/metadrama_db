@@ -343,7 +343,7 @@ export function prepararFichaMinima(normalizada, { genero, metadatos = {} } = {}
 			identificacion: structuredClone(s.identificacion_revisada ?? s.propuesta),
 			candidatas: structuredClone(s.candidatas),
 			regla_id: s.regla_id,
-			nota: null,
+			nota: s.nota ?? null,
 			detalles_fuente: s.detalles_fuente.map((d) =>
 				d.tipo_seccion === 'remate'
 					? {

@@ -1,6 +1,6 @@
 {
   "esquema": "versologia-equivalencias-propuestas/0.1",
-  "fecha": "2026-10-26",
+  "fecha": "2026-11-02",
   "catalogo_referencia": "catalogo-referencia.json",
   "estado": "propuestas_y_equivalencias_revisadas",
   "revisor_humano": "Responsable del proyecto (estancias y tercetos encadenados con remate)",
@@ -77,7 +77,8 @@
       "id": "endecasilabos-sueltos-pareado",
       "literales": [
         "endecasílabos sueltos con pareado final",
-        "endecasílabos sueltos (con pareado final)"
+        "endecasílabos sueltos (con pareado final)",
+        "endecasílabos sueltos rematados en pareado"
       ],
       "tipo": "equivalencia_propuesta",
       "candidatas": [
@@ -94,7 +95,12 @@
           "rasgo_slug": "distico_final",
           "valor_slug": "presente"
         }
-      ]
+      ],
+      "aprobacion": {
+        "responsable": "Responsable del proyecto",
+        "fecha": "2026-11-02",
+        "fundamento": "Equivalencia confirmada en el chat durante la revisión de El caballero del milagro."
+      }
     },
     {
       "id": "tercetos-encadenados",
@@ -302,8 +308,52 @@
         "letrilla_navarro",
         "letrilla_jauralde"
       ]
+    },
+    {
+      "id": "sexteto-lira",
+      "literales": [
+        "sexteto-lira",
+        "sextetos-liras"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "sexteto_lira",
+          "arquitectura_slug": "heterometrica_consonante"
+        }
+      ],
+      "exhaustividad": "destino_unico_confirmado",
+      "fundamento": "El responsable confirma la equivalencia con Sexteto-lira. El catálogo activo tiene una arquitectura heterométrica consonante; no se deducen distribución de medidas ni esquema de rima.",
+      "detalles_fuente": [],
+      "aprobacion": {
+        "responsable": "Responsable del proyecto",
+        "fecha": "2026-11-02",
+        "fundamento": "Equivalencia confirmada en el chat durante la revisión de El caballero del milagro."
+      }
+    },
+    {
+      "id": "soneto-con-estrambote",
+      "literales": [
+        "soneto con estrambote"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "soneto",
+          "arquitectura_slug": "endecasilabica_consonante"
+        }
+      ],
+      "division": "soneto_y_estrambote_sin_identificar",
+      "exhaustividad": "solo_nucleo_soneto",
+      "fundamento": "Criterio provisional acordado: primeros catorce versos como Soneto y resto como secuencia sin identificar. No se registra estrambote como remate de soneto ni se inventan forma o metro para el resto; pendiente de decisión del IP.",
+      "detalles_fuente": [],
+      "aprobacion": {
+        "responsable": "Responsable del proyecto",
+        "fecha": "2026-11-02",
+        "fundamento": "El responsable indica partir provisionalmente: soneto y secuencia desconocida; pendiente de decisión del IP sobre el catálogo."
+      }
     }
   ],
-  "version": "v0.7",
+  "version": "v0.8",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }

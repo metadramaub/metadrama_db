@@ -2,7 +2,7 @@
 
 **Borrador de trabajo. No importado ni apto para incorporarse automáticamente al corpus.**
 
-Reglas v0.7; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
+Reglas v0.8; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
 
 Fechas conservadas: 1591–1595. Fuente: VEGA CARPIO, Lope de, El verdadero amante, ed. Eva Rodríguez, en Comedias de Lope de Vega. Parte XIV, coord. José Enrique López Martínez, Madrid, Gredos, 2015, 2 vols, II, pp. 203-378.
 
@@ -12,10 +12,10 @@ Denominador: 2878 versos con rango conocido; 0 segmentos sin rango. Las arquitec
 
 | Medida | Segmentos | Versos | % |
 | --- | --- | --- | --- |
-| forma revisada | 3 | 237 | 8.235 |
-| arquitectura revisada | 0 | 0 | 0.000 |
-| forma solo propuesta | 16 | 2641 | 91.765 |
-| arquitectura solo propuesta | 6 | 272 | 9.451 |
+| forma revisada | 6 | 379 | 13.169 |
+| arquitectura revisada | 3 | 142 | 4.934 |
+| forma solo propuesta | 13 | 2499 | 86.831 |
+| arquitectura solo propuesta | 3 | 130 | 4.517 |
 | con candidatas | 0 | 0 | 0.000 |
 | sin resolver | 0 | 0 | 0.000 |
 
@@ -32,20 +32,20 @@ Denominador: 2878 versos con rango conocido; 0 segmentos sin rango. Las arquitec
 | t07 | 2 | 1418–1460 | tercetos encadenados con serventesio final | revisada | terceto_encadenado | — | — | Remate: serventesio final | — |
 | t08 | 2 | 1461–1640 | redondilla | propuesta | — | redondilla | — | — | — |
 | t09 | 2 | 1641–1666 | romance en -io | propuesta | — | romance | — | -io | — |
-| t10 | 2 | 1667–1701 | endecasílabos sueltos con pareado final | propuesta | — | endecasilabo_suelto | — | pareado final | — |
+| t10 | 2 | 1667–1701 | endecasílabos sueltos con pareado final | revisada | endecasilabo_suelto | — | — | pareado final | — |
 | t11 | 2 | 1702–1769 | redondilla | propuesta | — | redondilla | — | — | — |
 | t12 | 2 | 1770–1896 | tercetos encadenados con serventesio final | revisada | terceto_encadenado | — | — | Remate: serventesio final | — |
 | t13 | 2 | 1897–1960 | redondilla | propuesta | — | redondilla | — | — | — |
-| t14 | 2 | 1961–2016 | endecasílabos sueltos con pareado final | propuesta | — | endecasilabo_suelto | — | pareado final | — |
+| t14 | 2 | 1961–2016 | endecasílabos sueltos con pareado final | revisada | endecasilabo_suelto | — | — | pareado final | — |
 | t15 | 3 | 2017–2064 | endecasílabos sueltos | propuesta | — | endecasilabo_suelto | — | — | — |
 | t16 | 3 | 2065–2676 | redondilla | propuesta | — | redondilla | — | — | — |
 | t17 | 3 | 2677–2771 | quintilla | propuesta | — | quintilla | — | — | — |
 | t18 | 3 | 2772–2827 | octava real | propuesta | — | octava_real | — | — | — |
-| t19 | 3 | 2828–2878 | endecasílabos sueltos con pareado final | propuesta | — | endecasilabo_suelto | — | pareado final | — |
+| t19 | 3 | 2828–2878 | endecasílabos sueltos con pareado final | revisada | endecasilabo_suelto | — | — | pareado final | — |
 
 ## Límites
 
-- Una fila fuente conserva un segmento provisional: no se confirma la segmentación definitiva de una ficha.
+- Las filas fuente se conservan; una regla explícita puede dividirlas en segmentos provisionales para revisar antes de guardar.
 
 - La aceptación de la transcripción no aprueba equivalencias ni afirma conformidad normativa.
 

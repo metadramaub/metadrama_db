@@ -79,6 +79,11 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
+El 02-11 se revisa [El caballero del milagro](./importador-metrico/revision-caballero-milagro-2026-11-02.md)
+con prompt v0.6 y equivalencias v0.8. Seguir obra a obra con las veinte, registrando versiones y
+conservando respuestas originales. Al cerrar el lote se decidirá qué repetir con el prompt final
+y qué fichas de prueba retirar; no hay autorización de borrado ni reimportación automática.
+
 Orden operativo actualizado: [estado acordado del 31 de octubre](./importador-metrico/estado-2026-10-31.md).
 Primero mejorar y probar el prompt, cerrar notas/desviaciones y el procedimiento para colaboradores;
 después integrar la precomputación real. La primera ronda de Gemini gratuita está documentada en

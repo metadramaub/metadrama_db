@@ -920,6 +920,12 @@ ABBA CDE CDE eFF`—, y lo ejemplifica con el «Voto a Dios que me espanta esta 
 **Decidir** · **el estrambote es el más probable de los dos en un corpus áureo.** Si se espera a que
 aparezca, hay que saber que aparecerá sin sitio donde caer.
 
+**Caso localizado el 02-11-2026** · La sinopsis de *El caballero del milagro* declara «soneto con
+estrambote», vv. 1665–1681. El responsable dispone provisionalmente separar 1665–1678 como Soneto
+y 1679–1681 como secuencia sin identificar. Queda pendiente del IP admitir el estrambote como
+remate dentro del soneto; esta solución del importador no modifica el catálogo ni identifica
+metro o rima de los tres versos finales. [Cotejo y acuerdo](../importador-metrico/revision-caballero-milagro-2026-11-02.md).
+
 ---
 
 # Estrofas compuestas de arte menor

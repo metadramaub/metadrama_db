@@ -1,5 +1,40 @@
 # El caballero del milagro: revisión de la respuesta v0.5
 
+## Continuación con v0.6 y acuerdos del responsable
+
+La segunda respuesta aportada corrige las tres jornadas y conserva la llamada 66 con texto
+null e incidencia. Mantiene los 23 rangos y recuentos y los cinco totales del resumen; todavía
+conserva saltos de línea en las cinco denominaciones de sueltos. Se archiva sin modificar como
+`respuesta-v0.6-original.json` en la carpeta privada de este caso. Servicio y modelo no conocidos.
+
+Acuerdos explícitos del responsable el 2 de noviembre, implementados en equivalencias v0.8:
+
+- «Endecasílabos sueltos rematados en pareado» equivale a la variante «con pareado final»:
+  Endecasílabo suelto, arquitectura endecasílaba y Dístico final presente, sin nueva secuencia.
+- «Sextetos-liras» equivale a Sexteto-lira. Su única arquitectura activa es Heterométrico
+  consonante, contrastada mediante consulta de solo lectura al Supabase enlazado. No se elige
+  esquema de rima ni distribución de medidas.
+- Provisionalmente, «soneto con estrambote» se divide en primeros 14 versos como Soneto y resto
+  sin identificar. En esta obra: 1665–1678 y 1679–1681. No se presupone forma, metro ni esquema
+  del resto. El IP decidirá si el catálogo debe admitir estrambote como remate de soneto.
+  Si la extensión no supera 14 o no consta, no se inventa la división y queda sin identificar.
+
+La comparación de literales tolera diferencias de espacios y saltos de línea, conservando
+intacto el literal original. La división conserva la misma fila fuente en ambas partes y puede
+editarse por el mecanismo existente. La nota sobre el estrambote se guarda en la parte pendiente.
+
+La referencia de formas y arquitecturas se amplía mediante consulta de solo lectura a las 49
+formas activas, con fecha propia de consulta. Rasgos y demás detalles mantienen su referencia
+anterior: su ampliación se comprobará cuando aparezcan nuevas precisiones, sin afirmar cobertura
+completa de todos los campos del catálogo. No se cambió el catálogo ni la DB.
+
+Las veinte se revisarán conservando respuesta original, prompt utilizado y modelo cuando conste.
+Al acabar se decidirá si repetir las ejecuciones con prompts antiguos o retirar las fichas de
+prueba; no se elimina ni se reimporta nada automáticamente. La normalización tiene su propia
+versión: cambiar una equivalencia no exige repetir la extracción si esta conserva la información.
+
+Lo que sigue documenta el primer cotejo y las limitaciones detectadas entonces.
+
 Respuesta aportada por David el 2 de noviembre de 2026. No consta aquí qué servicio o modelo
 la produjo. Se coteja visualmente con las dos fotografías locales del lote, usando sus copias
 JPG de lectura. No se declara gold ni revisión humana aprobada.

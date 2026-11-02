@@ -2,7 +2,7 @@
 
 **Borrador de trabajo. No importado ni apto para incorporarse automáticamente al corpus.**
 
-Reglas v0.7; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
+Reglas v0.8; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
 
 Fechas conservadas: 1592–1595. Fuente: VEGA CARPIO, Lope de, Los locos de Valencia, ed. Carlos Peña, en Comedias de Lope de Vega. Parte XIII, coord. Natalia Fernández Rodríguez, Madrid, Gredos, 2014, 2 vols, II, pp. 167-328.
 
@@ -46,7 +46,7 @@ Denominador: 3072 versos con rango conocido; 0 segmentos sin rango. Las arquitec
 
 ## Límites
 
-- Una fila fuente conserva un segmento provisional: no se confirma la segmentación definitiva de una ficha.
+- Las filas fuente se conservan; una regla explícita puede dividirlas en segmentos provisionales para revisar antes de guardar.
 
 - La aceptación de la transcripción no aprueba equivalencias ni afirma conformidad normativa.
 

@@ -1,4 +1,4 @@
--- Solo lectura. Referencia acotada para las propuestas del primer lote del importador.
+-- Solo lectura. Desde el 02-11-2026 las formas incluyen todo el catálogo activo.
 select jsonb_build_object(
   'esquema', 'versologia-catalogo-piloto/0.1',
   'estado', (select to_jsonb(e) from public.catalogo_metrico_estado e),
@@ -15,13 +15,7 @@ select jsonb_build_object(
       ), '[]'::jsonb)
     ) order by f.slug)
     from public.formas_metricas f
-    where f.activo and (
-      f.slug in ('redondilla', 'quintilla', 'terceto', 'terceto_encadenado',
-        'endecasilabo_encadenado', 'endecasilabo_suelto', 'octava_real', 'romance',
-        'soneto', 'villancico', 'zejel', 'romancillo', 'cancion', 'cancion_petrarquista',
-        'cancion_sin_rima', 'silva', 'verso_aislado')
-      or f.nombre ilike '%letrilla%'
-    )
+    where f.activo
   ),
   'denominaciones_consultadas', (
     select coalesce(jsonb_agg(jsonb_build_object(

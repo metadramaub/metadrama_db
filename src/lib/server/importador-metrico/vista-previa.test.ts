@@ -5,6 +5,36 @@ import { analizarEntrada, obtenerPilotos, obtenerReferenciaImportador } from './
 import preparada from '../../../../docs/importador-metrico/piloto/preparadas/el-verdadero-amante.json';
 
 describe('vista previa del importador sin persistencia', () => {
+	it('prepara las equivalencias y divide el estrambote sin perder la fila original', () => {
+		const raw = JSON.parse(obtenerPilotos()[0].entrada);
+		raw.obra_ref = 'obra-importada';
+		raw.jornadas = [{numero: 1, rotulo_literal: 'ACTO PRIMERO'}];
+		raw.tramos = [
+			{id:'t01', jornada:1, v_ini:1, v_fin:76, denominacion_literal:'endecasílabos sueltos rematados\nen pareado', n_versos_fuente:76, fuente_id:'foto-01', pagina:null, notas_ref:[]},
+			{id:'t02', jornada:1, v_ini:77, v_fin:178, denominacion_literal:'sextetos-liras', n_versos_fuente:102, fuente_id:'foto-01', pagina:null, notas_ref:[]},
+			{id:'t03', jornada:1, v_ini:179, v_fin:195, denominacion_literal:'soneto con estrambote', n_versos_fuente:17, fuente_id:'foto-01', pagina:null, notas_ref:[]}
+		];
+		raw.notas=[]; raw.resumen_fuente=[]; raw.incidencias=[];
+		const vista = analizarEntrada(JSON.stringify(raw));
+		expect(vista.errores).toEqual([]);
+		const partes = vista.datos!.segmentos;
+		expect(partes).toHaveLength(4);
+		expect(partes[0].identificacion).toEqual({forma_slug:'endecasilabo_suelto',arquitectura_slug:'endecasilabica'});
+		expect(partes[0].detalles_fuente).toContainEqual({literal:'pareado final',rasgo_slug:'distico_final',valor_slug:'presente'});
+		expect(partes[0].origen.denominacion_literal).toContain('\n');
+		expect(partes[1].identificacion).toEqual({forma_slug:'sexteto_lira',arquitectura_slug:'heterometrica_consonante'});
+		expect(partes[2]).toMatchObject({v_ini:179,v_fin:192,origen:{tramo_ref:'t03'},identificacion:{forma_slug:'soneto'}});
+		expect(partes[3]).toMatchObject({v_ini:193,v_fin:195,origen:{tramo_ref:'t03'},identificacion:null,candidatas:[]});
+		expect(partes[3].nota).toContain('pendiente del IP');
+		// La división propuesta sigue siendo editable por la fila original.
+		const edicion = [{tramo_ref:'t03',partes:[
+			{v_ini:179,v_fin:192,identificacion:{forma_slug:'soneto',arquitectura_slug:'endecasilabica_consonante'},nota:null,remate:null},
+			{v_ini:193,v_fin:195,identificacion:null,nota:partes[3].nota,remate:null}
+		]}];
+		const editada = analizarEntrada(JSON.stringify(raw), {}, edicion);
+		expect(editada.errores).toEqual([]);
+		expect(raw.tramos).toHaveLength(3);
+	});
 	it('explica una sola vez las jornadas fuera de orden, indicando los números recibidos', () => {
 		const raw = JSON.parse(obtenerPilotos()[0].entrada);
 		for (const j of raw.jornadas) j.numero += 1;

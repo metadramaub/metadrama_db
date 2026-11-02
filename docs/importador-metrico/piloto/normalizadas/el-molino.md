@@ -2,7 +2,7 @@
 
 **Borrador de trabajo. No importado ni apto para incorporarse automáticamente al corpus.**
 
-Reglas v0.7; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
+Reglas v0.8; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
 
 Fechas conservadas: 1585–1593. Fuente: VEGA CARPIO, Lope de, y Patrizia CAMPANA, El molino, en Comedias de Lope de Vega. Parte I, Lérida, Milenio-Universitat Autònoma de Barcelona, 1997, 3 vols, III, pp. 1547-1686.
 
@@ -12,10 +12,10 @@ Denominador: 2992 versos con rango conocido; 0 segmentos sin rango. Las arquitec
 
 | Medida | Segmentos | Versos | % |
 | --- | --- | --- | --- |
-| forma revisada | 0 | 0 | 0.000 |
-| arquitectura revisada | 0 | 0 | 0.000 |
-| forma solo propuesta | 20 | 2983 | 99.699 |
-| arquitectura solo propuesta | 7 | 279 | 9.325 |
+| forma revisada | 2 | 63 | 2.106 |
+| arquitectura revisada | 2 | 63 | 2.106 |
+| forma solo propuesta | 18 | 2920 | 97.594 |
+| arquitectura solo propuesta | 5 | 216 | 7.219 |
 | con candidatas | 1 | 9 | 0.301 |
 | sin resolver | 0 | 0 | 0.000 |
 
@@ -31,9 +31,9 @@ Denominador: 2992 versos con rango conocido; 0 segmentos sin rango. Las arquitec
 | t06 | 2 | 974–1253 | redondillas | propuesta | — | redondilla | — | — | — |
 | t07 | 2 | 1254–1333 | octavas reales | propuesta | — | octava_real | — | — | — |
 | t08 | 2 | 1334–1793 | redondillas | propuesta | — | redondilla | — | — | — |
-| t09 | 2 | 1794–1831 | endecasílabos sueltos (con pareado final) | propuesta | — | endecasilabo_suelto | — | pareado final | — |
+| t09 | 2 | 1794–1831 | endecasílabos sueltos (con pareado final) | revisada | endecasilabo_suelto | — | — | pareado final | — |
 | t10 | 2 | 1832–1963 | tercetos encadenados | propuesta | — | terceto_encadenado | — | — | — |
-| t11 | 2 | 1964–1988 | endecasílabos sueltos (con pareado final) | propuesta | — | endecasilabo_suelto | — | pareado final | — |
+| t11 | 2 | 1964–1988 | endecasílabos sueltos (con pareado final) | revisada | endecasilabo_suelto | — | — | pareado final | — |
 | t12 | 3 | 1989–2002 | soneto | propuesta | — | soneto | — | — | — |
 | t13 | 3 | 2003–2247 | quintillas | propuesta | — | quintilla | — | — | — |
 | t14 | 3 | 2248–2271 | octavas reales | propuesta | — | octava_real | — | — | — |
@@ -47,7 +47,7 @@ Denominador: 2992 versos con rango conocido; 0 segmentos sin rango. Las arquitec
 
 ## Límites
 
-- Una fila fuente conserva un segmento provisional: no se confirma la segmentación definitiva de una ficha.
+- Las filas fuente se conservan; una regla explícita puede dividirlas en segmentos provisionales para revisar antes de guardar.
 
 - La aceptación de la transcripción no aprueba equivalencias ni afirma conformidad normativa.
 

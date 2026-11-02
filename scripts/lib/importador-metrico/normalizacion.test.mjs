@@ -30,6 +30,27 @@ const approval = {
 };
 
 describe('normalizador local', () => {
+	it('divide solo el soneto con estrambote explícito y extensión suficiente, preservando el original', () => {
+		for (const n of [13, 14, 17, 20]) {
+			const input = raw();
+			input.obra_ref='obra-importada'; input.jornadas=[{numero:1,rotulo_literal:null}];
+			input.tramos=[{id:'t01',jornada:1,v_ini:100,v_fin:99+n,denominacion_literal:'soneto con estrambote',n_versos_fuente:n,fuente_id:'foto-01',pagina:null,notas_ref:[]}];
+			input.notas=[]; input.resumen_fuente=[]; input.incidencias=[];
+			const before=structuredClone(input);
+			const result=normalizarExtraccion(input,context({fuentes:undefined}));
+			expect(input).toEqual(before);
+			expect(result.cobertura.versos).toBe(n);
+			if(n<=14) {
+				expect(result.segmentos).toHaveLength(1);
+				expect(result.segmentos[0].identificacion_revisada).toBeNull();
+			} else {
+				expect(result.segmentos).toHaveLength(2);
+				expect(result.segmentos[0]).toMatchObject({v_ini:100,v_fin:113,identificacion_revisada:{forma_slug:'soneto'}});
+				expect(result.segmentos[1]).toMatchObject({v_ini:114,v_fin:99+n,estado_identificacion:'sin_resolver',identificacion_revisada:null,candidatas:[]});
+				for(const s of result.segmentos) expect(s.fuente).toEqual(before.tramos[0]);
+			}
+		}
+	});
 	it('la CLI verifica los derivados y sus entradas aceptadas sin escribir', () => {
 		const result = spawnSync(
 			process.execPath,
@@ -43,7 +64,7 @@ describe('normalizador local', () => {
 		expect(JSON.parse(result.stdout)).toMatchObject({
 			obras: 4,
 			versos: 11754,
-			forma_revisada: 237
+			forma_revisada: 442
 		});
 	});
 	it('la CLI rechaza opciones no declaradas antes de regenerar archivos', () => {
@@ -73,7 +94,7 @@ describe('normalizador local', () => {
 			expect(result.segmentos.map((s) => s.fuente)).toEqual(input.tramos);
 			expect(result.segmentos).toHaveLength(input.tramos.length);
 			expect(result.apta_para_corpus).toBe(false);
-			expect(result.cobertura.forma_revisada.versos).toBe(ref === 'el-verdadero-amante' ? 237 : 0);
+			expect(result.cobertura.forma_revisada.versos).toBe(({ 'el-verdadero-amante': 379, 'el-molino': 63 }[ref] ?? 0));
 			total += result.cobertura.versos;
 		}
 		expect(total).toBe(11754);
@@ -127,8 +148,8 @@ describe('normalizador local', () => {
 		expect(row.detalles_fuente).toContainEqual(
 			expect.objectContaining({ literal: 'pareado final', tipo_seccion: 'remate', n_versos: 2 })
 		);
-		expect(result.cobertura.forma_revisada.versos).toBe(237);
-		expect(result.cobertura.arquitectura_revisada.versos).toBe(0);
+		expect(result.cobertura.forma_revisada.versos).toBe(379);
+		expect(result.cobertura.arquitectura_revisada.versos).toBe(142);
 	});
 	it('interpreta el serventesio final como un terceto encadenado más su remate de un verso', () => {
 		const result = normalizarExtraccion(raw('el-verdadero-amante'), context());
@@ -159,8 +180,8 @@ describe('normalizador local', () => {
 		expect(
 			result.segmentos.some((s) => s.identificacion_revisada?.forma_slug === 'serventesio')
 		).toBe(false);
-		expect(result.cobertura.forma_revisada.versos).toBe(237);
-		expect(result.cobertura.arquitectura_revisada.versos).toBe(0);
+		expect(result.cobertura.forma_revisada.versos).toBe(379);
+		expect(result.cobertura.arquitectura_revisada.versos).toBe(142);
 	});
 	it('una aprobación explícita identifica solo lo aprobado: forma sin arquitectura', () => {
 		const ctx = context();
