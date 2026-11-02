@@ -13,8 +13,8 @@
       "respuesta": "backups/importador-local/verdadero-amante-2026-11-02/respuesta-v0.12-gemini-original.json",
       "validacion_tecnica": true,
       "resultado_cotejo": "Fallido: denominaciones desplazadas, jornada errónea y recuento confundido con llamada de nota."
-    }
-    ,{
+    },
+    {
       "servicio": "ChatGPT",
       "plan": "Plus",
       "modo": "Instant",
@@ -25,6 +25,18 @@
       "respuesta": "backups/importador-local/verdadero-amante-2026-11-02/respuesta-v0.12-chatgpt-gpt6-instant-original.json",
       "validacion_tecnica": true,
       "resultado_cotejo": "19 filas y 2878 versos; sin desplazamientos de formas, jornadas incorrectas ni nota 51 inventada. Única diferencia en los campos métricos cotejados: romance en -ío por romance en -io."
+    },
+    {
+      "servicio": "Gemini",
+      "plan": "gratuito",
+      "modo": "Automático",
+      "modelo": "3.5 Flash-Lite",
+      "modelo_procedencia": "El responsable comunica el modelo mostrado en los detalles de esta respuesta.",
+      "parametros": null,
+      "prompt": "extraccion/0.13",
+      "respuesta": "backups/importador-local/verdadero-amante-2026-11-02/respuesta-v0.13-gemini-flash-lite-original.json",
+      "validacion_tecnica": true,
+      "resultado_cotejo": "19 filas y 2878 versos; coincidencia con la referencia aceptada en jornadas, rangos, denominaciones, recuentos, páginas y enlaces de notas; no inventa nota 51."
     }
   ],
   "limitacion": "Resultados de estas respuestas, no una tasa de error ni una evaluación controlada de modelos; no se ha comprobado la identidad binaria de las fotografías enviadas. La referencia inicial y los originales permanecen intactos."

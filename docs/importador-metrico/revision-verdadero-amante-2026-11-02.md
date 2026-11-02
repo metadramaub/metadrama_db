@@ -82,3 +82,26 @@ fotos y sin pegar la respuesta fallida, para evitar que la arrastre. Esta obra s
 prueba de regresión para el fallo conocido, no una evaluación independiente del prompt.
 Después se comprobarán nuevas obras para observar si la mejora se mantiene. No hace falta
 volver a guardar esta obra; se conservan por separado los originales de cada ensayo.
+
+## Resultado de Gemini 3.5 Flash-Lite, prompt v0.13
+
+El responsable aporta una nueva respuesta e indica «Se ha usado 3.5 Flash-Lite» desde
+los detalles de la aplicación. El JSON declara Gemini pero deja modelo, modo y plan null;
+las condiciones externas se conservan en el registro de ensayos. No se atribuye una
+conversación nueva ni identidad binaria de adjuntos sin confirmación adicional.
+
+Validación técnica correcta y **cero diferencias** respecto a la referencia inicial aceptada
+en jornadas, rangos, denominaciones literales, recuentos, páginas y enlaces de notas de las
+19 filas; 2878 versos. Conserva completas las denominaciones de tercetos con serventesio
+y sueltos con pareado final, sitúa el acto tercero desde 2017, conserva «romance en -io»
+y no inventa la nota 51. No hay formas pendientes con las reglas actuales.
+
+Este resultado resuelve el fallo conocido en esta ejecución; no estima una tasa de acierto
+ni acredita todavía mejora generalizable. Es una prueba de regresión tras adaptar el prompt
+a los errores observados, no una obra nueva reservada para evaluación independiente.
+
+Original intacto: `backups/importador-local/verdadero-amante-2026-11-02/respuesta-v0.13-gemini-flash-lite-original.json`.
+La obra ya está guardada con la respuesta de ChatGPT v0.12: no se reimporta ni se cambia su
+copia confirmada. La referencia inicial permanece intacta y sigue alimentando el inventario.
+Mantener v0.13 y continuar con otra obra del lote para observar el comportamiento fuera
+de este caso conocido.
