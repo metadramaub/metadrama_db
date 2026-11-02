@@ -195,7 +195,12 @@
 					<textarea name="fundamento_autoria" bind:value={metadatos.fundamento_autoria} oninput={cambioMetadatos} rows="3" class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"></textarea>
 				</label>
 			</div>
-			<button class="rounded-md border border-[color:var(--foreground)] px-5 py-2.5 text-sm font-medium hover:bg-[color:var(--muted)] disabled:opacity-50" disabled={pendiente}>{pendiente ? 'Comprobando…' : 'Comprobar cambios'}</button>
+			<div class="flex flex-wrap items-center gap-3">
+				<button class="rounded-md border border-[color:var(--foreground)] px-5 py-2.5 text-sm font-medium hover:bg-[color:var(--muted)] disabled:opacity-50" disabled={pendiente}>{pendiente ? 'Comprobando…' : 'Comprobar cambios'}</button>
+				{#if desactualizada && vista.datos}
+					<p role="status" class="border-l-2 border-amber-400 bg-amber-50 px-3 py-2 text-sm">Cambios sin comprobar.</p>
+				{/if}
+			</div>
 		</form>
 	{/if}
 	{#if coincidencias.length && !entradaCambiada}

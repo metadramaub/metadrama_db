@@ -42,9 +42,6 @@
 		<h2 class="text-lg font-semibold">{vista.persistido?'Secuencias registradas':'Secuencias propuestas'}</h2>
 		<span class="text-xs text-[color:var(--muted-foreground)]">{vista.persistido?'Copia de la importación':'Sin guardar'}</span>
 	</header>
-	{#if desactualizada && vista.datos}
-		<p role="status" class="border-l-2 border-amber-400 bg-amber-50 px-3 py-2 text-sm">Cambios sin comprobar.</p>
-	{/if}
 	{#if vista.errores.length}
 		<div role="alert" class="border border-red-200 bg-red-50 p-4 text-sm">
 			<ul class="list-disc space-y-1 pl-5">
