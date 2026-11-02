@@ -7,7 +7,19 @@ Dos documentos de trabajo, generados con el mismo comando:
 - [Documento de revisión de equivalencias](./piloto/revision-equivalencias.md): para enviar
   al IP. Incluye todos los términos de las entradas seleccionadas, las reglas y sus fundamentos,
   todas las formas y arquitecturas del catálogo, los datos adicionales y los casos complejos.
-  Puede enviarse solo: reproduce el contenido de los casos complejos al final.
+  Puede enviarse solo: reproduce el contenido de los casos complejos antes del anexo.
+
+El documento de revisión se ordena en cinco partes: decisiones pendientes, tabla resumen,
+procedencia con uno o dos ejemplos por término, casos complejos y anexo exhaustivo.
+Las formas aún no encontradas en las entradas disponibles se listan aparte: no son errores
+ni equivalencias que haya que inventar. Cada término enlaza con su procedencia; las candidatas
+se señalan expresamente. Las reglas completas, todas las apariciones y arquitecturas y las
+huellas de archivos se conservan en el anexo.
+
+Las cuestiones de la primera tabla se mantienen en `piloto/decisiones-equivalencias.json`:
+criterio actual, propuesta y pregunta por resolver. Son propuestas para revisión, no cambios
+aplicados al normalizador. Se actualizan cuando se toma una decisión para no perpetuar preguntas
+ya resueltas. Los casos concretos proceden del documento de casos complejos.
 
 ```powershell
 npm run importador:informes

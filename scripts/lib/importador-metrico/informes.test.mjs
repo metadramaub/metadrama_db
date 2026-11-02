@@ -30,4 +30,18 @@ describe('informes del piloto', () => {
 		expect(informe).toContain('| Forma A | Arquitectura A | — |');
 		expect(informe).toContain('rima \\| texto');
 	});
+	it('sitúa las decisiones y el resumen antes de la evidencia, conservando el detalle en el anexo', () => {
+		const catalogo = { fecha_consulta_formas: '2026-11-02', formas: [{ nombre: 'Romance', slug: 'romance', arquitecturas: [] }] };
+		const reglas = { version: 'v1', reglas: [{ id: 'letrilla', literales: ['letrilla'], tipo: 'candidatas_orientativas', candidatas: [{ forma_slug: 'romance', arquitectura_slug: null }], fundamento: 'Nombre ambiguo' }] };
+		const observaciones = [{ literal: 'letrilla', origenes: ['Obra, t01 (1–8)'], resultados: new Set(['Sin resolver']), apariciones: [{ obra: 'Obra', fila: 't01', v_ini: 1, v_fin: 8, regla_id: 'letrilla', formas: ['romance'], formas_identificadas: [], notas: ['Una nota de la edición.'] }] }];
+		const informe = informeEquivalencias(catalogo, reglas, observaciones, [], { decisiones: [{ asunto: 'Letrilla', actual: 'Sin resolver', propuesta: 'Conservar literal', decidir: 'Revisar candidatas' }], casos: 'Caso complejo conservado', evidencias: ['- archivo y hash'] });
+		const secciones = ['## Decisiones pendientes', '## Tabla resumen', '## Procedencia en las obras del piloto', '## Casos complejos', '## Anexo técnico y documental'];
+		for (let i = 1; i < secciones.length; i++) expect(informe.indexOf(secciones[i])).toBeGreaterThan(informe.indexOf(secciones[i - 1]));
+		expect(informe).toContain('[letrilla](#termino-1) (candidata)');
+		expect(informe).toContain('Solo candidata; sin equivalencia directa');
+		expect(informe).toContain('Caso complejo conservado');
+		expect(informe).toContain('Una nota de la edición.');
+		expect(informe).toContain('#### letrilla');
+		expect(informe).toContain('archivo y hash');
+	});
 });

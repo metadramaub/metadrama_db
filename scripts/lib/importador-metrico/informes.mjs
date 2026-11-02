@@ -19,7 +19,72 @@ export function informeSeguimiento(lote, registro) {
 	return lineas.join('\n');
 }
 
-export function informeEquivalencias(catalogo, equivalencias, observaciones, problemas = []) {
+export function informeEquivalencias(catalogo, equivalencias, observaciones, problemas = [], opciones = {}) {
+	const normalizar = (s) => s.toLocaleLowerCase('es').replace(/\s+/g, ' ').trim();
+	const ordenadas = observaciones.toSorted((a, b) => a.literal.localeCompare(b.literal, 'es'));
+	const enlace = (o) => `[${celda(o.literal)}](#termino-${ordenadas.indexOf(o) + 1})`;
+	const reglas = equivalencias.reglas;
+	const reglasDe = (o) => o.apariciones
+		? reglas.filter((r) => o.apariciones.some((a) => a.regla_id === r.id))
+		: reglas.filter((r) => r.literales.some((s) => normalizar(s) === normalizar(o.literal)));
+	const porForma = (f) => ordenadas.filter((o) => o.apariciones
+		? o.apariciones.some((a) => a.formas.includes(f.slug))
+		: reglasDe(o).some((r) => r.candidatas.some((c) => c.forma_slug === f.slug)));
+	const encontradas = catalogo.formas.filter((f) => porForma(f).length);
+	const noEncontradas = catalogo.formas.filter((f) => !porForma(f).length);
+	const sinRegla = catalogo.formas.filter((f) => !reglas.some((r) => r.tipo === 'equivalencia_propuesta' && r.candidatas.some((c) => c.forma_slug === f.slug)));
+	const l = ['# Equivalencias del importador: documento de revisión', '',
+		`Reglas ${equivalencias.version}; catálogo consultado el ${catalogo.fecha_consulta_formas}.`, '',
+		'Para revisar: decisiones pendientes y tabla resumen. La procedencia y los casos complejos permiten comprobar ejemplos; el anexo conserva todas las apariciones y las reglas completas.', '',
+		'[Decisiones](#decisiones-pendientes) · [Resumen](#tabla-resumen) · [Procedencia](#procedencia-en-las-obras-del-piloto) · [Casos complejos](#casos-complejos) · [Anexo](#anexo-tecnico-y-documental)', '',
+		'## Decisiones pendientes', '',
+		'Estas propuestas no modifican las equivalencias hasta que se acuerde el criterio.', '',
+		'| Término o caso | Criterio actual | Propuesta | Qué decidir |', '| --- | --- | --- | --- |'];
+	for (const d of opciones.decisiones ?? []) l.push(`| ${celda(d.asunto)} | ${celda(d.actual)} | ${celda(d.propuesta)} | ${celda(d.decidir)} |`);
+	if (!(opciones.decisiones?.length)) l.push('| — | No se han suministrado decisiones para este informe | — | — |');
+	l.push('', '## Tabla resumen', '',
+		'Formas identificadas o planteadas como candidatas en las entradas disponibles. «Sin especificar» no significa ausencia. La revisión indicada corresponde a las reglas, no a la validación de cada obra.', '',
+		'| Forma del catálogo | Términos de las ediciones | Arquitectura identificable | Situación | Ejemplos del piloto |', '| --- | --- | --- | --- | --- |');
+	for (const f of encontradas) {
+		const obs = porForma(f);
+		const relacionadas = [...new Set(obs.flatMap(reglasDe))].filter((r) => r.candidatas.some((c) => c.forma_slug === f.slug));
+		const directas = relacionadas.filter((r) => r.tipo === 'equivalencia_propuesta');
+		const arquitecturas = [...new Set(directas.flatMap((r) => r.candidatas.filter((c) => c.forma_slug === f.slug).map((c) => f.arquitecturas.find((a) => a.slug === c.arquitectura_slug)?.nombre ?? 'Sin especificar')))];
+		const situacion = !directas.length ? 'Solo candidata; sin equivalencia directa' : directas.every((r) => r.aprobacion) ? 'Reglas aprobadas' : directas.some((r) => r.aprobacion) ? 'Reglas parcialmente revisadas' : 'Correspondencias pendientes de revisión';
+		const ejemplos = [...new Set(obs.flatMap((o) => o.apariciones?.map((a) => a.obra) ?? o.origenes.map((s) => s.split(', ')[0])))].slice(0, 2);
+		const terminos = obs.filter((o, i) => obs.findIndex((otra) => normalizar(otra.literal) === normalizar(o.literal)) === i).map((o) => {
+			const identificada = o.apariciones ? o.apariciones.some((a) => a.formas_identificadas?.includes(f.slug)) : reglasDe(o).some((r) => r.tipo === 'equivalencia_propuesta' && r.candidatas.some((c) => c.forma_slug === f.slug));
+			return enlace(o) + (identificada ? '' : ' (candidata)');
+		});
+		l.push(`| ${celda(f.nombre)} | ${terminos.join('; ')} | ${celda(arquitecturas.join('; ') || 'Sin especificar')} | ${situacion} | ${celda(ejemplos.join('; '))} |`);
+	}
+	l.push('', '### Formas aún no encontradas en las entradas revisadas', '',
+		'No requieren inventar una equivalencia ahora. Esta lista describe las extracciones disponibles del piloto, no todo el repertorio de las veinte fotografías.', '',
+		noEncontradas.map((f) => catalogo.formas.filter((otra) => otra.nombre === f.nombre).length > 1 ? `${f.nombre} (${f.slug})` : f.nombre).join('; ') + '.', '',
+		`Referencia completa: ${catalogo.formas.length} formas; ${sinRegla.length} sin regla directa de importación. El detalle de cobertura está en el anexo.`, '');
+	if (problemas.length) l.push('**Entradas no disponibles o no válidas:**', '', ...problemas.map((p) => `- ${p}`), '');
+	l.push('## Procedencia en las obras del piloto', '', 'Uno o dos ejemplos por término. Las notas son transcripciones de ensayo; no se consideran cotejadas por aparecer en este informe. Todas las localizaciones se conservan en el anexo.', '');
+	for (const [i, o] of ordenadas.entries()) {
+		l.push(`<a id="termino-${i + 1}"></a>`, '', `### ${o.literal}`, '');
+		for (const [indice, origen] of o.origenes.slice(0, 2).entries()) {
+			l.push(`- ${origen}.`);
+			const nota = o.apariciones?.[indice]?.notas?.filter(Boolean).join(' ');
+			if (nota) l.push(`  Nota de la edición: ${nota.length > 200 ? nota.slice(0, 200) + '… (texto completo en el anexo)' : nota}`);
+		}
+		l.push(`- Resultado: ${[...o.resultados].join('; ')}.`, '');
+	}
+	l.push('## Casos complejos', '', opciones.casos ?? 'Véase [Casos complejos de equivalencias](../casos-complejos-equivalencias.md).', '',
+		'## Anexo técnico y documental', '', 'Consulta de detalle: apariciones completas, cobertura de formas y arquitecturas, reglas, condiciones y fundamentos.', '');
+	const anexo = anexoEquivalencias(catalogo, equivalencias, observaciones, problemas);
+	// Conserva el informe exhaustivo anterior, sin repetir su introducción ni la sección de casos.
+	l.push(anexo.slice(anexo.indexOf('## Términos observados')).split('## Casos particulares pendientes')[0].replace(/^### /gm, '#### ').replace(/^## /gm, '### '));
+	l.push('### Notas de las apariciones', '');
+	for (const o of ordenadas) for (const a of o.apariciones ?? []) if (a.notas?.length) l.push(`- **${celda(o.literal)} · ${a.obra}, ${a.fila} (${a.v_ini}–${a.v_fin}):** ${a.notas.join(' ')}`);
+	l.push('', '### Archivos y huellas de las entradas', '', ...(opciones.evidencias ?? []), '');
+	return l.join('\n');
+}
+
+function anexoEquivalencias(catalogo, equivalencias, observaciones, problemas = []) {
 	const reglas = equivalencias.reglas;
 	const directas = reglas.filter((r) => r.tipo === 'equivalencia_propuesta');
 	const candidatas = reglas.filter((r) => r.tipo === 'candidatas_orientativas');

@@ -37,19 +37,27 @@ for (const obra of lote.obras) {
 		const resultado = normalizarExtraccion(raw, { reglas, catalogo, bibliografia });
 		for (const s of resultado.segmentos) {
 			const literal = s.fuente.denominacion_literal ?? '(sin denominación)';
-			if (!observaciones.has(literal)) observaciones.set(literal, { literal, origenes: [], resultados: new Set() });
+			if (!observaciones.has(literal)) observaciones.set(literal, { literal, origenes: [], resultados: new Set(), apariciones: [] });
 			const o = observaciones.get(literal);
 			const origen = `${obra.titulo}, ${s.fuente.id} (${s.v_ini}–${s.v_fin})`;
-			if (!o.origenes.includes(origen)) o.origenes.push(origen);
 			const destino = s.identificacion_revisada ?? s.propuesta;
+			if (!o.origenes.includes(origen)) {
+				o.origenes.push(origen);
+				o.apariciones.push({ obra: obra.titulo, fila: s.fuente.id, v_ini: s.v_ini, v_fin: s.v_fin,
+					regla_id: s.regla_id, formas: destino ? [destino.forma_slug] : s.candidatas.map((c) => c.forma_slug),
+					formas_identificadas: destino ? [destino.forma_slug] : [],
+					notas: (raw.notas ?? []).filter((n) => s.fuente.notas_ref?.includes(n.id)).map((n) => n.texto_literal).filter(Boolean) });
+			}
 			o.resultados.add(destino ? `${destino.forma_slug}${destino.arquitectura_slug ? ' / ' + destino.arquitectura_slug : ''} (${s.regla_id})` : s.candidatas.length ? `Sin resolver; candidatas: ${s.candidatas.map((c) => c.forma_slug).join(', ')}` : 'Sin equivalencia');
 		}
 	} catch (error) { problemas.push(`${obra.titulo}: ${error.message}`); }
 }
 const coincidencias = registro.importaciones.filter((i) => !lote.obras.some((o) => o.obra_id === i.obra_id));
 const seguimiento = informeSeguimiento(lote, registro) + (coincidencias.length ? `\n## Importaciones sin vincular al seguimiento\n\n${coincidencias.map((i) => `- ${i.titulo}: obra_id ${i.obra_id}. Revisar identidad antes de vincular.`).join('\n')}\n` : '');
-const complejos = readFileSync(join(root, '../casos-complejos-equivalencias.md'), 'utf8').replace(/^# .*\r?\n/, '');
-const revision = informeEquivalencias(catalogo, reglas, [...observaciones.values()], problemas) + complejos + '\n## Entradas de este informe\n\n' + evidencias.join('\n') + '\n';
+const complejos = readFileSync(join(root, '../casos-complejos-equivalencias.md'), 'utf8').replace(/^# .*\r?\n/, '').replace(/^## /gm, '### ');
+const revision = informeEquivalencias(catalogo, reglas, [...observaciones.values()], problemas, {
+	decisiones: read('decisiones-equivalencias.json').decisiones, casos: complejos, evidencias
+});
 for (const [nombre, contenido] of [['seguimiento-lote.md', seguimiento], ['revision-equivalencias.md', revision]]) {
 	const path = join(root, nombre);
 	if (args.includes('--comprobar')) {

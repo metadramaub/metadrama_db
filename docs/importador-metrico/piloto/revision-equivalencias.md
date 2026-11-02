@@ -1,12 +1,385 @@
 # Equivalencias del importador: documento de revisión
 
-Reglas v0.12; catálogo de formas consultado el 2026-11-02.
+Reglas v0.12; catálogo consultado el 2026-11-02.
 
-Este informe se genera, no se edita. Las decisiones se anotan en las reglas o en los casos complejos y después se regenera. No es una medición de la cobertura de todo el corpus ni una aprobación automática.
+Para revisar: decisiones pendientes y tabla resumen. La procedencia y los casos complejos permiten comprobar ejemplos; el anexo conserva todas las apariciones y las reglas completas.
 
-**49 formas; 39 sin regla directa de importación.** Una candidata no equivale a una identificación; una regla disponible no demuestra que la forma haya aparecido en el lote. Una forma identificada sin arquitectura sigue siendo un dato válido al nivel de forma.
+[Decisiones](#decisiones-pendientes) · [Resumen](#tabla-resumen) · [Procedencia](#procedencia-en-las-obras-del-piloto) · [Casos complejos](#casos-complejos) · [Anexo](#anexo-tecnico-y-documental)
 
-## Términos observados en las extracciones disponibles
+## Decisiones pendientes
+
+Estas propuestas no modifican las equivalencias hasta que se acuerde el criterio.
+
+| Término o caso | Criterio actual | Propuesta | Qué decidir |
+| --- | --- | --- | --- |
+| Redondillas: arquitectura habitual | Se identifica Redondilla, sin arquitectura. | Mantener la arquitectura sin especificar hasta acordar si el uso editorial permite asumir octosílabos. | ¿Puede el término sin calificativos identificar la arquitectura octosílaba? ¿Con qué límites? |
+| Tercetos sin precisar | Se conservan Terceto y Terceto encadenado como candidatas. La longitud 3n+1 solo orienta. | No elegir automáticamente por el nombre ni por el número de versos. | ¿Qué información de una nota o convención editorial basta para elegir? |
+| Tercetos encadenados: medida | La forma y el remate pueden quedar identificados sin arquitectura. | Mantener la medida sin especificar hasta fijar el criterio. | ¿Se puede asumir la arquitectura endecasílaba cuando la edición solo dice encadenados? |
+| Soneto con estrambote | Se separan 14 versos de Soneto y el resto sin identificar. | Conservar esta solución provisional mientras el catálogo no admita el estrambote como remate. | ¿Ampliar el catálogo para registrar el remate del soneto? |
+| Coplas reales y quintillas insertas | Laura perseguida 617–876 se conserva como Quintilla. El leal criado no se guarda; su nota produciría 60 + 5 + 65 versos. | Mantener ambas decisiones provisionales sin generalizar cortes por las notas. | ¿Cómo interpretar la agrupación de quintillas y cuándo cambia de forma? Ver los casos complejos. |
+| Letrilla | No hay equivalencia única; se conserva sin identificar. | Mantener el término original y elegir una forma solo cuando haya información suficiente. | ¿Qué candidatas o criterios de identificación se pueden documentar sin inferir canto? |
+
+## Tabla resumen
+
+Formas identificadas o planteadas como candidatas en las entradas disponibles. «Sin especificar» no significa ausencia. La revisión indicada corresponde a las reglas, no a la validación de cada obra.
+
+| Forma del catálogo | Términos de las ediciones | Arquitectura identificable | Situación | Ejemplos del piloto |
+| --- | --- | --- | --- | --- |
+| Canción | [estancias con pareado final](#termino-9) | Sin especificar | Reglas aprobadas | El verdadero amante |
+| Copla real | [coplas reales](#termino-1) | Octosílaba consonante | Reglas aprobadas | El leal criado |
+| Endecasílabo suelto | [endecasílabos blancos](#termino-2); [endecasílabos sueltos](#termino-3); [endecasílabos sueltos (con pareado final)](#termino-5); [endecasílabos sueltos con pareado](#termino-6); [endecasílabos sueltos con pareado final](#termino-7); [endecasílabos sueltos rematados en pareado](#termino-8) | Endecasílabo | Reglas parcialmente revisadas | El leal criado; El favor agradecido |
+| Octava real | [octava real](#termino-11); [octavas reales](#termino-12) | Endecasílaba consonante | Correspondencias pendientes de revisión | El verdadero amante; El caballero del milagro |
+| Quintilla | [quintilla](#termino-14); [quintillas](#termino-15) | Sin especificar | Correspondencias pendientes de revisión | El verdadero amante; Los donaires de Matico |
+| Redondilla | [redondilla](#termino-17); [redondillas](#termino-18) | Sin especificar | Correspondencias pendientes de revisión | El verdadero amante; El caballero del milagro |
+| Romance | [letrilla](#termino-10) (candidata); [romance en -io](#termino-20); [Romance en a-a](#termino-21); [romance en á-e](#termino-22); [romance en e-a](#termino-23); [romance en e-e](#termino-24); [romance en i-a](#termino-25) | Octosílabo | Correspondencias pendientes de revisión | El molino; El verdadero amante |
+| Romancillo | [letrilla](#termino-10) (candidata) | Sin especificar | Solo candidata; sin equivalencia directa | El molino |
+| Sexteto-lira | [sexteto-lira](#termino-26); [Sextetos alirados](#termino-27); [sextetos-liras](#termino-28) | Heterométrico consonante | Reglas aprobadas | El favor agradecido; Laura perseguida |
+| Soneto | [soneto](#termino-29); [soneto con estrambote](#termino-31) | Endecasílabo consonante | Reglas parcialmente revisadas | El caballero del milagro; El favor agradecido |
+| Terceto | [tercetos](#termino-32) (candidata) | Sin especificar | Solo candidata; sin equivalencia directa | El favor agradecido; Los donaires de Matico |
+| Terceto encadenado | [tercetos](#termino-32); [tercetos encadenados](#termino-33); [tercetos encadenados con serventesio final](#termino-34) | Sin especificar | Reglas parcialmente revisadas | El favor agradecido; Los donaires de Matico |
+| Villancico | [letrilla](#termino-10) (candidata) | Sin especificar | Solo candidata; sin equivalencia directa | El molino |
+| Zéjel | [letrilla](#termino-10) (candidata) | Sin especificar | Solo candidata; sin equivalencia directa | El molino |
+
+### Formas aún no encontradas en las entradas revisadas
+
+No requieren inventar una equivalencia ahora. Esta lista describe las extracciones disponibles del piloto, no todo el repertorio de las veinte fotografías.
+
+Canción petrarquista; Canción sin rima; Copla castellana; Copla de arte mayor; Copla de arte menor; Copla manriqueña; Cuarteto; Cuarteto-lira; Décima; Décima-lira; Endecasílabo encadenado; Endecha real; Estrofa sáfica; Versificación irregular; Lira; Novena; Novena-lira; Octava aguda; Octava-lira; Oncena; Pareado; Redondilla enlazada; Romance heroico; Seguidilla; Septeto; Septeto-lira; Septilla; Septilla enlazada; Sexteto; Sextilla; Sextilla enlazada; Sextina (sextina); Sextina (sextina_estrofa); Silva; Verso aislado.
+
+Referencia completa: 49 formas; 39 sin regla directa de importación. El detalle de cobertura está en el anexo.
+
+## Procedencia en las obras del piloto
+
+Uno o dos ejemplos por término. Las notas son transcripciones de ensayo; no se consideran cotejadas por aparecer en este informe. Todas las localizaciones se conservan en el anexo.
+
+<a id="termino-1"></a>
+
+### coplas reales
+
+- El leal criado, t05 (870–999).
+  Nota de la edición: En los vv. 930-934 hay una quintilla aislada, con rima ccddc. A partir del v. 935 continúa el patrón regular de coplas reales. La misma excepción aparece en todos los testimonios cotejados.
+- El leal criado, t13 (1392–1866).
+- Resultado: copla_real / octosilabica_consonante (copla-real).
+
+<a id="termino-2"></a>
+
+### endecasílabos blancos
+
+- El leal criado, t04 (767–869).
+- El leal criado, t14 (1867–1894).
+- Resultado: endecasilabo_suelto / endecasilabica (endecasilabos-sueltos).
+
+<a id="termino-3"></a>
+
+### endecasílabos sueltos
+
+- El favor agradecido, t07 (1040–1109).
+  Nota de la edición: Los vv. 1056-1109 incluyen rimas internas.
+- El verdadero amante, t15 (2017–2064).
+- Resultado: endecasilabo_suelto / endecasilabica (endecasilabos-sueltos).
+
+<a id="termino-4"></a>
+
+### Endecasílabos sueltos
+
+- Laura perseguida, t03 (877–999).
+- Laura perseguida, t13 (1890–1966).
+- Resultado: endecasilabo_suelto / endecasilabica (endecasilabos-sueltos).
+
+<a id="termino-5"></a>
+
+### endecasílabos sueltos (con pareado final)
+
+- El molino, t09 (1794–1831).
+- El molino, t11 (1964–1988).
+- Resultado: endecasilabo_suelto / endecasilabica (endecasilabos-sueltos-pareado).
+
+<a id="termino-6"></a>
+
+### endecasílabos sueltos con pareado
+
+- El favor agradecido, t04 (836–889).
+  Nota de la edición: La serie está rematada por un pareado en vv. 888-889.
+- El favor agradecido, t11 (1391–1413).
+  Nota de la edición: La serie está rematada por un pareado en vv. 1412-1413.
+- Resultado: endecasilabo_suelto / endecasilabica (endecasilabos-sueltos-con-pareado-nota-rematada); endecasilabo_suelto / endecasilabica (endecasilabos-sueltos-con-pareado-nota-cerrada); endecasilabo_suelto / endecasilabica (endecasilabos-sueltos-con-pareado).
+
+<a id="termino-7"></a>
+
+### endecasílabos sueltos con pareado final
+
+- El verdadero amante, t10 (1667–1701).
+- El verdadero amante, t14 (1961–2016).
+- Resultado: endecasilabo_suelto / endecasilabica (endecasilabos-sueltos-pareado).
+
+<a id="termino-8"></a>
+
+### endecasílabos sueltos rematados
+en pareado
+
+- El caballero del milagro, t04 (749–824).
+- El caballero del milagro, t08 (1505–1562).
+- Resultado: endecasilabo_suelto / endecasilabica (endecasilabos-sueltos-pareado).
+
+<a id="termino-9"></a>
+
+### estancias con pareado final
+
+- El verdadero amante, t02 (221–287).
+- Resultado: cancion (estancias-pareado).
+
+<a id="termino-10"></a>
+
+### letrilla
+
+- El molino, t20 (2880–2888).
+- Resultado: Sin resolver; candidatas: villancico, zejel, romance, romancillo.
+
+<a id="termino-11"></a>
+
+### octava real
+
+- El verdadero amante, t18 (2772–2827).
+- Resultado: octava_real / endecasilabica_consonante (octava-real).
+
+<a id="termino-12"></a>
+
+### octavas reales
+
+- El caballero del milagro, t02 (353–456).
+- El caballero del milagro, t06 (981–1028).
+- Resultado: octava_real / endecasilabica_consonante (octava-real).
+
+<a id="termino-13"></a>
+
+### Octavas reales
+
+- Laura perseguida, t05 (1076–1203).
+- Laura perseguida, t07 (1476–1507).
+- Resultado: octava_real / endecasilabica_consonante (octava-real).
+
+<a id="termino-14"></a>
+
+### quintilla
+
+- El verdadero amante, t01 (1–220).
+- El verdadero amante, t03 (288–787).
+- Resultado: quintilla (quintilla).
+
+<a id="termino-15"></a>
+
+### quintillas
+
+- El favor agradecido, t03 (596–835).
+  Nota de la edición: Se trata generalmente de formas cruzadas ababa (115) y formas aabba (120), repartidas casi de manera igualitaria, salvo por una ocurrencia de abaab (5).
+- El favor agradecido, t09 (1116–1300).
+  Nota de la edición: Estrofas con rima ababa (95) y con rima aabba (90).
+- Resultado: quintilla (quintilla).
+
+<a id="termino-16"></a>
+
+### Quintillas
+
+- Laura perseguida, t02 (617–876).
+  Nota de la edición: Según Navarro Tomás, la copla real tiene en el Siglo de Oro dos posibles soluciones (ababa, cdcde y ababa, ccddc), a lo que añade: "Lope usó ... la copla real dando preferencia a la segunda de las com… (texto completo en el anexo)
+- Laura perseguida, t08 (1508–1592).
+- Resultado: quintilla (quintilla).
+
+<a id="termino-17"></a>
+
+### redondilla
+
+- El verdadero amante, t04 (788–1051).
+- El verdadero amante, t06 (1202–1417).
+- Resultado: redondilla (redondilla).
+
+<a id="termino-18"></a>
+
+### redondillas
+
+- El caballero del milagro, t01 (1–352).
+- El caballero del milagro, t03 (457–748).
+- Resultado: redondilla (redondilla).
+
+<a id="termino-19"></a>
+
+### Redondillas
+
+- Laura perseguida, t01 (1–616).
+- Laura perseguida, t06 (1204–1475).
+- Resultado: redondilla (redondilla).
+
+<a id="termino-20"></a>
+
+### romance en -io
+
+- El verdadero amante, t09 (1641–1666).
+- Resultado: romance / octosilabica (romance-asonancia).
+
+<a id="termino-21"></a>
+
+### Romance en a-a
+
+- Laura perseguida, t04 (1000–1075).
+- Resultado: romance / octosilabica (romance-asonancia).
+
+<a id="termino-22"></a>
+
+### romance en á-e
+
+- Los locos de Valencia, t19 (2901–2964).
+- Resultado: romance / octosilabica (romance-asonancia).
+
+<a id="termino-23"></a>
+
+### romance en e-a
+
+- El favor agradecido, t14 (1562–1645).
+- El leal criado, t09 (1186–1249).
+- Resultado: romance / octosilabica (romance-asonancia).
+
+<a id="termino-24"></a>
+
+### romance en e-e
+
+- El leal criado, t15 (1895–1950).
+- Resultado: romance / octosilabica (romance-asonancia).
+
+<a id="termino-25"></a>
+
+### romance en i-a
+
+- El favor agradecido, t21 (2261–2360).
+- Resultado: romance / octosilabica (romance-asonancia).
+
+<a id="termino-26"></a>
+
+### sexteto-lira
+
+- El favor agradecido, t08 (1110–1115).
+  Nota de la edición: La estructura es la siguiente: AaBbCC. Morley y Bruerton [1968:74] señalan su singularidad.
+- Resultado: sexteto_lira / heterometrica_consonante (sexteto-lira).
+
+<a id="termino-27"></a>
+
+### Sextetos alirados
+
+- Laura perseguida, t19 (2317–2394).
+  Nota de la edición: [ilegible]
+- Resultado: sexteto_lira / heterometrica_consonante (sexteto-lira).
+
+<a id="termino-28"></a>
+
+### sextetos-liras
+
+- El caballero del milagro, t09 (1563–1664).
+- El caballero del milagro, t18 (2746–2799).
+- Resultado: sexteto_lira / heterometrica_consonante (sexteto-lira).
+
+<a id="termino-29"></a>
+
+### soneto
+
+- El caballero del milagro, t13 (2350–2363).
+- El favor agradecido, t05 (890–903).
+- Resultado: soneto / endecasilabica_consonante (soneto).
+
+<a id="termino-30"></a>
+
+### Soneto
+
+- Laura perseguida, t09 (1593–1606).
+- Laura perseguida, t12 (1876–1889).
+- Resultado: soneto / endecasilabica_consonante (soneto).
+
+<a id="termino-31"></a>
+
+### soneto con estrambote
+
+- El caballero del milagro, t10 (1665–1678).
+- El caballero del milagro, t10 (1679–1681).
+- Resultado: soneto / endecasilabica_consonante (soneto-con-estrambote); Sin equivalencia.
+
+<a id="termino-32"></a>
+
+### tercetos
+
+- El favor agradecido, t02 (505–595).
+  Nota de la edición: Como es habitual, la serie de tercetos encadenados se cierra con un serventesio.
+- El favor agradecido, t23 (2593–2635).
+- Resultado: terceto_encadenado (tercetos-nota-encadenados-con-cierre); Sin resolver; candidatas: terceto, terceto_encadenado.
+
+<a id="termino-33"></a>
+
+### tercetos encadenados
+
+- El molino, t04 (627–728).
+- El molino, t10 (1832–1963).
+- Resultado: terceto_encadenado (tercetos-encadenados).
+
+<a id="termino-34"></a>
+
+### tercetos encadenados con serventesio final
+
+- El verdadero amante, t07 (1418–1460).
+- El verdadero amante, t12 (1770–1896).
+- Resultado: terceto_encadenado (tercetos-serventesio).
+
+## Casos complejos
+
+
+Recopilación para el futuro documento de revisión con el IP. Son casos particulares que requieren
+criterio editorial: no autorizan equivalencias generales ni divisiones automáticas.
+
+### El leal criado · 870–999 · nota 5
+
+La edición denomina «coplas reales» a los 130 versos. La nota sitúa una quintilla aislada
+en 930–934 y declara que el patrón regular continúa desde 935. Separar literalmente esas
+tres partes produciría 60 + 5 + 65 versos: la última parte no sería múltiplo de diez.
+El múltiplo del conjunto tampoco demuestra su regularidad interna.
+
+**Acuerdo del responsable, 02-11-2026:** conservar una secuencia de **Copla real** con
+la nota original, salvo aceptación expresa de una propuesta de división por quien importa.
+**Aclaración posterior del responsable:** sí debe ofrecerse la división de la nota como
+propuesta, mostrando antes de aplicarla los rangos 60 + 5 + 65 y el aviso de incompatibilidad
+de los últimos 65 versos. Aceptar la propuesta no resuelve esa incompatibilidad ni corrige
+la edición. El corte se prepara en el editor y se aplica mediante «Comprobar cambios».
+**Criterio pendiente:** examinar el texto para entender la agrupación de quintillas y
+sus consecuencias para la segmentación. La consulta a Artelope no estaba disponible;
+no se considera cotejado el pasaje ni se presupone un error de la edición.
+
+### Laura perseguida · 617–876 · nota 32
+
+**Fuente:** `5_Laura_perseguida_1.HEIC`, p. 55, acto primero, fila t02, «Quintillas», 260 versos.
+
+La nota 32 discute el análisis como coplas reales frente a quintillas más o menos encadenadas.
+Describe un patrón general y localiza excepciones de quintillas independientes; dentro de esta
+fila menciona 747–751 y 792–796. No es únicamente una lista de esquemas sin posiciones:
+hay información localizada que podría afectar a la identificación de las formas y, con ella,
+a la segmentación según el criterio del proyecto.
+
+**Acuerdo provisional del responsable, 02-11-2026:** conservar 617–876 como una única secuencia
+de **Quintilla**, con la nota de la edición. No dividir, no sustituir por Copla real ni convertir
+en datos estructurados las distribuciones de rima durante esta importación.
+
+**Para revisar:** determinar cómo interpretar el encadenamiento y la agrupación de quintillas
+de esta edición en nuestro catálogo; si hay alternancia de formas y exige nuevas secuencias;
+y cómo representar los pasajes independientes insertos en la serie. Los intervalos citados
+son evidencia para examinar, no una propuesta de cortes ya aprobada.
+
+La decisión puede afectar al perfil por formas, diversidad y número de secuencias, aunque
+se mantenga la extensión total. Debe constar antes de convertirla en una regla reutilizable.
+
+**Trazabilidad:** [ensayo de Laura perseguida](./revision-laura-perseguida-2026-11-02.md).
+La nueva respuesta v0.8 aportada se conserva como original de ensayo; esta anotación no
+certifica la literalidad de todos sus esquemas ni modifica el JSON o los datos guardados.
+
+
+## Anexo técnico y documental
+
+Consulta de detalle: apariciones completas, cobertura de formas y arquitecturas, reglas, condiciones y fundamentos.
+
+### Términos observados en las extracciones disponibles
 
 Se conservan los literales de la edición. Una sola entrada seleccionada por obra; son ensayos, no nuevos golds. Las decisiones manuales posteriores del importador no cambian estas transcripciones. Los términos sin resolver requieren revisión; la ausencia de una forma en las pruebas no exige inventar su equivalencia.
 
@@ -47,7 +420,7 @@ Se conservan los literales de la edición. Una sola entrada seleccionada por obr
 | tercetos encadenados | El molino, t04 (627–728); El molino, t10 (1832–1963); El molino, t16 (2388–2454); Los locos de Valencia, t01 (1–130) | terceto_encadenado (tercetos-encadenados) |
 | tercetos encadenados con serventesio final | El verdadero amante, t07 (1418–1460); El verdadero amante, t12 (1770–1896) | terceto_encadenado (tercetos-serventesio) |
 
-## Cobertura de todas las formas del catálogo
+### Cobertura de todas las formas del catálogo
 
 «Sin regla directa» incluye formas que solo tienen candidatas. No significa que esas formas no existan en las ediciones; solo que el importador aún no dispone de una correspondencia directa.
 
@@ -103,7 +476,7 @@ Se conservan los literales de la edición. Una sola entrada seleccionada por obr
 | Villancico | — | letrilla |
 | Zéjel | — | letrilla |
 
-## Arquitecturas
+### Arquitecturas
 
 Se indican solo reglas que seleccionan explícitamente la arquitectura. Una regla que identifica la forma no completa sus arquitecturas por defecto.
 
@@ -207,11 +580,11 @@ Se indican solo reglas que seleccionan explícitamente la arquitectura. Una regl
 | Villancico | Estribillo inicial | — |
 | Zéjel | Estribillo y coplas monorrimas | — |
 
-## Reglas que revisar y datos adicionales que producen
+### Reglas que revisar y datos adicionales que producen
 
 El estado de aprobación se refiere a la equivalencia, no a la revisión de cada obra.
 
-### redondilla
+#### redondilla
 
 Literales: «redondilla»; «redondillas».
 
@@ -223,7 +596,7 @@ Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquit
 
 Datos adicionales: ninguno.
 
-### quintilla
+#### quintilla
 
 Literales: «quintilla»; «quintillas».
 
@@ -235,7 +608,7 @@ Coincidencia del nombre de forma y su plural. No se deducen medida ni disposici�
 
 Datos adicionales: ninguno.
 
-### octava-real
+#### octava-real
 
 Literales: «octava real»; «octavas reales».
 
@@ -247,7 +620,7 @@ Nombre explícito de la forma, que el catálogo activo define endecasílaba cons
 
 Datos adicionales: ninguno.
 
-### endecasilabos-sueltos
+#### endecasilabos-sueltos
 
 Literales: «endecasílabos sueltos»; «endecasílabo blanco»; «endecasílabos blancos».
 
@@ -259,7 +632,7 @@ La etiqueta declara forma y medida. No afirma ausencia de pareados ni de rima oc
 
 Datos adicionales: ninguno.
 
-### copla-real
+#### copla-real
 
 Literales: «copla real»; «coplas reales».
 
@@ -271,7 +644,7 @@ Equivalencia confirmada por el responsable del proyecto. El catálogo activo adm
 
 Datos adicionales: ninguno.
 
-### endecasilabos-sueltos-pareado
+#### endecasilabos-sueltos-pareado
 
 Literales: «endecasílabos sueltos con pareado final»; «endecasílabos sueltos (con pareado final)»; «endecasílabos sueltos rematados en pareado».
 
@@ -283,7 +656,7 @@ Pareado final corresponde al rasgo Dístico final, valor Presente, admitido por 
 
 Datos adicionales: [{"literal":"pareado final","rasgo_slug":"distico_final","valor_slug":"presente"}].
 
-### tercetos-encadenados
+#### tercetos-encadenados
 
 Literales: «tercetos encadenados».
 
@@ -295,7 +668,7 @@ El catálogo tiene Terceto encadenado y distingue medidas. No confundirlo con En
 
 Datos adicionales: ninguno.
 
-### tercetos-serventesio
+#### tercetos-serventesio
 
 Literales: «tercetos encadenados con serventesio final».
 
@@ -307,7 +680,7 @@ Terceto encadenado con remate final de un verso (3+1), sin determinar arquitectu
 
 Datos adicionales: [{"literal":"serventesio final","dimension":"estructura","tipo_seccion":"remate","nombre":"Remate","n_versos":1,"posicion":"final","estado":"interpretacion_revisada","fundamento":"El verso de cierre completa la rima pendiente del último terceto. Se registra como remate de un verso dentro de la misma secuencia."}].
 
-### tercetos-sin-precisar
+#### tercetos-sin-precisar
 
 Literales: «tercetos».
 
@@ -319,7 +692,7 @@ Lectura directa: Diccionario de Domínguez Caparrós (2016), s. v. terceto, pp. 
 
 Datos adicionales: ninguno.
 
-### soneto
+#### soneto
 
 Literales: «soneto».
 
@@ -331,7 +704,7 @@ Nombre explícito de la forma. Su identidad en el catálogo permite proponer la 
 
 Datos adicionales: ninguno.
 
-### estancias-pareado
+#### estancias-pareado
 
 Literales: «estancias con pareado final».
 
@@ -343,7 +716,7 @@ Estancias con pareado final se identifica como Canción, sin determinar arquitec
 
 Datos adicionales: [{"literal":"pareado final","dimension":"estructura","tipo_seccion":"remate","nombre":"Remate o envío","n_versos":2,"posicion":"final","estado":"interpretacion_revisada","fundamento":"El pareado final es el remate de la canción; no determina la arquitectura ni el patrón de las estancias."}].
 
-### letrilla
+#### letrilla
 
 Literales: «letrilla».
 
@@ -355,7 +728,7 @@ Lectura directa: el Diccionario (2016), s.v.letrilla, pp.216-217, relaciona letr
 
 Datos adicionales: ninguno.
 
-### sexteto-lira
+#### sexteto-lira
 
 Literales: «sexteto-lira»; «sextetos-liras»; «sexteto alirado»; «sextetos alirados».
 
@@ -367,7 +740,7 @@ El responsable confirma la equivalencia con Sexteto-lira. El catálogo activo ti
 
 Datos adicionales: ninguno.
 
-### soneto-con-estrambote
+#### soneto-con-estrambote
 
 Literales: «soneto con estrambote».
 
@@ -381,7 +754,7 @@ División aplicada por esta regla: soneto_y_estrambote_sin_identificar.
 
 Datos adicionales: ninguno.
 
-### tercetos-nota-encadenados-con-cierre
+#### tercetos-nota-encadenados-con-cierre
 
 Literales: «tercetos».
 
@@ -395,7 +768,7 @@ Condición: una nota enlazada debe contener «tercetos encadenados» y «se cier
 
 Datos adicionales: [{"literal":"serventesio final","dimension":"estructura","tipo_seccion":"remate","nombre":"Remate","n_versos":1,"posicion":"final","estado":"interpretacion_revisada","fundamento":"El verso de cierre completa la rima pendiente del último terceto. Se registra como remate de un verso dentro de la misma secuencia."}].
 
-### romance-asonancia
+#### romance-asonancia
 
 Literales: «romance en vocal o pareja de vocales».
 
@@ -409,7 +782,7 @@ Patrón de reconocimiento: romance_con_asonancia.
 
 Datos adicionales: ninguno.
 
-### endecasilabos-sueltos-con-pareado
+#### endecasilabos-sueltos-con-pareado
 
 Literales: «endecasílabos sueltos con pareado».
 
@@ -421,7 +794,7 @@ La etiqueta declara endecasílabos sueltos y un pareado; sin precisar posición 
 
 Datos adicionales: ninguno.
 
-### endecasilabos-sueltos-con-pareado-nota-rematada
+#### endecasilabos-sueltos-con-pareado-nota-rematada
 
 Literales: «endecasílabos sueltos con pareado».
 
@@ -435,7 +808,7 @@ Condición: una nota enlazada debe contener «rematada por un pareado».
 
 Datos adicionales: [{"literal":"pareado final declarado en nota","rasgo_slug":"distico_final","valor_slug":"presente"}].
 
-### endecasilabos-sueltos-con-pareado-nota-cerrada
+#### endecasilabos-sueltos-con-pareado-nota-cerrada
 
 Literales: «endecasílabos sueltos con pareado».
 
@@ -449,57 +822,25 @@ Condición: una nota enlazada debe contener «cerrada por un pareado».
 
 Datos adicionales: [{"literal":"pareado final declarado en nota","rasgo_slug":"distico_final","valor_slug":"presente"}].
 
-## Casos particulares pendientes
 
-Véase [Casos complejos de equivalencias](../casos-complejos-equivalencias.md). Se reproducen debajo para que este documento pueda enviarse por separado.
+### Notas de las apariciones
 
-Recopilación para el futuro documento de revisión con el IP. Son casos particulares que requieren
-criterio editorial: no autorizan equivalencias generales ni divisiones automáticas.
+- **coplas reales · El leal criado, t05 (870–999):** En los vv. 930-934 hay una quintilla aislada, con rima ccddc. A partir del v. 935 continúa el patrón regular de coplas reales. La misma excepción aparece en todos los testimonios cotejados.
+- **endecasílabos sueltos · El favor agradecido, t07 (1040–1109):** Los vv. 1056-1109 incluyen rimas internas.
+- **endecasílabos sueltos · Los locos de Valencia, t13 (2093–2222):** En la serie de endecasílabos sueltos aparece un verso heptasílabo (v. 2172), probable descuido de Lope.
+- **endecasílabos sueltos con pareado · El favor agradecido, t04 (836–889):** La serie está rematada por un pareado en vv. 888-889.
+- **endecasílabos sueltos con pareado · El favor agradecido, t11 (1391–1413):** La serie está rematada por un pareado en vv. 1412-1413.
+- **endecasílabos sueltos con pareado · El favor agradecido, t18 (2118–2176):** Se trata de una serie de endecasílabos esdrújulos, cerrada por un pareado con rima llana (vv. 2175-2176).
+- **quintillas · El favor agradecido, t03 (596–835):** Se trata generalmente de formas cruzadas ababa (115) y formas aabba (120), repartidas casi de manera igualitaria, salvo por una ocurrencia de abaab (5).
+- **quintillas · El favor agradecido, t09 (1116–1300):** Estrofas con rima ababa (95) y con rima aabba (90).
+- **Quintillas · Laura perseguida, t02 (617–876):** Según Navarro Tomás, la copla real tiene en el Siglo de Oro dos posibles soluciones (ababa, cdcde y ababa, ccddc), a lo que añade: "Lope usó ... la copla real dando preferencia a la segunda de las combinaciones indicadas en sus comedias anteriores a 1604; en adelante la sustituyó por las quintillas independientes" [1995:267]. El dramaturgo, sin embargo, no fue completamente fiel al esquema señalado (comprúébese, por ejemplo, su uso en comedias de las que conservamos autógrafo), por lo que parece preferible el análisis de las series estróficas como quintillas más o menos encadenadas. Nuestra comedia, anterior a la fecha señalada, sigue efectivamente el esquema preferido (ababa, ccddc), con las siguientes excepciones: vv. 747–751 y 792–796 (quintillas independientes con rima ababa), vv. 1568–1572 y 1861–1865 (quintillas independientes, con rima aabba), vv. 3013–3017 (quintilla independiente, ababa), vv. 3154–3158 y 3199–3203 (quintillas independientes, aabba) y vv. 3169–3178 (quintillas encadenadas combinando aabba con cdcde). Morley y Bruerton, Cronología, pp. 42 y 75, analizan todas las series de coplas reales como quintillas.
+- **redondillas · Los locos de Valencia, t16 (2622–2754):** El v. 2666 es un octosílabo suelto integrado en la serie de redondillas.
+- **Redondillas · Laura perseguida, t20 (2395–2626):** [ilegible]
+- **sexteto-lira · El favor agradecido, t08 (1110–1115):** La estructura es la siguiente: AaBbCC. Morley y Bruerton [1968:74] señalan su singularidad.
+- **Sextetos alirados · Laura perseguida, t19 (2317–2394):** [ilegible]
+- **tercetos · El favor agradecido, t02 (505–595):** Como es habitual, la serie de tercetos encadenados se cierra con un serventesio.
 
-## El leal criado · 870–999 · nota 5
-
-La edición denomina «coplas reales» a los 130 versos. La nota sitúa una quintilla aislada
-en 930–934 y declara que el patrón regular continúa desde 935. Separar literalmente esas
-tres partes produciría 60 + 5 + 65 versos: la última parte no sería múltiplo de diez.
-El múltiplo del conjunto tampoco demuestra su regularidad interna.
-
-**Acuerdo del responsable, 02-11-2026:** conservar una secuencia de **Copla real** con
-la nota original, salvo aceptación expresa de una propuesta de división por quien importa.
-**Aclaración posterior del responsable:** sí debe ofrecerse la división de la nota como
-propuesta, mostrando antes de aplicarla los rangos 60 + 5 + 65 y el aviso de incompatibilidad
-de los últimos 65 versos. Aceptar la propuesta no resuelve esa incompatibilidad ni corrige
-la edición. El corte se prepara en el editor y se aplica mediante «Comprobar cambios».
-**Criterio pendiente:** examinar el texto para entender la agrupación de quintillas y
-sus consecuencias para la segmentación. La consulta a Artelope no estaba disponible;
-no se considera cotejado el pasaje ni se presupone un error de la edición.
-
-## Laura perseguida · 617–876 · nota 32
-
-**Fuente:** `5_Laura_perseguida_1.HEIC`, p. 55, acto primero, fila t02, «Quintillas», 260 versos.
-
-La nota 32 discute el análisis como coplas reales frente a quintillas más o menos encadenadas.
-Describe un patrón general y localiza excepciones de quintillas independientes; dentro de esta
-fila menciona 747–751 y 792–796. No es únicamente una lista de esquemas sin posiciones:
-hay información localizada que podría afectar a la identificación de las formas y, con ella,
-a la segmentación según el criterio del proyecto.
-
-**Acuerdo provisional del responsable, 02-11-2026:** conservar 617–876 como una única secuencia
-de **Quintilla**, con la nota de la edición. No dividir, no sustituir por Copla real ni convertir
-en datos estructurados las distribuciones de rima durante esta importación.
-
-**Para revisar:** determinar cómo interpretar el encadenamiento y la agrupación de quintillas
-de esta edición en nuestro catálogo; si hay alternancia de formas y exige nuevas secuencias;
-y cómo representar los pasajes independientes insertos en la serie. Los intervalos citados
-son evidencia para examinar, no una propuesta de cortes ya aprobada.
-
-La decisión puede afectar al perfil por formas, diversidad y número de secuencias, aunque
-se mantenga la extensión total. Debe constar antes de convertirla en una regla reutilizable.
-
-**Trazabilidad:** [ensayo de Laura perseguida](./revision-laura-perseguida-2026-11-02.md).
-La nueva respuesta v0.8 aportada se conserva como original de ensayo; esta anotación no
-certifica la literalidad de todos sus esquemas ni modifica el JSON o los datos guardados.
-
-## Entradas de este informe
+### Archivos y huellas de las entradas
 
 - El caballero del milagro: `backups/importador-local/caballero-milagro-2026-11-02/respuesta-v0.6-original.json`, SHA-256 `a5e2ed19bfb3aaad564805feea9ff8b92e414dc367f76267fd01ce67b2b69b3e`.
 - El favor agradecido: `backups/importador-local/favor-agradecido-2026-11-02/respuesta-v0.7-original.json`, SHA-256 `3e8c28deb103ff958d3a38fd4f8e0f2c6d436fdbe876de2a6fd392dca2319209`.
