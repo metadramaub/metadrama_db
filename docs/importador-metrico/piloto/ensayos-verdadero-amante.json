@@ -14,5 +14,18 @@
       "validacion_tecnica": true,
       "resultado_cotejo": "Fallido: denominaciones desplazadas, jornada errónea y recuento confundido con llamada de nota."
     }
-  ]
+    ,{
+      "servicio": "ChatGPT",
+      "plan": "Plus",
+      "modo": "Instant",
+      "modelo": "GPT-6",
+      "modelo_procedencia": "Identificación facilitada por el responsable al aportar la respuesta; el JSON declara GPT-6 pero deja modo null.",
+      "parametros": null,
+      "prompt": "extraccion/0.12",
+      "respuesta": "backups/importador-local/verdadero-amante-2026-11-02/respuesta-v0.12-chatgpt-gpt6-instant-original.json",
+      "validacion_tecnica": true,
+      "resultado_cotejo": "19 filas y 2878 versos; sin desplazamientos de formas, jornadas incorrectas ni nota 51 inventada. Única diferencia en los campos métricos cotejados: romance en -ío por romance en -io."
+    }
+  ],
+  "limitacion": "Resultados de estas respuestas, no una tasa de error ni una evaluación controlada de modelos; no se ha comprobado la identidad binaria de las fotografías enviadas. La referencia inicial y los originales permanecen intactos."
 }

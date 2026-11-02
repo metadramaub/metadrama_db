@@ -40,3 +40,23 @@ el modelo al final del panel. Automático selecciona el modelo por petición, po
 selector no identifica por sí solo el modelo efectivo. Si esa información no aparece en la
 cuenta del responsable, registrar Gemini / Automático / gratuita y mantener modelo y
 parámetros desconocidos. No se da por conocido un modelo a partir de lo que afirme la IA.
+
+## ChatGPT GPT-6 Instant, prompt v0.12
+
+El responsable aporta otra salida e identifica GPT-6 Instant. El JSON declara ChatGPT,
+GPT-6 y Plus, pero deja modo null. Se registra Instant a partir de la declaración del
+responsable, sin modificar la respuesta original. La copia queda en
+`backups/importador-local/verdadero-amante-2026-11-02/respuesta-v0.12-chatgpt-gpt6-instant-original.json`.
+
+La salida valida y coincide con la foto y la referencia aceptada en todas las jornadas,
+rangos, recuentos y asociaciones de formas: 19 filas, 2878 versos y ninguna forma pendiente.
+Conserva completos los dos «tercetos encadenados con serventesio final», los sueltos con
+pareado final y el cambio de acto en 2017; no inventa una llamada de nota a partir de 51.
+Solo difiere en t09: «romance en -ío» por «romance en -io». Se registra como diferencia de
+literalidad, aunque ambas expresiones se normalizan al mismo valor de asonancia i-o.
+No se modifica por ello la referencia aceptada ni se declara perfecta la transcripción literal.
+
+En esta ejecución, ChatGPT corrige los errores estructurales presentes en la respuesta de
+Gemini 3.5 Flash-Lite. No se generaliza este resultado a todos los casos o modelos.
+Queda pendiente el guardado por el responsable; el cambio de estado del ensayo no acredita
+una nueva importación en Supabase. La referencia del inventario sigue siendo la inicial aceptada.
