@@ -12,7 +12,6 @@ Estas propuestas no modifican las equivalencias hasta que se acuerde el criterio
 
 | Término o caso | Criterio actual | Propuesta | Qué decidir |
 | --- | --- | --- | --- |
-| Redondillas y quintillas sin cortes | El maestro de danzar agrupa 1517–1669 bajo ambas formas; no hay límites internos. | Conservar el literal sin resolver, sin elegir una forma ni deducir los cortes por el total. | ¿Cómo representar esta mezcla y limitar los cálculos de segmentación mientras no se localicen los cambios? |
 | Redondillas: arquitectura habitual | Se identifica Redondilla, sin arquitectura. | Mantener la arquitectura sin especificar hasta acordar si el uso editorial permite asumir octosílabos. | ¿Puede el término sin calificativos identificar la arquitectura octosílaba? ¿Con qué límites? |
 | Tercetos sin precisar | Se conservan Terceto y Terceto encadenado como candidatas. La longitud 3n+1 solo orienta. | No elegir automáticamente por el nombre ni por el número de versos. | ¿Qué información de una nota o convención editorial basta para elegir? |
 | Tercetos encadenados: medida | La forma y el remate pueden quedar identificados sin arquitectura. | Mantener la medida sin especificar hasta fijar el criterio. | ¿Se puede asumir la arquitectura endecasílaba cuando la edición solo dice encadenados? |
@@ -361,9 +360,11 @@ Ambas formas están declaradas; no son candidatas excluyentes para todo el pasaj
 pueden deducir los cambios por el total de versos. Se conserva la denominación y la forma
 sin resolver; identificar los cortes requiere información adicional.
 
-**Para revisar:** cómo representar y tratar analíticamente una agrupación de varias formas
-sin posiciones internas conocidas. No se da su segmentación como resuelta por conservar
-una única fila de origen. [Detalle del ensayo](./revision-maestro-danzar-2026-11-02.md).
+**Procedimiento confirmado por el responsable:** el editor consultará el texto y dividirá
+manualmente según los cambios de forma. El prompt conserva la fila de la edición; no se
+espera que otra ejecución descubra los límites que la sinopsis no ofrece. Hasta esa revisión
+no se da la segmentación como resuelta por conservar una única fila de origen.
+[Detalle del ensayo](./revision-maestro-danzar-2026-11-02.md).
 
 ### El leal criado · 870–999 · nota 5
 

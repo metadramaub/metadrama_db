@@ -10,9 +10,11 @@ Ambas formas están declaradas; no son candidatas excluyentes para todo el pasaj
 pueden deducir los cambios por el total de versos. Se conserva la denominación y la forma
 sin resolver; identificar los cortes requiere información adicional.
 
-**Para revisar:** cómo representar y tratar analíticamente una agrupación de varias formas
-sin posiciones internas conocidas. No se da su segmentación como resuelta por conservar
-una única fila de origen. [Detalle del ensayo](./revision-maestro-danzar-2026-11-02.md).
+**Procedimiento confirmado por el responsable:** el editor consultará el texto y dividirá
+manualmente según los cambios de forma. El prompt conserva la fila de la edición; no se
+espera que otra ejecución descubra los límites que la sinopsis no ofrece. Hasta esa revisión
+no se da la segmentación como resuelta por conservar una única fila de origen.
+[Detalle del ensayo](./revision-maestro-danzar-2026-11-02.md).
 
 ## El leal criado · 870–999 · nota 5
 

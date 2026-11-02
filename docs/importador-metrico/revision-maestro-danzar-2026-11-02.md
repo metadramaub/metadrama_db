@@ -42,3 +42,14 @@ El refuerzo del prompt no ha resuelto este error en esta ejecución. No se decla
 ni gold. La identificación como Sexteto-lira sí funciona por las seis posiciones, sin validar
 las medidas concretas del literal erróneo. Continúan los 153 versos de redondillas y quintillas
 sin resolver y la nota 110 ausente; no se ha guardado la obra.
+
+## Procedimiento y prompt v0.11
+
+El responsable confirma que 1517–1669 solo se resolverá consultando el texto y dividiendo
+manualmente. No se solicita al prompt que deduzca esa alternancia ni se mantiene como una
+decisión terminológica abierta para el IP.
+
+El prompt v0.11 separa letra de rima y caja por posición, incluye el contraste AabBCC/AaBbCC,
+pide cotejar desde el final con la imagen y declarar la posición concreta si no se distingue.
+Mantiene el JSON 0.1 y no pide tablas auxiliares en la salida. Se conserva v0.10 sin cambios;
+el nuevo prompt queda pendiente de ensayo real, sin atribuirle aún una mejora demostrada.

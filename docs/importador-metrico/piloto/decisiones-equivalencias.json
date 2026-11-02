@@ -1,6 +1,5 @@
 {
   "decisiones": [
-    {"asunto":"Redondillas y quintillas sin cortes","actual":"El maestro de danzar agrupa 1517–1669 bajo ambas formas; no hay límites internos.","propuesta":"Conservar el literal sin resolver, sin elegir una forma ni deducir los cortes por el total.","decidir":"¿Cómo representar esta mezcla y limitar los cálculos de segmentación mientras no se localicen los cambios?"},
     {"asunto":"Redondillas: arquitectura habitual","actual":"Se identifica Redondilla, sin arquitectura.","propuesta":"Mantener la arquitectura sin especificar hasta acordar si el uso editorial permite asumir octosílabos.","decidir":"¿Puede el término sin calificativos identificar la arquitectura octosílaba? ¿Con qué límites?"},
     {"asunto":"Tercetos sin precisar","actual":"Se conservan Terceto y Terceto encadenado como candidatas. La longitud 3n+1 solo orienta.","propuesta":"No elegir automáticamente por el nombre ni por el número de versos.","decidir":"¿Qué información de una nota o convención editorial basta para elegir?"},
     {"asunto":"Tercetos encadenados: medida","actual":"La forma y el remate pueden quedar identificados sin arquitectura.","propuesta":"Mantener la medida sin especificar hasta fijar el criterio.","decidir":"¿Se puede asumir la arquitectura endecasílaba cuando la edición solo dice encadenados?"},
