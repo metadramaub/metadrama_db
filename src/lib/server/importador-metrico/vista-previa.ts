@@ -130,7 +130,8 @@ function filasDeFicha(ficha: BorradorFichaMinima, notasOriginales: Registro[] | 
 		...s,
 		longitud: comprobarLongitud(s),
 		...(notasOriginales ? {notas_fuente:notasOriginales.filter(n=>s.origen.notas_ref.includes(n.id as string))
-			.map(n=>({id:n.id as string,texto_literal:n.texto_literal as string}))} : {}),
+			.map(n=>({id:n.id as string,texto_literal:n.texto_literal as string,
+				v_ini:n.v_ini as number | null,v_fin:n.v_fin as number | null,tramos_ref:n.tramos_ref as string[]}))} : {}),
 		jornada: ficha.jornadas.find(j=>s.v_ini>=j.v_ini && s.v_fin<=j.v_fin)?.numero ?? null,
 		extension:s.v_fin-s.v_ini+1,
 		forma_nombre:s.identificacion?nombreDestino(s.identificacion):null,

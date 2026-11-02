@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount, tick, untrack } from 'svelte';
-	import type { BorradorFichaMinima, SegmentoMinimo } from '$lib/importador-metrico/types';
+	import type { BorradorFichaMinima, SegmentoMinimo, NotaFuenteImportador } from '$lib/importador-metrico/types';
+	import { proponerDivisionDesdeNota } from '$lib/importador-metrico/division-nota';
 	import { desviacionEditableSchema, type DesviacionBorrador, type EdicionFila, type FormaEditable } from '$lib/importador-metrico/edicion';
 	import DatosSecuencia from './DatosSecuencia.svelte';
 	import { proponerDivision, resumenCuerpo } from '$lib/importador-metrico/division';
@@ -12,7 +13,7 @@
 	import { comprobarLongitud } from '$lib/importador-metrico/longitud';
 	let { datos, tramoRef, formas, ocupado = false, errores = [], notasFuente = [], onaplicar, onrestablecer, oncancelar } = $props<{
 		datos: BorradorFichaMinima; tramoRef: string; formas: FormaEditable[]; ocupado?: boolean; errores?: string[];
-		notasFuente?: {id: string; texto_literal: string}[];
+		notasFuente?: NotaFuenteImportador[];
 		onaplicar: (cambio: EdicionFila) => void; onrestablecer: () => void; oncancelar: () => void;
 	}>();
 	const originales = $derived<SegmentoMinimo[]>(datos.segmentos.filter((s: SegmentoMinimo) => s.origen.tramo_ref === tramoRef));
@@ -38,6 +39,20 @@
 	let panel = $state<HTMLElement>();
 	let dividiendo = $state<number | null>(null);
 	let nuevoInicio = $state('');
+	type DivisionNota = NonNullable<ReturnType<typeof proponerDivisionDesdeNota>>;
+	const divisionesNotas = $derived<{ nota: NotaFuenteImportador; propuesta: DivisionNota }[]>(originales.length === 1 ? notasFuente.flatMap((nota: NotaFuenteImportador) => {
+		const propuesta = proponerDivisionDesdeNota(originales[0], nota);
+		return propuesta ? [{ nota, propuesta }] : [];
+	}) : []);
+	const puedeDividirDesdeNota = $derived(!sucio && partes.length === 1 && partes[0].remate === null && !partes[0].rasgos.length && !partes[0].desviaciones.length && dividiendo === null);
+	function dividirDesdeNota(propuesta: DivisionNota) {
+		if (!puedeDividirDesdeNota || ocupado) return;
+		const original = partes[0];
+		partes = propuesta.partes.map((p, i) => ({ ...original, id: i ? siguienteId++ : original.id,
+			fin: String(p.v_fin), forma: p.identificacion.forma_slug, arquitectura: p.identificacion.arquitectura_slug ?? '',
+			rasgos: [], desviaciones: [], remate: null }));
+		mensaje = ''; sucio = true;
+	}
 	onMount(() => panel?.focus());
 	const principio = (i: number) => i ? Number(partes[i - 1].fin) + 1 : inicio;
 	type Seccion = NonNullable<FormaEditable['secciones']>[number];
@@ -109,6 +124,16 @@
 		<p class="text-sm text-[color:var(--muted-foreground)]">En la edición: {originales[0].origen.denominacion_literal ?? '—'}</p>
 		{#each notas.filter((n) => !partes.some((p) => p.desviaciones.some((d) => d.nota_ref === n.id))) as n}
 			<p class="text-sm text-[color:var(--muted-foreground)]">{n.texto_literal}</p>
+		{/each}
+		{#each divisionesNotas as division}
+			<div class="space-y-2 border-l-2 border-amber-400 bg-amber-50 p-3 text-sm">
+				<p>División a partir de la nota: {division.propuesta.partes.map((p) => `${p.v_ini}–${p.v_fin} (${p.v_fin - p.v_ini + 1} versos, ${p.identificacion.forma_slug === 'quintilla' ? 'Quintilla' : 'Copla real'})`).join(' · ')}.</p>
+				{#each division.propuesta.avisos.filter((p) => p.longitud.estado === 'revisar') as aviso}
+					<p>Al dividir, vv. {aviso.v_ini}–{aviso.v_fin}: {aviso.longitud.mensaje}</p>
+				{/each}
+				{#if puedeDividirDesdeNota}<Button variant="secondary" disabled={ocupado} onclick={() => dividirDesdeNota(division.propuesta)}>Dividir según la nota</Button>
+				{:else if partes.length === 1}<p>Para usar esta propuesta, restablece la fila o realiza la división manual conservando tus cambios.</p>{/if}
+			</div>
 		{/each}
 		{#each partes as parte, i (parte.id)}
 			{@const unidad = secciones(parte, 'terceto').find((s: Seccion) => s.versos_min && s.versos_min === s.versos_max)?.versos_min}

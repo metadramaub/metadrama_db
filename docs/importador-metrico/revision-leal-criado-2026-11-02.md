@@ -31,3 +31,11 @@ La nueva respuesta v0.9 carga correctamente. Se incorporan las equivalencias de
 «endecasílabos blancos» y «coplas reales». El pasaje 870–999 se conserva unido:
 el corte sugerido por la nota produciría 60 + 5 + 65 versos y requiere cotejar el texto.
 Véase [el caso pendiente](./casos-complejos-equivalencias.md).
+
+Tras revisar de nuevo las fotos, la llamada 5 figura junto a 130 y la nota cita 930–934;
+no hay evidencia para trasladarla a 1392–1866. A petición del responsable, el editor ofrece
+«Dividir según la nota» y advierte previamente de los 65 versos finales incompatibles.
+No se divide al preparar la importación ni se altera el JSON original. La propuesta usa
+la declaración explícita de quintilla aislada y reanudación, corroborada por el localizador
+y el enlace recíproco; las notas ambiguas requieren división manual. Si hay cambios locales,
+remate, rasgos o desviaciones, no se reemplazan con esta propuesta: se conserva la vía manual.

@@ -250,9 +250,10 @@ describe('vista previa del importador sin persistencia', () => {
 						(n: { id: string; texto_literal: string | null }) =>
 							fila.origen.notas_ref.includes(n.id) && typeof n.texto_literal === 'string'
 					)
-					.map((n: { id: string; texto_literal: string }) => ({
+					.map((n: { id: string; texto_literal: string; v_ini: number | null; v_fin: number | null; tramos_ref: string[] }) => ({
 						id: n.id,
-						texto_literal: n.texto_literal
+						texto_literal: n.texto_literal,
+						v_ini: n.v_ini, v_fin: n.v_fin, tramos_ref: n.tramos_ref
 					}))
 			);
 		}

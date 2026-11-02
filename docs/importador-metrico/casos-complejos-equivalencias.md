@@ -11,7 +11,11 @@ tres partes produciría 60 + 5 + 65 versos: la última parte no sería múltiplo
 El múltiplo del conjunto tampoco demuestra su regularidad interna.
 
 **Acuerdo del responsable, 02-11-2026:** conservar una secuencia de **Copla real** con
-la nota original. No implementar ni ofrecer una división resuelta a partir de esta nota.
+la nota original, salvo aceptación expresa de una propuesta de división por quien importa.
+**Aclaración posterior del responsable:** sí debe ofrecerse la división de la nota como
+propuesta, mostrando antes de aplicarla los rangos 60 + 5 + 65 y el aviso de incompatibilidad
+de los últimos 65 versos. Aceptar la propuesta no resuelve esa incompatibilidad ni corrige
+la edición. El corte se prepara en el editor y se aplica mediante «Comprobar cambios».
 **Criterio pendiente:** examinar el texto para entender la agrupación de quintillas y
 sus consecuencias para la segmentación. La consulta a Artelope no estaba disponible;
 no se considera cotejado el pasaje ni se presupone un error de la edición.

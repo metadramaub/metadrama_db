@@ -71,9 +71,16 @@ export type BorradorFichaMinima = Omit<FichaMinima, 'metadatos'> & {
 		fecha_fin: number | null;
 	};
 };
+export type NotaFuenteImportador = {
+	id: string;
+	texto_literal: string;
+	v_ini?: number | null;
+	v_fin?: number | null;
+	tramos_ref?: string[];
+};
 export type FilaVistaPrevia = SegmentoMinimo & {
 	longitud?: { estado: 'compatible' | 'revisar' | 'sin_regla' | 'sin_identificar'; mensaje: string | null };
-	notas_fuente?: { id: string; texto_literal: string }[];
+	notas_fuente?: NotaFuenteImportador[];
 	jornada: number | null;
 	extension: number;
 	forma_nombre: string | null;
