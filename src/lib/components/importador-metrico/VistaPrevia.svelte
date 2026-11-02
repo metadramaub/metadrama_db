@@ -26,10 +26,12 @@
 		enviada = vista; oneditar?.(tramo, cambio);
 	}
 	let filtro = $state('todos');
+	const avisosLongitud = $derived(vista.filas.filter((f: FilaVistaPrevia) => f.longitud?.estado === 'revisar'));
 	const sinEquivalencia = (f: FilaVistaPrevia) => !f.identificacion;
 	const filas = $derived<FilaVistaPrevia[]>(vista.filas.filter((f: FilaVistaPrevia) =>
 		filtro === 'todos' || (filtro === 'sin_resolver' && sinEquivalencia(f)) ||
-		(filtro === 'desviaciones' && f.desviaciones.length > 0)));
+		(filtro === 'desviaciones' && f.desviaciones.length > 0) ||
+		(filtro === 'longitud' && f.longitud?.estado === 'revisar')));
 	const jornadas = $derived<Array<FichaMinima['jornadas'][number] & { filas: FilaVistaPrevia[] }>>((vista.datos?.jornadas ?? []).map((j: FichaMinima['jornadas'][number]) => ({
 		...j, filas: filas.filter((f: FilaVistaPrevia) => f.jornada === j.numero)
 	})));
@@ -81,9 +83,16 @@
 					<option value="todos">Todas las secuencias</option>
 					<option value="sin_resolver">Forma sin resolver</option>
 					<option value="desviaciones">Con desviaciones</option>
+					<option value="longitud">Longitud a revisar</option>
 				</select>
+				<FieldHelpTooltip label="Comprobación de longitud" text="Compara la extensión con las reglas del catálogo. Un aviso pide revisar numeración, remates y desviaciones; no demuestra un error de la edición. Las formas sin regla fija no se comprueban por longitud." />
 			</label>
 		</div>
+		{#if avisosLongitud.length}
+			<p role="status" class="border-l-2 border-amber-400 bg-amber-50 px-3 py-2 text-sm">
+				{avisosLongitud.length} {avisosLongitud.length === 1 ? 'secuencia con longitud a revisar' : 'secuencias con longitud a revisar'}. Consulta los avisos en la tabla. La numeración se conserva.
+			</p>
+		{/if}
 		{#each jornadas as jornada (jornada.numero)}
 			{#if jornada.filas.length}
 				<section class="space-y-2" aria-label={'Jornada ' + jornada.numero}>
@@ -118,6 +127,9 @@
 										</td>
 										<td class="break-words px-3 py-2">
 											{#if datos.length}<dl class="space-y-2 text-xs">{#each datos as dato}<div><dt class="font-medium">{dato.etiqueta}</dt><dd>{dato.valor}</dd></div>{/each}</dl>{:else}<span class="text-[color:var(--muted-foreground)]">—</span>{/if}
+											{#if fila.longitud?.estado === 'revisar'}
+												<p class="mt-2 border-l-2 border-amber-400 bg-amber-50 p-2 text-xs">{fila.longitud.mensaje}</p>
+											{/if}
 										</td>
 										<td class="break-words px-3 py-2 text-xs text-[color:var(--muted-foreground)]">
 											{#if notas.length}<p class="line-clamp-3">{notas[0]}</p><span class="inline-flex items-center">{#if notas.length > 1}{notas.length} notas{/if}<InlineNotePopover text={notas.join('\n\n')} label={'Mostrar notas de la secuencia ' + fila.v_ini + '–' + fila.v_fin} multilinea /></span>{:else}—{/if}

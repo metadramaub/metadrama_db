@@ -9,6 +9,7 @@
 	import MetricPanelSection from '$lib/components/metrica/editor-v2/MetricPanelSection.svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import { sugerenciaTercetos } from '$lib/importador-metrico/presentacion';
+	import { comprobarLongitud } from '$lib/importador-metrico/longitud';
 	let { datos, tramoRef, formas, ocupado = false, errores = [], notasFuente = [], onaplicar, onrestablecer, oncancelar } = $props<{
 		datos: BorradorFichaMinima; tramoRef: string; formas: FormaEditable[]; ocupado?: boolean; errores?: string[];
 		notasFuente?: {id: string; texto_literal: string}[];
@@ -112,9 +113,14 @@
 		{#each partes as parte, i (parte.id)}
 			{@const unidad = secciones(parte, 'terceto').find((s: Seccion) => s.versos_min && s.versos_min === s.versos_max)?.versos_min}
 			{@const sugerencia = sugerenciaTercetos({origen: originales[0].origen, v_ini: principio(i), v_fin: Number(parte.fin), identificacion: parte.forma ? {forma_slug: parte.forma, arquitectura_slug: parte.arquitectura || null} : null})}
+			{@const longitud = comprobarLongitud({v_ini: principio(i), v_fin: Number(parte.fin),
+				identificacion: parte.forma ? {forma_slug: parte.forma, arquitectura_slug: parte.arquitectura || null} : null,
+				detalles_fuente: parte.remate !== null ? [{tipo_seccion: 'remate', n_versos: Number(parte.remate)}] : [],
+				desviaciones: parte.desviaciones.map((d) => ({v_ini: Number(d.v_ini), v_fin: Number(d.v_fin), dimension: d.dimension, relacion_norma: d.relacion_norma}))})}
 			<fieldset class="space-y-4 border border-[color:var(--border)] bg-white p-4" disabled={ocupado}>
 				<legend class="px-1 text-sm font-medium">{partes.length > 1 ? 'Secuencia ' + (i + 1) + ' · ' : ''}vv. {principio(i)}–{parte.fin} · {Number(parte.fin) - principio(i) + 1} versos</legend>
 				{#if sugerencia}<p class="text-sm text-[color:var(--muted-foreground)]">{sugerencia}</p>{/if}
+				{#if longitud.estado === 'revisar'}<p role="status" class="border-l-2 border-amber-400 bg-amber-50 p-3 text-sm">{longitud.mensaje}</p>{/if}
 				<div class="grid gap-4 sm:grid-cols-2">
 					<label class="form-field"><span class="form-label">Forma</span><select id={'forma-importada-' + parte.id} aria-label={'Forma · secuencia ' + (i + 1)} value={parte.forma} onchange={(e) => { parte.forma = e.currentTarget.value; parte.arquitectura = ''; }} class="w-full rounded-md border border-[color:var(--border)] bg-white px-3 py-2">
 						<option value="">Forma sin resolver</option>{#each formas as forma}<option value={forma.slug}>{forma.nombre}</option>{/each}
@@ -132,9 +138,6 @@
 						{#if Number.isInteger(Number(parte.remate)) && Number(parte.remate) > 0}<p class="text-sm">Cuerpo: {resumen.cuerpo} versos{unidad ? ' en tercetos' : ''} · Remate: {parte.remate} {Number(parte.remate) === 1 ? 'verso' : 'versos'}{resumen.adicionales ? ' · Versos añadidos: ' + resumen.adicionales : ''} · Total: {resumen.total}</p>{/if}
 						{#if parte.remate.trim() && problemaRemate(parte)}<p role="status" class="text-sm text-[color:var(--danger)]">{problemaRemate(parte)}</p>{/if}
 					</div>
-				{/if}
-				{#if unidad && resumenCuerpo(principio(i), Number(parte.fin), Number(parte.remate), desviaciones).cuerpo % unidad !== 0}
-					<p role="status" class="border-l-2 border-amber-400 bg-amber-50 p-3 text-sm">El cuerpo no es múltiplo de {unidad}. Revisa el remate, los límites o las desviaciones. La numeración no se modifica.</p>
 				{/if}
 				<div class="flex flex-wrap gap-2">
 					{#if Number(parte.fin) > principio(i) && dividiendo !== parte.id}<Button variant="secondary" onclick={() => { dividiendo = parte.id; nuevoInicio = ''; mensaje = ''; }}>Dividir secuencia</Button>{/if}

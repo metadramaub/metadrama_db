@@ -79,12 +79,10 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
-Pendiente detectado el 02-11: la validación general del importador comprueba particiones,
-recuentos y referencias, pero no confronta sistemáticamente la longitud de cada secuencia con
-la norma de su forma/arquitectura. Incorporar la comprobación compartida del catálogo, teniendo
-en cuenta remates, lagunas y adiciones estructurales declaradas; no confundir este control con
-la identificación de formas por longitud ni modificar la transcripción. Debe concretarse el
-tratamiento de discrepancias antes de afirmar que todas las secuencias pasan la norma métrica.
+Implementada el 02-11 la [comprobación de longitudes](./importador-metrico/comprobacion-longitudes.md)
+con las reglas compartidas del catálogo, remates, lagunas numeradas y adiciones declaradas.
+Los descuadres se muestran como avisos por secuencia y se pueden filtrar; no corrigen la fuente
+ni identifican formas por divisibilidad. Las formas sin regla fija no se dan por comprobadas.
 
 Preparar la revisión de equivalencias recogiendo los [casos complejos](./importador-metrico/casos-complejos-equivalencias.md).
 

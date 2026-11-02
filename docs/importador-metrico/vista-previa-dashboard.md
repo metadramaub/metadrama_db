@@ -1,5 +1,10 @@
 # Vista previa del importador en el dashboard
 
+El 02-11 se incorpora la [comprobación normativa de longitudes](./comprobacion-longitudes.md):
+avisos en cada fila y en su editor, con filtro «Longitud a revisar», respetando remates,
+lagunas numeradas y adiciones estructurales. No modifica la numeración ni bloquea automáticamente
+el guardado por una discrepancia con la norma.
+
 Flujo actualizado el 31 de octubre: pegar el JSON no muestra metadatos, tablas ni avisos.
 Solo aparecen al pulsar **Preparar importación**. Al modificar la entrada se oculta el resultado
 anterior hasta prepararla otra vez. La interfaz utiliza «Sin guardar» para el resultado preparado.
