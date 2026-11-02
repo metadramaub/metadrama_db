@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { FilaBasica } from '$lib/server/importador-metrico/persistencia';
 	import Trash2 from 'lucide-svelte/icons/trash-2';
+	import Pencil from 'lucide-svelte/icons/pencil';
 	import InlineNotePopover from '$lib/components/ui/inline-note-popover.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	let { filas, puedeEliminar = false, oneliminar } = $props<{
@@ -22,12 +23,12 @@
 			<th class="px-4 py-3">Importada por</th><th class="px-4 py-3">Importada el</th>
 			<th class="px-4 py-3"><span class="form-label-with-help">Última modificación<FieldHelpTooltip label="Última modificación" text="Fecha guardada de la copia básica. Las importaciones anteriores a este registro muestran «No consta». Consultar la ficha no cambia esta fecha." /></span></th>
 			<th class="px-4 py-3"><span class="form-label-with-help">Por revisar<FieldHelpTooltip label="Pendientes y avisos" text="Formas sin identificar y avisos de longitud conservados al guardar. Las incidencias del JSON original se muestran aparte: pueden haberse corregido durante la importación." /></span></th>
-			{#if puedeEliminar}<th class="px-4 py-3"><span class="sr-only">Acciones</span></th>{/if}
+			<th class="px-4 py-3"><span class="sr-only">Acciones</span></th>
 		</tr></thead>
 		<tbody class="divide-y divide-[color:var(--border)]">
 			{#each filas as f (f.importacion_id)}
 				<tr class="align-top">
-					<td class="px-4 py-3"><a class="underline" href={'/dashboard/importador/fichas/' + f.importacion_id}>{f.titulo}</a></td>
+					<td class="px-4 py-3">{f.titulo}</td>
 					<td class="px-4 py-3">{f.autor_nombre}</td><td class="px-4 py-3">{f.importado_por}</td>
 					<td class="whitespace-nowrap px-4 py-3" title={fechaCompleta(f.importado_en)}>{fecha(f.importado_en)}</td>
 					<td class="whitespace-nowrap px-4 py-3 text-[color:var(--muted-foreground)]" title={f.modificado_en ? fechaCompleta(f.modificado_en) : undefined}>{f.modificado_en ? fecha(f.modificado_en) : 'No consta'}</td>
@@ -38,9 +39,14 @@
 						{#if f.incidencias_fuente.length}<p>JSON original: {f.incidencias_fuente.length} {f.incidencias_fuente.length === 1 ? 'incidencia' : 'incidencias'} <InlineNotePopover text={f.incidencias_fuente.map((i: { descripcion: string }) => i.descripcion).join('\n\n')} label={'Incidencias originales de ' + f.titulo} multilinea /></p>{/if}
 						{#if f.comprobacion_registrada && !f.formas_pendientes.length && !f.avisos_longitud.length && !f.incidencias_fuente.length}<p class="text-[color:var(--muted-foreground)]">Sin pendientes registrados.</p>{/if}
 					</td>
-					{#if puedeEliminar}<td class="px-4 py-3"><button type="button" title="Eliminar ficha básica" aria-label={'Eliminar ' + f.titulo} class="rounded p-1 text-[color:var(--danger)] transition-colors hover:bg-[color:var(--danger)] hover:text-white" onclick={() => oneliminar?.(f)}><Trash2 size={16} /></button></td>{/if}
+					<td class="px-4 py-3">
+						<div class="flex items-center justify-end gap-1">
+							<a href={'/dashboard/importador/fichas/' + f.importacion_id} title="Abrir ficha básica" aria-label={'Abrir ' + f.titulo} class="rounded p-1 text-[color:var(--success)] transition-colors hover:bg-[color:var(--success)] hover:text-white"><Pencil size={16} /></a>
+							{#if puedeEliminar}<button type="button" title="Eliminar ficha básica" aria-label={'Eliminar ' + f.titulo} class="rounded p-1 text-[color:var(--danger)] transition-colors hover:bg-[color:var(--danger)] hover:text-white" onclick={() => oneliminar?.(f)}><Trash2 size={16} /></button>{/if}
+						</div>
+					</td>
 				</tr>
-			{:else}<tr><td colspan={puedeEliminar ? 7 : 6} class="px-4 py-6 text-[color:var(--muted-foreground)]">No hay fichas básicas guardadas en esta página.</td></tr>{/each}
+			{:else}<tr><td colspan={7} class="px-4 py-6 text-[color:var(--muted-foreground)]">No hay fichas básicas guardadas en esta página.</td></tr>{/each}
 		</tbody>
 	</table>
 </div>
