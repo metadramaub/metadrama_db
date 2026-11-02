@@ -67,3 +67,31 @@ si no se facilitaron nombres de archivo. La nota 110 sigue sin cuerpo y correcta
 enlazada. Se conserva el JSON recibido intacto como respuesta-v0.11-original.json.
 El pasaje mixto requiere la consulta del texto y división manual ya acordadas; no se
 considera un fallo del prompt que no deduzca esos cortes. No se ha guardado la obra.
+
+## ChatGPT Plus Instant frente a Gemini gratuita, prompt v0.11
+
+El responsable identifica la respuesta anterior como Gemini en cuenta gratuita y aporta
+otra de ChatGPT Plus en modo Instant. El modelo concreto no consta: no se deduce del modo.
+La respuesta de ChatGPT se conserva intacta en
+`backups/importador-local/maestro-danzar-2026-11-02/respuesta-v0.11-chatgpt-plus-instant-original.json`.
+Las condiciones declaradas se registran en [ensayos-maestro-danzar.json](./piloto/ensayos-maestro-danzar.json).
+
+| Aspecto cotejado | Gemini gratuita v0.11 | ChatGPT Plus Instant v0.11 |
+| --- | --- | --- |
+| JSON y validación | Correctos | Correctos |
+| Veinte filas, jornadas, rangos y recuentos | Correctos | Correctos |
+| Esquema de t19 | AaBbCC: caja incorrecta | AabBCC: coincide con la foto |
+| Título visible | Omitido | Conservado y localizado en la segunda foto |
+| Nota 110 sin cuerpo fotografiado | Señalada | Señalada |
+| Posible continuación bajo el resumen recortado | No señalada | Señalada sin inventar contenido |
+
+Se selecciona la respuesta de ChatGPT como entrada más reciente del informe del piloto;
+eso no la convierte en gold ni guarda la obra. La segmentación de 1517–1669 sigue
+requiriendo consultar el texto y dividir manualmente.
+
+La ventaja observada se limita a estas respuestas: no se estima una tasa de error ni se
+recomienda aún un servicio para todo el lote. No se ha comprobado que los archivos enviados
+fueran idénticos (las referencias de salida usan foto-01/foto-02 y nombres .jpg).
+Además, AabBCC ya figura como ejemplo en el prompt adaptado tras el fallo: no es un caso
+independiente para medir generalización. El plan Plus tampoco reproduce las condiciones
+gratuitas previstas para los importadores. Ambas respuestas quedan separadas y trazadas.

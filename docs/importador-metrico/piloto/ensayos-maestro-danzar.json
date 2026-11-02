@@ -1,0 +1,32 @@
+{
+  "obra": "El maestro de danzar",
+  "fecha_registro": "2026-11-02",
+  "fuente_condiciones": "Declaración del responsable en el chat; no se ha comprobado la identidad binaria de los adjuntos enviados a cada servicio.",
+  "ensayos": [
+    {
+      "servicio": "Gemini",
+      "plan": "gratuito",
+      "modo": null,
+      "modelo": null,
+      "prompt": "extraccion/0.11",
+      "respuesta": "backups/importador-local/maestro-danzar-2026-11-02/respuesta-v0.11-original.json",
+      "esquema_obtenido": "AaBbCC",
+      "esquema_en_foto": "AabBCC",
+      "titulo_extraido": false,
+      "validacion_tecnica": true
+    },
+    {
+      "servicio": "ChatGPT",
+      "plan": "Plus",
+      "modo": "Instant",
+      "modelo": null,
+      "prompt": "extraccion/0.11",
+      "respuesta": "backups/importador-local/maestro-danzar-2026-11-02/respuesta-v0.11-chatgpt-plus-instant-original.json",
+      "esquema_obtenido": "AabBCC",
+      "esquema_en_foto": "AabBCC",
+      "titulo_extraido": true,
+      "validacion_tecnica": true
+    }
+  ],
+  "limitacion": "Comparación descriptiva de dos respuestas aportadas, no ensayo controlado ni estimación de tasas de error. El prompt incluye este esquema como ejemplo después de observar el fallo: este caso ya no es una evaluación independiente. El plan Plus no representa las condiciones gratuitas previstas para los importadores. No se infiere un modelo a partir de Instant."
+}
