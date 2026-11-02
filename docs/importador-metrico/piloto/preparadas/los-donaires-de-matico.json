@@ -447,11 +447,11 @@
       }
     ],
     "procedencia": {
-      "reglas_version": "v0.8",
+      "reglas_version": "v0.9",
       "catalogo_revision": 4948,
       "extraccion_sha256": "61abbca56ef343d278cf86439686cd19224e90fb1259cb2dc40847135d8d6008",
       "entradas_sha256": {
-        "equivalencias.propuestas.json": "835278a47d9bb1cd00f95828143e096bb105f3ac1aec135b7520f59a803094fe",
+        "equivalencias.propuestas.json": "fd0021318194694767aa2129cf6498e65a1e3087302992e00785b7efc9456286",
         "catalogo-referencia.json": "0f65680900ccab33fb9a258e5aca1ae6b2c0373c6dc2aab4192e80d7088e7b06",
         "auditoria-tercetos-2026-10-26.json": "433367a2e24b8e6e5fb213b907c2d810ff2078eda0e2364771070231e8cfc112",
         "segmentacion.propuestas.json": "66bfd37373162eaf06c046093f11cbd7188d0e72519bea0c30c6caefc738cd0f",

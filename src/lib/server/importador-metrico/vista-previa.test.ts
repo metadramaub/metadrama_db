@@ -5,6 +5,29 @@ import { analizarEntrada, obtenerPilotos, obtenerReferenciaImportador } from './
 import preparada from '../../../../docs/importador-metrico/piloto/preparadas/el-verdadero-amante.json';
 
 describe('vista previa del importador sin persistencia', () => {
+	it('usa la nota enlazada para tercetos con cierre, sin trasladar esquemas de quintillas', () => {
+		const raw=JSON.parse(obtenerPilotos()[0].entrada);
+		raw.obra_ref='obra-importada'; raw.jornadas=[{numero:1,rotulo_literal:null}];
+		raw.tramos=[
+			{id:'t01',jornada:1,v_ini:1,v_fin:91,denominacion_literal:'tercetos',n_versos_fuente:91,fuente_id:'foto-01',pagina:null,notas_ref:['n01']},
+			{id:'t02',jornada:1,v_ini:92,v_fin:331,denominacion_literal:'quintillas',n_versos_fuente:240,fuente_id:'foto-01',pagina:null,notas_ref:['n02']}
+		];
+		raw.notas=[
+			{id:'n01',marca:'18',texto_literal:'Como es habitual, la serie de tercetos encadenados se cierra con un serventesio.',fuente_id:'foto-01',pagina:null,tramos_ref:['t01'],v_ini:null,v_fin:null},
+			{id:'n02',marca:'19',texto_literal:'Formas ababa (115), aabba (120) y abaab (5).',fuente_id:'foto-01',pagina:null,tramos_ref:['t02'],v_ini:null,v_fin:null}
+		]; raw.resumen_fuente=[]; raw.incidencias=[];
+		const vista=analizarEntrada(JSON.stringify(raw));
+		expect(vista.errores).toEqual([]);
+		expect(vista.datos!.segmentos[0].identificacion).toEqual({forma_slug:'terceto_encadenado',arquitectura_slug:null});
+		expect(vista.datos!.segmentos[0].detalles_fuente).toContainEqual(expect.objectContaining({tipo_seccion:'remate',n_versos:1}));
+		expect(vista.datos!.segmentos[1].detalles_fuente).toEqual([]);
+		expect(vista.filas[1].notas_fuente?.[0].texto_literal).toContain('abaab (5)');
+		// Una nota de otra fila no resuelve los tercetos.
+		raw.tramos[0].notas_ref=[]; raw.notas[0].tramos_ref=[];
+		const sinNota=analizarEntrada(JSON.stringify(raw));
+		expect(sinNota.datos!.segmentos[0].identificacion).toBeNull();
+		expect(sinNota.datos!.segmentos[0].detalles_fuente).toEqual([]);
+	});
 	it('prepara las equivalencias y divide el estrambote sin perder la fila original', () => {
 		const raw = JSON.parse(obtenerPilotos()[0].entrada);
 		raw.obra_ref = 'obra-importada';

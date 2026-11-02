@@ -30,6 +30,7 @@ const reglaSchema = z.object({
 	evidencias_bibliograficas: z.array(texto).default([]),
 	ambito: z.object({ obras: z.array(texto).min(1) }).optional(),
 	division: z.literal('soneto_y_estrambote_sin_identificar').optional(),
+	nota_contiene: z.array(texto).min(1).optional(),
 	aprobacion: aprobacionSchema.optional()
 });
 const reglasSchema = z.object({ version: texto, reglas: z.array(reglaSchema) });
@@ -121,11 +122,20 @@ export function normalizarExtraccion(
 		const matches = reference.reglas.filter(
 			(r) =>
 				r.literales.some((l) => l.replace(/\s+/gu, ' ').trim() === literalComparado) &&
-				(!r.ambito || r.ambito.obras.includes(source.obra_ref))
+				(!r.ambito || r.ambito.obras.includes(source.obra_ref)) &&
+				(!r.nota_contiene || row.notas_ref.some((id) => {
+					const n = notesById.get(id);
+					const textoNota = n?.texto_literal?.replace(/\s+/gu, ' ').toLowerCase();
+					return n?.tramos_ref.includes(row.id) && textoNota &&
+						r.nota_contiene.every((fragmento) => textoNota.includes(fragmento));
+				}))
 		);
-		if (matches.length > 1)
+		// Una precisión explícita en una nota enlazada prevalece sobre el nombre ambiguo.
+		const precisas = matches.filter((r) => r.nota_contiene);
+		const aplicables = precisas.length ? precisas : matches;
+		if (aplicables.length > 1)
 			throw new Error(`Equivalencias en conflicto para ${source.obra_ref}/${row.id}`);
-		let rule = matches[0];
+		let rule = aplicables[0];
 		// Sin extensión suficiente no se inventa ni el corte ni un soneto completo.
 		if (rule?.division && (row.v_ini === null || row.v_fin === null || row.v_fin - row.v_ini + 1 <= 14))
 			rule = undefined;

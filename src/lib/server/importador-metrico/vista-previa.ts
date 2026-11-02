@@ -18,7 +18,7 @@ import molino from '../../../../docs/importador-metrico/piloto/extracciones/el-m
 import amante from '../../../../docs/importador-metrico/piloto/extracciones/el-verdadero-amante.json?raw';
 import donaires from '../../../../docs/importador-metrico/piloto/extracciones/los-donaires-de-matico.json?raw';
 import locos from '../../../../docs/importador-metrico/piloto/extracciones/los-locos-de-valencia.json?raw';
-import prompt from '../../../../prompts/importador-metrico/extraccion-v0.6.md?raw';
+import prompt from '../../../../prompts/importador-metrico/extraccion-v0.7.md?raw';
 import type {
 	FichaMinima,
 	BorradorFichaMinima,

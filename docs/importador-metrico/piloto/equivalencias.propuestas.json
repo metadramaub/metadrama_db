@@ -352,8 +352,44 @@
         "fecha": "2026-11-02",
         "fundamento": "El responsable indica partir provisionalmente: soneto y secuencia desconocida; criterio pendiente sobre el catálogo."
       }
+    },
+    {
+      "id": "tercetos-nota-encadenados-con-cierre",
+      "literales": [
+        "tercetos"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "terceto_encadenado",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "destino_unico_aprobado_solo_en_forma",
+      "fundamento": "La nota enlazada declara expresamente tercetos encadenados y cierre en serventesio. Se aplica Terceto encadenado con remate de un verso (3+1), sin arquitectura. No se generaliza a tercetos sin esa precisión.",
+      "detalles_fuente": [
+        {
+          "literal": "serventesio final",
+          "dimension": "estructura",
+          "tipo_seccion": "remate",
+          "nombre": "Remate",
+          "n_versos": 1,
+          "posicion": "final",
+          "estado": "interpretacion_revisada",
+          "fundamento": "El verso de cierre completa la rima pendiente del último terceto. Se registra como remate de un verso dentro de la misma secuencia."
+        }
+      ],
+      "aprobacion": {
+        "responsable": "Responsable del proyecto",
+        "fecha": "2026-11-02",
+        "fundamento": "En la revisión de El favor agradecido se confirma que la nota permite identificar tercetos encadenados con remate. Los esquemas de quintillas sin posiciones permanecen en nota."
+      },
+      "nota_contiene": [
+        "tercetos encadenados",
+        "se cierra con un serventesio"
+      ]
     }
   ],
-  "version": "v0.8",
+  "version": "v0.9",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }
