@@ -1,10 +1,35 @@
 import { describe, expect, it } from 'vitest';
 import { createHash } from 'node:crypto';
 import type { FichaMinima } from '$lib/importador-metrico/types';
-import { analizarEntrada, obtenerPilotos, obtenerReferenciaImportador } from './vista-previa';
+import { analizarEntrada, obtenerPilotos, obtenerReferenciaImportador, vistaDeFichaGuardada } from './vista-previa';
 import preparada from '../../../../docs/importador-metrico/piloto/preparadas/el-verdadero-amante.json';
 
 describe('vista previa del importador sin persistencia', () => {
+	it('avisa del descuadre métrico y recalcula tras declarar una adición, sin cambiar la extensión', () => {
+		const raw=JSON.parse(obtenerPilotos()[0].entrada);
+		raw.obra_ref='obra-importada';raw.jornadas=[{numero:1,rotulo_literal:null}];raw.resumen_fuente=[];raw.incidencias=[];
+		raw.tramos=[{id:'t01',jornada:1,v_ini:1,v_fin:53,denominacion_literal:'Redondillas',n_versos_fuente:53,fuente_id:'foto-01',pagina:null,notas_ref:['n01']}];
+		raw.notas=[{id:'n01',marca:'1',texto_literal:'El v. 5 es un verso añadido.',fuente_id:'foto-01',pagina:null,tramos_ref:['t01'],v_ini:5,v_fin:5}];
+		const sinAjuste=analizarEntrada(JSON.stringify(raw));
+		expect(sinAjuste.errores).toEqual([]);
+		expect(sinAjuste.filas[0].longitud?.estado).toBe('revisar');
+		expect(sinAjuste.avisos).toContainEqual(expect.objectContaining({codigo:'longitud_metrica',ruta:'segmentos.t01'}));
+		expect(sinAjuste.datos!.procedencia.entradas_sha256['reglas-longitud.json']).toMatch(/^[a-f0-9]{64}$/);
+		const copia=structuredClone(sinAjuste.datos) as FichaMinima;
+		const antes=structuredClone(copia);
+		const reabierta=vistaDeFichaGuardada(copia,raw,{obra_id:'00000000-0000-4000-8000-000000000001',importacion_id:'00000000-0000-4000-8000-000000000002'});
+		expect(reabierta.filas[0].longitud?.estado).toBe('revisar');
+		expect(copia).toEqual(antes);
+		const ediciones=[{tramo_ref:'t01',partes:[{v_ini:1,v_fin:53,
+			identificacion:{forma_slug:'redondilla',arquitectura_slug:null},nota:null,remate:null,
+			desviaciones:[{v_ini:5,v_fin:5,dimension:'estructura',relacion_norma:'sobra',nota_ref:'n01',nota:null}]}]}];
+		const corregida=analizarEntrada(JSON.stringify(raw),{},ediciones);
+		expect(corregida.errores).toEqual([]);
+		expect(corregida.filas[0].longitud?.estado).toBe('compatible');
+		expect(corregida.avisos.some(a=>a.codigo==='longitud_metrica')).toBe(false);
+		expect(corregida.resumen!.extension).toBe(53);
+		expect(corregida.filas[0].v_ini).toBe(1);expect(corregida.filas[0].v_fin).toBe(53);
+	});
 	it('reconoce mayúsculas editoriales y Sextetos alirados sin alterar los literales', () => {
 		const raw=JSON.parse(obtenerPilotos()[0].entrada);
 		raw.obra_ref='obra-importada';raw.jornadas=[{numero:1,rotulo_literal:null}];

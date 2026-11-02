@@ -72,6 +72,7 @@ export type BorradorFichaMinima = Omit<FichaMinima, 'metadatos'> & {
 	};
 };
 export type FilaVistaPrevia = SegmentoMinimo & {
+	longitud?: { estado: 'compatible' | 'revisar' | 'sin_regla' | 'sin_identificar'; mensaje: string | null };
 	notas_fuente?: { id: string; texto_literal: string }[];
 	jornada: number | null;
 	extension: number;

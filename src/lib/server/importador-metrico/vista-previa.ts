@@ -1,6 +1,8 @@
 /** Reconstruye la vista previa y presenta la copia confirmada sin reaplicar equivalencias. */
 import { createHash } from 'node:crypto';
 import { aplicarEdiciones } from '$lib/importador-metrico/edicion';
+import { comprobarLongitud } from '$lib/importador-metrico/longitud';
+import reglasLongitudRaw from '../../../../docs/importador-metrico/piloto/reglas-longitud.json?raw';
 import { ErrorExtraccion, normalizarExtraccion } from '../../../../scripts/lib/importador-metrico/normalizacion.mjs';
 import {
 	prepararFichaMinima,
@@ -126,6 +128,7 @@ function nombreDestino(destino: { forma_slug: string; arquitectura_slug: string 
 function filasDeFicha(ficha: BorradorFichaMinima, notasOriginales: Registro[] | null = null) {
 	return ficha.segmentos.map((s) => ({
 		...s,
+		longitud: comprobarLongitud(s),
 		...(notasOriginales ? {notas_fuente:notasOriginales.filter(n=>s.origen.notas_ref.includes(n.id as string))
 			.map(n=>({id:n.id as string,texto_literal:n.texto_literal as string}))} : {}),
 		jornada: ficha.jornadas.find(j=>s.v_ini>=j.v_ini && s.v_fin<=j.v_fin)?.numero ?? null,
@@ -135,7 +138,8 @@ function filasDeFicha(ficha: BorradorFichaMinima, notasOriginales: Registro[] | 
 	}));
 }
 
-/** Lee la copia ya guardada sin reinterpretar reglas ni validar otra vez el catálogo histórico. */
+/** Lee la copia sin reinterpretar equivalencias. Los avisos de longitud usan la referencia
+ * actual y no modifican los datos confirmados ni certifican el catálogo histórico. */
 export function vistaDeFichaGuardada(ficha: FichaMinima, original: Registro,
 	confirmacion: NonNullable<ResultadoVistaPrevia['confirmacion']>): ResultadoVistaPrevia {
 	const notas=Array.isArray(original.notas)?original.notas.map(objeto)
@@ -227,6 +231,7 @@ export function analizarEntrada(
 			normalizada.revision_transcripcion = { sha256: sha(limpio) };
 			normalizada.entradas_sha256 = {
 				'equivalencias.propuestas.json': sha(reglasRaw),
+				'reglas-longitud.json': sha(reglasLongitudRaw),
 				'catalogo-referencia.json': sha(catalogoRaw),
 				'bibliografia-contraste.json': sha(bibliografiaRaw),
 				...(esPiloto ? { 'segmentacion.propuestas.json': sha(segmentacionRaw) } : {})
@@ -276,6 +281,10 @@ export function analizarEntrada(
 			resultado.datos = ficha;
 			resultado.resumen = resumirFichaMinima(ficha, {vistaPrevia:true});
 			resultado.filas = filasDeFicha(ficha,notasOriginales);
+			for (const fila of resultado.filas) if (fila.longitud?.estado === 'revisar') {
+				resultado.avisos.push({ codigo: 'longitud_metrica', ruta: `segmentos.${fila.ref}`,
+					mensaje: `vv. ${fila.v_ini}–${fila.v_fin}: ${fila.longitud.mensaje}` });
+			}
 		}
 	} catch (error) {
 		if (error instanceof ErrorExtraccion) {

@@ -1,0 +1,1171 @@
+{
+  "esquema": "versologia-reglas-longitud/0.1",
+  "fecha_consulta": "2026-11-02",
+  "origen": "public.arquitecturas_reglas_longitud; consulta de solo lectura",
+  "reglas": [
+    {
+      "arquitectura": "octosilabica",
+      "arquitectura_id": "f56f68a2-c1d9-4cea-938b-29ae21074641",
+      "arquitectura_nombre": "Octosílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 8 versos",
+      "forma": "copla_castellana",
+      "minimo_versos": 8,
+      "modulo_versos": 8,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "dodecasilabica_compuesta",
+      "arquitectura_id": "955f1883-31cd-4ae8-aaf8-54988de43f92",
+      "arquitectura_nombre": "Dodecasílaba compuesta",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 8 versos",
+      "forma": "copla_de_arte_mayor",
+      "minimo_versos": 8,
+      "modulo_versos": 8,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "octosilabica",
+      "arquitectura_id": "249574ed-ae0c-442d-b1fc-74836aac3d52",
+      "arquitectura_nombre": "Octosílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 8 versos",
+      "forma": "copla_de_arte_menor",
+      "minimo_versos": 8,
+      "modulo_versos": 8,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "doble_pie_quebrado",
+      "arquitectura_id": "abf2d2e7-2726-45db-b1e8-acf5219c4c4b",
+      "arquitectura_nombre": "De pie quebrado",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 12 versos",
+      "forma": "copla_manriquena",
+      "minimo_versos": 12,
+      "modulo_versos": 12,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "octosilabica_consonante",
+      "arquitectura_id": "a81a8c9d-dde9-4023-b332-70692dd1b04b",
+      "arquitectura_nombre": "Octosílaba consonante",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 10 versos",
+      "forma": "copla_real",
+      "minimo_versos": 10,
+      "modulo_versos": 10,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "endecasilabica",
+      "arquitectura_id": "1abe72f2-a917-4479-a1ef-38d75884574b",
+      "arquitectura_nombre": "Endecasílabo",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 4 versos",
+      "forma": "cuarteto",
+      "minimo_versos": 4,
+      "modulo_versos": 4,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "heterometrica_consonante",
+      "arquitectura_id": "135721eb-ed87-41e8-856e-b6426e522d8f",
+      "arquitectura_nombre": "Heterométrico consonante",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 4 versos",
+      "forma": "cuarteto_lira",
+      "minimo_versos": 4,
+      "modulo_versos": 4,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "aumentada",
+      "arquitectura_id": "4e5e35a0-bd72-4dbf-9737-7f78aeb78897",
+      "arquitectura_nombre": "Aumentada",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 12 versos",
+      "forma": "decima",
+      "minimo_versos": 12,
+      "modulo_versos": 12,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "endecasilabica",
+      "arquitectura_id": "28348e86-7c8e-4428-9bfb-85f0269d1ab0",
+      "arquitectura_nombre": "Endecasílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 10 versos",
+      "forma": "decima",
+      "minimo_versos": 10,
+      "modulo_versos": 10,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "espinela",
+      "arquitectura_id": "3b903fc5-7dfd-49b3-9089-548fe394966e",
+      "arquitectura_nombre": "Espinela",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 10 versos",
+      "forma": "decima",
+      "minimo_versos": 10,
+      "modulo_versos": 10,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "heptasilabica",
+      "arquitectura_id": "61d55ae1-78e7-451e-bf25-bfb05bb2c034",
+      "arquitectura_nombre": "Heptasílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 10 versos",
+      "forma": "decima",
+      "minimo_versos": 10,
+      "modulo_versos": 10,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "hexasilabica",
+      "arquitectura_id": "9532f8da-4cdc-4825-802f-821e01e96c76",
+      "arquitectura_nombre": "Hexasílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 10 versos",
+      "forma": "decima",
+      "minimo_versos": 10,
+      "modulo_versos": 10,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "pentasilabica",
+      "arquitectura_id": "466f5c71-d936-4032-9b19-c0c1e69139b1",
+      "arquitectura_nombre": "Pentasílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 10 versos",
+      "forma": "decima",
+      "minimo_versos": 10,
+      "modulo_versos": 10,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "heterometrica_consonante",
+      "arquitectura_id": "fbd3a5d3-dddd-4ffb-a93b-9040c160052e",
+      "arquitectura_nombre": "Heterométrica consonante",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 10 versos",
+      "forma": "decima_lira",
+      "minimo_versos": 10,
+      "modulo_versos": 10,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "heptasilabica_con_endecasilabo",
+      "arquitectura_id": "e6b09b43-b51e-4ea9-aea9-965f866ef38f",
+      "arquitectura_nombre": "Heptasílaba con endecasílabo final",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "ciclos completos de rima de 4 versos",
+      "forma": "endecha_real",
+      "minimo_versos": 4,
+      "modulo_versos": 4,
+      "origen": "ciclo_rima",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "heptasilabica_con_endecasilabo_de_cinco",
+      "arquitectura_id": "9202c462-7931-43a0-b196-14215cd24aad",
+      "arquitectura_nombre": "Heptasílaba de cinco versos",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "ciclos métricos completos de 5 versos",
+      "forma": "endecha_real",
+      "minimo_versos": 5,
+      "modulo_versos": 5,
+      "origen": "ciclo_metrico",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "hexasilabica_con_endecasilabo",
+      "arquitectura_id": "926100eb-84ee-4b41-83f8-bdb66ae64392",
+      "arquitectura_nombre": "Hexasílaba con endecasílabo final",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "ciclos completos de rima de 4 versos",
+      "forma": "endecha_real",
+      "minimo_versos": 4,
+      "modulo_versos": 4,
+      "origen": "ciclo_rima",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "de_la_torre",
+      "arquitectura_id": "62b169ba-3988-4f58-924d-4215b232b756",
+      "arquitectura_nombre": "De Francisco de la Torre",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 4 versos",
+      "forma": "estrofa_safica",
+      "minimo_versos": 4,
+      "modulo_versos": 4,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "safica",
+      "arquitectura_id": "93b689c5-7c02-45ce-9c0e-4ea8b32d4c64",
+      "arquitectura_nombre": "Sáfica",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 4 versos",
+      "forma": "estrofa_safica",
+      "minimo_versos": 4,
+      "modulo_versos": 4,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "heptasilabica_endecasilabica",
+      "arquitectura_id": "59aaa8e4-e660-4574-bbb9-63091082ed75",
+      "arquitectura_nombre": "Heptasílaba y endecasílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 5 versos",
+      "forma": "lira",
+      "minimo_versos": 5,
+      "modulo_versos": 5,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "quintilla_redondilla",
+      "arquitectura_id": "aa3f925f-c9db-4959-bad2-f1b52475aaf0",
+      "arquitectura_nombre": "Quintilla + redondilla",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 9 versos",
+      "forma": "novena",
+      "minimo_versos": 9,
+      "modulo_versos": 9,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "redondilla_quintilla",
+      "arquitectura_id": "e5847ceb-1ad4-4373-897b-e6c5939feba3",
+      "arquitectura_nombre": "Redondilla + quintilla",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 9 versos",
+      "forma": "novena",
+      "minimo_versos": 9,
+      "modulo_versos": 9,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "heterometrica_consonante",
+      "arquitectura_id": "4ff724c6-9874-4cf6-8742-eef7f5b48be0",
+      "arquitectura_nombre": "Heterométrica consonante",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 9 versos",
+      "forma": "novena_lira",
+      "minimo_versos": 9,
+      "modulo_versos": 9,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "decasilabica",
+      "arquitectura_id": "655a50a8-5fcd-4542-abc4-28b20f4bf21f",
+      "arquitectura_nombre": "Decasílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 8 versos",
+      "forma": "octava_aguda",
+      "minimo_versos": 8,
+      "modulo_versos": 8,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "endecasilabica",
+      "arquitectura_id": "8a8a98cd-05ae-4c31-a71a-dc13606106e2",
+      "arquitectura_nombre": "Endecasílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 8 versos",
+      "forma": "octava_aguda",
+      "minimo_versos": 8,
+      "modulo_versos": 8,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "heptasilabica",
+      "arquitectura_id": "1c17bb9f-a1d5-4d61-b4aa-f40156f48b29",
+      "arquitectura_nombre": "Heptasílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 8 versos",
+      "forma": "octava_aguda",
+      "minimo_versos": 8,
+      "modulo_versos": 8,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "hexasilabica",
+      "arquitectura_id": "8752e76b-fef4-4468-9fe4-698fc584a13b",
+      "arquitectura_nombre": "Hexasílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 8 versos",
+      "forma": "octava_aguda",
+      "minimo_versos": 8,
+      "modulo_versos": 8,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "octosilabica",
+      "arquitectura_id": "cceac2f5-4e35-45fe-94de-fe63598f4267",
+      "arquitectura_nombre": "Octosílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 8 versos",
+      "forma": "octava_aguda",
+      "minimo_versos": 8,
+      "modulo_versos": 8,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "pentasilabica",
+      "arquitectura_id": "4ae25881-7bc6-4baf-bea3-e4c4b765dae0",
+      "arquitectura_nombre": "Pentasílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 8 versos",
+      "forma": "octava_aguda",
+      "minimo_versos": 8,
+      "modulo_versos": 8,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "heterometrica_consonante",
+      "arquitectura_id": "ad863b7d-623b-4e7d-96cf-ce31e298624c",
+      "arquitectura_nombre": "Heterométrica consonante",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 8 versos",
+      "forma": "octava_lira",
+      "minimo_versos": 8,
+      "modulo_versos": 8,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "endecasilabica_consonante",
+      "arquitectura_id": "c48a237a-8e01-4d4e-8ebe-4eae389b14c7",
+      "arquitectura_nombre": "Endecasílaba consonante",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 8 versos",
+      "forma": "octava_real",
+      "minimo_versos": 8,
+      "modulo_versos": 8,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "quintilla_sextilla",
+      "arquitectura_id": "b091f190-b002-4588-a462-fa9f4f08a3a5",
+      "arquitectura_nombre": "Quintilla + sextilla",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 11 versos",
+      "forma": "oncena",
+      "minimo_versos": 11,
+      "modulo_versos": 11,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "sextilla_quintilla",
+      "arquitectura_id": "677ba222-5a3d-4302-937e-f321c95a4e67",
+      "arquitectura_nombre": "Sextilla + quintilla",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 11 versos",
+      "forma": "oncena",
+      "minimo_versos": 11,
+      "modulo_versos": 11,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "alirado",
+      "arquitectura_id": "4090e4f0-4073-4d17-b6ec-25cbb5c68ec7",
+      "arquitectura_nombre": "Alirado",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 2 versos",
+      "forma": "pareado",
+      "minimo_versos": 2,
+      "modulo_versos": 2,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "cualquier_medida",
+      "arquitectura_id": "3bc4546e-8184-491c-9fbd-909de91bf0d9",
+      "arquitectura_nombre": "Isométrico",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 2 versos",
+      "forma": "pareado",
+      "minimo_versos": 2,
+      "modulo_versos": 2,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "heptasilabica",
+      "arquitectura_id": "a6608b46-5e67-425f-b76b-d8686902f47a",
+      "arquitectura_nombre": "Heptasílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 5 versos",
+      "forma": "quintilla",
+      "minimo_versos": 5,
+      "modulo_versos": 5,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "hexasilabica",
+      "arquitectura_id": "704716d7-4289-42ea-80b3-a844f566074b",
+      "arquitectura_nombre": "Hexasílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 5 versos",
+      "forma": "quintilla",
+      "minimo_versos": 5,
+      "modulo_versos": 5,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "octosilabica_consonante",
+      "arquitectura_id": "053ef367-629a-427c-aee1-425c4f111304",
+      "arquitectura_nombre": "Octosílaba consonante",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 5 versos",
+      "forma": "quintilla",
+      "minimo_versos": 5,
+      "modulo_versos": 5,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "heptasilabica",
+      "arquitectura_id": "91a89419-0489-4600-be24-6814bb28e7af",
+      "arquitectura_nombre": "Heptasílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 4 versos",
+      "forma": "redondilla",
+      "minimo_versos": 4,
+      "modulo_versos": 4,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "hexasilabica",
+      "arquitectura_id": "fca75eb4-563e-4858-9ae8-ec89dc3f68d0",
+      "arquitectura_nombre": "Hexasílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 4 versos",
+      "forma": "redondilla",
+      "minimo_versos": 4,
+      "modulo_versos": 4,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "octosilabica",
+      "arquitectura_id": "b6ef38af-5903-48d1-8c46-bc8bd6fb96ff",
+      "arquitectura_nombre": "Octosílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 4 versos",
+      "forma": "redondilla",
+      "minimo_versos": 4,
+      "modulo_versos": 4,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "octosilabica_con_quebrado",
+      "arquitectura_id": "7568e0c7-313e-4f74-a6e9-78e50e63c691",
+      "arquitectura_nombre": "Octosílaba con quebrado",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "ciclos completos de rima de 4 versos",
+      "forma": "redondilla_enlazada",
+      "minimo_versos": 4,
+      "modulo_versos": 4,
+      "origen": "ciclo_rima",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "octosilabica",
+      "arquitectura_id": "65fcca52-25a7-411d-af57-fbd804ffbbb9",
+      "arquitectura_nombre": "Octosílabo",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "ciclos completos de rima de 2 versos",
+      "forma": "romance",
+      "minimo_versos": 2,
+      "modulo_versos": 2,
+      "origen": "ciclo_rima",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "endecasilabica",
+      "arquitectura_id": "cc93585a-873d-4330-a059-e1223965ba74",
+      "arquitectura_nombre": "Endecasílabo",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "ciclos completos de rima de 2 versos",
+      "forma": "romance_heroico",
+      "minimo_versos": 2,
+      "modulo_versos": 2,
+      "origen": "ciclo_rima",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "heptasilabica",
+      "arquitectura_id": "41a4cd05-e1a9-4c15-a146-28b1d18a7964",
+      "arquitectura_nombre": "Heptasílabo",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "ciclos completos de rima de 2 versos",
+      "forma": "romancillo",
+      "minimo_versos": 2,
+      "modulo_versos": 2,
+      "origen": "ciclo_rima",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "hexasilabica",
+      "arquitectura_id": "3dd4e83c-d73a-4ec6-b474-bddce593d5b1",
+      "arquitectura_nombre": "Hexasílabo",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "ciclos completos de rima de 2 versos",
+      "forma": "romancillo",
+      "minimo_versos": 2,
+      "modulo_versos": 2,
+      "origen": "ciclo_rima",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "pentasilabica",
+      "arquitectura_id": "8d4c827d-3528-4973-be57-0914c23aee1f",
+      "arquitectura_nombre": "Pentasílabo",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "ciclos completos de rima de 2 versos",
+      "forma": "romancillo",
+      "minimo_versos": 2,
+      "modulo_versos": 2,
+      "origen": "ciclo_rima",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "tetrasilabica",
+      "arquitectura_id": "d1ff1f38-711c-4dbd-90f0-245965622804",
+      "arquitectura_nombre": "Tetrasílabo",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "ciclos completos de rima de 2 versos",
+      "forma": "romancillo",
+      "minimo_versos": 2,
+      "modulo_versos": 2,
+      "origen": "ciclo_rima",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "chamberga",
+      "arquitectura_id": "9001ddf4-50ca-4894-a6dd-ac6f4ecfa7ca",
+      "arquitectura_nombre": "Chamberga",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 10 versos",
+      "forma": "seguidilla",
+      "minimo_versos": 10,
+      "modulo_versos": 10,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "compuesta",
+      "arquitectura_id": "9bc3aa8c-d4a5-41b9-b9a1-dbc54f58edb6",
+      "arquitectura_nombre": "Compuesta",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 7 versos",
+      "forma": "seguidilla",
+      "minimo_versos": 7,
+      "modulo_versos": 7,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "gitana",
+      "arquitectura_id": "3ce31c97-3d09-4b45-8413-729d3d768f04",
+      "arquitectura_nombre": "Gitana",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 4 versos",
+      "forma": "seguidilla",
+      "minimo_versos": 4,
+      "modulo_versos": 4,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "real",
+      "arquitectura_id": "cbbcae17-82b7-42b6-a018-7a36d3cdba89",
+      "arquitectura_nombre": "Real",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 4 versos",
+      "forma": "seguidilla",
+      "minimo_versos": 4,
+      "modulo_versos": 4,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "simple",
+      "arquitectura_id": "2cc3f43f-5010-468a-971f-e25f4e581d7c",
+      "arquitectura_nombre": "Simple",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 4 versos",
+      "forma": "seguidilla",
+      "minimo_versos": 4,
+      "modulo_versos": 4,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "simple_arromanzada",
+      "arquitectura_id": "185f867d-749c-4621-8917-f98e71cf4973",
+      "arquitectura_nombre": "Simple arromanzada",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 4 versos",
+      "forma": "seguidilla",
+      "minimo_versos": 4,
+      "modulo_versos": 4,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "tres_versos",
+      "arquitectura_id": "aadde43e-5877-490c-8bfe-a4ba9a81bc11",
+      "arquitectura_nombre": "De tres versos",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 3 versos",
+      "forma": "seguidilla",
+      "minimo_versos": 3,
+      "modulo_versos": 3,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "compuesta",
+      "arquitectura_id": "345cb837-b817-4108-a4d8-cda6515109c7",
+      "arquitectura_nombre": "Compuesto",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 7 versos",
+      "forma": "septeto",
+      "minimo_versos": 7,
+      "modulo_versos": 7,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "endecasilabica",
+      "arquitectura_id": "4e4b3305-97ce-455b-9506-73e731b81db3",
+      "arquitectura_nombre": "Endecasílabo",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 7 versos",
+      "forma": "septeto",
+      "minimo_versos": 7,
+      "modulo_versos": 7,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "heterometrica_consonante",
+      "arquitectura_id": "e734c956-6d7e-45c3-9a56-35d9dc211414",
+      "arquitectura_nombre": "Heterométrico consonante",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 7 versos",
+      "forma": "septeto_lira",
+      "minimo_versos": 7,
+      "modulo_versos": 7,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "octosilabica",
+      "arquitectura_id": "88ec0fb0-c449-492e-96a6-a6af135cb2f2",
+      "arquitectura_nombre": "Octosílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 7 versos",
+      "forma": "septilla",
+      "minimo_versos": 7,
+      "modulo_versos": 7,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "octosilabica_con_quebrado",
+      "arquitectura_id": "d8c0e644-7485-4147-bbde-858b9f93efd5",
+      "arquitectura_nombre": "Octosílaba con quebrado",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "estructuras completas de 7 versos",
+      "forma": "septilla_enlazada",
+      "minimo_versos": 7,
+      "modulo_versos": 7,
+      "origen": "secciones_fijas",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "alejandrina",
+      "arquitectura_id": "d82c447b-9c88-482d-9d71-f5e0d52e2541",
+      "arquitectura_nombre": "Alejandrino",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 6 versos",
+      "forma": "sexteto",
+      "minimo_versos": 6,
+      "modulo_versos": 6,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "dodecasilabica",
+      "arquitectura_id": "a32c9e07-2597-4e69-a051-cf620be0bbd7",
+      "arquitectura_nombre": "Dodecasílabo",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 6 versos",
+      "forma": "sexteto",
+      "minimo_versos": 6,
+      "modulo_versos": 6,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "endecasilabica",
+      "arquitectura_id": "9a2dd570-9c2d-4175-a064-aca2aa4fee22",
+      "arquitectura_nombre": "Endecasílabo",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 6 versos",
+      "forma": "sexteto",
+      "minimo_versos": 6,
+      "modulo_versos": 6,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "heterometrica_consonante",
+      "arquitectura_id": "89c3aa10-0611-474a-9cd1-fde182a9b459",
+      "arquitectura_nombre": "Heterométrico consonante",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 6 versos",
+      "forma": "sexteto_lira",
+      "minimo_versos": 6,
+      "modulo_versos": 6,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "heptasilabica",
+      "arquitectura_id": "e2f95fba-eea1-4a01-aabe-0e7f0fb01716",
+      "arquitectura_nombre": "Heptasílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 6 versos",
+      "forma": "sextilla",
+      "minimo_versos": 6,
+      "modulo_versos": 6,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "hexasilabica",
+      "arquitectura_id": "49ada77a-ddbc-432d-8297-4ba2a57cd3bf",
+      "arquitectura_nombre": "Hexasílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 6 versos",
+      "forma": "sextilla",
+      "minimo_versos": 6,
+      "modulo_versos": 6,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "octosilabica",
+      "arquitectura_id": "5ef12f77-541c-48f3-9cc3-9d81da3cfbb4",
+      "arquitectura_nombre": "Octosílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 6 versos",
+      "forma": "sextilla",
+      "minimo_versos": 6,
+      "modulo_versos": 6,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "pentasilabica",
+      "arquitectura_id": "7fdee216-c781-4218-af26-6e33059fb3d8",
+      "arquitectura_nombre": "Pentasílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 6 versos",
+      "forma": "sextilla",
+      "minimo_versos": 6,
+      "modulo_versos": 6,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "pie_quebrado",
+      "arquitectura_id": "d9186929-efe3-48cb-8819-818cbfd5df25",
+      "arquitectura_nombre": "De pie quebrado",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 6 versos",
+      "forma": "sextilla",
+      "minimo_versos": 6,
+      "modulo_versos": 6,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "tetrasilabica",
+      "arquitectura_id": "7612c35d-dd11-4b12-853a-52a0304d3ee6",
+      "arquitectura_nombre": "Tetrasílaba",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 6 versos",
+      "forma": "sextilla",
+      "minimo_versos": 6,
+      "modulo_versos": 6,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "octosilabica_con_quebrado",
+      "arquitectura_id": "f1c75967-6220-4788-b053-83f59c802e22",
+      "arquitectura_nombre": "Octosílaba con quebrado",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "estructuras completas de 6 versos",
+      "forma": "sextilla_enlazada",
+      "minimo_versos": 6,
+      "modulo_versos": 6,
+      "origen": "secciones_fijas",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "clasica",
+      "arquitectura_id": "8f667081-cff1-48d3-b42d-c02da9d27801",
+      "arquitectura_nombre": "Clásica",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 39 versos",
+      "forma": "sextina",
+      "minimo_versos": 39,
+      "modulo_versos": 39,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "doble_montemayor",
+      "arquitectura_id": "9b6ac418-4507-4cb1-8b91-c719141eaae4",
+      "arquitectura_nombre": "Doble de Montemayor",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 78 versos",
+      "forma": "sextina",
+      "minimo_versos": 78,
+      "modulo_versos": 78,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "doble_petrarquista",
+      "arquitectura_id": "d24578ac-6582-43b4-8e60-a2d76b1d04ef",
+      "arquitectura_nombre": "Doble petrarquista",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 75 versos",
+      "forma": "sextina",
+      "minimo_versos": 75,
+      "modulo_versos": 75,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "endecasilabica_sin_rima",
+      "arquitectura_id": "323bb804-cff7-4a7d-9c40-4f97640040ee",
+      "arquitectura_nombre": "Endecasílaba sin rima",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 6 versos",
+      "forma": "sextina_estrofa",
+      "minimo_versos": 6,
+      "modulo_versos": 6,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "arromanzada",
+      "arquitectura_id": "7aff44ee-86bf-4b97-8605-d256056fcd73",
+      "arquitectura_nombre": "Arromanzada",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "ciclos completos de rima de 2 versos",
+      "forma": "silva",
+      "minimo_versos": 2,
+      "modulo_versos": 2,
+      "origen": "ciclo_rima",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "consonante_regular",
+      "arquitectura_id": "194cd9a7-5369-4f8b-af3d-fa33db04790b",
+      "arquitectura_nombre": "Consonante regular",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "bloques completos de 2 versos",
+      "forma": "silva",
+      "minimo_versos": 2,
+      "modulo_versos": 2,
+      "origen": "secciones_repetibles",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "endecasilabica_consonante",
+      "arquitectura_id": "983cb35d-d7cd-40b5-94d7-d14e6cfeaeae",
+      "arquitectura_nombre": "Endecasílabo consonante",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 14 versos",
+      "forma": "soneto",
+      "minimo_versos": 14,
+      "modulo_versos": 14,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "endecasilabica_consonante",
+      "arquitectura_id": "b7d3a188-77dd-42cb-a574-fc670aef6dd8",
+      "arquitectura_nombre": "Endecasílabo",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 3 versos",
+      "forma": "terceto",
+      "minimo_versos": 3,
+      "modulo_versos": 3,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "hexasilabica",
+      "arquitectura_id": "8616fbd7-d7a0-4cfc-accf-829d78597690",
+      "arquitectura_nombre": "Hexasílabo",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 3 versos",
+      "forma": "terceto",
+      "minimo_versos": 3,
+      "modulo_versos": 3,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "octosilabica",
+      "arquitectura_id": "1bed1c71-648f-47f5-a9c3-5f07f1cdba16",
+      "arquitectura_nombre": "Octosílabo",
+      "desplazamientos": [
+        0
+      ],
+      "explicacion": "unidades completas de 3 versos",
+      "forma": "terceto",
+      "minimo_versos": 3,
+      "modulo_versos": 3,
+      "origen": "unidad",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "endecasilabica_consonante",
+      "arquitectura_id": "bbfe0164-8617-4044-8f1d-0fb102c58dc6",
+      "arquitectura_nombre": "Endecasílabo consonante",
+      "desplazamientos": [
+        0,
+        1
+      ],
+      "explicacion": "bloques completos de 3 versos, con un cierre opcional de 1 verso",
+      "forma": "terceto_encadenado",
+      "minimo_versos": 6,
+      "modulo_versos": 3,
+      "origen": "secciones_repetibles",
+      "residuo_versos": 0
+    },
+    {
+      "arquitectura": "octosilabica_consonante",
+      "arquitectura_id": "bc74c43f-80db-40e9-9968-ca0b7cc8a6d8",
+      "arquitectura_nombre": "Octosílabo consonante",
+      "desplazamientos": [
+        0,
+        1
+      ],
+      "explicacion": "bloques completos de 3 versos, con un cierre opcional de 1 verso",
+      "forma": "terceto_encadenado",
+      "minimo_versos": 6,
+      "modulo_versos": 3,
+      "origen": "secciones_repetibles",
+      "residuo_versos": 0
+    }
+  ]
+}
