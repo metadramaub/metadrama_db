@@ -77,9 +77,17 @@
     },
     {
       "id": "copla-real",
-      "literales": ["copla real", "coplas reales"],
+      "literales": [
+        "copla real",
+        "coplas reales"
+      ],
       "tipo": "equivalencia_propuesta",
-      "candidatas": [{"forma_slug": "copla_real", "arquitectura_slug": "octosilabica_consonante"}],
+      "candidatas": [
+        {
+          "forma_slug": "copla_real",
+          "arquitectura_slug": "octosilabica_consonante"
+        }
+      ],
       "exhaustividad": "pendiente_de_validacion",
       "fundamento": "Equivalencia confirmada por el responsable del proyecto. El catálogo activo admite una arquitectura octosílaba consonante. Las excepciones descritas en notas no autorizan cortes automáticos ni garantizan la regularidad interna.",
       "detalles_fuente": [],
@@ -365,27 +373,48 @@
     },
     {
       "id": "romance-sin-asonancia-explicita",
-      "literales": ["romance", "romances"],
+      "literales": [
+        "romance",
+        "romances"
+      ],
       "tipo": "equivalencia_propuesta",
-      "candidatas": [{"forma_slug":"romance","arquitectura_slug":"octosilabica"}],
+      "candidatas": [
+        {
+          "forma_slug": "romance",
+          "arquitectura_slug": "octosilabica"
+        }
+      ],
       "exhaustividad": "forma_y_arquitectura_sin_asonancia",
       "fundamento": "El catálogo define romance sin calificativos como la serie octosilábica; romancillo y romance heroico tienen nombre propio. No se deducen las vocales de asonancia ni otros rasgos. Observado en El maestro de danzar, 93–208.",
       "detalles_fuente": []
     },
     {
       "id": "lira-con-esquema-seis-posiciones",
-      "literales": ["lira con esquema explícito de seis letras"],
+      "literales": [
+        "lira con esquema explícito de seis letras"
+      ],
       "patron": "lira_con_esquema_seis_posiciones",
       "tipo": "equivalencia_propuesta",
-      "candidatas": [{"forma_slug":"sexteto_lira","arquitectura_slug":"heterometrica_consonante"}],
+      "candidatas": [
+        {
+          "forma_slug": "sexteto_lira",
+          "arquitectura_slug": "heterometrica_consonante"
+        }
+      ],
       "exhaustividad": "forma_y_arquitectura_sin_esquema_estructurado",
       "fundamento": "Criterio confirmado por el responsable: lira con un esquema explícito de seis letras se identifica como Sexteto-lira, no como nuestra Lira de cinco versos. La equivalencia depende de las seis posiciones, no de AabBCC ni de una rima concreta. No se generaliza al nombre lira sin esquema, ni a cinco o siete posiciones. Se usa la arquitectura heterométrica consonante del catálogo, sin registrar un esquema específico ni certificar sus medidas. El literal conserva exactamente su caja. El error aAbbCC por AabBCC en El maestro de danzar debe corregirse relanzando el prompt, no mediante esta regla.",
       "detalles_fuente": [],
-      "aprobacion": {"responsable":"Responsable del proyecto","fecha":"2026-11-02","fundamento":"Confirma en el chat el criterio de seis posiciones, independiente de la disposición concreta."}
+      "aprobacion": {
+        "responsable": "Responsable del proyecto",
+        "fecha": "2026-11-02",
+        "fundamento": "Confirma en el chat el criterio de seis posiciones, independiente de la disposición concreta."
+      }
     },
     {
       "id": "redondillas-y-quintillas",
-      "literales": ["redondillas y quintillas"],
+      "literales": [
+        "redondillas y quintillas"
+      ],
       "tipo": "sin_resolver",
       "candidatas": [],
       "exhaustividad": "formas_mezcladas_sin_localizadores",
@@ -405,7 +434,7 @@
         }
       ],
       "exhaustividad": "pendiente_de_validacion",
-      "fundamento": "Romance con asonancia explícita, normalizada sin tildes y con separador entre vocales. Se anota el valor solo si está admitido por el catálogo; otras notaciones reconocibles se conservan como texto sin inventar valores. No se deduce esquema de rima.",
+      "fundamento": "Romance con asonancia explícita, normalizada sin tildes y con separador entre vocales. Se anota el valor solo si está admitido por el catálogo; otras notaciones reconocibles se conservan como texto sin inventar valores. No se deduce esquema de rima. Se admite la notación con o sin «en»: romance aa, romance a-a y romance en a-a conservan el literal y registran a-a.",
       "detalles_fuente": [],
       "patron": "romance_con_asonancia"
     },
@@ -474,8 +503,65 @@
       "nota_contiene": [
         "cerrada por un pareado"
       ]
+    },
+    {
+      "id": "tercetos-encadenados-nota-remata-serventesio",
+      "literales": [
+        "tercetos encadenados"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "terceto_encadenado",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "destino_unico_aprobado_solo_en_forma",
+      "fundamento": "La etiqueta declara tercetos encadenados y la nota enlazada declara el cierre en serventesio: remate de un verso (3+1), sin deducir arquitectura. Observado en El hijo de Reduán, 2285–2522.",
+      "detalles_fuente": [
+        {
+          "literal": "serventesio final",
+          "dimension": "estructura",
+          "tipo_seccion": "remate",
+          "nombre": "Remate",
+          "n_versos": 1,
+          "posicion": "final",
+          "estado": "interpretacion_revisada",
+          "fundamento": "El verso de cierre completa la rima pendiente del último terceto. Se registra como remate de un verso dentro de la misma secuencia."
+        }
+      ],
+      "nota_contiene": [
+        "se remata con un serventesio"
+      ]
+    },
+    {
+      "id": "endecasilabos-sueltos-nota-concluyen-pareado",
+      "literales": [
+        "endecasílabos sueltos",
+        "endecasílabo blanco",
+        "endecasílabos blancos"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica"
+        }
+      ],
+      "exhaustividad": "forma_y_metro_explicitos",
+      "fundamento": "La nota enlazada declara que las series concluyen con un pareado: Dístico final presente. Solo se aplica a filas enlazadas; no se amplía automáticamente el ámbito de una nota.",
+      "detalles_fuente": [
+        {
+          "literal": "pareado final declarado en nota",
+          "rasgo_slug": "distico_final",
+          "valor_slug": "presente"
+        }
+      ],
+      "nota_contiene": [
+        "concluyen con un pareado"
+      ]
     }
   ],
-  "version": "v0.14",
+  "version": "v0.15",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }

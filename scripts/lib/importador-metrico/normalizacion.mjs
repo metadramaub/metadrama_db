@@ -122,7 +122,7 @@ export function normalizarExtraccion(
 		const literalComparado = row.denominacion_literal?.replace(/\s+/gu, ' ').trim();
 		const claveLiteral = (literal) => literal?.replace(/\s+/gu, ' ').trim().toLowerCase();
 		const vocales = literalComparado?.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase()
-			.match(/^romances? en\s+[-–—]?\s*([aeiou])(?:\s*[-–—]?\s*([aeiou]))?$/u);
+			.match(/^romances?\s+(?:en\s+)?[-–—]?\s*([aeiou])(?:\s*[-–—]?\s*([aeiou]))?$/u);
 		const liraDeSeis = /^liras?\s*\(\s*[a-f](?:\s*[a-f]){5}\s*\)$/iu.test(literalComparado ?? '');
 		const matches = reference.reglas.filter(
 			(r) =>
@@ -145,7 +145,7 @@ export function normalizarExtraccion(
 		let rule = aplicables[0];
 		if (rule?.patron === 'romance_con_asonancia') {
 			const valor = vocales[2] ? `${vocales[1]}-${vocales[2]}` : vocales[1];
-			const literalAsonancia = literalComparado.replace(/^romances?\s+en\s+/iu, '');
+			const literalAsonancia = literalComparado.replace(/^romances?\s+(?:en\s+)?/iu, '');
 			const rasgo = catalogo.rasgos?.find((r) => r.slug === 'vocales_asonancia');
 			const admitido = rasgo?.valores.some((v) => v.slug === valor) &&
 				rasgo.contextos.some((c) => c.forma === 'romance' && c.arquitectura === 'octosilabica' &&

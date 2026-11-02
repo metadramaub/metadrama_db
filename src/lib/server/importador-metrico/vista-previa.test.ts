@@ -72,8 +72,8 @@ describe('vista previa del importador sin persistencia', () => {
 		raw.obra_ref='obra-importada'; raw.jornadas=[{numero:1,rotulo_literal:null}];
 		raw.notas=[]; raw.resumen_fuente=[]; raw.incidencias=[];
 		const valores=['a','a-a','a-e','a-o','e','e-a','e-e','e-o','i','i-a','i-e','i-o','o','o-a','o-e','o-o','u','u-a','u-e','u-o'];
-		for(const valor of valores) for(const literal of [valor, '-'+valor.replaceAll('-',''), valor.replaceAll('a','á').replaceAll('-',' – ')]) {
-			raw.tramos=[{id:'t01',jornada:1,v_ini:1,v_fin:100,denominacion_literal:'romance en '+literal,n_versos_fuente:100,fuente_id:'foto-01',pagina:null,notas_ref:[]}];
+		for(const prefijo of ['romance en ', 'romance ', 'Romances ']) for(const valor of valores) for(const literal of [valor, '-'+valor.replaceAll('-',''), valor.replaceAll('a','á').replaceAll('-',' – ')]) {
+			raw.tramos=[{id:'t01',jornada:1,v_ini:1,v_fin:100,denominacion_literal:prefijo+literal,n_versos_fuente:100,fuente_id:'foto-01',pagina:null,notas_ref:[]}];
 			const vista=analizarEntrada(JSON.stringify(raw));
 			expect(vista.errores).toEqual([]);
 			expect(vista.datos!.segmentos[0].identificacion).toEqual({forma_slug:'romance',arquitectura_slug:'octosilabica'});

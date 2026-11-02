@@ -30,6 +30,22 @@ const approval = {
 };
 
 describe('normalizador local', () => {
+	it('usa los cierres explícitos de las notas de El hijo de Reduán solo en las filas enlazadas', () => {
+		const input = raw();
+		input.obra_ref = 'El hijo de Reduán'; input.jornadas = [{numero:1,rotulo_literal:null}];
+		input.resumen_fuente = []; input.incidencias = [];
+		const fila = (id, v_ini, v_fin, denominacion_literal, notas_ref) => ({id,jornada:1,v_ini,v_fin,denominacion_literal,notas_ref,n_versos_fuente:v_fin-v_ini+1,fuente_id:'foto-01',pagina:null});
+		input.tramos = [fila('t01',1,52,'endecasílabos sueltos',['n01']),fila('t02',53,110,'endecasílabos sueltos',[]),fila('t03',111,348,'tercetos encadenados',['n02']),fila('t04',349,388,'romance aa',[])];
+		input.notas = [
+			{id:'n01',marca:'*',texto_literal:'Las series de endecasílabos sueltos concluyen con un pareado.',tramos_ref:['t01'],fuente_id:'foto-01',pagina:null,v_ini:null,v_fin:null},
+			{id:'n02',marca:'**',texto_literal:'La suma da un número par porque la serie se remata con un serventesio.',tramos_ref:['t03'],fuente_id:'foto-01',pagina:null,v_ini:null,v_fin:null}
+		];
+		const result = normalizarExtraccion(input,context({fuentes:undefined}));
+		expect(result.segmentos[0].detalles_fuente).toContainEqual(expect.objectContaining({rasgo_slug:'distico_final',valor_slug:'presente'}));
+		expect(result.segmentos[1].detalles_fuente).toEqual([]);
+		expect(result.segmentos[2].detalles_fuente).toContainEqual(expect.objectContaining({tipo_seccion:'remate',n_versos:1}));
+		expect(result.segmentos[3].detalles_fuente).toEqual([{literal:'aa',rasgo_slug:'vocales_asonancia',valor_slug:'a-a'}]);
+	});
 	it.each(['AabBCC', 'aBaBcC', 'abBaCC', 'aabbcc', 'ABCDEF', 'a B a B c C'])('reconoce lira de seis posiciones %s sin anotar una rima concreta', (esquema) => {
 		const input = raw();
 		input.obra_ref = 'obra-importada'; input.jornadas = [{ numero: 1, rotulo_literal: null }];

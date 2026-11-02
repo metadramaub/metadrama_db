@@ -79,6 +79,10 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
+Mejorar enlaces de notas de alcance plural en el prompt: en [El hijo de Reduán](./importador-metrico/revision-hijo-reduan-2026-11-02.md)
+la nota declara pareado al final de todas las series de sueltos, pero la IA enlaza solo la fila con asterisco.
+Conservar la marca y expresar también las otras filas afectadas, sin ampliar notas locales por analogía.
+
 Definir la futura edición/reimportación de básicas: sustitución de copia y fecha del cambio
 en la misma operación, conservando el alta original. El [listado y su gestión](./importador-metrico/pendientes-en-listado.md)
 ya muestran formas pendientes, avisos guardados y ambas fechas, y permiten eliminar desde admin/IP.
