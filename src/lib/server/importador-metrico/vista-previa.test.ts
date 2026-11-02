@@ -5,6 +5,37 @@ import { analizarEntrada, obtenerPilotos, obtenerReferenciaImportador } from './
 import preparada from '../../../../docs/importador-metrico/piloto/preparadas/el-verdadero-amante.json';
 
 describe('vista previa del importador sin persistencia', () => {
+	it('reconoce todas las asonancias del catálogo y conserva las desconocidas sin inventar valores', () => {
+		const raw=JSON.parse(obtenerPilotos()[0].entrada);
+		raw.obra_ref='obra-importada'; raw.jornadas=[{numero:1,rotulo_literal:null}];
+		raw.notas=[]; raw.resumen_fuente=[]; raw.incidencias=[];
+		const valores=['a','a-a','a-e','a-o','e','e-a','e-e','e-o','i','i-a','i-e','i-o','o','o-a','o-e','o-o','u','u-a','u-e','u-o'];
+		for(const valor of valores) for(const literal of [valor, '-'+valor.replaceAll('-',''), valor.replaceAll('a','á').replaceAll('-',' – ')]) {
+			raw.tramos=[{id:'t01',jornada:1,v_ini:1,v_fin:100,denominacion_literal:'romance en '+literal,n_versos_fuente:100,fuente_id:'foto-01',pagina:null,notas_ref:[]}];
+			const vista=analizarEntrada(JSON.stringify(raw));
+			expect(vista.errores).toEqual([]);
+			expect(vista.datos!.segmentos[0].identificacion).toEqual({forma_slug:'romance',arquitectura_slug:'octosilabica'});
+			expect(vista.datos!.segmentos[0].detalles_fuente).toEqual([{literal,rasgo_slug:'vocales_asonancia',valor_slug:valor}]);
+		}
+		raw.tramos[0].denominacion_literal='romance en e-i';
+		const fuera=analizarEntrada(JSON.stringify(raw));
+		expect(fuera.errores).toEqual([]);
+		expect(fuera.datos!.segmentos[0].detalles_fuente).toEqual([{literal:'e-i',dimension:'asonancia'}]);
+	});
+	it('identifica los sueltos con pareado, pero solo anota el cierre cuando la nota lo declara', () => {
+		const raw=JSON.parse(obtenerPilotos()[0].entrada);
+		raw.obra_ref='obra-importada';raw.jornadas=[{numero:1,rotulo_literal:null}];raw.resumen_fuente=[];raw.incidencias=[];
+		raw.tramos=[{id:'t01',jornada:1,v_ini:1,v_fin:54,denominacion_literal:'endecasílabos sueltos con pareado',n_versos_fuente:54,fuente_id:'foto-01',pagina:null,notas_ref:['n01']}];
+		raw.notas=[{id:'n01',marca:'20',texto_literal:null,fuente_id:'foto-01',pagina:null,tramos_ref:['t01'],v_ini:null,v_fin:null}];
+		const sinNota=analizarEntrada(JSON.stringify(raw));
+		expect(sinNota.errores).toEqual([]);
+		expect(sinNota.datos!.segmentos[0].identificacion?.forma_slug).toBe('endecasilabo_suelto');
+		expect(sinNota.datos!.segmentos[0].detalles_fuente).toEqual([]);
+		raw.notas[0].texto_literal='La serie está rematada por un pareado en vv. 53-54.';
+		const conNota=analizarEntrada(JSON.stringify(raw));
+		expect(conNota.errores).toEqual([]);
+		expect(conNota.datos!.segmentos[0].detalles_fuente).toContainEqual(expect.objectContaining({rasgo_slug:'distico_final',valor_slug:'presente'}));
+	});
 	it('usa la nota enlazada para tercetos con cierre, sin trasladar esquemas de quintillas', () => {
 		const raw=JSON.parse(obtenerPilotos()[0].entrada);
 		raw.obra_ref='obra-importada'; raw.jornadas=[{numero:1,rotulo_literal:null}];

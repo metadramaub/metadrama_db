@@ -3,6 +3,14 @@ import type { FilaVistaPrevia } from './types';
 
 export type DatoMetricoVisible = { etiqueta: string; valor: string };
 
+/** Compatibilidad aritmética para orientar la revisión; no identifica ni anota un remate. */
+export function sugerenciaTercetos(fila: Pick<FilaVistaPrevia, 'identificacion' | 'origen' | 'v_ini' | 'v_fin'>): string | null {
+	const n = fila.v_fin - fila.v_ini + 1;
+	if (fila.identificacion || fila.origen.denominacion_literal?.trim().toLowerCase() !== 'tercetos' ||
+		!Number.isSafeInteger(n) || n < 7 || n % 3 !== 1) return null;
+	return `${n} = ${(n - 1) / 3} × 3 + 1: compatible con encadenados y remate de un verso. Revisa antes de elegir.`;
+}
+
 /** Solo datos estructurados del documento mínimo; un literal por sí solo no es un rasgo anotado. */
 export function datosMetricos(fila: FilaVistaPrevia): DatoMetricoVisible[] {
 	const datos: DatoMetricoVisible[] = [];

@@ -176,50 +176,6 @@
       ]
     },
     {
-      "id": "romance-io",
-      "literales": [
-        "romance en -io"
-      ],
-      "tipo": "equivalencia_propuesta",
-      "candidatas": [
-        {
-          "forma_slug": "romance",
-          "arquitectura_slug": "octosilabica"
-        }
-      ],
-      "exhaustividad": "pendiente_de_validacion",
-      "fundamento": "Romance octosilábico con vocales de asonancia i-o, declaradas en la denominación editorial -io. Se conserva la notación literal junto al valor del catálogo.",
-      "detalles_fuente": [
-        {
-          "literal": "-io",
-          "rasgo_slug": "vocales_asonancia",
-          "valor_slug": "i-o"
-        }
-      ]
-    },
-    {
-      "id": "romance-a-e",
-      "literales": [
-        "romance en á-e"
-      ],
-      "tipo": "equivalencia_propuesta",
-      "candidatas": [
-        {
-          "forma_slug": "romance",
-          "arquitectura_slug": "octosilabica"
-        }
-      ],
-      "exhaustividad": "pendiente_de_validacion",
-      "fundamento": "Romance octosilábico con vocales de asonancia a-e. La notación editorial á-e se conserva literalmente junto al valor del catálogo.",
-      "detalles_fuente": [
-        {
-          "literal": "á-e",
-          "rasgo_slug": "vocales_asonancia",
-          "valor_slug": "a-e"
-        }
-      ]
-    },
-    {
       "id": "soneto",
       "literales": [
         "soneto"
@@ -388,8 +344,91 @@
         "tercetos encadenados",
         "se cierra con un serventesio"
       ]
+    },
+    {
+      "id": "romance-asonancia",
+      "literales": [
+        "romance en vocal o pareja de vocales"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "romance",
+          "arquitectura_slug": "octosilabica"
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Romance con asonancia explícita, normalizada sin tildes y con separador entre vocales. Se anota el valor solo si está admitido por el catálogo; otras notaciones reconocibles se conservan como texto sin inventar valores. No se deduce esquema de rima.",
+      "detalles_fuente": [],
+      "patron": "romance_con_asonancia"
+    },
+    {
+      "id": "endecasilabos-sueltos-con-pareado",
+      "literales": [
+        "endecasílabos sueltos con pareado"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica"
+        }
+      ],
+      "exhaustividad": "forma_y_metro_explicitos",
+      "fundamento": "La etiqueta declara endecasílabos sueltos y un pareado; sin precisar posición no se da por declarado un dístico final. La nota enlazada puede precisar el cierre.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "endecasilabos-sueltos-con-pareado-nota-rematada",
+      "literales": [
+        "endecasílabos sueltos con pareado"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica"
+        }
+      ],
+      "exhaustividad": "forma_y_metro_explicitos",
+      "fundamento": "La nota enlazada declara el cierre de la serie en pareado: Dístico final presente.",
+      "detalles_fuente": [
+        {
+          "literal": "pareado final declarado en nota",
+          "rasgo_slug": "distico_final",
+          "valor_slug": "presente"
+        }
+      ],
+      "nota_contiene": [
+        "rematada por un pareado"
+      ]
+    },
+    {
+      "id": "endecasilabos-sueltos-con-pareado-nota-cerrada",
+      "literales": [
+        "endecasílabos sueltos con pareado"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica"
+        }
+      ],
+      "exhaustividad": "forma_y_metro_explicitos",
+      "fundamento": "La nota enlazada declara el cierre de la serie en pareado: Dístico final presente.",
+      "detalles_fuente": [
+        {
+          "literal": "pareado final declarado en nota",
+          "rasgo_slug": "distico_final",
+          "valor_slug": "presente"
+        }
+      ],
+      "nota_contiene": [
+        "cerrada por un pareado"
+      ]
     }
   ],
-  "version": "v0.9",
+  "version": "v0.10",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }

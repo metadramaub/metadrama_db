@@ -31,6 +31,7 @@ const reglaSchema = z.object({
 	ambito: z.object({ obras: z.array(texto).min(1) }).optional(),
 	division: z.literal('soneto_y_estrambote_sin_identificar').optional(),
 	nota_contiene: z.array(texto).min(1).optional(),
+	patron: z.literal('romance_con_asonancia').optional(),
 	aprobacion: aprobacionSchema.optional()
 });
 const reglasSchema = z.object({ version: texto, reglas: z.array(reglaSchema) });
@@ -119,9 +120,12 @@ export function normalizarExtraccion(
 	}
 	const segmentos = source.tramos.flatMap((row) => {
 		const literalComparado = row.denominacion_literal?.replace(/\s+/gu, ' ').trim();
+		const vocales = literalComparado?.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase()
+			.match(/^romances? en\s+[-–—]?\s*([aeiou])(?:\s*[-–—]?\s*([aeiou]))?$/u);
 		const matches = reference.reglas.filter(
 			(r) =>
-				r.literales.some((l) => l.replace(/\s+/gu, ' ').trim() === literalComparado) &&
+				(r.patron === 'romance_con_asonancia' ? Boolean(vocales) :
+					r.literales.some((l) => l.replace(/\s+/gu, ' ').trim() === literalComparado)) &&
 				(!r.ambito || r.ambito.obras.includes(source.obra_ref)) &&
 				(!r.nota_contiene || row.notas_ref.some((id) => {
 					const n = notesById.get(id);
@@ -136,6 +140,17 @@ export function normalizarExtraccion(
 		if (aplicables.length > 1)
 			throw new Error(`Equivalencias en conflicto para ${source.obra_ref}/${row.id}`);
 		let rule = aplicables[0];
+		if (rule?.patron === 'romance_con_asonancia') {
+			const valor = vocales[2] ? `${vocales[1]}-${vocales[2]}` : vocales[1];
+			const literalAsonancia = literalComparado.replace(/^romances?\s+en\s+/iu, '');
+			const rasgo = catalogo.rasgos?.find((r) => r.slug === 'vocales_asonancia');
+			const admitido = rasgo?.valores.some((v) => v.slug === valor) &&
+				rasgo.contextos.some((c) => c.forma === 'romance' && c.arquitectura === 'octosilabica' &&
+					(c.valor_slug === null || c.valor_slug === valor));
+			rule = { ...rule, detalles_fuente: [admitido
+				? { literal: literalAsonancia, rasgo_slug: 'vocales_asonancia', valor_slug: valor }
+				: { literal: literalAsonancia, dimension: 'asonancia' }] };
+		}
 		// Sin extensión suficiente no se inventa ni el corte ni un soneto completo.
 		if (rule?.division && (row.v_ini === null || row.v_fin === null || row.v_fin - row.v_ini + 1 <= 14))
 			rule = undefined;

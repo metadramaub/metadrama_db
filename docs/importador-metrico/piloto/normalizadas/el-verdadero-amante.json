@@ -3,7 +3,7 @@
   "estado": "borrador_de_trabajo",
   "apta_para_corpus": false,
   "obra_ref": "el-verdadero-amante",
-  "reglas_version": "v0.9",
+  "reglas_version": "v0.10",
   "catalogo_referencia": {
     "estado": {
       "actualizado_en": "2026-10-19T11:26:16.630786+00:00",
@@ -369,7 +369,7 @@
         "pagina": 225,
         "notas_ref": []
       },
-      "regla_id": "romance-io",
+      "regla_id": "romance-asonancia",
       "estado_identificacion": "propuesta",
       "identificacion_revisada": null,
       "propuesta": {
@@ -378,7 +378,7 @@
       },
       "candidatas": [],
       "exhaustividad": null,
-      "fundamento": "Romance octosilábico con vocales de asonancia i-o, declaradas en la denominación editorial -io. Se conserva la notación literal junto al valor del catálogo.",
+      "fundamento": "Romance con asonancia explícita, normalizada sin tildes y con separador entre vocales. Se anota el valor solo si está admitido por el catálogo; otras notaciones reconocibles se conservan como texto sin inventar valores. No se deduce esquema de rima.",
       "aprobacion": null,
       "evidencias_bibliograficas": [],
       "detalles_fuente": [
@@ -808,7 +808,7 @@
     "fecha": "2026-10-22"
   },
   "entradas_sha256": {
-    "equivalencias.propuestas.json": "fd0021318194694767aa2129cf6498e65a1e3087302992e00785b7efc9456286",
+    "equivalencias.propuestas.json": "9481d9be3d4809f8b9a8a94be8cfd1be2b4652fb3094a204b9db5e27951d62ca",
     "catalogo-referencia.json": "0f65680900ccab33fb9a258e5aca1ae6b2c0373c6dc2aab4192e80d7088e7b06",
     "auditoria-tercetos-2026-10-26.json": "433367a2e24b8e6e5fb213b907c2d810ff2078eda0e2364771070231e8cfc112",
     "segmentacion.propuestas.json": "66bfd37373162eaf06c046093f11cbd7188d0e72519bea0c30c6caefc738cd0f",

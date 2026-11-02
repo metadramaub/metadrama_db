@@ -8,6 +8,7 @@
 	import MetricSequenceModal from '$lib/components/metrica/editor-v2/MetricSequenceModal.svelte';
 	import MetricPanelSection from '$lib/components/metrica/editor-v2/MetricPanelSection.svelte';
 	import Button from '$lib/components/ui/button.svelte';
+	import { sugerenciaTercetos } from '$lib/importador-metrico/presentacion';
 	let { datos, tramoRef, formas, ocupado = false, errores = [], notasFuente = [], onaplicar, onrestablecer, oncancelar } = $props<{
 		datos: BorradorFichaMinima; tramoRef: string; formas: FormaEditable[]; ocupado?: boolean; errores?: string[];
 		notasFuente?: {id: string; texto_literal: string}[];
@@ -110,8 +111,10 @@
 		{/each}
 		{#each partes as parte, i (parte.id)}
 			{@const unidad = secciones(parte, 'terceto').find((s: Seccion) => s.versos_min && s.versos_min === s.versos_max)?.versos_min}
+			{@const sugerencia = sugerenciaTercetos({origen: originales[0].origen, v_ini: principio(i), v_fin: Number(parte.fin), identificacion: parte.forma ? {forma_slug: parte.forma, arquitectura_slug: parte.arquitectura || null} : null})}
 			<fieldset class="space-y-4 border border-[color:var(--border)] bg-white p-4" disabled={ocupado}>
 				<legend class="px-1 text-sm font-medium">{partes.length > 1 ? 'Secuencia ' + (i + 1) + ' · ' : ''}vv. {principio(i)}–{parte.fin} · {Number(parte.fin) - principio(i) + 1} versos</legend>
+				{#if sugerencia}<p class="text-sm text-[color:var(--muted-foreground)]">{sugerencia}</p>{/if}
 				<div class="grid gap-4 sm:grid-cols-2">
 					<label class="form-field"><span class="form-label">Forma</span><select id={'forma-importada-' + parte.id} aria-label={'Forma · secuencia ' + (i + 1)} value={parte.forma} onchange={(e) => { parte.forma = e.currentTarget.value; parte.arquitectura = ''; }} class="w-full rounded-md border border-[color:var(--border)] bg-white px-3 py-2">
 						<option value="">Forma sin resolver</option>{#each formas as forma}<option value={forma.slug}>{forma.nombre}</option>{/each}

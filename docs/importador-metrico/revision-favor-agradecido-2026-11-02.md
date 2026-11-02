@@ -1,5 +1,36 @@
 # El favor agradecido: notas y prompt v0.7
 
+## Aclaración del piloto y equivalencias v0.10
+
+El responsable aclara que varias fotografías están mal hechas deliberadamente para probar el
+prompt en condiciones adversas. En el trabajo ordinario se fotografiará todo el contenido.
+Los recortes de este lote son casos de evaluación: interesa medir si la IA marca lo ausente
+sin reconstruirlo. No se pide reemplazar estas fuentes de ensayo ni se borra su evidencia;
+los fallos de literalidad de v0.7 siguen registrados como resultados de la prueba.
+
+Se solicita reconocer cualquier asonancia explícita. La regla general de romance reconoce
+una o dos vocales, con tildes, guion inicial y separación por guion, raya o espacios. Comprueba
+el valor y contexto contra el catálogo: las 20 asonancias admitidas se guardan como rasgo;
+una combinación reconocible no catalogada se conserva como texto, sin inventar un valor.
+No se generaliza automáticamente a otras formas ni a expresiones ambiguas.
+
+«Endecasílabos sueltos con pareado» identifica forma y arquitectura. La posición final se
+registra si una nota enlazada declara que la serie está rematada o cerrada por un pareado;
+sin esa precisión se conserva el literal y no se afirma un dístico final.
+
+El responsable admite orientar la revisión de tercetos por longitudes 3n+1. Se muestra la
+compatibilidad con encadenados y remate de un verso tanto en la tabla sin guardar como en su
+editor, manteniendo la forma sin resolver y las candidatas. Se exige longitud mínima de siete
+versos para sugerir una serie de al menos dos tercetos más cierre. No es una probabilidad,
+una demostración ni un remate anotado: el importador decide expresamente en el editor.
+Si ya se ha elegido una forma, la sugerencia desaparece. No se muestra como dato de una copia
+guardada ni se conserva en la nota o en los rasgos.
+
+Con la respuesta v0.7: 26 secuencias y 3126 versos; solo quedan pendientes los tercetos
+2593–2635 (43 versos). Se registran e-a e i-a y tres dísticos finales explícitos en notas.
+Las otras dos filas de sueltos con pareado quedan identificadas, sin afirmar el cierre que
+sus notas ausentes no permiten comprobar. Ningún dato remoto se modifica.
+
 ## Respuesta v0.7 recibida
 
 Se conserva como `respuesta-v0.7-original.json` en la carpeta privada del caso. La respuesta

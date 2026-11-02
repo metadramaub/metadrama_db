@@ -5,7 +5,7 @@
 	import type { EdicionFila, FormaEditable } from '$lib/importador-metrico/edicion';
 	import type { ResultadoVistaPrevia, FilaVistaPrevia, FichaMinima } from '$lib/importador-metrico/types';
 	import { formasImportador } from '$lib/importador-metrico/catalogo';
-	import { datosMetricos, notasMetricas } from '$lib/importador-metrico/presentacion';
+	import { datosMetricos, notasMetricas, sugerenciaTercetos } from '$lib/importador-metrico/presentacion';
 	import FormaSecuencia from '$lib/components/metrica/FormaSecuencia.svelte';
 	import InlineNotePopover from '$lib/components/ui/inline-note-popover.svelte';
 
@@ -114,6 +114,9 @@
 											<FormaSecuencia forma={forma?.nombre ?? null} arquitectura={arquitectura?.nombre ?? null} pendiente="Forma sin resolver" />
 											{#if sinEquivalencia(fila) && fila.candidatas_nombres.length}
 												<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">Posibilidades: {fila.candidatas_nombres.join(' / ')}</p>
+											{/if}
+											{#if !vista.persistido && sugerenciaTercetos(fila)}
+												<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">{sugerenciaTercetos(fila)}</p>
 											{/if}
 										</td>
 										<td class="break-words px-3 py-2">
