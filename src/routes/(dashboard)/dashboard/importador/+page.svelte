@@ -123,6 +123,7 @@
 		<div class="flex flex-wrap items-center justify-between gap-3">
 			<h2 class="text-lg font-semibold">1. Entrada</h2>
 			<span class="form-label-with-help">
+				{#if data.referencia.prompt_version}<span class="text-xs text-[color:var(--muted-foreground)]">Prompt v{data.referencia.prompt_version}</span>{/if}
 				<button type="button" class="rounded-md border border-[color:var(--border)] px-3 py-2 text-sm hover:bg-[color:var(--muted)]" onclick={copiarPrompt}>{copiado ? 'Prompt copiado' : 'Copiar prompt'}</button>
 				<FieldHelpTooltip label="Cómo obtener la transcripción" text="Adjunta las fotografías a una IA y utiliza este prompt. Pega aquí el JSON que recibas." />
 			</span>

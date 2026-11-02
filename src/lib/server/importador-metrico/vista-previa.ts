@@ -72,6 +72,7 @@ export function obtenerPilotos() {
 export function obtenerReferenciaImportador() {
 	return {
 		prompt,
+		prompt_version: prompt.match(/"prompt_version":\s*"extraccion\/([^"\s]+)"/)?.[1] ?? null,
 		reglas_version: reglas.version as string,
 		catalogo_revision: catalogo.estado.revision as number,
 		fecha_consulta: catalogo.fecha_consulta as string,
