@@ -1,5 +1,25 @@
 # El favor agradecido: notas y prompt v0.7
 
+## Respuesta v0.7 recibida
+
+Se conserva como `respuesta-v0.7-original.json` en la carpeta privada del caso. La respuesta
+mantiene 26 filas y 3126 versos sin huecos ni solapamientos; los rangos y recuentos coinciden
+con las fotos. Mejora las notas: separa 18 y 19, conserva abaab, recoge los versos explícitos
+888–889, 1056–1109, 1412–1413 y 2175–2176, y deja null las notas 26–28 con incidencias.
+
+Persisten reconstrucciones no señaladas en bordes recortados: la nota 18 termina en la foto
+antes de verse completo «serventesio»; la 19 completa la unión de sus líneas a través del borde
+derecho y la 22 completa el final de su primera línea. No se certifica literalidad de esos
+fragmentos ni se transforma esta respuesta en gold. Solicitar foto completa o conservar solo
+lo visible con marca de incompleto; otra ejecución sobre el mismo recorte no recupera el texto.
+
+El validador técnico no da errores ni advertencias. Con equivalencias v0.9 quedan sin resolver
+cinco filas «endecasílabos sueltos con pareado», dos romances (e-a e i-a) y los tercetos de la
+tercera jornada, cuya nota 27 no está fotografiada. Los primeros tercetos se resuelven por
+la nota 18 transcrita; esto no valida el final reconstruido de esa nota.
+Los alias y rasgos todavía pendientes pertenecen al normalizador, no requieren modificar
+los nombres literales en el JSON. El título se puede precargar desde la cabecera de la foto 2.
+
 La respuesta v0.6 aportada el 02-11-2026 presenta errores de transcripción de notas, cotejados
 con las dos fotografías del lote. La nota 18 mezcla su comienzo sobre tercetos con contenido
 de la 19; la 19 omite texto y transforma abaab en abaabb. Las notas 26–28, cuyo cuerpo no se
