@@ -29,3 +29,13 @@ identificación; cualquier resolución posterior requiere una decisión editoria
 El prompt v0.13 se mantiene. No se ha guardado desde esta revisión ni se ha sustituido
 la referencia inicial aceptada; la nueva respuesta pasa a ser la entrada seleccionada
 del inventario, conservando ambas.
+
+El responsable confirma mantener ambos pasajes sin identificar: no se asume un remate
+porque 127 o 145 encajen con 3n+1. El criterio general queda pendiente del IP. El editor
+debería consultar rápidamente el texto para comprobar si hay encadenamiento y cierre,
+o un error, sin resolverlo a partir del módulo aritmético.
+
+El aviso «Cambios comprobados: 1 aviso para revisar» corresponde a forma_pendiente,
+que agrupa ambos pasajes. Se corrige su presentación para mostrar inmediatamente
+«Formas pendientes de identificar: tercetos, vv. 1–127 y 1523–1667», en lugar de un
+contador sin explicación. No se cambian la identificación ni las condiciones de guardado.

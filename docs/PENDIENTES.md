@@ -79,6 +79,12 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
+Mostrar en el listado una columna [Por revisar](./importador-metrico/pendientes-en-listado.md):
+formas pendientes con rangos y avisos concretos, distinguiendo incidencias de fuente y
+resultados históricos de comprobaciones actuales. Pendiente de implementar; no certificar
+ausencia de avisos antiguos que no se guardaron. Ya corregido el contador de «Comprobar
+cambios» para que muestre el texto y los pasajes de cada aviso antes del guardado.
+
 Condición principal de los próximos ensayos: Gemini gratuita, según el responsable.
 Prompt v0.13 ensayado en El verdadero amante con Gemini 3.5 Flash-Lite: cero diferencias
 métricas en sus 19 filas respecto a la referencia aceptada. Mantener la versión y probar

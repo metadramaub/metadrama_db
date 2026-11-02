@@ -18,7 +18,16 @@ describe('confirmación explícita de comprobación', () => {
 		vista.avisos=[{codigo:'longitud_metrica',ruta:'',mensaje:'Revisar'},{codigo:'forma_pendiente',ruta:'',mensaje:'Pendiente'}];
 		const {body}=render(EstadoComprobacion,{props:{vista}});
 		expect(texto(body)).toContain('2 avisos para revisar.');
+		expect(texto(body)).toContain('Revisar');
+		expect(body).toContain('<li>');
 		expect(texto(body)).not.toContain('sin incidencias');
+	});
+	it('localiza los dos tercetos pendientes junto al aviso de comprobación', () => {
+		const vista=analizarEntrada(obtenerPilotos().find((p)=>p.id==='los-donaires-de-matico')!.entrada);
+		vista.pendientes_metadatos=[];
+		const contenido=texto(render(EstadoComprobacion,{props:{vista}}).body);
+		expect(contenido).toContain('Cambios comprobados: 1 aviso para revisar.');
+		expect(contenido).toContain('Formas pendientes de identificar: «tercetos» · vv. 1–127; «tercetos» · vv. 1523–1667.');
 	});
 	it('no anuncia ausencia de incidencias cuando quedan errores o campos obligatorios', () => {
 		const vista=base();vista.avisos=[];
