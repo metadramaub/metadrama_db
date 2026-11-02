@@ -269,7 +269,9 @@
       "id": "sexteto-lira",
       "literales": [
         "sexteto-lira",
-        "sextetos-liras"
+        "sextetos-liras",
+        "sexteto alirado",
+        "sextetos alirados"
       ],
       "tipo": "equivalencia_propuesta",
       "candidatas": [
@@ -279,7 +281,7 @@
         }
       ],
       "exhaustividad": "destino_unico_confirmado",
-      "fundamento": "El responsable confirma la equivalencia con Sexteto-lira. El catálogo activo tiene una arquitectura heterométrica consonante; no se deducen distribución de medidas ni esquema de rima.",
+      "fundamento": "El responsable confirma la equivalencia con Sexteto-lira. El catálogo activo tiene una arquitectura heterométrica consonante; no se deducen distribución de medidas ni esquema de rima. El catálogo activo registra Sexteto alirado como denominación de Sexteto-lira (consulta de solo lectura del 02-11-2026).",
       "detalles_fuente": [],
       "aprobacion": {
         "responsable": "Responsable del proyecto",
@@ -429,6 +431,6 @@
       ]
     }
   ],
-  "version": "v0.10",
+  "version": "v0.11",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }

@@ -5,6 +5,20 @@ import { analizarEntrada, obtenerPilotos, obtenerReferenciaImportador } from './
 import preparada from '../../../../docs/importador-metrico/piloto/preparadas/el-verdadero-amante.json';
 
 describe('vista previa del importador sin persistencia', () => {
+	it('reconoce mayúsculas editoriales y Sextetos alirados sin alterar los literales', () => {
+		const raw=JSON.parse(obtenerPilotos()[0].entrada);
+		raw.obra_ref='obra-importada';raw.jornadas=[{numero:1,rotulo_literal:null}];
+		raw.notas=[];raw.resumen_fuente=[];raw.incidencias=[];
+		raw.tramos=[
+			{id:'t01',jornada:1,v_ini:1,v_fin:616,denominacion_literal:'Redondillas',n_versos_fuente:616,fuente_id:'foto-01',pagina:null,notas_ref:[]},
+			{id:'t02',jornada:1,v_ini:617,v_fin:694,denominacion_literal:'Sextetos alirados',n_versos_fuente:78,fuente_id:'foto-01',pagina:null,notas_ref:[]},
+			{id:'t03',jornada:1,v_ini:695,v_fin:740,denominacion_literal:'Endecasílabos Sueltos',n_versos_fuente:46,fuente_id:'foto-01',pagina:null,notas_ref:[]}
+		];
+		const vista=analizarEntrada(JSON.stringify(raw));
+		expect(vista.errores).toEqual([]);
+		expect(vista.datos!.segmentos.map(s=>s.identificacion?.forma_slug)).toEqual(['redondilla','sexteto_lira','endecasilabo_suelto']);
+		expect(vista.datos!.segmentos.map(s=>s.origen.denominacion_literal)).toEqual(raw.tramos.map((t:{denominacion_literal:string})=>t.denominacion_literal));
+	});
 	it('reconoce todas las asonancias del catálogo y conserva las desconocidas sin inventar valores', () => {
 		const raw=JSON.parse(obtenerPilotos()[0].entrada);
 		raw.obra_ref='obra-importada'; raw.jornadas=[{numero:1,rotulo_literal:null}];

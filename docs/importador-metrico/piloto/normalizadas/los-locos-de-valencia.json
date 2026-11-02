@@ -3,7 +3,7 @@
   "estado": "borrador_de_trabajo",
   "apta_para_corpus": false,
   "obra_ref": "los-locos-de-valencia",
-  "reglas_version": "v0.10",
+  "reglas_version": "v0.11",
   "catalogo_referencia": {
     "estado": {
       "actualizado_en": "2026-10-19T11:26:16.630786+00:00",
@@ -803,7 +803,7 @@
     ]
   },
   "entradas_sha256": {
-    "equivalencias.propuestas.json": "9481d9be3d4809f8b9a8a94be8cfd1be2b4652fb3094a204b9db5e27951d62ca",
+    "equivalencias.propuestas.json": "c42f000e56860acb9f60a3e868b8fec6d931025223fa981596ad1bbd497a062a",
     "catalogo-referencia.json": "0f65680900ccab33fb9a258e5aca1ae6b2c0373c6dc2aab4192e80d7088e7b06",
     "auditoria-tercetos-2026-10-26.json": "433367a2e24b8e6e5fb213b907c2d810ff2078eda0e2364771070231e8cfc112",
     "segmentacion.propuestas.json": "66bfd37373162eaf06c046093f11cbd7188d0e72519bea0c30c6caefc738cd0f",

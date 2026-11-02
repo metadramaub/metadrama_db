@@ -120,12 +120,13 @@ export function normalizarExtraccion(
 	}
 	const segmentos = source.tramos.flatMap((row) => {
 		const literalComparado = row.denominacion_literal?.replace(/\s+/gu, ' ').trim();
+		const claveLiteral = (literal) => literal?.replace(/\s+/gu, ' ').trim().toLowerCase();
 		const vocales = literalComparado?.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase()
 			.match(/^romances? en\s+[-–—]?\s*([aeiou])(?:\s*[-–—]?\s*([aeiou]))?$/u);
 		const matches = reference.reglas.filter(
 			(r) =>
 				(r.patron === 'romance_con_asonancia' ? Boolean(vocales) :
-					r.literales.some((l) => l.replace(/\s+/gu, ' ').trim() === literalComparado)) &&
+					r.literales.some((l) => claveLiteral(l) === claveLiteral(literalComparado))) &&
 				(!r.ambito || r.ambito.obras.includes(source.obra_ref)) &&
 				(!r.nota_contiene || row.notas_ref.some((id) => {
 					const n = notesById.get(id);
