@@ -6,6 +6,12 @@ Servicio declarado por el JSON: Gemini; modelo, modo, plan y parámetros null. E
 indica modo Automático; la condición gratuita procede de su declaración sobre la cuenta usada.
 No se infiere la identidad del modelo. El formato valida, pero no la fidelidad de la lectura.
 
+**Confirmación posterior:** el responsable abre Detalles de la respuesta y comunica
+«Se ha usado 3.5 Flash-Lite». Se registra **3.5 Flash-Lite**, con servicio Gemini, modo
+Automático y cuenta gratuita, en [el registro del ensayo](./piloto/ensayos-verdadero-amante.json).
+El JSON original conserva modelo null: la identificación procede del panel de la aplicación,
+no de una afirmación generada por el modelo ni de una deducción sobre Automático.
+
 Cotejo con la foto `12_verdadero_amante.HEIC` y con la referencia inicial aceptada:
 
 - Las filas conservan los rangos y recuentos, 19 filas y 2878 versos, pero muchas formas

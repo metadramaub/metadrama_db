@@ -1,0 +1,18 @@
+{
+  "obra": "El verdadero amante",
+  "fecha_registro": "2026-11-02",
+  "ensayos": [
+    {
+      "servicio": "Gemini",
+      "plan": "gratuito",
+      "modo": "Automático",
+      "modelo": "3.5 Flash-Lite",
+      "modelo_procedencia": "El responsable consulta Detalles de la respuesta y comunica literalmente: Se ha usado 3.5 Flash-Lite.",
+      "parametros": null,
+      "prompt": "extraccion/0.12",
+      "respuesta": "backups/importador-local/verdadero-amante-2026-11-02/respuesta-v0.12-gemini-original.json",
+      "validacion_tecnica": true,
+      "resultado_cotejo": "Fallido: denominaciones desplazadas, jornada errónea y recuento confundido con llamada de nota."
+    }
+  ]
+}
