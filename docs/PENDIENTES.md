@@ -79,6 +79,10 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
+Antes de activar otra revisión del prompt, completar el [panel de regresiones](./importador-metrico/control-regresiones-prompt.md).
+0.15 sigue activa; 0.16 es candidata sin activar. [Traición acertada](./importador-metrico/revision-traicion-acertada-2026-11-03.md)
+falla por nota multirrango, prosa inventada e incidencias falsas; sus rangos numerados están bien.
+
 Continuar los ensayos del prompt v0.15 con obras nuevas y probar enlaces de notas de alcance plural.
 [Ursón y Valentín](./importador-metrico/revision-urson-valentin-2026-11-03.md) ya tiene transcripción
 métrica correcta, con esquema e incidencia de la errata; página 995 inferida aceptada por David.
