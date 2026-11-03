@@ -45,3 +45,19 @@ Las instrucciones nuevas no demuestran aún mejor rendimiento de Gemini. Se cons
 v0.13 como ensayo fallido, fuera de las entradas seleccionadas para inventariar equivalencias:
 «with pareado final» y las formas desplazadas no deben contaminar ese documento de revisión.
 No se ha guardado la obra ni modificado producción durante este cotejo.
+
+## Resultado recibido con v0.14
+
+Original conservado en `backups/importador-local/urson-valentin-2026-11-03/respuesta-v0.14-original.json`.
+Esta ejecución corrige el desplazamiento de formas, la carta en prosa sin rango, la jornada
+segunda continuada hasta 2251, el inicio de la tercera en 2252 y el literal del pareado final.
+
+La fila t17 reproduce ahora fielmente **2458–2575, redondillas, 28** de la foto. La validación
+genera tres avisos del mismo origen: 118 posiciones frente a 28 declaradas, retroceso después
+de 2534–2547 y solapamiento de 90 posiciones. No son tres fallos independientes ni un nuevo
+error de transcripción. 2548–2575 sigue siendo una corrección probable sin cotejo textual.
+
+Persisten dos limitaciones de la IA: transcribe `liras aBabCc` donde la foto muestra
+`liras aBaBcC`, y devuelve `incidencias: []` sin declarar el descuadre conservado. El formato
+es válido, pero la extracción no se considera completamente fiel ni lista para guardar.
+Se mantiene fuera de las entradas seleccionadas para inventariar equivalencias.
