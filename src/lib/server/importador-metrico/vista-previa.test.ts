@@ -323,7 +323,7 @@ describe('vista previa del importador sin persistencia', () => {
 	});
 	it('ofrece el prompt literal y el carácter local del catálogo', () => {
 		expect(obtenerReferenciaImportador().prompt).toContain('Transcribe las fotografías');
-		expect(obtenerReferenciaImportador().prompt_version).toBe('0.14');
+		expect(obtenerReferenciaImportador().prompt_version).toBe('0.15');
 		expect(obtenerReferenciaImportador().prompt).toContain('Letra de rima | Caja impresa');
 		expect(obtenerReferenciaImportador().prompt).toContain('posición 3: no se distingue b/B');
 		expect(

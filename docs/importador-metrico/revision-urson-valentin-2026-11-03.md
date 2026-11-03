@@ -61,3 +61,27 @@ Persisten dos limitaciones de la IA: transcribe `liras aBabCc` donde la foto mue
 `liras aBaBcC`, y devuelve `incidencias: []` sin declarar el descuadre conservado. El formato
 es válido, pero la extracción no se considera completamente fiel ni lista para guardar.
 Se mantiene fuera de las entradas seleccionadas para inventariar equivalencias.
+
+## Próximo ensayo: prompt v0.15
+
+El responsable fija como objetivo una extracción totalmente fiel, aunque el importador no
+admita guardarla por errores de la edición. La aptitud para guardar no es el criterio de éxito
+de la transcripción. No se entrega un JSON corregido a mano como sustituto de otra ejecución.
+
+v0.15 separa la comprobación de letras y caja mediante una máscara de mayúsculas/minúsculas,
+y exige registrar cada discrepancia conservada después de releer la fila. Refuerza que
+`incidencias` no puede estar vacío ante un descuadre y conserva el separador decimal impreso.
+No cambia el formato JSON, las equivalencias ni la validación que bloquea rangos incongruentes.
+
+Para evaluar la nueva respuesta, comprobar al menos:
+
+1. `liras aBaBcC` en 1971–2042: caja exacta, sin imponer un esquema conocido por normalización.
+2. t17 conserva 2458–2575 y 28, más una incidencia que declare el descuadre/solapamiento.
+   No debe sustituir 2458 por 2548 para pasar los controles.
+3. Prosa sin rango ni recuento, asociación correcta de todas las filas y jornada tercera
+   desde 2252; mantener los aciertos de v0.14.
+4. Todas las denominaciones, notas, resúmenes y campos cotejados con las fotos, sin traducciones,
+   omisiones, cifras o esquemas inventados. La comprobación focal no sustituye el cotejo completo.
+
+Pendiente ejecución externa. Los ejemplos del prompt proceden de errores observados en el piloto;
+un acierto posterior en este caso no demuestra generalización ni rendimiento en obras nuevas.
