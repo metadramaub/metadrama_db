@@ -2,6 +2,7 @@
 import { createHash } from 'node:crypto';
 import { z } from 'zod';
 import { ejecucionSchema } from './ejecucion.mjs';
+import { integrarProsa } from './prosa.mjs';
 
 const texto = z.string().trim().min(1);
 const entero = z.number().int().positive().max(2147483647);
@@ -74,7 +75,8 @@ export const fichaMinimaSchema = z
 								denominacion_literal: texto.nullable(),
 								fuente_id: texto,
 								pagina: entero.nullable(),
-								notas_ref: z.array(texto)
+								notas_ref: z.array(texto),
+								tramos_ref: z.array(texto).min(2).optional()
 							})
 							.strict(),
 						identificacion: destino.nullable(),
@@ -82,7 +84,10 @@ export const fichaMinimaSchema = z
 						regla_id: texto.nullable(),
 						nota: texto.nullable(),
 						detalles_fuente: z.array(detalle),
-						desviaciones: z.array(desviacion)
+						desviaciones: z.array(desviacion),
+						caracterizaciones: z.array(z.object({
+							termino: z.literal('prosa'), ...rango, tramo_ref: texto, literal: texto
+						}).strict()).optional()
 					})
 					.strict()
 			)
@@ -193,6 +198,14 @@ export function validarFichaMinima(input, { catalogo, vistaPrevia = false } = {}
 		if (datos.jornadas.filter((j) => s.v_ini >= j.v_ini && s.v_fin <= j.v_fin).length !== 1)
 			add('jornada', ruta, 'El segmento debe quedar dentro de una sola jornada.');
 		const destinos = [s.identificacion, ...s.candidatas];
+		if (s.origen.tramos_ref && (new Set(s.origen.tramos_ref).size !== s.origen.tramos_ref.length ||
+			s.origen.tramos_ref[0] !== s.origen.tramo_ref))
+			add('origen_compuesto', ruta, 'Las filas de origen deben ser únicas y comenzar por la referencia principal.');
+		const prosas = s.caracterizaciones ?? [];
+		if (new Set(prosas.map(p => p.tramo_ref)).size !== prosas.length)
+			add('prosa_repetida', ruta, 'La misma fila de prosa no puede registrarse dos veces.');
+		for (const p of prosas) if (p.v_fin !== p.v_ini + 1 || p.v_ini < s.v_ini || p.v_fin > s.v_fin)
+			add('prosa_localizacion', ruta, 'La prosa debe localizarse entre dos versos consecutivos dentro de la secuencia.');
 		destinos.forEach((d) => revisarDestino(d, ruta));
 		const unicas = new Set(s.candidatas.map((c) => JSON.stringify(c)));
 		if (unicas.size !== s.candidatas.length) add('candidata_repetida', ruta, 'Candidata repetida.');
@@ -337,7 +350,7 @@ export function prepararFichaMinima(normalizada, { genero, metadatos = {} } = {}
 			v_fin: j.v_fin,
 			rotulo_literal: j.rotulo_literal
 		})),
-		segmentos: normalizada.segmentos.map((s) => ({
+		segmentos: integrarProsa(normalizada.segmentos).map((s) => ({
 			ref: s.id,
 			v_ini: s.v_ini,
 			v_fin: s.v_fin,
@@ -347,11 +360,13 @@ export function prepararFichaMinima(normalizada, { genero, metadatos = {} } = {}
 				denominacion_literal: s.fuente.denominacion_literal,
 				fuente_id: s.fuente.fuente_id,
 				pagina: s.fuente.pagina,
-				notas_ref: structuredClone(s.fuente.notas_ref)
+				notas_ref: structuredClone(s.fuente.notas_ref),
+				...(s.tramos_ref ? {tramos_ref: s.tramos_ref} : {})
 			},
 			identificacion: structuredClone(s.identificacion_revisada ?? s.propuesta),
 			candidatas: structuredClone(s.candidatas),
 			regla_id: s.regla_id,
+			...(s.caracterizaciones?.length ? {caracterizaciones: structuredClone(s.caracterizaciones)} : {}),
 			nota: s.nota ?? null,
 			detalles_fuente: s.detalles_fuente.map((d) =>
 				d.tipo_seccion === 'remate'

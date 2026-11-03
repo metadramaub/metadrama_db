@@ -123,7 +123,7 @@
 									{@const notas = notasMetricas(fila)}
 									<tr class="border-t border-[color:var(--border)] align-top">
 										<td class="px-3 py-2 tabular-nums"><span class="whitespace-nowrap">{fila.v_ini}–{fila.v_fin}</span><span class="block text-xs text-[color:var(--muted-foreground)]">{fila.extension} vv.</span></td>
-										<td class="break-words px-3 py-2">{fila.origen.denominacion_literal ?? '—'}</td>
+										<td class="break-words px-3 py-2">{fila.origen.denominacion_literal ?? '—'}{#if fila.origen.tramos_ref}<span class="mt-1 block text-xs text-[color:var(--muted-foreground)]">{fila.origen.tramos_ref.length} filas unidas por prosa</span>{/if}</td>
 										<td class="break-words px-3 py-2">
 											<FormaSecuencia forma={forma?.nombre ?? null} arquitectura={arquitectura?.nombre ?? null} pendiente="Forma sin resolver" />
 											{#if sinEquivalencia(fila) && fila.candidatas_nombres.length}

@@ -144,6 +144,9 @@
 				desviaciones: parte.desviaciones.map((d) => ({v_ini: Number(d.v_ini), v_fin: Number(d.v_fin), dimension: d.dimension, relacion_norma: d.relacion_norma}))})}
 			<fieldset class="space-y-4 border border-[color:var(--border)] bg-white p-4" disabled={ocupado}>
 				<legend class="px-1 text-sm font-medium">{partes.length > 1 ? 'Secuencia ' + (i + 1) + ' · ' : ''}vv. {principio(i)}–{parte.fin} · {Number(parte.fin) - principio(i) + 1} versos</legend>
+				{#each originales.flatMap(s => s.caracterizaciones ?? []).filter(c => c.v_ini >= principio(i) && c.v_fin <= Number(parte.fin)) as prosa}
+					<p class="text-sm">Prosa entre vv. {prosa.v_ini} y {prosa.v_fin}</p>
+				{/each}
 				{#if sugerencia}<p class="text-sm text-[color:var(--muted-foreground)]">{sugerencia}</p>{/if}
 				{#if longitud.estado === 'revisar'}<p role="status" class="border-l-2 border-amber-400 bg-amber-50 p-3 text-sm">{longitud.mensaje}</p>{/if}
 				<div class="grid gap-4 sm:grid-cols-2">

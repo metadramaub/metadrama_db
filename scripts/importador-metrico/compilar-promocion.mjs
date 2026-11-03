@@ -4,9 +4,11 @@ import { fileURLToPath } from 'node:url';
 const fuentes = [
 	'01-almacenamiento',
 	'02-esquema-documento',
+	'07-prosa',
 	'03-guardar',
 	'04-consulta',
-	'05-aislamiento'
+	'05-aislamiento',
+	'06-gestion'
 ];
 export const destino = new URL('./promocion/importador-basico.sql', import.meta.url);
 export function compilarPromocion() {
@@ -14,7 +16,7 @@ export function compilarPromocion() {
 		let s = readFileSync(new URL(`./sql/${n}.sql`, import.meta.url), 'utf8')
 			.replace(/\r\n/g, '\n')
 			.trim();
-		if (n !== '02-esquema-documento') {
+		if (!['02-esquema-documento','07-prosa'].includes(n)) {
 			const apertura = s.indexOf('\nbegin;\n');
 			if (apertura < 0 || !s.endsWith('\ncommit;')) throw Error(`Revisar transacción de ${n}`);
 			s = s.slice(0, apertura) + s.slice(apertura + '\nbegin;'.length, -'\ncommit;'.length);
@@ -25,7 +27,7 @@ export function compilarPromocion() {
 	});
 	return `-- CANDIDATA PARA REVISIÓN. No aplicada al Supabase compartido.
 -- Generada con compilar-promocion.mjs. Fuera de supabase/migrations hasta aprobación.
--- No incluye la corrección de prosa ni ejecuta recálculos o importaciones.
+-- No ejecuta recálculos analíticos ni importaciones.
 begin;
 set local lock_timeout = '5s';
 set local statement_timeout = '120s';
@@ -54,8 +56,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
 	const sql = compilarPromocion();
 	if (args.length) {
 		if (readFileSync(destino, 'utf8').replace(/\r\n/g, '\n') !== sql)
-			throw Error('La candidata no coincide con los cinco SQL fuente');
-		console.log('Candidata transaccional sincronizada con los cinco SQL.');
+				throw Error('La candidata no coincide con los SQL fuente');
+		console.log('Candidata transaccional sincronizada con los SQL fuente.');
 	} else {
 		mkdirSync(new URL('./promocion/', import.meta.url), { recursive: true });
 		writeFileSync(destino, sql);

@@ -4240,6 +4240,10 @@ export type Database = {
         Args: { p_anotacion: string }
         Returns: undefined
       }
+      comprobar_origen_minimo: {
+        Args: { p_fila: Json; p_original: Json }
+        Returns: undefined
+      }
       consultar_importacion_metrica: {
         Args: { p_importacion: string }
         Returns: Json

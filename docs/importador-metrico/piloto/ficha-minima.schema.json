@@ -193,6 +193,14 @@
                   "type": "string",
                   "minLength": 1
                 }
+              },
+              "tramos_ref": {
+                "minItems": 2,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
               }
             },
             "required": [
@@ -435,6 +443,44 @@
                 "nota_ref",
                 "texto_fuente",
                 "nota"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "caracterizaciones": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "termino": {
+                  "type": "string",
+                  "const": "prosa"
+                },
+                "v_ini": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0,
+                  "maximum": 2147483647
+                },
+                "v_fin": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0,
+                  "maximum": 2147483647
+                },
+                "tramo_ref": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "literal": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "termino",
+                "v_ini",
+                "v_fin",
+                "tramo_ref",
+                "literal"
               ],
               "additionalProperties": false
             }

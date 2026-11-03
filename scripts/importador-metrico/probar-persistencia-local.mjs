@@ -114,7 +114,7 @@ $$;
 grant usage on schema auth,extensions to anon,authenticated,service_role;
 ${esquema}`);
 	// Ejecutar el borrador dos veces comprueba su repetibilidad, sin silenciar errores.
-	const borrador = args[3] ? readFileSync(args[3],'utf8') : ['01-almacenamiento.sql', '02-esquema-documento.sql', '03-guardar.sql', '04-consulta.sql', '05-aislamiento.sql', '06-gestion.sql']
+	const borrador = args[3] ? readFileSync(args[3],'utf8') : ['01-almacenamiento.sql', '02-esquema-documento.sql', '03-guardar.sql', '04-consulta.sql', '05-aislamiento.sql', '06-gestion.sql', '07-prosa.sql']
 		.map((n) => read(`./sql/${n}`))
 		.join('\n');
 	psql(borrador);
@@ -436,6 +436,43 @@ delete from public.jornadas where obra_id=(select (valor->>'obra_id')::uuid from
 	sql += ok("(select not exists(select 1 from public.importaciones_metricas where importacion_id=" + objetivoBorrado(3) + '))', 'IP también puede eliminar una básica');
 	sql += ok("(select count(*)=1 from public.obras where titulo='Completa de control')", 'el borrado de básicas conserva la detallada de control');
 	sql += "reset role; set role anon;\n" + rechaza("select public.eliminar_ficha_basica('00000000-0000-4000-8000-000000000001'::uuid,'El molino')", '42501', 'anónimo no puede ejecutar el borrado');
+	// Datos sintéticos nuevos: dos filas de octavas separadas por prosa no numerada.
+	const prosaDatos = structuredClone(json('preparadas/el-molino.json').datos);
+	const prosaOriginal = structuredClone(json('extracciones/el-molino.json'));
+	prosaDatos.obra_ref = prosaOriginal.obra_ref = 'prueba-prosa';
+	prosaDatos.metadatos.titulo = 'Unión por prosa de prueba';
+	prosaDatos.jornadas = [{numero:1,rotulo_literal:'Jornada primera',v_ini:1,v_fin:120}];
+	prosaOriginal.jornadas = [{numero:1,rotulo_literal:'Jornada primera'}];
+	const filaProsa = (id, v_ini, v_fin, denominacion_literal) => ({id,jornada:1,v_ini,v_fin,denominacion_literal,
+		n_versos_fuente:v_ini===null?null:v_fin-v_ini+1,fuente_id:'foto-prosa',pagina:996,notas_ref:[]});
+	prosaOriginal.tramos = [filaProsa('t01',1,96,'octavas reales'),filaProsa('t02',null,null,'carta en prosa'),filaProsa('t03',97,120,'octavas reales')];
+	prosaOriginal.notas=[];prosaOriginal.resumen_fuente=[];prosaOriginal.incidencias=[];
+	prosaDatos.segmentos = [{ref:'t01',v_ini:1,v_fin:120,segmentacion:'confirmada',
+		origen:{tramo_ref:'t01',tramos_ref:['t01','t03'],denominacion_literal:'octavas reales',fuente_id:'foto-prosa',pagina:996,notas_ref:[]},
+		identificacion:{forma_slug:'octava_real',arquitectura_slug:'endecasilabica_consonante'},
+		candidatas:[],regla_id:null,nota:null,detalles_fuente:[],desviaciones:[],
+		caracterizaciones:[{termino:'prosa',v_ini:96,v_fin:97,tramo_ref:'t02',literal:'carta en prosa'}]}];
+	delete prosaDatos.comprobacion;
+	sql += `reset role; insert into entradas values(92,${doc(prosaDatos)},${doc(prosaOriginal)});\n` + sesion(0);
+	for (const [cambios, nombre] of [
+		["||jsonb_build_object('segmentos',jsonb_set(datos->'segmentos','{0,caracterizaciones}','[]'))",'no se pierde la prosa al unir'],
+		["||jsonb_build_object('segmentos',jsonb_set(datos->'segmentos','{0,caracterizaciones,0,v_ini}','95'))",'no se inventa otra localización de prosa'],
+		["||jsonb_build_object('segmentos',jsonb_set(datos->'segmentos','{0,origen,tramos_ref}','[\"t01\",\"t99\"]'))",'no se acepta un origen compuesto inventado'],
+		["||jsonb_build_object('segmentos',jsonb_set(datos->'segmentos','{0,caracterizaciones}',(datos#>'{segmentos,0,caracterizaciones}')||(datos#>'{segmentos,0,caracterizaciones}')))",'no se duplica la prosa']
+	]) sql += rechaza(llamada(92,cambios,93),'23514',nombre);
+	sql += `insert into resultados values(92,(${llamada(92)}));\n`;
+	sql += ok("(select count(*)=1 and sum(s.n_versos)=120 from public.secuencias_metricas s where s.obra_id=(select (valor->>'obra_id')::uuid from resultados where n=92))",'la prosa no añade versos ni otra secuencia');
+	sql += ok("(select datos_minimos#>>'{caracterizaciones,0,termino}'='prosa' and datos_minimos#>>'{caracterizaciones,0,v_ini}'='96' and datos_minimos#>>'{caracterizaciones,0,v_fin}'='97' from public.metrica_minima_secuencias where importacion_id=(select (valor->>'importacion_id')::uuid from resultados where n=92))",'la caracterización enunciativa se guarda localizada entre versos');
+	sql += ok("(public.consultar_importacion_metrica((select (valor->>'importacion_id')::uuid from resultados where n=92))#>'{datos_confirmados,segmentos,0,caracterizaciones}')=(select datos#>'{segmentos,0,caracterizaciones}' from entradas where n=92)",'la prosa se conserva al reabrir');
+	const dividida = structuredClone(prosaDatos);
+	dividida.metadatos.titulo = 'Prosa conservada al dividir de prueba';
+	dividida.segmentos = [
+		{...structuredClone(prosaDatos.segmentos[0]),v_fin:80,caracterizaciones:[]},
+		{...structuredClone(prosaDatos.segmentos[0]),ref:'t01-parte-2',v_ini:81}
+	];
+	sql += `insert into resultados values(93,public.guardar_ficha_minima('10000000-0000-4000-8000-000000000094',${lit(autor)},${doc(dividida)},${doc(prosaOriginal)}));\n`;
+	sql += ok("(select count(*)=2 and sum(s.n_versos)=120 from public.secuencias_metricas s where s.obra_id=(select (valor->>'obra_id')::uuid from resultados where n=93))",'se guarda la división sin ampliar el rango de origen compuesto');
+	sql += ok("(select sum(jsonb_array_length(datos_minimos->'caracterizaciones'))=1 from public.metrica_minima_secuencias where importacion_id=(select (valor->>'importacion_id')::uuid from resultados where n=93))",'la división guarda la prosa una sola vez en su parte');
 	const salida = psql(sql);
 	console.log(
 		salida

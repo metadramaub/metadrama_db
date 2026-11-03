@@ -166,17 +166,7 @@ begin
       raise exception using errcode='23514',message='Segmentos discontinuos, invertidos o fuera de jornada';
     end if;
     v_prev:=v_fin; v_total:=v_total+v_fin::bigint-v_inicio+1;
-    if not exists (select 1 from jsonb_array_elements(p_entrada_original->'tramos') as r(t)
-      where t->>'id'=v_fila#>>'{origen,tramo_ref}' and t->>'fuente_id'=v_fila#>>'{origen,fuente_id}'
-        and (t->>'denominacion_literal') is not distinct from (v_fila#>>'{origen,denominacion_literal}')
-        and (t->>'v_ini')::integer<=v_inicio and (t->>'v_fin')::integer>=importar.v_fin) then
-      raise exception using errcode='23514',message='El segmento no corresponde a su fila de origen';
-    end if;
-    if exists (select 1 from jsonb_array_elements_text(v_fila#>'{origen,notas_ref}') as r(ref)
-      where not exists (select 1 from jsonb_array_elements(p_entrada_original->'notas') as n(nota)
-        where nota->>'id'=ref and nota->'tramos_ref' ? (v_fila#>>'{origen,tramo_ref}'))) then
-      raise exception using errcode='23514',message='Nota sin correspondencia con el tramo original';
-    end if;
+    perform public.comprobar_origen_minimo(v_fila,p_entrada_original);
     perform public.comprobar_destino_minimo(v_fila->'identificacion');
     v_forma:=null; v_arquitectura:=null;
     if v_fila->'identificacion'<>'null'::jsonb then

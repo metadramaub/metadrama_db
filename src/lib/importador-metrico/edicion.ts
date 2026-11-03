@@ -76,6 +76,9 @@ export function aplicarEdiciones<T extends {segmentos: SegmentoMinimo[]}>(datos:
 			)
 		)
 			throw new Error('Las partes deben cubrir la fila original sin huecos ni solapamientos.');
+		const prosas = originales.flatMap(s => s.caracterizaciones ?? []);
+		if (prosas.some(c => !cambio.partes.some(p => c.v_ini >= p.v_ini && c.v_fin <= p.v_fin)))
+			throw new Error('El corte separa los versos que localizan la prosa. Mueve el corte para conservarla dentro de una secuencia.');
 		const desviaciones = [
 			...new Map(
 				originales.flatMap((s) => s.desviaciones).map((d) => [JSON.stringify(d), d])
@@ -126,6 +129,7 @@ export function aplicarEdiciones<T extends {segmentos: SegmentoMinimo[]}>(datos:
 				v_ini: p.v_ini,
 				v_fin: p.v_fin,
 				segmentacion: 'provisional',
+				...(prosas.length ? {caracterizaciones: structuredClone(prosas.filter(c => c.v_ini >= p.v_ini && c.v_fin <= p.v_fin))} : {}),
 				identificacion: structuredClone(p.identificacion),
 				candidatas: p.identificacion?.arquitectura_slug
 					? []

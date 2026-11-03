@@ -67,7 +67,9 @@ for (const n of [
 	'02-esquema-documento',
 	'03-guardar',
 	'04-consulta',
-	'05-aislamiento'
+	'05-aislamiento',
+	'06-gestion',
+	'07-prosa'
 ])
 	sql(readFileSync(new URL(`./sql/${n}.sql`, import.meta.url), 'utf8'));
 sql(

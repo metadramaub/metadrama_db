@@ -27,6 +27,7 @@ copia la versión vigente del prompt y permite revisar la tabla antes de complet
 
 | Documento | Contenido |
 | --- | --- |
+| [Prosa dentro de una secuencia](./prosa-en-secuencias.md) | Unión de tramos de la misma forma y jornada, localización entre versos y conservación de filas originales |
 | [Datos de ejecución de IA](./ejecucion-ia.md) | Declaración en el prompt, corrección opcional en metadatos y conservación separada del original |
 | [Seguimiento e informe de equivalencias](./seguimiento-e-informe-equivalencias.md) | Veinte obras, guardados reales, motivos de aplazamiento y generación del documento de revisión del catálogo |
 | [Vista previa del dashboard](./vista-previa-dashboard.md) | Pegado, edición, confirmación condicionada a RPC y consulta de copia fija |

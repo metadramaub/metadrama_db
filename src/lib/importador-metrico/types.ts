@@ -27,6 +27,7 @@ export type SegmentoMinimo = {
 		fuente_id: string | null;
 		pagina: number | null;
 		notas_ref: string[];
+		tramos_ref?: string[];
 	};
 	identificacion: DestinoMetrico | null;
 	candidatas: DestinoMetrico[];
@@ -34,6 +35,7 @@ export type SegmentoMinimo = {
 	nota: string | null;
 	detalles_fuente: Record<string, unknown>[];
 	desviaciones: Record<string, unknown>[];
+	caracterizaciones?: {termino: 'prosa'; v_ini: number; v_fin: number; tramo_ref: string; literal: string}[];
 };
 export type FichaMinima = {
 	esquema: 'versologia-ficha-minima/0.2';
