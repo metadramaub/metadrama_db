@@ -1,5 +1,5 @@
 {
-  "consultado_en": "2026-11-02T18:48:26.265Z",
+  "consultado_en": "2026-11-03T08:27:04.667Z",
   "importaciones": [
     {
       "importacion_id": "4822994f-5836-44a1-8cce-d821df1af228",
@@ -48,6 +48,13 @@
       "importado_en": "2026-11-02 18:46:06.265655+00",
       "obra_id": "c32b2e8a-0e97-4dbe-af6c-7c53278b8625",
       "titulo": "Las ferias de Madrid",
+      "usada_en_corpus": true
+    },
+    {
+      "importacion_id": "54fbedb5-6c25-44f6-8e14-161a43e19588",
+      "importado_en": "2026-11-03 08:23:21.39437+00",
+      "obra_id": "aec64ce0-8c6f-4926-b464-9f1d220deb44",
+      "titulo": "El hijo de Reduán",
       "usada_en_corpus": true
     }
   ]

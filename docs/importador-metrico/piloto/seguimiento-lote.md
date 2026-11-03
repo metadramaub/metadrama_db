@@ -1,8 +1,8 @@
 # Seguimiento de las veinte obras del piloto
 
-Guardados contrastados por SELECT en Supabase: 2026-11-02T18:48:26.265Z. No se escribe en la base.
+Guardados contrastados por SELECT en Supabase: 2026-11-03T08:27:04.667Z. No se escribe en la base.
 
-**5 guardadas de 20.** El resto no tiene guardado confirmado en este registro.
+**6 guardadas de 20.** El resto no tiene guardado confirmado en este registro.
 
 El guardado se acredita por obra_id, no por semejanza de títulos. Sin guardado confirmado no significa extracción incorrecta. La revisión y el motivo son anotaciones humanas, separadas del estado de persistencia.
 
@@ -17,7 +17,7 @@ El guardado se acredita por obra_id, no por semejanza de títulos. Sin guardado 
 | 13 | Los donaires de Matico | Sin guardado confirmado | Respuesta Gemini v0.13 cotejada; pendiente guardado. 18 filas y 2812 versos correctos, incluido el resumen. Tercetos 1–127 y 1523–1667 sin identificar: la edición no precisa si son encadenados. Modelo efectivo no comunicado para esta ejecución. [Detalle](../revision-donaires-matico-2026-11-02.md) |
 | 14 | El molino | Sin guardado confirmado | Guardada; nueva extracción Gemini v0.13 coincide con la copia real. 21 secuencias y 2992 versos; dos dísticos finales conservados y letrilla 2880–2888 pendiente. El modelo original sigue sin identificar; el nuevo ensayo usa 3.5 Flash-Lite, Automático, cuenta gratuita. [Detalle](../revision-molino-2026-11-02.md) |
 | 15 | Las ferias de Madrid | [Guardada 2026-11-02](https://versologia.metadrama.org/dashboard/importador/fichas/7d5f1d40-2e9e-49fa-8d9a-f0e53f98705e) | Guardada y cotejada. 25 secuencias y 3236 versos correctos. Tres tercetos y cuatro letrillas pendientes (576 versos). El resumen impreso duplica redondillas: 1780 y 2240; los rangos suman 2240. Gemini 3.5 Flash-Lite, Automático, Gratuita; prompt v0.13. [Detalle](../revision-ferias-madrid-2026-11-02.md) |
-| 20 | El hijo de Reduán | Sin guardado confirmado | Extracción cotejada; pendientes antes de guardar. 21 filas y 3015 versos correctos. Reglas v0.15 reconocen romance aa, dístico por nota y tercetos con remate. Octavas 1386–1465 queda sin identificar por decisión del responsable. Revisar dístico final en 896–953 y 2687–2773: nota plural enlazada solo a t02. [Detalle](../revision-hijo-reduan-2026-11-02.md) |
+| 20 | El hijo de Reduán | [Guardada 2026-11-03](https://versologia.metadrama.org/dashboard/importador/fichas/54fbedb5-6c25-44f6-8e14-161a43e19588) | Guardada y cotejada. Verificado el 03-11: 21 secuencias y 3015 versos; asonancia a-a, tres dísticos finales y remate de un verso conservados. Octavas 1386–1465 queda pendiente por decisión del responsable. Gemini 3.5 Flash-Lite, Automático, Gratuita; prompt v0.13 y reglas v0.15. [Detalle](../revision-hijo-reduan-2026-11-02.md) |
 | 23 | El nacimiento de Ursón y Valentín | Sin guardado confirmado | Pendiente de ensayo |
 | 25 | Traición acertada (rótulo del lote) | Sin guardado confirmado | Pendiente de ensayo |
 | 28 | El dómine Lucas | Sin guardado confirmado | Pendiente de ensayo |

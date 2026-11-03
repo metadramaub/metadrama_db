@@ -33,3 +33,21 @@ Queda como caso para mejorar el enlace de notas de alcance plural en el prompt.
 
 No se deducen canto, esquemas de rima ni arquitecturas adicionales. El modelo efectivo,
 modo y cuenta siguen nulos en el original; solo declara Gemini como servicio.
+
+## Guardado comprobado el 3 de noviembre
+
+Importación `54fbedb5-6c25-44f6-8e14-161a43e19588`, obra
+`aec64ce0-8c6f-4926-b464-9f1d220deb44`. Consulta de solo lectura: original guardado idéntico
+a la respuesta conservada; 21 secuencias compartidas con los mismos rangos de la copia,
+tres jornadas y 3015 versos. Sin avisos de longitud guardados.
+
+Se confirma asonancia a-a en 1258–1297; Dístico final presente en las tres series
+616–667, 896–953 y 2687–2773; remate final de un verso en los tercetos 2285–2522.
+«Octavas» 1386–1465 permanece sin identificar, conforme a la decisión del responsable.
+Las dos selecciones manuales de dístico se conservan en la copia confirmada sin alterar
+los enlaces de notas del original. Pendiente mejorar el alcance plural del prompt.
+
+Metadatos guardados: Lope de Vega, 1588–1595, edición de Gonzalo Pontón (Parte I, 1997).
+Servicio Gemini, 3.5 Flash-Lite, Automático, Gratuita; prompt v0.13, reglas v0.15.
+Importación y modificación coinciden en el alta del 03-11-2026, 09:23:21 (Europe/Madrid).
+No se han modificado datos de producción durante la comprobación.
