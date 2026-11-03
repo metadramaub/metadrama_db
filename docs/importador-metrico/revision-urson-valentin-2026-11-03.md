@@ -85,3 +85,22 @@ Para evaluar la nueva respuesta, comprobar al menos:
 
 Pendiente ejecución externa. Los ejemplos del prompt proceden de errores observados en el piloto;
 un acierto posterior en este caso no demuestra generalización ni rendimiento en obras nuevas.
+
+## Resultado recibido con v0.15
+
+Original conservado en `backups/importador-local/urson-valentin-2026-11-03/respuesta-v0.15-original.json`.
+Ahora conserva correctamente `liras aBaBcC` y añade una incidencia `discrepancia_fuente`
+para t17, manteniendo 2458–2575 y 28. La descripción declara el descuadre, aunque no desarrolla
+sus consecuencias de retroceso/solapamiento. Rangos, formas, recuentos, prosa, jornadas y las
+nueve filas del resumen cotejados con las dos fotografías: coinciden con lo impreso.
+
+Introduce `pagina: 995` en las cinco filas de la primera foto. El número no es visible en
+el encuadre conservado, mientras que 996 sí lo es en la segunda. David confirma que no lo
+facilitó, pero considera correcta y aceptable esa deducción. Se acepta este dato para el caso,
+conservando aquí que su procedencia es inferida, no una lectura visible de la foto.
+
+Se da por buena la transcripción métrica de v0.15 y no se exige otro ensayo por la paginación.
+La obra sigue sin importar exclusivamente por la errata impresa pendiente de resolver.
+La respuesta se conserva como ensayo cotejado; no se selecciona para la normalización del
+informe mientras sus rangos impresos incompatibles impidan ejecutar ese paso. Esto no se
+contabiliza como error de transcripción de la IA. No se generaliza a páginas deducidas sin revisión.

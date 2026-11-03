@@ -79,10 +79,10 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
-Ensayar prompt v0.15 en [Ursón y Valentín](./importador-metrico/revision-urson-valentin-2026-11-03.md):
-caja exacta del esquema e incidencia obligatoria del descuadre impreso, sin corregir sus cifras.
-v0.14 ya corrige prosa, columnas y jornadas. Objetivo: JSON fiel aunque no se pueda guardar la obra.
-Probar también enlaces de notas de alcance plural. Ensayos fallidos fuera del inventario de equivalencias.
+Continuar los ensayos del prompt v0.15 con obras nuevas y probar enlaces de notas de alcance plural.
+[Ursón y Valentín](./importador-metrico/revision-urson-valentin-2026-11-03.md) ya tiene transcripción
+métrica correcta, con esquema e incidencia de la errata; página 995 inferida aceptada por David.
+La obra queda sin importar por el rango impreso incongruente, pendiente de consultar la edición.
 
 Definir la futura edición/reimportación de básicas: sustitución de copia y fecha del cambio
 en la misma operación, conservando el alta original. El [listado y su gestión](./importador-metrico/pendientes-en-listado.md)
@@ -91,8 +91,8 @@ Las copias anteriores no se reescriben ni se certifican como libres de avisos no
 
 Condición principal de los próximos ensayos: Gemini gratuita, según el responsable.
 Prompt v0.13 ensayado en El verdadero amante con Gemini 3.5 Flash-Lite: cero diferencias
-métricas en sus 19 filas respecto a la referencia aceptada. v0.15 preparada tras el segundo ensayo
-de Ursón; pendiente ejecución externa. El éxito anterior no demuestra generalización. La obra sigue guardada
+métricas en sus 19 filas respecto a la referencia aceptada. v0.15 cotejada correctamente en Ursón,
+salvo la paginación inferida que el responsable acepta. Estos ensayos no demuestran generalización. La obra sigue guardada
 con la respuesta de ChatGPT, sin reimportación.
 
 El 02-11 se aplica la ampliación opcional de [datos de ejecución IA](./importador-metrico/ejecucion-ia.md)
