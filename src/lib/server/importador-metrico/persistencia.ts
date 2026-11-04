@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { completarExtraccion } from './completar-extraccion';
 import { z } from 'zod';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '$lib/types/database.types';
@@ -80,7 +81,7 @@ export function extraccionOriginal(texto: string): Record<string, unknown> {
 			400,
 			'Para guardar se necesita la extracción original 0.1, no solo una ficha preparada.'
 		);
-	return raw;
+	return completarExtraccion(raw);
 }
 export async function guardarImportacion(
 	db: ClienteImportador,

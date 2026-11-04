@@ -2,9 +2,32 @@ import { describe, expect, it } from 'vitest';
 import { createHash } from 'node:crypto';
 import type { FichaMinima } from '$lib/importador-metrico/types';
 import { analizarEntrada, obtenerPilotos, obtenerReferenciaImportador, vistaDeFichaGuardada } from './vista-previa';
+import { extraccionOriginal } from './persistencia';
 import preparada from '../../../../docs/importador-metrico/piloto/preparadas/el-verdadero-amante.json';
 
 describe('vista previa del importador sin persistencia', () => {
+	it.each([{}, { obra_ref: null }])('completa una extracción compacta con referencia %j', (referenciaEntrada) => {
+		const referencia = JSON.parse(obtenerPilotos().find((p) => p.id === 'los-locos-de-valencia')!.entrada);
+		const { esquema, jornadas, tramos, notas } = referencia;
+		const texto = JSON.stringify({
+			esquema, jornadas, notas, ...referenciaEntrada,
+			procedencia: { prompt_version: 'extraccion/1.03' },
+			tramos: tramos.map(({ notas_ref: _notas, ...fila }: Record<string, unknown>) => fila)
+		});
+		const vista = analizarEntrada(texto);
+		expect(vista.errores).toEqual([]);
+		expect(vista.datos?.obra_ref).toBe('obra-importada');
+		const paraGuardar = extraccionOriginal(texto);
+		expect(paraGuardar).toMatchObject({
+			obra_ref: 'obra-importada',
+			estado_revision: 'borrador_ia',
+			procedencia: { prompt_version: 'extraccion/1.03' },
+			notas,
+			tramos
+		});
+		expect(JSON.parse(texto).obra_ref).toBe(referenciaEntrada.obra_ref);
+	});
+
 	it('permite corregir y borrar la ejecución declarada sin modificar el original; se conserva al reabrir', () => {
 		const raw = JSON.parse(obtenerPilotos()[0].entrada);
 		raw.procedencia = { ...raw.procedencia, generador: 'ChatGPT', modelo: 'Modelo declarado', modo: 'Instant', plan: null, parametros: null };

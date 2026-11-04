@@ -1,5 +1,6 @@
 /** Reconstruye la vista previa y presenta la copia confirmada sin reaplicar equivalencias. */
 import { createHash } from 'node:crypto';
+import { completarExtraccion } from './completar-extraccion';
 import { aplicarEdiciones } from '$lib/importador-metrico/edicion';
 import { comprobarLongitud } from '$lib/importador-metrico/longitud';
 import reglasLongitudRaw from '../../../../docs/importador-metrico/piloto/reglas-longitud.json?raw';
@@ -33,6 +34,7 @@ const objeto = (v: unknown): Registro =>
 	v !== null && typeof v === 'object' && !Array.isArray(v) ? (v as Registro) : {};
 const cadena = (v: unknown) => (typeof v === 'string' || typeof v === 'number' ? String(v) : '');
 const sha = (v: string) => createHash('sha256').update(v).digest('hex');
+
 function localizarIncidencia(ruta: string) {
 	const [tabla, indice, campo] = ruta.split('.');
 	const tablas: Record<string, string> = { tramos: 'Fila de la edición', notas: 'Nota', resumen_fuente: 'Fila del resumen', jornadas: 'Jornada' };
@@ -217,13 +219,14 @@ export function analizarEntrada(
 			};
 			// El original identifica la fuente y las decisiones particulares. Los metadatos
 			// editables se corrigen en una copia antes de validar también la extracción.
+			const completa = completarExtraccion(entrada);
 			const entradaCorregida = {
-				...entrada,
+				...completa,
 				metadatos: {
 					genero_literal: null,
 					observaciones: [],
 					fuente_id: null,
-					...objeto(entrada.metadatos),
+					...objeto(completa.metadatos),
 					titulo: metadatos.titulo.trim() || null,
 					autoria: metadatos.autor_nombre.trim() || null,
 					edicion_base: metadatos.edicion_base.trim() || null,
