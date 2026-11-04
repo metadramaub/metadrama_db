@@ -49,3 +49,19 @@ guardarse no supone un error de extracción. Traición v0.15 es una respuesta fa
 Este panel se usa para desarrollar el prompt. No es una estimación independiente de exactitud:
 los casos y algunos ejemplos ya han intervenido en su redacción. Las obras nuevas permitirán
 comprobar después si las mejoras se mantienen fuera de estos casos conocidos.
+
+## Resultado del 4 de noviembre de 2026
+
+Cuatro ejecuciones de la candidata 0.16. David comunica Gemini 3.5 Flash-Lite.
+Las respuestas originales se conservan en `backups/importador-local/regresiones-v0.16-2026-11-04/`.
+
+| Obra | Resultado |
+| --- | --- |
+| Traición acertada | Conserva las 18 filas numeradas, omite la prosa inventada y recupera la llamada 22. Las falsas discrepancias bajan de 18 a 4. La nota 21 todavía abarca un intervalo artificial, carece de dos enlaces recíprocos y altera los esquemas. El validador bloquea la preparación. |
+| Ursón y Valentín | Regresión frente a 0.15. Numera la prosa, desplaza denominaciones y el inicio de la jornada tercera, altera el esquema y duplica el tramo final. La incidencia confunde el recuento impreso 28 con 38. |
+| El verdadero amante | Las 19 filas coinciden en rangos, formas y recuentos, incluida la asonancia. Cambia la página visible 225 por 226 y toma el 51 de la última fila por una llamada de nota 5. |
+| Los locos de Valencia | Las 20 filas y las dos notas coinciden con la referencia tras identificar la misma foto. Añade 10 falsas discrepancias aritméticas. |
+
+La candidata queda descartada para activación. La regresión más grave es la pérdida de
+alineación en Ursón tras quitar el ejemplo de continuación. El ensayo documenta el cambio
+observado y no aísla su causa, ya que hay una sola ejecución de la candidata por obra.
