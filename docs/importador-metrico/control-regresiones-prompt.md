@@ -7,9 +7,11 @@ de Gemini. No activar una revisión solo porque cambia bien un ejemplo del promp
 ## Estado actual
 
 - Activa en el dashboard: **0.15**.
-- **0.16 candidata**, sin activar: `prompts/importador-metrico/candidatas/extraccion-v0.16.md`.
-- Cambios limitados: quitar el ejemplo de prosa que puede copiarse como dato; distinguir
-  comprobaciones correctas de incidencias; precisar enlaces de notas con intervalos separados.
+- **0.16 descartada** por regresiones; **0.17–0.25** son candidatas experimentales.
+- **0.26** es la candidata para repetir el panel y, si mantiene el resultado,
+  probar el lote de veinte. Tiene una revisión opcional para los esquemas de notas.
+- Las candidatas conservan el ejemplo de prosa desde la 0.17 y separan las incidencias
+  de lectura de las comprobaciones numéricas que ya hace el importador.
 - No se modifican las equivalencias ni la validación para hacer pasar una salida defectuosa.
 
 ## Panel que debe conservarse
@@ -28,6 +30,10 @@ se convierten por ello en nuevos golds. Ursón conserva una errata de edición: 
 guardarse no supone un error de extracción. Traición v0.15 es una respuesta fallida.
 
 ## Comparación antes de activar
+
+Para cada revisión, elegir los casos difíciles afectados por el cambio y controles que
+ya salieron bien. El panel reúne casos reutilizables. Cuando haya una versión finalista,
+cotejar de nuevo las veinte obras del piloto antes de darla por definitiva.
 
 1. Conservar las mismas fotos, orden, identificadores y metadatos facilitados para ambas
    versiones. Un chat nuevo para cada ejecución evita arrastrar datos de otra obra.
@@ -65,3 +71,102 @@ Las respuestas originales se conservan en `backups/importador-local/regresiones-
 La candidata queda descartada para activación. La regresión más grave es la pérdida de
 alineación en Ursón tras quitar el ejemplo de continuación. El ensayo documenta el cambio
 observado y no aísla su causa, ya que hay una sola ejecución de la candidata por obra.
+
+## Ensayo de la candidata 0.17 del 4 de noviembre de 2026
+
+Dos chats nuevos de Gemini Automático con los HEIC originales. El detalle de ambas
+respuestas identifica 3.5 Flash-Lite. Se parte de la 0.15 y se retira la instrucción
+general de producir incidencias aritméticas. El borrador conserva una mención puntual
+al descuadre en las reglas de transcripción. Las respuestas nombran los adjuntos como JPG.
+Se archivan en backups/importador-local/regresiones-v0.17-2026-11-04/.
+
+- Traición acertada conserva las 18 filas, el resumen y los esquemas de la nota 21.
+  Cero discrepancias falsas. Duplica la nota 21, conserva su intervalo artificial
+  y omite la llamada 22. El validador detecta el problema del localizador.
+- Ursón y Valentín conserva las 25 filas, la prosa sin numerar y el esquema aBaBcC.
+  Introduce PARTE I como segunda jornada repetida. El validador detecta esa referencia
+  duplicada y el descuadre impreso de 28 frente a 118 aunque incidencias esté vacío.
+
+La candidata sigue en ensayo. Estos dos resultados justifican conservar el enfoque
+para otra revisión y separar el trabajo de las notas y de las cabeceras.
+
+## Ensayos de las candidatas 0.18–0.20
+
+Fotos HEIC originales en chats nuevos de Gemini Automático. Las respuestas se guardan
+en `backups/importador-local/regresiones-v0.18-2026-11-04/` y los directorios
+equivalentes para las versiones siguientes. Los archivos de respuesta no se corrigen.
+
+| Candidata | Obra | Resultado |
+| --- | --- | --- |
+| 0.18 | Ursón y Valentín | 25 pasajes iguales en jornada, rango, literal y recuento a la respuesta de referencia. Solo tres jornadas. Sin errores del validador; conserva la errata impresa y sus tres avisos. |
+| 0.18 | Traición acertada | 18 filas y 6 totales. La nota 21 ya tiene los tres enlaces y no fabrica un intervalo, pero la llamada crea una copia vacía («21» frente a «21.» en el pie). Omite la llamada 22. El validador no detecta estos fallos. |
+| 0.19 | Traición acertada | Una sola nota 21 con los tres enlaces correctos, esquemas intactos y llamada 22 sin cuerpo. Sin errores del validador. Faltan los avisos de los dos recortes. |
+| 0.19 | El verdadero amante | Página 225 correcta y sin nota espuria. Las 19 filas mantienen sus intervalos y formas, pero el primer total queda vacío y toda la columna se desplaza: el validador señala 18 descuadres. |
+| 0.20 | El verdadero amante | Las 19 filas coinciden con el gold en jornada, intervalos, formas, recuentos y página. El último recuento es 51; no hay notas espurias ni incidencias de validación. |
+| 0.20 | Ursón y Valentín | Conserva los 25 pasajes, las tres jornadas, la prosa sin rango, el esquema aBaBcC y la errata impresa. Sin errores de validación; tres avisos de la errata. |
+| 0.20 | Traición acertada | Conserva las 18 filas, los 6 totales, las dos notas y los dos avisos de lectura. La nota 22 no enlaza tramos, pero t18 la cita indebidamente: el validador rechaza el enlace no recíproco. |
+
+Las salidas registran los nombres de los adjuntos como JPG; no es prueba de que se
+haya entregado a Gemini una foto distinta. El resultado de cada ensayo describe
+esa ejecución, no aísla el efecto del cambio de redacción.
+
+## Ensayos de enlaces desde la 0.21
+
+- **0.21, Traición acertada:** añade una cita al final del bloque, que hace fallar
+  el análisis del JSON. Aislando el objeto solo para diagnosticarlo, persiste el
+  enlace indebido de la nota 22 a la última fila.
+- **0.22, Traición acertada:** al escribir las notas primero, deja la nota 22
+  sin enlaces como corresponde. Cambia, sin embargo, una referencia de la nota 21
+  de t11 a t12, aunque la fila t11 sí cita esa nota. También altera el cierre
+  de un esquema de rima y omite el aviso del recorte de la nota 21.
+- **0.23, Traición acertada:** recupera el orden anterior e ilustra juntos los dos
+  sentidos de los enlaces. Conserva las filas, el resumen, las dos notas y los dos
+  avisos; mantiene el enlace indebido de la nota 22 a t18.
+- **0.23 + revisión de enlaces 0.1, Traición acertada:** en el mismo chat, Gemini
+  3.5 Flash-Lite vuelve a emitir el JSON y elimina solo el enlace indebido. La
+  comparación de todos los campos confirma que no hay ningún otro cambio. El
+  validador acepta la respuesta sin errores ni avisos estructurales; se conservan
+  en el JSON los avisos de lectura de las fotos. Es una prueba de una segunda
+  pasada puntual, no un resultado satisfactorio del prompt principal por sí solo.
+- **0.23, controles:** El verdadero amante coincide con el gold en las 19 filas
+  y la página. Los locos de Valencia conserva las 20 filas, el texto de las dos
+  notas y sus enlaces, pero omite los localizadores 2172 y 2666 en campos propios.
+- **0.24, controles:** El verdadero amante conserva las 19 filas y la página
+  225. Los locos de Valencia conserva las 20 filas y ambas notas con sus
+  localizadores. En ambos se cotejaron todos los campos de filas y notas salvo
+  el identificador de fotografía. Ursón y Valentín conserva los 25 pasajes con
+  su jornada, rango, literal y recuento; quedan solo los tres avisos de la
+  discrepancia impresa. El detalle de Gemini identifica 3.5 Flash-Lite.
+- **0.24 + revisión de notas 0.2, Traición acertada:** la primera pasada duplica
+  la nota 21. La segunda la unifica, corrige el enlace de t18 y renumera el id de
+  la nota 22; no altera ningún otro valor. El validador acepta el JSON. El
+  cotejo con las fotos revela que falta una comilla de apertura en la nota 21 y
+  que el aviso de la 22 localiza la llamada sin indicar que no se ve su cuerpo.
+- **0.25:** Traición conserva la comilla y avisa del cuerpo no visible, pero
+  aún requiere corregir el enlace de t18. La revisión de enlaces cambia solo
+  ese campo. El verdadero amante vuelve a desplazar la columna de recuentos,
+  con 18 avisos del validador. Se descarta esta candidata.
+
+## Panel de la 0.26 con Gemini 3.5 Flash-Lite
+
+La 0.26 añade un ejemplo de detección de una columna de recuentos desplazada.
+Se ensayó en Gemini Automático, con las fotos originales y chats nuevos.
+Las respuestas sin editar están en `backups/importador-local/regresiones-v0.26-2026-11-04/`.
+
+| Obra | Resultado observado |
+| --- | --- |
+| El verdadero amante | 19 filas iguales al gold, página 225, último recuento 51, sin notas espurias. Validador limpio. |
+| Los locos de Valencia | 20 filas y dos notas iguales al gold, con localizadores 2172 y 2666. Validador limpio. |
+| Ursón y Valentín | 25 pasajes iguales en jornada, rango, denominación y recuento a la referencia. Tres jornadas, prosa sin rango y esquema aBaBcC. El validador solo avisa de la errata impresa: 2458–2575 con recuento 28. |
+| Traición acertada | 18 filas, 6 totales, las notas 21 y 22 con los enlaces correctos y dos avisos de lectura. Primera ejecución: confunde el corchete con una letra en el primer esquema, pese a pasar el validador. Con `revision-esquemas-v0.1.md`, recupera `[ababa]` y conserva `[aabba]`; la comparación completa confirma que solo cambia ese esquema. |
+
+El identificador JPG asignado por Gemini al adjunto no se compara literalmente
+con la referencia interna. No se modifica la versión del dashboard, no se guardan
+obras y no se confunde el resultado del validador con fidelidad a la fotografía.
+
+Una segunda ejecución independiente de Traición con la misma 0.26 y el mismo
+modelo leyó bien los dos esquemas, pero volvió a duplicar la nota 21 y enlazó
+la copia vacía a t18. Además, calificó como no visible un cuerpo que sí se
+ve parcialmente. La versión todavía no pasa de forma estable en una sola
+pasada. Se conserva la 0.15 activa y se mantiene pendiente el ensayo final de
+las veinte obras.
