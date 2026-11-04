@@ -220,3 +220,23 @@ falla como JSON. Al aislar el objeto completo solo para diagnóstico, el
 validador acepta sus tipos, pero la carta en prosa ocupa los números de la
 fila siguiente. Quedan 24 filas en vez de 25. Por tanto, aún no hay una salida
 utilizable de la 1.01 para ninguno de los dos controles de tipos.
+
+## Prueba puntual de la candidata 1.02
+
+La 1.02 conserva la 1.01 y añade un ejemplo de una carta en prosa sin números
+entre dos filas numeradas. Se prueba con las fotos originales de Ursón y
+Valentín y La ingratitud vengada en chats nuevos. Evidencias en
+`backups/importador-local/piloto-v1.02/`.
+
+- Ursón y Valentín recupera 25 pasajes. La carta en prosa conserva los tres
+  campos numéricos en null y la fila siguiente conserva 1931–1954 y 24 versos.
+  El validador acepta el JSON y solo avisa de la errata impresa. El cotejo con
+  la 0.26 revela una diferencia en el esquema de liras: aBaBCc frente a aBaBcC.
+- La ingratitud vengada recibe una negativa de Flash-Lite en el primer intento.
+  En el reintento recupera 5 tramos y 2 totales con los mismos valores de
+  la 1.01. Conserva los localizadores 133 y 832 y el validador no emite avisos.
+
+Las tres ejecuciones usaron Gemini 3.5 Flash-Lite. El resultado de Ursón
+resuelve el caso de prosa en esta ejecución. La diferencia en el esquema
+de liras y la necesidad de repetir La ingratitud impiden dar por estable
+la candidata.
