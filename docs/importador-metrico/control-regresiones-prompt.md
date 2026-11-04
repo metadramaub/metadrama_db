@@ -301,3 +301,13 @@ Se repitió el procedimiento con Gemini 3.5 Flash-Lite y las fotos originales.
   décima fila sin denominación, que el validador rechaza. Cambia dos marcas
   de nota, omite el localizador 655 y mantiene ausente el segundo enlace al
   remate de tercetos de 2826–2931. Se guardan ambos intentos por separado.
+
+Un ensayo adicional con un subagente GPT-6.1 Sol y la misma 0.27 reproduce
+las tres jornadas, los 33 tramos y los nueve totales. Conserva las tres
+marcas, localiza el verso 655 y enlaza las dos llamadas a la nota del
+remate, en t20 y t32. El validador solo señala tres recuentos discordantes
+impresos. La respuesta se conserva en
+`backups/importador-local/piloto-v0.27/el-marmol-de-felisardo.sol.json`.
+Sol leyó las copias JPG locales y heredó contexto sobre los fallos previos,
+aunque no consultó las extracciones de referencia. Es un control
+diagnóstico, con diferencias de formato y contexto frente a Gemini.
