@@ -20,14 +20,14 @@ El guardado se acredita por obra_id, no por semejanza de títulos. Sin guardado 
 | 20 | El hijo de Reduán | [Guardada 2026-11-03](https://versologia.metadrama.org/dashboard/importador/fichas/54fbedb5-6c25-44f6-8e14-161a43e19588) | Guardada y cotejada. Verificado el 03-11: 21 secuencias y 3015 versos; asonancia a-a, tres dísticos finales y remate de un verso conservados. Octavas 1386–1465 queda pendiente por decisión del responsable. Gemini 3.5 Flash-Lite, Automático, Gratuita; prompt v0.13 y reglas v0.15. [Detalle](../revision-hijo-reduan-2026-11-02.md) |
 | 23 | El nacimiento de Ursón y Valentín | Sin guardado confirmado | Transcripción v0.15 cotejada; importación aplazada por errata impresa. Métrica, esquema aBaBcC e incidencia correctos. David acepta página 995 deducida por la IA, no visible en foto ni facilitada. No requiere relanzar. Sin importar por rango impreso 2458–2575 / 28, pendiente consultar la edición. [Detalle](../revision-urson-valentin-2026-11-03.md) |
 | 25 | Traición acertada (rótulo del lote) | Sin guardado confirmado | v0.15 fallida; candidata 0.16 pendiente de regresiones. Nota 21 crea rango artificial y solo enlaza el último pasaje; prosa inicial inventada y 18 incidencias falsas. Los 18 rangos numerados y resumen coinciden con fotos. No importar. No activar revisión sin panel de regresiones. [Detalle](../revision-traicion-acertada-2026-11-03.md) |
-| 28 | El dómine Lucas | Sin guardado confirmado | Pendiente de ensayo |
-| 29 | La ingratitud vengada | Sin guardado confirmado | Pendiente de ensayo |
+| 28 | El dómine Lucas | Sin guardado confirmado | Ensayo 0.26 con avisos de la edición. Gemini 3.5 Flash-Lite, Automático. 18 tramos y 4 totales. Confirmados en las fotos los recuentos impresos 538 para 1034–1561 y 176 para 2089–2164 |
+| 29 | La ingratitud vengada | Sin guardado confirmado | Ensayo 0.26 con omisión en notas. Gemini 3.5 Flash-Lite, Automático. 5 tramos, 2 notas y 2 totales. Pasa el validador, pero las notas 22 y 23 carecen de localizador estructurado pese a citar los vv. 133 y 832 |
 | 30 | Los locos de Valencia | Sin guardado confirmado | Transcripción inicial aceptada y ensayos externos; pendiente de guardado |
-| 31 | El perseguido | Sin guardado confirmado | Pendiente de ensayo |
-| 32 | La serrana de Tormes | Sin guardado confirmado | Pendiente de ensayo |
-| 33 | Jorge Toledano | Sin guardado confirmado | Pendiente de ensayo |
-| 34 | El casamiento en la muerte | Sin guardado confirmado | Pendiente de ensayo |
-| 36 | El mármol de Felisardo | Sin guardado confirmado | Pendiente de ensayo |
+| 31 | El perseguido | Sin guardado confirmado | Ensayo 0.26 rechazado por el validador. Gemini 3.5 Flash-Lite, Automático. 26 tramos, 5 notas y 6 totales. Una fila del resumen contiene una clave id ajena al esquema. Pendiente cotejo de la transcripción |
+| 32 | La serrana de Tormes | Sin guardado confirmado | Ensayo 0.26 rechazado por el validador. Gemini 3.5 Flash-Lite, Automático. 19 tramos, 4 notas y 7 totales. Gemini escribió generero_literal en vez de genero_literal. Pendiente cotejo de la transcripción |
+| 33 | Jorge Toledano | Sin guardado confirmado | Ensayo 0.26 cotejado en fotos. Gemini 3.5 Flash-Lite, Automático. 26 tramos y 7 totales. Jornadas, intervalos, denominaciones, recuentos y resumen coinciden con las fotos. Sin errores ni avisos del validador |
+| 34 | El casamiento en la muerte | Sin guardado confirmado | Ensayo 0.26 con avisos de la edición. Gemini 3.5 Flash-Lite, Automático. 29 tramos y 7 totales. Conserva la prosa entre 524 y 525 sin rango propio. Confirmados en las fotos el hueco 974–977 y los dos recuentos impresos discrepantes |
+| 36 | El mármol de Felisardo | Sin guardado confirmado | Ensayo 0.26 con omisiones en notas. Gemini 3.5 Flash-Lite, Automático. 33 tramos, 3 notas y 9 totales. Los tres recuentos señalados por el validador están impresos. Falta localizar el v. 655 y enlazar la segunda llamada al remate de los tercetos (2826–2931) |
 
 Los títulos pendientes se identifican por el número de las fotografías; el rótulo del lote no sustituye a los metadatos bibliográficos. Los ensayos antiguos se conservan: la nueva pasada con el prompt vigente sigue pendiente donde se indica.
 
