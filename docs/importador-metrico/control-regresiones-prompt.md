@@ -286,3 +286,18 @@ En las dos respuestas falta obra_ref y el importador la completa antes de
 validar. Ninguna obra aporta notas en estas fotos, por lo que la prueba no
 mide la lectura de enlaces en Gemini. Una ejecución por obra tampoco mide
 la estabilidad de la candidata.
+
+### Tres controles de notas con la 0.27
+
+Se repitió el procedimiento con Gemini 3.5 Flash-Lite y las fotos originales.
+
+- La ingratitud vengada conserva los cinco tramos, los dos totales y las dos
+  notas. Identifica ambas fotos y localiza los versos 133 y 832. El importador
+  reconstruye los enlaces inversos de t01 y t02 y el validador queda limpio.
+- Los locos de Valencia conserva los 20 tramos y las notas con localizadores
+  2172 y 2666. Se reconstruyen los enlaces de t13 y t16 sin avisos técnicos.
+- El mármol de Felisardo recibe una negativa inicial. En un chat nuevo
+  reproduce los 33 tramos, pero el resumen desplaza cifras y añade una
+  décima fila sin denominación, que el validador rechaza. Cambia dos marcas
+  de nota, omite el localizador 655 y mantiene ausente el segundo enlace al
+  remate de tercetos de 2826–2931. Se guardan ambos intentos por separado.
