@@ -311,3 +311,26 @@ impresos. La respuesta se conserva en
 Sol leyó las copias JPG locales y heredó contexto sobre los fallos previos,
 aunque no consultó las extracciones de referencia. Es un control
 diagnóstico, con diferencias de formato y contexto frente a Gemini.
+
+### Ampliación de la 0.27 en Flash-Lite
+
+Se enviaron las fotos HEIC originales por pares en chats nuevos. Gemini
+identificó 3.5 Flash-Lite en los cinco primeros intentos y en el reintento.
+Los JSON y las identificaciones del modelo se conservan por separado en
+`backups/importador-local/piloto-v0.27/ampliacion/`.
+
+| Obra | Fotos | Resultado |
+| --- | --- | --- |
+| Jorge Toledano | 33, ambas | Primer intento con 25 recuentos distintos del cotejo anterior, desplazados una fila. La repetición recuperó los 26 tramos y los siete totales y pasó el validador sin avisos. |
+| La serrana de Tormes | 32, ambas | 19 tramos, siete totales y cuatro notas. Pasa el validador. Corrige por su cuenta 1974–1075 a 1074–1075 dentro de una denominación. La foto confirma que la edición imprime 1974–1075. |
+| El dómine Lucas | 28, ambas | Coincide con la lectura anterior en 18 tramos y cuatro totales. Los dos avisos corresponden a recuentos impresos discordantes. |
+| El perseguido | 31, ambas | Coincide en 26 tramos y seis totales. Pasa el validador y recupera las llamadas 35–38. El cotejo confirma que la nota 35 se enlazó además a t08, una fila de endecasílabos que esa nota no identifica. |
+| El casamiento en la muerte | 34, ambas | 29 tramos y siete totales. Conserva la prosa sin numerar y los avisos por dos recuentos impresos discordantes y el hueco de la edición. La diferencia con la extracción anterior son los paréntesis que conserva en la denominación de la prosa. |
+
+Las cinco respuestas iniciales contienen JSON conforme al esquema después
+de completar los campos internos. La comparación cotejó los campos de
+transcripción con las respuestas anteriores y las fotos en las diferencias
+señaladas, sin considerar equivalentes los identificadores de archivo.
+Para comparar Gemini institucional y ChatGPT, usar el mismo prompt 0.27 y
+las mismas fotos, un chat nuevo por obra y registrar el modelo efectivo, la
+primera respuesta y los reintentos por separado.
