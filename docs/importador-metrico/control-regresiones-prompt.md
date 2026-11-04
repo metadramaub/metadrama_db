@@ -248,3 +248,22 @@ totales. Los campos cotejados de tramos y resumen coinciden con la 0.26
 salvo los identificadores de foto, excluidos de la comparación. El JSON
 original fue rechazado porque devolvió obra_ref null. Las dos respuestas
 se archivaron como urson-valentin.repeticion.txt y urson-valentin.reintento.txt.
+
+## Panel de la candidata 1.03
+
+Cuatro primeras respuestas en chats nuevos de Gemini 3.5 Flash-Lite, con las
+fotos originales. La prueba pasó el texto recibido por la vista previa real
+del importador local. Las respuestas y el diagnóstico están en
+`backups/importador-local/piloto-v1.03/`.
+
+| Obra | Cotejo y resultado en el importador |
+| --- | --- |
+| Ursón y Valentín | Recupera los 25 pasajes y nueve totales, la prosa sin números y aBaBcC. Asigna a la jornada tercera siete filas de la segunda. La vista previa bloquea por el descuadre y solapamiento ya presentes en la edición. |
+| La ingratitud vengada | Los cinco tramos, dos totales y dos notas coinciden con la referencia, salvo los identificadores de foto excluidos del cotejo. Conserva los localizadores 133 y 832. La vista previa rechaza los cinco segmentos porque sus filas llevan fuente_id null. |
+| El verdadero amante | Conserva rangos y recuentos de las 19 filas. Convierte el recuento 220 en una nota que no existe y coloca dos campos bibliográficos dentro de procedencia. La vista previa rechaza esas claves. |
+| El mármol de Felisardo | Gemini declina la tarea y no devuelve JSON. |
+
+Las tres extracciones omiten la referencia interna y el importador la completa.
+Ninguna de las cuatro llega a una vista previa utilizable por los motivos de
+la tabla. El identificador de foto requiere conservar la procedencia real
+de cada fila, especialmente cuando se adjuntan varias imágenes.
