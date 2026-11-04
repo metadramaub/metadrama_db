@@ -240,3 +240,11 @@ Las tres ejecuciones usaron Gemini 3.5 Flash-Lite. El resultado de Ursón
 resuelve el caso de prosa en esta ejecución. La diferencia en el esquema
 de liras y la necesidad de repetir La ingratitud impiden dar por estable
 la candidata.
+
+En dos chats nuevos con la misma 1.02 y Gemini 3.5 Flash-Lite, la primera
+repetición de Ursón devolvió una negativa. El reintento recuperó los 25
+pasajes, la carta sin numeración, el esquema literal aBaBcC y los nueve
+totales. Los campos cotejados de tramos y resumen coinciden con la 0.26
+salvo los identificadores de foto, excluidos de la comparación. El JSON
+original fue rechazado porque devolvió obra_ref null. Las dos respuestas
+se archivaron como urson-valentin.repeticion.txt y urson-valentin.reintento.txt.
