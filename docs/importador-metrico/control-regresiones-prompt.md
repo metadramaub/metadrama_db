@@ -170,3 +170,25 @@ la copia vacía a t18. Además, calificó como no visible un cuerpo que sí se
 ve parcialmente. La versión todavía no pasa de forma estable en una sola
 pasada. Se conserva la 0.15 activa y se mantiene pendiente el ensayo final de
 las veinte obras.
+
+## Primer panel de la candidata 1.0
+
+La 1.0 reúne la lectura de tablas, el tratamiento de notas y la emisión del
+JSON en tres pasos con una sola plantilla. Tiene unas 900 palabras frente a
+las 4600 de la 0.26. Se conservaron las primeras respuestas de seis chats
+nuevos con las mismas fotografías. Gemini identificó 3.5 Flash-Lite en los
+seis. Evidencias en `backups/importador-local/piloto-v1.0/`.
+
+| Obra | Resultado de la primera respuesta |
+| --- | --- |
+| El verdadero amante | Gemini declinó la tarea. La 0.26 había extraído las 19 filas. |
+| Ursón y Valentín | Los 25 pasajes y los 9 totales coinciden en contenido con la 0.26 al comparar los números por su valor. Conserva la prosa y la discrepancia impresa. El validador da 38 errores por páginas y recuentos entre comillas. |
+| La ingratitud vengada | Validador limpio. Conserva 5 tramos y 2 totales y añade correctamente los localizadores 133 y 832 que faltaban en la 0.26, cotejados con el pie impreso. |
+| El mármol de Felisardo | Gemini declinó la tarea. No se pudo comprobar si mejora los enlaces de las notas. |
+| La serrana de Tormes | Validador limpio. Escribe `genero_literal` correctamente. Coinciden los 19 rangos, sus recuentos y los 7 totales con la 0.26. Hay diferencias textuales en cinco denominaciones, varias de ellas por saltos de línea. Queda por cotejar el literal y las notas. |
+| Jorge Toledano | Los 26 tramos y los 7 totales reproducen los valores de la 0.26. El validador da 19 errores por páginas y recuentos entre comillas. |
+
+Dos respuestas pasan el validador, frente a cinco de las seis con 0.26. El
+panel no justifica ampliar el ensayo a veinte. Conviene probar tipos numéricos
+con valores de ejemplo en la plantilla y repetir los dos casos sin JSON
+antes de atribuir las negativas a la redacción.
