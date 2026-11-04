@@ -267,3 +267,22 @@ Las tres extracciones omiten la referencia interna y el importador la completa.
 Ninguna de las cuatro llega a una vista previa utilizable por los motivos de
 la tabla. El identificador de foto requiere conservar la procedencia real
 de cada fila, especialmente cuando se adjuntan varias imágenes.
+
+## Comparación puntual de la candidata 0.27
+
+La 0.27 parte de la 0.26 y delega al importador la referencia interna ausente,
+los campos administrativos de procedencia y revisión y los enlaces inversos
+de las notas. Se probó una primera respuesta por obra en chats nuevos de
+Gemini 3.5 Flash-Lite con las mismas fotos. Respuestas originales en
+`backups/importador-local/piloto-v0.27/`.
+
+- Ursón y Valentín reproduce las tres jornadas, los 25 pasajes y los nueve
+  totales de la 0.26, incluida la procedencia de cada fila, la carta en prosa
+  sin numeración y aBaBcC. La validación solo señala la errata impresa.
+- El verdadero amante reproduce las tres jornadas y las 19 filas de la
+  0.26, incluida la página 225. No genera notas espurias ni avisos técnicos.
+
+En las dos respuestas falta obra_ref y el importador la completa antes de
+validar. Ninguna obra aporta notas en estas fotos, por lo que la prueba no
+mide la lectura de enlaces en Gemini. Una ejecución por obra tampoco mide
+la estabilidad de la candidata.
