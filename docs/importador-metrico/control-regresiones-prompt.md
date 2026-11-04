@@ -192,3 +192,31 @@ Dos respuestas pasan el validador, frente a cinco de las seis con 0.26. El
 panel no justifica ampliar el ensayo a veinte. Conviene probar tipos numéricos
 con valores de ejemplo en la plantilla y repetir los dos casos sin JSON
 antes de atribuir las negativas a la redacción.
+
+## Panel de la candidata 1.01
+
+La 1.01 mantiene los tres pasos de la 1.0 e introduce valores numéricos de
+ejemplo en la plantilla. Se enviaron las mismas fotos en chats nuevos.
+Se guardaron las primeras respuestas y los reintentos por separado en
+`backups/importador-local/piloto-v1.01/`.
+
+| Obra | Primera respuesta |
+| --- | --- |
+| El verdadero amante | Vuelve a devolver JSON. Las 19 filas coinciden en jornada, rango, denominación y recuento con la 0.26. Página 225. Validador limpio. |
+| El mármol de Felisardo | Devuelve JSON con 33 tramos y localiza el v. 655. Añade una décima fila al resumen y desplaza los valores de varias formas. Cambia el singular impreso «redondilla» y sigue omitiendo el segundo enlace al remate. El validador acepta el esquema y avisa de los tres recuentos discrepantes que constan en la edición. |
+| La ingratitud vengada | Mantiene 5 tramos, 2 totales y los localizadores 133 y 832. Validador limpio. |
+| Ursón y Valentín | Gemini declina la tarea. |
+| Jorge Toledano | Gemini declina la tarea. |
+| La serrana de Tormes | Gemini declina la tarea. |
+
+Los seis primeros intentos usaron 3.5 Flash-Lite. Tres producen JSON conforme
+al esquema, pero el resumen de El mármol impide considerar fiel una de esas
+tres respuestas. Sigue pendiente comprobar si los ejemplos numéricos resuelven
+los casos que fallaron por tipos en la 1.0. El panel no se amplía al lote de veinte.
+
+En los reintentos, también con Flash-Lite, Jorge volvió a declinar. Ursón
+devolvió dos comienzos de objeto anidados, de modo que la respuesta original
+falla como JSON. Al aislar el objeto completo solo para diagnóstico, el
+validador acepta sus tipos, pero la carta en prosa ocupa los números de la
+fila siguiente. Quedan 24 filas en vez de 25. Por tanto, aún no hay una salida
+utilizable de la 1.01 para ninguno de los dos controles de tipos.
