@@ -1,0 +1,63 @@
+{
+  "recepcion": "recepciones/hastamaestro.txt",
+  "recepcion_sha256": "b8d27fa0b874b13496bf4a8ef5f4a375697b4b7bf137998ba2675e8366215d24",
+  "recibido_el": "2026-11-05",
+  "modelo_comunicado_por_usuario": "Gemini 3.6 Thinking",
+  "modelo_efectivo_verificado_por_agente": false,
+  "tipo_cuenta": null,
+  "fecha_ejecucion": null,
+  "intento_en_el_servicio": null,
+  "observacion": "intento-01 identifica la primera respuesta recibida aquí; no acredita que no hubiera reintentos en el servicio. Obras identificadas por las fotos y el contenido, no por metadatos inventados.",
+  "respuestas": [
+    {
+      "obra": "el-caballero-del-milagro",
+      "archivo": "el-caballero-del-milagro/intento-01.json",
+      "sha256": "5d6bd7ab04e8aca5ba9838972771d743c37fd9acbe6d02f32620f3d9eb58c1ae",
+      "fuentes_declaradas": [
+        "3_caballero_milagro_1.HEIC",
+        "3_caballero_milagro_2.HEIC"
+      ],
+      "prompt_declarado": "extraccion/0.27"
+    },
+    {
+      "obra": "el-favor-agradecido",
+      "archivo": "el-favor-agradecido/intento-01.json",
+      "sha256": "590158630712455db30b0fc34ef1f64bf7e0ce950f849af00a209f91b8479c93",
+      "fuentes_declaradas": [
+        "4_favor_agradecido_1.HEIC",
+        "4_favor_agradecido_2.HEIC"
+      ],
+      "prompt_declarado": "extraccion/0.27"
+    },
+    {
+      "obra": "laura-perseguida",
+      "archivo": "laura-perseguida/intento-01.json",
+      "sha256": "6ae880deb07114c65a19c8711469a54f4d02b36ffdb2376ce145a346cc4af2a2",
+      "fuentes_declaradas": [
+        "foto-01",
+        "foto-02"
+      ],
+      "prompt_declarado": "extraccion/0.27"
+    },
+    {
+      "obra": "el-leal-criado",
+      "archivo": "el-leal-criado/intento-01.json",
+      "sha256": "3fe049d966d54e66b1e1275265a4fbf041fca91b66f86b78e65ca48fbef9d3fe",
+      "fuentes_declaradas": [
+        "foto-01",
+        "foto-02"
+      ],
+      "prompt_declarado": "extraccion/0.27"
+    },
+    {
+      "obra": "el-maestro-de-danzar",
+      "archivo": "el-maestro-de-danzar/intento-01.json",
+      "sha256": "9459791d8a823343d4043ca4b6c25b4c09515ef060c501de56358d00e7282a6d",
+      "fuentes_declaradas": [
+        "7_maestro_danzar_1.HEIC",
+        "7_maestro_danzar_2.HEIC"
+      ],
+      "prompt_declarado": "extraccion/0.27"
+    }
+  ]
+}

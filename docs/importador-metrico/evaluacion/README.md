@@ -11,8 +11,9 @@ se guarda aparte. No hace falta añadir carpetas vacías para las obras que aún
 
 La carpeta creada por David está en
 [`ensayos/v0.27/Gemini 3.6 Thinking/`](./ensayos/v0.27/Gemini%203.6%20Thinking/).
-`las20.json` se conserva tal como estaba (vacío al reorganizar); puede utilizarse como recepción
-conjunta si resulta cómodo y separar luego las respuestas, conservando también el original.
+`las20.json` se conserva tal como estaba (vacío al reorganizar). La primera entrega recibida,
+`hastamaestro.txt`, está conservada en `recepciones/` dentro de esa carpeta de modelo, con las
+cinco respuestas separadas por obra y un `registro.json` con sus hashes.
 
 Registrar en la evaluación el servicio, modelo efectivo mostrado, modo, tipo de cuenta, fecha,
 fotos y versión del prompt. Si no constan, indicar «No consta». La respuesta puede autodeclarar
@@ -32,6 +33,8 @@ Durante el ajuste, repetir casos difíciles y controles; antes de adoptar la ver
 repetir el lote de veinte. No cambiar validaciones para hacer pasar una lectura defectuosa.
 
 ## Dónde consultar
+
+- [Gemini 3.6 Thinking con 0.27](./informes/gemini-3.6-thinking-v0.27.md): primera valoración de cinco obras y cuestiones a vigilar antes de completar las veinte.
 
 - [Seguimiento de las veinte obras](./informes/seguimiento-lote.md): informe generado de guardados y pendientes.
 - [Revisión de equivalencias](../equivalencias/revision-equivalencias.md): documento generado para revisión.

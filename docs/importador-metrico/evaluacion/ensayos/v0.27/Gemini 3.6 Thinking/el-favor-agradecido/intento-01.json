@@ -1,0 +1,470 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "procedencia": {
+    "prompt_version": "extraccion/0.27"
+  },
+  "metadatos": {
+    "titulo": "El favor agradecido",
+    "autoria": "Lope de Vega Carpio",
+    "genero_literal": "comedia",
+    "fecha_inicio": null,
+    "fecha_fin": null,
+    "fuente_fecha": null,
+    "edicion_base": null,
+    "observaciones": [],
+    "fuente_id": "4_favor_agradecido_2.HEIC"
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "ACTO PRIMERO"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "ACTO SEGUNDO"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "ACTO TERCERO"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 504,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 504,
+      "fuente_id": "4_favor_agradecido_1.HEIC",
+      "pagina": null
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 505,
+      "v_fin": 595,
+      "denominacion_literal": "tercetos",
+      "n_versos_fuente": 91,
+      "fuente_id": "4_favor_agradecido_1.HEIC",
+      "pagina": null
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 596,
+      "v_fin": 835,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 240,
+      "fuente_id": "4_favor_agradecido_1.HEIC",
+      "pagina": null
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 836,
+      "v_fin": 889,
+      "denominacion_literal": "endecasílabos sueltos con pareado",
+      "n_versos_fuente": 54,
+      "fuente_id": "4_favor_agradecido_1.HEIC",
+      "pagina": null
+    },
+    {
+      "id": "t05",
+      "jornada": 1,
+      "v_ini": 890,
+      "v_fin": 903,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "4_favor_agradecido_1.HEIC",
+      "pagina": null
+    },
+    {
+      "id": "t06",
+      "jornada": 1,
+      "v_ini": 904,
+      "v_fin": 1039,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 136,
+      "fuente_id": "4_favor_agradecido_1.HEIC",
+      "pagina": null
+    },
+    {
+      "id": "t07",
+      "jornada": 1,
+      "v_ini": 1040,
+      "v_fin": 1109,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 70,
+      "fuente_id": "4_favor_agradecido_1.HEIC",
+      "pagina": null
+    },
+    {
+      "id": "t08",
+      "jornada": 1,
+      "v_ini": 1110,
+      "v_fin": 1115,
+      "denominacion_literal": "sexteto-lira",
+      "n_versos_fuente": 6,
+      "fuente_id": "4_favor_agradecido_1.HEIC",
+      "pagina": null
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 1116,
+      "v_fin": 1300,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 185,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 1301,
+      "v_fin": 1390,
+      "denominacion_literal": "sextetos-liras",
+      "n_versos_fuente": 90,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 1391,
+      "v_fin": 1413,
+      "denominacion_literal": "endecasílabos sueltos con pareado",
+      "n_versos_fuente": 23,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911
+    },
+    {
+      "id": "t12",
+      "jornada": 2,
+      "v_ini": 1414,
+      "v_fin": 1433,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 20,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911
+    },
+    {
+      "id": "t13",
+      "jornada": 2,
+      "v_ini": 1434,
+      "v_fin": 1561,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 128,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911
+    },
+    {
+      "id": "t14",
+      "jornada": 2,
+      "v_ini": 1562,
+      "v_fin": 1645,
+      "denominacion_literal": "romance en e-a",
+      "n_versos_fuente": 84,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911
+    },
+    {
+      "id": "t15",
+      "jornada": 2,
+      "v_ini": 1646,
+      "v_fin": 1841,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 196,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911
+    },
+    {
+      "id": "t16",
+      "jornada": 2,
+      "v_ini": 1842,
+      "v_fin": 1937,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 96,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911
+    },
+    {
+      "id": "t17",
+      "jornada": 2,
+      "v_ini": 1938,
+      "v_fin": 2117,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 180,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911
+    },
+    {
+      "id": "t18",
+      "jornada": 2,
+      "v_ini": 2118,
+      "v_fin": 2176,
+      "denominacion_literal": "endecasílabos sueltos con pareado",
+      "n_versos_fuente": 59,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911
+    },
+    {
+      "id": "t19",
+      "jornada": 3,
+      "v_ini": 2177,
+      "v_fin": 2244,
+      "denominacion_literal": "endecasílabos sueltos con pareado",
+      "n_versos_fuente": 68,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911
+    },
+    {
+      "id": "t20",
+      "jornada": 3,
+      "v_ini": 2245,
+      "v_fin": 2260,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 16,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911
+    },
+    {
+      "id": "t21",
+      "jornada": 3,
+      "v_ini": 2261,
+      "v_fin": 2360,
+      "denominacion_literal": "romance en i-a",
+      "n_versos_fuente": 100,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911
+    },
+    {
+      "id": "t22",
+      "jornada": 3,
+      "v_ini": 2361,
+      "v_fin": 2592,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 232,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911
+    },
+    {
+      "id": "t23",
+      "jornada": 3,
+      "v_ini": 2593,
+      "v_fin": 2635,
+      "denominacion_literal": "tercetos",
+      "n_versos_fuente": 43,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911
+    },
+    {
+      "id": "t24",
+      "jornada": 3,
+      "v_ini": 2636,
+      "v_fin": 2923,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 288,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911
+    },
+    {
+      "id": "t25",
+      "jornada": 3,
+      "v_ini": 2924,
+      "v_fin": 2962,
+      "denominacion_literal": "endecasílabos sueltos con pareado",
+      "n_versos_fuente": 39,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911
+    },
+    {
+      "id": "t26",
+      "jornada": 3,
+      "v_ini": 2963,
+      "v_fin": 3126,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 164,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911
+    }
+  ],
+  "notas": [
+    {
+      "id": "n01",
+      "marca": "18",
+      "texto_literal": "Como es habitual, la serie de tercetos encadenados se cierra con un serventesio final.",
+      "fuente_id": "4_favor_agradecido_1.HEIC",
+      "pagina": null,
+      "tramos_ref": [
+        "t02"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n02",
+      "marca": "19",
+      "texto_literal": "Se trata generalmente de formas cruzadas ababa (115) y formas aabba (125). [ilegible]tidas casi de manera igualitaria, salvo por una ocurrencia de abaab (5).",
+      "fuente_id": "4_favor_agradecido_1.HEIC",
+      "pagina": null,
+      "tramos_ref": [
+        "t03"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n03",
+      "marca": "20",
+      "texto_literal": "La serie está rematada por un pareado en vv. 888-889.",
+      "fuente_id": "4_favor_agradecido_1.HEIC",
+      "pagina": null,
+      "tramos_ref": [
+        "t04"
+      ],
+      "v_ini": 888,
+      "v_fin": 889
+    },
+    {
+      "id": "n04",
+      "marca": "21",
+      "texto_literal": "Los vv. 1056-1109 incluyen rimas internas.",
+      "fuente_id": "4_favor_agradecido_1.HEIC",
+      "pagina": null,
+      "tramos_ref": [
+        "t07"
+      ],
+      "v_ini": 1056,
+      "v_fin": 1109
+    },
+    {
+      "id": "n05",
+      "marca": "22",
+      "texto_literal": "La estructura es la siguiente: AaBbCC. Morley y Bruerton [1968:74] ser [ilegible]gularidad.",
+      "fuente_id": "4_favor_agradecido_1.HEIC",
+      "pagina": null,
+      "tramos_ref": [
+        "t08"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n06",
+      "marca": "23",
+      "texto_literal": "Estrofas con rima ababa (95) y con rima aabba (90).",
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911,
+      "tramos_ref": [
+        "t09"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n07",
+      "marca": "24",
+      "texto_literal": "La serie está rematada por un pareado en vv. 1412-1413.",
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911,
+      "tramos_ref": [
+        "t11"
+      ],
+      "v_ini": 1412,
+      "v_fin": 1413
+    },
+    {
+      "id": "n08",
+      "marca": "25",
+      "texto_literal": "Se trata de una serie de endecasílabos esdrújulos, cerrada por un pareado con rima llana (vv. 2175-2176).",
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911,
+      "tramos_ref": [
+        "t18"
+      ],
+      "v_ini": 2175,
+      "v_fin": 2176
+    },
+    {
+      "id": "n09",
+      "marca": "26",
+      "texto_literal": null,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911,
+      "tramos_ref": [
+        "t19"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n10",
+      "marca": "27",
+      "texto_literal": null,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911,
+      "tramos_ref": [
+        "t23"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n11",
+      "marca": "28",
+      "texto_literal": null,
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "pagina": 911,
+      "tramos_ref": [
+        "t25"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    }
+  ],
+  "resumen_fuente": [],
+  "incidencias": [
+    {
+      "tipo": "lectura_pendiente",
+      "descripcion": "Texto recortado en el margen izquierdo de la nota 19 en 4_favor_agradecido_1.HEIC",
+      "fuente_id": "4_favor_agradecido_1.HEIC",
+      "tramos_ref": [
+        "t03"
+      ]
+    },
+    {
+      "tipo": "lectura_pendiente",
+      "descripcion": "Texto recortado en el margen inferior de la nota 22 en 4_favor_agradecido_1.HEIC",
+      "fuente_id": "4_favor_agradecido_1.HEIC",
+      "tramos_ref": [
+        "t08"
+      ]
+    },
+    {
+      "tipo": "lectura_pendiente",
+      "descripcion": "cuerpo no visible para la llamada 26 en 4_favor_agradecido_2.HEIC",
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "tramos_ref": [
+        "t19"
+      ]
+    },
+    {
+      "tipo": "lectura_pendiente",
+      "descripcion": "cuerpo no visible para la llamada 27 en 4_favor_agradecido_2.HEIC",
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "tramos_ref": [
+        "t23"
+      ]
+    },
+    {
+      "tipo": "lectura_pendiente",
+      "descripcion": "cuerpo no visible para la llamada 28 en 4_favor_agradecido_2.HEIC",
+      "fuente_id": "4_favor_agradecido_2.HEIC",
+      "tramos_ref": [
+        "t25"
+      ]
+    }
+  ]
+}
