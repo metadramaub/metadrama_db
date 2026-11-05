@@ -1,6 +1,7 @@
 /** Normalización local y reproducible. No lee archivos, no escribe en la DB ni adivina formas. */
 import { z } from 'zod';
 import { validarExtraccion } from './validacion.mjs';
+import { pareadosEnDenominacion, cierreConExcepciones } from './pareados-declarados.mjs';
 
 export class ErrorExtraccion extends Error {
 	constructor(incidencias) {
@@ -31,7 +32,14 @@ const reglaSchema = z.object({
 	ambito: z.object({ obras: z.array(texto).min(1) }).optional(),
 	division: z.literal('soneto_y_estrambote_sin_identificar').optional(),
 	nota_contiene: z.array(texto).min(1).optional(),
-	patron: z.enum(['romance_con_asonancia', 'lira_con_esquema_seis_posiciones']).optional(),
+	patron: z
+		.enum([
+			'romance_con_asonancia',
+			'lira_con_esquema_seis_posiciones',
+			'sueltos_con_pareados_localizados',
+			'sueltos_cierre_con_excepciones'
+		])
+		.optional(),
 	aprobacion: aprobacionSchema.optional()
 });
 const reglasSchema = z.object({ version: texto, reglas: z.array(reglaSchema) });
@@ -121,46 +129,117 @@ export function normalizarExtraccion(
 	const segmentos = source.tramos.flatMap((row) => {
 		const literalComparado = row.denominacion_literal?.replace(/\s+/gu, ' ').trim();
 		const claveLiteral = (literal) => literal?.replace(/\s+/gu, ' ').trim().toLowerCase();
-		const vocales = literalComparado?.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase()
+		const vocales = literalComparado
+			?.normalize('NFD')
+			.replace(/\p{M}/gu, '')
+			.toLowerCase()
 			.match(/^romances?\s+(?:en\s+)?[-–—]?\s*([aeiou])(?:\s*[-–—]?\s*([aeiou]))?$/u);
 		const liraDeSeis = /^liras?\s*\(\s*[a-f](?:\s*[a-f]){5}\s*\)$/iu.test(literalComparado ?? '');
+		const pareados = pareadosEnDenominacion(literalComparado, row);
 		const matches = reference.reglas.filter(
 			(r) =>
-				(r.patron === 'romance_con_asonancia' ? Boolean(vocales) :
-					r.patron === 'lira_con_esquema_seis_posiciones' ? liraDeSeis :
-					r.literales.some((l) => claveLiteral(l) === claveLiteral(literalComparado))) &&
+				(r.patron === 'romance_con_asonancia'
+					? Boolean(vocales)
+					: r.patron === 'sueltos_con_pareados_localizados'
+						? Boolean(pareados)
+						: r.patron === 'lira_con_esquema_seis_posiciones'
+							? liraDeSeis
+							: r.literales.some((l) => claveLiteral(l) === claveLiteral(literalComparado))) &&
 				(!r.ambito || r.ambito.obras.includes(source.obra_ref)) &&
-				(!r.nota_contiene || row.notas_ref.some((id) => {
-					const n = notesById.get(id);
-					const textoNota = n?.texto_literal?.replace(/\s+/gu, ' ').toLowerCase();
-					return n?.tramos_ref.includes(row.id) && textoNota &&
-						r.nota_contiene.every((fragmento) => textoNota.includes(fragmento));
-				}))
+				(!r.nota_contiene ||
+					row.notas_ref.some((id) => {
+						const n = notesById.get(id);
+						const textoNota = n?.texto_literal?.replace(/\s+/gu, ' ').toLowerCase();
+						return (
+							n?.tramos_ref.includes(row.id) &&
+							textoNota &&
+							r.nota_contiene.every((fragmento) => textoNota.includes(fragmento))
+						);
+					}))
 		);
 		// Una precisión explícita en una nota enlazada prevalece sobre el nombre ambiguo.
 		const precisas = matches.filter((r) => r.nota_contiene);
 		// Si una regla exige todas las mismas evidencias y otra más, es más específica.
 		// Las condiciones independientes siguen siendo un conflicto: no decide el orden del JSON.
-		const aplicables = precisas.length ? precisas.filter((r) => !precisas.some((otra) =>
-			otra.nota_contiene.length > r.nota_contiene.length &&
-			r.nota_contiene.every((fragmento) => otra.nota_contiene.includes(fragmento))
-		)) : matches;
+		const aplicables = precisas.length
+			? precisas.filter(
+					(r) =>
+						!precisas.some(
+							(otra) =>
+								otra.nota_contiene.length > r.nota_contiene.length &&
+								r.nota_contiene.every((fragmento) => otra.nota_contiene.includes(fragmento))
+						)
+				)
+			: matches;
 		if (aplicables.length > 1)
 			throw new Error(`Equivalencias en conflicto para ${source.obra_ref}/${row.id}`);
 		let rule = aplicables[0];
+		let avisoFuente = null;
+		if (rule?.patron === 'sueltos_con_pareados_localizados') {
+			rule = {
+				...rule,
+				detalles_fuente: [
+					{ literal: literalComparado },
+					...(pareados.disticoFinal
+						? [
+								{
+									literal: 'Pareado final localizado en la edición',
+									rasgo_slug: 'distico_final',
+									valor_slug: 'presente'
+								}
+							]
+						: [])
+				]
+			};
+			avisoFuente = pareados.aviso;
+		}
+		if (rule?.patron === 'sueltos_cierre_con_excepciones') {
+			const notas = row.notas_ref
+				.map((id) => notesById.get(id))
+				.filter((n) => n?.tramos_ref.includes(row.id));
+			const decisiones = notas
+				.map((n) => cierreConExcepciones(n, row, rowsById, rule.literales.map(claveLiteral)))
+				.filter((v) => v !== null);
+			rule = {
+				...rule,
+				detalles_fuente:
+					decisiones.length && decisiones.every((v) => v === true)
+						? [
+								{
+									literal: 'Pareado final declarado en nota',
+									rasgo_slug: 'distico_final',
+									valor_slug: 'presente'
+								}
+							]
+						: []
+			};
+		}
 		if (rule?.patron === 'romance_con_asonancia') {
 			const valor = vocales[2] ? `${vocales[1]}-${vocales[2]}` : vocales[1];
 			const literalAsonancia = literalComparado.replace(/^romances?\s+(?:en\s+)?/iu, '');
 			const rasgo = catalogo.rasgos?.find((r) => r.slug === 'vocales_asonancia');
-			const admitido = rasgo?.valores.some((v) => v.slug === valor) &&
-				rasgo.contextos.some((c) => c.forma === 'romance' && c.arquitectura === 'octosilabica' &&
-					(c.valor_slug === null || c.valor_slug === valor));
-			rule = { ...rule, detalles_fuente: [admitido
-				? { literal: literalAsonancia, rasgo_slug: 'vocales_asonancia', valor_slug: valor }
-				: { literal: literalAsonancia, dimension: 'asonancia' }] };
+			const admitido =
+				rasgo?.valores.some((v) => v.slug === valor) &&
+				rasgo.contextos.some(
+					(c) =>
+						c.forma === 'romance' &&
+						c.arquitectura === 'octosilabica' &&
+						(c.valor_slug === null || c.valor_slug === valor)
+				);
+			rule = {
+				...rule,
+				detalles_fuente: [
+					admitido
+						? { literal: literalAsonancia, rasgo_slug: 'vocales_asonancia', valor_slug: valor }
+						: { literal: literalAsonancia, dimension: 'asonancia' }
+				]
+			};
 		}
 		// Sin extensión suficiente no se inventa ni el corte ni un soneto completo.
-		if (rule?.division && (row.v_ini === null || row.v_fin === null || row.v_fin - row.v_ini + 1 <= 14))
+		if (
+			rule?.division &&
+			(row.v_ini === null || row.v_fin === null || row.v_fin - row.v_ini + 1 <= 14)
+		)
 			rule = undefined;
 		const exact = rule?.tipo === 'equivalencia_propuesta' ? rule.candidatas[0] : null;
 		const reviewed = exact && rule.aprobacion ? exact : null;
@@ -171,6 +250,7 @@ export function normalizarExtraccion(
 			v_fin: row.v_fin,
 			fuente: structuredClone(row),
 			regla_id: rule?.id ?? null,
+			...(avisoFuente ? { nota: avisoFuente, aviso_fuente: avisoFuente } : {}),
 			estado_identificacion: reviewed
 				? 'revisada'
 				: exact
@@ -203,10 +283,17 @@ export function normalizarExtraccion(
 			throw new Error('Los identificadores de la división coinciden con otra fila fuente.');
 		return [
 			{ ...segmento, id: `${row.id}.1`, v_fin: row.v_ini + 13 },
-			{ ...structuredClone(segmento), id: `${row.id}.2`, v_ini: row.v_ini + 14,
-				estado_identificacion: 'sin_resolver', identificacion_revisada: null, propuesta: null,
-				candidatas: [], detalles_fuente: [],
-				nota: 'Estrambote declarado por la edición. Se conserva como secuencia sin forma identificada mientras el catálogo no admite este remate en el soneto; criterio pendiente.' }
+			{
+				...structuredClone(segmento),
+				id: `${row.id}.2`,
+				v_ini: row.v_ini + 14,
+				estado_identificacion: 'sin_resolver',
+				identificacion_revisada: null,
+				propuesta: null,
+				candidatas: [],
+				detalles_fuente: [],
+				nota: 'Estrambote declarado por la edición. Se conserva como secuencia sin forma identificada mientras el catálogo no admite este remate en el soneto; criterio pendiente.'
+			}
 		];
 	});
 	const total = unionLength(segmentos);
@@ -221,6 +308,13 @@ export function normalizarExtraccion(
 	};
 	return {
 		esquema: 'versologia-normalizacion-local/0.1',
+		avisos_fuente: segmentos
+			.filter((s) => s.aviso_fuente)
+			.map((s) => ({
+				codigo: 'localizacion_pareado',
+				ruta: `segmentos.${s.id}`,
+				mensaje: `vv. ${s.v_ini}–${s.v_fin}: ${s.aviso_fuente}`
+			})),
 		estado: 'borrador_de_trabajo',
 		apta_para_corpus: false,
 		obra_ref: source.obra_ref,

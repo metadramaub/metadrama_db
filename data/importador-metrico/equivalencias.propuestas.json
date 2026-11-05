@@ -337,9 +337,16 @@
     },
     {
       "id": "tercetos-nota-encadenados-sin-cierre-determinado",
-      "literales": ["tercetos"],
+      "literales": [
+        "tercetos"
+      ],
       "tipo": "equivalencia_propuesta",
-      "candidatas": [{"forma_slug": "terceto_encadenado", "arquitectura_slug": null}],
+      "candidatas": [
+        {
+          "forma_slug": "terceto_encadenado",
+          "arquitectura_slug": null
+        }
+      ],
       "exhaustividad": "destino_unico_aprobado_solo_en_forma",
       "fundamento": "La nota enlazada identifica expresamente tercetos encadenados. Esto basta para reconocer la forma aunque la descripción del cierre esté recortada. No determina arquitectura ni declara presencia o ausencia de remate.",
       "detalles_fuente": [],
@@ -348,7 +355,9 @@
         "fecha": "2026-11-05",
         "fundamento": "Se aprueba reconocer la forma explícita en la nota y dejar el remate sin determinar cuando la foto corta la descripción del cierre."
       },
-      "nota_contiene": ["tercetos encadenados"]
+      "nota_contiene": [
+        "tercetos encadenados"
+      ]
     },
     {
       "id": "tercetos-nota-encadenados-con-cierre",
@@ -575,8 +584,46 @@
       "nota_contiene": [
         "concluyen con un pareado"
       ]
+    },
+    {
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica"
+        }
+      ],
+      "exhaustividad": "forma_y_metro_explicitos",
+      "detalles_fuente": [],
+      "id": "endecasilabos-sueltos-pareados-localizados",
+      "literales": [
+        "endecasílabos sueltos (con pareado(s) en vv. …)"
+      ],
+      "patron": "sueltos_con_pareados_localizados",
+      "fundamento": "La denominación declara forma y metro. Solo se registra Dístico final si un pareado de dos versos está localizado al final del rango. Las posiciones contradictorias se conservan con aviso; los pareados interiores quedan en el literal."
+    },
+    {
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "endecasilabo_suelto",
+          "arquitectura_slug": "endecasilabica"
+        }
+      ],
+      "exhaustividad": "forma_y_metro_explicitos",
+      "detalles_fuente": [],
+      "id": "endecasilabos-sueltos-cierre-con-excepciones",
+      "literales": [
+        "endecasílabos sueltos"
+      ],
+      "patron": "sueltos_cierre_con_excepciones",
+      "nota_contiene": [
+        "los dos últimos versos constituyen un pareado",
+        "aquellas que no adoptan esta conclusión son las de los vv."
+      ],
+      "fundamento": "La nota enlazada describe el cierre de las series y enumera las excepciones por rangos. Solo se registra Dístico final en las filas no exceptuadas cuando todas las excepciones se pueden localizar entre las filas enlazadas. No se inventa un valor ausente."
     }
   ],
-  "version": "v0.16",
+  "version": "v0.17",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }

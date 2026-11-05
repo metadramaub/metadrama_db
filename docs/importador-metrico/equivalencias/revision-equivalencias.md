@@ -2,7 +2,7 @@
 
 Generado con `npm run importador:informes`; corregir las reglas o decisiones de origen, no este informe.
 
-Reglas v0.16; catálogo consultado el 2026-11-02.
+Reglas v0.17; catálogo consultado el 2026-11-02.
 
 Para revisar: decisiones pendientes y tabla resumen. La procedencia y los casos complejos permiten comprobar ejemplos; el anexo conserva todas las apariciones y las reglas completas.
 
@@ -496,7 +496,7 @@ Se conservan los literales de la edición. Una sola entrada seleccionada por obr
 | Décima | — | — |
 | Décima-lira | — | — |
 | Endecasílabo encadenado | — | — |
-| Endecasílabo suelto | endecasilabos-sueltos, endecasilabos-sueltos-pareado, endecasilabos-sueltos-con-pareado, endecasilabos-sueltos-con-pareado-nota-rematada, endecasilabos-sueltos-con-pareado-nota-cerrada, endecasilabos-sueltos-nota-concluyen-pareado | — |
+| Endecasílabo suelto | endecasilabos-sueltos, endecasilabos-sueltos-pareado, endecasilabos-sueltos-con-pareado, endecasilabos-sueltos-con-pareado-nota-rematada, endecasilabos-sueltos-con-pareado-nota-cerrada, endecasilabos-sueltos-nota-concluyen-pareado, endecasilabos-sueltos-pareados-localizados, endecasilabos-sueltos-cierre-con-excepciones | — |
 | Endecha real | — | — |
 | Estrofa sáfica | — | — |
 | Versificación irregular | — | — |
@@ -557,7 +557,7 @@ Se indican solo reglas que seleccionan explícitamente la arquitectura. Una regl
 | Décima | Pentasílaba | — |
 | Décima-lira | Heterométrica consonante | — |
 | Endecasílabo encadenado | Endecasílabo | — |
-| Endecasílabo suelto | Endecasílabo | endecasilabos-sueltos, endecasilabos-sueltos-pareado, endecasilabos-sueltos-con-pareado, endecasilabos-sueltos-con-pareado-nota-rematada, endecasilabos-sueltos-con-pareado-nota-cerrada, endecasilabos-sueltos-nota-concluyen-pareado |
+| Endecasílabo suelto | Endecasílabo | endecasilabos-sueltos, endecasilabos-sueltos-pareado, endecasilabos-sueltos-con-pareado, endecasilabos-sueltos-con-pareado-nota-rematada, endecasilabos-sueltos-con-pareado-nota-cerrada, endecasilabos-sueltos-nota-concluyen-pareado, endecasilabos-sueltos-pareados-localizados, endecasilabos-sueltos-cierre-con-excepciones |
 | Endecha real | Heptasílaba con endecasílabo final | — |
 | Endecha real | Heptasílaba de cinco versos | — |
 | Endecha real | Hexasílaba con endecasílabo final | — |
@@ -958,6 +958,36 @@ La nota enlazada declara que las series concluyen con un pareado: Dístico final
 Condición: una nota enlazada debe contener «concluyen con un pareado».
 
 Datos adicionales: [{"literal":"pareado final declarado en nota","rasgo_slug":"distico_final","valor_slug":"presente"}].
+
+#### endecasilabos-sueltos-pareados-localizados
+
+Literales: «endecasílabos sueltos (con pareado(s) en vv. …)».
+
+Resultado: identificación directa. Endecasílabo suelto / endecasilabica.
+
+Revisión de la regla: pendiente. Ámbito: general.
+
+La denominación declara forma y metro. Solo se registra Dístico final si un pareado de dos versos está localizado al final del rango. Las posiciones contradictorias se conservan con aviso; los pareados interiores quedan en el literal.
+
+Patrón de reconocimiento: sueltos_con_pareados_localizados.
+
+Datos adicionales: ninguno.
+
+#### endecasilabos-sueltos-cierre-con-excepciones
+
+Literales: «endecasílabos sueltos».
+
+Resultado: identificación directa. Endecasílabo suelto / endecasilabica.
+
+Revisión de la regla: pendiente. Ámbito: general.
+
+La nota enlazada describe el cierre de las series y enumera las excepciones por rangos. Solo se registra Dístico final en las filas no exceptuadas cuando todas las excepciones se pueden localizar entre las filas enlazadas. No se inventa un valor ausente.
+
+Condición: una nota enlazada debe contener «los dos últimos versos constituyen un pareado» y «aquellas que no adoptan esta conclusión son las de los vv.».
+
+Patrón de reconocimiento: sueltos_cierre_con_excepciones.
+
+Datos adicionales: ninguno.
 
 
 ### Notas de las apariciones

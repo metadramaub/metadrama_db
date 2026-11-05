@@ -2,7 +2,9 @@
 
 Completadas veinte extracciones con GPT-6 High usando el [prompt 0.27](../../../prompts/importador-metrico/extraccion-v0.27.md),
 sin reintentos. El [informe del lote](./informes/chatgpt-gpt6-high-v0.27.md) separa lectura,
-errores de las ediciones y tareas del importador. El dashboard conserva 0.15; la candidata no está activada.
+errores de las ediciones y tareas del importador. Incluye el cotejo de las 38 fotos y un
+[registro separado](./ensayos/v0.27/ChatGPT%20GPT-6%20High/revision-transcripcion.json) de las diferencias,
+sin corregir los originales ni declararlos gold. El dashboard conserva 0.15; la candidata no está activada.
 
 ## Guardar una respuesta
 

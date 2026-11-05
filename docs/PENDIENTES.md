@@ -80,19 +80,14 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 ## Proyecto de importador métrico
 
 Entrada vigente: [índice del importador](importador-metrico/README.md). El dashboard ofrece
-el prompt 0.15; la candidata de evaluación es 0.27. Las reglas de equivalencias v0.16 son
+el prompt 0.15; la candidata de evaluación es 0.27. Las reglas de equivalencias v0.17 son
 independientes de esas versiones de prompt y su último ajuste está probado localmente.
 
 - Revisar el [lote de veinte de GPT-6 High](importador-metrico/evaluacion/informes/chatgpt-gpt6-high-v0.27.md)
-  y acordar el procedimiento para colaboradores. Las veinte respuestas ya están conservadas,
+  y resolver las diferencias de literalidad de Maestro, Amante y la nota 37 de Perseguido,
+  antes de acordar el procedimiento para colaboradores. Las veinte respuestas ya están conservadas,
   sin reintentos; no queda pendiente ejecutarlas por primera vez. Repetir algunos casos difíciles
   antes de adoptar una versión definitiva y comprobar las nuevas reglas en el flujo desplegado.
-- Adaptar el contrato de porcentajes literales para admitir los separadores impresos (coma,
-  punto y apóstrofo), preservando el original. Ferias está correctamente transcrita y el contrato
-  rechaza sus apóstrofos; no corregir el JSON ni cambiar el prompt para ocultarlo.
-- Separar forma explícita y detalles parentéticos en las equivalencias de sueltos de Serrana.
-  Conservar los localizadores incongruentes sin dejar por ello desconocida la forma. Revisar
-  notas generales con excepciones (Perseguido) antes de aplicar remates a todas las filas enlazadas.
 - Cerrar el tratamiento de desviaciones declaradas en notas y la revisión de sus avisos.
   Las erratas de rango/recuento de Ursón, Dómine, Casamiento y Mármol se consultan en la edición;
   no son errores de lectura que deba arreglar la IA. El leal criado conserva su caso complejo.

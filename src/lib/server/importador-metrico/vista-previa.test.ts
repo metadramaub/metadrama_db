@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import type { FichaMinima } from '$lib/importador-metrico/types';
 import { analizarEntrada, obtenerPilotos, obtenerReferenciaImportador, vistaDeFichaGuardada } from './vista-previa';
@@ -6,6 +7,70 @@ import { extraccionOriginal } from './persistencia';
 import preparada from '../../../../docs/importador-metrico/evaluacion/referencias/preparadas/el-verdadero-amante.json';
 
 describe('vista previa del importador sin persistencia', () => {
+	const ensayo = (slug: string) =>
+		readFileSync(
+			new URL(
+				'../../../../docs/importador-metrico/evaluacion/ensayos/v0.27/ChatGPT%20GPT-6%20High/' +
+					slug +
+					'/intento-01.json',
+				import.meta.url
+			),
+			'utf8'
+		);
+ it('prepara dieciséis originales del lote y conserva bloqueadas las cuatro contradicciones impresas',()=>{
+  const revision=JSON.parse(readFileSync(new URL('../../../../docs/importador-metrico/evaluacion/ensayos/v0.27/ChatGPT%20GPT-6%20High/revision-transcripcion.json',import.meta.url),'utf8'));
+  const bloqueadas: string[]=[];
+  for(const obra of revision.obras){
+   const texto=ensayo(obra.slug);
+   expect(createHash('sha256').update(texto).digest('hex'),obra.slug).toBe(obra.sha256);
+   const result=analizarEntrada(texto);
+   if(result.errores.length) bloqueadas.push(obra.slug);
+  }
+  expect(bloqueadas.sort()).toEqual(['el-nacimiento-de-urson-y-valentin','el-domine-lucas','el-casamiento-en-la-muerte','el-marmol-de-felisardo'].sort());
+ });
+
+	it('prepara los porcentajes impresos de Ferias sin cambiar los separadores', () => {
+		const texto = ensayo('las-ferias-de-madrid');
+		const result = analizarEntrada(texto);
+		expect(result.errores).toEqual([]);
+		expect(extraccionOriginal(texto).resumen_fuente).toEqual(JSON.parse(texto).resumen_fuente);
+	});
+	it('reconoce los cinco sueltos de Serrana y avisa del pareado mal localizado', () => {
+		const texto = ensayo('la-serrana-de-tormes');
+		const result = analizarEntrada(texto);
+		expect(result.errores).toEqual([]);
+		const sueltos = result.datos!.segmentos.filter(
+			(s) => s.identificacion?.forma_slug === 'endecasilabo_suelto'
+		);
+		expect(sueltos).toHaveLength(5);
+		const erroneo = sueltos.find((s) => s.v_ini === 1020)!;
+		expect(erroneo.detalles_fuente.some((d) => d.rasgo_slug === 'distico_final')).toBe(false);
+		expect(result.avisos).toContainEqual(
+			expect.objectContaining({ codigo: 'localizacion_pareado' })
+		);
+		expect(
+			sueltos.filter((s) => s.detalles_fuente.some((d) => d.rasgo_slug === 'distico_final'))
+		).toHaveLength(4);
+		expect((extraccionOriginal(texto).tramos as Record<string,unknown>[]).map(({ notas_ref: _notas, ...fila }) => fila)).toEqual(
+			JSON.parse(texto).tramos.map(
+				({ notas_ref: _notas, ...fila }: Record<string, unknown>) => fila
+			)
+		);
+	});
+	it('distribuye el cierre de Perseguido respetando las dos excepciones de la nota 36', () => {
+		const result = analizarEntrada(ensayo('el-perseguido'));
+		expect(result.errores).toEqual([]);
+		const sueltos = result.datos!.segmentos.filter(
+			(s) => s.identificacion?.forma_slug === 'endecasilabo_suelto'
+		);
+		expect(sueltos).toHaveLength(5);
+		expect(
+			sueltos
+				.filter((s) => s.detalles_fuente.some((d) => d.rasgo_slug === 'distico_final'))
+				.map((s) => s.v_ini)
+		).toEqual([1004, 1955, 3335]);
+	});
+
 	it.each([{}, { obra_ref: null }])('completa una extracción compacta con referencia %j', (referenciaEntrada) => {
 		const referencia = JSON.parse(obtenerPilotos().find((p) => p.id === 'los-locos-de-valencia')!.entrada);
 		const { esquema, jornadas, tramos, notas } = referencia;

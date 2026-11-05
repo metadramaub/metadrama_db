@@ -241,6 +241,7 @@ export function analizarEntrada(
 				bibliografia: JSON.parse(bibliografiaRaw),
 				decisiones
 			});
+			resultado.avisos.push(...normalizada.avisos_fuente);
 			normalizada.revision_transcripcion = { sha256: sha(limpio) };
 			normalizada.entradas_sha256 = {
 				'equivalencias.propuestas.json': sha(reglasRaw),

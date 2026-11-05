@@ -1,6 +1,61 @@
 # ChatGPT GPT-6 High · extracción 0.27
 
-## Lote completo: veinte obras
+## Resultado revisado: cotejo completo y correcciones
+
+5 de noviembre: revisión visual de las **38 fotografías**, a resolución original, frente a
+las veinte respuestas conservadas: las 447 filas, los 108 totales y las 37 notas o llamadas,
+además de rótulos, páginas y localizadores. El [registro del cotejo](../ensayos/v0.27/ChatGPT%20GPT-6%20High/revision-transcripcion.json)
+identifica por obra las filas revisadas, los originales y las copias de lectura mediante hashes.
+Los veinte archivos siguen coincidiendo con sus hashes iniciales; no se han corregido ni
+convertido en nuevos golds. Revisión de Codex: no es una segunda revisión humana independiente.
+
+**No se han detectado rangos ni recuentos transcritos distintos de los impresos. Sí hay diferencias
+de literalidad**, por lo que no corresponde llamar perfectas a las veinte respuestas:
+
+| Obra | Diferencia comprobada | Consecuencia |
+| --- | --- | --- |
+| El maestro de danzar | Escribe «JORNADA SEGUNDA», rótulo que no aparece en las fotos aportadas | La división está deducida; el rótulo literal no está acreditado y debería quedar null |
+| El verdadero amante | Escribe «-ío» donde la foto dice «-io» | Tilde añadida; la normalización de asonancia sigue siendo i-o |
+| El perseguido, nota 37 | Marca como ilegible un fragmento que incluye el esquema legible **abaab**, delante de 1295–1299 | Se pierde información de la nota; conviene recuperar el fragmento en una transcripción revisada separada |
+| El perseguido, nota 36 | Omite la coma después de 513–542 | Diferencia de puntuación sin cambio de alcance de las excepciones |
+
+La nota 37 también deja fuera fragmentos bibliográficos parcialmente visibles junto al borde;
+no se presenta como transcripción completa. En Favor, Laura y otras fotos, los cuerpos o partes
+que quedan fuera del encuadre no se pueden certificar: los avisos de lectura siguen siendo
+necesarios. La revisión distingue estos límites de una palabra o esquema legible que se omitió.
+Las diferencias anteriores quedan registradas sin modificar respuestas ni prompt.
+
+Las contradicciones de **Ursón, Dómine, Casamiento y Mármol están en la impresión**. También lo
+están el localizador 1974–1075 de Serrana, la duplicación del resumen de Ferias y los problemas
+del resumen y las coplas reales de Leal. El ababab de la nota 34 de Perseguido tiene seis letras
+en la propia foto: no se atribuye esa anomalía al modelo ni se corrige a cinco por la forma.
+
+### Importador comprobado después del ajuste
+
+Con las reglas **v0.17**, las veinte respuestas cumplen el esquema tras la compleción mecánica y
+**16 preparan sin errores técnicos**. Las cuatro con contradicciones impresas siguen bloqueadas;
+no se ha relajado la validación de rangos o recuentos para aceptarlas. Preparar no significa que
+se hayan completado metadatos, revisado todas las incidencias ni confirmado un guardado.
+
+- Los porcentajes admiten coma, punto y apóstrofo sin cambiar el literal. Migración SQL
+  [ensayada y aplicada en Supabase](../../../despliegues/2026-11-05-porcentajes-importador.md).
+- Serrana: sus cinco denominaciones explícitas de sueltos se reconocen con arquitectura
+  endecasílaba. Cuatro finales bien localizados registran Dístico final; 1974–1075 conserva
+  un aviso y no genera ese rasgo. Los pareados interiores permanecen en el literal.
+- Perseguido: la nota 36 registra el cierre solo en las tres series no exceptuadas, desde
+  1004, 1955 y 3335. No lo asigna en 513–542 ni 2944–2993. Se exigen los cinco enlaces
+  recíprocos y las dos excepciones localizables; un alcance incompleto no autoriza repartirlo.
+- No se infieren remates, arquitecturas ni formas por divisibilidad. Octavas, tercetos,
+  letrilla y sextinas generales conservan su incertidumbre.
+
+Pruebas: 348 comprobaciones de aplicación satisfactorias, incluida la regresión que recorre
+los veinte originales y exige exactamente esas cuatro obras bloqueadas. Tipos y lint sin
+errores; compilación de producción correcta. Persistencia: 117 comprobaciones PostgreSQL en copia aislada, incluida la
+conservación del apóstrofo tras guardar. Los cambios de equivalencias están versionados en main;
+la aplicación SQL no acredita por sí sola el despliegue de la web. El dashboard sigue copiando
+0.15; el 0.27 continúa congelado como candidato de evaluación.
+
+## Ensayo inicial del lote: antes de las correcciones
 
 Completado el 5 de noviembre de 2026: **20 respuestas JSON, sin rechazos ni reintentos**,
 447 filas de sinopsis (incluidas las filas de prosa sin numerar), 108 filas de resumen y 37 notas.
@@ -65,7 +120,7 @@ anteriores que no son gold no se utilizan como verdad automática; las diferenci
 No se ha realizado una segunda revisión humana exhaustiva de las veinte, carácter por carácter.
 No se calcula una tasa global de transcripción correcta ni se certifica el modelo como infalible.
 
-### Pendientes del importador descubiertos por la tanda
+### Incompatibilidades detectadas en el ensayo inicial
 
 1. **Porcentajes literales:** `porcentaje_literal` acepta solo coma, pero el propio prompt exige
    conservar coma, punto o apóstrofo. Ferias imprime `54,6`, `69’2`, `17’4`, etc.; el modelo los

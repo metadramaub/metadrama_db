@@ -1,0 +1,1209 @@
+{
+  "esquema": "versologia-revision-transcripcion/0.1",
+  "fecha": "2026-11-05",
+  "revisor": "Codex: cotejo visual asistido, no revisión humana independiente",
+  "metodo": "Lectura de las 38 copias JPG a resolución original y contraste fila por fila con los 20 JSON conservados: jornadas, rangos, recuentos, denominaciones, notas, esquemas, localizadores y resúmenes. Se permiten espacios de composición y unión de palabras partidas al final de línea. Los límites de las fotos no se reconstruyen. No se han corregido los originales ni convertido las respuestas en gold.",
+  "limites": [
+    "Una sola revisión visual por un agente no certifica infalibilidad ni sustituye una revisión humana independiente.",
+    "Los recortes impiden acreditar la literalidad del contenido no fotografiado. Las notas con [ilegible] no son transcripciones completas.",
+    "La compatibilidad técnica y las erratas impresas se valoran por separado de la transcripción."
+  ],
+  "obras": [
+    {
+      "slug": "el-caballero-del-milagro",
+      "resultado": "sin_diferencias_detectadas",
+      "observaciones": [
+        "23 filas, 5 totales, tres rótulos y llamada 66 cotejados. Cuerpo 66 fuera de foto; null correcto. Primera página no visible y no inventada."
+      ],
+      "archivo": "el-caballero-del-milagro/intento-01.json",
+      "sha256": "e3340533b7667e3cbb261bb10e5546ae282ccfff899a602248277fb3b0630308",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18",
+          "t19",
+          "t20",
+          "t21",
+          "t22",
+          "t23"
+        ],
+        "resumen": 5,
+        "notas": [
+          "n01"
+        ],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "3_caballero_milagro_1.HEIC",
+          "sha256_original": "cf5bc2fb0b744cdfaf6691e16ba3d3a48fddda3ed9321302f7e5221bee374e69",
+          "copia_lectura": "3_caballero_milagro_1.jpg",
+          "sha256_copia": "5720e03b6c707ce8e6db6884cc90cdd9965be6993121e79a6006bfc3574d9a40"
+        },
+        {
+          "original": "3_caballero_milagro_2.HEIC",
+          "sha256_original": "63cc3bc07a6333f8355f5ea26a04517df2cc260ca906bb2ff4e753e0d734887f",
+          "copia_lectura": "3_caballero_milagro_2.jpg",
+          "sha256_copia": "67437f7839c4935a90dfb0722e179afcb50b42e596805bb30b306f00f9dba525"
+        }
+      ]
+    },
+    {
+      "slug": "el-favor-agradecido",
+      "resultado": "con_limites_de_foto",
+      "observaciones": [
+        "26 filas y 11 notas/llamadas cotejadas. Recortes en notas 18, 19, 22 y 25; cuerpos 26–28 no visibles. AaBbCC y esquemas ababa/aabba/abaab conservados. El último dígito de (120...) en nota 19 llega al borde: mantener lectura pendiente, sin dar el fragmento por transcripción íntegra."
+      ],
+      "archivo": "el-favor-agradecido/intento-01.json",
+      "sha256": "c2a751f829b8a3f03bd39668453e22c18a6bbaeec09937b04ee71e1b29e3a336",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18",
+          "t19",
+          "t20",
+          "t21",
+          "t22",
+          "t23",
+          "t24",
+          "t25",
+          "t26"
+        ],
+        "resumen": 0,
+        "notas": [
+          "n01",
+          "n02",
+          "n03",
+          "n04",
+          "n05",
+          "n06",
+          "n07",
+          "n08",
+          "n09",
+          "n10",
+          "n11"
+        ],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "4_favor_agradecido_1.HEIC",
+          "sha256_original": "a7c850c197e95595e6fd7a1edb241ac622a7bebd940075fb8a827d4ad7ab9f51",
+          "copia_lectura": "4_favor_agradecido_1.jpg",
+          "sha256_copia": "a26725d8a313b821ca69071d66f03af6f22c21f65f34d21c822403f146e84e8b"
+        },
+        {
+          "original": "4_favor_agradecido_2.HEIC",
+          "sha256_original": "4f32607ee14ff978d4192806533217677f4ffdc3281932cb8815d458b3b91c83",
+          "copia_lectura": "4_favor_agradecido_2.jpg",
+          "sha256_copia": "7b5e40eb39307222b536e4dff3a4826c48c564e38f90ff1b5d8427c369db5546"
+        }
+      ]
+    },
+    {
+      "slug": "laura-perseguida",
+      "resultado": "con_limites_de_foto",
+      "observaciones": [
+        "27 filas y 7 totales cotejados; nota 32 completa, con esquemas cdcdc/ccddc y todas las excepciones numéricas conservadas. Mayúscula de Sueltos en t26 correcta. Nota 33 apenas empieza en borde inferior y 34 sin cuerpo: null y avisos adecuados."
+      ],
+      "archivo": "laura-perseguida/intento-01.json",
+      "sha256": "3a245ecbc5d6c64aad1715546abd93e3740dd1cbd22900db62170003d79a3d3b",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18",
+          "t19",
+          "t20",
+          "t21",
+          "t22",
+          "t23",
+          "t24",
+          "t25",
+          "t26",
+          "t27"
+        ],
+        "resumen": 7,
+        "notas": [
+          "n01",
+          "n02",
+          "n03"
+        ],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "5_Laura_perseguida_1.HEIC",
+          "sha256_original": "be87caa345e64ad1a91668842cc5c4d783b33696c8e3fcc7144aecd535cfddf0",
+          "copia_lectura": "5_Laura_perseguida_1.jpg",
+          "sha256_copia": "78a8d4ea80bf9481b413311e672b8dfc7b7217e22dd78980e3d58bf97e26c95f"
+        },
+        {
+          "original": "5_Laura_perseguida_2.HEIC",
+          "sha256_original": "b654bd327448763d5ad3eb582166de99c098cbcc019f2738d7f6112d0a5646cb",
+          "copia_lectura": "5_Laura_perseguida_2.jpg",
+          "sha256_copia": "e7f994648d5adda80ce821fb321a0d141e9453936e3739760e6ca5ed4d4afb66"
+        }
+      ]
+    },
+    {
+      "slug": "el-leal-criado",
+      "resultado": "erratas_de_edicion_conservadas",
+      "observaciones": [
+        "28 filas, 6 totales y nota 5 cotejados. 1250–1289 confirmado. 130 de octavas y 1,05 de sonetos son valores impresos, no fallos de lectura. La nota 930–934 contradice la divisibilidad de 870–999; queda como caso complejo sin corregir fuente."
+      ],
+      "archivo": "el-leal-criado/intento-01.json",
+      "sha256": "feab6c200ec98b3232d40cd3f8b10afad6b61b049bae8e9477c9bde1dc788592",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18",
+          "t19",
+          "t20",
+          "t21",
+          "t22",
+          "t23",
+          "t24",
+          "t25",
+          "t26",
+          "t27",
+          "t28"
+        ],
+        "resumen": 6,
+        "notas": [
+          "n01"
+        ],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "6_leal_criado_1.HEIC",
+          "sha256_original": "100ac120a42183bd562eb6f7a001d55522514541676e381c50c2caf6d85388e9",
+          "copia_lectura": "6_leal_criado_1.jpg",
+          "sha256_copia": "25bdebc23455a4f06f93ff193209383798951b775dce608ff4510074db21c22e"
+        },
+        {
+          "original": "6_leal_criado_2.HEIC",
+          "sha256_original": "0b880553aa24f48718597cb0aac63886e09b3db34584977e77323df8f853b610",
+          "copia_lectura": "6_leal_criado_2.jpg",
+          "sha256_copia": "1bfed0548cb26c01c722f187385c34b3da84821bcf498cd0752be0314e8994e2"
+        }
+      ]
+    },
+    {
+      "slug": "el-maestro-de-danzar",
+      "resultado": "diferencias_de_literalidad",
+      "diferencias": [
+        {
+          "campo": "jornadas.1.rotulo_literal",
+          "respuesta": "JORNADA SEGUNDA",
+          "foto": "No se ve ese rótulo en las fotos suministradas",
+          "efecto": "La división se deduce de los pasajes, pero el rótulo literal no está acreditado; debería quedar null."
+        }
+      ],
+      "observaciones": [
+        "20 filas, 8 totales y llamada 110 cotejados. AabBCC exacto; 153 versos mixtos conservados sin cortes. Cuerpo 110 no visible. Rótulos primera/tercera visibles; segundo no visible."
+      ],
+      "archivo": "el-maestro-de-danzar/intento-01.json",
+      "sha256": "5f528a6eddbdf30fa6b6eb379c1dce9889e6c015c3991851fc9a23324072f327",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18",
+          "t19",
+          "t20"
+        ],
+        "resumen": 8,
+        "notas": [
+          "n01"
+        ],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "7_maestro_danzar_1.HEIC",
+          "sha256_original": "f97994af3d379b7e6b8dc6bd2a8b890f7ce3a408de1e2c940ed6d54054767240",
+          "copia_lectura": "7_maestro_danzar_1.jpg",
+          "sha256_copia": "674c288426d6792c1e8e4a8027045d4aa4165c6fd770969d8060491d3b2ff6d7"
+        },
+        {
+          "original": "7_maestro_danzar_2.HEIC",
+          "sha256_original": "187148aae2b69ea7a161623a975b743e546975b0331904b964784be9664ddfee",
+          "copia_lectura": "7_maestro_danzar_2.jpg",
+          "sha256_copia": "5b3b3fdd2e250221ecb005d76654d227438a921a200b32b251fb4b3dc5c7ef0e"
+        }
+      ]
+    },
+    {
+      "slug": "el-verdadero-amante",
+      "resultado": "diferencias_de_literalidad",
+      "diferencias": [
+        {
+          "campo": "tramos.t09.denominacion_literal",
+          "respuesta": "romance en -ío",
+          "foto": "romance en -io",
+          "efecto": "Tilde añadida; no cambia el valor normalizado i-o."
+        }
+      ],
+      "observaciones": [
+        "19 filas y tres rótulos cotejados. Rangos, recuentos y demás denominaciones coinciden; no hay notas ni resumen en esta foto."
+      ],
+      "archivo": "el-verdadero-amante/intento-01.json",
+      "sha256": "a58c63e33644a7211448b12d266ded91b37670e59b1a4f7f633bdceb97f15c1b",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18",
+          "t19"
+        ],
+        "resumen": 0,
+        "notas": [],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "12_verdadero_amante.HEIC",
+          "sha256_original": "53a6f9b98e90417d1014158bf05929744e5f97236fba0cec1a95b19467300192",
+          "copia_lectura": "12_verdadero_amante.jpg",
+          "sha256_copia": "e4bd462ad89a3c11c7f3a5c934fc0f8d164a4e20f27dd957d2d9a31cc260095f"
+        }
+      ]
+    },
+    {
+      "slug": "los-donaires-de-matico",
+      "resultado": "sin_diferencias_detectadas",
+      "observaciones": [
+        "18 filas, cinco totales y tres rótulos cotejados. Tercetos no se transforman en encadenados. 2.060 se representa como entero 2060 según contrato."
+      ],
+      "archivo": "los-donaires-de-matico/intento-01.json",
+      "sha256": "76335601bd5929c981f3d75fc84da97af8fa8c931eac4b27967b5b2d24a1757c",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18"
+        ],
+        "resumen": 5,
+        "notas": [],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "13_donaires_Matico_1.HEIC",
+          "sha256_original": "6c9b6ecf9881d5aa5934909b4f200e53cba2661a93d338f86067dd23b1228ff9",
+          "copia_lectura": "13_donaires_Matico_1.jpg",
+          "sha256_copia": "c31aeffff995546f073a351ff202396cc345e120623788845c1f8435a5413d84"
+        },
+        {
+          "original": "13_Donaires_Matico_2.HEIC",
+          "sha256_original": "1e4cf00fad4b5e116888189bd64be6f848778cf45112dc2df42eba2f66a23b44",
+          "copia_lectura": "13_Donaires_Matico_2.jpg",
+          "sha256_copia": "a1f4ac4dfc8c7e016dd520cc13488617676125cd4b35d0e2706b81cb837980ed"
+        }
+      ]
+    },
+    {
+      "slug": "el-molino",
+      "resultado": "sin_diferencias_detectadas",
+      "observaciones": [
+        "21 filas, siete totales y tres rótulos cotejados. Le­trilla y pareados entre paréntesis conservados. No hay notas visibles."
+      ],
+      "archivo": "el-molino/intento-01.json",
+      "sha256": "4d7c7450bcac7a6e8fd5ad0cc31c11e630a12c9e5c6c62d4393f7be906a5aeda",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18",
+          "t19",
+          "t20",
+          "t21"
+        ],
+        "resumen": 7,
+        "notas": [],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "14_molino_1.HEIC",
+          "sha256_original": "4e7eec457d97459d7dcc8b822e72c07b2eb5277ad91cf95a9e4fe2cf47c08c97",
+          "copia_lectura": "14_molino_1.jpg",
+          "sha256_copia": "351f721f0f475866f398b40fb2555fa7f3ea966b9a9cce1f686020147713664a"
+        },
+        {
+          "original": "14_molino_2.HEIC",
+          "sha256_original": "b85f95ed5eaf28b09758558f9b4d05af946473a0bc63f4f7d1fb0780e67035dc",
+          "copia_lectura": "14_molino_2.jpg",
+          "sha256_copia": "e78dc4d0eb98767a8cd9d2bf89a931c9e892d817b70c89fc2f6e19446f67f87d"
+        }
+      ]
+    },
+    {
+      "slug": "las-ferias-de-madrid",
+      "resultado": "erratas_de_edicion_conservadas",
+      "observaciones": [
+        "25 filas y siete totales cotejados. 1732–1813 y 1814–2257 confirmados. Dos filas impresas redondillas (1780/2240) conservadas, igual que coma/apóstrofos. Ninguna nota visible."
+      ],
+      "archivo": "las-ferias-de-madrid/intento-01.json",
+      "sha256": "36628ff46c060e9f9417e8332f24497ba9a87a53b09cea95d77e067f43ed54e1",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18",
+          "t19",
+          "t20",
+          "t21",
+          "t22",
+          "t23",
+          "t24",
+          "t25"
+        ],
+        "resumen": 7,
+        "notas": [],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "15_ferias_madrid_1.HEIC",
+          "sha256_original": "31ddf635f92d16f06a106e3738a0a92b18f664522ff4ac2d47992dba2ea95594",
+          "copia_lectura": "15_ferias_madrid_1.jpg",
+          "sha256_copia": "e2b2a80bc1d48eff19390ed32d84e8c1053a18140838957f410b1d4c809117ad"
+        },
+        {
+          "original": "15_ferias_madrid_2.HEIC",
+          "sha256_original": "84ca073cb936e5c576cb9495fabf729b002c30930c5efaef58327511bcca522c",
+          "copia_lectura": "15_ferias_madrid_2.jpg",
+          "sha256_copia": "eac6460acc3398737601e39bb98a1a47d08bce676bdc5722dbe3515817320d09"
+        }
+      ]
+    },
+    {
+      "slug": "el-hijo-de-reduan",
+      "resultado": "erratas_de_edicion_conservadas",
+      "observaciones": [
+        "21 filas, seis totales y dos notas cotejados. La nota * tiene alcance general; solo la primera llamada está impresa. Resumen Quintillas 1050 frente a suma 1060: errata conservada. Literal octavas sin reales correcto."
+      ],
+      "archivo": "el-hijo-de-reduan/intento-01.json",
+      "sha256": "9bb130929f9e50fd714f9b60b756d6581b850caf9ec9c6232babe0298d5d868c",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18",
+          "t19",
+          "t20",
+          "t21"
+        ],
+        "resumen": 6,
+        "notas": [
+          "n01",
+          "n02"
+        ],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "20_hijo_Reduan_1.HEIC",
+          "sha256_original": "4ad21356a60ce6bff0daa78023ac1f104e6a0b97787a966bd1a3da4bfb451cda",
+          "copia_lectura": "20_hijo_Reduan_1.jpg",
+          "sha256_copia": "40e97fee1cad70ead920642fffb2548fc8ab7d8745dc3963ad334c08c99935de"
+        },
+        {
+          "original": "20_hijo_Reduan_2.HEIC",
+          "sha256_original": "535466c3f9fc184ed3871f7f2c304b23f37e3a41958a055621dab76bdf7f34cb",
+          "copia_lectura": "20_hijo_Reduan_2.jpg",
+          "sha256_copia": "6a6b00f5dfbdd56c41b6c9ba9145c619599fd60f7d5e9f5112f11b6f37989f41"
+        }
+      ]
+    },
+    {
+      "slug": "el-nacimiento-de-urson-y-valentin",
+      "resultado": "erratas_de_edicion_conservadas",
+      "observaciones": [
+        "25 filas (una carta en prosa sin rango), nueve totales y tres rótulos cotejados. aBaBcC exacto. 2458–2575 con recuento 28 está impreso: fiel aunque contradictorio. Respuesta no señala esa discrepancia en incidencias; el validador la detecta."
+      ],
+      "archivo": "el-nacimiento-de-urson-y-valentin/intento-01.json",
+      "sha256": "81e3974b7b7a6a9770b8450aac0c0edc57c66b53f2bb679e225a5cde3696a2fb",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18",
+          "t19",
+          "t20",
+          "t21",
+          "t22",
+          "t23",
+          "t24",
+          "t25"
+        ],
+        "resumen": 9,
+        "notas": [],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "23_nacimiento_Urson_y_valentin_1.HEIC",
+          "sha256_original": "ec9aee29e2ca08c1ec024cb3dea3f75ad5b5de4682914ccfb74cfa1d9367a5e2",
+          "copia_lectura": "23_nacimiento_Urson_y_valentin_1.jpg",
+          "sha256_copia": "5a0c31477566709a7f6e3a8327a109a0f6815c7f1c457352288d23009dd02304"
+        },
+        {
+          "original": "23_nacimiento_Urson_y_valentin_2.HEIC",
+          "sha256_original": "e6dd3b09da7abdd602d8d388dd3d1f22674b1e5cbfa17c2ebe4c486b65f5459a",
+          "copia_lectura": "23_nacimiento_Urson_y_valentin_2.jpg",
+          "sha256_copia": "189e770e3643382206edfb8deab310a496b4070547604bd407080b325296513f"
+        }
+      ]
+    },
+    {
+      "slug": "traicion-acertada",
+      "resultado": "con_limites_de_foto",
+      "observaciones": [
+        "18 filas, seis totales y dos notas cotejados. Nota 21 transcrita hasta 'con algunas quintillas', final fuera de foto marcado [ilegible]; tres intervalos exactos. Cuerpo de 22 no visible; llamada solo del resumen, sin falsa prosa."
+      ],
+      "archivo": "traicion-acertada/intento-01.json",
+      "sha256": "66582771c632a43621c8c1bc3b62a015b4d3586e5f1903d6d84cf0b38cbd08e4",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18"
+        ],
+        "resumen": 6,
+        "notas": [
+          "n01",
+          "n02"
+        ],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "25_traicion_acertada_1.HEIC",
+          "sha256_original": "e18ad469638f70492767ef4312fdd42ccaefbacf46d25799b154d37f012a36d2",
+          "copia_lectura": "25_traicion_acertada_1.jpg",
+          "sha256_copia": "87dcfa0df2aff0ddc5eeedc0ecc1d61ee3924e61d9f14bda9c6eeb878daad00c"
+        },
+        {
+          "original": "25_traicion_acertada_2.HEIC",
+          "sha256_original": "bda2c0965df39a4d0f543e5c98f98143beea4948f4e503a8fb1b4391f8d1926f",
+          "copia_lectura": "25_traicion_acertada_2.jpg",
+          "sha256_copia": "857c4d2fe63391dc4a4274564b98b5dd6329bf4cb2fb8693efe33f61c76b16f7"
+        }
+      ]
+    },
+    {
+      "slug": "el-domine-lucas",
+      "resultado": "erratas_de_edicion_conservadas",
+      "observaciones": [
+        "18 filas, cuatro totales y rótulos cotejados. 538 y 176 impresos frente a rangos de 528 y 76; el modelo no los corrige. Primera página sin número claramente acreditable en esta copia; null conservador."
+      ],
+      "archivo": "el-domine-lucas/intento-01.json",
+      "sha256": "35fd1bf35ef4ebcf41725429a228ba8ac888adeb504a466e875cd67b0f7c12e6",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18"
+        ],
+        "resumen": 4,
+        "notas": [],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "28_domine_Lucas_1.HEIC",
+          "sha256_original": "bbb1d297f755351582aafacad80fc5455cbca736e0b0b84700dde1942115ffb9",
+          "copia_lectura": "28_domine_Lucas_1.jpg",
+          "sha256_copia": "23e4a88b2bf49dc151240f5282be8561af134fa1806aa23f2103a25d2ea5b596"
+        },
+        {
+          "original": "28_domine_Lucas_2.HEIC",
+          "sha256_original": "2853f490d33d94fc0e441e438f238270051dd1b4c83846b4be5e6aa26a20f582",
+          "copia_lectura": "28_domine_Lucas_2.jpg",
+          "sha256_copia": "95c8574157c11036ffdd140602c83e7d6104817106c2743734668355cf2f5734"
+        }
+      ]
+    },
+    {
+      "slug": "la-ingratitud-vengada",
+      "resultado": "sin_diferencias_detectadas",
+      "observaciones": [
+        "Cinco filas, dos totales y dos notas cotejados. 133 y 832 son localizaciones puntuales correctas; no se combinan."
+      ],
+      "archivo": "la-ingratitud-vengada/intento-01.json",
+      "sha256": "3f0ee6d6111e3dace064f6ebb6f2645ad382caa8276511ae8fa411c66c3c8fa5",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05"
+        ],
+        "resumen": 2,
+        "notas": [
+          "n01",
+          "n02"
+        ],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "29_ingratitud_vengada_1.heic",
+          "sha256_original": "83e8dd07a45237b23745d18f32bf12879bd82acc7761af876932ed076a72b208",
+          "copia_lectura": "29_ingratitud_vengada_1.jpg",
+          "sha256_copia": "23402fb341bd5f30b395b29e555f9784329af3d9be664b4f0197072814b23656"
+        },
+        {
+          "original": "29_ingratitud_vengada_2.HEIC",
+          "sha256_original": "5c0ab95db8741c35bbe38bbfafa84e71954e2b4a92c0b9165329348cdd5a7452",
+          "copia_lectura": "29_ingratitud_vengada_2.jpg",
+          "sha256_copia": "a78216e6a17721d4d0a2d3be3a0f81d331477008e934bb968e31267a4ba6afdd"
+        }
+      ]
+    },
+    {
+      "slug": "los-locos-de-valencia",
+      "resultado": "con_limites_de_foto",
+      "observaciones": [
+        "20 filas y dos notas cotejadas. Quintillas plural y á-e exactos. Cuerpos completos con 2172/2666. Resumen en página contigua recortado; omitir filas sin valores queda declarado en incidencias."
+      ],
+      "archivo": "los-locos-de-valencia/intento-01.json",
+      "sha256": "0866bbfb73a4f7982fcc9ba1c5cf09f7db33a88ec00c4a2a0b31d041f1ed49d0",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18",
+          "t19",
+          "t20"
+        ],
+        "resumen": 0,
+        "notas": [
+          "n01",
+          "n02"
+        ],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "30_locos_Valencia.HEIC",
+          "sha256_original": "b18038cb09a16cd14e0b22ec0ff69d3ee360aff351c557479aa43aba61e83d3f",
+          "copia_lectura": "30_locos_Valencia.jpg",
+          "sha256_copia": "b39fadeda647b32697c2e84049acecbba50f8721ca950b2c410ba234f59859c9"
+        }
+      ]
+    },
+    {
+      "slug": "el-perseguido",
+      "resultado": "diferencias_de_literalidad",
+      "diferencias": [
+        {
+          "campo": "notas.n04.texto_literal (37)",
+          "respuesta": "También aquí [ilegible] (vv. 1295-1299). [ilegible]",
+          "foto": "El fragmento abaab es legible delante de (vv. 1295-1299)",
+          "efecto": "Omisión de un esquema legible en una nota recortada. No afecta rangos, pero sí la fidelidad documental."
+        },
+        {
+          "campo": "notas.n03.texto_literal (36)",
+          "respuesta": "513-542 y 2944-2993",
+          "foto": "513-542, y 2944-2993",
+          "efecto": "Coma omitida; las excepciones se conservan."
+        }
+      ],
+      "observaciones": [
+        "26 filas, seis totales y cinco notas/llamadas cotejados. ababab de nota 34 tiene seis letras también en la impresión: no corregirlo a ababa. Nota 37 omite además fragmentos bibliográficos parcialmente legibles del borde; no certificarla íntegra. 9,8 de octavas impreso pese al descuadre con 328/3530."
+      ],
+      "archivo": "el-perseguido/intento-01.json",
+      "sha256": "44d09bccca725d4c6854b2805622c686b39930e57ba65ddda9b31471c1cf9447",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18",
+          "t19",
+          "t20",
+          "t21",
+          "t22",
+          "t23",
+          "t24",
+          "t25",
+          "t26"
+        ],
+        "resumen": 6,
+        "notas": [
+          "n01",
+          "n02",
+          "n03",
+          "n04",
+          "n05"
+        ],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "31_perseguido_1.HEIC",
+          "sha256_original": "f34e4b3e07e9e81bef9a4b23e9043c1c36f7c425dc1e0c7da879d5a7dcb9035a",
+          "copia_lectura": "31_perseguido_1.jpg",
+          "sha256_copia": "610699f661f4af98966a375e0b1d1262347e55ada8825c99955aee40ab8b3d34"
+        },
+        {
+          "original": "31_perseguido_2.HEIC",
+          "sha256_original": "c35664444b64af4cd1016febf02f23338289f65493c55603a56f3a8d2dfd66db",
+          "copia_lectura": "31_perseguido_2.jpg",
+          "sha256_copia": "b0139c94b482fb8f098244d7245c88761b60246782a92ba3bed8c78823521523"
+        }
+      ]
+    },
+    {
+      "slug": "la-serrana-de-tormes",
+      "resultado": "erratas_de_edicion_conservadas",
+      "observaciones": [
+        "19 filas, siete totales y cuatro notas/llamadas cotejados. 1974–1075 impreso exacto. Nota 17/18 esquema ababaccddc y excepciones 2783–2787/2818–2822 conservados. Cuerpos 19 y 20 no visibles."
+      ],
+      "archivo": "la-serrana-de-tormes/intento-01.json",
+      "sha256": "8965605f85460b78e8218108fc115be36cee4ac4cc31b1649ed74f1d155e9e4e",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18",
+          "t19"
+        ],
+        "resumen": 7,
+        "notas": [
+          "n01",
+          "n02",
+          "n03",
+          "n04"
+        ],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "32_serrana_Tormes_1.heic",
+          "sha256_original": "03281e03e047955b63fff269c94453fc90ae67624bac4137a1c2cf186795c997",
+          "copia_lectura": "32_serrana_Tormes_1.jpg",
+          "sha256_copia": "871950d6c029bf05663f47180ba8cc1b7807398accc92161733f6822396ec14b"
+        },
+        {
+          "original": "32_serrana_Tormes_2.heic",
+          "sha256_original": "17c2e40a797d9843f1b8462b2325a7014a83627902f4a60cd1880011edbac216",
+          "copia_lectura": "32_serrana_Tormes_2.jpg",
+          "sha256_copia": "cba0da1929564c6f40bbb19ecb3277f7deee77d77b07a5f3ddfdf3785ca95147"
+        }
+      ]
+    },
+    {
+      "slug": "jorge-toledano",
+      "resultado": "sin_diferencias_detectadas",
+      "observaciones": [
+        "26 filas, siete totales y tres rótulos cotejados. Sextinas literal conservado, no identificado por el número 18; singular octava real en último tramo correcto."
+      ],
+      "archivo": "jorge-toledano/intento-01.json",
+      "sha256": "f75ccba42175e2de1e6f5caa22e3a6257b323c0ffb0e41c349954391d9fef61f",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18",
+          "t19",
+          "t20",
+          "t21",
+          "t22",
+          "t23",
+          "t24",
+          "t25",
+          "t26"
+        ],
+        "resumen": 7,
+        "notas": [],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "33_Jorge_toledano_1.heic",
+          "sha256_original": "af704bf600e4597f716b419e81ec81324723d163f6b528752ca1710afa992ddb",
+          "copia_lectura": "33_Jorge_toledano_1.jpg",
+          "sha256_copia": "6b9b57832f6b4ff0e4c92468c5a926005619c7759676d641a7e91347d8d664f9"
+        },
+        {
+          "original": "33_Jorge_toledano_2.HEIC",
+          "sha256_original": "fbd2014929d1fc8f595ceeecb29335a544ff98b73826d5eadcc9413e5186c0b6",
+          "copia_lectura": "33_Jorge_toledano_2.jpg",
+          "sha256_copia": "1eb2a4cb7cbf3d5980ef36cb8647f4040ecd613cd01323bcc3c94e8ef0082c9a"
+        }
+      ]
+    },
+    {
+      "slug": "el-casamiento-en-la-muerte",
+      "resultado": "erratas_de_edicion_conservadas",
+      "observaciones": [
+        "29 filas (una prosa), siete totales y tres rótulos cotejados. 978 y 84, 2549–2736 y 215 son impresos. Prosa sin extensión y localización literal entre 524–525. No se corrigen huecos ni recuentos."
+      ],
+      "archivo": "el-casamiento-en-la-muerte/intento-01.json",
+      "sha256": "4b0f938f72b120ce8cc1f3003a08d64028688af5b5c86d8ad507354f7edb367e",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18",
+          "t19",
+          "t20",
+          "t21",
+          "t22",
+          "t23",
+          "t24",
+          "t25",
+          "t26",
+          "t27",
+          "t28",
+          "t29"
+        ],
+        "resumen": 7,
+        "notas": [],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "34_casamiento_muerte_1.HEIC",
+          "sha256_original": "b213034b93b486556013e1843451c62252f426480139b7572bf80b8e40f0c122",
+          "copia_lectura": "34_casamiento_muerte_1.jpg",
+          "sha256_copia": "3513a1eee4aa896c9cda272e714b27490b1495a5192d167b3fb33c713e2e6580"
+        },
+        {
+          "original": "34_casamiento_muerte_2.HEIC",
+          "sha256_original": "0921e771f2513f8f3c58cb82753f397c9b23f1e1ff5bc098148310f205a1e706",
+          "copia_lectura": "34_casamiento_muerte_2.jpg",
+          "sha256_copia": "ed724a17199ddf65f4490b51c5223291e5015ef75ed64bda6b51889e1f841660"
+        }
+      ]
+    },
+    {
+      "slug": "el-marmol-de-felisardo",
+      "resultado": "erratas_de_edicion_conservadas",
+      "observaciones": [
+        "33 filas, nueve totales y tres notas cotejados. 130 para 645–775, 7 para 1907–2013 y 516 para 2208–2721 fieles a impresión. Nota * v.655, ** en ambos tercetos y *** 2378–2381 exactas. Romance 204/7,7 impreso conservado."
+      ],
+      "archivo": "el-marmol-de-felisardo/intento-01.json",
+      "sha256": "7b2997f0d5bd64a127835a69f01259cf0bd1c1ffc2bc8cb1c204cf680a5405e0",
+      "campos_cotejados": {
+        "filas": [
+          "t01",
+          "t02",
+          "t03",
+          "t04",
+          "t05",
+          "t06",
+          "t07",
+          "t08",
+          "t09",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18",
+          "t19",
+          "t20",
+          "t21",
+          "t22",
+          "t23",
+          "t24",
+          "t25",
+          "t26",
+          "t27",
+          "t28",
+          "t29",
+          "t30",
+          "t31",
+          "t32",
+          "t33"
+        ],
+        "resumen": 9,
+        "notas": [
+          "n01",
+          "n02",
+          "n03"
+        ],
+        "jornadas": [
+          1,
+          2,
+          3
+        ]
+      },
+      "fotos": [
+        {
+          "original": "36_marmol_Felisardo_1.HEIC",
+          "sha256_original": "b9eaa378d825c69e2205516bbb594d4dd48b82fdba055f82adb57bf061b3d500",
+          "copia_lectura": "36_marmol_Felisardo_1.jpg",
+          "sha256_copia": "d7c421ad5240933d2adc87e8f151d181cb78420658397d923a97589b94e6954f"
+        },
+        {
+          "original": "36_marmol_Felisardo_2.HEIC",
+          "sha256_original": "cf5738a5b152995109f47f07467cf395fa9e1c142df90833a500a0f7f8c67a3b",
+          "copia_lectura": "36_marmol_Felisardo_2.jpg",
+          "sha256_copia": "18cee5fc24887eff0fc1b99d77abf2145d547fd3357880141fdd7417f8c353fa"
+        }
+      ]
+    }
+  ],
+  "total_fotos": 38,
+  "total_obras": 20
+}

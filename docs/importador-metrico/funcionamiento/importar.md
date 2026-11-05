@@ -26,6 +26,10 @@ información que aún no está registrada. No se exige la exhaustividad de la fi
   habitual ni un remate solo porque la longitud encaje. Una nota puede justificar más precisión.
   Si identifica «tercetos encadenados» y el cierre está recortado, se reconoce la forma sin
   determinar el remate. La regla que registra el cierre exige además su declaración explícita.
+- En sueltos con pareados localizados se reconoce la forma independientemente del detalle.
+  Solo se anota Dístico final si los dos versos declarados cierran el rango; una localización
+  imposible conserva el literal y muestra un aviso. Las notas generales con excepciones
+  exigen comprobar su alcance completo antes de distribuir el rasgo.
 - La prosa es presencia y localización entre versos, nunca extensión. Dos tramos consecutivos
   de la misma forma y jornada, separados por prosa no numerada, pueden formar una sola secuencia
   con esa caracterización. No se unen si hay incompatibilidades que requieren revisión.
