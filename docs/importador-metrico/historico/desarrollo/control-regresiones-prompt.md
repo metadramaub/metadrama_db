@@ -327,6 +327,12 @@ Los JSON y las identificaciones del modelo se conservan por separado en
 | El perseguido | 31, ambas | Coincide en 26 tramos y seis totales. Pasa el validador y recupera las llamadas 35–38. El cotejo confirma que la nota 35 se enlazó además a t08, una fila de endecasílabos que esa nota no identifica. |
 | El casamiento en la muerte | 34, ambas | 29 tramos y siete totales. Conserva la prosa sin numerar y los avisos por dos recuentos impresos discordantes y el hueco de la edición. La diferencia con la extracción anterior son los paréntesis que conserva en la denominación de la prosa. |
 
+Rectificación posterior, 5 de noviembre: la comparación con el lote GPT-6 High detectó además
+recuentos desplazados desde t09 en el archivo de Perseguido de este ensayo 0.27. La frase anterior
+no acredita la corrección de esos recuentos; la conformidad del esquema tampoco la demuestra.
+Se conserva el archivo original y el [nuevo cotejo](../../evaluacion/informes/chatgpt-gpt6-high-v0.27.md)
+documenta la diferencia. No se utiliza ese ensayo como gold.
+
 Las cinco respuestas iniciales contienen JSON conforme al esquema después
 de completar los campos internos. La comparación cotejó los campos de
 transcripción con las respuestas anteriores y las fotos en las diferencias

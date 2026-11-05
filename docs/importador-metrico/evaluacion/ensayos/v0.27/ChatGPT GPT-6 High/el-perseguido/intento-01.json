@@ -1,0 +1,424 @@
+
+{
+  "esquema": "versologia-extraccion/0.1",
+  "procedencia": {
+    "prompt_version": "extraccion/0.27"
+  },
+  "metadatos": {
+    "titulo": "El perseguido",
+    "autoria": null,
+    "genero_literal": null,
+    "fecha_inicio": null,
+    "fecha_fin": null,
+    "fuente_fecha": null,
+    "edicion_base": null,
+    "observaciones": [],
+    "fuente_id": "foto-02"
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "Jornada primera"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "Jornada segunda"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "Jornada tercera"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 512,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 512,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 513,
+      "v_fin": 542,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 30,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 543,
+      "v_fin": 727,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 185,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 728,
+      "v_fin": 787,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 60,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t05",
+      "jornada": 1,
+      "v_ini": 788,
+      "v_fin": 851,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 64,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t06",
+      "jornada": 1,
+      "v_ini": 852,
+      "v_fin": 891,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 40,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t07",
+      "jornada": 1,
+      "v_ini": 892,
+      "v_fin": 1003,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 112,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t08",
+      "jornada": 1,
+      "v_ini": 1004,
+      "v_fin": 1104,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 101,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 1105,
+      "v_fin": 1519,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 415,
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 1520,
+      "v_fin": 1533,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 1534,
+      "v_fin": 1693,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 160,
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "id": "t12",
+      "jornada": 2,
+      "v_ini": 1694,
+      "v_fin": 1802,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 109,
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "id": "t13",
+      "jornada": 2,
+      "v_ini": 1803,
+      "v_fin": 1954,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 152,
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "id": "t14",
+      "jornada": 2,
+      "v_ini": 1955,
+      "v_fin": 2087,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 133,
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "id": "t15",
+      "jornada": 2,
+      "v_ini": 2088,
+      "v_fin": 2259,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 172,
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "id": "t16",
+      "jornada": 2,
+      "v_ini": 2260,
+      "v_fin": 2307,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 48,
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "id": "t17",
+      "jornada": 3,
+      "v_ini": 2308,
+      "v_fin": 2487,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 180,
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "id": "t18",
+      "jornada": 3,
+      "v_ini": 2488,
+      "v_fin": 2539,
+      "denominacion_literal": "tercetos",
+      "n_versos_fuente": 52,
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "id": "t19",
+      "jornada": 3,
+      "v_ini": 2540,
+      "v_fin": 2831,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 292,
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "id": "t20",
+      "jornada": 3,
+      "v_ini": 2832,
+      "v_fin": 2943,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 112,
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "id": "t21",
+      "jornada": 3,
+      "v_ini": 2944,
+      "v_fin": 2993,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 50,
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "id": "t22",
+      "jornada": 3,
+      "v_ini": 2994,
+      "v_fin": 3078,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 85,
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "id": "t23",
+      "jornada": 3,
+      "v_ini": 3079,
+      "v_fin": 3230,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 152,
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "id": "t24",
+      "jornada": 3,
+      "v_ini": 3231,
+      "v_fin": 3334,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 104,
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "id": "t25",
+      "jornada": 3,
+      "v_ini": 3335,
+      "v_fin": 3405,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 71,
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "id": "t26",
+      "jornada": 3,
+      "v_ini": 3406,
+      "v_fin": 3530,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 125,
+      "fuente_id": "foto-02",
+      "pagina": 271
+    }
+  ],
+  "notas": [
+    {
+      "id": "n01",
+      "marca": "34",
+      "texto_literal": "La tirada combina el esquema ababab con aabba excepto en dos ocasiones: en una encontramos el esquema abbab (vv. 643-47), y en otra se repiten dos estrofas del tipo aabba consecutivamente (vv. 678-82 y 683-87). Esta alternancia se da en todas las series de quintillas, a menos que se indique otra cosa.",
+      "fuente_id": "foto-01",
+      "pagina": null,
+      "tramos_ref": [
+        "t03",
+        "t06",
+        "t09",
+        "t22",
+        "t26"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n02",
+      "marca": "35",
+      "texto_literal": "El verso 1003, aunque queda suelto, rima con el 1001, marcando así la transición entre las dos sucesiones. Lo mismo ocurre con el último verso de las restantes series de tercetos (el v. 1802 en los vv. 1694-1802 y el 2539 en los vv. 2488-2539). Vid. García [1990].",
+      "fuente_id": "foto-01",
+      "pagina": null,
+      "tramos_ref": [
+        "t07",
+        "t12",
+        "t18"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n03",
+      "marca": "36",
+      "texto_literal": "Los dos últimos versos constituyen un pareado, forma con la que remata otras dos de las cinco series de versos sueltos. Aquellas que no adoptan esta conclusión son las de los vv. 513-542 y 2944-2993. Lope no hace uso del pareado final de modo fijo hasta 1609-1610; en las comedias anteriores aproximadamente un tercio de los pasajes en versos sueltos terminan en pareado (siempre según el análisis de Morley y Bruerton, Cronología, p. 167 y n.2).",
+      "fuente_id": "foto-01",
+      "pagina": null,
+      "tramos_ref": [
+        "t02",
+        "t08",
+        "t14",
+        "t21",
+        "t25"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n04",
+      "marca": "37",
+      "texto_literal": "La primera quintilla es del tipo abbab (vid. la serie anterior de quintillas). También aquí [ilegible] (vv. 1295-1299). [ilegible]",
+      "fuente_id": "foto-02",
+      "pagina": 271,
+      "tramos_ref": [
+        "t09"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n05",
+      "marca": "38",
+      "texto_literal": null,
+      "fuente_id": "foto-02",
+      "pagina": 271,
+      "tramos_ref": [],
+      "v_ini": null,
+      "v_fin": null
+    }
+  ],
+  "resumen_fuente": [
+    {
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 1680,
+      "porcentaje_literal": "47,5",
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 850,
+      "porcentaje_literal": "24,1",
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "denominacion_literal": "Endecasílabos sueltos",
+      "n_versos_fuente": 385,
+      "porcentaje_literal": "10,9",
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "denominacion_literal": "Octavas reales",
+      "n_versos_fuente": 328,
+      "porcentaje_literal": "9,8",
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "denominacion_literal": "Tercetos",
+      "n_versos_fuente": 273,
+      "porcentaje_literal": "7,7",
+      "fuente_id": "foto-02",
+      "pagina": 271
+    },
+    {
+      "denominacion_literal": "Soneto",
+      "n_versos_fuente": 14,
+      "porcentaje_literal": "0,4",
+      "fuente_id": "foto-02",
+      "pagina": 271
+    }
+  ],
+  "incidencias": [
+    {
+      "tipo": "lectura_pendiente",
+      "descripcion": "Foto-02, página 271: el cuerpo de la nota 37 está cortado por el borde inferior de la fotografía. Se conserva el comienzo legible y la referencia a los vv. 1295-1299; falta parte del texto intermedio y la continuación de la nota.",
+      "fuente_id": "foto-02",
+      "tramos_ref": [
+        "t09"
+      ]
+    },
+    {
+      "tipo": "lectura_pendiente",
+      "descripcion": "Foto-02, página 271: cuerpo no visible de la nota 38, cuya llamada aparece junto al encabezamiento «Resumen».",
+      "fuente_id": "foto-02",
+      "tramos_ref": []
+    }
+  ]
+}

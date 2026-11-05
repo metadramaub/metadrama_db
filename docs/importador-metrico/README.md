@@ -8,8 +8,10 @@ Las fichas detalladas mantienen su anotación v2 y prevalecen al publicarse.
 
 **El prompt para las próximas pruebas es [0.27](../../prompts/importador-metrico/extraccion-v0.27.md).**
 El botón del dashboard sigue copiando 0.15; la candidata no se ha activado.
-David probará las veinte obras con Gemini/ChatGPT de pago. Las respuestas se conservan en
-[evaluación](./evaluacion/README.md), que explica dónde pegarlas y cómo cotejarlas.
+Ya se han conservado las veinte respuestas de GPT-6 High, sin reintentos, y las cinco recibidas
+de Gemini 3.6 Thinking. El [informe del lote](./evaluacion/informes/chatgpt-gpt6-high-v0.27.md)
+recoge los resultados y las incompatibilidades del importador por resolver antes de activar
+la candidata. [Evaluación](./evaluacion/README.md) explica cómo conservar y cotejar las respuestas.
 
 El guardado, consulta y eliminación de básicas ya tienen implementación y registros de despliegue.
 Hay ensayos de datos comparables y precomputación con ambos orígenes; esto no acredita su

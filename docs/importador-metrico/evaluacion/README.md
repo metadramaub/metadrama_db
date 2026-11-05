@@ -1,7 +1,8 @@
 # Evaluación del importador y de los modelos
 
-Próximo trabajo: comparar las veinte obras con servicios de pago usando el
-[prompt 0.27](../../../prompts/importador-metrico/extraccion-v0.27.md). El dashboard conserva 0.15.
+Completadas veinte extracciones con GPT-6 High usando el [prompt 0.27](../../../prompts/importador-metrico/extraccion-v0.27.md),
+sin reintentos. El [informe del lote](./informes/chatgpt-gpt6-high-v0.27.md) separa lectura,
+errores de las ediciones y tareas del importador. El dashboard conserva 0.15; la candidata no está activada.
 
 ## Guardar una respuesta
 
@@ -34,7 +35,7 @@ repetir el lote de veinte. No cambiar validaciones para hacer pasar una lectura 
 
 ## Dónde consultar
 
-- [Repetición con GPT-6 High y 0.27](./informes/chatgpt-gpt6-high-v0.27.md): cinco chats nuevos con las mismas obras y fotografías; comparación de errores y preparación real del importador.
+- [Lote de veinte con GPT-6 High y 0.27](./informes/chatgpt-gpt6-high-v0.27.md): resultados, cotejos y preparación real del importador; incluye el detalle de las primeras cinco.
 
 - [Gemini 3.6 Thinking con 0.27](./informes/gemini-3.6-thinking-v0.27.md): primera valoración de cinco obras y cuestiones a vigilar antes de completar las veinte.
 

@@ -1,0 +1,466 @@
+
+{
+  "esquema": "versologia-extraccion/0.1",
+  "procedencia": {
+    "prompt_version": "extraccion/0.27"
+  },
+  "metadatos": null,
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "Acto primero"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "Acto segundo"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "Acto tercero"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 192,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 192,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 193,
+      "v_fin": 196,
+      "denominacion_literal": "seguidilla",
+      "n_versos_fuente": 4,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 197,
+      "v_fin": 204,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 8,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 205,
+      "v_fin": 208,
+      "denominacion_literal": "seguidilla",
+      "n_versos_fuente": 4,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t05",
+      "jornada": 1,
+      "v_ini": 209,
+      "v_fin": 216,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 8,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t06",
+      "jornada": 1,
+      "v_ini": 217,
+      "v_fin": 220,
+      "denominacion_literal": "seguidilla",
+      "n_versos_fuente": 4,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t07",
+      "jornada": 1,
+      "v_ini": 221,
+      "v_fin": 236,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 16,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t08",
+      "jornada": 1,
+      "v_ini": 237,
+      "v_fin": 240,
+      "denominacion_literal": "seguidilla",
+      "n_versos_fuente": 4,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t09",
+      "jornada": 1,
+      "v_ini": 241,
+      "v_fin": 524,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 284,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t10",
+      "jornada": 1,
+      "v_ini": 525,
+      "v_fin": 644,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 120,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t11",
+      "jornada": 1,
+      "v_ini": 645,
+      "v_fin": 775,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 130,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t12",
+      "jornada": 1,
+      "v_ini": 776,
+      "v_fin": 803,
+      "denominacion_literal": "sonetos",
+      "n_versos_fuente": 28,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t13",
+      "jornada": 1,
+      "v_ini": 804,
+      "v_fin": 813,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 10,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t14",
+      "jornada": 1,
+      "v_ini": 814,
+      "v_fin": 841,
+      "denominacion_literal": "sonetos",
+      "n_versos_fuente": 28,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t15",
+      "jornada": 1,
+      "v_ini": 842,
+      "v_fin": 956,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 115,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t16",
+      "jornada": 1,
+      "v_ini": 957,
+      "v_fin": 967,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 11,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t17",
+      "jornada": 1,
+      "v_ini": 968,
+      "v_fin": 1051,
+      "denominacion_literal": "romance",
+      "n_versos_fuente": 84,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t18",
+      "jornada": 1,
+      "v_ini": 1052,
+      "v_fin": 1056,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 5,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t19",
+      "jornada": 2,
+      "v_ini": 1057,
+      "v_fin": 1380,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 324,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t20",
+      "jornada": 2,
+      "v_ini": 1381,
+      "v_fin": 1402,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 22,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t21",
+      "jornada": 2,
+      "v_ini": 1403,
+      "v_fin": 1906,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 504,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t22",
+      "jornada": 2,
+      "v_ini": 1907,
+      "v_fin": 2013,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 7,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t23",
+      "jornada": 2,
+      "v_ini": 2014,
+      "v_fin": 2103,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 90,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t24",
+      "jornada": 3,
+      "v_ini": 2104,
+      "v_fin": 2133,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 30,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t25",
+      "jornada": 3,
+      "v_ini": 2134,
+      "v_fin": 2137,
+      "denominacion_literal": "copla",
+      "n_versos_fuente": 4,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t26",
+      "jornada": 3,
+      "v_ini": 2138,
+      "v_fin": 2177,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 40,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t27",
+      "jornada": 3,
+      "v_ini": 2178,
+      "v_fin": 2181,
+      "denominacion_literal": "redondilla",
+      "n_versos_fuente": 4,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t28",
+      "jornada": 3,
+      "v_ini": 2182,
+      "v_fin": 2191,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 10,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t29",
+      "jornada": 3,
+      "v_ini": 2192,
+      "v_fin": 2207,
+      "denominacion_literal": "romance",
+      "n_versos_fuente": 16,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t30",
+      "jornada": 3,
+      "v_ini": 2208,
+      "v_fin": 2721,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 516,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t31",
+      "jornada": 3,
+      "v_ini": 2722,
+      "v_fin": 2825,
+      "denominacion_literal": "romance",
+      "n_versos_fuente": 104,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t32",
+      "jornada": 3,
+      "v_ini": 2826,
+      "v_fin": 2931,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 106,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "id": "t33",
+      "jornada": 3,
+      "v_ini": 2932,
+      "v_fin": 3091,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 160,
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    }
+  ],
+  "notas": [
+    {
+      "id": "n01",
+      "marca": "*",
+      "texto_literal": "La serie incluye un verso suelto (v. 655).",
+      "fuente_id": "foto-01",
+      "pagina": null,
+      "tramos_ref": [
+        "t11"
+      ],
+      "v_ini": 655,
+      "v_fin": 655
+    },
+    {
+      "id": "n02",
+      "marca": "**",
+      "texto_literal": "La serie se remata con un serventesio.",
+      "fuente_id": "foto-02",
+      "pagina": 1582,
+      "tramos_ref": [
+        "t20",
+        "t32"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n03",
+      "marca": "***",
+      "texto_literal": "Entre los vv. 2378 y 2381 falta uno para completar la quintilla.",
+      "fuente_id": "foto-02",
+      "pagina": 1582,
+      "tramos_ref": [
+        "t30"
+      ],
+      "v_ini": 2378,
+      "v_fin": 2381
+    }
+  ],
+  "resumen_fuente": [
+    {
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 1500,
+      "porcentaje_literal": "48,5",
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 941,
+      "porcentaje_literal": "30",
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "denominacion_literal": "Romance",
+      "n_versos_fuente": 204,
+      "porcentaje_literal": "7,7",
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "denominacion_literal": "Tercetos encadenados",
+      "n_versos_fuente": 128,
+      "porcentaje_literal": "4,1",
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "denominacion_literal": "Octavas reales",
+      "n_versos_fuente": 120,
+      "porcentaje_literal": "3,8",
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "denominacion_literal": "Sonetos",
+      "n_versos_fuente": 56,
+      "porcentaje_literal": "1,8",
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "denominacion_literal": "Endecasílabos sueltos",
+      "n_versos_fuente": 23,
+      "porcentaje_literal": "0,7",
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "denominacion_literal": "Seguidilla",
+      "n_versos_fuente": 16,
+      "porcentaje_literal": "0,5",
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    },
+    {
+      "denominacion_literal": "Copla",
+      "n_versos_fuente": 4,
+      "porcentaje_literal": "0,1",
+      "fuente_id": "foto-02",
+      "pagina": 1582
+    }
+  ],
+  "incidencias": [
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "En el resumen impreso, «Romance» figura con 204 versos y un porcentaje de «7,7», que no corresponde aritméticamente a ese recuento respecto de la numeración total de 3091 versos. Se conservan ambos valores tal como aparecen en la edición.",
+      "fuente_id": "foto-02",
+      "tramos_ref": []
+    }
+  ]
+}

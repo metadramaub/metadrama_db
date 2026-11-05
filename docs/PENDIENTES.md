@@ -79,132 +79,42 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
-Antes de activar otra revisión del prompt, completar el [panel de regresiones](importador-metrico/historico/desarrollo/control-regresiones-prompt.md).
-0.15 sigue activa; 0.16 es candidata sin activar. [Traición acertada](importador-metrico/historico/revisiones-obras/revision-traicion-acertada-2026-11-03.md)
-falla por nota multirrango, prosa inventada e incidencias falsas; sus rangos numerados están bien.
+Entrada vigente: [índice del importador](importador-metrico/README.md). El dashboard ofrece
+el prompt 0.15; la candidata de evaluación es 0.27. Las reglas de equivalencias v0.16 son
+independientes de esas versiones de prompt y su último ajuste está probado localmente.
 
-Continuar los ensayos del prompt v0.15 con obras nuevas y probar enlaces de notas de alcance plural.
-[Ursón y Valentín](importador-metrico/historico/revisiones-obras/revision-urson-valentin-2026-11-03.md) ya tiene transcripción
-métrica correcta, con esquema e incidencia de la errata; página 995 inferida aceptada por David.
-La obra queda sin importar por el rango impreso incongruente, pendiente de consultar la edición.
+- Revisar el [lote de veinte de GPT-6 High](importador-metrico/evaluacion/informes/chatgpt-gpt6-high-v0.27.md)
+  y acordar el procedimiento para colaboradores. Las veinte respuestas ya están conservadas,
+  sin reintentos; no queda pendiente ejecutarlas por primera vez. Repetir algunos casos difíciles
+  antes de adoptar una versión definitiva y comprobar las nuevas reglas en el flujo desplegado.
+- Adaptar el contrato de porcentajes literales para admitir los separadores impresos (coma,
+  punto y apóstrofo), preservando el original. Ferias está correctamente transcrita y el contrato
+  rechaza sus apóstrofos; no corregir el JSON ni cambiar el prompt para ocultarlo.
+- Separar forma explícita y detalles parentéticos en las equivalencias de sueltos de Serrana.
+  Conservar los localizadores incongruentes sin dejar por ello desconocida la forma. Revisar
+  notas generales con excepciones (Perseguido) antes de aplicar remates a todas las filas enlazadas.
+- Cerrar el tratamiento de desviaciones declaradas en notas y la revisión de sus avisos.
+  Las erratas de rango/recuento de Ursón, Dómine, Casamiento y Mármol se consultan en la edición;
+  no son errores de lectura que deba arreglar la IA. El leal criado conserva su caso complejo.
+- Revisar el [informe de equivalencias](importador-metrico/equivalencias/revision-equivalencias.md)
+  y los [casos complejos](importador-metrico/equivalencias/casos-complejos-equivalencias.md).
+  No identificar octavas, tercetos, letrillas o sextinas únicamente por el número de versos.
+- Preparar una guía breve y probar el circuito con un importador real, incluida su cuenta y el
+  modelo que tenga disponible. Decidir la activación del 0.27 después de resolver los puntos
+  anteriores. Mantener respuestas originales; no cerrar casos mediante JSON reparados a mano.
+- Definir la futura edición/reimportación de básicas: sustitución explícita de la copia y fecha
+  de modificación en la misma operación, conservando el alta original. No hay autorización de
+  borrado o reimportación automática de las obras de prueba por cerrar este lote.
+- Integrar la precomputación combinada y la sustitución editorial según el
+  [plan aprobado](importador-metrico/arquitectura/consultas-y-precomputacion.md): una aportación
+  por obra, copia básica durante la elaboración y sustitución al publicar la detallada, autoría
+  por obra/jornada, versiones, invalidación y permisos por consumidor. Los análisis seguirán
+  leyendo precomputados. No activar aún comparaciones públicas con básicas ni trasladar a R2.
+  Los ensayos locales de datos comparables no acreditan integración ni despliegue compartido.
 
-Definir la futura edición/reimportación de básicas: sustitución de copia y fecha del cambio
-en la misma operación, conservando el alta original. El [listado y su gestión](importador-metrico/historico/desarrollo/pendientes-en-listado.md)
-ya muestran formas pendientes, avisos guardados y ambas fechas, y permiten eliminar desde admin/IP.
-Las copias anteriores no se reescriben ni se certifican como libres de avisos no registrados.
-
-Condición principal de los próximos ensayos: Gemini gratuita, según el responsable.
-Prompt v0.13 ensayado en El verdadero amante con Gemini 3.5 Flash-Lite: cero diferencias
-métricas en sus 19 filas respecto a la referencia aceptada. v0.15 cotejada correctamente en Ursón,
-salvo la paginación inferida que el responsable acepta. Estos ensayos no demuestran generalización. La obra sigue guardada
-con la respuesta de ChatGPT, sin reimportación.
-
-El 02-11 se aplica la ampliación opcional de [datos de ejecución IA](importador-metrico/historico/desarrollo/ejecucion-ia.md)
-tras backup y autorización: servicio, modelo, modo, cuenta y parámetros editables antes de guardar.
-Prompt v0.12; cuatro importaciones anteriores verificadas intactas. Pendiente ensayo del nuevo
-prompt por el responsable con datos de ejecución declarados por la IA.
-
-Seguimiento de las veinte obras e informe del catálogo disponibles mediante
-[generación de informes](importador-metrico/funcionamiento/seguimiento-e-informe-equivalencias.md).
-Consulta remota del 02-11: cuatro guardadas. El leal criado queda aplazado por decisión
-del responsable; continuar con otra obra y actualizar el registro y las equivalencias al avanzar.
-
-Implementada el 02-11 la [comprobación de longitudes](importador-metrico/historico/desarrollo/comprobacion-longitudes.md)
-con las reglas compartidas del catálogo, remates, lagunas numeradas y adiciones declaradas.
-Los descuadres se muestran como avisos por secuencia y se pueden filtrar; no corrigen la fuente
-ni identifican formas por divisibilidad. Las formas sin regla fija no se dan por comprobadas.
-
-Preparar la revisión de equivalencias recogiendo los [casos complejos](importador-metrico/equivalencias/casos-complejos-equivalencias.md).
-
-Método precisado el 02-11: mejorar el prompt y repetir la extracción con la IA; no dar por
-cerrados los casos mediante JSON corregidos a mano. Prompt activo v0.9 para el siguiente ensayo
-de [El leal criado](importador-metrico/historico/revisiones-obras/revision-leal-criado-2026-11-02.md), con énfasis en claves
-obligatorias de todas las filas, continuidad de jornadas y llamadas junto al recuento.
-
-El 02-11 se revisa [El caballero del milagro](importador-metrico/historico/revisiones-obras/revision-caballero-milagro-2026-11-02.md)
-con prompt v0.6 y equivalencias v0.8. Seguir obra a obra con las veinte, registrando versiones y
-conservando respuestas originales. Al cerrar el lote se decidirá qué repetir con el prompt final
-y qué fichas de prueba retirar; no hay autorización de borrado ni reimportación automática.
-
-Orden operativo actualizado: [estado acordado del 31 de octubre](importador-metrico/historico/desarrollo/estado-2026-10-31.md).
-Primero mejorar y probar el prompt, cerrar notas/desviaciones y el procedimiento para colaboradores;
-después integrar la precomputación real. La primera ronda de Gemini gratuita está documentada en
-[su informe](importador-metrico/historico/desarrollo/prueba-gemini-gratuita-2026-10-30.md).
-El [ensayo del 31 de octubre](importador-metrico/historico/desarrollo/ajuste-prompt-2026-10-31.md) documenta v0.4,
-incluido el cotejo satisfactorio de la respuesta de ChatGPT aportada por David. Se corrigió el
-gold de «quintillas» con su aprobación. Ya está implementado el [flujo con metadatos opcionales](importador-metrico/historico/desarrollo/metadatos-opcionales.md):
-prompt v0.5 con fotos solas o metadatos aportados, tabla revisable y editable antes de completar
-los campos, guardado estricto. Siguiente bloque: probar obras nuevas reservadas del lote,
-sin dar por validada la fidelidad de v0.5 a partir de las cuatro obras de ajuste. Después guía
-breve y prueba con un importador real. Comparar proveedores adicionales no es requisito para empezar.
-
-**Incorporar las básicas a la precomputación y ampliar el piloto.** Guardado y consulta
-desplegados en Supabase y en la web real el 29 de octubre; El molino confirmado y reabierto
-con la sesión editorial del responsable. [Registro del despliegue](./despliegues/2026-10-29-importador.md).
-Las básicas siguen privadas y fuera de los análisis hasta implementar el productor combinado.
-Cuatro transcripciones aceptadas,
-validador y normalizador locales con pruebas. Se reutilizan obras/jornadas/secuencias y se separa
-la métrica mínima de v2. El diseño contrasta el esquema vivo y contempla agregados del corpus mínimo
-para comparar fichas completas sin publicar las mínimas individuales. Campos revisados: género
-obligatorio, fuente de datación y fundamentos de autoría opcionales; registro de quién importa.
-Ya completada la entrega de guardar y volver a abrir una ficha básica,
-con la vista previa revisada, separación editorial y contrato de análisis aprobado. Alcance
-aprobado: crear nuevas y avisar de coincidencias para decidir «otra obra: continuar» o «misma:
-descartar». Título/autor no son clave única: permitir homónimos revisados y adaptar el rechazo
-automático del borrador SQL. Una detallada de la misma obra en cualquier estado impide una
-nueva importación básica; hacer cumplir la identidad y el bloqueo en servidor y guardado.
-Reimportaciones/correcciones de básicas tendrán recorrido posterior explícito. No se retira
-por ello la copia básica previa mientras se elabora la detallada. No esperar al experimento
-científico para este recorrido.
-El editor podrá corregir o vaciar la estructura; verá la propuesta importada sin aprobación en v2.
-Se conserva una copia mínima fija hasta publicar la completa y entonces se sustituye su aporte.
-Mínima es un tipo, sin nuevo estado ni segundo validador. Admin/IP y editores autorizados importan
-y consultan todas las mínimas, viendo quién importó cada una; el laboratorio sigue para admin/IP.
-Ya hay contrato local, vistas previas de las cuatro obras y pruebas de copia fija y permisos con
-identidades sintéticas. El borrador SQL ya guarda transaccionalmente las cuatro obras en PostgreSQL
-aislado y prueba permisos, copia fija e idempotencia concurrente contra el esquema real exportado.
-El 29 de octubre se conecta en código vista previa → confirmación reconstruida en servidor →
-consulta fija, con revisión explícita de homónimos y lista Fichas básicas. La capacidad de sesión
-habilita a importadores concretos sin abrir el laboratorio. Se separan listado y editor detallados.
-Pruebas: 89 comprobaciones PostgreSQL, 25 HTTP con Auth/JWT real local, 117 pruebas de código
-y recorrido de navegador con cuentas sintéticas. La [auditoría de aislamiento](importador-metrico/historico/desarrollo/auditoria-aislamiento.md)
-cierra este bloque de consumidores: contadores y reparto detallados separados, escrituras directas
-y constructores privilegiados protegidos. La candidata ya fue promovida a migración y aplicada,
-tras backup completo y ensayo sobre copia reciente. El primer guardado y su repetición conservan
-una sola obra; filas previas y artefactos detallados permanecen intactos.
-Pendiente: precomputación combinada y sustitución editorial. Reimportación en un bloque posterior.
-El contrato 0.2 y el borrador SQL ya conservan original, copia confirmada, versión de reglas y decisiones
-particulares breves, sin estados ni fundamentos generales repetidos por secuencia. La vista previa
-ya permite editar formas y arquitecturas, dividir y reunir partes de una fila original, comprobar
-en servidor y restablecer. El modal compartido con v2 mantiene la edición general; la división
-muestra los rangos antes de crear la parte nueva y el remate permite añadir, corregir o quitar
-su dato. Los datos incorporados se muestran fuera de «Añadir datos», que sirve solo para añadir.
-El pareado final se registra como Dístico final / Presente y las asonancias explícitas del romance
-como valores del rasgo Vocales de asonancia, conservando la notación original.
-La tabla comparte la presentación de forma y arquitectura con las fichas y separa los datos
-métricos estructurados del texto de notas, para revisar qué se guardará sin abrir cada secuencia.
-Para incorporar básicas a los análisis, implementar el [plan de consultas y precomputación](importador-metrico/arquitectura/consultas-y-precomputacion.md):
-selección de una aportación por obra, lectores editoriales frente a productores del corpus mixto,
-versiones, invalidación y permisos de artefactos. El análisis seguirá usando datos precomputados;
-no se ampliarán indiscriminadamente los lectores públicos ni se filtrarán todas las mínimas fuera de los cálculos.
-Revisión acordada: renombrar términos ambiguos (propuesta Básica/Detallada), exigir la integridad
-editorial del 100 % para publicar una detallada y decidir ceros/datos ausentes medida por medida.
-La revisión general de medidas y denominadores figura en el apartado anterior; se aplica también
-al corpus existente, no solo a la importación.
-El recálculo combinado procesa ambas fuentes; se preparan documentos por consumidor y un manifiesto
-coherente para su almacenamiento actual en Supabase y futura distribución en R2, manteniendo permisos
-y autoría por obra/jornada. No se integra R2 todavía.
-Ampliar el piloto y ensayar
-sensibilidad. No se exige resolver todas las denominaciones: Canción con remate y encadenados
-con «serventesio final» como cierre 3+1 están aceptados; «tercetos» sin calificativo y «letrilla»
-conservan su ambigüedad sin cotejo obligatorio del texto. Trabajo en `main`,
-con ensayos locales antes de cada despliegue controlado en Supabase.
-→ [diseño de integración](importador-metrico/arquitectura/diseno-integracion.md)
-→ [campos mínimos y conexiones](importador-metrico/arquitectura/campos-minimos.md)
-→ [contrato local e informe del ensayo](importador-metrico/historico/desarrollo/contrato-local.md)
-→ [borrador SQL y pruebas PostgreSQL](importador-metrico/historico/desarrollo/persistencia-local.md)
-→ [vista previa del dashboard](importador-metrico/funcionamiento/importar.md)
-→ [proyecto y hoja de ruta](./importador-metrico/README.md)
+El historial de pruebas y entregas está en el [histórico](importador-metrico/historico/README.md).
+Los guardados se consultan en el [seguimiento generado](importador-metrico/evaluacion/informes/seguimiento-lote.md),
+que declara la fecha de su consulta remota. Evitar repetir aquí sus recuentos o estados por obra.
 
 ---
 

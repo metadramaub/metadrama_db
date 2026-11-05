@@ -70,6 +70,22 @@
     {
       "obra": "jorge-toledano",
       "url": "https://chatgpt.com/c/6aecda07-87f4-83ed-acc9-83abf8fb4fd1"
+    },
+    {
+      "obra": "la-serrana-de-tormes",
+      "url": "https://chatgpt.com/c/6aecda06-d918-83ed-8ef4-ffc7bd8ea3d3"
+    },
+    {
+      "obra": "el-casamiento-en-la-muerte",
+      "url": "https://chatgpt.com/c/6aecda47-dc10-83eb-9742-7dfc777591ea"
+    },
+    {
+      "obra": "el-marmol-de-felisardo",
+      "url": "https://chatgpt.com/c/6aecda48-9668-83eb-a5d9-38fde12448ff"
+    },
+    {
+      "obra": "el-perseguido",
+      "url": "https://chatgpt.com/c/6aecda04-b664-83eb-a452-3052a5dc33dd"
     }
   ],
   "prompt_sha256": "8a0d790e28b7ccb3159e72fe7d107b525d88f272d8195ee82501ac7d12f6e271",
@@ -259,7 +275,62 @@
         "33_Jorge_toledano_1.heic",
         "33_Jorge_toledano_2.HEIC"
       ]
+    },
+    {
+      "obra": "la-serrana-de-tormes",
+      "archivo": "la-serrana-de-tormes/intento-01.json",
+      "sha256": "8965605f85460b78e8218108fc115be36cee4ac4cc31b1649ed74f1d155e9e4e",
+      "conversacion": "https://chatgpt.com/c/6aecda06-d918-83ed-8ef4-ffc7bd8ea3d3",
+      "filas": 19,
+      "resumen_filas": 7,
+      "notas": 4,
+      "fuentes_enviadas": [
+        "32_serrana_Tormes_1.heic",
+        "32_serrana_Tormes_2.heic"
+      ]
+    },
+    {
+      "obra": "el-casamiento-en-la-muerte",
+      "archivo": "el-casamiento-en-la-muerte/intento-01.json",
+      "sha256": "4b0f938f72b120ce8cc1f3003a08d64028688af5b5c86d8ad507354f7edb367e",
+      "conversacion": "https://chatgpt.com/c/6aecda47-dc10-83eb-9742-7dfc777591ea",
+      "filas": 29,
+      "resumen_filas": 7,
+      "notas": 0,
+      "fuentes_enviadas": [
+        "34_casamiento_muerte_1.HEIC",
+        "34_casamiento_muerte_2.HEIC"
+      ]
+    },
+    {
+      "obra": "el-marmol-de-felisardo",
+      "archivo": "el-marmol-de-felisardo/intento-01.json",
+      "sha256": "7b2997f0d5bd64a127835a69f01259cf0bd1c1ffc2bc8cb1c204cf680a5405e0",
+      "conversacion": "https://chatgpt.com/c/6aecda48-9668-83eb-a5d9-38fde12448ff",
+      "filas": 33,
+      "resumen_filas": 9,
+      "notas": 3,
+      "fuentes_enviadas": [
+        "36_marmol_Felisardo_1.HEIC",
+        "36_marmol_Felisardo_2.HEIC"
+      ]
+    },
+    {
+      "obra": "el-perseguido",
+      "archivo": "el-perseguido/intento-01.json",
+      "sha256": "44d09bccca725d4c6854b2805622c686b39930e57ba65ddda9b31471c1cf9447",
+      "conversacion": "https://chatgpt.com/c/6aecda04-b664-83eb-a452-3052a5dc33dd",
+      "filas": 26,
+      "resumen_filas": 6,
+      "notas": 5,
+      "fuentes_enviadas": [
+        "31_perseguido_1.HEIC",
+        "31_perseguido_2.HEIC"
+      ]
     }
   ],
-  "estado_lote": "ampliacion_en_curso"
+  "estado_lote": "veinte_respuestas_conservadas",
+  "total_obras": 20,
+  "prompt_sin_cambios": true,
+  "reintentos_en_esta_prueba": 0
 }
