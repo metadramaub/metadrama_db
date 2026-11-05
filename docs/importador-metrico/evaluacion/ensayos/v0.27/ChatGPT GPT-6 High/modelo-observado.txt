@@ -1,0 +1,31 @@
+partir":
+    - button "Regenerar respuesta":
+    - button "Más acciones":
+    - generic: ChatGPT puede cometer errores. Comprueba la información importante.
+    - button:
+    - heading "Última respuesta" [level=4]
+    - status
+    - button "Añadir archivos y más":
+    - textbox "Pregunta a ChatGPT":
+      - paragraph: Pregunta a ChatGPT
+    - button "Seleccionar modelo de ChatGPT" [expanded]:
+      - generic: Esfuerzo de razonamiento
+      - generic: High
+    - button "Dictar":
+    - button "Iniciar Voz":
+    - status
+- status
+- status: Respuesta completada
+- menu "Seleccionar modelo de ChatGPT":
+  - menuitem "Seleccionar modelo":
+    - generic: High
+  - status: High, 3 de 3.
+  - generic: Usa las teclas de flecha izquierda y derecha para ajustar la potencia.
+  - menuitem "Potencia" [active]:
+    - slider
+  - generic: Bloqueado, abre las opciones de acceso
+  - generic: Límite de uso alcanzado
+  - menuitemradio [checked]:
+    - generic: GPT-6
+  - menuitemradio:
+    - generic: GPT-5.6 Sol

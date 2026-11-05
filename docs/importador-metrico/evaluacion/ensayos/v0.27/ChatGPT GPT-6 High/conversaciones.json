@@ -1,0 +1,79 @@
+{
+  "fecha": "2026-11-05",
+  "servicio": "ChatGPT",
+  "plan_observado": "Plus",
+  "modelo_seleccionado": "GPT-6",
+  "esfuerzo": "High",
+  "prompt_version": "extraccion/0.27",
+  "notas": "Cinco chats nuevos, una ejecución por obra, sin reintentos. HEIC originales convertidos a JPG por la interfaz. Prompt pegado íntegro y convertido automáticamente en adjunto de texto. El selector también muestra Límite de uso alcanzado, pero las cinco consultas producen respuestas completas; se registra la selección visible, sin afirmar observación del backend.",
+  "conversaciones": [
+    {
+      "obra": "el-caballero-del-milagro",
+      "url": "https://chatgpt.com/c/6aecd19d-6fdc-83eb-8d8e-89cbe332b76f"
+    },
+    {
+      "obra": "el-favor-agradecido",
+      "url": "https://chatgpt.com/c/6aecd236-cdc8-83ed-834c-d90e8a1939e4"
+    },
+    {
+      "obra": "el-leal-criado",
+      "url": "https://chatgpt.com/c/6aecd286-cbbc-83ed-b00b-c7a2fcc7985d"
+    },
+    {
+      "obra": "el-maestro-de-danzar",
+      "url": "https://chatgpt.com/c/6aecd298-d59c-83eb-a171-4b8ca341ee90"
+    },
+    {
+      "obra": "laura-perseguida",
+      "url": "https://chatgpt.com/c/6aecd243-f618-83eb-9998-7da42b88bb27"
+    }
+  ],
+  "prompt_sha256": "8a0d790e28b7ccb3159e72fe7d107b525d88f272d8195ee82501ac7d12f6e271",
+  "respuestas": [
+    {
+      "obra": "el-caballero-del-milagro",
+      "archivo": "el-caballero-del-milagro/intento-01.json",
+      "sha256": "e3340533b7667e3cbb261bb10e5546ae282ccfff899a602248277fb3b0630308",
+      "conversacion": "https://chatgpt.com/c/6aecd19d-6fdc-83eb-8d8e-89cbe332b76f",
+      "filas": 23,
+      "resumen_filas": 5,
+      "notas": 1
+    },
+    {
+      "obra": "el-favor-agradecido",
+      "archivo": "el-favor-agradecido/intento-01.json",
+      "sha256": "c2a751f829b8a3f03bd39668453e22c18a6bbaeec09937b04ee71e1b29e3a336",
+      "conversacion": "https://chatgpt.com/c/6aecd236-cdc8-83ed-834c-d90e8a1939e4",
+      "filas": 26,
+      "resumen_filas": 0,
+      "notas": 11
+    },
+    {
+      "obra": "el-leal-criado",
+      "archivo": "el-leal-criado/intento-01.json",
+      "sha256": "feab6c200ec98b3232d40cd3f8b10afad6b61b049bae8e9477c9bde1dc788592",
+      "conversacion": "https://chatgpt.com/c/6aecd286-cbbc-83ed-b00b-c7a2fcc7985d",
+      "filas": 28,
+      "resumen_filas": 6,
+      "notas": 1
+    },
+    {
+      "obra": "el-maestro-de-danzar",
+      "archivo": "el-maestro-de-danzar/intento-01.json",
+      "sha256": "5f528a6eddbdf30fa6b6eb379c1dce9889e6c015c3991851fc9a23324072f327",
+      "conversacion": "https://chatgpt.com/c/6aecd298-d59c-83eb-a171-4b8ca341ee90",
+      "filas": 20,
+      "resumen_filas": 8,
+      "notas": 1
+    },
+    {
+      "obra": "laura-perseguida",
+      "archivo": "laura-perseguida/intento-01.json",
+      "sha256": "3a245ecbc5d6c64aad1715546abd93e3740dd1cbd22900db62170003d79a3d3b",
+      "conversacion": "https://chatgpt.com/c/6aecd243-f618-83eb-9998-7da42b88bb27",
+      "filas": 27,
+      "resumen_filas": 7,
+      "notas": 3
+    }
+  ]
+}

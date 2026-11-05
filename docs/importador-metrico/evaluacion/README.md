@@ -34,6 +34,8 @@ repetir el lote de veinte. No cambiar validaciones para hacer pasar una lectura 
 
 ## Dónde consultar
 
+- [Repetición con GPT-6 High y 0.27](./informes/chatgpt-gpt6-high-v0.27.md): cinco chats nuevos con las mismas obras y fotografías; comparación de errores y preparación real del importador.
+
 - [Gemini 3.6 Thinking con 0.27](./informes/gemini-3.6-thinking-v0.27.md): primera valoración de cinco obras y cuestiones a vigilar antes de completar las veinte.
 
 - [Seguimiento de las veinte obras](./informes/seguimiento-lote.md): informe generado de guardados y pendientes.

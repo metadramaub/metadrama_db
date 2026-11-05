@@ -1,0 +1,316 @@
+
+{
+  "esquema": "versologia-extraccion/0.1",
+  "procedencia": {
+    "prompt_version": "extraccion/0.27"
+  },
+  "metadatos": {
+    "titulo": "El maestro de danzar",
+    "autoria": null,
+    "genero_literal": null,
+    "fecha_inicio": null,
+    "fecha_fin": null,
+    "fuente_fecha": null,
+    "edicion_base": null,
+    "observaciones": [],
+    "fuente_id": "foto-02"
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "PRIMERA JORNADA"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "JORNADA SEGUNDA"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "JORNADA TERCERA"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 92,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 92,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 93,
+      "v_fin": 208,
+      "denominacion_literal": "romance",
+      "n_versos_fuente": 116,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 209,
+      "v_fin": 1016,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 808,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 1017,
+      "v_fin": 1120,
+      "denominacion_literal": "octava real",
+      "n_versos_fuente": 104,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t05",
+      "jornada": 2,
+      "v_ini": 1121,
+      "v_fin": 1516,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 396,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t06",
+      "jornada": 2,
+      "v_ini": 1517,
+      "v_fin": 1669,
+      "denominacion_literal": "redondillas y quintillas",
+      "n_versos_fuente": 153,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t07",
+      "jornada": 2,
+      "v_ini": 1670,
+      "v_fin": 1780,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 111,
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "id": "t08",
+      "jornada": 2,
+      "v_ini": 1781,
+      "v_fin": 1815,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 35,
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 1816,
+      "v_fin": 1829,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 1830,
+      "v_fin": 2093,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 264,
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 2094,
+      "v_fin": 2139,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 46,
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "id": "t12",
+      "jornada": 2,
+      "v_ini": 2140,
+      "v_fin": 2153,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "id": "t13",
+      "jornada": 2,
+      "v_ini": 2154,
+      "v_fin": 2192,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 39,
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "id": "t14",
+      "jornada": 3,
+      "v_ini": 2193,
+      "v_fin": 2656,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 464,
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "id": "t15",
+      "jornada": 3,
+      "v_ini": 2657,
+      "v_fin": 2670,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "id": "t16",
+      "jornada": 3,
+      "v_ini": 2671,
+      "v_fin": 2731,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 61,
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "id": "t17",
+      "jornada": 3,
+      "v_ini": 2732,
+      "v_fin": 2831,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 100,
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "id": "t18",
+      "jornada": 3,
+      "v_ini": 2832,
+      "v_fin": 2862,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 31,
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "id": "t19",
+      "jornada": 3,
+      "v_ini": 2863,
+      "v_fin": 2970,
+      "denominacion_literal": "lira (AabBCC)",
+      "n_versos_fuente": 108,
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "id": "t20",
+      "jornada": 3,
+      "v_ini": 2971,
+      "v_fin": 3042,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 72,
+      "fuente_id": "foto-02",
+      "pagina": 82
+    }
+  ],
+  "notas": [
+    {
+      "id": "n01",
+      "marca": "110",
+      "texto_literal": null,
+      "fuente_id": "foto-02",
+      "pagina": 82,
+      "tramos_ref": [
+        "t07"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    }
+  ],
+  "resumen_fuente": [
+    {
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 2196,
+      "porcentaje_literal": "72,2",
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "denominacion_literal": "Endecasílabos sueltos",
+      "n_versos_fuente": 288,
+      "porcentaje_literal": "9,5",
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "denominacion_literal": "Redondillas y quintillas",
+      "n_versos_fuente": 153,
+      "porcentaje_literal": "5,0",
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "denominacion_literal": "Romances",
+      "n_versos_fuente": 116,
+      "porcentaje_literal": "3,8",
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "denominacion_literal": "Liras",
+      "n_versos_fuente": 108,
+      "porcentaje_literal": "3,5",
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "denominacion_literal": "Octavas reales",
+      "n_versos_fuente": 104,
+      "porcentaje_literal": "3,4",
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "denominacion_literal": "Sonetos",
+      "n_versos_fuente": 42,
+      "porcentaje_literal": "1,4",
+      "fuente_id": "foto-02",
+      "pagina": 82
+    },
+    {
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 35,
+      "porcentaje_literal": "1,1",
+      "fuente_id": "foto-02",
+      "pagina": 82
+    }
+  ],
+  "incidencias": [
+    {
+      "tipo": "lectura_pendiente",
+      "descripcion": "Foto-02, página 82: llamada de nota 110 en la denominación «endecasílabos sueltos» del tramo 1670–1780. El cuerpo de la nota no es visible en las fotografías proporcionadas.",
+      "fuente_id": "foto-02",
+      "tramos_ref": [
+        "t07"
+      ]
+    }
+  ]
+}

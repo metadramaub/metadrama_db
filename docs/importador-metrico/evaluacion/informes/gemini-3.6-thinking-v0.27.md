@@ -66,10 +66,9 @@ En el resumen figura **130** para octavas reales: coincide con la imagen, aunque
 suman 136. La respuesta anterior conservada tenía 136 en el resumen; no debe usarse como gold
 para penalizar el 130 fiel a la fuente.
 
-Revisión puntual pendiente: el extremo de la fila que empieza en 1250 parece **1280** en la copia
-de lectura, mientras ambas respuestas (la anterior y esta) ponen 1289, coherente con el recuento
-40 y la fila siguiente. No dar por fiel ese extremo solo por coincidir con la respuesta previa;
-verificar el original antes de afirmar una corrección silenciosa de la errata.
+Revisión puntual resuelta al repetir el lote con GPT-6 High: la copia de lectura a resolución
+original permite leer **1250–1289**, coincidente con las respuestas. La duda inicial 1280/1289
+procedía de la visualización reducida; no se contabiliza como errata ni como corrección de la IA.
 
 ### El maestro de danzar
 
@@ -95,3 +94,5 @@ para acomodar esta tanda. No se calcula una tasa global de aciertos con este cot
 El cotejo empleó las diez fotografías JPG de lectura del lote, identificadas por los números
 3–7 y los nombres de las fuentes en las respuestas. Los cotejos anteriores son apoyo, no golds
 adicionales. Esta recepción no cambia el registro histórico de guardados ni aprueba sus metadatos.
+
+Repetición posterior: [misma versión 0.27 con GPT-6 High](./chatgpt-gpt6-high-v0.27.md).
