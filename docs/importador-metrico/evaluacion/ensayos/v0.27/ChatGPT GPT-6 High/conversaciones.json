@@ -5,7 +5,7 @@
   "modelo_seleccionado": "GPT-6",
   "esfuerzo": "High",
   "prompt_version": "extraccion/0.27",
-  "notas": "Cinco chats nuevos, una ejecución por obra, sin reintentos. HEIC originales convertidos a JPG por la interfaz. Prompt pegado íntegro y convertido automáticamente en adjunto de texto. El selector también muestra Límite de uso alcanzado, pero las cinco consultas producen respuestas completas; se registra la selección visible, sin afirmar observación del backend.",
+  "notas": "Primera tanda: cinco chats nuevos. Ampliación: otras quince obras con el mismo prompt 0.27, una ejecución por obra y sin correcciones ni reintentos. Las fuentes HEIC se convierten automáticamente a JPG y el prompt largo a adjunto de texto. Se registra la selección visible GPT-6 High, sin observar el backend; el selector también muestra Límite de uso alcanzado aunque las solicitudes se completan.",
   "conversaciones": [
     {
       "obra": "el-caballero-del-milagro",
@@ -26,6 +26,50 @@
     {
       "obra": "laura-perseguida",
       "url": "https://chatgpt.com/c/6aecd243-f618-83eb-9998-7da42b88bb27"
+    },
+    {
+      "obra": "el-verdadero-amante",
+      "url": "https://chatgpt.com/c/6aecd849-696c-83eb-9c9a-ff5427c19a2f"
+    },
+    {
+      "obra": "los-donaires-de-matico",
+      "url": "https://chatgpt.com/c/6aecd891-8afc-83eb-a7ac-6790178c6fae"
+    },
+    {
+      "obra": "el-molino",
+      "url": "https://chatgpt.com/c/6aecd84a-ed34-83ed-99f4-b5437aa0b2cc"
+    },
+    {
+      "obra": "las-ferias-de-madrid",
+      "url": "https://chatgpt.com/c/6aecd84b-86c8-83eb-8f6f-3f35e7039734"
+    },
+    {
+      "obra": "el-hijo-de-reduan",
+      "url": "https://chatgpt.com/c/6aecd84c-1cb0-83eb-88f9-e62b60c6cefc"
+    },
+    {
+      "obra": "el-nacimiento-de-urson-y-valentin",
+      "url": "https://chatgpt.com/c/6aecd901-1918-83eb-817f-fd9f072b9421"
+    },
+    {
+      "obra": "traicion-acertada",
+      "url": "https://chatgpt.com/c/6aecd902-b1a4-83eb-999d-41e0261bc873"
+    },
+    {
+      "obra": "el-domine-lucas",
+      "url": "https://chatgpt.com/c/6aecd926-384c-83eb-a092-57148e7b2e4f"
+    },
+    {
+      "obra": "la-ingratitud-vengada",
+      "url": "https://chatgpt.com/c/6aecd904-84d0-83ed-9e27-2b72480793a5"
+    },
+    {
+      "obra": "los-locos-de-valencia",
+      "url": "https://chatgpt.com/c/6aecd905-9ef0-83ed-b73f-4eb22a34145e"
+    },
+    {
+      "obra": "jorge-toledano",
+      "url": "https://chatgpt.com/c/6aecda07-87f4-83ed-acc9-83abf8fb4fd1"
     }
   ],
   "prompt_sha256": "8a0d790e28b7ccb3159e72fe7d107b525d88f272d8195ee82501ac7d12f6e271",
@@ -74,6 +118,148 @@
       "filas": 27,
       "resumen_filas": 7,
       "notas": 3
+    },
+    {
+      "obra": "el-verdadero-amante",
+      "archivo": "el-verdadero-amante/intento-01.json",
+      "sha256": "a58c63e33644a7211448b12d266ded91b37670e59b1a4f7f633bdceb97f15c1b",
+      "conversacion": "https://chatgpt.com/c/6aecd849-696c-83eb-9c9a-ff5427c19a2f",
+      "filas": 19,
+      "resumen_filas": 0,
+      "notas": 0,
+      "fuentes_enviadas": [
+        "12_verdadero_amante.HEIC"
+      ]
+    },
+    {
+      "obra": "los-donaires-de-matico",
+      "archivo": "los-donaires-de-matico/intento-01.json",
+      "sha256": "76335601bd5929c981f3d75fc84da97af8fa8c931eac4b27967b5b2d24a1757c",
+      "conversacion": "https://chatgpt.com/c/6aecd891-8afc-83eb-a7ac-6790178c6fae",
+      "filas": 18,
+      "resumen_filas": 5,
+      "notas": 0,
+      "fuentes_enviadas": [
+        "13_donaires_Matico_1.HEIC",
+        "13_Donaires_Matico_2.HEIC"
+      ]
+    },
+    {
+      "obra": "el-molino",
+      "archivo": "el-molino/intento-01.json",
+      "sha256": "4d7c7450bcac7a6e8fd5ad0cc31c11e630a12c9e5c6c62d4393f7be906a5aeda",
+      "conversacion": "https://chatgpt.com/c/6aecd84a-ed34-83ed-99f4-b5437aa0b2cc",
+      "filas": 21,
+      "resumen_filas": 7,
+      "notas": 0,
+      "fuentes_enviadas": [
+        "14_molino_1.HEIC",
+        "14_molino_2.HEIC"
+      ]
+    },
+    {
+      "obra": "las-ferias-de-madrid",
+      "archivo": "las-ferias-de-madrid/intento-01.json",
+      "sha256": "36628ff46c060e9f9417e8332f24497ba9a87a53b09cea95d77e067f43ed54e1",
+      "conversacion": "https://chatgpt.com/c/6aecd84b-86c8-83eb-8f6f-3f35e7039734",
+      "filas": 25,
+      "resumen_filas": 7,
+      "notas": 0,
+      "fuentes_enviadas": [
+        "15_ferias_madrid_1.HEIC",
+        "15_ferias_madrid_2.HEIC"
+      ]
+    },
+    {
+      "obra": "el-hijo-de-reduan",
+      "archivo": "el-hijo-de-reduan/intento-01.json",
+      "sha256": "9bb130929f9e50fd714f9b60b756d6581b850caf9ec9c6232babe0298d5d868c",
+      "conversacion": "https://chatgpt.com/c/6aecd84c-1cb0-83eb-88f9-e62b60c6cefc",
+      "filas": 21,
+      "resumen_filas": 6,
+      "notas": 2,
+      "fuentes_enviadas": [
+        "20_hijo_Reduan_1.HEIC",
+        "20_hijo_Reduan_2.HEIC"
+      ]
+    },
+    {
+      "obra": "el-nacimiento-de-urson-y-valentin",
+      "archivo": "el-nacimiento-de-urson-y-valentin/intento-01.json",
+      "sha256": "81e3974b7b7a6a9770b8450aac0c0edc57c66b53f2bb679e225a5cde3696a2fb",
+      "conversacion": "https://chatgpt.com/c/6aecd901-1918-83eb-817f-fd9f072b9421",
+      "filas": 25,
+      "resumen_filas": 9,
+      "notas": 0,
+      "fuentes_enviadas": [
+        "23_nacimiento_Urson_y_valentin_1.HEIC",
+        "23_nacimiento_Urson_y_valentin_2.HEIC"
+      ]
+    },
+    {
+      "obra": "traicion-acertada",
+      "archivo": "traicion-acertada/intento-01.json",
+      "sha256": "66582771c632a43621c8c1bc3b62a015b4d3586e5f1903d6d84cf0b38cbd08e4",
+      "conversacion": "https://chatgpt.com/c/6aecd902-b1a4-83eb-999d-41e0261bc873",
+      "filas": 18,
+      "resumen_filas": 6,
+      "notas": 2,
+      "fuentes_enviadas": [
+        "25_traicion_acertada_1.HEIC",
+        "25_traicion_acertada_2.HEIC"
+      ]
+    },
+    {
+      "obra": "el-domine-lucas",
+      "archivo": "el-domine-lucas/intento-01.json",
+      "sha256": "35fd1bf35ef4ebcf41725429a228ba8ac888adeb504a466e875cd67b0f7c12e6",
+      "conversacion": "https://chatgpt.com/c/6aecd926-384c-83eb-a092-57148e7b2e4f",
+      "filas": 18,
+      "resumen_filas": 4,
+      "notas": 0,
+      "fuentes_enviadas": [
+        "28_domine_Lucas_1.HEIC",
+        "28_domine_Lucas_2.HEIC"
+      ]
+    },
+    {
+      "obra": "la-ingratitud-vengada",
+      "archivo": "la-ingratitud-vengada/intento-01.json",
+      "sha256": "3f0ee6d6111e3dace064f6ebb6f2645ad382caa8276511ae8fa411c66c3c8fa5",
+      "conversacion": "https://chatgpt.com/c/6aecd904-84d0-83ed-9e27-2b72480793a5",
+      "filas": 5,
+      "resumen_filas": 2,
+      "notas": 2,
+      "fuentes_enviadas": [
+        "29_ingratitud_vengada_1.heic",
+        "29_ingratitud_vengada_2.HEIC"
+      ]
+    },
+    {
+      "obra": "los-locos-de-valencia",
+      "archivo": "los-locos-de-valencia/intento-01.json",
+      "sha256": "0866bbfb73a4f7982fcc9ba1c5cf09f7db33a88ec00c4a2a0b31d041f1ed49d0",
+      "conversacion": "https://chatgpt.com/c/6aecd905-9ef0-83ed-b73f-4eb22a34145e",
+      "filas": 20,
+      "resumen_filas": 0,
+      "notas": 2,
+      "fuentes_enviadas": [
+        "30_locos_Valencia.HEIC"
+      ]
+    },
+    {
+      "obra": "jorge-toledano",
+      "archivo": "jorge-toledano/intento-01.json",
+      "sha256": "f75ccba42175e2de1e6f5caa22e3a6257b323c0ffb0e41c349954391d9fef61f",
+      "conversacion": "https://chatgpt.com/c/6aecda07-87f4-83ed-acc9-83abf8fb4fd1",
+      "filas": 26,
+      "resumen_filas": 7,
+      "notas": 0,
+      "fuentes_enviadas": [
+        "33_Jorge_toledano_1.heic",
+        "33_Jorge_toledano_2.HEIC"
+      ]
     }
-  ]
+  ],
+  "estado_lote": "ampliacion_en_curso"
 }

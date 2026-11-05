@@ -1,0 +1,343 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "procedencia": {
+    "prompt_version": "extraccion/0.27"
+  },
+  "metadatos": {
+    "titulo": "Las ferias de Madrid",
+    "autoria": null,
+    "genero_literal": null,
+    "fecha_inicio": null,
+    "fecha_fin": null,
+    "fuente_fecha": null,
+    "edicion_base": null,
+    "observaciones": [],
+    "fuente_id": "foto-02"
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "Jornada primera"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "Jornada segunda"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "Jornada tercera"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 28,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 28,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 29,
+      "v_fin": 158,
+      "denominacion_literal": "tercetos",
+      "n_versos_fuente": 130,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 159,
+      "v_fin": 1098,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 940,
+      "fuente_id": "foto-01",
+      "pagina": null
+    },
+    {
+      "id": "t04",
+      "jornada": 2,
+      "v_ini": 1099,
+      "v_fin": 1366,
+      "denominacion_literal": "tercetos",
+      "n_versos_fuente": 268,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t05",
+      "jornada": 2,
+      "v_ini": 1367,
+      "v_fin": 1526,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 160,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t06",
+      "jornada": 2,
+      "v_ini": 1527,
+      "v_fin": 1731,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 205,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t07",
+      "jornada": 2,
+      "v_ini": 1732,
+      "v_fin": 1813,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 82,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t08",
+      "jornada": 2,
+      "v_ini": 1814,
+      "v_fin": 2257,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 444,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t09",
+      "jornada": 3,
+      "v_ini": 2258,
+      "v_fin": 2529,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 272,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t10",
+      "jornada": 3,
+      "v_ini": 2530,
+      "v_fin": 2695,
+      "denominacion_literal": "tercetos",
+      "n_versos_fuente": 166,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t11",
+      "jornada": 3,
+      "v_ini": 2696,
+      "v_fin": 2927,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 232,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t12",
+      "jornada": 3,
+      "v_ini": 2928,
+      "v_fin": 2952,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 25,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t13",
+      "jornada": 3,
+      "v_ini": 2953,
+      "v_fin": 2955,
+      "denominacion_literal": "letrilla",
+      "n_versos_fuente": 3,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t14",
+      "jornada": 3,
+      "v_ini": 2956,
+      "v_fin": 2959,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 4,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t15",
+      "jornada": 3,
+      "v_ini": 2960,
+      "v_fin": 2962,
+      "denominacion_literal": "letrilla",
+      "n_versos_fuente": 3,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t16",
+      "jornada": 3,
+      "v_ini": 2963,
+      "v_fin": 2967,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 5,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t17",
+      "jornada": 3,
+      "v_ini": 2968,
+      "v_fin": 2970,
+      "denominacion_literal": "letrilla",
+      "n_versos_fuente": 3,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t18",
+      "jornada": 3,
+      "v_ini": 2971,
+      "v_fin": 2985,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 15,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t19",
+      "jornada": 3,
+      "v_ini": 2986,
+      "v_fin": 2988,
+      "denominacion_literal": "letrilla",
+      "n_versos_fuente": 3,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t20",
+      "jornada": 3,
+      "v_ini": 2989,
+      "v_fin": 3010,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 22,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t21",
+      "jornada": 3,
+      "v_ini": 3011,
+      "v_fin": 3042,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 32,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t22",
+      "jornada": 3,
+      "v_ini": 3043,
+      "v_fin": 3174,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 132,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t23",
+      "jornada": 3,
+      "v_ini": 3175,
+      "v_fin": 3196,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 22,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t24",
+      "jornada": 3,
+      "v_ini": 3197,
+      "v_fin": 3204,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 8,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "id": "t25",
+      "jornada": 3,
+      "v_ini": 3205,
+      "v_fin": 3236,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 32,
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    }
+  ],
+  "notas": [],
+  "resumen_fuente": [
+    {
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 1780,
+      "porcentaje_literal": "54,6",
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 2240,
+      "porcentaje_literal": "69’2",
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "denominacion_literal": "tercetos",
+      "n_versos_fuente": 564,
+      "porcentaje_literal": "17’4",
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 205,
+      "porcentaje_literal": "6’3",
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 175,
+      "porcentaje_literal": "5’4",
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 40,
+      "porcentaje_literal": "1’2",
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    },
+    {
+      "denominacion_literal": "letrillas",
+      "n_versos_fuente": 12,
+      "porcentaje_literal": "0’3",
+      "fuente_id": "foto-02",
+      "pagina": 1833
+    }
+  ],
+  "incidencias": [
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "En el resumen de la página 1833 aparecen dos filas consecutivas con la misma denominación «redondillas», pero con totales y porcentajes distintos: 1780 versos (54,6) y 2240 versos (69’2). Ambas cifras están impresas y se conservan sin corregir. La suma de los recuentos de los tramos denominados «redondillas» es 2240, pero no se modifica ni se elimina la primera fila del resumen.",
+      "fuente_id": "foto-02",
+      "tramos_ref": []
+    }
+  ]
+}

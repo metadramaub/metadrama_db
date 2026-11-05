@@ -1,0 +1,287 @@
+
+{
+  "esquema": "versologia-extraccion/0.1",
+  "procedencia": {
+    "prompt_version": "extraccion/0.27"
+  },
+  "metadatos": null,
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "Jornada primera"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "Jornada segunda"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "Jornada tercera"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 532,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 532,
+      "fuente_id": "14_molino_1.jpg",
+      "pagina": null
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 533,
+      "v_fin": 562,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 30,
+      "fuente_id": "14_molino_1.jpg",
+      "pagina": null
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 563,
+      "v_fin": 626,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 64,
+      "fuente_id": "14_molino_1.jpg",
+      "pagina": null
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 627,
+      "v_fin": 728,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 102,
+      "fuente_id": "14_molino_1.jpg",
+      "pagina": null
+    },
+    {
+      "id": "t05",
+      "jornada": 1,
+      "v_ini": 729,
+      "v_fin": 973,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 245,
+      "fuente_id": "14_molino_1.jpg",
+      "pagina": null
+    },
+    {
+      "id": "t06",
+      "jornada": 2,
+      "v_ini": 974,
+      "v_fin": 1253,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 280,
+      "fuente_id": "14_molino_1.jpg",
+      "pagina": null
+    },
+    {
+      "id": "t07",
+      "jornada": 2,
+      "v_ini": 1254,
+      "v_fin": 1333,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 80,
+      "fuente_id": "14_molino_1.jpg",
+      "pagina": null
+    },
+    {
+      "id": "t08",
+      "jornada": 2,
+      "v_ini": 1334,
+      "v_fin": 1793,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 460,
+      "fuente_id": "14_molino_1.jpg",
+      "pagina": null
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 1794,
+      "v_fin": 1831,
+      "denominacion_literal": "endecasílabos sueltos (con pareado final)",
+      "n_versos_fuente": 38,
+      "fuente_id": "14_molino_1.jpg",
+      "pagina": null
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 1832,
+      "v_fin": 1963,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 132,
+      "fuente_id": "14_molino_1.jpg",
+      "pagina": null
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 1964,
+      "v_fin": 1988,
+      "denominacion_literal": "endecasílabos sueltos (con pareado final)",
+      "n_versos_fuente": 25,
+      "fuente_id": "14_molino_1.jpg",
+      "pagina": null
+    },
+    {
+      "id": "t12",
+      "jornada": 3,
+      "v_ini": 1989,
+      "v_fin": 2002,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "14_molino_2.jpg",
+      "pagina": 1562
+    },
+    {
+      "id": "t13",
+      "jornada": 3,
+      "v_ini": 2003,
+      "v_fin": 2247,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 245,
+      "fuente_id": "14_molino_2.jpg",
+      "pagina": 1562
+    },
+    {
+      "id": "t14",
+      "jornada": 3,
+      "v_ini": 2248,
+      "v_fin": 2271,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 24,
+      "fuente_id": "14_molino_2.jpg",
+      "pagina": 1562
+    },
+    {
+      "id": "t15",
+      "jornada": 3,
+      "v_ini": 2272,
+      "v_fin": 2387,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 116,
+      "fuente_id": "14_molino_2.jpg",
+      "pagina": 1562
+    },
+    {
+      "id": "t16",
+      "jornada": 3,
+      "v_ini": 2388,
+      "v_fin": 2454,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 67,
+      "fuente_id": "14_molino_2.jpg",
+      "pagina": 1562
+    },
+    {
+      "id": "t17",
+      "jornada": 3,
+      "v_ini": 2455,
+      "v_fin": 2659,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 205,
+      "fuente_id": "14_molino_2.jpg",
+      "pagina": 1562
+    },
+    {
+      "id": "t18",
+      "jornada": 3,
+      "v_ini": 2660,
+      "v_fin": 2727,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 68,
+      "fuente_id": "14_molino_2.jpg",
+      "pagina": 1562
+    },
+    {
+      "id": "t19",
+      "jornada": 3,
+      "v_ini": 2728,
+      "v_fin": 2879,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 152,
+      "fuente_id": "14_molino_2.jpg",
+      "pagina": 1562
+    },
+    {
+      "id": "t20",
+      "jornada": 3,
+      "v_ini": 2880,
+      "v_fin": 2888,
+      "denominacion_literal": "letrilla",
+      "n_versos_fuente": 9,
+      "fuente_id": "14_molino_2.jpg",
+      "pagina": 1562
+    },
+    {
+      "id": "t21",
+      "jornada": 3,
+      "v_ini": 2889,
+      "v_fin": 2992,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 104,
+      "fuente_id": "14_molino_2.jpg",
+      "pagina": 1562
+    }
+  ],
+  "notas": [],
+  "resumen_fuente": [
+    {
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 1708,
+      "porcentaje_literal": "57,1",
+      "fuente_id": "14_molino_2.jpg",
+      "pagina": 1562
+    },
+    {
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 695,
+      "porcentaje_literal": "23,2",
+      "fuente_id": "14_molino_2.jpg",
+      "pagina": 1562
+    },
+    {
+      "denominacion_literal": "Tercetos",
+      "n_versos_fuente": 301,
+      "porcentaje_literal": "10,1",
+      "fuente_id": "14_molino_2.jpg",
+      "pagina": 1562
+    },
+    {
+      "denominacion_literal": "Sueltos",
+      "n_versos_fuente": 161,
+      "porcentaje_literal": "5,4",
+      "fuente_id": "14_molino_2.jpg",
+      "pagina": 1562
+    },
+    {
+      "denominacion_literal": "Octavas",
+      "n_versos_fuente": 104,
+      "porcentaje_literal": "3,5",
+      "fuente_id": "14_molino_2.jpg",
+      "pagina": 1562
+    },
+    {
+      "denominacion_literal": "Soneto",
+      "n_versos_fuente": 14,
+      "porcentaje_literal": "0,5",
+      "fuente_id": "14_molino_2.jpg",
+      "pagina": 1562
+    },
+    {
+      "denominacion_literal": "Letrilla",
+      "n_versos_fuente": 9,
+      "porcentaje_literal": "0,3",
+      "fuente_id": "14_molino_2.jpg",
+      "pagina": 1562
+    }
+  ],
+  "incidencias": []
+}

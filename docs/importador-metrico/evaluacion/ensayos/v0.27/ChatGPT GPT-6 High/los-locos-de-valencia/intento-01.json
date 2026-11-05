@@ -1,0 +1,259 @@
+
+{
+  "esquema": "versologia-extraccion/0.1",
+  "procedencia": {
+    "prompt_version": "extraccion/0.27"
+  },
+  "metadatos": null,
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "ACTO PRIMERO"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "ACTO SEGUNDO"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "ACTO TERCERO"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 130,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 130,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 131,
+      "v_fin": 590,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 460,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 591,
+      "v_fin": 990,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 400,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 991,
+      "v_fin": 1006,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 16,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t05",
+      "jornada": 1,
+      "v_ini": 1007,
+      "v_fin": 1020,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t06",
+      "jornada": 1,
+      "v_ini": 1021,
+      "v_fin": 1050,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 30,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t07",
+      "jornada": 2,
+      "v_ini": 1051,
+      "v_fin": 1082,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 32,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t08",
+      "jornada": 2,
+      "v_ini": 1083,
+      "v_fin": 1466,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 384,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 1467,
+      "v_fin": 1544,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 78,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 1545,
+      "v_fin": 1996,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 452,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 1997,
+      "v_fin": 2022,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 26,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t12",
+      "jornada": 2,
+      "v_ini": 2023,
+      "v_fin": 2092,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 70,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t13",
+      "jornada": 3,
+      "v_ini": 2093,
+      "v_fin": 2222,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 130,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t14",
+      "jornada": 3,
+      "v_ini": 2223,
+      "v_fin": 2470,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 248,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t15",
+      "jornada": 3,
+      "v_ini": 2471,
+      "v_fin": 2621,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 151,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t16",
+      "jornada": 3,
+      "v_ini": 2622,
+      "v_fin": 2754,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 133,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t17",
+      "jornada": 3,
+      "v_ini": 2755,
+      "v_fin": 2804,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 50,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t18",
+      "jornada": 3,
+      "v_ini": 2805,
+      "v_fin": 2900,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 96,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t19",
+      "jornada": 3,
+      "v_ini": 2901,
+      "v_fin": 2964,
+      "denominacion_literal": "romance en á-e",
+      "n_versos_fuente": 64,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    },
+    {
+      "id": "t20",
+      "jornada": 3,
+      "v_ini": 2965,
+      "v_fin": 3072,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 108,
+      "fuente_id": "foto-01",
+      "pagina": 188
+    }
+  ],
+  "notas": [
+    {
+      "id": "n01",
+      "marca": "*",
+      "texto_literal": "En la serie de endecasílabos sueltos aparece un verso heptasílabo (v. 2172), probable descuido de Lope.",
+      "fuente_id": "foto-01",
+      "pagina": 188,
+      "tramos_ref": [
+        "t13"
+      ],
+      "v_ini": 2172,
+      "v_fin": 2172
+    },
+    {
+      "id": "n02",
+      "marca": "**",
+      "texto_literal": "El v. 2666 es un octosílabo suelto integrado en la serie de redondillas.",
+      "fuente_id": "foto-01",
+      "pagina": 188,
+      "tramos_ref": [
+        "t16"
+      ],
+      "v_ini": 2666,
+      "v_fin": 2666
+    }
+  ],
+  "resumen_fuente": [],
+  "incidencias": [
+    {
+      "tipo": "lectura_pendiente",
+      "descripcion": "En el margen derecho de foto-01 aparece parcialmente la página contigua, con el encabezamiento «RESUMEN» y varias denominaciones métricas. La tabla está recortada y no se ven sus recuentos ni porcentajes, por lo que no es posible transcribir sus filas en resumen_fuente.",
+      "fuente_id": "foto-01",
+      "tramos_ref": []
+    }
+  ]
+}
