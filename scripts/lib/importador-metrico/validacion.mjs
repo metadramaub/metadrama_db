@@ -90,7 +90,7 @@ export const extraccionSchema = z
 					n_versos_fuente: entero.nullable(),
 					porcentaje_literal: z
 						.string()
-						.regex(/^\d+(,\d+)?$/)
+						.regex(/^\d+([,.‘’']\d+)?$/)
 						.nullable(),
 					fuente_id: texto.nullable(),
 					pagina: entero.nullable()
@@ -570,7 +570,7 @@ export function validarExtraccion(entrada, opciones = {}) {
 		);
 	obra.resumen_fuente.forEach((row, i) => {
 		comprobarFoto(row.fuente_id, row.pagina, `resumen_fuente.${i}`);
-		if (row.porcentaje_literal !== null && Number(row.porcentaje_literal.replace(',', '.')) > 100) {
+		if (row.porcentaje_literal !== null && Number(row.porcentaje_literal.replace(/[,.‘’']/u, '.')) > 100) {
 			add(
 				'advertencias',
 				'porcentaje_fuera_de_rango',

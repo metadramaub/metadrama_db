@@ -134,6 +134,7 @@ raise exception 'FALLO: se aceptó %',n; end; $$;\n`;
 datos=jsonb_set(datos,'{procedencia,ejecucion}','{"generador":"ChatGPT","modelo":null,"modo":"Instant","plan":"Plus","parametros":"top_p=0.8","prompt_version":"extraccion/0.12"}'::jsonb),
 original=jsonb_set(original,'{procedencia}',(original->'procedencia')||'{"generador":"ChatGPT","modelo":"Modelo declarado","modo":"Instant","plan":null,"parametros":null}'::jsonb)
 where n=0;
+update entradas set original=jsonb_set(original,'{resumen_fuente,0,porcentaje_literal}','"69’2"'::jsonb) where n=0;
 update entradas set datos=jsonb_set(datos,'{comprobacion}','{"avisos_longitud":[{"segmento_ref":"t01","v_ini":1,"v_fin":532,"mensaje":"Aviso sintético para probar su conservación"}]}'::jsonb) where n=0;\n` + sesion(2);
 	sql +=
 		`reset role; insert into public.artefactos_publicos(clave,tipo,alcance,version_esquema,payload)
@@ -145,6 +146,7 @@ values('prueba/corpus','corpus_comparativas','publico',2,'{}');\n` + sesion(2);
 	);
 	for (let i = 0; i < 4; i++) sql += `insert into resultados values(${i},(${llamada(i)}));\n`;
 	sql += ok("(select datos_confirmados#>>'{procedencia,ejecucion,plan}'='Plus' and datos_confirmados#>'{procedencia,ejecucion,modelo}'='null'::jsonb and entrada_original#>>'{procedencia,modelo}'='Modelo declarado' and datos_confirmados#>>'{procedencia,ejecucion,parametros}'='top_p=0.8' from public.importaciones_metricas where importacion_id=(select (valor->>'importacion_id')::uuid from resultados where n=0))", 'ejecución corregida conservada sin sobrescribir la declaración original');
+	sql += ok("(select entrada_original#>>'{resumen_fuente,0,porcentaje_literal}'='69’2' from public.importaciones_metricas where importacion_id=(select (valor->>'importacion_id')::uuid from resultados where n=0))", 'guardado conserva el apóstrofo decimal literal de la extracción');
 	sql += ok("(select not (datos_confirmados->'procedencia' ? 'ejecucion') from public.importaciones_metricas where importacion_id=(select (valor->>'importacion_id')::uuid from resultados where n=1))", 'compatibilidad con documentos anteriores sin ejecución');
 	sql += ok(
 		'(select count(*)=4 from public.importaciones_metricas)',

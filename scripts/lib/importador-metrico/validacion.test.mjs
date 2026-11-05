@@ -72,6 +72,26 @@ function conNota(obra = ejemplo()) {
 }
 
 describe('formato inicial sin normalización ni promoción a gold', () => {
+	it.each(['69,2', '69.2', '69’2', "69'2", '69‘2', '100'])('conserva el separador impreso de %s', (porcentaje) => {
+		const obra = ejemplo();
+		obra.resumen_fuente = [{ denominacion_literal:'redondillas', n_versos_fuente:4,
+			porcentaje_literal:porcentaje, fuente_id:'foto-prueba', pagina:10 }];
+		const informe = validarExtraccion(obra, opciones);
+		expect(informe.errores).toEqual([]);
+		expect(obra.resumen_fuente[0].porcentaje_literal).toBe(porcentaje);
+	});
+	it.each(['100,1', '100.1', '100’1', "100'1"])('comprueba el límite con el separador de %s', (porcentaje) => {
+		const obra = ejemplo();
+		obra.resumen_fuente = [{ denominacion_literal:'redondillas', n_versos_fuente:4,
+			porcentaje_literal:porcentaje, fuente_id:'foto-prueba', pagina:10 }];
+		expect(codigos(validarExtraccion(obra, opciones),'advertencias')).toContain('porcentaje_fuera_de_rango');
+	});
+	it.each(['1,2.3', '69%', '-1', 'NaN', '1e2', '1 000,2'])('rechaza un porcentaje ambiguo: %s', (porcentaje) => {
+		const obra = ejemplo();
+		obra.resumen_fuente = [{ denominacion_literal:'redondillas', n_versos_fuente:4,
+			porcentaje_literal:porcentaje, fuente_id:'foto-prueba', pagina:10 }];
+		expect(validarExtraccion(obra, opciones).errores.length).toBeGreaterThan(0);
+	});
 	it('admite términos desconocidos y mantiene el cotejo pendiente', () => {
 		const informe = validarExtraccion(ejemplo(), opciones);
 		expect(informe.estructura_valida).toBe(true);
