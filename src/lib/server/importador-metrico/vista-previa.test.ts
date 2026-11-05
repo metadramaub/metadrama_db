@@ -121,7 +121,10 @@ describe('vista previa del importador sin persistencia', () => {
 		expect(conNota.errores).toEqual([]);
 		expect(conNota.datos!.segmentos[0].detalles_fuente).toContainEqual(expect.objectContaining({rasgo_slug:'distico_final',valor_slug:'presente'}));
 	});
-	it('usa la nota enlazada para tercetos con cierre, sin trasladar esquemas de quintillas', () => {
+	it.each([
+		['Como es habitual, la serie de tercetos encadenados se cierra con un serventesio.', true],
+		['Como es habitual, la serie de tercetos encadenados se cierra con un serven[ilegible]', false]
+	])('identifica tercetos por la nota y separa la evidencia del cierre: %s', (nota, conRemate) => {
 		const raw=JSON.parse(obtenerPilotos()[0].entrada);
 		raw.obra_ref='obra-importada'; raw.jornadas=[{numero:1,rotulo_literal:null}];
 		raw.tramos=[
@@ -129,13 +132,19 @@ describe('vista previa del importador sin persistencia', () => {
 			{id:'t02',jornada:1,v_ini:92,v_fin:331,denominacion_literal:'quintillas',n_versos_fuente:240,fuente_id:'foto-01',pagina:null,notas_ref:['n02']}
 		];
 		raw.notas=[
-			{id:'n01',marca:'18',texto_literal:'Como es habitual, la serie de tercetos encadenados se cierra con un serventesio.',fuente_id:'foto-01',pagina:null,tramos_ref:['t01'],v_ini:null,v_fin:null},
+			{id:'n01',marca:'18',texto_literal:nota,fuente_id:'foto-01',pagina:null,tramos_ref:['t01'],v_ini:null,v_fin:null},
 			{id:'n02',marca:'19',texto_literal:'Formas ababa (115), aabba (120) y abaab (5).',fuente_id:'foto-01',pagina:null,tramos_ref:['t02'],v_ini:null,v_fin:null}
 		]; raw.resumen_fuente=[]; raw.incidencias=[];
 		const vista=analizarEntrada(JSON.stringify(raw));
 		expect(vista.errores).toEqual([]);
 		expect(vista.datos!.segmentos[0].identificacion).toEqual({forma_slug:'terceto_encadenado',arquitectura_slug:null});
-		expect(vista.datos!.segmentos[0].detalles_fuente).toContainEqual(expect.objectContaining({tipo_seccion:'remate',n_versos:1}));
+		if (conRemate) {
+			expect(vista.datos!.segmentos[0].detalles_fuente).toContainEqual(expect.objectContaining({tipo_seccion:'remate',n_versos:1}));
+		} else {
+			expect(vista.datos!.segmentos[0].detalles_fuente).toEqual([]);
+			expect(vista.datos!.segmentos[0].origen.denominacion_literal).toBe('tercetos');
+			expect(vista.filas[0].notas_fuente?.[0].texto_literal).toBe(nota);
+		}
 		expect(vista.datos!.segmentos[1].detalles_fuente).toEqual([]);
 		expect(vista.filas[1].notas_fuente?.[0].texto_literal).toContain('abaab (5)');
 		// Una nota de otra fila no resuelve los tercetos.

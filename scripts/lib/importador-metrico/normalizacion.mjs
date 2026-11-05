@@ -139,7 +139,12 @@ export function normalizarExtraccion(
 		);
 		// Una precisión explícita en una nota enlazada prevalece sobre el nombre ambiguo.
 		const precisas = matches.filter((r) => r.nota_contiene);
-		const aplicables = precisas.length ? precisas : matches;
+		// Si una regla exige todas las mismas evidencias y otra más, es más específica.
+		// Las condiciones independientes siguen siendo un conflicto: no decide el orden del JSON.
+		const aplicables = precisas.length ? precisas.filter((r) => !precisas.some((otra) =>
+			otra.nota_contiene.length > r.nota_contiene.length &&
+			r.nota_contiene.every((fragmento) => otra.nota_contiene.includes(fragmento))
+		)) : matches;
 		if (aplicables.length > 1)
 			throw new Error(`Equivalencias en conflicto para ${source.obra_ref}/${row.id}`);
 		let rule = aplicables[0];

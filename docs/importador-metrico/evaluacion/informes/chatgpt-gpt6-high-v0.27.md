@@ -69,6 +69,12 @@ Hay evidencia para identificar la forma independientemente de cuánto pueda sabe
 La extracción de Gemini lograba identificar esa fila a costa de completar el texto recortado;
 una mayor cobertura automática en ese caso no significaba una mejor transcripción.
 
+Corrección posterior aprobada el 5 de noviembre: las reglas v0.16 identifican esos 91 versos
+como Terceto encadenado, sin arquitectura ni remate. Si la nota sí declara el cierre completo,
+se mantiene la regla más específica que registra el remate. La tabla anterior conserva el
+resultado del ensayo con v0.15 para no reescribir la comparación original. Cambio probado
+localmente; esta comprobación no acredita su despliegue en la web.
+
 ## Conclusión y continuación
 
 La misma versión del prompt obtiene aquí lecturas mejores en los errores concretos de notas,
@@ -80,6 +86,7 @@ Mantener el 0.27 para terminar la comparación. No hace falta reescribirlo a par
 La elección de un modelo recomendado requiere las otras obras y repetir algunos casos difíciles.
 Antes de cerrar el importador, separar el reconocimiento explícito de encadenados de la
 identificación de su remate en notas recortadas, y tratar las llamadas añadidas al literal sin
-alterar la evidencia original. Estos ajustes no se han implementado en esta prueba.
+alterar la evidencia original. El primer ajuste se implementó después con v0.16, como se indica
+arriba; el tratamiento de llamadas añadidas al literal sigue pendiente.
 
 No se han guardado fichas, modificado equivalencias ni cambiado el prompt del dashboard.

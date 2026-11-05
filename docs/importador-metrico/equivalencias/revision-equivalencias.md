@@ -2,7 +2,7 @@
 
 Generado con `npm run importador:informes`; corregir las reglas o decisiones de origen, no este informe.
 
-Reglas v0.15; catálogo consultado el 2026-11-02.
+Reglas v0.16; catálogo consultado el 2026-11-02.
 
 Para revisar: decisiones pendientes y tabla resumen. La procedencia y los casos complejos permiten comprobar ejemplos; el anexo conserva todas las apariciones y las reglas completas.
 
@@ -528,7 +528,7 @@ Se conservan los literales de la edición. Una sola entrada seleccionada por obr
 | Silva | — | — |
 | Soneto | soneto, soneto-con-estrambote | — |
 | Terceto | — | tercetos-sin-precisar |
-| Terceto encadenado | tercetos-encadenados, tercetos-serventesio, tercetos-nota-encadenados-con-cierre, tercetos-encadenados-nota-remata-serventesio | tercetos-sin-precisar |
+| Terceto encadenado | tercetos-encadenados, tercetos-serventesio, tercetos-nota-encadenados-sin-cierre-determinado, tercetos-nota-encadenados-con-cierre, tercetos-encadenados-nota-remata-serventesio | tercetos-sin-precisar |
 | Verso aislado | — | — |
 | Villancico | — | letrilla |
 | Zéjel | — | letrilla |
@@ -808,6 +808,20 @@ Revisión de la regla: aprobada (2026-11-02). Ámbito: general.
 Criterio provisional acordado: primeros catorce versos como Soneto y resto como secuencia sin identificar. No se registra estrambote como remate de soneto ni se inventan forma o metro para el resto; criterio pendiente.
 
 División aplicada por esta regla: soneto_y_estrambote_sin_identificar.
+
+Datos adicionales: ninguno.
+
+#### tercetos-nota-encadenados-sin-cierre-determinado
+
+Literales: «tercetos».
+
+Resultado: identificación directa. Terceto encadenado / sin arquitectura.
+
+Revisión de la regla: aprobada (2026-11-05). Ámbito: general.
+
+La nota enlazada identifica expresamente tercetos encadenados. Esto basta para reconocer la forma aunque la descripción del cierre esté recortada. No determina arquitectura ni declara presencia o ausencia de remate.
+
+Condición: una nota enlazada debe contener «tercetos encadenados».
 
 Datos adicionales: ninguno.
 

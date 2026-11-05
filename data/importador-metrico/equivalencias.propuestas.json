@@ -336,6 +336,21 @@
       }
     },
     {
+      "id": "tercetos-nota-encadenados-sin-cierre-determinado",
+      "literales": ["tercetos"],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [{"forma_slug": "terceto_encadenado", "arquitectura_slug": null}],
+      "exhaustividad": "destino_unico_aprobado_solo_en_forma",
+      "fundamento": "La nota enlazada identifica expresamente tercetos encadenados. Esto basta para reconocer la forma aunque la descripción del cierre esté recortada. No determina arquitectura ni declara presencia o ausencia de remate.",
+      "detalles_fuente": [],
+      "aprobacion": {
+        "responsable": "Responsable del proyecto",
+        "fecha": "2026-11-05",
+        "fundamento": "Se aprueba reconocer la forma explícita en la nota y dejar el remate sin determinar cuando la foto corta la descripción del cierre."
+      },
+      "nota_contiene": ["tercetos encadenados"]
+    },
+    {
       "id": "tercetos-nota-encadenados-con-cierre",
       "literales": [
         "tercetos"
@@ -562,6 +577,6 @@
       ]
     }
   ],
-  "version": "v0.15",
+  "version": "v0.16",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }

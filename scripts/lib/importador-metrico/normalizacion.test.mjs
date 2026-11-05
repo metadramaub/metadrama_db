@@ -31,6 +31,24 @@ const approval = {
 };
 
 describe('normalizador local', () => {
+	it('no resuelve condiciones de nota independientes por el orden de las reglas', () => {
+		const input = raw();
+		input.obra_ref = 'obra-importada'; input.jornadas = [{ numero: 1, rotulo_literal: null }];
+		input.resumen_fuente = []; input.incidencias = [];
+		input.tramos = [{ id: 't01', jornada: 1, v_ini: 1, v_fin: 91,
+			denominacion_literal: 'tercetos', n_versos_fuente: 91, fuente_id: 'foto-01',
+			pagina: null, notas_ref: ['n01'] }];
+		input.notas = [{ id: 'n01', marca: '18',
+			texto_literal: 'La serie de tercetos encadenados se cierra con un serven[ilegible]',
+			fuente_id: 'foto-01', pagina: null, tramos_ref: ['t01'], v_ini: null, v_fin: null }];
+		const otrasReglas = structuredClone(reglas);
+		const base = otrasReglas.reglas.find(r => r.id === 'tercetos-nota-encadenados-sin-cierre-determinado');
+		otrasReglas.reglas.push({ ...base, id: 'otra-condicion-independiente', nota_contiene: ['serie'] });
+		for (const lista of [otrasReglas.reglas, [...otrasReglas.reglas].reverse()]) {
+			expect(() => normalizarExtraccion(input, context({ fuentes: undefined,
+				reglas: { ...otrasReglas, reglas: lista } }))).toThrow('Equivalencias en conflicto');
+		}
+	});
 	it('usa los cierres explícitos de las notas de El hijo de Reduán solo en las filas enlazadas', () => {
 		const input = raw();
 		input.obra_ref = 'El hijo de Reduán'; input.jornadas = [{numero:1,rotulo_literal:null}];
