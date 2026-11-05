@@ -1,0 +1,326 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "procedencia": {"prompt_version": "extraccion/0.27"},
+  "metadatos": null,
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "ACTO PRIMERO"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "ACTO SEGUNDO"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "ACTO TERCERO"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 136,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 136,
+      "fuente_id": "32_serrana_Tormes_1.jpg",
+      "pagina": 150
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 137,
+      "v_fin": 216,
+      "denominacion_literal": "octavas",
+      "n_versos_fuente": 80,
+      "fuente_id": "32_serrana_Tormes_1.jpg",
+      "pagina": 150
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 217,
+      "v_fin": 624,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 408,
+      "fuente_id": "32_serrana_Tormes_1.jpg",
+      "pagina": 150
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 625,
+      "v_fin": 688,
+      "denominacion_literal": "octavas",
+      "n_versos_fuente": 64,
+      "fuente_id": "32_serrana_Tormes_1.jpg",
+      "pagina": 150
+    },
+    {
+      "id": "t05",
+      "jornada": 1,
+      "v_ini": 689,
+      "v_fin": 787,
+      "denominacion_literal": "endecasílabos sueltos (con pareado en los vv. 786-787)",
+      "n_versos_fuente": 99,
+      "fuente_id": "32_serrana_Tormes_1.jpg",
+      "pagina": 150
+    },
+    {
+      "id": "t06",
+      "jornada": 1,
+      "v_ini": 788,
+      "v_fin": 1019,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 232,
+      "fuente_id": "32_serrana_Tormes_1.jpg",
+      "pagina": 150
+    },
+    {
+      "id": "t07",
+      "jornada": 1,
+      "v_ini": 1020,
+      "v_fin": 1075,
+      "denominacion_literal": "endecasílabos sueltos (con pareado en los vv. 1074-1075)",
+      "n_versos_fuente": 56,
+      "fuente_id": "32_serrana_Tormes_1.jpg",
+      "pagina": 150
+    },
+    {
+      "id": "t08",
+      "jornada": 2,
+      "v_ini": 1076,
+      "v_fin": 1220,
+      "denominacion_literal": "tercetos",
+      "n_versos_fuente": 145,
+      "fuente_id": "32_serrana_Tormes_1.jpg",
+      "pagina": 150
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 1221,
+      "v_fin": 1290,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 70,
+      "fuente_id": "32_serrana_Tormes_1.jpg",
+      "pagina": 150
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 1291,
+      "v_fin": 1304,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "32_serrana_Tormes_1.jpg",
+      "pagina": 150
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 1305,
+      "v_fin": 2052,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 748,
+      "fuente_id": "32_serrana_Tormes_1.jpg",
+      "pagina": 150
+    },
+    {
+      "id": "t12",
+      "jornada": 2,
+      "v_ini": 2053,
+      "v_fin": 2183,
+      "denominacion_literal": "endecasílabos sueltos (con pareados en los vv. 2150-2151, 2159-2160 y 2182-2183)",
+      "n_versos_fuente": 131,
+      "fuente_id": "32_serrana_Tormes_1.jpg",
+      "pagina": 150
+    },
+    {
+      "id": "t13",
+      "jornada": 3,
+      "v_ini": 2184,
+      "v_fin": 2267,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 84,
+      "fuente_id": "32_serrana_Tormes_1.jpg",
+      "pagina": 150
+    },
+    {
+      "id": "t14",
+      "jornada": 3,
+      "v_ini": 2268,
+      "v_fin": 2380,
+      "denominacion_literal": "endecasílabos sueltos (con pareado en los vv. 2379-2380)",
+      "n_versos_fuente": 113,
+      "fuente_id": "32_serrana_Tormes_1.jpg",
+      "pagina": 150
+    },
+    {
+      "id": "t15",
+      "jornada": 3,
+      "v_ini": 2381,
+      "v_fin": 2712,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 332,
+      "fuente_id": "32_serrana_Tormes_1.jpg",
+      "pagina": 150
+    },
+    {
+      "id": "t16",
+      "jornada": 3,
+      "v_ini": 2713,
+      "v_fin": 2932,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 220,
+      "fuente_id": "32_serrana_Tormes_1.jpg",
+      "pagina": 150
+    },
+    {
+      "id": "t17",
+      "jornada": 3,
+      "v_ini": 2933,
+      "v_fin": 3082,
+      "denominacion_literal": "sextetos-liras",
+      "n_versos_fuente": 150,
+      "fuente_id": "32_serrana_Tormes_2.jpg",
+      "pagina": 151
+    },
+    {
+      "id": "t18",
+      "jornada": 3,
+      "v_ini": 3083,
+      "v_fin": 3113,
+      "denominacion_literal": "endecasílabos sueltos (con pareado en los vv. 3112-3113)",
+      "n_versos_fuente": 31,
+      "fuente_id": "32_serrana_Tormes_2.jpg",
+      "pagina": 151
+    },
+    {
+      "id": "t19",
+      "jornada": 3,
+      "v_ini": 3114,
+      "v_fin": 3218,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 105,
+      "fuente_id": "32_serrana_Tormes_2.jpg",
+      "pagina": 151
+    }
+  ],
+  "notas": [
+    {
+      "id": "n01",
+      "marca": "17",
+      "texto_literal": "Forman coplas reales con esquema ababaccddc.",
+      "fuente_id": "32_serrana_Tormes_1.jpg",
+      "pagina": 150,
+      "tramos_ref": [
+        "t09"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n02",
+      "marca": "18",
+      "texto_literal": "Forman coplas reales con esquema ababaccddc, con quintillas extravagantes en los vv. 2783-2787 (aabba) y 2818-2822 (ababa).",
+      "fuente_id": "32_serrana_Tormes_1.jpg",
+      "pagina": 150,
+      "tramos_ref": [
+        "t16"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n03",
+      "marca": "19",
+      "texto_literal": null,
+      "fuente_id": "32_serrana_Tormes_2.jpg",
+      "pagina": 151,
+      "tramos_ref": [
+        "t19"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n04",
+      "marca": "20",
+      "texto_literal": null,
+      "fuente_id": "32_serrana_Tormes_2.jpg",
+      "pagina": 151,
+      "tramos_ref": [],
+      "v_ini": null,
+      "v_fin": null
+    }
+  ],
+  "resumen_fuente": [
+    {
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 1940,
+      "porcentaje_literal": "60,30",
+      "fuente_id": "32_serrana_Tormes_2.jpg",
+      "pagina": 151
+    },
+    {
+      "denominacion_literal": "Endecasílabos sueltos",
+      "n_versos_fuente": 430,
+      "porcentaje_literal": "13,30",
+      "fuente_id": "32_serrana_Tormes_2.jpg",
+      "pagina": 151
+    },
+    {
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 395,
+      "porcentaje_literal": "12,30",
+      "fuente_id": "32_serrana_Tormes_2.jpg",
+      "pagina": 151
+    },
+    {
+      "denominacion_literal": "Sextetos-liras",
+      "n_versos_fuente": 150,
+      "porcentaje_literal": "4,70",
+      "fuente_id": "32_serrana_Tormes_2.jpg",
+      "pagina": 151
+    },
+    {
+      "denominacion_literal": "Octavas",
+      "n_versos_fuente": 144,
+      "porcentaje_literal": "4,50",
+      "fuente_id": "32_serrana_Tormes_2.jpg",
+      "pagina": 151
+    },
+    {
+      "denominacion_literal": "Tercetos encadenados",
+      "n_versos_fuente": 145,
+      "porcentaje_literal": "4,50",
+      "fuente_id": "32_serrana_Tormes_2.jpg",
+      "pagina": 151
+    },
+    {
+      "denominacion_literal": "Soneto",
+      "n_versos_fuente": 14,
+      "porcentaje_literal": "0,40",
+      "fuente_id": "32_serrana_Tormes_2.jpg",
+      "pagina": 151
+    }
+  ],
+  "incidencias": [
+    {
+      "tipo": "lectura_pendiente",
+      "descripcion": "Cuerpo no visible para la nota con marca 19",
+      "fuente_id": "32_serrana_Tormes_2.jpg",
+      "tramos_ref": [
+        "t19"
+      ]
+    },
+    {
+      "tipo": "lectura_pendiente",
+      "descripcion": "Cuerpo no visible para la nota con marca 20 asociada al resumen",
+      "fuente_id": "32_serrana_Tormes_2.jpg",
+      "tramos_ref": []
+    }
+  ]
+}

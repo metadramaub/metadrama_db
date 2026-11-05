@@ -1,7 +1,7 @@
 # Ensayo local de precomputación combinada
 
 29 de octubre de 2026. Primera prueba ejecutable del
-[plan de productores](../importador-metrico/consultas-y-precomputacion.md), con las definiciones
+[plan de productores](../importador-metrico/arquitectura/consultas-y-precomputacion.md), con las definiciones
 del [inventario general](../inventario-medidas-analiticas.md). Afecta al diseño analítico de
 detalladas y básicas; no es una nueva funcionalidad del editor.
 

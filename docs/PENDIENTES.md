@@ -79,17 +79,17 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
-Antes de activar otra revisión del prompt, completar el [panel de regresiones](./importador-metrico/control-regresiones-prompt.md).
-0.15 sigue activa; 0.16 es candidata sin activar. [Traición acertada](./importador-metrico/revision-traicion-acertada-2026-11-03.md)
+Antes de activar otra revisión del prompt, completar el [panel de regresiones](importador-metrico/historico/desarrollo/control-regresiones-prompt.md).
+0.15 sigue activa; 0.16 es candidata sin activar. [Traición acertada](importador-metrico/historico/revisiones-obras/revision-traicion-acertada-2026-11-03.md)
 falla por nota multirrango, prosa inventada e incidencias falsas; sus rangos numerados están bien.
 
 Continuar los ensayos del prompt v0.15 con obras nuevas y probar enlaces de notas de alcance plural.
-[Ursón y Valentín](./importador-metrico/revision-urson-valentin-2026-11-03.md) ya tiene transcripción
+[Ursón y Valentín](importador-metrico/historico/revisiones-obras/revision-urson-valentin-2026-11-03.md) ya tiene transcripción
 métrica correcta, con esquema e incidencia de la errata; página 995 inferida aceptada por David.
 La obra queda sin importar por el rango impreso incongruente, pendiente de consultar la edición.
 
 Definir la futura edición/reimportación de básicas: sustitución de copia y fecha del cambio
-en la misma operación, conservando el alta original. El [listado y su gestión](./importador-metrico/pendientes-en-listado.md)
+en la misma operación, conservando el alta original. El [listado y su gestión](importador-metrico/historico/desarrollo/pendientes-en-listado.md)
 ya muestran formas pendientes, avisos guardados y ambas fechas, y permiten eliminar desde admin/IP.
 Las copias anteriores no se reescriben ni se certifican como libres de avisos no registrados.
 
@@ -99,40 +99,40 @@ métricas en sus 19 filas respecto a la referencia aceptada. v0.15 cotejada corr
 salvo la paginación inferida que el responsable acepta. Estos ensayos no demuestran generalización. La obra sigue guardada
 con la respuesta de ChatGPT, sin reimportación.
 
-El 02-11 se aplica la ampliación opcional de [datos de ejecución IA](./importador-metrico/ejecucion-ia.md)
+El 02-11 se aplica la ampliación opcional de [datos de ejecución IA](importador-metrico/historico/desarrollo/ejecucion-ia.md)
 tras backup y autorización: servicio, modelo, modo, cuenta y parámetros editables antes de guardar.
 Prompt v0.12; cuatro importaciones anteriores verificadas intactas. Pendiente ensayo del nuevo
 prompt por el responsable con datos de ejecución declarados por la IA.
 
 Seguimiento de las veinte obras e informe del catálogo disponibles mediante
-[generación de informes](./importador-metrico/seguimiento-e-informe-equivalencias.md).
+[generación de informes](importador-metrico/funcionamiento/seguimiento-e-informe-equivalencias.md).
 Consulta remota del 02-11: cuatro guardadas. El leal criado queda aplazado por decisión
 del responsable; continuar con otra obra y actualizar el registro y las equivalencias al avanzar.
 
-Implementada el 02-11 la [comprobación de longitudes](./importador-metrico/comprobacion-longitudes.md)
+Implementada el 02-11 la [comprobación de longitudes](importador-metrico/historico/desarrollo/comprobacion-longitudes.md)
 con las reglas compartidas del catálogo, remates, lagunas numeradas y adiciones declaradas.
 Los descuadres se muestran como avisos por secuencia y se pueden filtrar; no corrigen la fuente
 ni identifican formas por divisibilidad. Las formas sin regla fija no se dan por comprobadas.
 
-Preparar la revisión de equivalencias recogiendo los [casos complejos](./importador-metrico/casos-complejos-equivalencias.md).
+Preparar la revisión de equivalencias recogiendo los [casos complejos](importador-metrico/equivalencias/casos-complejos-equivalencias.md).
 
 Método precisado el 02-11: mejorar el prompt y repetir la extracción con la IA; no dar por
 cerrados los casos mediante JSON corregidos a mano. Prompt activo v0.9 para el siguiente ensayo
-de [El leal criado](./importador-metrico/revision-leal-criado-2026-11-02.md), con énfasis en claves
+de [El leal criado](importador-metrico/historico/revisiones-obras/revision-leal-criado-2026-11-02.md), con énfasis en claves
 obligatorias de todas las filas, continuidad de jornadas y llamadas junto al recuento.
 
-El 02-11 se revisa [El caballero del milagro](./importador-metrico/revision-caballero-milagro-2026-11-02.md)
+El 02-11 se revisa [El caballero del milagro](importador-metrico/historico/revisiones-obras/revision-caballero-milagro-2026-11-02.md)
 con prompt v0.6 y equivalencias v0.8. Seguir obra a obra con las veinte, registrando versiones y
 conservando respuestas originales. Al cerrar el lote se decidirá qué repetir con el prompt final
 y qué fichas de prueba retirar; no hay autorización de borrado ni reimportación automática.
 
-Orden operativo actualizado: [estado acordado del 31 de octubre](./importador-metrico/estado-2026-10-31.md).
+Orden operativo actualizado: [estado acordado del 31 de octubre](importador-metrico/historico/desarrollo/estado-2026-10-31.md).
 Primero mejorar y probar el prompt, cerrar notas/desviaciones y el procedimiento para colaboradores;
 después integrar la precomputación real. La primera ronda de Gemini gratuita está documentada en
-[su informe](./importador-metrico/prueba-gemini-gratuita-2026-10-30.md).
-El [ensayo del 31 de octubre](./importador-metrico/ajuste-prompt-2026-10-31.md) documenta v0.4,
+[su informe](importador-metrico/historico/desarrollo/prueba-gemini-gratuita-2026-10-30.md).
+El [ensayo del 31 de octubre](importador-metrico/historico/desarrollo/ajuste-prompt-2026-10-31.md) documenta v0.4,
 incluido el cotejo satisfactorio de la respuesta de ChatGPT aportada por David. Se corrigió el
-gold de «quintillas» con su aprobación. Ya está implementado el [flujo con metadatos opcionales](./importador-metrico/metadatos-opcionales.md):
+gold de «quintillas» con su aprobación. Ya está implementado el [flujo con metadatos opcionales](importador-metrico/historico/desarrollo/metadatos-opcionales.md):
 prompt v0.5 con fotos solas o metadatos aportados, tabla revisable y editable antes de completar
 los campos, guardado estricto. Siguiente bloque: probar obras nuevas reservadas del lote,
 sin dar por validada la fidelidad de v0.5 a partir de las cuatro obras de ajuste. Después guía
@@ -167,7 +167,7 @@ El 29 de octubre se conecta en código vista previa → confirmación reconstrui
 consulta fija, con revisión explícita de homónimos y lista Fichas básicas. La capacidad de sesión
 habilita a importadores concretos sin abrir el laboratorio. Se separan listado y editor detallados.
 Pruebas: 89 comprobaciones PostgreSQL, 25 HTTP con Auth/JWT real local, 117 pruebas de código
-y recorrido de navegador con cuentas sintéticas. La [auditoría de aislamiento](./importador-metrico/auditoria-aislamiento.md)
+y recorrido de navegador con cuentas sintéticas. La [auditoría de aislamiento](importador-metrico/historico/desarrollo/auditoria-aislamiento.md)
 cierra este bloque de consumidores: contadores y reparto detallados separados, escrituras directas
 y constructores privilegiados protegidos. La candidata ya fue promovida a migración y aplicada,
 tras backup completo y ensayo sobre copia reciente. El primer guardado y su repetición conservan
@@ -183,7 +183,7 @@ El pareado final se registra como Dístico final / Presente y las asonancias exp
 como valores del rasgo Vocales de asonancia, conservando la notación original.
 La tabla comparte la presentación de forma y arquitectura con las fichas y separa los datos
 métricos estructurados del texto de notas, para revisar qué se guardará sin abrir cada secuencia.
-Para incorporar básicas a los análisis, implementar el [plan de consultas y precomputación](./importador-metrico/consultas-y-precomputacion.md):
+Para incorporar básicas a los análisis, implementar el [plan de consultas y precomputación](importador-metrico/arquitectura/consultas-y-precomputacion.md):
 selección de una aportación por obra, lectores editoriales frente a productores del corpus mixto,
 versiones, invalidación y permisos de artefactos. El análisis seguirá usando datos precomputados;
 no se ampliarán indiscriminadamente los lectores públicos ni se filtrarán todas las mínimas fuera de los cálculos.
@@ -199,11 +199,11 @@ sensibilidad. No se exige resolver todas las denominaciones: Canción con remate
 con «serventesio final» como cierre 3+1 están aceptados; «tercetos» sin calificativo y «letrilla»
 conservan su ambigüedad sin cotejo obligatorio del texto. Trabajo en `main`,
 con ensayos locales antes de cada despliegue controlado en Supabase.
-→ [diseño de integración](./importador-metrico/diseno-integracion.md)
-→ [campos mínimos y conexiones](./importador-metrico/campos-minimos.md)
-→ [contrato local e informe del ensayo](./importador-metrico/contrato-local.md)
-→ [borrador SQL y pruebas PostgreSQL](./importador-metrico/persistencia-local.md)
-→ [vista previa del dashboard](./importador-metrico/vista-previa-dashboard.md)
+→ [diseño de integración](importador-metrico/arquitectura/diseno-integracion.md)
+→ [campos mínimos y conexiones](importador-metrico/arquitectura/campos-minimos.md)
+→ [contrato local e informe del ensayo](importador-metrico/historico/desarrollo/contrato-local.md)
+→ [borrador SQL y pruebas PostgreSQL](importador-metrico/historico/desarrollo/persistencia-local.md)
+→ [vista previa del dashboard](importador-metrico/funcionamiento/importar.md)
 → [proyecto y hoja de ruta](./importador-metrico/README.md)
 
 ---

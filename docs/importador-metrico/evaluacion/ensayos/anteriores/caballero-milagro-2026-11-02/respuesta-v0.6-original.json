@@ -1,0 +1,345 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "obra_ref": "obra-importada",
+  "estado_revision": "borrador_ia",
+  "revision_humana": {
+    "responsable": null,
+    "fecha": null,
+    "resultado": "pendiente"
+  },
+  "procedencia": {
+    "fecha": null,
+    "procedimiento": "ejecucion_prompt",
+    "generador": null,
+    "modelo": null,
+    "prompt_version": "extraccion/0.6",
+    "ensayo_controlado": false
+  },
+  "metadatos": null,
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "ACTO PRIMERO"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "ACTO SEGUNDO"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "ACTO TERCERO"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 352,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 352,
+      "fuente_id": "3_caballero_milagro_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 353,
+      "v_fin": 456,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 104,
+      "fuente_id": "3_caballero_milagro_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 457,
+      "v_fin": 748,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 292,
+      "fuente_id": "3_caballero_milagro_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 749,
+      "v_fin": 824,
+      "denominacion_literal": "endecasílabos sueltos rematados\nen pareado",
+      "n_versos_fuente": 76,
+      "fuente_id": "3_caballero_milagro_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t05",
+      "jornada": 1,
+      "v_ini": 825,
+      "v_fin": 980,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 156,
+      "fuente_id": "3_caballero_milagro_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t06",
+      "jornada": 1,
+      "v_ini": 981,
+      "v_fin": 1028,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 48,
+      "fuente_id": "3_caballero_milagro_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t07",
+      "jornada": 2,
+      "v_ini": 1029,
+      "v_fin": 1504,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 476,
+      "fuente_id": "3_caballero_milagro_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t08",
+      "jornada": 2,
+      "v_ini": 1505,
+      "v_fin": 1562,
+      "denominacion_literal": "endecasílabos sueltos rematados\nen pareado",
+      "n_versos_fuente": 58,
+      "fuente_id": "3_caballero_milagro_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 1563,
+      "v_fin": 1664,
+      "denominacion_literal": "sextetos-liras",
+      "n_versos_fuente": 102,
+      "fuente_id": "3_caballero_milagro_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 1665,
+      "v_fin": 1681,
+      "denominacion_literal": "soneto con estrambote",
+      "n_versos_fuente": 17,
+      "fuente_id": "3_caballero_milagro_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 1682,
+      "v_fin": 2085,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 404,
+      "fuente_id": "3_caballero_milagro_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t12",
+      "jornada": 3,
+      "v_ini": 2086,
+      "v_fin": 2349,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 264,
+      "fuente_id": "3_caballero_milagro_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t13",
+      "jornada": 3,
+      "v_ini": 2350,
+      "v_fin": 2363,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "3_caballero_milagro_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t14",
+      "jornada": 3,
+      "v_ini": 2364,
+      "v_fin": 2447,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 84,
+      "fuente_id": "3_caballero_milagro_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t15",
+      "jornada": 3,
+      "v_ini": 2448,
+      "v_fin": 2485,
+      "denominacion_literal": "endecasílabos sueltos rematados\nen pareado",
+      "n_versos_fuente": 38,
+      "fuente_id": "3_caballero_milagro_2.HEIC",
+      "pagina": 1016,
+      "notas_ref": []
+    },
+    {
+      "id": "t16",
+      "jornada": 3,
+      "v_ini": 2486,
+      "v_fin": 2629,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 144,
+      "fuente_id": "3_caballero_milagro_2.HEIC",
+      "pagina": 1016,
+      "notas_ref": []
+    },
+    {
+      "id": "t17",
+      "jornada": 3,
+      "v_ini": 2630,
+      "v_fin": 2745,
+      "denominacion_literal": "endecasílabos sueltos rematados\nen pareado",
+      "n_versos_fuente": 116,
+      "fuente_id": "3_caballero_milagro_2.HEIC",
+      "pagina": 1016,
+      "notas_ref": []
+    },
+    {
+      "id": "t18",
+      "jornada": 3,
+      "v_ini": 2746,
+      "v_fin": 2799,
+      "denominacion_literal": "sextetos-liras",
+      "n_versos_fuente": 54,
+      "fuente_id": "3_caballero_milagro_2.HEIC",
+      "pagina": 1016,
+      "notas_ref": []
+    },
+    {
+      "id": "t19",
+      "jornada": 3,
+      "v_ini": 2800,
+      "v_fin": 2867,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 68,
+      "fuente_id": "3_caballero_milagro_2.HEIC",
+      "pagina": 1016,
+      "notas_ref": []
+    },
+    {
+      "id": "t20",
+      "jornada": 3,
+      "v_ini": 2868,
+      "v_fin": 2885,
+      "denominacion_literal": "endecasílabos sueltos rematados\nen pareado",
+      "n_versos_fuente": 18,
+      "fuente_id": "3_caballero_milagro_2.HEIC",
+      "pagina": 1016,
+      "notas_ref": []
+    },
+    {
+      "id": "t21",
+      "jornada": 3,
+      "v_ini": 2886,
+      "v_fin": 2957,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 72,
+      "fuente_id": "3_caballero_milagro_2.HEIC",
+      "pagina": 1016,
+      "notas_ref": []
+    },
+    {
+      "id": "t22",
+      "jornada": 3,
+      "v_ini": 2958,
+      "v_fin": 2989,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 32,
+      "fuente_id": "3_caballero_milagro_2.HEIC",
+      "pagina": 1016,
+      "notas_ref": []
+    },
+    {
+      "id": "t23",
+      "jornada": 3,
+      "v_ini": 2990,
+      "v_fin": 3001,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 12,
+      "fuente_id": "3_caballero_milagro_2.HEIC",
+      "pagina": 1016,
+      "notas_ref": []
+    }
+  ],
+  "notas": [
+    {
+      "id": "n01",
+      "marca": "66",
+      "texto_literal": null,
+      "fuente_id": "3_caballero_milagro_2.HEIC",
+      "pagina": 1016,
+      "tramos_ref": [],
+      "v_ini": null,
+      "v_fin": null
+    }
+  ],
+  "resumen_fuente": [
+    {
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 2324,
+      "porcentaje_literal": "77,44",
+      "fuente_id": "3_caballero_milagro_2.HEIC",
+      "pagina": 1016
+    },
+    {
+      "denominacion_literal": "Endecasílabos sueltos",
+      "n_versos_fuente": 306,
+      "porcentaje_literal": "10,19",
+      "fuente_id": "3_caballero_milagro_2.HEIC",
+      "pagina": 1016
+    },
+    {
+      "denominacion_literal": "Octavas reales",
+      "n_versos_fuente": 184,
+      "porcentaje_literal": "6,13",
+      "fuente_id": "3_caballero_milagro_2.HEIC",
+      "pagina": 1016
+    },
+    {
+      "denominacion_literal": "Sextetos-liras",
+      "n_versos_fuente": 156,
+      "porcentaje_literal": "5,19",
+      "fuente_id": "3_caballero_milagro_2.HEIC",
+      "pagina": 1016
+    },
+    {
+      "denominacion_literal": "Sonetos",
+      "n_versos_fuente": 31,
+      "porcentaje_literal": "1,03",
+      "fuente_id": "3_caballero_milagro_2.HEIC",
+      "pagina": 1016
+    }
+  ],
+  "incidencias": [
+    {
+      "tipo": "lectura_pendiente",
+      "descripcion": "La nota con marca '66' en la página 1016 (foto 3_caballero_milagro_2.HEIC) solo muestra la llamada en superíndice junto al total de sonetos, sin texto de nota visible.",
+      "fuente_id": "3_caballero_milagro_2.HEIC",
+      "tramos_ref": []
+    }
+  ]
+}

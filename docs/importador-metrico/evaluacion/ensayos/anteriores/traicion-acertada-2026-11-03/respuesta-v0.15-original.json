@@ -1,0 +1,453 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "obra_ref": "obra-importada",
+  "estado_revision": "borrador_ia",
+  "revision_humana": {
+    "responsable": null,
+    "fecha": null,
+    "resultado": "pendiente"
+  },
+  "procedencia": {
+    "fecha": null,
+    "procedimiento": "ejecucion_prompt",
+    "generador": null,
+    "modelo": null,
+    "modo": null,
+    "plan": null,
+    "parametros": null,
+    "prompt_version": "extraccion/0.15",
+    "ensayo_controlado": false
+  },
+  "metadatos": null,
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "Jornada primera"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "Jornada segunda"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "Jornada tercera"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": null,
+      "v_ini": null,
+      "v_fin": null,
+      "denominacion_literal": "carta en prosa",
+      "n_versos_fuente": null,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 480,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 480,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 481,
+      "v_fin": 532,
+      "denominacion_literal": "romance aa",
+      "n_versos_fuente": 52,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 533,
+      "v_fin": 656,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 124,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t05",
+      "jornada": 1,
+      "v_ini": 657,
+      "v_fin": 726,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 70,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t06",
+      "jornada": 1,
+      "v_ini": 727,
+      "v_fin": 882,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 156,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t07",
+      "jornada": 1,
+      "v_ini": 883,
+      "v_fin": 913,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 31,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t08",
+      "jornada": 1,
+      "v_ini": 914,
+      "v_fin": 1013,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 100,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 1014,
+      "v_fin": 1119,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 106,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 1120,
+      "v_fin": 1603,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 484,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 1604,
+      "v_fin": 1675,
+      "denominacion_literal": "octavas",
+      "n_versos_fuente": 72,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t12",
+      "jornada": 2,
+      "v_ini": 1676,
+      "v_fin": 1725,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 50,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t13",
+      "jornada": 2,
+      "v_ini": 1726,
+      "v_fin": 1929,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 204,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t14",
+      "jornada": 3,
+      "v_ini": 1930,
+      "v_fin": 2024,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 95,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t15",
+      "jornada": 3,
+      "v_ini": 2025,
+      "v_fin": 2356,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 332,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t16",
+      "jornada": 3,
+      "v_ini": 2357,
+      "v_fin": 2388,
+      "denominacion_literal": "octavas",
+      "n_versos_fuente": 32,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t17",
+      "jornada": 3,
+      "v_ini": 2389,
+      "v_fin": 2440,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 52,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t18",
+      "jornada": 3,
+      "v_ini": 2441,
+      "v_fin": 2676,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 236,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t19",
+      "jornada": 3,
+      "v_ini": 2677,
+      "v_fin": 2861,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 185,
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "notas_ref": [
+        "n01"
+      ]
+    }
+  ],
+  "notas": [
+    {
+      "id": "n01",
+      "marca": "21",
+      "texto_literal": "Hemos considerado como quintillas las estrofas comprendidas entre los versos 914-1013, 1676-1725 y 2677-2861. Morley y Bruerton (Cronología, p. 108) han observado que los tipos de quintillas más frecuentes en las comedias de Lope «son el 1 [ababal y el 5 [aabbaj, algunas veces en forma de copla real de 1 y 5, pero mezcladas más frecuentemente de un modo irregular con algunas quintillas",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "pagina": null,
+      "tramos_ref": [
+        "t19"
+      ],
+      "v_ini": 914,
+      "v_fin": 2861
+    }
+  ],
+  "resumen_fuente": [
+    {
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 2016,
+      "porcentaje_literal": "70,5",
+      "fuente_id": "25_traicion_acertada_2.HEIC",
+      "pagina": 710
+    },
+    {
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 335,
+      "porcentaje_literal": "11,7",
+      "fuente_id": "25_traicion_acertada_2.HEIC",
+      "pagina": 710
+    },
+    {
+      "denominacion_literal": "Endecasílabos sueltos",
+      "n_versos_fuente": 248,
+      "porcentaje_literal": "8,7",
+      "fuente_id": "25_traicion_acertada_2.HEIC",
+      "pagina": 710
+    },
+    {
+      "denominacion_literal": "Tercetos",
+      "n_versos_fuente": 106,
+      "porcentaje_literal": "3,7",
+      "fuente_id": "25_traicion_acertada_2.HEIC",
+      "pagina": 710
+    },
+    {
+      "denominacion_literal": "Octavas",
+      "n_versos_fuente": 104,
+      "porcentaje_literal": "3,6",
+      "fuente_id": "25_traicion_acertada_2.HEIC",
+      "pagina": 710
+    },
+    {
+      "denominacion_literal": "Romance",
+      "n_versos_fuente": 52,
+      "porcentaje_literal": "1,8",
+      "fuente_id": "25_traicion_acertada_2.HEIC",
+      "pagina": 710
+    }
+  ],
+  "incidencias": [
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t02: rango 1–480, recuento impreso 480 (cálculo v_fin - v_ini + 1 = 480).",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "tramos_ref": [
+        "t02"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t03: rango 481–532, recuento impreso 52 (cálculo v_fin - v_ini + 1 = 52).",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "tramos_ref": [
+        "t03"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t04: rango 533–656, recuento impreso 124 (cálculo v_fin - v_ini + 1 = 124).",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "tramos_ref": [
+        "t04"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t05: rango 657–726, recuento impreso 70 (cálculo v_fin - v_ini + 1 = 70).",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "tramos_ref": [
+        "t05"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t06: rango 727–882, recuento impreso 156 (cálculo v_fin - v_ini + 1 = 156).",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "tramos_ref": [
+        "t06"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t07: rango 883–913, recuento impreso 31 (cálculo v_fin - v_ini + 1 = 31).",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "tramos_ref": [
+        "t07"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t08: rango 914–1013, recuento impreso 100 (cálculo v_fin - v_ini + 1 = 100).",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "tramos_ref": [
+        "t08"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t09: rango 1014–1119, recuento impreso 106 (cálculo v_fin - v_ini + 1 = 106).",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "tramos_ref": [
+        "t09"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t10: rango 1120–1603, recuento impreso 484 (cálculo v_fin - v_ini + 1 = 484).",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "tramos_ref": [
+        "t10"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t11: rango 1604–1675, recuento impreso 72 (cálculo v_fin - v_ini + 1 = 72).",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "tramos_ref": [
+        "t11"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t12: rango 1676–1725, recuento impreso 50 (cálculo v_fin - v_ini + 1 = 50).",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "tramos_ref": [
+        "t12"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t13: rango 1726–1929, recuento impreso 204 (cálculo v_fin - v_ini + 1 = 204).",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "tramos_ref": [
+        "t13"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t14: rango 1930–2024, recuento impreso 95 (cálculo v_fin - v_ini + 1 = 95).",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "tramos_ref": [
+        "t14"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t15: rango 2025–2356, recuento impreso 332 (cálculo v_fin - v_ini + 1 = 332).",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "tramos_ref": [
+        "t15"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t16: rango 2357–2388, recuento impreso 32 (cálculo v_fin - v_ini + 1 = 32).",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "tramos_ref": [
+        "t16"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t17: rango 2389–2440, recuento impreso 52 (cálculo v_fin - v_ini + 1 = 52).",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "tramos_ref": [
+        "t17"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t18: rango 2441–2676, recuento impreso 236 (cálculo v_fin - v_ini + 1 = 236).",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "tramos_ref": [
+        "t18"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t19: rango 2677–2861, recuento impreso 185 (cálculo v_fin - v_ini + 1 = 185).",
+      "fuente_id": "25_traicion_acertada_1.HEIC",
+      "tramos_ref": [
+        "t19"
+      ]
+    }
+  ]
+}

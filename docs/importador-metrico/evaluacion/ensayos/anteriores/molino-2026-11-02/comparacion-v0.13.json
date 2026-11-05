@@ -1,0 +1,15 @@
+{
+  "importacion_id": "3f6a8587-7761-4f26-851f-ec38a71f49eb",
+  "versos": 2992,
+  "filas": 21,
+  "diferencias_metricas": [],
+  "modelo_original": null,
+  "modelo_nuevo_confirmado_por_usuario": "3.5 Flash-Lite",
+  "pendientes": [
+    {
+      "v_ini": 2880,
+      "v_fin": 2888,
+      "literal": "letrilla"
+    }
+  ]
+}

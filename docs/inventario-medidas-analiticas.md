@@ -33,20 +33,20 @@ y el filtro cronológico por solapamiento, sin convertir un intervalo en su año
 
 Se han leído las definiciones vigentes de doce funciones de Supabase y seguido sus salidas hasta
 los contratos JSON, el laboratorio y el perfil de autor. El
-[registro de firmas y hashes](./importador-metrico/piloto/auditoria-medidas-2026-10-28.json) identifica la versión
+[registro de firmas y hashes](importador-metrico/evaluacion/referencias/auditoria-medidas-2026-10-28.json) identifica la versión
 auditada. La consulta se conserva en [auditar-medidas.sql](../scripts/importador-metrico/auditar-medidas.sql).
 No se ejecutaron productores ni se inspeccionaron fichas individuales para buscar errores.
 
 Además se ejecutó un SELECT con constantes para comprobar ejemplos de las fórmulas y predicados:
 [consulta](../scripts/importador-metrico/casos-medidas.sql) y
-[resultados](./importador-metrico/piloto/casos-medidas-2026-10-28.json). Son casos sintéticos; no prueban el recorrido
+[resultados](importador-metrico/evaluacion/referencias/casos-medidas-2026-10-28.json). Son casos sintéticos; no prueban el recorrido
 completo de recomputación ni cuantifican cuántas obras actuales están afectadas.
 
 El análisis seguirá usando precomputados. Actualmente el laboratorio también resume grupos en
 el navegador a partir de los valores por obra descargados; esa operación no consulta anotaciones
 en vivo. Hay que mantener coherentes ambas definiciones, sin añadir cálculos sobre tablas en las
 visitas a las páginas. El futuro productor combinado recalculará ambas fuentes, con una sola
-aportación seleccionada por obra y generación, según el [plan](./importador-metrico/consultas-y-precomputacion.md).
+aportación seleccionada por obra y generación, según el [plan](importador-metrico/arquitectura/consultas-y-precomputacion.md).
 
 Una detallada solo se publica con el 100 % de sus campos cumplimentados. Una discrepancia técnica
 con esa regla requiere revisión; no autoriza a tratar como cero el dato ausente. En una básica,
@@ -378,7 +378,7 @@ exacta. Canto y demás extensiones: unión de rangos, proporción 0–1. Fenóme
 sí/respondidas, con cobertura; sin respuestas no se calcula. Presencia global: sí con algún
 positivo, no solo con todos los casos negativos.
 
-El [rastreo preliminar del lote](./importador-metrico/piloto/rastreo-canto-2026-10-29.md) no localizó
+El [rastreo preliminar del lote](importador-metrico/evaluacion/referencias/rastreo-canto-2026-10-29.md) no localizó
 declaraciones explícitas de canto en las cuatro extracciones ni mediante OCR de las 38 fotos.
 No demuestra ausencia en las veinte obras. Se comprobaron visualmente las menciones de letrilla
 en El molino y Las ferias de Madrid; no permiten marcar canto. Si falta un caso positivo de fuente,

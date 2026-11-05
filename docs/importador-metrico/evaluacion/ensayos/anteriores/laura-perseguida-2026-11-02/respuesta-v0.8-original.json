@@ -1,0 +1,448 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "obra_ref": "obra-importada",
+  "estado_revision": "borrador_ia",
+  "revision_humana": {
+    "responsable": null,
+    "fecha": null,
+    "resultado": "pendiente"
+  },
+  "procedencia": {
+    "fecha": null,
+    "procedimiento": "ejecucion_prompt",
+    "generador": null,
+    "modelo": null,
+    "prompt_version": "extraccion/0.8",
+    "ensayo_controlado": false
+  },
+  "metadatos": {
+    "titulo": "Laura perseguida",
+    "autoria": null,
+    "genero_literal": null,
+    "fecha_inicio": null,
+    "fecha_fin": null,
+    "fuente_fecha": null,
+    "edicion_base": null,
+    "observaciones": [],
+    "fuente_id": null
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "Acto primero"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "Acto segundo"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "Acto tercero"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 616,
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 616,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": []
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 617,
+      "v_fin": 876,
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 260,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": [
+        "n01"
+      ]
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 877,
+      "v_fin": 999,
+      "denominacion_literal": "Endecasílabos sueltos",
+      "n_versos_fuente": 123,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": []
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 1000,
+      "v_fin": 1075,
+      "denominacion_literal": "Romance en a-a",
+      "n_versos_fuente": 76,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": []
+    },
+    {
+      "id": "t05",
+      "jornada": 1,
+      "v_ini": 1076,
+      "v_fin": 1203,
+      "denominacion_literal": "Octavas reales",
+      "n_versos_fuente": 128,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": []
+    },
+    {
+      "id": "t06",
+      "jornada": 2,
+      "v_ini": 1204,
+      "v_fin": 1475,
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 272,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": []
+    },
+    {
+      "id": "t07",
+      "jornada": 2,
+      "v_ini": 1476,
+      "v_fin": 1507,
+      "denominacion_literal": "Octavas reales",
+      "n_versos_fuente": 32,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": []
+    },
+    {
+      "id": "t08",
+      "jornada": 2,
+      "v_ini": 1508,
+      "v_fin": 1592,
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 85,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": []
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 1593,
+      "v_fin": 1606,
+      "denominacion_literal": "Soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": []
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 1607,
+      "v_fin": 1810,
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 204,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": []
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 1811,
+      "v_fin": 1875,
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 65,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": []
+    },
+    {
+      "id": "t12",
+      "jornada": 2,
+      "v_ini": 1876,
+      "v_fin": 1889,
+      "denominacion_literal": "Soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": []
+    },
+    {
+      "id": "t13",
+      "jornada": 2,
+      "v_ini": 1890,
+      "v_fin": 1966,
+      "denominacion_literal": "Endecasílabos sueltos",
+      "n_versos_fuente": 77,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": []
+    },
+    {
+      "id": "t14",
+      "jornada": 2,
+      "v_ini": 1967,
+      "v_fin": 2006,
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 40,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": []
+    },
+    {
+      "id": "t15",
+      "jornada": 2,
+      "v_ini": 2007,
+      "v_fin": 2130,
+      "denominacion_literal": "Endecasílabos sueltos",
+      "n_versos_fuente": 124,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": []
+    },
+    {
+      "id": "t16",
+      "jornada": 2,
+      "v_ini": 2131,
+      "v_fin": 2206,
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 76,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": []
+    },
+    {
+      "id": "t17",
+      "jornada": 2,
+      "v_ini": 2207,
+      "v_fin": 2231,
+      "denominacion_literal": "Endecasílabos sueltos",
+      "n_versos_fuente": 25,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": []
+    },
+    {
+      "id": "t18",
+      "jornada": 3,
+      "v_ini": 2232,
+      "v_fin": 2316,
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 85,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": []
+    },
+    {
+      "id": "t19",
+      "jornada": 3,
+      "v_ini": 2317,
+      "v_fin": 2394,
+      "denominacion_literal": "Sextetos alirados",
+      "n_versos_fuente": 78,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": [
+        "n02"
+      ]
+    },
+    {
+      "id": "t20",
+      "jornada": 3,
+      "v_ini": 2395,
+      "v_fin": 2626,
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 232,
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "notas_ref": [
+        "n03"
+      ]
+    },
+    {
+      "id": "t21",
+      "jornada": 3,
+      "v_ini": 2627,
+      "v_fin": 2640,
+      "denominacion_literal": "Soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "5_Laura_perseguida_2.HEIC",
+      "pagina": 56,
+      "notas_ref": []
+    },
+    {
+      "id": "t22",
+      "jornada": 3,
+      "v_ini": 2641,
+      "v_fin": 2690,
+      "denominacion_literal": "Endecasílabos sueltos",
+      "n_versos_fuente": 50,
+      "fuente_id": "5_Laura_perseguida_2.HEIC",
+      "pagina": 56,
+      "notas_ref": []
+    },
+    {
+      "id": "t23",
+      "jornada": 3,
+      "v_ini": 2691,
+      "v_fin": 2978,
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 288,
+      "fuente_id": "5_Laura_perseguida_2.HEIC",
+      "pagina": 56,
+      "notas_ref": []
+    },
+    {
+      "id": "t24",
+      "jornada": 3,
+      "v_ini": 2979,
+      "v_fin": 2992,
+      "denominacion_literal": "Soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "5_Laura_perseguida_2.HEIC",
+      "pagina": 56,
+      "notas_ref": []
+    },
+    {
+      "id": "t25",
+      "jornada": 3,
+      "v_ini": 2993,
+      "v_fin": 3047,
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 55,
+      "fuente_id": "5_Laura_perseguida_2.HEIC",
+      "pagina": 56,
+      "notas_ref": []
+    },
+    {
+      "id": "t26",
+      "jornada": 3,
+      "v_ini": 3048,
+      "v_fin": 3093,
+      "denominacion_literal": "Endecasílabos sueltos",
+      "n_versos_fuente": 46,
+      "fuente_id": "5_Laura_perseguida_2.HEIC",
+      "pagina": 56,
+      "notas_ref": []
+    },
+    {
+      "id": "t27",
+      "jornada": 3,
+      "v_ini": 3094,
+      "v_fin": 3203,
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 110,
+      "fuente_id": "5_Laura_perseguida_2.HEIC",
+      "pagina": 56,
+      "notas_ref": []
+    }
+  ],
+  "notas": [
+    {
+      "id": "n01",
+      "marca": "32",
+      "texto_literal": "Según Navarro Tomás, la copla real tiene en el Siglo de Oro dos posibles soluciones (ababa, cdcde y ababa, ccddc), a lo que añade: \"Lope usó ... la copla real dando preferencia a la segunda de las combinaciones indicadas en sus comedias anteriores a 1604; en adelante la sustituyó por las quintillas independientes\" [1995:267]. El dramaturgo, sin embargo, no fue completamente fiel al esquema señalado (comprúébese, por ejemplo, su uso en comedias de las que conservamos autógrafo), por lo que parece preferible el análisis de las series estróficas como quintillas más o menos encadenadas. Nuestra comedia, anterior a la fecha señalada, sigue efectivamente el esquema preferido (ababa, ccddc), con las siguientes excepciones: vv. 747–751 y 792–796 (quintillas independientes con rima ababa), vv. 1568–1572 y 1861–1865 (quintillas independientes, con rima aabba), vv. 3013–3017 (quintilla independiente, ababa), vv. 3154–3158 y 3199–3203 (quintillas independientes, aabba) y vv. 3169–3178 (quintillas encadenadas combinando aabba con cdcde). Morley y Bruerton, Cronología, pp. 42 y 75, analizan todas las series de coplas reales como quintillas.",
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "tramos_ref": [
+        "t02"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n02",
+      "marca": "33",
+      "texto_literal": "[ilegible]",
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "tramos_ref": [
+        "t19"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n03",
+      "marca": "34",
+      "texto_literal": "[ilegible]",
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "pagina": 55,
+      "tramos_ref": [
+        "t20"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    }
+  ],
+  "resumen_fuente": [
+    {
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 1688,
+      "porcentaje_literal": "52,70",
+      "fuente_id": "5_Laura_perseguida_2.HEIC",
+      "pagina": 56
+    },
+    {
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 700,
+      "porcentaje_literal": "21,85",
+      "fuente_id": "5_Laura_perseguida_2.HEIC",
+      "pagina": 56
+    },
+    {
+      "denominacion_literal": "Romance",
+      "n_versos_fuente": 76,
+      "porcentaje_literal": "2,37",
+      "fuente_id": "5_Laura_perseguida_2.HEIC",
+      "pagina": 56
+    },
+    {
+      "denominacion_literal": "Octavas reales",
+      "n_versos_fuente": 160,
+      "porcentaje_literal": "4,99",
+      "fuente_id": "5_Laura_perseguida_2.HEIC",
+      "pagina": 56
+    },
+    {
+      "denominacion_literal": "Endecasílabos sueltos",
+      "n_versos_fuente": 445,
+      "porcentaje_literal": "13,89",
+      "fuente_id": "5_Laura_perseguida_2.HEIC",
+      "pagina": 56
+    },
+    {
+      "denominacion_literal": "Sonetos",
+      "n_versos_fuente": 56,
+      "porcentaje_literal": "1,74",
+      "fuente_id": "5_Laura_perseguida_2.HEIC",
+      "pagina": 56
+    },
+    {
+      "denominacion_literal": "Sextetos alirados",
+      "n_versos_fuente": 78,
+      "porcentaje_literal": "2,43",
+      "fuente_id": "5_Laura_perseguida_2.HEIC",
+      "pagina": 56
+    }
+  ],
+  "incidencias": [
+    {
+      "tipo": "lectura_pendiente",
+      "descripcion": "El texto completo de las notas al pie marcadas con 33 y 34 en la página 55 está cortado y resulta ilegible en el margen derecho de la fotografía.",
+      "fuente_id": "5_Laura_perseguida_1.HEIC",
+      "tramos_ref": [
+        "t19",
+        "t20"
+      ]
+    }
+  ]
+}

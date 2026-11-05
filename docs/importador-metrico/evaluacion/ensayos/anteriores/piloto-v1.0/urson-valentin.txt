@@ -1,0 +1,390 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "obra_ref": "obra-importada",
+  "estado_revision": "borrador_ia",
+  "revision_humana": {
+    "responsable": null,
+    "fecha": null,
+    "resultado": "pendiente"
+  },
+  "procedencia": {
+    "fecha": null,
+    "procedimiento": "ejecucion_prompt",
+    "generador": null,
+    "modelo": null,
+    "modo": null,
+    "plan": null,
+    "parametros": null,
+    "prompt_version": "extraccion/1.0",
+    "ensayo_controlado": false
+  },
+  "metadatos": {
+    "titulo": "El nacimiento de Ursón y Valentín",
+    "autoria": null,
+    "genero_literal": null,
+    "fecha_inicio": null,
+    "fecha_fin": null,
+    "fuente_fecha": null,
+    "edicion_base": null,
+    "observaciones": [],
+    "fuente_id": null
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "Jornada primera"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "Jornada segunda"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "Jornada tercera"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 840,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 840,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 841,
+      "v_fin": 960,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 120,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 961,
+      "v_fin": 1030,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 70,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t04",
+      "jornada": 2,
+      "v_ini": 1031,
+      "v_fin": 1834,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 804,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t05",
+      "jornada": 2,
+      "v_ini": 1835,
+      "v_fin": 1930,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 96,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t06",
+      "jornada": 2,
+      "v_ini": null,
+      "v_fin": null,
+      "denominacion_literal": "carta en prosa",
+      "n_versos_fuente": null,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t07",
+      "jornada": 2,
+      "v_ini": 1931,
+      "v_fin": 1954,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 24,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t08",
+      "jornada": 2,
+      "v_ini": 1955,
+      "v_fin": 1970,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 16,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 1971,
+      "v_fin": 2042,
+      "denominacion_literal": "liras aBaBcC",
+      "n_versos_fuente": 72,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 2043,
+      "v_fin": 2082,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 40,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 2083,
+      "v_fin": 2119,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 37,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t12",
+      "jornada": 2,
+      "v_ini": 2120,
+      "v_fin": 2251,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 132,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t13",
+      "jornada": 3,
+      "v_ini": 2252,
+      "v_fin": 2359,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 108,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t14",
+      "jornada": 3,
+      "v_ini": 2360,
+      "v_fin": 2485,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 126,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t15",
+      "jornada": 3,
+      "v_ini": 2486,
+      "v_fin": 2533,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 48,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t16",
+      "jornada": 3,
+      "v_ini": 2534,
+      "v_fin": 2547,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t17",
+      "jornada": 3,
+      "v_ini": 2458,
+      "v_fin": 2575,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 28,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t18",
+      "jornada": 3,
+      "v_ini": 2576,
+      "v_fin": 2613,
+      "denominacion_literal": "romance ao",
+      "n_versos_fuente": 38,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t19",
+      "jornada": 3,
+      "v_ini": 2614,
+      "v_fin": 2685,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 72,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t20",
+      "jornada": 3,
+      "v_ini": 2686,
+      "v_fin": 2723,
+      "denominacion_literal": "endecasílabos sueltos (con pareado final)",
+      "n_versos_fuente": 38,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t21",
+      "jornada": 3,
+      "v_ini": 2724,
+      "v_fin": 2749,
+      "denominacion_literal": "canción",
+      "n_versos_fuente": 26,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t22",
+      "jornada": 3,
+      "v_ini": 2750,
+      "v_fin": 2921,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 172,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t23",
+      "jornada": 3,
+      "v_ini": 2922,
+      "v_fin": 3066,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 145,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t24",
+      "jornada": 3,
+      "v_ini": 3067,
+      "v_fin": 3126,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 60,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    },
+    {
+      "id": "t25",
+      "jornada": 3,
+      "v_ini": 3127,
+      "v_fin": 3202,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 76,
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996",
+      "notas_ref": []
+    }
+  ],
+  "notas": [],
+  "resumen_fuente": [
+    {
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": "985",
+      "porcentaje_literal": "30,8",
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996"
+    },
+    {
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": "1584",
+      "porcentaje_literal": "49,5",
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996"
+    },
+    {
+      "denominacion_literal": "Tercetos",
+      "n_versos_fuente": "272",
+      "porcentaje_literal": "8,6",
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996"
+    },
+    {
+      "denominacion_literal": "Octavas",
+      "n_versos_fuente": "120",
+      "porcentaje_literal": "3,7",
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996"
+    },
+    {
+      "denominacion_literal": "Sueltos",
+      "n_versos_fuente": "91",
+      "porcentaje_literal": "2,8",
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996"
+    },
+    {
+      "denominacion_literal": "Liras",
+      "n_versos_fuente": "72",
+      "porcentaje_literal": "2,3",
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996"
+    },
+    {
+      "denominacion_literal": "Soneto",
+      "n_versos_fuente": "14",
+      "porcentaje_literal": "0,4",
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996"
+    },
+    {
+      "denominacion_literal": "Romance",
+      "n_versos_fuente": "38",
+      "porcentaje_literal": "1,1",
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996"
+    },
+    {
+      "denominacion_literal": "Canción",
+      "n_versos_fuente": "26",
+      "porcentaje_literal": "0,8",
+      "fuente_id": "23_nacimiento_Urson_y_valentin_2.jpg",
+      "pagina": "996"
+    }
+  ],
+  "incidencias": []
+}

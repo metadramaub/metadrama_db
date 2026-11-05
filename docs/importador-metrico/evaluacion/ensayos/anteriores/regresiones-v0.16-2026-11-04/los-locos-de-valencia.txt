@@ -1,0 +1,377 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "obra_ref": "obra-importada",
+  "estado_revision": "borrador_ia",
+  "revision_humana": {
+    "responsable": null,
+    "fecha": null,
+    "resultado": "pendiente"
+  },
+  "procedencia": {
+    "fecha": null,
+    "procedimiento": "ejecucion_prompt",
+    "generador": "Gemini",
+    "modelo": null,
+    "modo": null,
+    "plan": null,
+    "parametros": null,
+    "prompt_version": "extraccion/0.16",
+    "ensayo_controlado": false
+  },
+  "metadatos": {
+    "titulo": null,
+    "autoria": null,
+    "genero_literal": null,
+    "fecha_inicio": null,
+    "fecha_fin": null,
+    "fuente_fecha": null,
+    "edicion_base": null,
+    "observaciones": [],
+    "fuente_id": "30_locos_Valencia.HEIC"
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "ACTO PRIMERO"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "ACTO SEGUNDO"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "ACTO TERCERO"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 130,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 130,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 131,
+      "v_fin": 590,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 460,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 591,
+      "v_fin": 990,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 400,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 991,
+      "v_fin": 1006,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 16,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t05",
+      "jornada": 1,
+      "v_ini": 1007,
+      "v_fin": 1020,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t06",
+      "jornada": 1,
+      "v_ini": 1021,
+      "v_fin": 1050,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 30,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t07",
+      "jornada": 2,
+      "v_ini": 1051,
+      "v_fin": 1082,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 32,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t08",
+      "jornada": 2,
+      "v_ini": 1083,
+      "v_fin": 1466,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 384,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 1467,
+      "v_fin": 1544,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 78,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 1545,
+      "v_fin": 1996,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 452,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 1997,
+      "v_fin": 2022,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 26,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t12",
+      "jornada": 2,
+      "v_ini": 2023,
+      "v_fin": 2092,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 70,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t13",
+      "jornada": 3,
+      "v_ini": 2093,
+      "v_fin": 2222,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 130,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": ["n01"]
+    },
+    {
+      "id": "t14",
+      "jornada": 3,
+      "v_ini": 2223,
+      "v_fin": 2470,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 248,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t15",
+      "jornada": 3,
+      "v_ini": 2471,
+      "v_fin": 2621,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 151,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t16",
+      "jornada": 3,
+      "v_ini": 2622,
+      "v_fin": 2754,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 133,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": ["n02"]
+    },
+    {
+      "id": "t17",
+      "jornada": 3,
+      "v_ini": 2755,
+      "v_fin": 2804,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 50,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t18",
+      "jornada": 3,
+      "v_ini": 2805,
+      "v_fin": 2900,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 96,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t19",
+      "jornada": 3,
+      "v_ini": 2901,
+      "v_fin": 2964,
+      "denominacion_literal": "romance en á-e",
+      "n_versos_fuente": 64,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": []
+    },
+    {
+      "id": "t20",
+      "jornada": 3,
+      "v_ini": 2965,
+      "v_fin": 3072,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 108,
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "notas_ref": []
+    }
+  ],
+  "notas": [
+    {
+      "id": "n01",
+      "marca": "*",
+      "texto_literal": "En la serie de endecasílabos sueltos aparece un verso heptasílabo (v. 2172), probable descuido de Lope.",
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "tramos_ref": [
+        "t13"
+      ],
+      "v_ini": 2172,
+      "v_fin": 2172
+    },
+    {
+      "id": "n02",
+      "marca": "**",
+      "texto_literal": "El v. 2666 es un octosílabo suelto integrado en la serie de redondillas.",
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "pagina": 188,
+      "tramos_ref": [
+        "t16"
+      ],
+      "v_ini": 2666,
+      "v_fin": 2666
+    }
+  ],
+  "resumen_fuente": [],
+  "incidencias": [
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t02: rango 131-590 (460 versos calculados frente a 460 impresos).",
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "tramos_ref": [
+        "t02"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t03: rango 591-990 (400 versos calculados frente a 400 impresos).",
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "tramos_ref": [
+        "t03"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t08: rango 1083-1466 (384 versos calculados frente a 384 impresos).",
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "tramos_ref": [
+        "t08"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t10: rango 1545-1996 (452 versos calculados frente a 452 impresos).",
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "tramos_ref": [
+        "t10"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t14: rango 2223-2470 (248 versos calculados frente a 248 impresos).",
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "tramos_ref": [
+        "t14"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t15: rango 2471-2621 (151 versos calculados frente a 151 impresos).",
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "tramos_ref": [
+        "t15"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t16: rango 2622-2754 (133 versos calculados frente a 133 impresos).",
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "tramos_ref": [
+        "t16"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t18: rango 2805-2900 (96 versos calculados frente a 96 impresos).",
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "tramos_ref": [
+        "t18"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t19: rango 2901-2964 (64 versos calculados frente a 64 impresos).",
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "tramos_ref": [
+        "t19"
+      ]
+    },
+    {
+      "tipo": "discrepancia_fuente",
+      "descripcion": "Fila t20: rango 2965-3072 (108 versos calculados frente a 108 impresos).",
+      "fuente_id": "30_locos_Valencia.HEIC",
+      "tramos_ref": [
+        "t20"
+      ]
+    }
+  ]
+}

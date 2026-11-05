@@ -371,7 +371,7 @@ describe('metadatos y resúmenes parciales', () => {
 });
 
 describe('compatibilidad mecánica de las cuatro extracciones borrador', () => {
-	const root = new URL('../../../docs/importador-metrico/piloto/', import.meta.url);
+	const root = new URL('../../../docs/importador-metrico/evaluacion/referencias/', import.meta.url);
 	const manifiesto = JSON.parse(readFileSync(new URL('fuentes.json', root), 'utf8'));
 	it.each(['el-molino', 'el-verdadero-amante', 'los-donaires-de-matico', 'los-locos-de-valencia'])(
 		'%s pasa sin afirmar que la transcripción sea gold',

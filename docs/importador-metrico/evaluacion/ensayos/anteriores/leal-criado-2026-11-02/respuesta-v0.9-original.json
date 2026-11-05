@@ -1,0 +1,414 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "obra_ref": "obra-importada",
+  "estado_revision": "borrador_ia",
+  "revision_humana": {
+    "responsable": null,
+    "fecha": null,
+    "resultado": "pendiente"
+  },
+  "procedencia": {
+    "fecha": null,
+    "procedimiento": "ejecucion_prompt",
+    "generador": null,
+    "modelo": null,
+    "prompt_version": "extraccion/0.9",
+    "ensayo_controlado": false
+  },
+  "metadatos": {
+    "titulo": null,
+    "autoria": null,
+    "genero_literal": null,
+    "fecha_inicio": null,
+    "fecha_fin": null,
+    "fuente_fecha": null,
+    "edicion_base": null,
+    "observaciones": [],
+    "fuente_id": null
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "ACTO PRIMERO"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "ACTO SEGUNDO"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "ACTO TERCERO"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 452,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 452,
+      "fuente_id": "foto-01",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 453,
+      "v_fin": 466,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "foto-01",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 467,
+      "v_fin": 766,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 300,
+      "fuente_id": "foto-01",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 767,
+      "v_fin": 869,
+      "denominacion_literal": "endecasílabos blancos",
+      "n_versos_fuente": 103,
+      "fuente_id": "foto-01",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t05",
+      "jornada": 1,
+      "v_ini": 870,
+      "v_fin": 999,
+      "denominacion_literal": "coplas reales",
+      "n_versos_fuente": 130,
+      "fuente_id": "foto-01",
+      "pagina": null,
+      "notas_ref": [
+        "n01"
+      ]
+    },
+    {
+      "id": "t06",
+      "jornada": 1,
+      "v_ini": 1000,
+      "v_fin": 1013,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "foto-01",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t07",
+      "jornada": 1,
+      "v_ini": 1014,
+      "v_fin": 1141,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 128,
+      "fuente_id": "foto-01",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t08",
+      "jornada": 2,
+      "v_ini": 1142,
+      "v_fin": 1185,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 44,
+      "fuente_id": "foto-01",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 1186,
+      "v_fin": 1249,
+      "denominacion_literal": "romance en e-a",
+      "n_versos_fuente": 64,
+      "fuente_id": "foto-01",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 1250,
+      "v_fin": 1289,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 40,
+      "fuente_id": "foto-01",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 1290,
+      "v_fin": 1377,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 88,
+      "fuente_id": "foto-01",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t12",
+      "jornada": 2,
+      "v_ini": 1378,
+      "v_fin": 1391,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "foto-02",
+      "pagina": 286,
+      "notas_ref": []
+    },
+    {
+      "id": "t13",
+      "jornada": 2,
+      "v_ini": 1392,
+      "v_fin": 1866,
+      "denominacion_literal": "coplas reales",
+      "n_versos_fuente": 475,
+      "fuente_id": "foto-02",
+      "pagina": 286,
+      "notas_ref": []
+    },
+    {
+      "id": "t14",
+      "jornada": 2,
+      "v_ini": 1867,
+      "v_fin": 1894,
+      "denominacion_literal": "endecasílabos blancos",
+      "n_versos_fuente": 28,
+      "fuente_id": "foto-02",
+      "pagina": 286,
+      "notas_ref": []
+    },
+    {
+      "id": "t15",
+      "jornada": 2,
+      "v_ini": 1895,
+      "v_fin": 1950,
+      "denominacion_literal": "romance en e-e",
+      "n_versos_fuente": 56,
+      "fuente_id": "foto-02",
+      "pagina": 286,
+      "notas_ref": []
+    },
+    {
+      "id": "t16",
+      "jornada": 2,
+      "v_ini": 1951,
+      "v_fin": 1983,
+      "denominacion_literal": "endecasílabos blancos",
+      "n_versos_fuente": 33,
+      "fuente_id": "foto-02",
+      "pagina": 286,
+      "notas_ref": []
+    },
+    {
+      "id": "t17",
+      "jornada": 2,
+      "v_ini": 1984,
+      "v_fin": 2069,
+      "denominacion_literal": "endecasílabos blancos",
+      "n_versos_fuente": 86,
+      "fuente_id": "foto-02",
+      "pagina": 286,
+      "notas_ref": []
+    },
+    {
+      "id": "t18",
+      "jornada": 2,
+      "v_ini": 2070,
+      "v_fin": 2179,
+      "denominacion_literal": "coplas reales",
+      "n_versos_fuente": 110,
+      "fuente_id": "foto-02",
+      "pagina": 286,
+      "notas_ref": []
+    },
+    {
+      "id": "t19",
+      "jornada": 2,
+      "v_ini": 2180,
+      "v_fin": 2248,
+      "denominacion_literal": "endecasílabos blancos",
+      "n_versos_fuente": 69,
+      "fuente_id": "foto-02",
+      "pagina": 286,
+      "notas_ref": []
+    },
+    {
+      "id": "t20",
+      "jornada": 3,
+      "v_ini": 2249,
+      "v_fin": 2392,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 144,
+      "fuente_id": "foto-02",
+      "pagina": 286,
+      "notas_ref": []
+    },
+    {
+      "id": "t21",
+      "jornada": 3,
+      "v_ini": 2393,
+      "v_fin": 2406,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "foto-02",
+      "pagina": 286,
+      "notas_ref": []
+    },
+    {
+      "id": "t22",
+      "jornada": 3,
+      "v_ini": 2407,
+      "v_fin": 2851,
+      "denominacion_literal": "coplas reales",
+      "n_versos_fuente": 445,
+      "fuente_id": "foto-02",
+      "pagina": 286,
+      "notas_ref": []
+    },
+    {
+      "id": "t23",
+      "jornada": 3,
+      "v_ini": 2852,
+      "v_fin": 2899,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 48,
+      "fuente_id": "foto-02",
+      "pagina": 286,
+      "notas_ref": []
+    },
+    {
+      "id": "t24",
+      "jornada": 3,
+      "v_ini": 2900,
+      "v_fin": 2940,
+      "denominacion_literal": "endecasílabos blancos",
+      "n_versos_fuente": 41,
+      "fuente_id": "foto-02",
+      "pagina": 286,
+      "notas_ref": []
+    },
+    {
+      "id": "t25",
+      "jornada": 3,
+      "v_ini": 2941,
+      "v_fin": 2989,
+      "denominacion_literal": "endecasílabos blancos",
+      "n_versos_fuente": 49,
+      "fuente_id": "foto-02",
+      "pagina": 286,
+      "notas_ref": []
+    },
+    {
+      "id": "t26",
+      "jornada": 3,
+      "v_ini": 2990,
+      "v_fin": 3189,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 200,
+      "fuente_id": "foto-02",
+      "pagina": 286,
+      "notas_ref": []
+    },
+    {
+      "id": "t27",
+      "jornada": 3,
+      "v_ini": 3190,
+      "v_fin": 3237,
+      "denominacion_literal": "endecasílabos blancos",
+      "n_versos_fuente": 48,
+      "fuente_id": "foto-02",
+      "pagina": 286,
+      "notas_ref": []
+    },
+    {
+      "id": "t28",
+      "jornada": 3,
+      "v_ini": 3238,
+      "v_fin": 3387,
+      "denominacion_literal": "coplas reales",
+      "n_versos_fuente": 150,
+      "fuente_id": "foto-02",
+      "pagina": 286,
+      "notas_ref": []
+    }
+  ],
+  "notas": [
+    {
+      "id": "n01",
+      "marca": "5",
+      "texto_literal": "En los vv. 930-934 hay una quintilla aislada, con rima ccddc. A partir del v. 935 continúa el patrón regular de coplas reales. La misma excepción aparece en todos los testimonios cotejados.",
+      "fuente_id": "foto-01",
+      "pagina": null,
+      "tramos_ref": [
+        "t05"
+      ],
+      "v_ini": 930,
+      "v_fin": 934
+    }
+  ],
+  "resumen_fuente": [
+    {
+      "denominacion_literal": "Coplas reales",
+      "n_versos_fuente": 1310,
+      "porcentaje_literal": "38,67",
+      "fuente_id": "foto-02",
+      "pagina": 286
+    },
+    {
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 1308,
+      "porcentaje_literal": "38,61",
+      "fuente_id": "foto-02",
+      "pagina": 286
+    },
+    {
+      "denominacion_literal": "Endecasílabos blancos",
+      "n_versos_fuente": 457,
+      "porcentaje_literal": "13,49",
+      "fuente_id": "foto-02",
+      "pagina": 286
+    },
+    {
+      "denominacion_literal": "Octavas reales",
+      "n_versos_fuente": 136,
+      "porcentaje_literal": "4,01",
+      "fuente_id": "foto-02",
+      "pagina": 286
+    },
+    {
+      "denominacion_literal": "Romance",
+      "n_versos_fuente": 120,
+      "porcentaje_literal": "3,54",
+      "fuente_id": "foto-02",
+      "pagina": 286
+    },
+    {
+      "denominacion_literal": "Sonetos",
+      "n_versos_fuente": 56,
+      "porcentaje_literal": "1,05",
+      "fuente_id": "foto-02",
+      "pagina": 286
+    }
+  ],
+  "incidencias": []
+}

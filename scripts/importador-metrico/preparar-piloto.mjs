@@ -1,8 +1,8 @@
+import { rutaPiloto } from '../lib/importador-metrico/rutas.mjs';
 /** Ensaya el contrato mínimo sobre el piloto. No confirma importaciones ni conecta con la DB. */
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
 import { z } from 'zod';
 import {
 	prepararFichaMinima,
@@ -11,19 +11,15 @@ import {
 	fichaMinimaSchema
 } from '../lib/importador-metrico/ficha-minima.mjs';
 
-const root = resolve(
-	dirname(fileURLToPath(import.meta.url)),
-	'../../docs/importador-metrico/piloto'
-);
 const args = process.argv.slice(2);
 if (args.some((a) => a !== '--comprobar')) {
 	console.error('Uso: node scripts/importador-metrico/preparar-piloto.mjs [--comprobar]');
 	process.exit(64);
 }
-const read = (name) => JSON.parse(readFileSync(join(root, name), 'utf8'));
+const read = (name) => JSON.parse(readFileSync(rutaPiloto(name), 'utf8'));
 const digest = (name) =>
 	createHash('sha256')
-		.update(readFileSync(join(root, name)))
+		.update(readFileSync(rutaPiloto(name)))
 		.digest('hex');
 const cell = (s) =>
 	String(s ?? '—')
@@ -81,9 +77,9 @@ try {
 			avisos: validacion.avisos
 		};
 		resultados.push(vista);
-		outputs.set(join(root, `preparadas/${ref}.json`), JSON.stringify(vista, null, 2) + '\n');
+		outputs.set(rutaPiloto(`preparadas/${ref}.json`), JSON.stringify(vista, null, 2) + '\n');
 		outputs.set(
-			join(root, `preparadas/${ref}.md`),
+			rutaPiloto(`preparadas/${ref}.md`),
 			[
 				`# ${datos.metadatos.titulo}: vista previa de ficha mínima`,
 				'**Ensayo local, sin guardar ni confirmar.** No equivale a una aprobación de correspondencias ni a una ficha creada en Supabase.',
@@ -107,11 +103,11 @@ try {
 		);
 	}
 	outputs.set(
-		join(root, 'ficha-minima.schema.json'),
+		rutaPiloto('ficha-minima.schema.json'),
 		JSON.stringify(z.toJSONSchema(fichaMinimaSchema), null, 2) + '\n'
 	);
 	outputs.set(
-		join(root, 'informe-contrato-minimo.md'),
+		rutaPiloto('informe-contrato-minimo.md'),
 		[
 			'# Ensayo del contrato de ficha mínima',
 			'**Vistas previas locales.** No hay importaciones confirmadas, cambios en Supabase ni nuevas aprobaciones filológicas. La confirmación y los permisos solo se ensayan con usuarios sintéticos en las pruebas.',

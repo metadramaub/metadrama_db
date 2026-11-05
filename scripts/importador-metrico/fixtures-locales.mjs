@@ -1,8 +1,9 @@
+import { rutaPiloto } from '../lib/importador-metrico/rutas.mjs';
 /** Datos sintéticos para PostgreSQL aislado y Supabase Auth local. */
 import { readFileSync } from 'node:fs';
 const json = (name) =>
 	JSON.parse(
-		readFileSync(new URL('../../docs/importador-metrico/piloto/' + name, import.meta.url), 'utf8')
+		readFileSync(rutaPiloto(name), 'utf8')
 	);
 const lit = (v) => "'" + String(v).replaceAll("'", "''") + "'";
 const autor = '00000000-0000-4000-8000-000000000100';

@@ -16,4 +16,4 @@ de forma compatible y la validación de procedencia del guardado. No reescribe c
   y `estado-despues.json` de la carpeta del backup.
 - No se guardó ninguna obra sintética en producción ni se alteró una importación existente.
 
-[Contrato y comportamiento](../importador-metrico/prosa-en-secuencias.md).
+[Contrato y comportamiento](../importador-metrico/historico/desarrollo/prosa-en-secuencias.md).

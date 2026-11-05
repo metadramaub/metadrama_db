@@ -1,0 +1,420 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "obra_ref": "obra-importada",
+  "estado_revision": "borrador_ia",
+  "revision_humana": {
+    "responsable": null,
+    "fecha": null,
+    "resultado": "pendiente"
+  },
+  "procedencia": {
+    "fecha": null,
+    "procedimiento": "ejecucion_prompt",
+    "generador": "Gemini",
+    "modelo": null,
+    "modo": null,
+    "plan": null,
+    "parametros": null,
+    "prompt_version": "extraccion/0.26",
+    "ensayo_controlado": false
+  },
+  "metadatos": {
+    "titulo": "El casamiento en la muerte",
+    "autoria": null,
+    "genero_literal": null,
+    "fecha_inicio": null,
+    "fecha_fin": null,
+    "fuente_fecha": null,
+    "edicion_base": null,
+    "observaciones": [],
+    "fuente_id": null
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "Jornada primera"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "Jornada segunda"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "Jornada tercera"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 72,
+      "denominacion_literal": "octavas",
+      "n_versos_fuente": 72,
+      "fuente_id": "34_casamiento_muerte_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 73,
+      "v_fin": 178,
+      "denominacion_literal": "romance ea",
+      "n_versos_fuente": 106,
+      "fuente_id": "34_casamiento_muerte_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 179,
+      "v_fin": 192,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "34_casamiento_muerte_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 193,
+      "v_fin": 468,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 276,
+      "fuente_id": "34_casamiento_muerte_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t05",
+      "jornada": 1,
+      "v_ini": 469,
+      "v_fin": 556,
+      "denominacion_literal": "octavas",
+      "n_versos_fuente": 88,
+      "fuente_id": "34_casamiento_muerte_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t06",
+      "jornada": 1,
+      "v_ini": null,
+      "v_fin": null,
+      "denominacion_literal": "pasaje en prosa entre los vv. 524-525",
+      "n_versos_fuente": null,
+      "fuente_id": "34_casamiento_muerte_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t07",
+      "jornada": 1,
+      "v_ini": 557,
+      "v_fin": 740,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 184,
+      "fuente_id": "34_casamiento_muerte_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t08",
+      "jornada": 1,
+      "v_ini": 741,
+      "v_fin": 789,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 49,
+      "fuente_id": "34_casamiento_muerte_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t09",
+      "jornada": 1,
+      "v_ini": 790,
+      "v_fin": 849,
+      "denominacion_literal": "romance aa",
+      "n_versos_fuente": 60,
+      "fuente_id": "34_casamiento_muerte_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t10",
+      "jornada": 1,
+      "v_ini": 850,
+      "v_fin": 901,
+      "denominacion_literal": "endecasílabos sueltos (con pareado final)",
+      "n_versos_fuente": 52,
+      "fuente_id": "34_casamiento_muerte_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t11",
+      "jornada": 1,
+      "v_ini": 902,
+      "v_fin": 973,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 72,
+      "fuente_id": "34_casamiento_muerte_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t12",
+      "jornada": 2,
+      "v_ini": 978,
+      "v_fin": 1057,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 84,
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159,
+      "notas_ref": []
+    },
+    {
+      "id": "t13",
+      "jornada": 2,
+      "v_ini": 1058,
+      "v_fin": 1151,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 94,
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159,
+      "notas_ref": []
+    },
+    {
+      "id": "t14",
+      "jornada": 2,
+      "v_ini": 1152,
+      "v_fin": 1263,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 112,
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159,
+      "notas_ref": []
+    },
+    {
+      "id": "t15",
+      "jornada": 2,
+      "v_ini": 1264,
+      "v_fin": 1418,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 155,
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159,
+      "notas_ref": []
+    },
+    {
+      "id": "t16",
+      "jornada": 2,
+      "v_ini": 1419,
+      "v_fin": 1454,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 36,
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159,
+      "notas_ref": []
+    },
+    {
+      "id": "t17",
+      "jornada": 2,
+      "v_ini": 1455,
+      "v_fin": 1546,
+      "denominacion_literal": "romance ao",
+      "n_versos_fuente": 92,
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159,
+      "notas_ref": []
+    },
+    {
+      "id": "t18",
+      "jornada": 2,
+      "v_ini": 1547,
+      "v_fin": 1651,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 105,
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159,
+      "notas_ref": []
+    },
+    {
+      "id": "t19",
+      "jornada": 2,
+      "v_ini": 1652,
+      "v_fin": 1683,
+      "denominacion_literal": "octavas",
+      "n_versos_fuente": 32,
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159,
+      "notas_ref": []
+    },
+    {
+      "id": "t20",
+      "jornada": 2,
+      "v_ini": 1684,
+      "v_fin": 1763,
+      "denominacion_literal": "romance ao",
+      "n_versos_fuente": 80,
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159,
+      "notas_ref": []
+    },
+    {
+      "id": "t21",
+      "jornada": 3,
+      "v_ini": 1764,
+      "v_fin": 1935,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 172,
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159,
+      "notas_ref": []
+    },
+    {
+      "id": "t22",
+      "jornada": 3,
+      "v_ini": 1936,
+      "v_fin": 2003,
+      "denominacion_literal": "romance ao",
+      "n_versos_fuente": 68,
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159,
+      "notas_ref": []
+    },
+    {
+      "id": "t23",
+      "jornada": 3,
+      "v_ini": 2004,
+      "v_fin": 2143,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 140,
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159,
+      "notas_ref": []
+    },
+    {
+      "id": "t24",
+      "jornada": 3,
+      "v_ini": 2144,
+      "v_fin": 2207,
+      "denominacion_literal": "octavas",
+      "n_versos_fuente": 64,
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159,
+      "notas_ref": []
+    },
+    {
+      "id": "t25",
+      "jornada": 3,
+      "v_ini": 2208,
+      "v_fin": 2467,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 260,
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159,
+      "notas_ref": []
+    },
+    {
+      "id": "t26",
+      "jornada": 3,
+      "v_ini": 2468,
+      "v_fin": 2519,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 52,
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159,
+      "notas_ref": []
+    },
+    {
+      "id": "t27",
+      "jornada": 3,
+      "v_ini": 2520,
+      "v_fin": 2533,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159,
+      "notas_ref": []
+    },
+    {
+      "id": "t28",
+      "jornada": 3,
+      "v_ini": 2534,
+      "v_fin": 2548,
+      "denominacion_literal": "endecasílabos sueltos (con pareado final)",
+      "n_versos_fuente": 15,
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159,
+      "notas_ref": []
+    },
+    {
+      "id": "t29",
+      "jornada": 3,
+      "v_ini": 2549,
+      "v_fin": 2736,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 215,
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159,
+      "notas_ref": []
+    }
+  ],
+  "notas": [],
+  "resumen_fuente": [
+    {
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 1264,
+      "porcentaje_literal": "46,2",
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159
+    },
+    {
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 520,
+      "porcentaje_literal": "19",
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159
+    },
+    {
+      "denominacion_literal": "Romance",
+      "n_versos_fuente": 406,
+      "porcentaje_literal": "14,9",
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159
+    },
+    {
+      "denominacion_literal": "Octavas",
+      "n_versos_fuente": 256,
+      "porcentaje_literal": "9,4",
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159
+    },
+    {
+      "denominacion_literal": "Endecasílabos sueltos",
+      "n_versos_fuente": 168,
+      "porcentaje_literal": "6,1",
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159
+    },
+    {
+      "denominacion_literal": "Tercetos",
+      "n_versos_fuente": 94,
+      "porcentaje_literal": "3,4",
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159
+    },
+    {
+      "denominacion_literal": "Sonetos",
+      "n_versos_fuente": 28,
+      "porcentaje_literal": "1",
+      "fuente_id": "34_casamiento_muerte_2.jpg",
+      "pagina": 1159
+    }
+  ],
+  "incidencias": []
+}

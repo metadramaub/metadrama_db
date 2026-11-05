@@ -1,3 +1,4 @@
+import { rutaPiloto } from '../importador-metrico/rutas.mjs';
 import { describe, it, expect } from 'vitest';
 import {
 	normalizarDatosComparables,
@@ -463,7 +464,7 @@ describe('arquitecturas y casos del piloto', () => {
 		const read = (p) =>
 			JSON.parse(
 				readFileSync(
-					new URL('../../../docs/importador-metrico/piloto/' + p, import.meta.url),
+					rutaPiloto(p),
 					'utf8'
 				)
 			);

@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import type { FichaMinima } from '$lib/importador-metrico/types';
 import { analizarEntrada, obtenerPilotos, obtenerReferenciaImportador, vistaDeFichaGuardada } from './vista-previa';
 import { extraccionOriginal } from './persistencia';
-import preparada from '../../../../docs/importador-metrico/piloto/preparadas/el-verdadero-amante.json';
+import preparada from '../../../../docs/importador-metrico/evaluacion/referencias/preparadas/el-verdadero-amante.json';
 
 describe('vista previa del importador sin persistencia', () => {
 	it.each([{}, { obra_ref: null }])('completa una extracción compacta con referencia %j', (referenciaEntrada) => {

@@ -1,3 +1,4 @@
+import { rutaPiloto } from '../lib/importador-metrico/rutas.mjs';
 /** Pruebas PostgreSQL reales. Solo Docker aislado; no importa clientes de Supabase. */
 import { spawn, spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
@@ -73,7 +74,7 @@ function psqlConcurrente(sql) {
 	});
 }
 const read = (name) => readFileSync(new URL(name, import.meta.url), 'utf8');
-const json = (name) => JSON.parse(read(`../../docs/importador-metrico/piloto/${name}`));
+const json = (name) => JSON.parse(readFileSync(rutaPiloto(name), 'utf8'));
 const lit = (v) => `'${String(v).replaceAll("'", "''")}'`;
 const doc = (v) => `${lit(JSON.stringify(v))}::jsonb`;
 const ids = Array.from(

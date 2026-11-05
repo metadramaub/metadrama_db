@@ -1,0 +1,245 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "procedencia": {
+    "prompt_version": "extraccion/0.27"
+  },
+  "metadatos": {
+    "titulo": null,
+    "autoria": null,
+    "genero_literal": null,
+    "fecha_inicio": null,
+    "fecha_fin": null,
+    "fuente_fecha": null,
+    "edicion_base": null,
+    "observaciones": [],
+    "fuente_id": null
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "ACTO PRIMERO"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "ACTO SEGUNDO"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "ACTO TERCERO"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 284,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 284,
+      "fuente_id": "28_domine_Lucas_1.jpg",
+      "pagina": 1011
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 285,
+      "v_fin": 298,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "28_domine_Lucas_1.jpg",
+      "pagina": 1011
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 299,
+      "v_fin": 519,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 221,
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 520,
+      "v_fin": 533,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    },
+    {
+      "id": "t05",
+      "jornada": 1,
+      "v_ini": 534,
+      "v_fin": 1033,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 500,
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    },
+    {
+      "id": "t06",
+      "jornada": 2,
+      "v_ini": 1034,
+      "v_fin": 1561,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 538,
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    },
+    {
+      "id": "t07",
+      "jornada": 2,
+      "v_ini": 1562,
+      "v_fin": 1625,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 64,
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    },
+    {
+      "id": "t08",
+      "jornada": 2,
+      "v_ini": 1626,
+      "v_fin": 1706,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 81,
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 1707,
+      "v_fin": 1720,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 1721,
+      "v_fin": 2088,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 368,
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    },
+    {
+      "id": "t11",
+      "jornada": 3,
+      "v_ini": 2089,
+      "v_fin": 2164,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 176,
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    },
+    {
+      "id": "t12",
+      "jornada": 3,
+      "v_ini": 2165,
+      "v_fin": 2178,
+      "denominacion_literal": "soneto",
+      "n_versos_fuente": 14,
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    },
+    {
+      "id": "t13",
+      "jornada": 3,
+      "v_ini": 2179,
+      "v_fin": 2454,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 276,
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    },
+    {
+      "id": "t14",
+      "jornada": 3,
+      "v_ini": 2455,
+      "v_fin": 2526,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 72,
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    },
+    {
+      "id": "t15",
+      "jornada": 3,
+      "v_ini": 2527,
+      "v_fin": 2528,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 2,
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    },
+    {
+      "id": "t16",
+      "jornada": 3,
+      "v_ini": 2529,
+      "v_fin": 2604,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 76,
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    },
+    {
+      "id": "t17",
+      "jornada": 3,
+      "v_ini": 2605,
+      "v_fin": 2728,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 124,
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    },
+    {
+      "id": "t18",
+      "jornada": 3,
+      "v_ini": 2729,
+      "v_fin": 2957,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 229,
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    }
+  ],
+  "notas": [],
+  "resumen_fuente": [
+    {
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 2558,
+      "porcentaje_literal": "86,5",
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    },
+    {
+      "denominacion_literal": "Endecasílabos sueltos",
+      "n_versos_fuente": 207,
+      "porcentaje_literal": "7",
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    },
+    {
+      "denominacion_literal": "Octavas reales",
+      "n_versos_fuente": 136,
+      "porcentaje_literal": "4,6",
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    },
+    {
+      "denominacion_literal": "Sonetos",
+      "n_versos_fuente": 56,
+      "porcentaje_literal": "1,9",
+      "fuente_id": "28_domine_Lucas_2.jpg",
+      "pagina": 1010
+    }
+  ],
+  "incidencias": []
+}

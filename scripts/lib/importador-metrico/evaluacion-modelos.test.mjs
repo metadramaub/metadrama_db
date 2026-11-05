@@ -4,7 +4,7 @@ import { evaluarRespuestaModelo } from './evaluacion-modelos.mjs';
 const gold = JSON.parse(
 	readFileSync(
 		new URL(
-			'../../../docs/importador-metrico/piloto/extracciones/los-locos-de-valencia.json',
+			'../../../docs/importador-metrico/evaluacion/referencias/extracciones/los-locos-de-valencia.json',
 			import.meta.url
 		),
 		'utf8'

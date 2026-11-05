@@ -1,4 +1,4 @@
-import referencia from '../../../docs/importador-metrico/piloto/reglas-longitud.json';
+import referencia from '../../../data/importador-metrico/reglas-longitud.json';
 import { formasImportador } from './catalogo';
 import { isMetricLengthCompatible } from '$lib/metrica/metric-length';
 import { structuralAdditionCount, structuralAdditionRanges } from '$lib/metrica/structural-additions';

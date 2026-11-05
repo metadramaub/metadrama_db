@@ -1,0 +1,1 @@
+  - generic: Se ha usado 3.5 Flash-Lite con selección automática

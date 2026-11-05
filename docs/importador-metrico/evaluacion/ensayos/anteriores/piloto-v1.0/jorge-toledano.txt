@@ -1,0 +1,387 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "obra_ref": "obra-importada",
+  "estado_revision": "borrador_ia",
+  "revision_humana": {
+    "responsable": null,
+    "fecha": null,
+    "resultado": "pendiente"
+  },
+  "procedencia": {
+    "fecha": null,
+    "procedimiento": "ejecucion_prompt",
+    "generador": null,
+    "modelo": null,
+    "modo": null,
+    "plan": null,
+    "parametros": null,
+    "prompt_version": "extraccion/1.0",
+    "ensayo_controlado": false
+  },
+  "metadatos": {
+    "titulo": "Jorge Toledano",
+    "autoria": null,
+    "genero_literal": null,
+    "fecha_inicio": null,
+    "fecha_fin": null,
+    "fuente_fecha": null,
+    "edicion_base": null,
+    "observaciones": [],
+    "fuente_id": null
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "ACTO PRIMERO"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "ACTO SEGUNDO"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "ACTO TERCERO"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 135,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 135,
+      "fuente_id": "33_Jorge_toledano_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 136,
+      "v_fin": 295,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 160,
+      "fuente_id": "33_Jorge_toledano_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 296,
+      "v_fin": 359,
+      "denominacion_literal": "romance en a-e",
+      "n_versos_fuente": 64,
+      "fuente_id": "33_Jorge_toledano_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 360,
+      "v_fin": 417,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 58,
+      "fuente_id": "33_Jorge_toledano_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t05",
+      "jornada": 1,
+      "v_ini": 418,
+      "v_fin": 517,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 100,
+      "fuente_id": "33_Jorge_toledano_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t06",
+      "jornada": 1,
+      "v_ini": 518,
+      "v_fin": 597,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 80,
+      "fuente_id": "33_Jorge_toledano_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t07",
+      "jornada": 1,
+      "v_ini": 598,
+      "v_fin": 965,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 368,
+      "fuente_id": "33_Jorge_toledano_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t08",
+      "jornada": 1,
+      "v_ini": 966,
+      "v_fin": 1059,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 94,
+      "fuente_id": "33_Jorge_toledano_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t09",
+      "jornada": 1,
+      "v_ini": 1060,
+      "v_fin": 1194,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 135,
+      "fuente_id": "33_Jorge_toledano_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 1195,
+      "v_fin": 1554,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 360,
+      "fuente_id": "33_Jorge_toledano_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 1555,
+      "v_fin": 1874,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 320,
+      "fuente_id": "33_Jorge_toledano_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t12",
+      "jornada": 2,
+      "v_ini": 1875,
+      "v_fin": 2010,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 136,
+      "fuente_id": "33_Jorge_toledano_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t13",
+      "jornada": 2,
+      "v_ini": 2011,
+      "v_fin": 2274,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 264,
+      "fuente_id": "33_Jorge_toledano_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t14",
+      "jornada": 2,
+      "v_ini": 2275,
+      "v_fin": 2392,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 118,
+      "fuente_id": "33_Jorge_toledano_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t15",
+      "jornada": 3,
+      "v_ini": 2393,
+      "v_fin": 2556,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 164,
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657",
+      "notas_ref": []
+    },
+    {
+      "id": "t16",
+      "jornada": 3,
+      "v_ini": 2557,
+      "v_fin": 2616,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 60,
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657",
+      "notas_ref": []
+    },
+    {
+      "id": "t17",
+      "jornada": 3,
+      "v_ini": 2617,
+      "v_fin": 2791,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 175,
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657",
+      "notas_ref": []
+    },
+    {
+      "id": "t18",
+      "jornada": 3,
+      "v_ini": 2792,
+      "v_fin": 2858,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 67,
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657",
+      "notas_ref": []
+    },
+    {
+      "id": "t19",
+      "jornada": 3,
+      "v_ini": 2859,
+      "v_fin": 2876,
+      "denominacion_literal": "sextinas",
+      "n_versos_fuente": 18,
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657",
+      "notas_ref": []
+    },
+    {
+      "id": "t20",
+      "jornada": 3,
+      "v_ini": 2877,
+      "v_fin": 3006,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 130,
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657",
+      "notas_ref": []
+    },
+    {
+      "id": "t21",
+      "jornada": 3,
+      "v_ini": 3007,
+      "v_fin": 3122,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 116,
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657",
+      "notas_ref": []
+    },
+    {
+      "id": "t22",
+      "jornada": 3,
+      "v_ini": 3123,
+      "v_fin": 3170,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 48,
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657",
+      "notas_ref": []
+    },
+    {
+      "id": "t23",
+      "jornada": 3,
+      "v_ini": 3171,
+      "v_fin": 3234,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 64,
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657",
+      "notas_ref": []
+    },
+    {
+      "id": "t24",
+      "jornada": 3,
+      "v_ini": 3235,
+      "v_fin": 3298,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 64,
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657",
+      "notas_ref": []
+    },
+    {
+      "id": "t25",
+      "jornada": 3,
+      "v_ini": 3299,
+      "v_fin": 3518,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 220,
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657",
+      "notas_ref": []
+    },
+    {
+      "id": "t26",
+      "jornada": 3,
+      "v_ini": 3519,
+      "v_fin": 3526,
+      "denominacion_literal": "octava real",
+      "n_versos_fuente": 8,
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657",
+      "notas_ref": []
+    }
+  ],
+  "notas": [],
+  "resumen_fuente": [
+    {
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 1596,
+      "porcentaje_literal": "45,3",
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657"
+    },
+    {
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 1115,
+      "porcentaje_literal": "31,7",
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657"
+    },
+    {
+      "denominacion_literal": "Endecasílabos sueltos",
+      "n_versos_fuente": 385,
+      "porcentaje_literal": "10,9",
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657"
+    },
+    {
+      "denominacion_literal": "Tercetos encadenados",
+      "n_versos_fuente": 212,
+      "porcentaje_literal": "6",
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657"
+    },
+    {
+      "denominacion_literal": "Octavas reales",
+      "n_versos_fuente": 136,
+      "porcentaje_literal": "3,8",
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657"
+    },
+    {
+      "denominacion_literal": "Romance",
+      "n_versos_fuente": 64,
+      "porcentaje_literal": "1,8",
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657"
+    },
+    {
+      "denominacion_literal": "Sextinas",
+      "n_versos_fuente": 18,
+      "porcentaje_literal": "0,5",
+      "fuente_id": "33_Jorge_toledano_2.jpg",
+      "pagina": "657"
+    }
+  ],
+  "incidencias": []
+}

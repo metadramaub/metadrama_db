@@ -1,0 +1,569 @@
+{
+  "descripcion": "Copias literales de evidencias de ensayos anteriores; no implica aceptación ni revisión humana.",
+  "archivos": [
+    {
+      "archivo": "caballero-milagro-2026-11-02/respuesta-v0.6-original.json",
+      "sha256": "a5e2ed19bfb3aaad564805feea9ff8b92e414dc367f76267fd01ce67b2b69b3e"
+    },
+    {
+      "archivo": "donaires-matico-2026-11-02/respuesta-v0.13-gemini-original.json",
+      "sha256": "6c414f0f05d95455e94cd41d4783219f7205fef93da219a160c7f60f03098405"
+    },
+    {
+      "archivo": "favor-agradecido-2026-11-02/respuesta-v0.7-original.json",
+      "sha256": "3e8c28deb103ff958d3a38fd4f8e0f2c6d436fdbe876de2a6fd392dca2319209"
+    },
+    {
+      "archivo": "hijo-reduan-2026-11-02/respuesta-v0.13-original.json",
+      "sha256": "93ca105b82522469e2d225509705fe42a252c6aaada31912379b2f9c1446f3de"
+    },
+    {
+      "archivo": "laura-perseguida-2026-11-02/respuesta-v0.8-original.json",
+      "sha256": "e62a8815100e3d21afd56c6dc3d870ca35c60e79579652ba94b0d554e9bf6598"
+    },
+    {
+      "archivo": "leal-criado-2026-11-02/respuesta-v0.8-original.json",
+      "sha256": "666a4a7ad0da1144e74d5034a21e099f4e0ac342705948ebc8918873faa097fe"
+    },
+    {
+      "archivo": "leal-criado-2026-11-02/respuesta-v0.9-original.json",
+      "sha256": "c35671800d8f050244b880734b7240c244f142b461cf63062c42a2db9b3b8ec6"
+    },
+    {
+      "archivo": "maestro-danzar-2026-11-02/respuesta-v0.10-original.json",
+      "sha256": "59bbe47a80331dc31782e769ba090ab5f8cb59bde874079fa8ed53af8eea8735"
+    },
+    {
+      "archivo": "maestro-danzar-2026-11-02/respuesta-v0.11-chatgpt-plus-instant-original.json",
+      "sha256": "ad3791cffab559f279a62c29a1b09c99d7412b7cfe3f4c756ee02546015cc4a9"
+    },
+    {
+      "archivo": "maestro-danzar-2026-11-02/respuesta-v0.11-original.json",
+      "sha256": "b144e32f98afc686a5b53c1657f13c35aca8881d6668ea9c9c6e9000a75f78e0"
+    },
+    {
+      "archivo": "maestro-danzar-2026-11-02/respuesta-v0.9-original.json",
+      "sha256": "b989dacb85b29e552ac5bb986082d95e75244daf0f70626c8e26ab9b1f30fee9"
+    },
+    {
+      "archivo": "molino-2026-11-02/comparacion-v0.13.json",
+      "sha256": "868633047d466c7df28bcb458424e9f1f2bda7df40ecc770a5a7f5eb9153b697"
+    },
+    {
+      "archivo": "molino-2026-11-02/respuesta-v0.13-gemini-flash-lite-original.json",
+      "sha256": "66f85c01e091610446832fcc964172aa30e94077ba35e4180078aab7d44ca522"
+    },
+    {
+      "archivo": "piloto-v0.26-nuevas/el-casamiento-en-la-muerte.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.26-nuevas/el-casamiento-en-la-muerte.txt",
+      "sha256": "2e096a46baa45eb520c9f576cfb4d1053f71976baf44c9ae783261560f196b41"
+    },
+    {
+      "archivo": "piloto-v0.26-nuevas/el-domine-lucas.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.26-nuevas/el-domine-lucas.txt",
+      "sha256": "9fc45eca49311eb4388ff347351e51afb4089e8d43a24a5e2063d91ef4eca3de"
+    },
+    {
+      "archivo": "piloto-v0.26-nuevas/el-marmol-de-felisardo.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.26-nuevas/el-marmol-de-felisardo.txt",
+      "sha256": "c13729caef825ad794e144c3d9534968c3f79626354e18cd6de1826c6a07efbb"
+    },
+    {
+      "archivo": "piloto-v0.26-nuevas/el-perseguido.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.26-nuevas/el-perseguido.txt",
+      "sha256": "8617273dfd642d74c6afdbe33cce097b3566e080cd26d7f6678997d3a16efd57"
+    },
+    {
+      "archivo": "piloto-v0.26-nuevas/jorge-toledano.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.26-nuevas/jorge-toledano.txt",
+      "sha256": "721e3ed6f02a0431704fc47eee0f8fcfbaa915f3790612f6602c814f90e5072f"
+    },
+    {
+      "archivo": "piloto-v0.26-nuevas/la-ingratitud-vengada.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.26-nuevas/la-ingratitud-vengada.txt",
+      "sha256": "cd3a3ea9ed093b32cd420674c9a895d62ac72377f9819b0deef0283798491f75"
+    },
+    {
+      "archivo": "piloto-v0.26-nuevas/la-serrana-de-tormes.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.26-nuevas/la-serrana-de-tormes.txt",
+      "sha256": "7c8cae164e6cb90cb1dd4267cb300cc32ade7771d4a5a367f45a54c57d59b6ef"
+    },
+    {
+      "archivo": "piloto-v0.27/ampliacion/el-casamiento-en-la-muerte.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.27/ampliacion/el-casamiento-en-la-muerte.txt",
+      "sha256": "cfc700c9008ff65300f23cb078fe3489dae1ae2196560552fbd9899c50e380a7"
+    },
+    {
+      "archivo": "piloto-v0.27/ampliacion/el-domine-lucas.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.27/ampliacion/el-domine-lucas.txt",
+      "sha256": "e752c7de218643a843462fd347ee235dcfe329b2a59bff7e0a8204987474c9e0"
+    },
+    {
+      "archivo": "piloto-v0.27/ampliacion/el-perseguido.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.27/ampliacion/el-perseguido.txt",
+      "sha256": "e3772b069aee6366b0eda9250f9efe2bb64930f1d55029cd91d8b3c6faa89f2a"
+    },
+    {
+      "archivo": "piloto-v0.27/ampliacion/jorge-toledano.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.27/ampliacion/jorge-toledano.reintento.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.27/ampliacion/jorge-toledano.reintento.txt",
+      "sha256": "335cfa337a5ca039e6535232459f00844899acc650c0c3ef9028950fd9252df9"
+    },
+    {
+      "archivo": "piloto-v0.27/ampliacion/jorge-toledano.txt",
+      "sha256": "707f223bcc92a255f9e64d0e896289e846485f57b35d0e3c7ae03b2056323ab2"
+    },
+    {
+      "archivo": "piloto-v0.27/ampliacion/la-serrana-de-tormes.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.27/ampliacion/la-serrana-de-tormes.txt",
+      "sha256": "708197aaae63ee20959684b52ff631582809307ba8bc9023feb337eaa856e6d2"
+    },
+    {
+      "archivo": "piloto-v0.27/el-marmol-de-felisardo.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.27/el-marmol-de-felisardo.reintento.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.27/el-marmol-de-felisardo.reintento.txt",
+      "sha256": "2c1e2c883ef1a8cf3b43cca42f228e84bf97a5b852c37752fc8ffed8c450978c"
+    },
+    {
+      "archivo": "piloto-v0.27/el-marmol-de-felisardo.sol.json",
+      "sha256": "e760d5709edbcac89383799d40e75e136c299b56c23742703006c26f7dfae6c4"
+    },
+    {
+      "archivo": "piloto-v0.27/el-marmol-de-felisardo.txt",
+      "sha256": "2058f8c4d3b4021be17821e45dc829a7e780f1bb53b330ca796256b1305bbd17"
+    },
+    {
+      "archivo": "piloto-v0.27/el-verdadero-amante.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.27/el-verdadero-amante.txt",
+      "sha256": "cddc4e85e1c635d3fb8cfa4c5c07bc29c39906a9f91f28ed24cc48f04549b999"
+    },
+    {
+      "archivo": "piloto-v0.27/la-ingratitud-vengada.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.27/la-ingratitud-vengada.txt",
+      "sha256": "8eb7ac54f4fe6e39be57c5e012d213c44be2f5919b395e33b75c327617176b06"
+    },
+    {
+      "archivo": "piloto-v0.27/los-locos-de-valencia.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.27/los-locos-de-valencia.txt",
+      "sha256": "f3c18b986acead56f16fc94ba68e1cc2e53d2863555c89c6282b697696a41d1a"
+    },
+    {
+      "archivo": "piloto-v0.27/urson-valentin.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v0.27/urson-valentin.txt",
+      "sha256": "a96a12c01bb0477282ea7abb48babb1d613e61d48ae0014a189d95f31b394a29"
+    },
+    {
+      "archivo": "piloto-v1.0/el-marmol-de-felisardo.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.0/el-marmol-de-felisardo.txt",
+      "sha256": "969d703664302c4ee0c935a98b5db09d8fc77a3e3fcb9ccbab3e54bc476bce1d"
+    },
+    {
+      "archivo": "piloto-v1.0/el-verdadero-amante.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.0/el-verdadero-amante.txt",
+      "sha256": "1534c10254dc21bd91b8971d7c5e51fa5e775abb43c7182fc5ff894abcaa6b03"
+    },
+    {
+      "archivo": "piloto-v1.0/jorge-toledano.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.0/jorge-toledano.txt",
+      "sha256": "1fc8dbd3761049e661f6fe5582a744205ef6eddf7a53e0ac47f7f1931a843640"
+    },
+    {
+      "archivo": "piloto-v1.0/la-ingratitud-vengada.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.0/la-ingratitud-vengada.txt",
+      "sha256": "6991cf9d216fb2dce7726764075bf3715ffb1307527b06107e53bfe2acb58aff"
+    },
+    {
+      "archivo": "piloto-v1.0/la-serrana-de-tormes.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.0/la-serrana-de-tormes.txt",
+      "sha256": "99809e4ddc9115b08c189809b1e3c42924ac22b91307119d4e7726b37dcaa220"
+    },
+    {
+      "archivo": "piloto-v1.0/urson-valentin.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.0/urson-valentin.txt",
+      "sha256": "a256e56895f3002b46ad28f44289726046d14cc4d3cd60740015a679ccd357df"
+    },
+    {
+      "archivo": "piloto-v1.01/el-marmol-de-felisardo.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.01/el-marmol-de-felisardo.txt",
+      "sha256": "f941392d11dd8e29de0aa551e2e244280c0a07eb613c1830fe9d74783d2a67d4"
+    },
+    {
+      "archivo": "piloto-v1.01/el-verdadero-amante.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.01/el-verdadero-amante.txt",
+      "sha256": "50f8025befc3f33af6dbead18da3c1333ace657f7ac575bf8001e85dda58fae6"
+    },
+    {
+      "archivo": "piloto-v1.01/jorge-toledano.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.01/jorge-toledano.reintento.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.01/jorge-toledano.reintento.txt",
+      "sha256": "969d703664302c4ee0c935a98b5db09d8fc77a3e3fcb9ccbab3e54bc476bce1d"
+    },
+    {
+      "archivo": "piloto-v1.01/jorge-toledano.txt",
+      "sha256": "191391e5b4b1ce529898137d6547b557a46c3e6f7e48752a0cad11bd108e73f5"
+    },
+    {
+      "archivo": "piloto-v1.01/la-ingratitud-vengada.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.01/la-ingratitud-vengada.txt",
+      "sha256": "a0a30c165275f4df2ac189fc897a95225b992ad30ad3c9f9ec96b0a9cc496b8b"
+    },
+    {
+      "archivo": "piloto-v1.01/la-serrana-de-tormes.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.01/la-serrana-de-tormes.txt",
+      "sha256": "6917c23205b390f80e34b1c26595efacf0d1f8332b044e09d9486f697b9695e5"
+    },
+    {
+      "archivo": "piloto-v1.01/urson-valentin.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.01/urson-valentin.reintento.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.01/urson-valentin.reintento.txt",
+      "sha256": "59f3e799b735376b26a2ff2f1a8a9f9c52436c079dd0613c48fe905ca03cc597"
+    },
+    {
+      "archivo": "piloto-v1.01/urson-valentin.txt",
+      "sha256": "191391e5b4b1ce529898137d6547b557a46c3e6f7e48752a0cad11bd108e73f5"
+    },
+    {
+      "archivo": "piloto-v1.02/la-ingratitud-vengada.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.02/la-ingratitud-vengada.reintento.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.02/la-ingratitud-vengada.reintento.txt",
+      "sha256": "bb701230168a0cac3f622f20e9880604b8d832e93572eecc93c0e0a5a85a2877"
+    },
+    {
+      "archivo": "piloto-v1.02/la-ingratitud-vengada.txt",
+      "sha256": "e1b51e8a0e3d194055bc83de977e2c06ebe33cba4b7d64acc537a74cd66b628e"
+    },
+    {
+      "archivo": "piloto-v1.02/urson-valentin.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.02/urson-valentin.reintento.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.02/urson-valentin.reintento.txt",
+      "sha256": "f52f5f81a2d729103c7c16232eefe66c4d656edc69c4844404f349335cdeb1e2"
+    },
+    {
+      "archivo": "piloto-v1.02/urson-valentin.repeticion.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.02/urson-valentin.repeticion.txt",
+      "sha256": "31219fd229668e6560af614b9cebead2dbadd21e6b0483229de29eb123a22757"
+    },
+    {
+      "archivo": "piloto-v1.02/urson-valentin.txt",
+      "sha256": "02d616fda1bc58fcf7710d1865fee4cbbf88b6b64c31300555c40b19d956eb73"
+    },
+    {
+      "archivo": "piloto-v1.03/diagnostico.json",
+      "sha256": "f73dd44d942cd856bc9edc25eec733a2f2c04087f99051ea34dae15245259d39"
+    },
+    {
+      "archivo": "piloto-v1.03/el-marmol-de-felisardo.modelo.txt",
+      "sha256": "4a1bd4fe2d52bd1779adee39c0de361517d07f4d0d0f2db14a7d879b5c94f6af"
+    },
+    {
+      "archivo": "piloto-v1.03/el-marmol-de-felisardo.txt",
+      "sha256": "1534c10254dc21bd91b8971d7c5e51fa5e775abb43c7182fc5ff894abcaa6b03"
+    },
+    {
+      "archivo": "piloto-v1.03/el-verdadero-amante.modelo.txt",
+      "sha256": "1a7368678da7e5d7ce20f7b5c356f35442079ea4a3d0dbb5b2be24b650118886"
+    },
+    {
+      "archivo": "piloto-v1.03/el-verdadero-amante.txt",
+      "sha256": "f0357221c229014aa394f8fff700691049aecb6e8b892a8be7f5201cea9196ba"
+    },
+    {
+      "archivo": "piloto-v1.03/la-ingratitud-vengada.modelo.txt",
+      "sha256": "1a7368678da7e5d7ce20f7b5c356f35442079ea4a3d0dbb5b2be24b650118886"
+    },
+    {
+      "archivo": "piloto-v1.03/la-ingratitud-vengada.txt",
+      "sha256": "23689a4a7b16809fb1f5d3d8a626dcb275153639643ac52d03a6e9dbee837ffd"
+    },
+    {
+      "archivo": "piloto-v1.03/urson-valentin.modelo.txt",
+      "sha256": "1a7368678da7e5d7ce20f7b5c356f35442079ea4a3d0dbb5b2be24b650118886"
+    },
+    {
+      "archivo": "piloto-v1.03/urson-valentin.txt",
+      "sha256": "3f426bcb315d25b30053e921122d68d58474ebbe2aafa49122e88063c508cc35"
+    },
+    {
+      "archivo": "regresiones-v0.16-2026-11-04/el-verdadero-amante.txt",
+      "sha256": "73c661c0a81f10d064e019b5b5ab2b049f5f317d0600c437d1c80677d3fa81f7"
+    },
+    {
+      "archivo": "regresiones-v0.16-2026-11-04/los-locos-de-valencia.txt",
+      "sha256": "67f9d3c856b3fe708b86272d6fecfc4b06d189bd65e162478ea66af5349f8539"
+    },
+    {
+      "archivo": "regresiones-v0.16-2026-11-04/traicion-acertada.txt",
+      "sha256": "b36018efaf3b7328fc6b7e0325704575894e0adbe200abbc46fc6048d5ed2e11"
+    },
+    {
+      "archivo": "regresiones-v0.16-2026-11-04/urson-valentin.txt",
+      "sha256": "aa554f8ac8353648d44de0fac44bc888d3dbe30e3c0f517958034753a2e65f98"
+    },
+    {
+      "archivo": "regresiones-v0.17-2026-11-04/traicion-acertada.txt",
+      "sha256": "06950d71f1c0acf7a6479e66b4ee341ff27cb61ab2c164f872ae6ef4de9ae61e"
+    },
+    {
+      "archivo": "regresiones-v0.17-2026-11-04/urson-valentin.txt",
+      "sha256": "2b62094a5b2fff16275ebd37dd2266a582c639946da043232cc35e4204ac4510"
+    },
+    {
+      "archivo": "regresiones-v0.18-2026-11-04/traicion-acertada.txt",
+      "sha256": "cf9032209bbc18614d0f345ba792d132a572a44b86df4a04c6c7013d40a2d73e"
+    },
+    {
+      "archivo": "regresiones-v0.18-2026-11-04/urson-valentin.txt",
+      "sha256": "2750547fba5d287b718e89c809cd3875be37c8760dc17c95667e18a318c6ce38"
+    },
+    {
+      "archivo": "regresiones-v0.19-2026-11-04/el-verdadero-amante.txt",
+      "sha256": "bd014fd57e2f009d03e3ceb5ec26331675ecf8326032dd430a19fa15c26539ef"
+    },
+    {
+      "archivo": "regresiones-v0.19-2026-11-04/traicion-acertada.txt",
+      "sha256": "a11b486df5fbc7d325b0f331b34ce28c1e347e2e3bff680dfa4ad1acc1e94ae5"
+    },
+    {
+      "archivo": "regresiones-v0.20-2026-11-04/el-verdadero-amante.txt",
+      "sha256": "868cf5c08b6d2c04848be00a91932050338d9ca5d1454e5afec6a3ae66a84935"
+    },
+    {
+      "archivo": "regresiones-v0.20-2026-11-04/traicion-acertada.txt",
+      "sha256": "c57da208e7e3dd983509e18e39fc4fe66a90c243b3ff030e9158d79a497ae42c"
+    },
+    {
+      "archivo": "regresiones-v0.20-2026-11-04/urson-valentin.txt",
+      "sha256": "be921940427da9325618a72cc384c4c3a9a7ed6caecfbfbcb7caaedb16a83e92"
+    },
+    {
+      "archivo": "regresiones-v0.21-2026-11-04/traicion-acertada.txt",
+      "sha256": "1dce8336cbc8e4f2332dcb725982e4c63e826a314440263f27610defa3225d7c"
+    },
+    {
+      "archivo": "regresiones-v0.22-2026-11-04/traicion-acertada.txt",
+      "sha256": "39c34ebbb1a8b78133bf5dcc68e1c0df0a3ead3f17ffa15d1bb1e5d5d3df5c8e"
+    },
+    {
+      "archivo": "regresiones-v0.23-2026-11-04/el-verdadero-amante.txt",
+      "sha256": "a57095241085da3c5fd80f23f90de37dfe9ba7de870c971e64a556bf1e4499c4"
+    },
+    {
+      "archivo": "regresiones-v0.23-2026-11-04/los-locos-de-valencia.txt",
+      "sha256": "356752d4c47bddbbd13c1616765dc482def8c53ee1db6db1945e57b5e8f2c9ac"
+    },
+    {
+      "archivo": "regresiones-v0.23-2026-11-04/traicion-acertada-revision.txt",
+      "sha256": "6a764d351f290f7c47f8898bb27f87d3abd4c1f2286adb73588300b2c8f00bcb"
+    },
+    {
+      "archivo": "regresiones-v0.23-2026-11-04/traicion-acertada.txt",
+      "sha256": "752f00b2ebf7fbd4b6dd910f0897ff7e2c702193e4252d0f82d28cfd23caf36f"
+    },
+    {
+      "archivo": "regresiones-v0.24-2026-11-04/el-verdadero-amante.txt",
+      "sha256": "a8dcb483c21016cde64c99af6437ec5b62fb59f5002db29e61b592cb061c0a3b"
+    },
+    {
+      "archivo": "regresiones-v0.24-2026-11-04/los-locos-de-valencia.txt",
+      "sha256": "6f668649eed93723f7bf3945ffae5cf3b9f4c5fc27fa496d5d0a9a12cf83d71e"
+    },
+    {
+      "archivo": "regresiones-v0.24-2026-11-04/traicion-acertada-revision.txt",
+      "sha256": "20354a0709d1ae722a2d886688931695c03db4eb35ac3498b60e066ee012ee20"
+    },
+    {
+      "archivo": "regresiones-v0.24-2026-11-04/traicion-acertada.txt",
+      "sha256": "afd7b094c503143a9026c16cb02c6403b5046a845e8cd226534f7196fecc00d4"
+    },
+    {
+      "archivo": "regresiones-v0.24-2026-11-04/urson-valentin.txt",
+      "sha256": "ac03cc3ee70e82f857cebcda644ed3dd48d6aacf42ae7a43cc62f73c49776b1f"
+    },
+    {
+      "archivo": "regresiones-v0.25-2026-11-04/el-verdadero-amante.txt",
+      "sha256": "16dcd737e4d876fb2ee79b5629f58abed785036f97f7645b1a35fbffc04f8ac3"
+    },
+    {
+      "archivo": "regresiones-v0.25-2026-11-04/traicion-acertada-revision.txt",
+      "sha256": "e95c4e59a48580a6029a7f8a3c291dc510c3064d02f24b250352761d5c92baf1"
+    },
+    {
+      "archivo": "regresiones-v0.25-2026-11-04/traicion-acertada.txt",
+      "sha256": "7edb400bc990a1ebb78724b6273ba33b9d90b0b1d8fddb0572fddeb16fd5a4bb"
+    },
+    {
+      "archivo": "regresiones-v0.25-2026-11-04/urson-valentin.txt",
+      "sha256": "b79c53e50653f1cfebd49af5dc2e7d029b8c4adb29606834ba31b3e1902ae752"
+    },
+    {
+      "archivo": "regresiones-v0.26-2026-11-04/el-verdadero-amante.txt",
+      "sha256": "24a9afecb05b13f0da49b239dd0e41f4b6fc726bef8fb7b131308fbb712bbfe5"
+    },
+    {
+      "archivo": "regresiones-v0.26-2026-11-04/los-locos-de-valencia.txt",
+      "sha256": "0305c32da43a73b1232342b6934ecd1a81447ac386809434d8a63fef5c2ad189"
+    },
+    {
+      "archivo": "regresiones-v0.26-2026-11-04/traicion-acertada-repeticion.txt",
+      "sha256": "eba92d9a51c0f618f9865003998b691579f20f007503c3ba0c8fce8d41764ef8"
+    },
+    {
+      "archivo": "regresiones-v0.26-2026-11-04/traicion-acertada-revision.txt",
+      "sha256": "a0bbb438afc5af47faffb600a72d23ade422a5e622e920f2d8a96928a484e1ce"
+    },
+    {
+      "archivo": "regresiones-v0.26-2026-11-04/traicion-acertada.txt",
+      "sha256": "fc768a2a86e86bc41f7c57c529204bb4c1a776a0d8f38720504ff6a109f31df8"
+    },
+    {
+      "archivo": "regresiones-v0.26-2026-11-04/urson-valentin.txt",
+      "sha256": "eed04c06848f954d6fda0b188184dc2f24334d94f3fd6e89230fe7e8f4b33b43"
+    },
+    {
+      "archivo": "revision-ferias-20261102/respuesta-v0.13-original.json",
+      "sha256": "0e2e845bac1b8121182f6738fac589a84a77a61d6018aa339a4835e20e00f825"
+    },
+    {
+      "archivo": "traicion-acertada-2026-11-03/respuesta-v0.15-original.json",
+      "sha256": "8ff8f570dfc2cea83bb864bb12f622aafae2307028bb5d402ffbf93c92f1f2f2"
+    },
+    {
+      "archivo": "urson-valentin-2026-11-03/respuesta-v0.13-original.json",
+      "sha256": "a62378db81e86716409c798cbd0b59bdef221f9aa9d2e345c7814e0d80863ac8"
+    },
+    {
+      "archivo": "urson-valentin-2026-11-03/respuesta-v0.14-original.json",
+      "sha256": "63eeef3a01fbb0dfdb3c1238dda680ccc292cdac01876d3058c8b1220cfe7180"
+    },
+    {
+      "archivo": "urson-valentin-2026-11-03/respuesta-v0.15-original.json",
+      "sha256": "b1aa8573c85131d30226d9284b717efeeb194b0095e91e0093af47fca4f9f53b"
+    },
+    {
+      "archivo": "verdadero-amante-2026-11-02/respuesta-v0.12-chatgpt-gpt6-instant-original.json",
+      "sha256": "9ea8b4659fac98581af52f73bcf2247a424f769f8ffe73f97aff4254b9bd672b"
+    },
+    {
+      "archivo": "verdadero-amante-2026-11-02/respuesta-v0.12-gemini-original.json",
+      "sha256": "c5bf08d912adf7d929bdc18c50003468c2f83f51331fc588bed48680d628365a"
+    },
+    {
+      "archivo": "verdadero-amante-2026-11-02/respuesta-v0.13-gemini-flash-lite-original.json",
+      "sha256": "fd5cabd2c8527eb4f14db6b09c973ba3692a940ff701613ad376e59dc9b330b8"
+    }
+  ]
+}

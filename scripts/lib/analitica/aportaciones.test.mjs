@@ -149,7 +149,7 @@ describe('fuente, autoría y cronología', () => {
 	const read = (ref) =>
 		JSON.parse(
 			readFileSync(
-				new URL(`../../../docs/importador-metrico/piloto/preparadas/${ref}.json`, import.meta.url),
+				new URL(`../../../docs/importador-metrico/evaluacion/referencias/preparadas/${ref}.json`, import.meta.url),
 				'utf8'
 			)
 		).datos;
@@ -181,7 +181,7 @@ describe('fuente, autoría y cronología', () => {
 		const cat = JSON.parse(
 			readFileSync(
 				new URL(
-					'../../../docs/importador-metrico/piloto/catalogo-referencia.json',
+					'../../../data/importador-metrico/catalogo-referencia.json',
 					import.meta.url
 				),
 				'utf8'
@@ -248,7 +248,7 @@ describe('fuente, autoría y cronología', () => {
 		const cat = JSON.parse(
 			readFileSync(
 				new URL(
-					'../../../docs/importador-metrico/piloto/catalogo-referencia.json',
+					'../../../data/importador-metrico/catalogo-referencia.json',
 					import.meta.url
 				),
 				'utf8'

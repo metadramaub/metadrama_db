@@ -1,0 +1,354 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "obra_ref": "El hijo de Reduán",
+  "estado_revision": "borrador_ia",
+  "revision_humana": {
+    "responsable": null,
+    "fecha": null,
+    "resultado": "pendiente"
+  },
+  "procedencia": {
+    "fecha": null,
+    "procedimiento": "ejecucion_prompt",
+    "generador": "Gemini",
+    "modelo": null,
+    "modo": null,
+    "plan": null,
+    "parametros": null,
+    "prompt_version": "extraccion/0.13",
+    "ensayo_controlado": false
+  },
+  "metadatos": {
+    "titulo": "El hijo de Reduán",
+    "autoria": null,
+    "genero_literal": null,
+    "fecha_inicio": null,
+    "fecha_fin": null,
+    "fuente_fecha": null,
+    "edicion_base": null,
+    "observaciones": [],
+    "fuente_id": null
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "Jornada primera"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "Jornada segunda"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "Jornada tercera"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 615,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 615,
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 616,
+      "v_fin": 667,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 52,
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "notas_ref": [
+        "n01"
+      ]
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 668,
+      "v_fin": 879,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 212,
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 880,
+      "v_fin": 895,
+      "denominacion_literal": "octavas reales",
+      "n_versos_fuente": 16,
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t05",
+      "jornada": 1,
+      "v_ini": 896,
+      "v_fin": 953,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 58,
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t06",
+      "jornada": 2,
+      "v_ini": 954,
+      "v_fin": 1033,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 80,
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t07",
+      "jornada": 2,
+      "v_ini": 1034,
+      "v_fin": 1257,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 224,
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t08",
+      "jornada": 2,
+      "v_ini": 1258,
+      "v_fin": 1297,
+      "denominacion_literal": "romance aa",
+      "n_versos_fuente": 40,
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 1298,
+      "v_fin": 1385,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 88,
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 1386,
+      "v_fin": 1465,
+      "denominacion_literal": "octavas",
+      "n_versos_fuente": 80,
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 1466,
+      "v_fin": 1581,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 116,
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t12",
+      "jornada": 2,
+      "v_ini": 1582,
+      "v_fin": 1681,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 100,
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t13",
+      "jornada": 2,
+      "v_ini": 1682,
+      "v_fin": 2029,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 348,
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t14",
+      "jornada": 3,
+      "v_ini": 2030,
+      "v_fin": 2284,
+      "denominacion_literal": "quintillas",
+      "n_versos_fuente": 255,
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t15",
+      "jornada": 3,
+      "v_ini": 2285,
+      "v_fin": 2522,
+      "denominacion_literal": "tercetos encadenados",
+      "n_versos_fuente": 238,
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "notas_ref": [
+        "n02"
+      ]
+    },
+    {
+      "id": "t16",
+      "jornada": 3,
+      "v_ini": 2523,
+      "v_fin": 2686,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 164,
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t17",
+      "jornada": 3,
+      "v_ini": 2687,
+      "v_fin": 2773,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 87,
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t18",
+      "jornada": 3,
+      "v_ini": 2774,
+      "v_fin": 2778,
+      "denominacion_literal": "quintilla",
+      "n_versos_fuente": 5,
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t19",
+      "jornada": 3,
+      "v_ini": 2779,
+      "v_fin": 2826,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 48,
+      "fuente_id": "20_hijo_Reduan_2.HEIC",
+      "pagina": 835,
+      "notas_ref": []
+    },
+    {
+      "id": "t20",
+      "jornada": 3,
+      "v_ini": 2827,
+      "v_fin": 2831,
+      "denominacion_literal": "quintilla",
+      "n_versos_fuente": 5,
+      "fuente_id": "20_hijo_Reduan_2.HEIC",
+      "pagina": 835,
+      "notas_ref": []
+    },
+    {
+      "id": "t21",
+      "jornada": 3,
+      "v_ini": 2832,
+      "v_fin": 3015,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 184,
+      "fuente_id": "20_hijo_Reduan_2.HEIC",
+      "pagina": 835,
+      "notas_ref": []
+    }
+  ],
+  "notas": [
+    {
+      "id": "n01",
+      "marca": "*",
+      "texto_literal": "Las series de endecasílabos sueltos concluyen con un pareado.",
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "tramos_ref": [
+        "t02"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n02",
+      "marca": "**",
+      "texto_literal": "La suma da un número par porque la serie se remata con un serventesio.",
+      "fuente_id": "20_hijo_Reduan_1.HEIC",
+      "pagina": null,
+      "tramos_ref": [
+        "t15"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    }
+  ],
+  "resumen_fuente": [
+    {
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 1384,
+      "porcentaje_literal": "45,9",
+      "fuente_id": "20_hijo_Reduan_2.HEIC",
+      "pagina": 835
+    },
+    {
+      "denominacion_literal": "Quintillas",
+      "n_versos_fuente": 1050,
+      "porcentaje_literal": "34,8",
+      "fuente_id": "20_hijo_Reduan_2.HEIC",
+      "pagina": 835
+    },
+    {
+      "denominacion_literal": "Tercetos",
+      "n_versos_fuente": 238,
+      "porcentaje_literal": "7,9",
+      "fuente_id": "20_hijo_Reduan_2.HEIC",
+      "pagina": 835
+    },
+    {
+      "denominacion_literal": "Endecasílabos sueltos",
+      "n_versos_fuente": 197,
+      "porcentaje_literal": "6,5",
+      "fuente_id": "20_hijo_Reduan_2.HEIC",
+      "pagina": 835
+    },
+    {
+      "denominacion_literal": "Octavas reales",
+      "n_versos_fuente": 96,
+      "porcentaje_literal": "3,2",
+      "fuente_id": "20_hijo_Reduan_2.HEIC",
+      "pagina": 835
+    },
+    {
+      "denominacion_literal": "Romance",
+      "n_versos_fuente": 40,
+      "porcentaje_literal": "1,3",
+      "fuente_id": "20_hijo_Reduan_2.HEIC",
+      "pagina": 835
+    }
+  ],
+  "incidencias": []
+}

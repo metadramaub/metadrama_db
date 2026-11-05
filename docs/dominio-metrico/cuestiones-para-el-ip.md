@@ -4,7 +4,7 @@ Este archivo reúne **lo que sigue sin decidir y necesita criterio filológico**
 describe el catálogo: eso se lee en `/formas`, que se genera del dato y no puede quedarse viejo.
 
 Los casos particulares del importador que se llevarán a la revisión de equivalencias se
-recogen en [casos complejos](../importador-metrico/casos-complejos-equivalencias.md), empezando
+recogen en [casos complejos](../importador-metrico/equivalencias/casos-complejos-equivalencias.md), empezando
 por las quintillas y coplas reales de *Laura perseguida*, vv. 617–876.
 
 **Solo entra aquí lo que las fuentes no resuelven**, en alguna de sus tres maneras: porque callan,
@@ -928,7 +928,7 @@ aparezca, hay que saber que aparecerá sin sitio donde caer.
 estrambote», vv. 1665–1681. El responsable dispone provisionalmente separar 1665–1678 como Soneto
 y 1679–1681 como secuencia sin identificar. Queda pendiente del IP admitir el estrambote como
 remate dentro del soneto; esta solución del importador no modifica el catálogo ni identifica
-metro o rima de los tres versos finales. [Cotejo y acuerdo](../importador-metrico/revision-caballero-milagro-2026-11-02.md).
+metro o rima de los tres versos finales. [Cotejo y acuerdo](../importador-metrico/historico/revisiones-obras/revision-caballero-milagro-2026-11-02.md).
 
 ---
 

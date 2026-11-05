@@ -2,6 +2,7 @@
 export const celda = (s) => String(s ?? '—').replaceAll('|', '\\|').replace(/\r?\n/g, ' ');
 export function informeSeguimiento(lote, registro) {
 	const lineas = ['# Seguimiento de las veinte obras del piloto', '',
+		'Generado con `npm run importador:informes`; no editar este informe a mano.', '',
 		`Guardados contrastados por SELECT en Supabase: ${registro.consultado_en}. No se escribe en la base.`, '',
 		'El guardado se acredita por obra_id, no por semejanza de títulos. Sin guardado confirmado no significa extracción incorrecta. La revisión y el motivo son anotaciones humanas, separadas del estado de persistencia.', '',
 		'| N.º de foto | Obra | Guardado | Revisión y motivo |', '| --- | --- | --- | --- |'];
@@ -10,12 +11,12 @@ export function informeSeguimiento(lote, registro) {
 		const registros = registro.importaciones.filter((i) => i.obra_id === obra.obra_id);
 		guardadas += Number(registros.length > 0);
 		const guardado = registros.length ? registros.map((i) => `[Guardada ${i.importado_en.slice(0, 10)}](https://versologia.metadrama.org/dashboard/importador/fichas/${i.importacion_id})`).join('; ') : 'Sin guardado confirmado';
-		const revision = [obra.revision, obra.observacion, obra.documento ? `[Detalle](../${obra.documento})` : ''].filter(Boolean).map((t) => t.replace(/\.+$/, '')).join('. ');
+		const revision = [obra.revision, obra.observacion, obra.documento ? `[Detalle](../../historico/revisiones-obras/${obra.documento})` : ''].filter(Boolean).map((t) => t.replace(/\.+$/, '')).join('. ');
 		lineas.push(`| ${obra.numero} | ${celda(obra.titulo)} | ${guardado} | ${celda(revision)} |`);
 	}
 	lineas.splice(4, 0, `**${guardadas} guardadas de ${lote.obras.length}.** El resto no tiene guardado confirmado en este registro.`, '');
 	lineas.push('', 'Los títulos pendientes se identifican por el número de las fotografías; el rótulo del lote no sustituye a los metadatos bibliográficos. Los ensayos antiguos se conservan: la nueva pasada con el prompt vigente sigue pendiente donde se indica.', '',
-		'Fuente editable: `seguimiento-lote.json`. Guardados: `registro-guardados.json`. Regenerar: `npm run importador:informes`. Actualizar primero la consulta remota: `npm run importador:informes -- --actualizar-guardados`.', '');
+		'Fuentes editables en `evaluacion/referencias/`: `seguimiento-lote.json` y `registro-guardados.json`. Regenerar: `npm run importador:informes`. Actualizar primero la consulta remota: `npm run importador:informes -- --actualizar-guardados`.', '');
 	return lineas.join('\n');
 }
 
@@ -34,6 +35,7 @@ export function informeEquivalencias(catalogo, equivalencias, observaciones, pro
 	const noEncontradas = catalogo.formas.filter((f) => !porForma(f).length);
 	const sinRegla = catalogo.formas.filter((f) => !reglas.some((r) => r.tipo === 'equivalencia_propuesta' && r.candidatas.some((c) => c.forma_slug === f.slug)));
 	const l = ['# Equivalencias del importador: documento de revisión', '',
+		'Generado con `npm run importador:informes`; corregir las reglas o decisiones de origen, no este informe.', '',
 		`Reglas ${equivalencias.version}; catálogo consultado el ${catalogo.fecha_consulta_formas}.`, '',
 		'Para revisar: decisiones pendientes y tabla resumen. La procedencia y los casos complejos permiten comprobar ejemplos; el anexo conserva todas las apariciones y las reglas completas.', '',
 		'[Decisiones](#decisiones-pendientes) · [Resumen](#tabla-resumen) · [Procedencia](#procedencia-en-las-obras-del-piloto) · [Casos complejos](#casos-complejos) · [Anexo](#anexo-tecnico-y-documental)', '',
@@ -73,7 +75,7 @@ export function informeEquivalencias(catalogo, equivalencias, observaciones, pro
 		}
 		l.push(`- Resultado: ${[...o.resultados].join('; ')}.`, '');
 	}
-	l.push('## Casos complejos', '', opciones.casos ?? 'Véase [Casos complejos de equivalencias](../casos-complejos-equivalencias.md).', '',
+	l.push('## Casos complejos', '', opciones.casos ?? 'Véase [Casos complejos de equivalencias](./casos-complejos-equivalencias.md).', '',
 		'## Anexo técnico y documental', '', 'Consulta de detalle: apariciones completas, cobertura de formas y arquitecturas, reglas, condiciones y fundamentos.', '');
 	const anexo = anexoEquivalencias(catalogo, equivalencias, observaciones, problemas);
 	// Conserva el informe exhaustivo anterior, sin repetir su introducción ni la sección de casos.
@@ -93,6 +95,7 @@ function anexoEquivalencias(catalogo, equivalencias, observaciones, problemas = 
 	const nombres = new Map(catalogo.formas.map((f) => [f.slug, f.nombre]));
 	const sinRegla = catalogo.formas.filter((f) => !paraForma(directas, f.slug).length);
 	const l = ['# Equivalencias del importador: documento de revisión', '',
+		'Generado con `npm run importador:informes`; corregir las reglas o decisiones de origen, no este informe.', '',
 		`Reglas ${equivalencias.version}; catálogo de formas consultado el ${catalogo.fecha_consulta_formas}.`, '',
 		'Este informe se genera, no se edita. Las decisiones se anotan en las reglas o en los casos complejos y después se regenera. No es una medición de la cobertura de todo el corpus ni una aprobación automática.', '',
 		`**${catalogo.formas.length} formas; ${sinRegla.length} sin regla directa de importación.** Una candidata no equivale a una identificación; una regla disponible no demuestra que la forma haya aparecido en el lote. Una forma identificada sin arquitectura sigue siendo un dato válido al nivel de forma.`, '',
@@ -123,6 +126,6 @@ function anexoEquivalencias(catalogo, equivalencias, observaciones, problemas = 
 			...(r.division ? [`División aplicada por esta regla: ${r.division}.`, ''] : []),
 			`Datos adicionales: ${r.detalles_fuente?.length ? JSON.stringify(r.detalles_fuente) : 'ninguno'}.`, '');
 	}
-	l.push('## Casos particulares pendientes', '', 'Véase [Casos complejos de equivalencias](../casos-complejos-equivalencias.md). Se reproducen debajo para que este documento pueda enviarse por separado.', '');
+	l.push('## Casos particulares pendientes', '', 'Véase [Casos complejos de equivalencias](./casos-complejos-equivalencias.md). Se reproducen debajo para que este documento pueda enviarse por separado.', '');
 	return l.join('\n');
 }

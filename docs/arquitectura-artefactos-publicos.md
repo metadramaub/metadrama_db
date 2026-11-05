@@ -86,7 +86,7 @@ solo transforma JSON ya precomputado; no consulta anotaciones ni recalcula anál
 La migración se ha ejecutado dos veces en una copia aislada del esquema y datos de aplicación,
 con 16 comprobaciones de contenido, persistencia, privacidad e integridad de las anotaciones.
 Ensayo reproducible, con el contenedor aislado `versologia-prosa-pruebas` iniciado según el mismo
-procedimiento de [persistencia local](./importador-metrico/persistencia-local.md), cambiando su nombre:
+procedimiento de [persistencia local](importador-metrico/historico/desarrollo/persistencia-local.md), cambiando su nombre:
 
 ```sh
 node scripts/probar-prosa-local.mjs backups/prosa-correccion/public-schema.sql backups/prosa-correccion/public-data.sql

@@ -1,3 +1,4 @@
+import { rutaPiloto } from './rutas.mjs';
 import { readFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -7,7 +8,7 @@ import { normalizarExtraccion, informeNormalizacion } from './normalizacion.mjs'
 const read = (file) =>
 	JSON.parse(
 		readFileSync(
-			new URL(`../../../docs/importador-metrico/piloto/${file}`, import.meta.url),
+			rutaPiloto(file),
 			'utf8'
 		)
 	);

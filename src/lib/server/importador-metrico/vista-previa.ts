@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { completarExtraccion } from './completar-extraccion';
 import { aplicarEdiciones } from '$lib/importador-metrico/edicion';
 import { comprobarLongitud } from '$lib/importador-metrico/longitud';
-import reglasLongitudRaw from '../../../../docs/importador-metrico/piloto/reglas-longitud.json?raw';
+import reglasLongitudRaw from '../../../../data/importador-metrico/reglas-longitud.json?raw';
 import { ErrorExtraccion, normalizarExtraccion } from '../../../../scripts/lib/importador-metrico/normalizacion.mjs';
 import {
 	prepararFichaMinima,
@@ -11,16 +11,16 @@ import {
 	resumirFichaMinima,
 	serializarCanonico
 } from '../../../../scripts/lib/importador-metrico/ficha-minima.mjs';
-import catalogoRaw from '../../../../docs/importador-metrico/piloto/catalogo-referencia.json?raw';
-import reglasRaw from '../../../../docs/importador-metrico/piloto/equivalencias.propuestas.json?raw';
-import bibliografiaRaw from '../../../../docs/importador-metrico/piloto/bibliografia-contraste.json?raw';
-import segmentacionRaw from '../../../../docs/importador-metrico/piloto/segmentacion.propuestas.json?raw';
-import auditoriaRaw from '../../../../docs/importador-metrico/piloto/auditoria-flujo-2026-10-26.json?raw';
-import camposRaw from '../../../../docs/importador-metrico/piloto/auditoria-campos-2026-10-22.json?raw';
-import molino from '../../../../docs/importador-metrico/piloto/extracciones/el-molino.json?raw';
-import amante from '../../../../docs/importador-metrico/piloto/extracciones/el-verdadero-amante.json?raw';
-import donaires from '../../../../docs/importador-metrico/piloto/extracciones/los-donaires-de-matico.json?raw';
-import locos from '../../../../docs/importador-metrico/piloto/extracciones/los-locos-de-valencia.json?raw';
+import catalogoRaw from '../../../../data/importador-metrico/catalogo-referencia.json?raw';
+import reglasRaw from '../../../../data/importador-metrico/equivalencias.propuestas.json?raw';
+import bibliografiaRaw from '../../../../data/importador-metrico/bibliografia-contraste.json?raw';
+import segmentacionRaw from '../../../../data/importador-metrico/segmentacion.propuestas.json?raw';
+import auditoriaRaw from '../../../../data/importador-metrico/auditoria-flujo-2026-10-26.json?raw';
+import camposRaw from '../../../../data/importador-metrico/auditoria-campos-2026-10-22.json?raw';
+import molino from '../../../../docs/importador-metrico/evaluacion/referencias/extracciones/el-molino.json?raw';
+import amante from '../../../../docs/importador-metrico/evaluacion/referencias/extracciones/el-verdadero-amante.json?raw';
+import donaires from '../../../../docs/importador-metrico/evaluacion/referencias/extracciones/los-donaires-de-matico.json?raw';
+import locos from '../../../../docs/importador-metrico/evaluacion/referencias/extracciones/los-locos-de-valencia.json?raw';
 import prompt from '../../../../prompts/importador-metrico/extraccion-v0.15.md?raw';
 import type {
 	FichaMinima,

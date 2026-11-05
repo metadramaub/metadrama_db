@@ -15,4 +15,4 @@ de eliminación explícita para admin/IP. No ejecuta eliminaciones ni reescribe 
   y protección de obras asignadas/detalladas se verificaron en el ensayo aislado.
 - El molino sigue existiendo. Su eliminación queda a cargo del responsable desde la interfaz.
 
-[Contrato del listado y gestión](../importador-metrico/pendientes-en-listado.md).
+[Contrato del listado y gestión](../importador-metrico/historico/desarrollo/pendientes-en-listado.md).

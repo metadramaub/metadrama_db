@@ -1,3 +1,4 @@
+import { rutaPiloto } from './rutas.mjs';
 import { readFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -13,7 +14,7 @@ import {
 const read = (name) =>
 	JSON.parse(
 		readFileSync(
-			new URL(`../../../docs/importador-metrico/piloto/${name}`, import.meta.url),
+			rutaPiloto(name),
 			'utf8'
 		)
 	);

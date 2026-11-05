@@ -18,7 +18,7 @@ if (
 	throw Error('Obra sin transcripción aceptada en este lote');
 const gold = JSON.parse(
 	readFileSync(
-		new URL(`../../docs/importador-metrico/piloto/extracciones/${args[1]}.json`, import.meta.url),
+		new URL(`../../docs/importador-metrico/evaluacion/referencias/extracciones/${args[1]}.json`, import.meta.url),
 		'utf8'
 	)
 );

@@ -12,6 +12,9 @@ tras una contraseña global mientras el proyecto no se abre.
 
 ## Por dónde empezar
 
+- **[Guía de documentación](docs/guia-documentacion.md)** — dónde mantener decisiones,
+  informes e histórico; instrucciones compartidas por agentes en [AGENTS.md](AGENTS.md).
+
 - **[CLAUDE.md](CLAUDE.md)** — mapa del proyecto: los tres subsistemas, dónde vive cada
   cosa, las reglas duras y qué documentación leer según la tarea. Es la puerta de entrada.
 - **[docs/PENDIENTES.md](docs/PENDIENTES.md)** — la única lista de pendientes del proyecto: qué

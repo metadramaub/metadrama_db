@@ -50,6 +50,6 @@ desde su sesión editorial real en la web publicada. No se sembraron usuarios ni
   con `repetida=true`. Sigue existiendo una sola importación.
 
 El siguiente bloque es adaptar los productores precomputados y sus consumidores según el
-[plan aprobado](../importador-metrico/consultas-y-precomputacion.md) y el
+[plan aprobado](../importador-metrico/arquitectura/consultas-y-precomputacion.md) y el
 [inventario de medidas](../inventario-medidas-analiticas.md), conservando cobertura, permisos
 y una sola aportación por obra. La sustitución editorial y la reimportación siguen pendientes.

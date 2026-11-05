@@ -1,3 +1,4 @@
+import { rutaPiloto } from '../lib/importador-metrico/rutas.mjs';
 /** Restaura la copia previa, importa cuatro casos y genera archivos internos. Nunca usa Supabase. */
 import { spawnSync } from 'node:child_process';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
@@ -23,8 +24,7 @@ const relativa = relative(resolve('backups'), salida);
 if (!relativa || relativa.startsWith('..') || isAbsolute(relativa))
 	throw Error('La salida privada debe quedar dentro de backups/');
 mkdirSync(salida, { recursive: true });
-const read = (n) => readFileSync(new URL(n, import.meta.url), 'utf8');
-const json = (n) => JSON.parse(read(`../../docs/importador-metrico/piloto/${n}`));
+const json = (n) => JSON.parse(readFileSync(rutaPiloto(n), 'utf8'));
 const lit = (s) => "'" + String(s).replaceAll("'", "''") + "'";
 const contenedor = 'versologia-importador-pruebas';
 const db = 'analitica_ensayo_' + randomUUID().replaceAll('-', '');
@@ -103,10 +103,10 @@ ${cargar(join(copia, 'schema.sql'))}`);
 	);
 	for (const ref of refs) {
 		const datos = JSON.parse(
-			cargar(resolve(`docs/importador-metrico/piloto/preparadas/${ref}.json`))
+			cargar(resolve(`docs/importador-metrico/evaluacion/referencias/preparadas/${ref}.json`))
 		).datos;
 		const original = JSON.parse(
-			cargar(resolve(`docs/importador-metrico/piloto/extracciones/${ref}.json`))
+			cargar(resolve(`docs/importador-metrico/evaluacion/referencias/extracciones/${ref}.json`))
 		);
 		sql(`begin; select set_config('request.jwt.claim.sub',${lit(actor)},true); set local role authenticated;
 select public.guardar_ficha_minima(${lit(randomUUID())},${lit(autor)},${lit(JSON.stringify(datos))}::jsonb,${lit(JSON.stringify(original))}::jsonb); commit;`);

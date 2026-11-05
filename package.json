@@ -29,6 +29,7 @@
 		"aplicar:guiones": "node scripts/aplicar-guiones.mjs",
 		"equivalencias:informe": "node scripts/informe-equivalencias.mjs",
 		"importador:informes": "node scripts/importador-metrico/generar-informes.mjs",
+		"docs:comprobar": "node scripts/comprobar-documentacion.mjs",
 		"demarcador:informe": "node scripts/informe-demarcador.mjs",
 		"audit:editor": "node scripts/audit-editor-v2.mjs --markdown docs/dominio-metrico/informe-editor-v2.md",
 		"audit:anotaciones": "node scripts/audit-anotaciones.mjs --markdown docs/dominio-metrico/informe-anotaciones.md",

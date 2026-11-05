@@ -127,6 +127,12 @@ del proyecto. Lo que se hace se borra de ahí.
 
 ## Reglas duras
 
+**Documentación.** Aplicar [la guía del repositorio](docs/guia-documentacion.md). Antes de crear
+otro MD, consultar el índice del área y actualizar la referencia existente. Separar documentos
+vigentes, histórico, datos de aplicación e informes generados. Los traslados incluyen enlaces,
+imports, generadores y pruebas. No crear estados de reanudación por sesión ni listas paralelas
+a `docs/PENDIENTES.md`. Para el importador, empezar por [su índice](docs/importador-metrico/README.md).
+
 **Ningún documento es verdad: se contrasta con la base en vivo.** La documentación describe lo que
 alguien creyó en su momento, y en agosto de 2026 se encontraron columnas retiradas, vocabularios
 que la base nunca aceptó y garantías «implementadas» que no existían. Antes de apoyarte en una
@@ -220,9 +226,9 @@ contraseña global comprobada en `src/hooks.server.ts`, que redirige a `/acceso`
 - [docs/revision-de-vocabularios.md](docs/revision-de-vocabularios.md) — los tres sitios
   donde viven hoy los vocabularios y el inventario de los 60 enums en `CHECK`. Anotado, sin
   decidir: se revisa cuando el dominio métrico pase a `main`.
-- [docs/importador-metrico/README.md](docs/importador-metrico/README.md) — diseño del importador de
-  ediciones críticas y corpus mínimo: acuerdos, piloto y hoja de ruta. Se trabaja en `main`; el
-  piloto usa archivos locales y no escribe en la base compartida.
+- [docs/importador-metrico/README.md](docs/importador-metrico/README.md) — entrada del importador:
+  funcionamiento, metodología, arquitectura, evaluación e histórico. Las pruebas de modelos usan
+  archivos; no escriben en la base compartida. Los despliegues se registran por separado.
 - `README.md` — arranque, migraciones y backups.
 
 ## Convenciones

@@ -33,8 +33,8 @@ const denegada = await clientes[4].rpc('listar_fichas_basicas');
 ok(denegada.error?.code === '42501', 'editor sin permiso no lista básicas por HTTP');
 const inactiva = await clientes[5].rpc('listar_fichas_basicas');
 ok(inactiva.error?.code === '42501', 'sesión Auth válida pero perfil inactivo no lista básicas');
-const piloto = read('docs/importador-metrico/piloto/preparadas/el-verdadero-amante.json').datos;
-const entrada = read('docs/importador-metrico/piloto/extracciones/el-verdadero-amante.json');
+const piloto = read('docs/importador-metrico/evaluacion/referencias/preparadas/el-verdadero-amante.json').datos;
+const entrada = read('docs/importador-metrico/evaluacion/referencias/extracciones/el-verdadero-amante.json');
 const peticion = {
 	p_peticion: '30000000-0000-4000-8000-000000000001',
 	p_autor: '00000000-0000-4000-8000-000000000100',

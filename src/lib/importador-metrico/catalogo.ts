@@ -1,5 +1,5 @@
 /** Referencia de solo lectura usada por el ensayo; no sustituye la comprobación al guardar. */
-import referencia from '../../../docs/importador-metrico/piloto/catalogo-referencia.json';
+import referencia from '../../../data/importador-metrico/catalogo-referencia.json';
 export const rasgosImportador = referencia.rasgos;
 export const metrosImportador = referencia.metros;
 export const formasImportador = referencia.formas;

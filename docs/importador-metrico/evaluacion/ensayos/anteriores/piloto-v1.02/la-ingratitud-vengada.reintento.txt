@@ -1,0 +1,142 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "obra_ref": "obra-importada",
+  "estado_revision": "borrador_ia",
+  "revision_humana": {
+    "responsable": null,
+    "fecha": null,
+    "resultado": "pendiente"
+  },
+  "procedencia": {
+    "fecha": null,
+    "procedimiento": "ejecucion_prompt",
+    "generador": null,
+    "modelo": null,
+    "modo": null,
+    "plan": null,
+    "parametros": null,
+    "prompt_version": "extraccion/1.02",
+    "ensayo_controlado": false
+  },
+  "metadatos": {
+    "titulo": "La ingratitud vengada",
+    "autoria": "Lope de Vega",
+    "genero_literal": null,
+    "fecha_inicio": null,
+    "fecha_fin": null,
+    "fuente_fecha": null,
+    "edicion_base": null,
+    "observaciones": [],
+    "fuente_id": null
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "ACTO PRIMERO"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "ACTO SEGUNDO"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "ACTO TERCERO"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 805,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 805,
+      "fuente_id": "29_ingratitud_vengada_1.jpg",
+      "pagina": null,
+      "notas_ref": ["n01"]
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 806,
+      "v_fin": 855,
+      "denominacion_literal": "endecasílabos sueltos",
+      "n_versos_fuente": 50,
+      "fuente_id": "29_ingratitud_vengada_1.jpg",
+      "pagina": null,
+      "notas_ref": ["n02"]
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 856,
+      "v_fin": 927,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 72,
+      "fuente_id": "29_ingratitud_vengada_1.jpg",
+      "pagina": null,
+      "notas_ref": []
+    },
+    {
+      "id": "t04",
+      "jornada": 2,
+      "v_ini": 928,
+      "v_fin": 1899,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 972,
+      "fuente_id": "29_ingratitud_vengada_2.jpg",
+      "pagina": 929,
+      "notas_ref": []
+    },
+    {
+      "id": "t05",
+      "jornada": 3,
+      "v_ini": 1900,
+      "v_fin": 2779,
+      "denominacion_literal": "redondillas",
+      "n_versos_fuente": 880,
+      "fuente_id": "29_ingratitud_vengada_2.jpg",
+      "pagina": 929,
+      "notas_ref": []
+    }
+  ],
+  "notas": [
+    {
+      "id": "n01",
+      "marca": "22",
+      "texto_literal": "El v. 133 es un octosílabo suelto.",
+      "fuente_id": "29_ingratitud_vengada_1.jpg",
+      "pagina": null,
+      "tramos_ref": ["t01"],
+      "v_ini": 133,
+      "v_fin": 133
+    },
+    {
+      "id": "n02",
+      "marca": "23",
+      "texto_literal": "El v. 832 es un verso suelto.",
+      "fuente_id": "29_ingratitud_vengada_1.jpg",
+      "pagina": null,
+      "tramos_ref": ["t02"],
+      "v_ini": 832,
+      "v_fin": 832
+    }
+  ],
+  "resumen_fuente": [
+    {
+      "denominacion_literal": "Redondillas",
+      "n_versos_fuente": 2729,
+      "porcentaje_literal": "98,20",
+      "fuente_id": "29_ingratitud_vengada_2.jpg",
+      "pagina": 929
+    },
+    {
+      "denominacion_literal": "Endecasílabos sueltos",
+      "n_versos_fuente": 50,
+      "porcentaje_literal": "1,80",
+      "fuente_id": "29_ingratitud_vengada_2.jpg",
+      "pagina": 929
+    }
+  ],
+  "incidencias": []
+}

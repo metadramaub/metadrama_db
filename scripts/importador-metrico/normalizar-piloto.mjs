@@ -1,3 +1,4 @@
+import { rutaPiloto } from '../lib/importador-metrico/rutas.mjs';
 /** Produce el ensayo de normalización del lote aceptado. Solo archivos locales. */
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -9,8 +10,7 @@ import {
 } from '../lib/importador-metrico/normalizacion.mjs';
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-const root = join(repo, 'docs/importador-metrico/piloto');
-const read = (name) => JSON.parse(readFileSync(join(root, name), 'utf8'));
+const read = (name) => JSON.parse(readFileSync(rutaPiloto(name), 'utf8'));
 const args = process.argv.slice(2);
 if (args.some((a) => a !== '--comprobar')) {
 	console.error('Uso: node scripts/importador-metrico/normalizar-piloto.mjs [--comprobar]');
@@ -47,7 +47,7 @@ try {
 	const results = [];
 	for (const ref of refs) {
 		const archivo = `extracciones/${ref}.json`;
-		const raw = readFileSync(join(root, archivo));
+		const raw = readFileSync(rutaPiloto(archivo));
 		const sha256 = createHash('sha256').update(raw).digest('hex');
 		const accepted = revision.revisiones.find((r) => r.obra_ref === ref);
 		if (
@@ -79,13 +79,13 @@ try {
 			].map((name) => [
 				name,
 				createHash('sha256')
-					.update(readFileSync(join(root, name)))
+					.update(readFileSync(rutaPiloto(name)))
 					.digest('hex')
 			])
 		);
 		results.push(result);
-		outputs.set(join(root, `normalizadas/${ref}.json`), JSON.stringify(result, null, 2) + '\n');
-		outputs.set(join(root, `normalizadas/${ref}.md`), informeNormalizacion(result));
+		outputs.set(rutaPiloto(`normalizadas/${ref}.json`), JSON.stringify(result, null, 2) + '\n');
+		outputs.set(rutaPiloto(`normalizadas/${ref}.md`), informeNormalizacion(result));
 	}
 	const total = results.reduce((n, r) => n + r.cobertura.versos, 0);
 	const sum = (key) => results.reduce((n, r) => n + r.cobertura[key].versos, 0);
@@ -104,7 +104,7 @@ try {
 			'\nLos segmentos conservan las filas de la fuente; no afirman la segmentación definitiva de las fichas. Los 133 versos de t16 de Los locos conservan el v. 2666 como adición estructural. No se elimina del total de la obra.',
 			'\nLa revisión siguiente debe decidir las correspondencias y su ámbito. Cualquier aprobación se registra en la regla, con responsable, fecha y fundamento; no se deduce de que una forma tenga el mismo nombre.'
 		].join('\n') + '\n';
-	outputs.set(join(root, 'informe-normalizacion.md'), resumen);
+	outputs.set(rutaPiloto('informe-normalizacion.md'), resumen);
 	const apoyo =
 		[
 			`# Referencia de correspondencias ${reglas.version}`,
@@ -123,7 +123,7 @@ try {
 			)
 		].join('\n\n') + '\n';
 	outputs.set(
-		join(repo, `prompts/importador-metrico/referencia-equivalencias-${reglas.version}.md`),
+		join(repo, `docs/importador-metrico/equivalencias/referencia-equivalencias-${reglas.version}.md`),
 		apoyo
 	);
 	// Todas las entradas se comprueban antes de escribir el primer derivado.

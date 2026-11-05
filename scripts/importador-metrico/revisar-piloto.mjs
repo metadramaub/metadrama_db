@@ -1,3 +1,4 @@
+import { rutaPiloto } from '../lib/importador-metrico/rutas.mjs';
 /**
  * Comprueba el primer lote y produce sus tablas de cotejo. Solo lee archivos locales.
  * No normaliza formas, no aplica particiones y no valida la revisión humana.
@@ -5,13 +6,10 @@
  * --verificar-fuentes contrasta SHA-256 de los originales en la ubicación local del manifiesto.
  */
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
-import { resolve, dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 import { createHash } from 'node:crypto';
 
-const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-const root = join(repo, 'docs/importador-metrico/piloto');
-const read = (file) => JSON.parse(readFileSync(join(root, file), 'utf8'));
+const read = (file) => JSON.parse(readFileSync(rutaPiloto(file), 'utf8'));
 const fuentes = read('fuentes.json');
 const equivalencias = read('equivalencias.propuestas.json');
 const catalogo = read('catalogo-referencia.json');
@@ -20,14 +18,14 @@ const refs = [...new Set(fuentes.fotografias.map((foto) => foto.obra_ref))].sort
 const obras = refs.map((ref) => read(`extracciones/${ref}.json`));
 const errores = [];
 const check = (condition, text) => { if (!condition) errores.push(text); };
-const revision = existsSync(join(root, 'revision-humana.json')) ? read('revision-humana.json') : null;
+const revision = existsSync(rutaPiloto('revision-humana.json')) ? read('revision-humana.json') : null;
 if (revision) {
   check(revision.esquema === 'versologia-revision-transcripcion/0.1' && Boolean(revision.responsable) && Boolean(revision.fecha), 'Registro de revisión humana incompleto');
   check(revision.revisiones.length === refs.length && new Set(revision.revisiones.map((r) => r.obra_ref)).size === refs.length, 'La revisión debe identificar las cuatro extracciones sin duplicados');
   for (const ref of refs) {
     const entry = revision.revisiones.find((r) => r.obra_ref === ref);
     const archivo = `extracciones/${ref}.json`;
-    const sha256 = createHash('sha256').update(readFileSync(join(root, archivo))).digest('hex');
+    const sha256 = createHash('sha256').update(readFileSync(rutaPiloto(archivo))).digest('hex');
     check(entry?.archivo === archivo && entry?.sha256 === sha256 && ['aceptada_sin_correcciones', 'aceptada_con_correccion'].includes(entry?.resultado), `La revisión humana no corresponde a la versión conservada: ${ref}`);
   }
 }
@@ -227,7 +225,7 @@ derivados.set('informe-inicial.md', [
   '- **Los locos de Valencia:** criterio acordado: n01 es desviación de metro en v. 2172; n02 es adición estructural en v. 2666. El tramo t16 conserva 133 versos, de los que 132 forman 33 redondillas; no se parte ni se inventa laguna. Ver [decisiones](./segmentacion.propuestas.json).',
   '- **Porcentajes:** los recuentos de los resúmenes de Matico y El molino coinciden con los tramos. En Matico se conserva 2,5 % para 72 versos en octavas sobre 2812 versos; el cociente es aproximadamente 2,560 %. En El molino los porcentajes impresos suman 100,1 %. No se reescribe la fuente ni se interpreta esto como un error de extracción.',
   '## Archivos y reproducción',
-  '- [Formato provisional](./formato-v0.1.md) y [prompt de extracción](../../../prompts/importador-metrico/extraccion-v0.1.md).',
+  '- [Formato provisional](./formato-v0.1.md) y [prompt de extracción](../../../prompts/importador-metrico/archivo/extraccion-v0.1.md).',
   '- [Fuentes y hashes](./fuentes.json), [inventario de términos](./inventario-terminos.md), [propuestas de equivalencia](./equivalencias.propuestas.json) y [propuesta de segmentación](./segmentacion.propuestas.json).',
   '- [Referencia del catálogo](./catalogo-referencia.json), obtenida con [una consulta SELECT](../../../scripts/importador-metrico/catalogo-piloto.sql). No se utiliza como autoridad la exportación anterior del repositorio.',
   'Desde la raíz del repo: `node scripts/importador-metrico/revisar-piloto.mjs` regenera tablas e inventario; `node scripts/importador-metrico/revisar-piloto.mjs --comprobar --verificar-fuentes` verifica sus contenidos y los originales sin escribir. Solo lee archivos locales y no conecta con Supabase.',
@@ -235,7 +233,7 @@ derivados.set('informe-inicial.md', [
 ].join('\n\n')+'\n');
 
 for (const [rel, contenido] of derivados) {
-  const file = join(root,rel);
+  const file = rutaPiloto(rel);
   if (process.argv.includes('--comprobar')) check(existsSync(file) && readFileSync(file,'utf8').replaceAll('\r\n','\n') === contenido, `Derivado desactualizado: ${rel}`);
   else { mkdirSync(dirname(file),{recursive:true}); writeFileSync(file,contenido); }
 }
