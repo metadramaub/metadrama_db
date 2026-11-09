@@ -1,0 +1,69 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "procedencia": {"prompt_version": "extraccion/0.27"},
+  "metadatos": {
+    "titulo": "La primera información",
+    "autoria": "Félix de Vega Carpio",
+    "genero_literal": null,
+    "fecha_inicio": null,
+    "fecha_fin": null,
+    "fuente_fecha": null,
+    "edicion_base": null,
+    "observaciones": [],
+    "fuente_id": null
+  },
+  "jornadas": [
+    {"numero": 1, "rotulo_literal": "ACTO PRIMERO"},
+    {"numero": 2, "rotulo_literal": "ACTO SEGUNDO"},
+    {"numero": 3, "rotulo_literal": "ACTO TERCERO"}
+  ],
+  "tramos": [
+    {"id": "t01", "jornada": 1, "v_ini": 1, "v_fin": 90, "denominacion_literal": "décimas", "n_versos_fuente": 90, "fuente_id": "p658.jpg", "pagina": 658},
+    {"id": "t02", "jornada": 1, "v_ini": 91, "v_fin": 132, "denominacion_literal": "romance en -ea", "n_versos_fuente": 42, "fuente_id": "p658.jpg", "pagina": 658},
+    {"id": "t03", "jornada": 1, "v_ini": 133, "v_fin": 396, "denominacion_literal": "redondillas", "n_versos_fuente": 264, "fuente_id": "p658.jpg", "pagina": 658},
+    {"id": "t04", "jornada": 1, "v_ini": 397, "v_fin": 450, "denominacion_literal": "romance en -ea", "n_versos_fuente": 54, "fuente_id": "p658.jpg", "pagina": 658},
+    {"id": "t05", "jornada": 1, "v_ini": 451, "v_fin": 464, "denominacion_literal": "soneto", "n_versos_fuente": 14, "fuente_id": "p658.jpg", "pagina": 658},
+    {"id": "t06", "jornada": 1, "v_ini": 465, "v_fin": 740, "denominacion_literal": "redondillas", "n_versos_fuente": 276, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t07", "jornada": 1, "v_ini": 741, "v_fin": 916, "denominacion_literal": "romance en -ea", "n_versos_fuente": 176, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t08", "jornada": 2, "v_ini": 917, "v_fin": 986, "denominacion_literal": "décimas", "n_versos_fuente": 70, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t09", "jornada": 2, "v_ini": 987, "v_fin": 1046, "denominacion_literal": "redondillas", "n_versos_fuente": 60, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t10", "jornada": 2, "v_ini": 1047, "v_fin": 1106, "denominacion_literal": "décimas", "n_versos_fuente": 60, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t11", "jornada": 2, "v_ini": 1107, "v_fin": 1182, "denominacion_literal": "redondillas", "n_versos_fuente": 76, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t12", "jornada": 2, "v_ini": 1183, "v_fin": 1246, "denominacion_literal": "romance en -ee", "n_versos_fuente": 64, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t13", "jornada": 2, "v_ini": 1247, "v_fin": 1318, "denominacion_literal": "octavas reales", "n_versos_fuente": 72, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t14", "jornada": 2, "v_ini": 1319, "v_fin": 1394, "denominacion_literal": "endecasílabos sueltos con pareados", "n_versos_fuente": 76, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t15", "jornada": 2, "v_ini": 1395, "v_fin": 1424, "denominacion_literal": "décimas", "n_versos_fuente": 30, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t16", "jornada": 2, "v_ini": 1425, "v_fin": 1530, "denominacion_literal": "romance en -ea", "n_versos_fuente": 106, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t17", "jornada": 2, "v_ini": 1531, "v_fin": 1638, "denominacion_literal": "redondillas", "n_versos_fuente": 108, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t18", "jornada": 2, "v_ini": 1639, "v_fin": 1710, "denominacion_literal": "romance en -aa", "n_versos_fuente": 72, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t19", "jornada": 2, "v_ini": 1711, "v_fin": 1750, "denominacion_literal": "octavas reales", "n_versos_fuente": 40, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t20", "jornada": 2, "v_ini": 1751, "v_fin": 1786, "denominacion_literal": "romancillo en -ee", "n_versos_fuente": 36, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t21", "jornada": 2, "v_ini": 1787, "v_fin": 1884, "denominacion_literal": "romance en -ea", "n_versos_fuente": 98, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t22", "jornada": 3, "v_ini": 1885, "v_fin": 1924, "denominacion_literal": "redondillas", "n_versos_fuente": 40, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t23", "jornada": 3, "v_ini": 1925, "v_fin": 1974, "denominacion_literal": "romance en -uo", "n_versos_fuente": 50, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t24", "jornada": 3, "v_ini": 1975, "v_fin": 2014, "denominacion_literal": "octavas reales", "n_versos_fuente": 40, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t25", "jornada": 3, "v_ini": 2015, "v_fin": 2150, "denominacion_literal": "redondillas", "n_versos_fuente": 136, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t26", "jornada": 3, "v_ini": 2151, "v_fin": 2222, "denominacion_literal": "octavas reales", "n_versos_fuente": 72, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t27", "jornada": 3, "v_ini": 2223, "v_fin": 2286, "denominacion_literal": "redondillas", "n_versos_fuente": 64, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t28", "jornada": 3, "v_ini": 2287, "v_fin": 2340, "denominacion_literal": "romance en -ao", "n_versos_fuente": 54, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t29", "jornada": 3, "v_ini": 2341, "v_fin": 2408, "denominacion_literal": "redondillas", "n_versos_fuente": 68, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t30", "jornada": 3, "v_ini": 2409, "v_fin": 2496, "denominacion_literal": "romance en -eo", "n_versos_fuente": 88, "fuente_id": "p659.jpg", "pagina": 659},
+    {"id": "t31", "jornada": 3, "v_ini": 2497, "v_fin": 2592, "denominacion_literal": "redondillas", "n_versos_fuente": 96, "fuente_id": "p660.jpg", "pagina": 660},
+    {"id": "t32", "jornada": 3, "v_ini": 2593, "v_fin": 2712, "denominacion_literal": "décimas", "n_versos_fuente": 120, "fuente_id": "p660.jpg", "pagina": 660},
+    {"id": "t33", "jornada": 3, "v_ini": 2713, "v_fin": 2812, "denominacion_literal": "romance en -aa", "n_versos_fuente": 100, "fuente_id": "p660.jpg", "pagina": 660}
+  ],
+  "notas": [
+    {"id": "n01", "marca": "20", "texto_literal": "Es la que Morley y Bruerton llaman «Silva 3.» [1968:39].", "fuente_id": "p659.jpg", "pagina": 659, "tramos_ref": ["t14"], "v_ini": null, "v_fin": null},
+    {"id": "n02", "marca": "21", "texto_literal": "O «endechas», según la clasificación de Morley y Bruerton [1968:179].", "fuente_id": "p659.jpg", "pagina": 659, "tramos_ref": ["t20"], "v_ini": null, "v_fin": null}
+  ],
+  "resumen_fuente": [
+    {"denominacion_literal": "Redondillas", "n_versos_fuente": 1188, "porcentaje_literal": "42,2", "fuente_id": "p660.jpg", "pagina": 660},
+    {"denominacion_literal": "Romances", "n_versos_fuente": 904, "porcentaje_literal": "32,1", "fuente_id": "p660.jpg", "pagina": 660},
+    {"denominacion_literal": "Décimas", "n_versos_fuente": 370, "porcentaje_literal": "13,2", "fuente_id": "p660.jpg", "pagina": 660},
+    {"denominacion_literal": "Octavas reales", "n_versos_fuente": 224, "porcentaje_literal": "8", "fuente_id": "p660.jpg", "pagina": 660},
+    {"denominacion_literal": "Endecasílabos sueltos con pareados", "n_versos_fuente": 76, "porcentaje_literal": "2,7", "fuente_id": "p660.jpg", "pagina": 660},
+    {"denominacion_literal": "Romancillo", "n_versos_fuente": 36, "porcentaje_literal": "1,3", "fuente_id": "p660.jpg", "pagina": 660},
+    {"denominacion_literal": "Soneto", "n_versos_fuente": 14, "porcentaje_literal": "0,50", "fuente_id": "p660.jpg", "pagina": 660}
+  ],
+  "incidencias": []
+}

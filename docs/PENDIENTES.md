@@ -96,6 +96,18 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
   - **Plurales y singulares que faltan** en reglas del catálogo: «décimas», «silvas», «canción»,
     «romancillo». «Octavas» y «tercetos» siguen sin resolverse a propósito.
   - **Puntuación final** en la denominación («redondillas.», *Alcalde*): ignorarla al comparar.
+  - **«Lira-sestina» con esquema de seis posiciones** (*San Pedro Nolasco*): aplicarle la regla ya
+    aprobada de la lira de seis posiciones (Sexteto-lira), que hoy solo reconoce «lira(s)».
+  - **Numeración de silvas de Morley y Bruerton** («silva 2.ª», o una nota que diga «la que Morley
+    y Bruerton llaman silva 3.ª»): proponer la arquitectura de Silva que corresponda a cada tipo
+    (1.º pareados de 7 y 11; 2.º 7 y 11 sin orden, con sueltos; 3.º solo endecasílabos, la mayoría
+    rimados; 4.º rimas en los pares). La correspondencia con las arquitecturas del catálogo es una
+    decisión filológica: va a [cuestiones para el IP](dominio-metrico/cuestiones-para-el-ip.md)
+    antes de escribir la regla.
+  - **Jornada de las filas que continúan en la página siguiente**: el modelo deja `jornada: null`
+    (*Quien todo lo quiere*) o les pone la jornada siguiente (*Nolasco*). Si el primer título de
+    jornada de una página aparece después de unas filas, esas filas son de la jornada anterior:
+    el importador puede proponerlo y avisar.
   - **Pasajes cantados**: cuando una nota de la edición marca filas como cantadas (*Fuenteovejuna*,
     asteriscos), proponer la caracterización por rango «cantado», igual que ya se hace con la prosa.
   - **Página compartida por dos obras** (*Perro*/*Castigo*): el modelo mezcló las primeras filas de
