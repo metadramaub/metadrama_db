@@ -1165,8 +1165,80 @@
       "exhaustividad": "pendiente_de_validacion",
       "fundamento": "Romancillo con asonancia explícita. Propone la forma; la medida no se deduce del nombre y la asonancia se conserva como texto declarado.",
       "detalles_fuente": []
+    },
+    {
+      "id": "silva-mb-1",
+      "literales": [
+        "silva 1.ª"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "silva",
+          "arquitectura_slug": "consonante_regular"
+        }
+      ],
+      "fundamento": "Morley y Bruerton numeran cuatro tipos de silva (Cronología, s. v. Silva) y las ediciones usan esa numeración. Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 1.º, pareados de 7 y 11 (aAbBcC), es la Consonante regular.",
+      "patron": "silva_numerada_morley_bruerton",
+      "exhaustividad": "pendiente_de_validacion",
+      "detalles_fuente": []
+    },
+    {
+      "id": "silva-mb-2",
+      "literales": [
+        "silva 2.ª"
+      ],
+      "tipo": "candidatas_orientativas",
+      "candidatas": [
+        {
+          "forma_slug": "silva",
+          "arquitectura_slug": "consonante_irregular"
+        },
+        {
+          "forma_slug": "silva",
+          "arquitectura_slug": "libre"
+        }
+      ],
+      "fundamento": "Morley y Bruerton numeran cuatro tipos de silva (Cronología, s. v. Silva) y las ediciones usan esa numeración. Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 2.º, 7 y 11 sin orden con algunos sueltos, cae entre Consonante de orden libre y Libre; las separa la proporción de pareados, que el número de M&B no dice (cuestión 3).",
+      "patron": "silva_numerada_morley_bruerton",
+      "exhaustividad": "pendiente_de_validacion",
+      "detalles_fuente": []
+    },
+    {
+      "id": "silva-mb-3",
+      "literales": [
+        "silva 3.ª"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "silva",
+          "arquitectura_slug": "endecasilabica"
+        }
+      ],
+      "fundamento": "Morley y Bruerton numeran cuatro tipos de silva (Cronología, s. v. Silva) y las ediciones usan esa numeración. Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 3.º, solo endecasílabos y la mayoría rimados, es la Endecasílaba.",
+      "patron": "silva_numerada_morley_bruerton",
+      "exhaustividad": "pendiente_de_validacion",
+      "detalles_fuente": []
+    },
+    {
+      "id": "silva-mb-4",
+      "literales": [
+        "silva 4.ª"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "silva",
+          "arquitectura_slug": null
+        }
+      ],
+      "fundamento": "Morley y Bruerton numeran cuatro tipos de silva (Cronología, s. v. Silva) y las ediciones usan esa numeración. Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 4.º, rimas en los pares, aún no tiene arquitectura en el catálogo (cuestión 2): se propone solo la forma.",
+      "patron": "silva_numerada_morley_bruerton",
+      "exhaustividad": "pendiente_de_validacion",
+      "detalles_fuente": []
     }
   ],
-  "version": "v0.20",
+  "version": "v0.21",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }

@@ -405,14 +405,21 @@ describe('ampliación terminológica v0.18', () => {
 		['décimas', 'decima'],
 		['silvas', 'silva'],
 		['romancillo en -ee', 'romancillo'],
-		['romancillo í-a', 'romancillo']
+		['romancillo í-a', 'romancillo'],
+		['silva 2.ª', null],
+		['Silva 3.ª', 'silva'],
+		['silva 1.º', 'silva']
 	];
 	for (const [literal, forma] of casos) {
 		it(`propone ${literal} conservando el literal`, () => {
 			const input = raw();
 			input.tramos[0].denominacion_literal = literal;
 			const segmento = normalizarExtraccion(input, context()).segmentos[0];
-			expect((segmento.identificacion_revisada ?? segmento.propuesta).forma_slug).toBe(forma);
+			if (forma === null) {
+				// Sin una sola arquitectura posible, la silva 2.ª queda con candidatas.
+				expect(segmento.propuesta).toBeNull();
+				expect(segmento.candidatas.map((c) => c.arquitectura_slug)).toEqual(['consonante_irregular', 'libre']);
+			} else expect((segmento.identificacion_revisada ?? segmento.propuesta).forma_slug).toBe(forma);
 			expect(segmento.fuente.denominacion_literal).toBe(literal);
 		});
 	}

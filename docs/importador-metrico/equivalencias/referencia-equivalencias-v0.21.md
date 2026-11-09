@@ -1,4 +1,4 @@
-# Referencia de correspondencias v0.20
+# Referencia de correspondencias v0.21
 
 Generada desde las mismas reglas que usa el normalizador local. Es apoyo para proponer normalizaciones posteriores a la extracción literal; no autoriza a reescribir la declaración original ni a afirmar revisiones humanas.
 
@@ -957,6 +957,70 @@ Tipo: equivalencia_propuesta. Revisión: pendiente.
 Destinos o candidatas: romancillo. Exhaustividad: pendiente_de_validacion.
 
 Romancillo con asonancia explícita. Propone la forma; la medida no se deduce del nombre y la asonancia se conserva como texto declarado.
+
+Detalles de la fuente: sin otros detalles declarados.
+
+No inferir canto, medidas, ausencia de desviaciones ni respuestas de unidad no declaradas.
+
+## silva-mb-1
+
+Literales: «silva 1.ª».
+
+Tipo: equivalencia_propuesta. Revisión: pendiente.
+
+Ámbito: propuesta general, pendiente de validar.
+
+Destinos o candidatas: silva/consonante_regular. Exhaustividad: pendiente_de_validacion.
+
+Morley y Bruerton numeran cuatro tipos de silva (Cronología, s. v. Silva) y las ediciones usan esa numeración. Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 1.º, pareados de 7 y 11 (aAbBcC), es la Consonante regular.
+
+Detalles de la fuente: sin otros detalles declarados.
+
+No inferir canto, medidas, ausencia de desviaciones ni respuestas de unidad no declaradas.
+
+## silva-mb-2
+
+Literales: «silva 2.ª».
+
+Tipo: candidatas_orientativas. Revisión: pendiente.
+
+Ámbito: propuesta general, pendiente de validar.
+
+Destinos o candidatas: silva/consonante_irregular; silva/libre. Exhaustividad: pendiente_de_validacion.
+
+Morley y Bruerton numeran cuatro tipos de silva (Cronología, s. v. Silva) y las ediciones usan esa numeración. Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 2.º, 7 y 11 sin orden con algunos sueltos, cae entre Consonante de orden libre y Libre; las separa la proporción de pareados, que el número de M&B no dice (cuestión 3).
+
+Detalles de la fuente: sin otros detalles declarados.
+
+No inferir canto, medidas, ausencia de desviaciones ni respuestas de unidad no declaradas.
+
+## silva-mb-3
+
+Literales: «silva 3.ª».
+
+Tipo: equivalencia_propuesta. Revisión: pendiente.
+
+Ámbito: propuesta general, pendiente de validar.
+
+Destinos o candidatas: silva/endecasilabica. Exhaustividad: pendiente_de_validacion.
+
+Morley y Bruerton numeran cuatro tipos de silva (Cronología, s. v. Silva) y las ediciones usan esa numeración. Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 3.º, solo endecasílabos y la mayoría rimados, es la Endecasílaba.
+
+Detalles de la fuente: sin otros detalles declarados.
+
+No inferir canto, medidas, ausencia de desviaciones ni respuestas de unidad no declaradas.
+
+## silva-mb-4
+
+Literales: «silva 4.ª».
+
+Tipo: equivalencia_propuesta. Revisión: pendiente.
+
+Ámbito: propuesta general, pendiente de validar.
+
+Destinos o candidatas: silva. Exhaustividad: pendiente_de_validacion.
+
+Morley y Bruerton numeran cuatro tipos de silva (Cronología, s. v. Silva) y las ediciones usan esa numeración. Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 4.º, rimas en los pares, aún no tiene arquitectura en el catálogo (cuestión 2): se propone solo la forma.
 
 Detalles de la fuente: sin otros detalles declarados.
 

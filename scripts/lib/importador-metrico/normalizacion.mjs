@@ -36,6 +36,7 @@ const reglaSchema = z.object({
 		.enum([
 			'romance_con_asonancia',
 			'romancillo_con_asonancia',
+			'silva_numerada_morley_bruerton',
 			'lira_con_esquema_seis_posiciones',
 			'sueltos_con_pareados_localizados',
 			'sueltos_cierre_con_excepciones'
@@ -147,6 +148,13 @@ export function normalizarExtraccion(
 			.replace(/\p{M}/gu, '')
 			.toLowerCase()
 			.match(/^romances?\s+(?:en\s+)?[-–—]?\s*([aeiou])(?:\s*[-–—]?\s*([aeiou]))?$/u);
+		// Los cuatro tipos de silva de Morley y Bruerton: «silva 2.ª», «Silvas 3.as», «silva 1.º».
+		const tipoSilva = (literal) =>
+			literal
+				?.normalize('NFC')
+				.toLowerCase()
+				.match(/^silvas?\s+([1-4])\s*\.?\s*(?:ª|º|a|o|as|os|\.ª|\.º)?$/u)?.[1] ?? null;
+		const silvaNumerada = tipoSilva(literalComparado);
 		// El romancillo declara su asonancia igual que el romance («romancillo en -ee»).
 		const vocalesRomancillo = literalComparado
 			?.normalize('NFD')
@@ -161,6 +169,8 @@ export function normalizarExtraccion(
 					? Boolean(vocales)
 					: r.patron === 'romancillo_con_asonancia'
 						? Boolean(vocalesRomancillo)
+						: r.patron === 'silva_numerada_morley_bruerton'
+							? Boolean(silvaNumerada) && r.literales.some((l) => tipoSilva(l) === silvaNumerada)
 					: r.patron === 'sueltos_con_pareados_localizados'
 						? Boolean(pareados)
 						: r.patron === 'lira_con_esquema_seis_posiciones'
