@@ -1266,6 +1266,42 @@ export type Database = {
           },
         ]
       }
+      correspondencias_importador: {
+        Row: {
+          arquitectura: string | null
+          creado_en: string
+          creado_por: string
+          forma: string
+          id: string
+          literal: string
+          procedencia: Json
+          revisado_en: string | null
+          revisado_por: string | null
+        }
+        Insert: {
+          arquitectura?: string | null
+          creado_en?: string
+          creado_por?: string
+          forma: string
+          id?: string
+          literal: string
+          procedencia: Json
+          revisado_en?: string | null
+          revisado_por?: string | null
+        }
+        Update: {
+          arquitectura?: string | null
+          creado_en?: string
+          creado_por?: string
+          forma?: string
+          id?: string
+          literal?: string
+          procedencia?: Json
+          revisado_en?: string | null
+          revisado_por?: string | null
+        }
+        Relationships: []
+      }
       cuadros: {
         Row: {
           created_at: string

@@ -24,12 +24,6 @@ const cuerpoSchema = z
 	.strict();
 const TAMANO_MAXIMO = 25_000;
 
-type Respuesta = { error: { code?: string } | null };
-// La tabla aún no está en database.types.ts; se tipa solo lo que se usa.
-type ClienteRegistro = {
-	from: (tabla: 'correspondencias_importador') => { insert: (fila: unknown) => PromiseLike<Respuesta> };
-};
-
 export const POST: RequestHandler = async (event) => {
 	await estadoImportador(event);
 	const cuerpo = await event.request.text();
@@ -50,7 +44,7 @@ export const POST: RequestHandler = async (event) => {
 	if (!session.user) throw error(401, 'La sesión ha caducado.');
 
 	const literal = d.literal.normalize('NFC').replace(/\s+/gu, ' ');
-	const r = await (event.locals.supabase as unknown as ClienteRegistro)
+	const r = await event.locals.supabase
 		.from('correspondencias_importador')
 		.insert({ ...d, literal, creado_por: session.user.id });
 	if (r.error?.code === '23505') throw error(409, 'Esta correspondencia ya estaba registrada.');
