@@ -4,7 +4,20 @@ Completadas veinte extracciones con GPT-6 High usando el [prompt 0.27](../../../
 sin reintentos. El [informe del lote](./informes/chatgpt-gpt6-high-v0.27.md) separa lectura,
 errores de las ediciones y tareas del importador. Incluye el cotejo de las 38 fotos y un
 [registro separado](./ensayos/v0.27/ChatGPT%20GPT-6%20High/revision-transcripcion.json) de las diferencias,
-sin corregir los originales ni declararlos gold. El dashboard conserva 0.15; la candidata no está activada.
+sin corregir los originales ni declararlos gold. El 0.27 es el prompt activo del dashboard.
+
+## Piloto 2: lote independiente
+
+Trece obras de nueve libros que no se usaron para escribir el prompt (Castalia, Cátedra, Crítica
+y la Parte XXII de Gredos; incluye a Calderón y Tirso). Las fotos son buenas, como las de uso
+real, y la dificultad está en construir el JSON y en decidir a partir de las notas. Su
+[manifiesto](./referencias/fuentes-piloto-2.json) da edición, páginas, hash de cada foto y qué
+pone a prueba cada obra. *Los locos de Valencia* es un control: mismo texto que en el piloto 1,
+ahora con foto buena.
+
+**Con este lote se mide, no se ajusta.** Primero se pasa el 0.27 tal cual. Si después se cambia
+el prompt, el cambio se valida en otro lote nuevo, no en este. Las respuestas se guardan en
+`ensayos/piloto-2/<modelo-y-modo>/<obra_ref>/intento-01.json`.
 
 ## Guardar una respuesta
 

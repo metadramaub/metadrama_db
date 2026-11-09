@@ -1,0 +1,320 @@
+{
+  "esquema": "versologia-fuentes-piloto/0.2",
+  "lote": "piloto-2",
+  "fecha": "2026-11-09",
+  "proposito": "Lote independiente: obras y ediciones no usadas para redactar el prompt. Mide cómo generaliza el importador con fotos buenas. No se ajusta el prompt con estas obras; un cambio se valida en otro lote nuevo.",
+  "raiz_materiales_local": "C:\\Users\\david\\OneDrive - UAB\\Documents\\METADRAMA\\VERSOLOGIA\\Importador\\Importador",
+  "nota_fotos": "Las fotografías no entran en el repositorio (derechos de las ediciones). Una carpeta por libro y un archivo por página; una página compartida por dos obras se guarda una vez.",
+  "obras": [
+    {
+      "obra_ref": "el-perro-del-hortelano",
+      "titulo": "El perro del hortelano",
+      "autor": "Lope de Vega",
+      "edicion": "Lope de Vega, El perro del hortelano. El castigo sin venganza, ed. A. David Kossoff, Madrid, Castalia (Clásicos Castalia).",
+      "edicion_por_confirmar": "Año de la edición: hay reimpresiones de 1970, 1985 y 1989.",
+      "fotos": [
+        {
+          "ruta_relativa": "Fotos piloto 2/castalia_perro-del-hortelano_castigo-sin-venganza/p070.jpg",
+          "pagina": 70,
+          "sha256": "3f5d076a6514c6003da422971a6d3e2e4e4348067937cb9fe5457c2e992c9767",
+          "nombre_original": "IMG_20261109_171230662.jpg"
+        },
+        {
+          "ruta_relativa": "Fotos piloto 2/castalia_perro-del-hortelano_castigo-sin-venganza/p071.jpg",
+          "pagina": 71,
+          "sha256": "87cc731d553c0942520b364d097c399bb03f1bbcb5366c47021e21c07dbee12d",
+          "nombre_original": "IMG_20261109_171237600.jpg",
+          "nota": "Compartida: termina El perro y empieza El castigo."
+        }
+      ],
+      "interes": "Tabla de dos columnas sin recuentos; notas al margen sobre versos que riman; prosa entre corchetes."
+    },
+    {
+      "obra_ref": "el-castigo-sin-venganza",
+      "titulo": "El castigo sin venganza",
+      "autor": "Lope de Vega",
+      "edicion": "Mismo volumen que El perro del hortelano (Castalia, ed. Kossoff).",
+      "fotos": [
+        {
+          "ruta_relativa": "Fotos piloto 2/castalia_perro-del-hortelano_castigo-sin-venganza/p071.jpg",
+          "pagina": 71,
+          "sha256": "87cc731d553c0942520b364d097c399bb03f1bbcb5366c47021e21c07dbee12d",
+          "nombre_original": "IMG_20261109_171237600.jpg"
+        },
+        {
+          "ruta_relativa": "Fotos piloto 2/castalia_perro-del-hortelano_castigo-sin-venganza/p072.jpg",
+          "pagina": 72,
+          "sha256": "d97ddded65bae6d875d55f064e833cd7cdf7f8492c369bb22cd920d35481803b",
+          "nombre_original": "IMG_20261109_171250140.jpg"
+        },
+        {
+          "ruta_relativa": "Fotos piloto 2/castalia_perro-del-hortelano_castigo-sin-venganza/p073.jpg",
+          "pagina": 73,
+          "sha256": "f6d80f66766f3b3f68542b21d4d47191f68d74307c498b046a38e1578668b389",
+          "nombre_original": "IMG_20261109_171257238.jpg"
+        },
+        {
+          "ruta_relativa": "Fotos piloto 2/castalia_perro-del-hortelano_castigo-sin-venganza/p074.jpg",
+          "pagina": 74,
+          "sha256": "bdce3e9d691bcd6f9e079b4a922dc51e4dbc3b80850061a8dfba4702c11cd6bf",
+          "nombre_original": "IMG_20261109_171304444.jpg"
+        }
+      ],
+      "interes": "Notas extensas que discuten la denominación (silva frente a canción; lira de seis versos frente a sextina) y una octava discutida."
+    },
+    {
+      "obra_ref": "el-alcalde-de-zalamea",
+      "titulo": "El alcalde de Zalamea",
+      "autor": "Calderón de la Barca",
+      "edicion": "Calderón de la Barca, El alcalde de Zalamea, ed. José María Díez Borque, Madrid, Castalia (Clásicos Castalia).",
+      "edicion_por_confirmar": "Editor deducido de las iniciales «D. B.» de la página; año por confirmar.",
+      "fotos": [
+        {
+          "ruta_relativa": "Fotos piloto 2/castalia_alcalde-de-zalamea/p116.jpg",
+          "pagina": 116,
+          "sha256": "e8fe4893bd993f6a5c45cc15c22f137d1e337770658c5406806ba9335e2f22bc",
+          "nombre_original": "IMG_20261109_171148904.jpg"
+        }
+      ],
+      "interes": "Sinopsis en prosa, numeración que vuelve a 1 en cada jornada, pasajes intercalados (canción, villancico, jácara, pie quebrado), sin recuentos."
+    },
+    {
+      "obra_ref": "las-bizarrias-de-belisa",
+      "titulo": "Las bizarrías de Belisa",
+      "autor": "Lope de Vega",
+      "edicion": "Lope de Vega, Las bizarrías de Belisa, ed. Enrique García Santo-Tomás, Madrid, Cátedra (Letras Hispánicas), 2004.",
+      "fotos": [
+        {
+          "ruta_relativa": "Fotos piloto 2/catedra_bizarrias-de-belisa/p061.jpg",
+          "pagina": 61,
+          "sha256": "acf65b7918d902fba41094d1be00e19c605bcf9c13403387f8f1bb8e0f58b838",
+          "nombre_original": "IMG_20261109_172134520.jpg"
+        },
+        {
+          "ruta_relativa": "Fotos piloto 2/catedra_bizarrias-de-belisa/p062.jpg",
+          "pagina": 62,
+          "sha256": "5c7bb50f6bc24d01312ad59984ff852d35eb616e8f63dba9ea53241e968568ae",
+          "nombre_original": "IMG_20261109_172145704.jpg"
+        }
+      ],
+      "interes": "Tabla limpia de tres columnas con resumen y porcentajes; canciones breves intercaladas."
+    },
+    {
+      "obra_ref": "el-caballero-de-olmedo",
+      "titulo": "El caballero de Olmedo",
+      "autor": "Lope de Vega",
+      "edicion": "Lope de Vega, El caballero de Olmedo, ed. Francisco Rico, Madrid, Cátedra (Letras Hispánicas).",
+      "edicion_por_confirmar": "Editor, año e ISBN por confirmar con el ejemplar.",
+      "fotos": [
+        {
+          "ruta_relativa": "Fotos piloto 2/catedra_caballero-de-olmedo/p088.jpg",
+          "pagina": 88,
+          "sha256": "aabd5c5140a5d9303a37fd596f5144baf19c6019a7ab4fc5caa82bb7cf55c4cd",
+          "nombre_original": "IMG_20261109_171944896.jpg"
+        },
+        {
+          "ruta_relativa": "Fotos piloto 2/catedra_caballero-de-olmedo/p089.jpg",
+          "pagina": 89,
+          "sha256": "a11cbe42b416b5244b712bcfaf1583c091abb5ecfcda8bc2ef056952764734f1",
+          "nombre_original": "IMG_20261109_171952238.jpg"
+        },
+        {
+          "ruta_relativa": "Fotos piloto 2/catedra_caballero-de-olmedo/p090.jpg",
+          "pagina": 90,
+          "sha256": "455429b5e5143f9a29d35367b49ec68e9fba403d9a14bba53974c9eb28dacb76",
+          "nombre_original": "IMG_20261109_172002096.jpg"
+        }
+      ],
+      "interes": "Asonancias declaradas, remates en la denominación (media seguidilla, endecasílabo), prosa entre filas, quintillas en copla real y una errata de rango impresa (1066-1553 por 1466-1553)."
+    },
+    {
+      "obra_ref": "don-gil-de-las-calzas-verdes",
+      "titulo": "Don Gil de las calzas verdes",
+      "autor": "Tirso de Molina",
+      "edicion": "Tirso de Molina, Don Gil de las calzas verdes, ed. Enrique García Santo-Tomás, Madrid, Cátedra (Letras Hispánicas, 632), 2009.",
+      "edicion_por_confirmar": "Editor y año según el catálogo; confirmar que es este ejemplar.",
+      "fotos": [
+        {
+          "ruta_relativa": "Fotos piloto 2/catedra_don-gil-de-las-calzas-verdes/p069.jpg",
+          "pagina": 69,
+          "sha256": "4c6f8211cf9b6097e3ca90447818a6db0fffd226f17bc931721f3438c973fd6a",
+          "nombre_original": "IMG_20261109_172110840.jpg"
+        }
+      ],
+      "interes": "Sin jornadas marcadas; columnas de clase de verso y tipo de estrofa separadas; número de estrofas en la denominación; versos sueltos de medida irregular; décima intercalada."
+    },
+    {
+      "obra_ref": "peribanez-y-el-comendador-de-ocana",
+      "titulo": "Peribáñez y el comendador de Ocaña",
+      "autor": "Lope de Vega",
+      "edicion": "Lope de Vega, Peribáñez y el comendador de Ocaña, ed. Juan María Marín, Madrid, Cátedra (Letras Hispánicas).",
+      "edicion_por_confirmar": "Editor, año e ISBN por confirmar con el ejemplar.",
+      "fotos": [
+        {
+          "ruta_relativa": "Fotos piloto 2/catedra_peribanez/p046.jpg",
+          "pagina": 46,
+          "sha256": "098e214614fecc95d740ba098b52efdaebb496bd03f517eac43712308b047a2e",
+          "nombre_original": "IMG_20261109_172201713.jpg"
+        },
+        {
+          "ruta_relativa": "Fotos piloto 2/catedra_peribanez/p047.jpg",
+          "pagina": 47,
+          "sha256": "49b1c98f5fe93a21d4292b452711b2ec13dce6e4e1af097185ed7e0079101d18",
+          "nombre_original": "IMG_20261109_172213485.jpg"
+        }
+      ],
+      "interes": "La numeración vuelve a 1 en cada acto; «endecasílabos libres»; nota sobre la terminología de quintillas."
+    },
+    {
+      "obra_ref": "fuenteovejuna",
+      "titulo": "Fuenteovejuna",
+      "autor": "Lope de Vega",
+      "edicion": "Lope de Vega, Fuente Ovejuna, ed. Donald McGrady, estudio preliminar de Noël Salomon, Barcelona, Crítica (Biblioteca Clásica, 54), 1993.",
+      "edicion_por_confirmar": "Confirmar que el ejemplar es la edición de Crítica de 1993.",
+      "fotos": [
+        {
+          "ruta_relativa": "Fotos piloto 2/critica_fuenteovejuna/p039.jpg",
+          "pagina": 39,
+          "sha256": "4744c764117c7cb1d1efeadcfd8a05d962b7985f0a846691dc13a1ed47616a9f",
+          "nombre_original": "IMG_20261109_170759852.jpg"
+        },
+        {
+          "ruta_relativa": "Fotos piloto 2/critica_fuenteovejuna/p040.jpg",
+          "pagina": 40,
+          "sha256": "9cf5142fbd61e2d25316a698680295daa038b9cfb39013add25d577032488715",
+          "nombre_original": "IMG_20261109_170810470.jpg"
+        },
+        {
+          "ruta_relativa": "Fotos piloto 2/critica_fuenteovejuna/p041.jpg",
+          "pagina": 41,
+          "sha256": "7268ffd3ca731bfb27b825d3618f52dba1d5e9d29ebd966b2c77da92961e993c",
+          "nombre_original": "IMG_20261109_170813589.jpg"
+        }
+      ],
+      "interes": "Asteriscos que marcan pasajes cantados; esquemas de copla y estribillo; romance con estribillo de seguidilla; resumen con pasajes y lista de versos cortos, largos y que faltan."
+    },
+    {
+      "obra_ref": "quien-todo-lo-quiere",
+      "titulo": "Quien todo lo quiere",
+      "autor": "Lope de Vega",
+      "edicion": "Lope de Vega, Quien todo lo quiere, ed. Alejandro García-Reidy, en Comedias de Lope de Vega. Parte XXII, coord. Fausta Antonucci y Marco Presotto, Madrid, Gredos, 2023, vol. I.",
+      "fotos": [
+        {
+          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p086.jpg",
+          "pagina": 86,
+          "sha256": "dcd322774507ba28157e2b69d71152f04c2e82cde51543961ec5ea96bfa6e420",
+          "nombre_original": "IMG_20261109_172927181.jpg"
+        },
+        {
+          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p087.jpg",
+          "pagina": 87,
+          "sha256": "5f9149c4720eb70b1b061bb401e9f77bcdf5252f619977d228677e1179a3cb7b",
+          "nombre_original": "IMG_20261109_172946514.jpg"
+        }
+      ],
+      "interes": "Tabla Prolope con resumen; control del formato ya conocido en otra Parte."
+    },
+    {
+      "obra_ref": "amar-servir-y-esperar",
+      "titulo": "Amar, servir y esperar",
+      "autor": "Lope de Vega",
+      "edicion": "Lope de Vega, Amar, servir y esperar, en Comedias de Lope de Vega. Parte XXII, Madrid, Gredos, 2023.",
+      "edicion_por_confirmar": "Editor y volumen por confirmar.",
+      "fotos": [
+        {
+          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p374.jpg",
+          "pagina": 374,
+          "sha256": "f217b9b680ccc49df663553f4b0bda17a92477ca9f836ce2964774260fa882fa",
+          "nombre_original": "IMG_20261109_172620069.jpg"
+        },
+        {
+          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p375.jpg",
+          "pagina": 375,
+          "sha256": "d1a5712dc735e1ab6e5760330b416408eae88ca82becbf4fecfd81b54d24db30",
+          "nombre_original": "IMG_20261109_172636254.jpg"
+        },
+        {
+          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p376.jpg",
+          "pagina": 376,
+          "sha256": "e8b8f091fe3bc6a375ab1b4baea889ef2152001e8a44da281db10c50d22b6431",
+          "nombre_original": "IMG_20261109_172653228.jpg"
+        }
+      ],
+      "interes": "Silva 2.ª según Morley y Bruerton; sextas liras; pareados dentro del romance; coplillas intercaladas con nota larga sobre cómo se cuentan."
+    },
+    {
+      "obra_ref": "la-vida-de-san-pedro-nolasco",
+      "titulo": "La vida de san Pedro Nolasco",
+      "autor": "Lope de Vega",
+      "edicion": "Lope de Vega, La vida de san Pedro Nolasco, en Comedias de Lope de Vega. Parte XXII, Madrid, Gredos, 2023.",
+      "edicion_por_confirmar": "Editor y volumen por confirmar.",
+      "fotos": [
+        {
+          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p523.jpg",
+          "pagina": 523,
+          "sha256": "791a160128ed23a079077815b12df17c3c1c2edbc12983903387437614d93b18",
+          "nombre_original": "IMG_20261109_172858443.jpg"
+        },
+        {
+          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p524.jpg",
+          "pagina": 524,
+          "sha256": "d5d30411be8517262a5a8df79f905f64e86d183e817dcc33f7d4a513572d0279",
+          "nombre_original": "IMG_20261109_172907059.jpg",
+          "nota": "Fotografía girada 90 grados."
+        }
+      ],
+      "interes": "Lira-sestina con esquema; romance con estribillo asonante; nota sobre la rima de endecasílabos dentro del romance."
+    },
+    {
+      "obra_ref": "la-primera-informacion",
+      "titulo": "La primera información",
+      "autor": "Lope de Vega",
+      "edicion": "Lope de Vega, La primera información, en Comedias de Lope de Vega. Parte XXII, Madrid, Gredos, 2023.",
+      "edicion_por_confirmar": "Editor y volumen por confirmar.",
+      "fotos": [
+        {
+          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p658.jpg",
+          "pagina": 658,
+          "sha256": "2974563896a80ca5204eb49b185f59263f990545a739ba0bc612cfa7fce54269",
+          "nombre_original": "IMG_20261109_173107911.jpg"
+        },
+        {
+          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p659.jpg",
+          "pagina": 659,
+          "sha256": "03854fb400db9288de4a1e46d833711f9422504bf65a9a263b9e886522f2a852",
+          "nombre_original": "IMG_20261109_173118412.jpg"
+        },
+        {
+          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p660.jpg",
+          "pagina": 660,
+          "sha256": "14e36e2eccf9408ec3e8ba8349a9bd491727b37f9d5d4c17f14f68a7d6aad600",
+          "nombre_original": "IMG_20261109_173126441.jpg"
+        }
+      ],
+      "interes": "Notas que remiten a la nomenclatura de Morley y Bruerton (silva 3.ª, endechas)."
+    },
+    {
+      "obra_ref": "los-locos-de-valencia",
+      "titulo": "Los locos de Valencia",
+      "autor": "Lope de Vega",
+      "edicion": "Lope de Vega, Los locos de Valencia, ed. Carlos Peña, Madrid, Gredos (edición individual; ISBN 9788424999605 según catálogo).",
+      "edicion_por_confirmar": "Editor por confirmar; por las notas coincide con el texto de la Parte XIII usado en el piloto 1.",
+      "control": true,
+      "fotos": [
+        {
+          "ruta_relativa": "Fotos piloto 2/gredos_locos-de-valencia/p040.jpg",
+          "pagina": 40,
+          "sha256": "152810c097ed7c15d994bcf61eda33f1a586f6c7cece3829e73c8a41b09bae73",
+          "nombre_original": "IMG_20261109_171353546.jpg"
+        },
+        {
+          "ruta_relativa": "Fotos piloto 2/gredos_locos-de-valencia/p041.jpg",
+          "pagina": 41,
+          "sha256": "33b947f5d3b10eb253ce5cbfbdd763cc78644c8c42fe6d981647d61c35fc0596",
+          "nombre_original": "IMG_20261109_171358519.jpg"
+        }
+      ],
+      "interes": "Control: mismo texto que el piloto 1, ahora con foto buena. Separa el efecto de la calidad de la foto del de la edición."
+    }
+  ]
+}

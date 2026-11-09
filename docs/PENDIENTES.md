@@ -81,9 +81,10 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 - Registro de correspondencias del importador: falta una pantalla para que admin/IP revise los
   registros nuevos (quién los señaló, de qué obra) y los retire; hoy solo se puede por SQL.
-- Comparar la construcción del JSON y las decisiones sobre notas mediante tareas acotadas;
-  conservar el lote difícil como resistencia y pedir nuevas fotos completas para evaluación
-  independiente cuando esté preparado el protocolo.
+- Pasar el [piloto 2](importador-metrico/evaluacion/README.md#piloto-2-lote-independiente) por el
+  prompt 0.27 sin tocarlo, con GPT y algún modelo barato, y cotejarlo con las fotos: lectura,
+  estructura, decisiones sobre notas y minutos de revisión. Confirmar antes los datos de edición
+  que el manifiesto marca como pendientes.
 
 Entrada vigente: [índice del importador](importador-metrico/README.md). El dashboard ofrece
 el prompt 0.27. Las reglas de equivalencias v0.19 son
