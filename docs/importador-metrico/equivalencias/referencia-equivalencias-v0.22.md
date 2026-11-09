@@ -1,4 +1,4 @@
-# Referencia de correspondencias v0.21
+# Referencia de correspondencias v0.22
 
 Generada desde las mismas reglas que usa el normalizador local. Es apoyo para proponer normalizaciones posteriores a la extracción literal; no autoriza a reescribir la declaración original ni a afirmar revisiones humanas.
 
@@ -772,7 +772,7 @@ No inferir canto, medidas, ausencia de desviaciones ni respuestas de unidad no d
 
 ## catalogo-seguidilla
 
-Literales: «seguidilla».
+Literales: «seguidilla»; «seguidillas».
 
 Tipo: equivalencia_propuesta. Revisión: aprobada en el ámbito indicado.
 

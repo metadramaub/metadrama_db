@@ -969,7 +969,8 @@
     {
       "id": "catalogo-seguidilla",
       "literales": [
-        "seguidilla"
+        "seguidilla",
+        "seguidillas"
       ],
       "tipo": "equivalencia_propuesta",
       "candidatas": [
@@ -984,7 +985,7 @@
       "aprobacion": {
         "responsable": "Responsable del proyecto",
         "fecha": "2026-11-09",
-        "fundamento": "Aprobación explícita en el chat de seguidilla y de la variante plural sonetos. La aprobación comprende la forma; no decide nuevas arquitecturas."
+        "fundamento": "Aprobación explícita en el chat de seguidilla y de la variante plural sonetos. La aprobación comprende la forma; no decide nuevas arquitecturas. El plural «seguidillas» se aprueba el 9 de noviembre de 2026 con el mismo criterio que «sonetos»."
       }
     },
     {
@@ -1239,6 +1240,6 @@
       "detalles_fuente": []
     }
   ],
-  "version": "v0.21",
+  "version": "v0.22",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }

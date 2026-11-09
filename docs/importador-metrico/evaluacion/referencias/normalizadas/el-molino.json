@@ -4,7 +4,7 @@
   "estado": "borrador_de_trabajo",
   "apta_para_corpus": false,
   "obra_ref": "el-molino",
-  "reglas_version": "v0.21",
+  "reglas_version": "v0.22",
   "catalogo_referencia": {
     "estado": {
       "actualizado_en": "2026-10-19T11:26:16.630786+00:00",
@@ -825,7 +825,7 @@
     "fecha": "2026-10-22"
   },
   "entradas_sha256": {
-    "equivalencias.propuestas.json": "26433b9c580635ef9dab500c9d6bd7ad546b19ce04f7a4b0df8f265f8f168b4e",
+    "equivalencias.propuestas.json": "ed8df359da28b9165435dd7daa994526a72cc9b2f68aed9da61890011f5fb51c",
     "catalogo-referencia.json": "0f65680900ccab33fb9a258e5aca1ae6b2c0373c6dc2aab4192e80d7088e7b06",
     "auditoria-tercetos-2026-10-26.json": "433367a2e24b8e6e5fb213b907c2d810ff2078eda0e2364771070231e8cfc112",
     "segmentacion.propuestas.json": "66bfd37373162eaf06c046093f11cbd7188d0e72519bea0c30c6caefc738cd0f",

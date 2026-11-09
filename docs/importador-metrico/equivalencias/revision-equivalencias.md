@@ -2,7 +2,7 @@
 
 Generado con `npm run importador:informes`; corregir las reglas o decisiones de origen, no este informe.
 
-Reglas v0.21; catálogo consultado el 2026-11-02.
+Reglas v0.22; catálogo consultado el 2026-11-02.
 
 Para revisar: decisiones pendientes y tabla resumen. La procedencia y los casos complejos permiten comprobar ejemplos; el anexo conserva todas las apariciones y las reglas completas.
 
@@ -1439,7 +1439,7 @@ Datos adicionales: ninguno.
 
 #### catalogo-seguidilla
 
-Literales: «seguidilla».
+Literales: «seguidilla»; «seguidillas».
 
 Resultado: identificación directa. Seguidilla / sin arquitectura.
 
