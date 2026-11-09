@@ -10,6 +10,14 @@
       ],
       "port": 5173,
       "autoPort": true
+    },
+    {
+      "name": "importador-local",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "scripts/importador-metrico/iniciar-web-local.mjs"
+      ],
+      "port": 5190
     }
   ]
 }
