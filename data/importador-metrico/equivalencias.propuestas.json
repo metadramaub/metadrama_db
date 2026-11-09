@@ -1148,6 +1148,23 @@
       "exhaustividad": "pendiente_de_validacion",
       "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la medida no se deduce del nombre.",
       "detalles_fuente": []
+    },
+    {
+      "id": "romancillo-asonancia",
+      "literales": [
+        "romancillo en vocal o pareja de vocales"
+      ],
+      "patron": "romancillo_con_asonancia",
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "romancillo",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Romancillo con asonancia explícita. Propone la forma; la medida no se deduce del nombre y la asonancia se conserva como texto declarado.",
+      "detalles_fuente": []
     }
   ],
   "version": "v0.20",

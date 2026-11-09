@@ -945,3 +945,19 @@ Denominación explícita coincidente con el nombre del catálogo de referencia. 
 Detalles de la fuente: sin otros detalles declarados.
 
 No inferir canto, medidas, ausencia de desviaciones ni respuestas de unidad no declaradas.
+
+## romancillo-asonancia
+
+Literales: «romancillo en vocal o pareja de vocales».
+
+Tipo: equivalencia_propuesta. Revisión: pendiente.
+
+Ámbito: propuesta general, pendiente de validar.
+
+Destinos o candidatas: romancillo. Exhaustividad: pendiente_de_validacion.
+
+Romancillo con asonancia explícita. Propone la forma; la medida no se deduce del nombre y la asonancia se conserva como texto declarado.
+
+Detalles de la fuente: sin otros detalles declarados.
+
+No inferir canto, medidas, ausencia de desviaciones ni respuestas de unidad no declaradas.

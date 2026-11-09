@@ -709,7 +709,7 @@ Se conservan los literales de la edición. Una sola entrada seleccionada por obr
 | Redondilla enlazada | catalogo-redondilla_enlazada | — |
 | Romance | romance-sin-asonancia-explicita, romance-asonancia | letrilla |
 | Romance heroico | catalogo-romance_heroico | — |
-| Romancillo | catalogo-romancillo | letrilla |
+| Romancillo | catalogo-romancillo, romancillo-asonancia | letrilla |
 | Seguidilla | catalogo-seguidilla | — |
 | Septeto | catalogo-septeto | — |
 | Septeto-lira | catalogo-septeto_lira | — |
@@ -1566,6 +1566,20 @@ Resultado: identificación directa. Romancillo / sin arquitectura.
 Revisión de la regla: pendiente. Ámbito: general.
 
 Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la medida no se deduce del nombre.
+
+Datos adicionales: ninguno.
+
+#### romancillo-asonancia
+
+Literales: «romancillo en vocal o pareja de vocales».
+
+Resultado: identificación directa. Romancillo / sin arquitectura.
+
+Revisión de la regla: pendiente. Ámbito: general.
+
+Romancillo con asonancia explícita. Propone la forma; la medida no se deduce del nombre y la asonancia se conserva como texto declarado.
+
+Patrón de reconocimiento: romancillo_con_asonancia.
 
 Datos adicionales: ninguno.
 

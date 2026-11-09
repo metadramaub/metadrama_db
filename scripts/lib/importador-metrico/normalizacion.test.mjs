@@ -403,7 +403,9 @@ describe('ampliación terminológica v0.18', () => {
 		['lira-sestina (aBaBcC)', 'sexteto_lira'],
 		['redondillas.', 'redondilla'],
 		['décimas', 'decima'],
-		['silvas', 'silva']
+		['silvas', 'silva'],
+		['romancillo en -ee', 'romancillo'],
+		['romancillo í-a', 'romancillo']
 	];
 	for (const [literal, forma] of casos) {
 		it(`propone ${literal} conservando el literal`, () => {

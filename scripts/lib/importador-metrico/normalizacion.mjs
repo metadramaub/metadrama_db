@@ -35,6 +35,7 @@ const reglaSchema = z.object({
 	patron: z
 		.enum([
 			'romance_con_asonancia',
+			'romancillo_con_asonancia',
 			'lira_con_esquema_seis_posiciones',
 			'sueltos_con_pareados_localizados',
 			'sueltos_cierre_con_excepciones'
@@ -146,12 +147,20 @@ export function normalizarExtraccion(
 			.replace(/\p{M}/gu, '')
 			.toLowerCase()
 			.match(/^romances?\s+(?:en\s+)?[-–—]?\s*([aeiou])(?:\s*[-–—]?\s*([aeiou]))?$/u);
+		// El romancillo declara su asonancia igual que el romance («romancillo en -ee»).
+		const vocalesRomancillo = literalComparado
+			?.normalize('NFD')
+			.replace(/\p{M}/gu, '')
+			.toLowerCase()
+			.match(/^romancillos?\s+(?:en\s+)?[-–—]?\s*([aeiou])(?:\s*[-–—]?\s*([aeiou]))?$/u);
 		const liraDeSeis = /^liras?(?:[-\s]sestinas?)?\s+(?:\(\s*[a-f](?:\s*[a-f]){5}\s*\)|[a-f](?:\s*[a-f]){5})$/iu.test(literalComparado ?? '');
 		const pareados = pareadosEnDenominacion(literalComparado, row);
 		const matches = reference.reglas.filter(
 			(r) =>
 				(r.patron === 'romance_con_asonancia'
 					? Boolean(vocales)
+					: r.patron === 'romancillo_con_asonancia'
+						? Boolean(vocalesRomancillo)
 					: r.patron === 'sueltos_con_pareados_localizados'
 						? Boolean(pareados)
 						: r.patron === 'lira_con_esquema_seis_posiciones'
@@ -246,6 +255,11 @@ export function normalizarExtraccion(
 						: { literal: literalAsonancia, dimension: 'asonancia' }
 				]
 			};
+		}
+		if (rule?.patron === 'romancillo_con_asonancia') {
+			// Sin medida declarada no hay arquitectura, y sin ella la asonancia se conserva como texto.
+			const literalAsonancia = literalComparado.replace(/^romancillos?\s+(?:en\s+)?/iu, '');
+			rule = { ...rule, detalles_fuente: [{ literal: literalAsonancia, dimension: 'asonancia' }] };
 		}
 		// Sin extensión suficiente no se inventa ni el corte ni un soneto completo.
 		if (
