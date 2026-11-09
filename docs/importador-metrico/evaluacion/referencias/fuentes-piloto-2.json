@@ -10,8 +10,7 @@
       "obra_ref": "el-perro-del-hortelano",
       "titulo": "El perro del hortelano",
       "autor": "Lope de Vega",
-      "edicion": "Lope de Vega, El perro del hortelano. El castigo sin venganza, ed. A. David Kossoff, Madrid, Castalia (Clásicos Castalia).",
-      "edicion_por_confirmar": "Editor confirmado; el año de este ejemplar no consta (hay reimpresiones de 1970, 1985 y 1989).",
+      "edicion": "Lope de Vega, El perro del hortelano. El castigo sin venganza, ed. A. David Kossoff, Madrid, Castalia, 2003; ejemplar de 2019.",
       "fotos": [
         {
           "ruta_relativa": "Fotos piloto 2/castalia_perro-del-hortelano_castigo-sin-venganza/p070.jpg",
@@ -27,13 +26,20 @@
           "nota": "Compartida: termina El perro y empieza El castigo."
         }
       ],
-      "interes": "Tabla de dos columnas sin recuentos; notas al margen sobre versos que riman; prosa entre corchetes."
+      "interes": "Tabla de dos columnas sin recuentos; notas al margen sobre versos que riman; prosa entre corchetes.",
+      "fechas": {
+        "primera_edicion": 2003,
+        "ejemplar": 2019,
+        "otras": [
+          2012
+        ]
+      }
     },
     {
       "obra_ref": "el-castigo-sin-venganza",
       "titulo": "El castigo sin venganza",
       "autor": "Lope de Vega",
-      "edicion": "Mismo volumen que El perro del hortelano (Castalia, ed. Kossoff).",
+      "edicion": "Mismo volumen que El perro del hortelano (Castalia, ed. Kossoff, 2003; ejemplar de 2019).",
       "fotos": [
         {
           "ruta_relativa": "Fotos piloto 2/castalia_perro-del-hortelano_castigo-sin-venganza/p071.jpg",
@@ -66,8 +72,7 @@
       "obra_ref": "el-alcalde-de-zalamea",
       "titulo": "El alcalde de Zalamea",
       "autor": "Calderón de la Barca",
-      "edicion": "Calderón de la Barca, El alcalde de Zalamea, ed. José María Díez Borque, Madrid, Castalia, 2017.",
-      "edicion_por_confirmar": "Año confirmado por David; el editor se deduce de las iniciales «D. B.» de la página.",
+      "edicion": "Calderón de la Barca, El alcalde de Zalamea, ed. José María Díez Borque, Madrid, Castalia, 1971; ejemplar de 2017.",
       "fotos": [
         {
           "ruta_relativa": "Fotos piloto 2/castalia_alcalde-de-zalamea/p116.jpg",
@@ -76,13 +81,17 @@
           "nombre_original": "IMG_20261109_171148904.jpg"
         }
       ],
-      "interes": "Sinopsis en prosa, numeración que vuelve a 1 en cada jornada, pasajes intercalados (canción, villancico, jácara, pie quebrado), sin recuentos."
+      "interes": "Sinopsis en prosa, numeración que vuelve a 1 en cada jornada, pasajes intercalados (canción, villancico, jácara, pie quebrado), sin recuentos.",
+      "fechas": {
+        "primera_edicion": 1971,
+        "ejemplar": 2017
+      }
     },
     {
       "obra_ref": "las-bizarrias-de-belisa",
       "titulo": "Las bizarrías de Belisa",
       "autor": "Lope de Vega",
-      "edicion": "Lope de Vega, Las bizarrías de Belisa, ed. Enrique García Santo-Tomás, Madrid, Cátedra (Letras Hispánicas), 2004.",
+      "edicion": "Lope de Vega, Las bizarrías de Belisa, ed. Enrique García Santo-Tomás, Madrid, Cátedra (Letras Hispánicas), 2004; ejemplar de 2021.",
       "fotos": [
         {
           "ruta_relativa": "Fotos piloto 2/catedra_bizarrias-de-belisa/p061.jpg",
@@ -97,14 +106,17 @@
           "nombre_original": "IMG_20261109_172145704.jpg"
         }
       ],
-      "interes": "Tabla limpia de tres columnas con resumen y porcentajes; canciones breves intercaladas."
+      "interes": "Tabla limpia de tres columnas con resumen y porcentajes; canciones breves intercaladas.",
+      "fechas": {
+        "primera_edicion": 2004,
+        "ejemplar": 2021
+      }
     },
     {
       "obra_ref": "el-caballero-de-olmedo",
       "titulo": "El caballero de Olmedo",
       "autor": "Lope de Vega",
-      "edicion": "Lope de Vega, El caballero de Olmedo, ed. Francisco Rico, Madrid, Cátedra (Letras Hispánicas, 147). Primera edición en Cátedra: 1981.",
-      "edicion_por_confirmar": "Según catálogos; no consta qué edición o reimpresión es este ejemplar.",
+      "edicion": "Lope de Vega, El caballero de Olmedo, ed. Francisco Rico, Madrid, Cátedra (Letras Hispánicas, 147), 1981; ejemplar de 2009.",
       "fotos": [
         {
           "ruta_relativa": "Fotos piloto 2/catedra_caballero-de-olmedo/p088.jpg",
@@ -125,14 +137,17 @@
           "nombre_original": "IMG_20261109_172002096.jpg"
         }
       ],
-      "interes": "Asonancias declaradas, remates en la denominación (media seguidilla, endecasílabo), prosa entre filas, quintillas en copla real y una errata de rango impresa (1066-1553 por 1466-1553)."
+      "interes": "Asonancias declaradas, remates en la denominación (media seguidilla, endecasílabo), prosa entre filas, quintillas en copla real y una errata de rango impresa (1066-1553 por 1466-1553).",
+      "fechas": {
+        "primera_edicion": 1981,
+        "ejemplar": 2009
+      }
     },
     {
       "obra_ref": "don-gil-de-las-calzas-verdes",
       "titulo": "Don Gil de las calzas verdes",
       "autor": "Tirso de Molina",
-      "edicion": "Tirso de Molina, Don Gil de las calzas verdes, ed. Enrique García Santo-Tomás, Madrid, Cátedra (Letras Hispánicas, 632), 2009.",
-      "edicion_por_confirmar": "Según catálogos; no consta qué edición o reimpresión es este ejemplar.",
+      "edicion": "Tirso de Molina, Don Gil de las calzas verdes, ed. Enrique García Santo-Tomás, Madrid, Cátedra (Letras Hispánicas, 632), 2009; ejemplar de 2020.",
       "fotos": [
         {
           "ruta_relativa": "Fotos piloto 2/catedra_don-gil-de-las-calzas-verdes/p069.jpg",
@@ -141,14 +156,17 @@
           "nombre_original": "IMG_20261109_172110840.jpg"
         }
       ],
-      "interes": "Sin jornadas marcadas; columnas de clase de verso y tipo de estrofa separadas; número de estrofas en la denominación; versos sueltos de medida irregular; décima intercalada."
+      "interes": "Sin jornadas marcadas; columnas de clase de verso y tipo de estrofa separadas; número de estrofas en la denominación; versos sueltos de medida irregular; décima intercalada.",
+      "fechas": {
+        "primera_edicion": 2009,
+        "ejemplar": 2020
+      }
     },
     {
       "obra_ref": "peribanez-y-el-comendador-de-ocana",
       "titulo": "Peribáñez y el comendador de Ocaña",
       "autor": "Lope de Vega",
-      "edicion": "Lope de Vega, Peribáñez y el comendador de Ocaña, ed. Juan María Marín, Madrid, Cátedra (Letras Hispánicas, 96). Primera edición: 1979.",
-      "edicion_por_confirmar": "Según catálogos; no consta qué edición o reimpresión es este ejemplar.",
+      "edicion": "Lope de Vega, Peribáñez y el comendador de Ocaña, ed. Juan María Marín, Madrid, Cátedra (Letras Hispánicas, 96), 1979; ejemplar de 2008.",
       "fotos": [
         {
           "ruta_relativa": "Fotos piloto 2/catedra_peribanez/p046.jpg",
@@ -163,7 +181,11 @@
           "nombre_original": "IMG_20261109_172213485.jpg"
         }
       ],
-      "interes": "La numeración vuelve a 1 en cada acto; «endecasílabos libres»; nota sobre la terminología de quintillas."
+      "interes": "La numeración vuelve a 1 en cada acto; «endecasílabos libres»; nota sobre la terminología de quintillas.",
+      "fechas": {
+        "primera_edicion": 1979,
+        "ejemplar": 2008
+      }
     },
     {
       "obra_ref": "fuenteovejuna",
