@@ -1,0 +1,15 @@
+{
+  "lote": "piloto-2",
+  "servicio": "Gemini (aplicación web)",
+  "modelo_mostrado": "3.5 Flash-Lite High",
+  "modelo_confirmado_por_obra": ["el-alcalde-de-zalamea"],
+  "tipo_de_cuenta": "No consta",
+  "fecha": "2026-11-09",
+  "prompt": "extraccion/0.27, prompt activo del dashboard",
+  "procedimiento": "Un chat nuevo por obra con las fotos de esa obra. David pega la respuesta en la sesión y se guarda sin corregir; los espacios del JSON pueden diferir de los de la interfaz.",
+  "fotos": "Manifiesto docs/importador-metrico/evaluacion/referencias/fuentes-piloto-2.json",
+  "pendiente_de_confirmar": [
+    "Que todas las obras salvo el Alcalde se hicieron también con 3.5 Flash-Lite High.",
+    "Si a El castigo sin venganza se le adjuntó la p. 71, donde empieza su tabla: la respuesta empieza en el v. 206."
+  ]
+}

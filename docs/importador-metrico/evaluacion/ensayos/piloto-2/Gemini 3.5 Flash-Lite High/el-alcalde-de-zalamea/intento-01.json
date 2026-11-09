@@ -1,0 +1,184 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "procedencia": {"prompt_version": "extraccion/0.27"},
+  "metadatos": null,
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "Primera Jornada"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "Segunda Jornada"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "Tercera Jornada"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 212,
+      "denominacion_literal": "redondillas. Interrumpidas del v. 101 al v. 112 por la canción de la Chispa: vv. 101-104: pareados; vv. 105-112, romance de asonancia masculina en a.",
+      "n_versos_fuente": null,
+      "fuente_id": "p116.jpg",
+      "pagina": 116
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 213,
+      "v_fin": 556,
+      "denominacion_literal": "romance de asonancia femenina en á/e.",
+      "n_versos_fuente": null,
+      "fuente_id": "p116.jpg",
+      "pagina": 116
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 557,
+      "v_fin": 680,
+      "denominacion_literal": "silvas.",
+      "n_versos_fuente": null,
+      "fuente_id": "p116.jpg",
+      "pagina": 116
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 681,
+      "v_fin": 894,
+      "denominacion_literal": "romance de asonancia masculina en ó.",
+      "n_versos_fuente": null,
+      "fuente_id": "p116.jpg",
+      "pagina": 116
+    },
+    {
+      "id": "t05",
+      "jornada": 2,
+      "v_ini": 1,
+      "v_fin": 390,
+      "denominacion_literal": "romance de asonancia femenina en é/a. Se interrumpe del v. 336 al v. 340 por cuatro versos que forman la cabeza de un villancico.",
+      "n_versos_fuente": null,
+      "fuente_id": "p116.jpg",
+      "pagina": 116
+    },
+    {
+      "id": "t06",
+      "jornada": 2,
+      "v_ini": 391,
+      "v_fin": 426,
+      "denominacion_literal": "redondillas.",
+      "n_versos_fuente": null,
+      "fuente_id": "p116.jpg",
+      "pagina": 116
+    },
+    {
+      "id": "t07",
+      "jornada": 2,
+      "v_ini": 427,
+      "v_fin": 446,
+      "denominacion_literal": "romance de asonancia femenina en ú/e. Los versos 427-432 y 435-444 forman parte de una jácara, interrumpida por un parlamento —no cantado— de Rebolledo, con la misma asonancia.",
+      "n_versos_fuente": null,
+      "fuente_id": "p116.jpg",
+      "pagina": 116
+    },
+    {
+      "id": "t08",
+      "jornada": 2,
+      "v_ini": 447,
+      "v_fin": 502,
+      "denominacion_literal": "redondillas.",
+      "n_versos_fuente": null,
+      "fuente_id": "p116.jpg",
+      "pagina": 116
+    },
+    {
+      "id": "t09",
+      "jornada": 2,
+      "v_ini": 503,
+      "v_fin": 607,
+      "denominacion_literal": "quintillas.",
+      "n_versos_fuente": null,
+      "fuente_id": "p116.jpg",
+      "pagina": 116
+    },
+    {
+      "id": "t10",
+      "jornada": 2,
+      "v_ini": 608,
+      "v_fin": 611,
+      "denominacion_literal": "redondilla, cuyo último verso es de cinco sílabas (pie quebrado)",
+      "n_versos_fuente": null,
+      "fuente_id": "p116.jpg",
+      "pagina": 116
+    },
+    {
+      "id": "t11",
+      "jornada": 2,
+      "v_ini": 612,
+      "v_fin": 893,
+      "denominacion_literal": "romance de asonancia femenina en í-o.",
+      "n_versos_fuente": null,
+      "fuente_id": "p116.jpg",
+      "pagina": 116
+    },
+    {
+      "id": "t12",
+      "jornada": 3,
+      "v_ini": 1,
+      "v_fin": 348,
+      "denominacion_literal": "romance de asonancia femenina en í/a.",
+      "n_versos_fuente": null,
+      "fuente_id": "p116.jpg",
+      "pagina": 116
+    },
+    {
+      "id": "t13",
+      "jornada": 3,
+      "v_ini": 349,
+      "v_fin": 404,
+      "denominacion_literal": "redondillas.",
+      "n_versos_fuente": null,
+      "fuente_id": "p116.jpg",
+      "pagina": 116
+    },
+    {
+      "id": "t14",
+      "jornada": 3,
+      "v_ini": 405,
+      "v_fin": 518,
+      "denominacion_literal": "romance de asonancia femenina en é/o.",
+      "n_versos_fuente": null,
+      "fuente_id": "p116.jpg",
+      "pagina": 116
+    },
+    {
+      "id": "t15",
+      "jornada": 3,
+      "v_ini": 519,
+      "v_fin": 838,
+      "denominacion_literal": "redondillas.",
+      "n_versos_fuente": null,
+      "fuente_id": "p116.jpg",
+      "pagina": 116
+    },
+    {
+      "id": "t16",
+      "jornada": 3,
+      "v_ini": 839,
+      "v_fin": 980,
+      "denominacion_literal": "romance de asonancia masculina en á.",
+      "n_versos_fuente": null,
+      "fuente_id": "p116.jpg",
+      "pagina": 116
+    }
+  ],
+  "notas": [],
+  "resumen_fuente": [],
+  "incidencias": []
+}
