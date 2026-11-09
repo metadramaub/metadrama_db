@@ -83,8 +83,24 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
   registros nuevos (quién los señaló, de qué obra) y los retire; hoy solo se puede por SQL.
 - Pasar el [piloto 2](importador-metrico/evaluacion/README.md#piloto-2-lote-independiente) por el
   prompt 0.27 sin tocarlo, con GPT y algún modelo barato, y cotejarlo con las fotos: lectura,
-  estructura, decisiones sobre notas y minutos de revisión. Confirmar antes los datos de edición
-  que el manifiesto marca como pendientes.
+  estructura, decisiones sobre notas y minutos de revisión.
+- Mejoras del importador que pide el piloto 2. Se anotan mientras dura el lote y se hacen
+  después; cada una debe dejar igual las veinte obras del piloto 1 (comprobarlo con sus derivados).
+  - **Numeración que vuelve a 1 en cada jornada** (*Alcalde*, *Peribáñez*): hoy bloquea por
+    «orden discrepante» y solapamiento. Aceptarla cuando el retroceso coincide con el cambio de
+    jornada y la jornada empieza en 1. Decidir si la ficha guarda la numeración de la edición o
+    una continua.
+  - **Llamadas de nota pegadas a la denominación** («Silva 1», «Octava 3», «Lira de seis versos 2»):
+    si el número final coincide con la marca de una nota de la misma extracción, quitarlo para
+    identificar y enlazar la nota. Sin nota con esa marca, no tocar el literal.
+  - **Plurales y singulares que faltan** en reglas del catálogo: «décimas», «silvas», «canción»,
+    «romancillo». «Octavas» y «tercetos» siguen sin resolverse a propósito.
+  - **Puntuación final** en la denominación («redondillas.», *Alcalde*): ignorarla al comparar.
+  - **Pasajes cantados**: cuando una nota de la edición marca filas como cantadas (*Fuenteovejuna*,
+    asteriscos), proponer la caracterización por rango «cantado», igual que ya se hace con la prosa.
+  - **Página compartida por dos obras** (*Perro*/*Castigo*): el modelo mezcló las primeras filas de
+    la obra siguiente. Para el prompt, no para el importador: transcribir solo la obra indicada.
+    No se cambia el prompt mientras dura el lote.
 
 Entrada vigente: [índice del importador](importador-metrico/README.md). El dashboard ofrece
 el prompt 0.27. Las reglas de equivalencias v0.19 son
