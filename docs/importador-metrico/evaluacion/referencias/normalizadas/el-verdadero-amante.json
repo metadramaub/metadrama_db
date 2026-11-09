@@ -4,7 +4,7 @@
   "estado": "borrador_de_trabajo",
   "apta_para_corpus": false,
   "obra_ref": "el-verdadero-amante",
-  "reglas_version": "v0.19",
+  "reglas_version": "v0.20",
   "catalogo_referencia": {
     "estado": {
       "actualizado_en": "2026-10-19T11:26:16.630786+00:00",
@@ -809,7 +809,7 @@
     "fecha": "2026-10-22"
   },
   "entradas_sha256": {
-    "equivalencias.propuestas.json": "0ebdfe2570beab7fab7b09701892171b6c5ad2080bac95ae38635a554ffe667d",
+    "equivalencias.propuestas.json": "c0ff2746ced05a8db0cd827f32bf58a3e13fb85de880c3e36c4c11313299ee3d",
     "catalogo-referencia.json": "0f65680900ccab33fb9a258e5aca1ae6b2c0373c6dc2aab4192e80d7088e7b06",
     "auditoria-tercetos-2026-10-26.json": "433367a2e24b8e6e5fb213b907c2d810ff2078eda0e2364771070231e8cfc112",
     "segmentacion.propuestas.json": "66bfd37373162eaf06c046093f11cbd7188d0e72519bea0c30c6caefc738cd0f",

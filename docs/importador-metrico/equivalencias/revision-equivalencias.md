@@ -2,7 +2,7 @@
 
 Generado con `npm run importador:informes`; corregir las reglas o decisiones de origen, no este informe.
 
-Reglas v0.19; catálogo consultado el 2026-11-02.
+Reglas v0.20; catálogo consultado el 2026-11-02.
 
 Para revisar: decisiones pendientes y tabla resumen. La procedencia y los casos complejos permiten comprobar ejemplos; el anexo conserva todas las apariciones y las reglas completas.
 
@@ -89,7 +89,7 @@ Esta lista describe el resultado de la preparación, no la ausencia de esas deno
 
 Canción petrarquista; Canción sin rima; Copla castellana; Copla de arte mayor; Copla de arte menor; Copla manriqueña; Cuarteto; Cuarteto-lira; Décima; Décima-lira; Endecasílabo encadenado; Endecha real; Estrofa sáfica; Versificación irregular; Lira; Novena; Novena-lira; Octava aguda; Octava-lira; Oncena; Pareado; Redondilla enlazada; Romance heroico; Seguidilla; Septeto; Septeto-lira; Septilla; Septilla enlazada; Sexteto; Sextilla; Sextilla enlazada; Sextina (sextina); Sextina (sextina_estrofa); Silva; Verso aislado.
 
-Referencia completa: 49 formas; 8 sin regla directa de importación. El detalle de cobertura está en el anexo.
+Referencia completa: 49 formas; 7 sin regla directa de importación. El detalle de cobertura está en el anexo.
 
 **Entradas no disponibles o no válidas:**
 
@@ -709,7 +709,7 @@ Se conservan los literales de la edición. Una sola entrada seleccionada por obr
 | Redondilla enlazada | catalogo-redondilla_enlazada | — |
 | Romance | romance-sin-asonancia-explicita, romance-asonancia | letrilla |
 | Romance heroico | catalogo-romance_heroico | — |
-| Romancillo | — | letrilla |
+| Romancillo | catalogo-romancillo | letrilla |
 | Seguidilla | catalogo-seguidilla | — |
 | Septeto | catalogo-septeto | — |
 | Septeto-lira | catalogo-septeto_lira | — |
@@ -1283,7 +1283,7 @@ Datos adicionales: ninguno.
 
 #### catalogo-decima
 
-Literales: «décima».
+Literales: «décima»; «décimas».
 
 Resultado: identificación directa. Décima / sin arquitectura.
 
@@ -1535,7 +1535,7 @@ Datos adicionales: ninguno.
 
 #### catalogo-silva
 
-Literales: «silva».
+Literales: «silva»; «silvas».
 
 Resultado: identificación directa. Silva / sin arquitectura.
 
@@ -1554,6 +1554,18 @@ Resultado: identificación directa. Verso aislado / sin arquitectura.
 Revisión de la regla: pendiente. Ámbito: general.
 
 Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.
+
+Datos adicionales: ninguno.
+
+#### catalogo-romancillo
+
+Literales: «romancillo»; «romancillos».
+
+Resultado: identificación directa. Romancillo / sin arquitectura.
+
+Revisión de la regla: pendiente. Ámbito: general.
+
+Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la medida no se deduce del nombre.
 
 Datos adicionales: ninguno.
 

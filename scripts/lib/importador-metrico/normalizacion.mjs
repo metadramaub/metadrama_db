@@ -126,15 +126,27 @@ export function normalizarExtraccion(
 		)
 			throw new Error('Desviación fuera del rango documentado en la nota');
 	}
+	// Llamadas de nota que el modelo pega a la denominación («Octava 3», «Quintillas32»).
+	const marcasDeNota = new Set(source.notas.map((n) => String(n.marca ?? '').trim()).filter(Boolean));
+	const sinLlamada = (literal) => {
+		const separada = literal.match(/^(.*\S)\s+(\S{1,3})$/u);
+		if (separada && marcasDeNota.has(separada[2])) return separada[1];
+		const pegada = literal.match(/^(.*\p{L})(\d{1,3})$/u);
+		if (pegada && marcasDeNota.has(pegada[2])) return pegada[1];
+		return literal;
+	};
 	const segmentos = source.tramos.flatMap((row) => {
-		const literalComparado = row.denominacion_literal?.replace(/\s+/gu, ' ').trim();
+		// Se compara sin la llamada de nota ni la puntuación final; el literal se conserva intacto.
+		const literalComparado = row.denominacion_literal
+			? sinLlamada(row.denominacion_literal.replace(/\s+/gu, ' ').trim()).replace(/[.;:,]+$/u, '').trim()
+			: row.denominacion_literal;
 		const claveLiteral = (literal) => literal?.replace(/\s+/gu, ' ').trim().toLowerCase();
 		const vocales = literalComparado
 			?.normalize('NFD')
 			.replace(/\p{M}/gu, '')
 			.toLowerCase()
 			.match(/^romances?\s+(?:en\s+)?[-–—]?\s*([aeiou])(?:\s*[-–—]?\s*([aeiou]))?$/u);
-		const liraDeSeis = /^liras?\s+(?:\(\s*[a-f](?:\s*[a-f]){5}\s*\)|[a-f](?:\s*[a-f]){5})$/iu.test(literalComparado ?? '');
+		const liraDeSeis = /^liras?(?:[-\s]sestinas?)?\s+(?:\(\s*[a-f](?:\s*[a-f]){5}\s*\)|[a-f](?:\s*[a-f]){5})$/iu.test(literalComparado ?? '');
 		const pareados = pareadosEnDenominacion(literalComparado, row);
 		const matches = reference.reglas.filter(
 			(r) =>

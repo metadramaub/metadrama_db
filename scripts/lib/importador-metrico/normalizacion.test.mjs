@@ -399,7 +399,11 @@ describe('ampliación terminológica v0.18', () => {
 	const casos = [
 		['seguidilla', 'seguidilla'],
 		['sonetos', 'soneto'],
-		['liras aBaBcC', 'sexteto_lira']
+		['liras aBaBcC', 'sexteto_lira'],
+		['lira-sestina (aBaBcC)', 'sexteto_lira'],
+		['redondillas.', 'redondilla'],
+		['décimas', 'decima'],
+		['silvas', 'silva']
 	];
 	for (const [literal, forma] of casos) {
 		it(`propone ${literal} conservando el literal`, () => {

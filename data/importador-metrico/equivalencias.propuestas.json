@@ -760,7 +760,8 @@
     {
       "id": "catalogo-decima",
       "literales": [
-        "décima"
+        "décima",
+        "décimas"
       ],
       "tipo": "equivalencia_propuesta",
       "candidatas": [
@@ -1101,7 +1102,8 @@
     {
       "id": "catalogo-silva",
       "literales": [
-        "silva"
+        "silva",
+        "silvas"
       ],
       "tipo": "equivalencia_propuesta",
       "candidatas": [
@@ -1129,8 +1131,25 @@
       "exhaustividad": "pendiente_de_validacion",
       "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
       "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-romancillo",
+      "literales": [
+        "romancillo",
+        "romancillos"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "romancillo",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la medida no se deduce del nombre.",
+      "detalles_fuente": []
     }
   ],
-  "version": "v0.19",
+  "version": "v0.20",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }

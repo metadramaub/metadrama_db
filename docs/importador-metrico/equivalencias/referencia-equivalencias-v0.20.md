@@ -1,4 +1,4 @@
-# Referencia de correspondencias v0.19
+# Referencia de correspondencias v0.20
 
 Generada desde las mismas reglas que usa el normalizador local. Es apoyo para proponer normalizaciones posteriores a la extracción literal; no autoriza a reescribir la declaración original ni a afirmar revisiones humanas.
 
@@ -564,7 +564,7 @@ No inferir canto, medidas, ausencia de desviaciones ni respuestas de unidad no d
 
 ## catalogo-decima
 
-Literales: «décima».
+Literales: «décima»; «décimas».
 
 Tipo: equivalencia_propuesta. Revisión: pendiente.
 
@@ -900,7 +900,7 @@ No inferir canto, medidas, ausencia de desviaciones ni respuestas de unidad no d
 
 ## catalogo-silva
 
-Literales: «silva».
+Literales: «silva»; «silvas».
 
 Tipo: equivalencia_propuesta. Revisión: pendiente.
 
@@ -925,6 +925,22 @@ Tipo: equivalencia_propuesta. Revisión: pendiente.
 Destinos o candidatas: verso_aislado. Exhaustividad: pendiente_de_validacion.
 
 Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.
+
+Detalles de la fuente: sin otros detalles declarados.
+
+No inferir canto, medidas, ausencia de desviaciones ni respuestas de unidad no declaradas.
+
+## catalogo-romancillo
+
+Literales: «romancillo»; «romancillos».
+
+Tipo: equivalencia_propuesta. Revisión: pendiente.
+
+Ámbito: propuesta general, pendiente de validar.
+
+Destinos o candidatas: romancillo. Exhaustividad: pendiente_de_validacion.
+
+Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la medida no se deduce del nombre.
 
 Detalles de la fuente: sin otros detalles declarados.
 
