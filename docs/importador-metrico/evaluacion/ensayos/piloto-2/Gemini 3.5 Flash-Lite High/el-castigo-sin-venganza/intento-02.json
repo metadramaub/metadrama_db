@@ -1,0 +1,65 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "procedencia": {"prompt_version": "extraccion/0.27"},
+  "metadatos": {
+    "titulo": "El castigo sin venganza",
+    "autoria": null,
+    "genero_literal": null,
+    "fecha_inicio": null,
+    "fecha_fin": null,
+    "fuente_fecha": null,
+    "edicion_base": null,
+    "observaciones": [],
+    "fuente_id": null
+  },
+  "jornadas": [
+    {"numero": 1, "rotulo_literal": "ACTO I"},
+    {"numero": 2, "rotulo_literal": "ACTO II"},
+    {"numero": 3, "rotulo_literal": "ACTO III"}
+  ],
+  "tramos": [
+    {"id": "t01", "jornada": 1, "v_ini": 1, "v_fin": 196, "denominacion_literal": "Redondilla", "n_versos_fuente": null, "fuente_id": "p071.jpg", "pagina": 71},
+    {"id": "t02", "jornada": 1, "v_ini": 197, "v_fin": 205, "denominacion_literal": "Silva 1", "n_versos_fuente": null, "fuente_id": "p071.jpg", "pagina": 71},
+    {"id": "t03", "jornada": 1, "v_ini": 206, "v_fin": 233, "denominacion_literal": "Redondilla", "n_versos_fuente": null, "fuente_id": "p072.jpg", "pagina": 72},
+    {"id": "t04", "jornada": 1, "v_ini": 234, "v_fin": 339, "denominacion_literal": "Silva", "n_versos_fuente": null, "fuente_id": "p072.jpg", "pagina": 72},
+    {"id": "t05", "jornada": 1, "v_ini": 340, "v_fin": 467, "denominacion_literal": "Romance", "n_versos_fuente": null, "fuente_id": "p072.jpg", "pagina": 72},
+    {"id": "t06", "jornada": 1, "v_ini": 468, "v_fin": 527, "denominacion_literal": "Décima", "n_versos_fuente": null, "fuente_id": "p072.jpg", "pagina": 72},
+    {"id": "t07", "jornada": 1, "v_ini": 528, "v_fin": 651, "denominacion_literal": "Romance", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t08", "jornada": 1, "v_ini": 652, "v_fin": 699, "denominacion_literal": "Redondilla", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t09", "jornada": 1, "v_ini": 700, "v_fin": 735, "denominacion_literal": "Lira de seis versos 2", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t10", "jornada": 1, "v_ini": 736, "v_fin": 759, "denominacion_literal": "Redondilla", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t11", "jornada": 1, "v_ini": 760, "v_fin": 993, "denominacion_literal": "Romance", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t12", "jornada": 2, "v_ini": 994, "v_fin": 1113, "denominacion_literal": "Décima", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t13", "jornada": 2, "v_ini": 1114, "v_fin": 1195, "denominacion_literal": "Terceto", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t14", "jornada": 2, "v_ini": 1196, "v_fin": 1295, "denominacion_literal": "Redondilla", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t15", "jornada": 2, "v_ini": 1296, "v_fin": 1531, "denominacion_literal": "Romance", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t16", "jornada": 2, "v_ini": 1532, "v_fin": 1591, "denominacion_literal": "Décima", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t17", "jornada": 2, "v_ini": 1592, "v_fin": 1623, "denominacion_literal": "Redondilla", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t18", "jornada": 2, "v_ini": 1624, "v_fin": 1653, "denominacion_literal": "Décima", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t19", "jornada": 2, "v_ini": 1654, "v_fin": 1681, "denominacion_literal": "Redondilla", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t20", "jornada": 2, "v_ini": 1682, "v_fin": 1708, "denominacion_literal": "Silva", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t21", "jornada": 2, "v_ini": 1709, "v_fin": 1796, "denominacion_literal": "Romance", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t22", "jornada": 2, "v_ini": 1797, "v_fin": 1810, "denominacion_literal": "Soneto", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t23", "jornada": 2, "v_ini": 1811, "v_fin": 2030, "denominacion_literal": "Quintilla", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t24", "jornada": 3, "v_ini": 2031, "v_fin": 2160, "denominacion_literal": "Romance", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t25", "jornada": 3, "v_ini": 2161, "v_fin": 2288, "denominacion_literal": "Redondilla", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t26", "jornada": 3, "v_ini": 2289, "v_fin": 2340, "denominacion_literal": "Tercetos", "n_versos_fuente": null, "fuente_id": "p073.jpg", "pagina": 73},
+    {"id": "t27", "jornada": 3, "v_ini": 2341, "v_fin": 2466, "denominacion_literal": "Romance", "n_versos_fuente": null, "fuente_id": "p074.jpg", "pagina": 74},
+    {"id": "t28", "jornada": 3, "v_ini": 2467, "v_fin": 2483, "denominacion_literal": "Endecasílabos pareados (el v. 2473 no tiene rima)", "n_versos_fuente": null, "fuente_id": "p074.jpg", "pagina": 74},
+    {"id": "t29", "jornada": 3, "v_ini": 2484, "v_fin": 2491, "denominacion_literal": "Octava 3", "n_versos_fuente": null, "fuente_id": "p074.jpg", "pagina": 74},
+    {"id": "t30", "jornada": 3, "v_ini": 2492, "v_fin": 2551, "denominacion_literal": "Décima", "n_versos_fuente": null, "fuente_id": "p074.jpg", "pagina": 74},
+    {"id": "t31", "jornada": 3, "v_ini": 2552, "v_fin": 2611, "denominacion_literal": "Romance", "n_versos_fuente": null, "fuente_id": "p074.jpg", "pagina": 74},
+    {"id": "t32", "jornada": 3, "v_ini": 2612, "v_fin": 2635, "denominacion_literal": "Lira de seis versos 2", "n_versos_fuente": null, "fuente_id": "p074.jpg", "pagina": 74},
+    {"id": "t33", "jornada": 3, "v_ini": 2636, "v_fin": 2823, "denominacion_literal": "Redondilla", "n_versos_fuente": null, "fuente_id": "p074.jpg", "pagina": 74},
+    {"id": "t34", "jornada": 3, "v_ini": 2824, "v_fin": 3021, "denominacion_literal": "Romance", "n_versos_fuente": null, "fuente_id": "p074.jpg", "pagina": 74}
+  ],
+  "notas": [
+    {"id": "n01", "marca": "1", "texto_literal": "El castigo, vv. 197-205: son versos de silva como los describió correctamente A. Gasparretti (Las novelas de Mateo Bandello como fuentes de Lope de Vega Carpio, Salamanca, 1939, p. 34). Van Dam y luego Morley y Bruerton los llaman canción, pero es un evidente descuido puesto que por definición no puede haber sólo una estrofa de canción; tienen que repetirse las estrofas, a no ser que [ilegible]", "fuente_id": "p071.jpg", "pagina": 71, "tramos_ref": ["t02"], "v_ini": 197, "v_fin": 205},
+    {"id": "n02", "marca": "2", "texto_literal": "He seguido a Morley y Bruerton en llamar liras de seis versos los vv. 700-735 y 2612-2635, para evitar confusiones con la verdadera sextina petrarquista que no empleó Lope.", "fuente_id": "p073.jpg", "pagina": 73, "tramos_ref": ["t09", "t32"], "v_ini": null, "v_fin": null},
+    {"id": "n03", "marca": "3", "texto_literal": "Sobre la octava (vv. 2484-2491) cuya existencia van Dam negó, véase mi nota a esos versos.", "fuente_id": "p074.jpg", "pagina": 74, "tramos_ref": ["t29"], "v_ini": 2484, "v_fin": 2491}
+  ],
+  "resumen_fuente": [],
+  "incidencias": [
+    {"tipo": "lectura_pendiente", "descripcion": "Cuerpo de la nota 1 cortado al final de la página 71.", "fuente_id": "p071.jpg", "tramos_ref": ["t02"]}
+  ]
+}
