@@ -143,6 +143,7 @@ comprueba el resultado de su obra y confirma sus datos, incluidas las ambigüeda
 | Dónde | Qué se conserva |
 | --- | --- |
 | Archivo de equivalencias versionado | Denominaciones, correspondencia de forma y arquitectura si se conoce, o posibilidades si no hay una correspondencia única. Una explicación breve y referencia cuando hacen falta para entender la regla |
+| `correspondencias_importador` | Términos que llegaron sin identificar y que quien importa resolvió y registró: literal, forma, arquitectura opcional, procedencia (edición, obra, fila, foto, página), quién lo señaló y, si ya se revisó, quién y cuándo. Completa filas pendientes en importaciones posteriores; nunca pisa una regla del archivo de equivalencias. [Cómo se usa](../funcionamiento/importar.md#enseñar-al-importador-un-término-nuevo) |
 | `importaciones_metricas.entrada_original` | Transcripción recibida, denominaciones originales, referencias de fotos o páginas y notas de la edición. Conservar una referencia no equivale a subir la fotografía |
 | `importaciones_metricas.datos_confirmados` | Copia fija de los metadatos, jornadas y secuencias que acepta quien importa, con la versión de las reglas y la referencia de catálogo utilizadas |
 | Registro de la importación | Quién importó y cuándo, tomados de la sesión y del servidor. Una sola atribución para toda la operación; confirmar no supone otro revisor |

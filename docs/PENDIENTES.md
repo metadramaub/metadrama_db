@@ -79,6 +79,9 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
+- Registro de correspondencias del importador: aplicar `20261109180000_correspondencias_importador.sql`
+  con `db push` y regenerar tipos. Falta una pantalla para que admin/IP revise los registros nuevos
+  (quién los señaló, de qué obra) y los retire; hoy solo se puede por SQL.
 - Comparar la construcción del JSON y las decisiones sobre notas mediante tareas acotadas;
   conservar el lote difícil como resistencia y pedir nuevas fotos completas para evaluación
   independiente cuando esté preparado el protocolo.

@@ -1,6 +1,7 @@
 /** Reconstruye la vista previa y presenta la copia confirmada sin reaplicar equivalencias. */
 import { createHash } from 'node:crypto';
 import { completarExtraccion } from './completar-extraccion';
+import { aplicarCorrespondencias, type Correspondencia } from './correspondencias';
 import { aplicarEdiciones } from '$lib/importador-metrico/edicion';
 import { comprobarLongitud } from '$lib/importador-metrico/longitud';
 import reglasLongitudRaw from '../../../../data/importador-metrico/reglas-longitud.json?raw';
@@ -161,7 +162,8 @@ export function vistaDeFichaGuardada(ficha: FichaMinima, original: Registro,
 export function analizarEntrada(
 	texto: string,
 	cambios: Partial<MetadatosEditables> = {},
-	ediciones: unknown = []
+	ediciones: unknown = [],
+	correspondencias: Correspondencia[] = []
 ): ResultadoVistaPrevia {
 	const resultado: ResultadoVistaPrevia = {
 		persistido: false,
@@ -251,6 +253,10 @@ export function analizarEntrada(
 				...(esPiloto ? { 'segmentacion.propuestas.json': sha(segmentacionRaw) } : {})
 			};
 			datos = prepararFichaMinima(normalizada, { genero: metadatos.genero, metadatos });
+			// Las correspondencias registradas completan lo que las reglas dejaron pendiente.
+			aplicarCorrespondencias(datos, correspondencias, resultado.avisos);
+			if (correspondencias.length)
+				datos.procedencia.entradas_sha256['correspondencias_registradas'] = sha(serializarCanonico(correspondencias));
 		} else if (minima.esquema === 'versologia-ficha-minima/0.2') {
 			datos = {
 				...minima,

@@ -4,6 +4,7 @@
 	import { proponerDivisionDesdeNota } from '$lib/importador-metrico/division-nota';
 	import { desviacionEditableSchema, type DesviacionBorrador, type EdicionFila, type FormaEditable } from '$lib/importador-metrico/edicion';
 	import DatosSecuencia from './DatosSecuencia.svelte';
+	import CorrespondenciaEditorial from './CorrespondenciaEditorial.svelte';
 	import { proponerDivision, resumenCuerpo } from '$lib/importador-metrico/division';
 	import type { MetricDeviationRange } from '$lib/metrica/structural-additions';
 	import MetricSequenceModal from '$lib/components/metrica/editor-v2/MetricSequenceModal.svelte';
@@ -157,6 +158,13 @@
 						<option value="">Sin especificar</option>{#each formas.find((f: FormaEditable) => f.slug === parte.forma)?.arquitecturas ?? [] as a}<option value={a.slug}>{a.nombre}</option>{/each}
 					</select></label>
 				</div>
+				{#if partes.length === 1 && !originales[0].identificacion && originales[0].origen.denominacion_literal && parte.forma}
+					{@const formaElegida = formas.find((f: FormaEditable) => f.slug === parte.forma)}
+					<CorrespondenciaEditorial literal={originales[0].origen.denominacion_literal} forma={parte.forma} arquitectura={parte.arquitectura || null}
+						formaNombre={formaElegida?.nombre ?? parte.forma}
+						arquitecturaNombre={formaElegida?.arquitecturas.find((a: { slug: string }) => a.slug === parte.arquitectura)?.nombre ?? null}
+						procedencia={{ edicion: datos.metadatos.edicion_base || null, obra: datos.metadatos.titulo || datos.obra_ref, fila: tramoRef, foto: originales[0].origen.fuente_id, pagina: originales[0].origen.pagina }} />
+				{/if}
 				{#if i < partes.length - 1}<label class="form-field"><span class="form-label">Último verso de esta secuencia</span><input aria-label={'Último verso · secuencia ' + (i + 1)} inputmode="numeric" bind:value={parte.fin} class="w-40 rounded-md border border-[color:var(--border)] px-3 py-2" /></label>{/if}
 				{#if parte.remate !== null}
 					{@const resumen = resumenCuerpo(principio(i), Number(parte.fin), Number(parte.remate), desviaciones)}

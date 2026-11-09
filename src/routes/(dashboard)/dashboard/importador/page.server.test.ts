@@ -1,4 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+// Sin registro de correspondencias: estas pruebas no tocan la tabla.
+vi.mock('$lib/server/importador-metrico/correspondencias', async (original) => ({
+	...(await original<typeof import('$lib/server/importador-metrico/correspondencias')>()),
+	cargarCorrespondencias: vi.fn().mockResolvedValue([])
+}));
 import { actions } from './+page.server';
 import type { SegmentoMinimo } from '$lib/importador-metrico/types';
 import { analizarEntrada, obtenerPilotos } from '$lib/server/importador-metrico/vista-previa';

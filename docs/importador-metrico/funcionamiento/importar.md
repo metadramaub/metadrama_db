@@ -67,3 +67,25 @@ eliminar una básica desde la papelera con confirmación de título y comprobaci
 Campos y permisos: [referencia del modelo](../arquitectura/campos-minimos.md).
 Seguimiento del piloto: [cómo regenerarlo](./seguimiento-e-informe-equivalencias.md).
 Los ensayos y detalles de implementación anteriores están en el [histórico](../historico/README.md).
+
+## Enseñar al importador un término nuevo
+
+Cuando una fila llega como «Forma sin resolver» y quien importa le pone forma en el lápiz,
+aparece el botón «Identificar siempre "…" como …». Registra que ese término, tal como lo
+escribe la edición, es esa forma, con arquitectura o sin ella. Desde entonces, cualquier
+importación que traiga el mismo término sin identificar lo recibe propuesto, como cualquier
+otra propuesta editable. Mayúsculas y espacios no cuentan.
+
+- **Solo completa filas pendientes.** Nunca pisa una regla de
+  `data/importador-metrico/equivalencias.propuestas.json` ni una ficha ya guardada.
+- **Si dos registros del mismo término no coinciden, no elige:** la fila queda sin resolver y
+  se avisa del conflicto.
+- **Queda quién lo señaló y de dónde salió:** edición, obra, fila, foto y página.
+- **Registra quien tiene permiso de importar; admin/IP revisa y retira.** Un registro no se
+  reescribe: si está mal, se borra y se registra otro. La revisión solo marca quién y cuándo.
+
+Tabla: `correspondencias_importador`
+(migración `20261109180000_correspondencias_importador.sql`). Se prueba sin tocar la base
+compartida con `node scripts/importador-metrico/probar-registro-local.mjs`, en un PostgreSQL
+efímero sin red, y con `probar-registro-http-local.mjs` contra el Supabase local de
+`backups/importador-auth`, que tiene cuentas sintéticas.

@@ -1,6 +1,7 @@
 import { error, fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { estadoImportador } from '$lib/server/importador-metrico/acceso';
+import { cargarCorrespondencias } from '$lib/server/importador-metrico/correspondencias';
 import {
 	buscarCoincidencias,
 	clienteImportador,
@@ -82,6 +83,7 @@ async function previsualizar(
 		] as const)
 			if (!key.startsWith('ia_') || form.has(key)) cambios[key] = texto(key);
 	}
+	const correspondencias = await cargarCorrespondencias(event.locals.supabase);
 	if (autorId) {
 		const { data: autor, error: autorError } = await event.locals.supabase
 			.from('autores')
@@ -95,13 +97,13 @@ async function previsualizar(
 				entrada,
 				ediciones,
 				autorId: '',
-				vista: analizarEntrada(entrada, cambios, cambiosSecuencias),
+				vista: analizarEntrada(entrada, cambios, cambiosSecuencias, correspondencias),
 				coincidencias: [],
 				huella: null
 			});
 		cambios.autor_nombre = autor.nombre_completo;
 	}
-	const vista = analizarEntrada(entrada, cambios, cambiosSecuencias);
+	const vista = analizarEntrada(entrada, cambios, cambiosSecuencias, correspondencias);
 	let coincidencias: CoincidenciaImportacion[] = [];
 	if (vista.metadatos.titulo.trim() && acceso.guardadoDisponible) {
 		try {
