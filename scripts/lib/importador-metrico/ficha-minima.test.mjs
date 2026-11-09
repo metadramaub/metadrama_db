@@ -194,7 +194,7 @@ describe('contrato local de la ficha mínima', () => {
 		];
 		expect(validar(datos).errores).toEqual([]);
 		expect(resumirFichaMinima(datos).forma_identificada).toBe(2878);
-		expect(resumirFichaMinima(datos).arquitectura_identificada).toBe(272);
+		expect(resumirFichaMinima(datos).arquitectura_identificada).toBe(1676);
 	});
 	it('rechaza conflictos, repeticiones y falsas candidatas de otra forma', () => {
 		const datos = preparar();

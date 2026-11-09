@@ -416,9 +416,10 @@ describe('vista previa del importador sin persistencia', () => {
 		cambiado.metadatos.titulo = 'Otra obra con la misma referencia';
 		const suplantada = analizarEntrada(JSON.stringify(cambiado));
 		expect(suplantada.errores).toEqual([]);
-		// Sin la decisión acordada solo queda lo que la nota dice por sí sola: el heptasílabo.
+		// Sin las decisiones acordadas queda lo que las notas dicen por sí solas, sin su fundamento.
 		expect(suplantada.filas.flatMap((f) => f.desviaciones)).toEqual([
-			expect.objectContaining({ v_ini: 2172, relacion_norma: 'menor_que_norma', metro_observado_slug: 'heptasilabo', nota: null })
+			expect.objectContaining({ v_ini: 2172, relacion_norma: 'menor_que_norma', metro_observado_slug: 'heptasilabo', nota: null }),
+			expect.objectContaining({ v_ini: 2666, dimension: 'estructura', relacion_norma: 'sobra', nota: null })
 		]);
 	});
 	it('ofrece el prompt literal y el carácter local del catálogo', () => {

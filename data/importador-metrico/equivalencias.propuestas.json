@@ -16,11 +16,11 @@
       "candidatas": [
         {
           "forma_slug": "redondilla",
-          "arquitectura_slug": null
+          "arquitectura_slug": "octosilabica"
         }
       ],
       "exhaustividad": "pendiente_de_validacion",
-      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. El catálogo admite tres medidas; sin otra indicación se propone la octosílaba, que es la no marcada (redondilla mayor). Decisión del responsable del proyecto, 9 de noviembre de 2026: la hexasílaba o la heptasílaba se eligen a mano.",
       "detalles_fuente": []
     },
     {
@@ -1236,6 +1236,6 @@
       "detalles_fuente": []
     }
   ],
-  "version": "v0.23",
+  "version": "v0.24",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }

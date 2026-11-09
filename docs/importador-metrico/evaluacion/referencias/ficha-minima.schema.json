@@ -450,39 +450,83 @@
           "caracterizaciones": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "termino": {
-                  "type": "string",
-                  "const": "prosa"
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "termino": {
+                      "type": "string",
+                      "const": "prosa"
+                    },
+                    "v_ini": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 2147483647
+                    },
+                    "v_fin": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 2147483647
+                    },
+                    "tramo_ref": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "literal": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "termino",
+                    "v_ini",
+                    "v_fin",
+                    "tramo_ref",
+                    "literal"
+                  ],
+                  "additionalProperties": false
                 },
-                "v_ini": {
-                  "type": "integer",
-                  "exclusiveMinimum": 0,
-                  "maximum": 2147483647
-                },
-                "v_fin": {
-                  "type": "integer",
-                  "exclusiveMinimum": 0,
-                  "maximum": 2147483647
-                },
-                "tramo_ref": {
-                  "type": "string",
-                  "minLength": 1
-                },
-                "literal": {
-                  "type": "string",
-                  "minLength": 1
+                {
+                  "type": "object",
+                  "properties": {
+                    "termino": {
+                      "type": "string",
+                      "const": "cantado"
+                    },
+                    "v_ini": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 2147483647
+                    },
+                    "v_fin": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 2147483647
+                    },
+                    "tramo_ref": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "nota_ref": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "literal": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "termino",
+                    "v_ini",
+                    "v_fin",
+                    "tramo_ref",
+                    "nota_ref",
+                    "literal"
+                  ],
+                  "additionalProperties": false
                 }
-              },
-              "required": [
-                "termino",
-                "v_ini",
-                "v_fin",
-                "tramo_ref",
-                "literal"
-              ],
-              "additionalProperties": false
+              ]
             }
           }
         },
@@ -541,6 +585,44 @@
       },
       "required": [
         "avisos_longitud"
+      ],
+      "additionalProperties": false
+    },
+    "numeracion": {
+      "type": "object",
+      "properties": {
+        "tipo": {
+          "type": "string",
+          "const": "por_jornada"
+        },
+        "desplazamientos": {
+          "minItems": 2,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "jornada": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 2147483647
+              },
+              "desplazamiento": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "jornada",
+              "desplazamiento"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "tipo",
+        "desplazamientos"
       ],
       "additionalProperties": false
     },

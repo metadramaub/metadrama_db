@@ -2,7 +2,7 @@
 
 **Borrador de trabajo. No importado ni apto para incorporarse automáticamente al corpus.**
 
-Reglas v0.23; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
+Reglas v0.24; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
 
 Fechas conservadas: 1585–1593. Fuente: VEGA CARPIO, Lope de, y Patrizia CAMPANA, El molino, en Comedias de Lope de Vega. Parte I, Lérida, Milenio-Universitat Autònoma de Barcelona, 1997, 3 vols, III, pp. 1547-1686.
 
@@ -15,7 +15,7 @@ Denominador: 2992 versos con rango conocido; 0 segmentos sin rango. Las arquitec
 | forma revisada | 3 | 77 | 2.574 |
 | arquitectura revisada | 2 | 63 | 2.106 |
 | forma solo propuesta | 17 | 2906 | 97.126 |
-| arquitectura solo propuesta | 4 | 202 | 6.751 |
+| arquitectura solo propuesta | 11 | 1910 | 63.837 |
 | con candidatas | 1 | 9 | 0.301 |
 | sin resolver | 0 | 0 | 0.000 |
 

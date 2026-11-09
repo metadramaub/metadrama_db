@@ -50,8 +50,9 @@ información que aún no está registrada. No se exige la exhaustividad de la fi
     nombre, como «endecasílabos sueltos». Si mide igual que la norma y la nota lo llama
     «suelto», es un verso que sobra.
 
-  Lo demás, como «los vv. 140-150 son de otra mano» o una redondilla sin arquitectura, se
-  queda en la nota para el editor. Las propuestas se quitan o corrigen en el lápiz de la fila.
+  Lo demás, como «los vv. 140-150 son de otra mano» o una quintilla sin arquitectura, se
+  queda en la nota para el editor. La redondilla se propone octosílaba por defecto, así que en
+  ella un octosílabo suelto se lee como verso que sobra (*Locos*, v. 2666). Las propuestas se quitan o corrigen en el lápiz de la fila.
   Las notas citan la numeración de la edición, y en una edición numerada por jornada se suma el
   mismo desplazamiento que a la fila.
 - **Asonancia del romance.** Se reconoce escrita de cualquiera de estas maneras: «romance en

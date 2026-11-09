@@ -66,8 +66,9 @@ describe('edición de las secuencias preparadas', () => {
 		original.metadatos.titulo += ' (prueba)';
 		const datos = analizarEntrada(JSON.stringify(original)).datos!;
 		const s = datos.segmentos.find((s) => s.ref === 't16')!;
-		expect(s.desviaciones).toEqual([]);
-		const p = {v_ini: s.v_ini, v_fin: s.v_fin, identificacion: s.identificacion, remate: null, nota: null, desviaciones: [{v_ini: 2666, v_fin: 2666, dimension: 'estructura', relacion_norma: 'sobra', nota_ref: 'n02', nota: null}]};
+		// La nota propone el verso que sobra; aquí el editor lo reescribe con su comentario.
+		expect(s.desviaciones).toEqual([expect.objectContaining({v_ini: 2666, relacion_norma: 'sobra', nota: null})]);
+		const p = {v_ini: s.v_ini, v_fin: s.v_fin, identificacion: s.identificacion, remate: null, nota: null, desviaciones: [{v_ini: 2666, v_fin: 2666, dimension: 'estructura', relacion_norma: 'sobra', nota_ref: 'n02', nota: 'Quizá falten tres versos o Lope contó mal.'}]};
 		const texto = JSON.stringify(original);
 		const vista = analizarEntrada(texto, {}, [{tramo_ref: 't16', partes: [p]}]);
 		expect(vista.errores).toEqual([]);

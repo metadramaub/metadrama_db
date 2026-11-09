@@ -1,6 +1,6 @@
 # Primer ensayo de normalización
 **Borrador local.** La aceptación de las cuatro transcripciones está registrada. Las equivalencias propuestas todavía no son identificaciones revisadas.
-Reglas v0.23; catálogo revisión 4948. Total: 11754 versos. No se escribe en Supabase.
+Reglas v0.24; catálogo revisión 4948. Total: 11754 versos. No se escribe en Supabase.
 | Obra | Versos | Forma revisada | Solo propuesta | Con candidatas | Sin resolver | Informe |
 | --- | --- | --- | --- | --- | --- | --- |
 | El molino | 2992 | 77 | 2906 | 9 | 0 | [Abrir](./normalizadas/el-molino.md) |

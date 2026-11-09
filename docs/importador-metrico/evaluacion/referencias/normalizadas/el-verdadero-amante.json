@@ -4,7 +4,7 @@
   "estado": "borrador_de_trabajo",
   "apta_para_corpus": false,
   "obra_ref": "el-verdadero-amante",
-  "reglas_version": "v0.23",
+  "reglas_version": "v0.24",
   "catalogo_referencia": {
     "estado": {
       "actualizado_en": "2026-10-19T11:26:16.630786+00:00",
@@ -200,11 +200,11 @@
       "identificacion_revisada": null,
       "propuesta": {
         "forma_slug": "redondilla",
-        "arquitectura_slug": null
+        "arquitectura_slug": "octosilabica"
       },
       "candidatas": [],
       "exhaustividad": null,
-      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. El catálogo admite tres medidas; sin otra indicación se propone la octosílaba, que es la no marcada (redondilla mayor). Decisión del responsable del proyecto, 9 de noviembre de 2026: la hexasílaba o la heptasílaba se eligen a mano.",
       "aprobacion": null,
       "evidencias_bibliograficas": [],
       "detalles_fuente": [],
@@ -264,11 +264,11 @@
       "identificacion_revisada": null,
       "propuesta": {
         "forma_slug": "redondilla",
-        "arquitectura_slug": null
+        "arquitectura_slug": "octosilabica"
       },
       "candidatas": [],
       "exhaustividad": null,
-      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. El catálogo admite tres medidas; sin otra indicación se propone la octosílaba, que es la no marcada (redondilla mayor). Decisión del responsable del proyecto, 9 de noviembre de 2026: la hexasílaba o la heptasílaba se eligen a mano.",
       "aprobacion": null,
       "evidencias_bibliograficas": [],
       "detalles_fuente": [],
@@ -343,11 +343,11 @@
       "identificacion_revisada": null,
       "propuesta": {
         "forma_slug": "redondilla",
-        "arquitectura_slug": null
+        "arquitectura_slug": "octosilabica"
       },
       "candidatas": [],
       "exhaustividad": null,
-      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. El catálogo admite tres medidas; sin otra indicación se propone la octosílaba, que es la no marcada (redondilla mayor). Decisión del responsable del proyecto, 9 de noviembre de 2026: la hexasílaba o la heptasílaba se eligen a mano.",
       "aprobacion": null,
       "evidencias_bibliograficas": [],
       "detalles_fuente": [],
@@ -455,11 +455,11 @@
       "identificacion_revisada": null,
       "propuesta": {
         "forma_slug": "redondilla",
-        "arquitectura_slug": null
+        "arquitectura_slug": "octosilabica"
       },
       "candidatas": [],
       "exhaustividad": null,
-      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. El catálogo admite tres medidas; sin otra indicación se propone la octosílaba, que es la no marcada (redondilla mayor). Decisión del responsable del proyecto, 9 de noviembre de 2026: la hexasílaba o la heptasílaba se eligen a mano.",
       "aprobacion": null,
       "evidencias_bibliograficas": [],
       "detalles_fuente": [],
@@ -534,11 +534,11 @@
       "identificacion_revisada": null,
       "propuesta": {
         "forma_slug": "redondilla",
-        "arquitectura_slug": null
+        "arquitectura_slug": "octosilabica"
       },
       "candidatas": [],
       "exhaustividad": null,
-      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. El catálogo admite tres medidas; sin otra indicación se propone la octosílaba, que es la no marcada (redondilla mayor). Decisión del responsable del proyecto, 9 de noviembre de 2026: la hexasílaba o la heptasílaba se eligen a mano.",
       "aprobacion": null,
       "evidencias_bibliograficas": [],
       "detalles_fuente": [],
@@ -640,11 +640,11 @@
       "identificacion_revisada": null,
       "propuesta": {
         "forma_slug": "redondilla",
-        "arquitectura_slug": null
+        "arquitectura_slug": "octosilabica"
       },
       "candidatas": [],
       "exhaustividad": null,
-      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. Hay varias arquitecturas de medida: el nombre solo no selecciona una.",
+      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. El catálogo admite tres medidas; sin otra indicación se propone la octosílaba, que es la no marcada (redondilla mayor). Decisión del responsable del proyecto, 9 de noviembre de 2026: la hexasílaba o la heptasílaba se eligen a mano.",
       "aprobacion": null,
       "evidencias_bibliograficas": [],
       "detalles_fuente": [],
@@ -778,9 +778,9 @@
       "porcentaje_sobre_rangos_conocidos": 86.83113273106324
     },
     "arquitectura_solo_propuesta": {
-      "segmentos": 3,
-      "versos": 130,
-      "porcentaje_sobre_rangos_conocidos": 4.517025712300208
+      "segmentos": 9,
+      "versos": 1534,
+      "porcentaje_sobre_rangos_conocidos": 53.30090340514246
     },
     "con_candidatas": {
       "segmentos": 0,
@@ -809,7 +809,7 @@
     "fecha": "2026-10-22"
   },
   "entradas_sha256": {
-    "equivalencias.propuestas.json": "816bb97bd27f34821c8dc4ef59154dcd75ea6a0328a07bcaa3697a00e75f6a6f",
+    "equivalencias.propuestas.json": "8b2f5135cf27c601fbacf6c420f55f9331797ec02e1a6cfe0f07ba3f6b053a28",
     "catalogo-referencia.json": "0f65680900ccab33fb9a258e5aca1ae6b2c0373c6dc2aab4192e80d7088e7b06",
     "auditoria-tercetos-2026-10-26.json": "433367a2e24b8e6e5fb213b907c2d810ff2078eda0e2364771070231e8cfc112",
     "segmentacion.propuestas.json": "66bfd37373162eaf06c046093f11cbd7188d0e72519bea0c30c6caefc738cd0f",

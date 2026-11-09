@@ -275,16 +275,16 @@ describe('normalizador local', () => {
 	});
 	it('una aprobación explícita identifica solo lo aprobado: forma sin arquitectura', () => {
 		const ctx = context();
-		ctx.reglas.reglas.find((r) => r.id === 'redondilla').aprobacion = approval;
+		ctx.reglas.reglas.find((r) => r.id === 'quintilla').aprobacion = approval;
 		const result = normalizarExtraccion(raw(), ctx);
-		const row = result.segmentos.find((s) => s.id === 't16');
+		const row = result.segmentos.find((s) => s.id === 't17');
 		expect(row.identificacion_revisada).toEqual({
-			forma_slug: 'redondilla',
+			forma_slug: 'quintilla',
 			arquitectura_slug: null
 		});
 		expect(row.propuesta).toBeNull();
 		expect(row.aprobacion).toEqual(approval);
-		expect(result.cobertura.forma_revisada.versos).toBeGreaterThan(133);
+		expect(result.cobertura.forma_revisada.versos).toBeGreaterThan(49);
 		expect(result.cobertura.arquitectura_revisada.versos).toBe(0);
 	});
 	it('respeta el ámbito por obra y no aprende una equivalencia universal', () => {
@@ -504,6 +504,13 @@ describe('desviaciones declaradas en nota', () => {
 		]);
 		expect(s.desviaciones[0]).toMatchObject({ nota_ref: 'n-desv', fundamento: null });
 	});
+	it('propone como verso que sobra el suelto de la misma medida que la norma', () => {
+		// La nota 35 real de Los locos de Valencia, sobre t16 (redondillas, octosílabas por defecto).
+		const s = normalizarExtraccion(raw(), context()).segmentos.find((x) => x.id === 't16');
+		expect(s.desviaciones).toEqual([
+			expect.objectContaining({ v_ini: 2666, v_fin: 2666, dimension: 'estructura', relacion_norma: 'sobra', nota_ref: 'n02' })
+		]);
+	});
 	it('propone el verso de otra medida cuando la norma de la fila la fija', () => {
 		// La nota 34 real de Los locos de Valencia, sobre t13 (endecasílabos sueltos, vv. 2093-2222).
 		const s = normalizarExtraccion(raw(), context()).segmentos.find((x) => x.id === 't13');
@@ -513,7 +520,8 @@ describe('desviaciones declaradas en nota', () => {
 	});
 	it('no propone nada si la nota no se deja leer sin interpretar', () => {
 		expect(conNota(1, 'Los vv. 140-150 son de otra mano.').desviaciones).toEqual([]);
-		expect(conNota(1, 'El v. 140 es un octosílabo suelto integrado en la serie de redondillas.').desviaciones).toEqual([]);
+		// Sin arquitectura no hay medida con la que comparar (t03: quintillas, vv. 591-990).
+		expect(conNota(2, 'El v. 600 es un octosílabo suelto integrado en la serie de quintillas.').desviaciones).toEqual([]);
 		expect(conNota(1, 'VERSOS CORTOS: véase la introducción.').desviaciones).toEqual([]);
 	});
 });
