@@ -87,8 +87,8 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 - Mejoras del importador que pide el piloto 2. Ya hechas: puntuación final, llamadas de nota
   pegadas, lira-sestina, plurales, romancillo con asonancia, silvas numeradas de Morley y Bruerton
   y sugerencia de jornada para las filas que continúan. Cada cambio debe dejar igual el piloto 1.
-  - **Numeración por jornada y pasajes cantados**: aplicados el 10 de noviembre de 2026. Falta
-    probar el guardado completo desde la interfaz con el *Alcalde* y *Fuenteovejuna*.
+  - **Romance con la asonancia en prosa** («romance de asonancia femenina en á/e», *Alcalde*): no
+    se reconoce como romance; hoy solo se entiende «romance en -ae» o «romance á-e».
   - **Página compartida por dos obras** (*Perro*/*Castigo*): el modelo mezcló las primeras filas de
     la obra siguiente. Para el prompt: transcribir solo la obra indicada.
   - **Jornada mal asignada** a filas que continúan en otra página (*Nolasco*): el modelo les pone
