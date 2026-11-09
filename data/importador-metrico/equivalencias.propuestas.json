@@ -1,6 +1,6 @@
 {
   "esquema": "versologia-equivalencias-propuestas/0.1",
-  "fecha": "2026-11-02",
+  "fecha": "2026-11-09",
   "catalogo_referencia": "catalogo-referencia.json",
   "estado": "propuestas_y_equivalencias_revisadas",
   "revisor_humano": "Responsable del proyecto (estancias y tercetos encadenados con remate)",
@@ -202,18 +202,24 @@
     {
       "id": "soneto",
       "literales": [
-        "soneto"
+        "soneto",
+        "sonetos"
       ],
       "tipo": "equivalencia_propuesta",
       "candidatas": [
         {
           "forma_slug": "soneto",
-          "arquitectura_slug": "endecasilabica_consonante"
+          "arquitectura_slug": null
         }
       ],
       "exhaustividad": "pendiente_de_validacion",
-      "fundamento": "Nombre explícito de la forma. Su identidad en el catálogo permite proponer la arquitectura; no aporta la disposición concreta de cuartetos y tercetos.",
-      "detalles_fuente": []
+      "fundamento": "Soneto y sonetos identifican la forma. La arquitectura queda pendiente. El plural no obliga a dividir: una secuencia puede contener varios sonetos consecutivos (14+14), siempre que la fuente lo documente; no se deduce su agrupación del plural.",
+      "detalles_fuente": [],
+      "aprobacion": {
+        "responsable": "Responsable del proyecto",
+        "fecha": "2026-11-09",
+        "fundamento": "Aprobación explícita en el chat de seguidilla y de la variante plural sonetos. La aprobación comprende la forma; no decide nuevas arquitecturas."
+      }
     },
     {
       "id": "estancias-pareado",
@@ -622,8 +628,509 @@
         "aquellas que no adoptan esta conclusión son las de los vv."
       ],
       "fundamento": "La nota enlazada describe el cierre de las series y enumera las excepciones por rangos. Solo se registra Dístico final en las filas no exceptuadas cuando todas las excepciones se pueden localizar entre las filas enlazadas. No se inventa un valor ausente."
+    },
+    {
+      "id": "catalogo-cancion_petrarquista",
+      "literales": [
+        "canción petrarquista"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "cancion_petrarquista",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-cancion_sin_rima",
+      "literales": [
+        "canción sin rima"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "cancion_sin_rima",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-copla_castellana",
+      "literales": [
+        "copla castellana"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "copla_castellana",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-copla_de_arte_mayor",
+      "literales": [
+        "copla de arte mayor"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "copla_de_arte_mayor",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-copla_de_arte_menor",
+      "literales": [
+        "copla de arte menor"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "copla_de_arte_menor",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-copla_manriquena",
+      "literales": [
+        "copla manriqueña"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "copla_manriquena",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-cuarteto",
+      "literales": [
+        "cuarteto"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "cuarteto",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-cuarteto_lira",
+      "literales": [
+        "cuarteto-lira"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "cuarteto_lira",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-decima",
+      "literales": [
+        "décima"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "decima",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-decima_lira",
+      "literales": [
+        "décima-lira"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "decima_lira",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-endecasilabo_encadenado",
+      "literales": [
+        "endecasílabo encadenado"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "endecasilabo_encadenado",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-endecha_real",
+      "literales": [
+        "endecha real"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "endecha_real",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-estrofa_safica",
+      "literales": [
+        "estrofa sáfica"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "estrofa_safica",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-novena",
+      "literales": [
+        "novena"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "novena",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-novena_lira",
+      "literales": [
+        "novena-lira"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "novena_lira",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-octava_aguda",
+      "literales": [
+        "octava aguda"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "octava_aguda",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-octava_lira",
+      "literales": [
+        "octava-lira"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "octava_lira",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-oncena",
+      "literales": [
+        "oncena"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "oncena",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-pareado",
+      "literales": [
+        "pareado"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "pareado",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-redondilla_enlazada",
+      "literales": [
+        "redondilla enlazada"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "redondilla_enlazada",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-romance_heroico",
+      "literales": [
+        "romance heroico"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "romance_heroico",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-seguidilla",
+      "literales": [
+        "seguidilla"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "seguidilla",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": [],
+      "aprobacion": {
+        "responsable": "Responsable del proyecto",
+        "fecha": "2026-11-09",
+        "fundamento": "Aprobación explícita en el chat de seguidilla y de la variante plural sonetos. La aprobación comprende la forma; no decide nuevas arquitecturas."
+      }
+    },
+    {
+      "id": "catalogo-septeto",
+      "literales": [
+        "septeto"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "septeto",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-septeto_lira",
+      "literales": [
+        "septeto-lira"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "septeto_lira",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-septilla",
+      "literales": [
+        "septilla"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "septilla",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-septilla_enlazada",
+      "literales": [
+        "septilla enlazada"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "septilla_enlazada",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-sexteto",
+      "literales": [
+        "sexteto"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "sexteto",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-sextilla",
+      "literales": [
+        "sextilla"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "sextilla",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-sextilla_enlazada",
+      "literales": [
+        "sextilla enlazada"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "sextilla_enlazada",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-silva",
+      "literales": [
+        "silva"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "silva",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
+    },
+    {
+      "id": "catalogo-verso_aislado",
+      "literales": [
+        "verso aislado"
+      ],
+      "tipo": "equivalencia_propuesta",
+      "candidatas": [
+        {
+          "forma_slug": "verso_aislado",
+          "arquitectura_slug": null
+        }
+      ],
+      "exhaustividad": "pendiente_de_validacion",
+      "fundamento": "Denominación explícita coincidente con el nombre del catálogo de referencia. Propone únicamente la forma; la persona que importa puede modificarla. No determina arquitectura, realización ni rasgos.",
+      "detalles_fuente": []
     }
   ],
-  "version": "v0.17",
+  "version": "v0.19",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }

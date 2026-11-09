@@ -134,7 +134,7 @@ export function normalizarExtraccion(
 			.replace(/\p{M}/gu, '')
 			.toLowerCase()
 			.match(/^romances?\s+(?:en\s+)?[-–—]?\s*([aeiou])(?:\s*[-–—]?\s*([aeiou]))?$/u);
-		const liraDeSeis = /^liras?\s*\(\s*[a-f](?:\s*[a-f]){5}\s*\)$/iu.test(literalComparado ?? '');
+		const liraDeSeis = /^liras?\s+(?:\(\s*[a-f](?:\s*[a-f]){5}\s*\)|[a-f](?:\s*[a-f]){5})$/iu.test(literalComparado ?? '');
 		const pareados = pareadosEnDenominacion(literalComparado, row);
 		const matches = reference.reglas.filter(
 			(r) =>

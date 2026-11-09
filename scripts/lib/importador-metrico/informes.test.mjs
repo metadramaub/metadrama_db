@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { informeEquivalencias, informeSeguimiento } from './informes.mjs';
+import { informeEquivalencias, informeSeguimiento, reglasPorDenominacion } from './informes.mjs';
 
 describe('informes del piloto', () => {
 	it('acredita guardados por identidad, nunca por coincidencia de título', () => {
@@ -43,5 +43,43 @@ describe('informes del piloto', () => {
 		expect(informe).toContain('Una nota de la edición.');
 		expect(informe).toContain('#### letrilla');
 		expect(informe).toContain('archivo y hash');
+	});
+});
+
+describe('reglas disponibles por denominación', () => {
+	it('separa reglas generales de las que requieren notas, patrón o ámbito', () => {
+		const reglas = [
+			{ id: 'general', literales: ['seguidilla'] },
+			{ id: 'nota', literales: ['seguidilla'], nota_contiene: ['cierre'] },
+			{ id: 'patron', literales: ['seguidilla'], patron: 'especial' },
+			{ id: 'local', literales: ['seguidilla'], ambito: { obras: ['obra'] } }
+		];
+		expect(reglasPorDenominacion(' Seguidilla ', reglas).map((r) => r.id)).toEqual(['general']);
+	});
+	it('muestra una regla pendiente aunque la obra esté bloqueada, sin identificarla', () => {
+		const catalogo = {
+			fecha_consulta_formas: '2026-11-02',
+			formas: [{ nombre: 'Seguidilla', slug: 'seguidilla', arquitecturas: [] }]
+		};
+		const regla = {
+			id: 'seg',
+			literales: ['seguidilla'],
+			tipo: 'equivalencia_propuesta',
+			candidatas: [{ forma_slug: 'seguidilla', arquitectura_slug: null }],
+			fundamento: 'Nombre explícito'
+		};
+		const observacion = {
+			literal: 'seguidilla',
+			origenes: ['Obra, t01'],
+			resultados: new Set(['Preparación bloqueada']),
+			apariciones: [
+				{ obra: 'Obra', fila: 't01', preparacion_bloqueada: true, formas: [], formas_identificadas: [], notas: [] }
+			]
+		};
+		const informe = informeEquivalencias(catalogo, { version: 'v0.18', reglas: [regla] }, [observacion]);
+		expect(informe).toContain(
+			'| seguidilla | seg | Seguidilla / sin arquitectura | Pendiente de revisión | Bloqueadas: Obra, t01 |'
+		);
+		expect(informe).toContain('Preparación bloqueada');
 	});
 });

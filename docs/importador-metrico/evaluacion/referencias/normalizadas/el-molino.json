@@ -4,7 +4,7 @@
   "estado": "borrador_de_trabajo",
   "apta_para_corpus": false,
   "obra_ref": "el-molino",
-  "reglas_version": "v0.17",
+  "reglas_version": "v0.19",
   "catalogo_referencia": {
     "estado": {
       "actualizado_en": "2026-10-19T11:26:16.630786+00:00",
@@ -447,16 +447,20 @@
         "notas_ref": []
       },
       "regla_id": "soneto",
-      "estado_identificacion": "propuesta",
-      "identificacion_revisada": null,
-      "propuesta": {
+      "estado_identificacion": "revisada",
+      "identificacion_revisada": {
         "forma_slug": "soneto",
-        "arquitectura_slug": "endecasilabica_consonante"
+        "arquitectura_slug": null
       },
+      "propuesta": null,
       "candidatas": [],
       "exhaustividad": null,
-      "fundamento": "Nombre explícito de la forma. Su identidad en el catálogo permite proponer la arquitectura; no aporta la disposición concreta de cuartetos y tercetos.",
-      "aprobacion": null,
+      "fundamento": "Soneto y sonetos identifican la forma. La arquitectura queda pendiente. El plural no obliga a dividir: una secuencia puede contener varios sonetos consecutivos (14+14), siempre que la fuente lo documente; no se deduce su agrupación del plural.",
+      "aprobacion": {
+        "responsable": "Responsable del proyecto",
+        "fecha": "2026-11-09",
+        "fundamento": "Aprobación explícita en el chat de seguidilla y de la variante plural sonetos. La aprobación comprende la forma; no decide nuevas arquitecturas."
+      },
       "evidencias_bibliograficas": [],
       "detalles_fuente": [],
       "caracterizaciones": [],
@@ -775,9 +779,9 @@
     "versos": 2992,
     "segmentos_sin_rango": 0,
     "forma_revisada": {
-      "segmentos": 2,
-      "versos": 63,
-      "porcentaje_sobre_rangos_conocidos": 2.105614973262032
+      "segmentos": 3,
+      "versos": 77,
+      "porcentaje_sobre_rangos_conocidos": 2.573529411764706
     },
     "arquitectura_revisada": {
       "segmentos": 2,
@@ -785,14 +789,14 @@
       "porcentaje_sobre_rangos_conocidos": 2.105614973262032
     },
     "forma_solo_propuesta": {
-      "segmentos": 18,
-      "versos": 2920,
-      "porcentaje_sobre_rangos_conocidos": 97.59358288770053
+      "segmentos": 17,
+      "versos": 2906,
+      "porcentaje_sobre_rangos_conocidos": 97.12566844919786
     },
     "arquitectura_solo_propuesta": {
-      "segmentos": 5,
-      "versos": 216,
-      "porcentaje_sobre_rangos_conocidos": 7.219251336898396
+      "segmentos": 4,
+      "versos": 202,
+      "porcentaje_sobre_rangos_conocidos": 6.751336898395722
     },
     "con_candidatas": {
       "segmentos": 1,
@@ -821,7 +825,7 @@
     "fecha": "2026-10-22"
   },
   "entradas_sha256": {
-    "equivalencias.propuestas.json": "be6afa45bcb30a3eed71bc79515a8561a82da9c97f0da8152a29ef7b37b2363b",
+    "equivalencias.propuestas.json": "0ebdfe2570beab7fab7b09701892171b6c5ad2080bac95ae38635a554ffe667d",
     "catalogo-referencia.json": "0f65680900ccab33fb9a258e5aca1ae6b2c0373c6dc2aab4192e80d7088e7b06",
     "auditoria-tercetos-2026-10-26.json": "433367a2e24b8e6e5fb213b907c2d810ff2078eda0e2364771070231e8cfc112",
     "segmentacion.propuestas.json": "66bfd37373162eaf06c046093f11cbd7188d0e72519bea0c30c6caefc738cd0f",

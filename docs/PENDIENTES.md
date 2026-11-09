@@ -79,8 +79,12 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
+- Comparar la construcción del JSON y las decisiones sobre notas mediante tareas acotadas;
+  conservar el lote difícil como resistencia y pedir nuevas fotos completas para evaluación
+  independiente cuando esté preparado el protocolo.
+
 Entrada vigente: [índice del importador](importador-metrico/README.md). El dashboard ofrece
-el prompt 0.15; la candidata de evaluación es 0.27. Las reglas de equivalencias v0.17 son
+el prompt 0.15; la candidata de evaluación es 0.27. Las reglas de equivalencias v0.19 son
 independientes de esas versiones de prompt y su último ajuste está probado localmente.
 
 - Revisar el [lote de veinte de GPT-6 High](importador-metrico/evaluacion/informes/chatgpt-gpt6-high-v0.27.md)

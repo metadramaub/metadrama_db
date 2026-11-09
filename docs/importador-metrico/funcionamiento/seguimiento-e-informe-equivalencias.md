@@ -66,3 +66,16 @@ fundamentan los informes están conservadas en `evaluacion/ensayos/anteriores/`,
 de hashes; las nuevas se agrupan por versión y modelo. Si falta una entrada, el generador lo
 declara y no trata esa obra como carente de términos desconocidos. Cada entrada leída queda
 identificada por su archivo y SHA-256. Las reglas de aplicación están en `data/importador-metrico/`.
+
+## Entradas del inventario terminológico
+
+El informe de equivalencias toma las veinte respuestas originales del lote 0.27 de
+GPT-6 High enumeradas en su registro de cotejo, independientemente del seguimiento
+histórico de guardados. No las convierte en gold. Una obra bloqueada por incidencias
+numéricas sigue aportando sus denominaciones y notas al inventario: sus apariciones
+se muestran bloqueadas en esa preparación. La tabla «Reglas disponibles por denominación»
+recoge coincidencias generales literales, su destino y aprobación, sin afirmar que se han
+aplicado a la obra. Las reglas condicionadas a notas, patrones o ámbitos requieren su
+evaluación propia y no se incluyen como coincidencias simples.
+Los guardados conservan su fuente y fecha de consulta; regenerar este informe no
+actualiza Supabase ni acredita nuevos guardados.

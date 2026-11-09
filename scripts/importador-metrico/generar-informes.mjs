@@ -5,7 +5,8 @@ import { resolve, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { normalizarExtraccion } from '../lib/importador-metrico/normalizacion.mjs';
-import { informeSeguimiento, informeEquivalencias } from '../lib/importador-metrico/informes.mjs';
+import { completarExtraccion } from '../lib/importador-metrico/completar-extraccion.mjs';
+import { informeSeguimiento, informeEquivalencias, reglasPorDenominacion } from '../lib/importador-metrico/informes.mjs';
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const args = process.argv.slice(2);
@@ -24,8 +25,14 @@ const registro = read('registro-guardados.json');
 const reglas = read('equivalencias.propuestas.json'), catalogo = read('catalogo-referencia.json');
 const bibliografia = read('bibliografia-contraste.json');
 const observaciones = new Map(), problemas = [], evidencias = [];
-for (const obra of lote.obras) {
-	const archivo = obra.entradas.at(-1);
+// El inventario lee las veinte respuestas del lote 0.27, no la última entrada del seguimiento.
+const lote027 = 'docs/importador-metrico/evaluacion/ensayos/v0.27/ChatGPT GPT-6 High/';
+const cotejo = JSON.parse(readFileSync(join(repo, lote027, 'revision-transcripcion.json'), 'utf8'));
+const slugTitulo = (titulo) =>
+	titulo.split(' (')[0].normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+for (const obra of cotejo.obras) {
+	const archivo = lote027 + obra.archivo;
+	obra.titulo = lote.obras.find((o) => slugTitulo(o.titulo) === obra.slug)?.titulo ?? obra.slug;
 	if (!archivo) continue;
 	const path = resolve(repo, archivo);
 	if (!path.startsWith(repo + '/') && !path.startsWith(repo + '\\')) throw new Error('Entrada fuera del repositorio');
@@ -33,8 +40,17 @@ for (const obra of lote.obras) {
 	const contenido = readFileSync(path, 'utf8');
 	evidencias.push(`- ${obra.titulo}: \`${archivo}\`, SHA-256 \`${createHash('sha256').update(contenido).digest('hex')}\`.`);
 	try {
-		const raw = JSON.parse(contenido);
-		const resultado = normalizarExtraccion(raw, { reglas, catalogo, bibliografia });
+		const raw = completarExtraccion(JSON.parse(contenido));
+		let resultado;
+		let preparacionBloqueada = false;
+		try {
+			resultado = normalizarExtraccion(raw, { reglas, catalogo, bibliografia });
+		} catch (error) {
+			// Una obra bloqueada por cifras sigue aportando su vocabulario al inventario.
+			preparacionBloqueada = true;
+			problemas.push(`${obra.titulo}: ${error.message}; se conserva el inventario y se muestran por separado las reglas disponibles por denominación.`);
+			resultado = { segmentos: raw.tramos.map((fuente) => ({ fuente, v_ini: fuente.v_ini, v_fin: fuente.v_fin, candidatas: [], regla_id: null })) };
+		}
 		for (const s of resultado.segmentos) {
 			const literal = s.fuente.denominacion_literal ?? '(sin denominación)';
 			if (!observaciones.has(literal)) observaciones.set(literal, { literal, origenes: [], resultados: new Set(), apariciones: [] });
@@ -44,11 +60,13 @@ for (const obra of lote.obras) {
 			if (!o.origenes.includes(origen)) {
 				o.origenes.push(origen);
 				o.apariciones.push({ obra: obra.titulo, fila: s.fuente.id, v_ini: s.v_ini, v_fin: s.v_fin,
-					regla_id: s.regla_id, formas: destino ? [destino.forma_slug] : s.candidatas.map((c) => c.forma_slug),
+					preparacion_bloqueada: preparacionBloqueada, regla_id: s.regla_id, formas: destino ? [destino.forma_slug] : s.candidatas.map((c) => c.forma_slug),
 					formas_identificadas: destino ? [destino.forma_slug] : [],
 					notas: (raw.notas ?? []).filter((n) => s.fuente.notas_ref?.includes(n.id)).map((n) => n.texto_literal).filter(Boolean) });
 			}
-			o.resultados.add(destino ? `${destino.forma_slug}${destino.arquitectura_slug ? ' / ' + destino.arquitectura_slug : ''} (${s.regla_id})` : s.candidatas.length ? `Sin resolver; candidatas: ${s.candidatas.map((c) => c.forma_slug).join(', ')}` : 'Sin equivalencia');
+			const disponibles = reglasPorDenominacion(literal, reglas.reglas);
+			if (preparacionBloqueada) o.resultados.add('Preparación bloqueada por incidencias de la obra; ' + (disponibles.length ? 'reglas disponibles por denominación: ' + disponibles.map((r) => r.id).join(', ') : 'sin coincidencia literal general; notas y patrones sin evaluar'));
+			else o.resultados.add(destino ? `${destino.forma_slug}${destino.arquitectura_slug ? ' / ' + destino.arquitectura_slug : ''} (${s.regla_id})` : s.candidatas.length ? `Sin resolver; candidatas: ${s.candidatas.map((c) => c.forma_slug).join(', ')}` : 'Sin identificación en esta preparación');
 		}
 	} catch (error) { problemas.push(`${obra.titulo}: ${error.message}`); }
 }

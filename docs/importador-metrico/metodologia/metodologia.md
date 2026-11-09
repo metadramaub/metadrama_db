@@ -167,3 +167,12 @@ Quedan por concretar las condiciones para seleccionar cada resultado difundible.
 Como propuesta para validar, al situar una obra respecto al autor se excluirá la propia obra y sus
 versiones del referente. También deben fijarse la unidad de agregación, el tratamiento de fechas
 amplias y las condiciones que permitan redactar una comparación pública.
+
+## Aprobaciones terminológicas del 9 de noviembre de 2026
+
+Seguidilla y la variante plural sonetos se aprueban al nivel de forma. La arquitectura
+de Soneto queda pendiente de decisión del proyecto. El plural no determina segmentación:
+una secuencia puede incluir varios sonetos consecutivos, por ejemplo 14+14 versos,
+sin dividirlos automáticamente. Hay que comprobar si el plural denomina varias unidades
+contiguas; no se ha acreditado todavía ese caso en el lote. Las restantes decisiones
+pendientes se mantienen hasta la consulta con el proyecto.

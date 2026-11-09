@@ -154,7 +154,7 @@ describe('normalizador local', () => {
 		expect(JSON.parse(result.stdout)).toMatchObject({
 			obras: 4,
 			versos: 11754,
-			forma_revisada: 442
+			forma_revisada: 470
 		});
 	});
 	it('la CLI rechaza opciones no declaradas antes de regenerar archivos', () => {
@@ -184,7 +184,7 @@ describe('normalizador local', () => {
 			expect(result.segmentos.map((s) => s.fuente)).toEqual(input.tramos);
 			expect(result.segmentos).toHaveLength(input.tramos.length);
 			expect(result.apta_para_corpus).toBe(false);
-			expect(result.cobertura.forma_revisada.versos).toBe(({ 'el-verdadero-amante': 379, 'el-molino': 63 }[ref] ?? 0));
+			expect(result.cobertura.forma_revisada.versos).toBe(({ 'el-verdadero-amante': 379, 'el-molino': 77, 'los-locos-de-valencia': 14 }[ref] ?? 0));
 			total += result.cobertura.versos;
 		}
 		expect(total).toBe(11754);
@@ -392,5 +392,30 @@ describe('normalizador local', () => {
 		expect(report).toContain('2880–2888');
 		expect(report).toContain('No importado');
 		expect(report).toContain('no son probabilidades');
+	});
+});
+
+describe('ampliación terminológica v0.18', () => {
+	const casos = [
+		['seguidilla', 'seguidilla'],
+		['sonetos', 'soneto'],
+		['liras aBaBcC', 'sexteto_lira']
+	];
+	for (const [literal, forma] of casos) {
+		it(`propone ${literal} conservando el literal`, () => {
+			const input = raw();
+			input.tramos[0].denominacion_literal = literal;
+			const segmento = normalizarExtraccion(input, context()).segmentos[0];
+			expect((segmento.identificacion_revisada ?? segmento.propuesta).forma_slug).toBe(forma);
+			expect(segmento.fuente.denominacion_literal).toBe(literal);
+		});
+	}
+	it('las coincidencias de catálogo sin aprobar no inventan arquitectura ni aprobación', () => {
+		const nuevas = reglas.reglas.filter((r) => r.id.startsWith('catalogo-') && r.id !== 'catalogo-seguidilla');
+		expect(nuevas.length).toBeGreaterThan(20);
+		for (const regla of nuevas) {
+			expect(regla.aprobacion).toBeUndefined();
+			expect(regla.candidatas[0].arquitectura_slug).toBeNull();
+		}
 	});
 });

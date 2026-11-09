@@ -6,6 +6,11 @@ Las fichas detalladas mantienen su anotación v2 y prevalecen al publicarse.
 
 ## Trabajo actual
 
+El inventario terminológico incorpora las veinte respuestas 0.27, incluidas las obras
+bloqueadas por discrepancias numéricas. El evaluador comparte la compleción mecánica
+del dashboard. Las reglas v0.19 amplían las propuestas por nombre explícito del catálogo sin
+inferir arquitecturas.
+
 **El prompt para las próximas pruebas es [0.27](../../prompts/importador-metrico/extraccion-v0.27.md).**
 El botón del dashboard sigue copiando 0.15; la candidata no se ha activado.
 Ya se han conservado las veinte respuestas de GPT-6 High, sin reintentos, y las cinco recibidas

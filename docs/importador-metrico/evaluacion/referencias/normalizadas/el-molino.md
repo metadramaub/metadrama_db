@@ -2,7 +2,7 @@
 
 **Borrador de trabajo. No importado ni apto para incorporarse automáticamente al corpus.**
 
-Reglas v0.17; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
+Reglas v0.19; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
 
 Fechas conservadas: 1585–1593. Fuente: VEGA CARPIO, Lope de, y Patrizia CAMPANA, El molino, en Comedias de Lope de Vega. Parte I, Lérida, Milenio-Universitat Autònoma de Barcelona, 1997, 3 vols, III, pp. 1547-1686.
 
@@ -12,10 +12,10 @@ Denominador: 2992 versos con rango conocido; 0 segmentos sin rango. Las arquitec
 
 | Medida | Segmentos | Versos | % |
 | --- | --- | --- | --- |
-| forma revisada | 2 | 63 | 2.106 |
+| forma revisada | 3 | 77 | 2.574 |
 | arquitectura revisada | 2 | 63 | 2.106 |
-| forma solo propuesta | 18 | 2920 | 97.594 |
-| arquitectura solo propuesta | 5 | 216 | 7.219 |
+| forma solo propuesta | 17 | 2906 | 97.126 |
+| arquitectura solo propuesta | 4 | 202 | 6.751 |
 | con candidatas | 1 | 9 | 0.301 |
 | sin resolver | 0 | 0 | 0.000 |
 
@@ -34,7 +34,7 @@ Denominador: 2992 versos con rango conocido; 0 segmentos sin rango. Las arquitec
 | t09 | 2 | 1794–1831 | endecasílabos sueltos (con pareado final) | revisada | endecasilabo_suelto | — | — | pareado final | — |
 | t10 | 2 | 1832–1963 | tercetos encadenados | propuesta | — | terceto_encadenado | — | — | — |
 | t11 | 2 | 1964–1988 | endecasílabos sueltos (con pareado final) | revisada | endecasilabo_suelto | — | — | pareado final | — |
-| t12 | 3 | 1989–2002 | soneto | propuesta | — | soneto | — | — | — |
+| t12 | 3 | 1989–2002 | soneto | revisada | soneto | — | — | — | — |
 | t13 | 3 | 2003–2247 | quintillas | propuesta | — | quintilla | — | — | — |
 | t14 | 3 | 2248–2271 | octavas reales | propuesta | — | octava_real | — | — | — |
 | t15 | 3 | 2272–2387 | redondillas | propuesta | — | redondilla | — | — | — |

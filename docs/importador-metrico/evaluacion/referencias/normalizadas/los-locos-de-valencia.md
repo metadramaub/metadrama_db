@@ -2,7 +2,7 @@
 
 **Borrador de trabajo. No importado ni apto para incorporarse automáticamente al corpus.**
 
-Reglas v0.17; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
+Reglas v0.19; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
 
 Fechas conservadas: 1592–1595. Fuente: VEGA CARPIO, Lope de, Los locos de Valencia, ed. Carlos Peña, en Comedias de Lope de Vega. Parte XIII, coord. Natalia Fernández Rodríguez, Madrid, Gredos, 2014, 2 vols, II, pp. 167-328.
 
@@ -12,10 +12,10 @@ Denominador: 3072 versos con rango conocido; 0 segmentos sin rango. Las arquitec
 
 | Medida | Segmentos | Versos | % |
 | --- | --- | --- | --- |
-| forma revisada | 0 | 0 | 0.000 |
+| forma revisada | 1 | 14 | 0.456 |
 | arquitectura revisada | 0 | 0 | 0.000 |
-| forma solo propuesta | 20 | 3072 | 100.000 |
-| arquitectura solo propuesta | 9 | 541 | 17.611 |
+| forma solo propuesta | 19 | 3058 | 99.544 |
+| arquitectura solo propuesta | 8 | 527 | 17.155 |
 | con candidatas | 0 | 0 | 0.000 |
 | sin resolver | 0 | 0 | 0.000 |
 
@@ -27,7 +27,7 @@ Denominador: 3072 versos con rango conocido; 0 segmentos sin rango. Las arquitec
 | t02 | 1 | 131–590 | redondillas | propuesta | — | redondilla | — | — | — |
 | t03 | 1 | 591–990 | quintillas | propuesta | — | quintilla | — | — | — |
 | t04 | 1 | 991–1006 | endecasílabos sueltos | propuesta | — | endecasilabo_suelto | — | — | — |
-| t05 | 1 | 1007–1020 | soneto | propuesta | — | soneto | — | — | — |
+| t05 | 1 | 1007–1020 | soneto | revisada | soneto | — | — | — | — |
 | t06 | 1 | 1021–1050 | endecasílabos sueltos | propuesta | — | endecasilabo_suelto | — | — | — |
 | t07 | 2 | 1051–1082 | octavas reales | propuesta | — | octava_real | — | — | — |
 | t08 | 2 | 1083–1466 | redondillas | propuesta | — | redondilla | — | — | — |

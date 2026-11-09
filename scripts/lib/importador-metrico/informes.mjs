@@ -1,4 +1,12 @@
 /** Informes locales: las reglas describen posibilidades, no certifican su presencia en el corpus. */
+
+/** Coincidencia de denominación disponible para revisar, sin ejecutar condiciones ni validar la obra. */
+export function reglasPorDenominacion(literal, reglas) {
+	const clave = (s) => String(s ?? '').normalize('NFC').replace(/\s+/gu, ' ').trim().toLocaleLowerCase('es');
+	return reglas.filter(
+		(r) => !r.ambito && !r.nota_contiene && !r.patron && r.literales.some((l) => clave(l) === clave(literal))
+	);
+}
 export const celda = (s) => String(s ?? '—').replaceAll('|', '\\|').replace(/\r?\n/g, ' ');
 export function informeSeguimiento(lote, registro) {
 	const lineas = ['# Seguimiento de las veinte obras del piloto', '',
@@ -38,12 +46,27 @@ export function informeEquivalencias(catalogo, equivalencias, observaciones, pro
 		'Generado con `npm run importador:informes`; corregir las reglas o decisiones de origen, no este informe.', '',
 		`Reglas ${equivalencias.version}; catálogo consultado el ${catalogo.fecha_consulta_formas}.`, '',
 		'Para revisar: decisiones pendientes y tabla resumen. La procedencia y los casos complejos permiten comprobar ejemplos; el anexo conserva todas las apariciones y las reglas completas.', '',
-		'[Decisiones](#decisiones-pendientes) · [Resumen](#tabla-resumen) · [Procedencia](#procedencia-en-las-obras-del-piloto) · [Casos complejos](#casos-complejos) · [Anexo](#anexo-tecnico-y-documental)', '',
+		'[Decisiones](#decisiones-pendientes) · [Reglas disponibles](#reglas-disponibles-por-denominación) · [Resumen](#tabla-resumen) · [Procedencia](#procedencia-en-las-obras-del-piloto) · [Casos complejos](#casos-complejos) · [Anexo](#anexo-tecnico-y-documental)', '',
 		'## Decisiones pendientes', '',
 		'Estas propuestas no modifican las equivalencias hasta que se acuerde el criterio.', '',
 		'| Término o caso | Criterio actual | Propuesta | Qué decidir |', '| --- | --- | --- | --- |'];
 	for (const d of opciones.decisiones ?? []) l.push(`| ${celda(d.asunto)} | ${celda(d.actual)} | ${celda(d.propuesta)} | ${celda(d.decidir)} |`);
 	if (!(opciones.decisiones?.length)) l.push('| — | No se han suministrado decisiones para este informe | — | — |');
+	l.push('', '## Reglas disponibles por denominación', '',
+		'Esta tabla comprueba la coincidencia literal con reglas generales sin condiciones. No aplica reglas por notas o patrones, ni identifica una obra bloqueada. La revisión de la regla y el bloqueo numérico son independientes. Las reglas aprobadas conservan su aprobación; las otras siguen siendo propuestas.', '',
+		'| Denominación observada | Regla disponible | Destino propuesto | Revisión | Preparación de las apariciones |',
+		'| --- | --- | --- | --- | --- |');
+	for (const o of ordenadas) {
+		for (const regla of reglasPorDenominacion(o.literal, reglas)) {
+			const destino = regla.candidatas.map((c) => {
+				const f = catalogo.formas.find((f) => f.slug === c.forma_slug);
+				return (f?.nombre ?? c.forma_slug) + (c.arquitectura_slug ? ' / ' + c.arquitectura_slug : ' / sin arquitectura');
+			}).join('; ') || 'Sin resolver';
+			const bloqueadas = (o.apariciones ?? []).filter((a) => a.preparacion_bloqueada).map((a) => `${a.obra}, ${a.fila}`);
+			const preparacion = bloqueadas.length ? 'Bloqueadas: ' + celda(bloqueadas.join('; ')) : 'Sin bloqueo registrado en estas apariciones';
+			l.push(`| ${celda(o.literal)} | ${celda(regla.id)} | ${celda(destino)} | ${regla.aprobacion ? 'Aprobada' : 'Pendiente de revisión'} | ${preparacion} |`);
+		}
+	}
 	l.push('', '## Tabla resumen', '',
 		'Formas identificadas o planteadas como candidatas en las entradas disponibles. «Sin especificar» no significa ausencia. La revisión indicada corresponde a las reglas, no a la validación de cada obra.', '',
 		'| Forma del catálogo | Términos de las ediciones | Arquitectura identificable | Situación | Ejemplos del piloto |', '| --- | --- | --- | --- | --- |');
@@ -60,8 +83,8 @@ export function informeEquivalencias(catalogo, equivalencias, observaciones, pro
 		});
 		l.push(`| ${celda(f.nombre)} | ${terminos.join('; ')} | ${celda(arquitecturas.join('; ') || 'Sin especificar')} | ${situacion} | ${celda(ejemplos.join('; '))} |`);
 	}
-	l.push('', '### Formas aún no encontradas en las entradas revisadas', '',
-		'No requieren inventar una equivalencia ahora. Esta lista describe las extracciones disponibles del piloto, no todo el repertorio de las veinte fotografías.', '',
+	l.push('', '### Formas sin identificación ni candidatas en esta preparación', '',
+		'Esta lista describe el resultado de la preparación, no la ausencia de esas denominaciones en las fotos. Una obra bloqueada puede contener términos con reglas disponibles, recogidos por separado en la tabla de coincidencias literales. No requiere inventar equivalencias.', '',
 		noEncontradas.map((f) => catalogo.formas.filter((otra) => otra.nombre === f.nombre).length > 1 ? `${f.nombre} (${f.slug})` : f.nombre).join('; ') + '.', '',
 		`Referencia completa: ${catalogo.formas.length} formas; ${sinRegla.length} sin regla directa de importación. El detalle de cobertura está en el anexo.`, '');
 	if (problemas.length) l.push('**Entradas no disponibles o no válidas:**', '', ...problemas.map((p) => `- ${p}`), '');

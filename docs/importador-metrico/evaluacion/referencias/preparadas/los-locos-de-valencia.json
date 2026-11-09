@@ -139,7 +139,7 @@
         },
         "identificacion": {
           "forma_slug": "soneto",
-          "arquitectura_slug": "endecasilabica_consonante"
+          "arquitectura_slug": null
         },
         "candidatas": [],
         "regla_id": "soneto",
@@ -510,11 +510,11 @@
       }
     ],
     "procedencia": {
-      "reglas_version": "v0.17",
+      "reglas_version": "v0.19",
       "catalogo_revision": 4948,
       "extraccion_sha256": "a555c6ef148c98ace3d15278131a07458a602606bc0185e413622a8db60f29af",
       "entradas_sha256": {
-        "equivalencias.propuestas.json": "be6afa45bcb30a3eed71bc79515a8561a82da9c97f0da8152a29ef7b37b2363b",
+        "equivalencias.propuestas.json": "0ebdfe2570beab7fab7b09701892171b6c5ad2080bac95ae38635a554ffe667d",
         "catalogo-referencia.json": "0f65680900ccab33fb9a258e5aca1ae6b2c0373c6dc2aab4192e80d7088e7b06",
         "auditoria-tercetos-2026-10-26.json": "433367a2e24b8e6e5fb213b907c2d810ff2078eda0e2364771070231e8cfc112",
         "segmentacion.propuestas.json": "66bfd37373162eaf06c046093f11cbd7188d0e72519bea0c30c6caefc738cd0f",
@@ -533,7 +533,7 @@
     "bloques": 20,
     "segmentacion_confirmada": false,
     "forma_identificada": 3072,
-    "arquitectura_identificada": 541,
+    "arquitectura_identificada": 527,
     "forma_pendiente": 0,
     "con_candidatas": 0,
     "sin_identificacion": 0,
