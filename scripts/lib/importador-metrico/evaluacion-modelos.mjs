@@ -1,5 +1,6 @@
 /** Cotejo de respuestas sin corregirlas. No puntúa interpretaciones métricas ni estima probabilidades. */
 import { extraccionSchema, validarTextoExtraccion } from './validacion.mjs';
+import { completarExtraccion } from './completar-extraccion.mjs';
 const normalizar = (v) =>
 	typeof v === 'string' ? v.normalize('NFC').replace(/\s+/gu, ' ').trim() : v;
 const igual = (a, b) => JSON.stringify(a) === JSON.stringify(b);
@@ -43,6 +44,9 @@ export function evaluarRespuestaModelo(texto, gold) {
 			motivo: 'json_no_interpretable'
 		};
 	}
+	const estructuraOriginal = extraccionSchema.safeParse(respuesta);
+	// Misma compleción que el dashboard: se mide la lectura, no el envoltorio que el prompt ya no pide.
+	respuesta = completarExtraccion(respuesta);
 	const schema = extraccionSchema.safeParse(respuesta);
 	const diferencias = [];
 	const diferenciasFormato = [];
@@ -151,6 +155,7 @@ export function evaluarRespuestaModelo(texto, gold) {
 	return {
 		json_valido: true,
 		formato: bloque ? 'bloque_json' : 'json_directo',
+		estructura_original_valida: estructuraOriginal.success,
 		estructura_valida: schema.success,
 		errores_estructura: schema.success
 			? []
@@ -163,7 +168,7 @@ export function evaluarRespuestaModelo(texto, gold) {
 		requiere_cotejo_incidencias: revisionIncidencias,
 		lista_para_importar_sin_corregir:
 			schema.success && diferencias.length === 0 && !revisionIncidencias,
-		validacion_tecnica: validarTextoExtraccion(bloque ? bloque[1] : texto),
+		validacion_tecnica: validarTextoExtraccion(JSON.stringify(respuesta)),
 		criterio:
 			'Cotejo literal con transcripción aceptada. Diferencias por fila y campo; no son tasas independientes ni un ranking de modelos.'
 	};

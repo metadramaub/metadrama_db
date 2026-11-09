@@ -53,3 +53,17 @@ Los archivos JSON de seguimiento y decisiones son editables; los informes y deri
 regeneran con los comandos de [seguimiento](../funcionamiento/seguimiento-e-informe-equivalencias.md).
 Los manifiestos de fuentes y las auditorías fechadas en `referencias/` son evidencias del piloto,
 no un catálogo vivo ni instrucciones para el modelo.
+
+## Preparación común y condiciones del siguiente ensayo
+
+El evaluador y el dashboard comparten `completarExtraccion`: los campos internos y
+los enlaces inversos se completan en una copia. El informe distingue la estructura
+original de la estructura tras esa compleción; esta operación no corrige cifras,
+esquemas ni decisiones sobre notas y no modifica las respuestas conservadas.
+
+Las fotografías difíciles del piloto son pruebas de resistencia deliberadas. El uso
+previsto empleará fotografías completas y legibles. La próxima comparación debe
+centrarse en construir el JSON y proponer interpretaciones trazables de las notas,
+siempre modificables por quien importa. No se mezcla la prueba de resistencia con
+una estimación de rendimiento en condiciones habituales. Las nuevas fotografías se
+solicitarán al investigador cuando se prepare el lote independiente.

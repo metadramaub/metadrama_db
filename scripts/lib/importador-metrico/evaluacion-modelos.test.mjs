@@ -94,3 +94,17 @@ describe('cotejo de modelos de extracción', () => {
 		});
 	});
 });
+
+it('comparte la compleción 0.27 sin alterar el original', () => {
+	const d = structuredClone(gold);
+	delete d.estado_revision;
+	delete d.revision_humana;
+	delete d.obra_ref;
+	for (const t of d.tramos) delete t.notas_ref;
+	const antes = JSON.stringify(d);
+	const resultado = evaluar(d);
+	expect(resultado.estructura_original_valida).toBe(false);
+	expect(resultado.estructura_valida).toBe(true);
+	expect(resultado.diferencias).toEqual([]);
+	expect(JSON.stringify(d)).toBe(antes);
+});
