@@ -87,7 +87,7 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
   independiente cuando esté preparado el protocolo.
 
 Entrada vigente: [índice del importador](importador-metrico/README.md). El dashboard ofrece
-el prompt 0.15; la candidata de evaluación es 0.27. Las reglas de equivalencias v0.19 son
+el prompt 0.27. Las reglas de equivalencias v0.19 son
 independientes de esas versiones de prompt y su último ajuste está probado localmente.
 
 - Revisar el [lote de veinte de GPT-6 High](importador-metrico/evaluacion/informes/chatgpt-gpt6-high-v0.27.md)
@@ -102,8 +102,7 @@ independientes de esas versiones de prompt y su último ajuste está probado loc
   y los [casos complejos](importador-metrico/equivalencias/casos-complejos-equivalencias.md).
   No identificar octavas, tercetos, letrillas o sextinas únicamente por el número de versos.
 - Preparar una guía breve y probar el circuito con un importador real, incluida su cuenta y el
-  modelo que tenga disponible. Decidir la activación del 0.27 después de resolver los puntos
-  anteriores. Mantener respuestas originales; no cerrar casos mediante JSON reparados a mano.
+  modelo que tenga disponible. Mantener respuestas originales; no cerrar casos mediante JSON reparados a mano.
 - Definir la futura edición/reimportación de básicas: sustitución explícita de la copia y fecha
   de modificación en la misma operación, conservando el alta original. No hay autorización de
   borrado o reimportación automática de las obras de prueba por cerrar este lote.

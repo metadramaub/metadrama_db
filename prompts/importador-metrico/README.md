@@ -2,8 +2,7 @@
 
 | Uso | Archivo | Estado |
 | --- | --- | --- |
-| Próxima comparación con las veinte obras | [Extracción 0.27](./extraccion-v0.27.md) | En evaluación; usar este para las nuevas pruebas |
-| Botón «Copiar prompt» del dashboard | [Extracción 0.15](./extraccion-v0.15.md) | Versión activa; no se ha sustituido por la candidata |
+| Botón «Copiar prompt» del dashboard y nuevas pruebas | [Extracción 0.27](./extraccion-v0.27.md) | Versión activa desde el 9 de noviembre de 2026 |
 
 Copiar el contenido completo del archivo de extracción y adjuntar las fotos de una obra.
 No hay que adjuntar referencias de equivalencias: la transcripción conserva los términos

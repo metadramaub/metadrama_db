@@ -22,7 +22,7 @@ import molino from '../../../../docs/importador-metrico/evaluacion/referencias/e
 import amante from '../../../../docs/importador-metrico/evaluacion/referencias/extracciones/el-verdadero-amante.json?raw';
 import donaires from '../../../../docs/importador-metrico/evaluacion/referencias/extracciones/los-donaires-de-matico.json?raw';
 import locos from '../../../../docs/importador-metrico/evaluacion/referencias/extracciones/los-locos-de-valencia.json?raw';
-import prompt from '../../../../prompts/importador-metrico/extraccion-v0.15.md?raw';
+import prompt from '../../../../prompts/importador-metrico/extraccion-v0.27.md?raw';
 import type {
 	FichaMinima,
 	BorradorFichaMinima,
