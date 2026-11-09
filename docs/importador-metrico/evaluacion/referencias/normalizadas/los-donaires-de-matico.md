@@ -2,7 +2,7 @@
 
 **Borrador de trabajo. No importado ni apto para incorporarse automáticamente al corpus.**
 
-Reglas v0.24; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
+Reglas v0.25; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
 
 Fechas conservadas: 1589–1603. Fuente: VEGA CARPIO, Lope de, Los donaires de Matico, ed. Marco Presotto, en Comedias de Lope de Vega. Parte I, Lérida, Milenio-Universitat Autònoma de Barcelona, 1997, 3 vols, I, pp. 115-254.
 
@@ -15,7 +15,7 @@ Denominador: 2812 versos con rango conocido; 0 segmentos sin rango. Las arquitec
 | forma revisada | 0 | 0 | 0.000 |
 | arquitectura revisada | 0 | 0 | 0.000 |
 | forma solo propuesta | 16 | 2540 | 90.327 |
-| arquitectura solo propuesta | 13 | 2220 | 78.947 |
+| arquitectura solo propuesta | 16 | 2540 | 90.327 |
 | con candidatas | 2 | 272 | 9.673 |
 | sin resolver | 0 | 0 | 0.000 |
 

@@ -4,7 +4,7 @@
   "estado": "borrador_de_trabajo",
   "apta_para_corpus": false,
   "obra_ref": "el-molino",
-  "reglas_version": "v0.24",
+  "reglas_version": "v0.25",
   "catalogo_referencia": {
     "estado": {
       "actualizado_en": "2026-10-19T11:26:16.630786+00:00",
@@ -207,11 +207,11 @@
       "identificacion_revisada": null,
       "propuesta": {
         "forma_slug": "quintilla",
-        "arquitectura_slug": null
+        "arquitectura_slug": "octosilabica_consonante"
       },
       "candidatas": [],
       "exhaustividad": null,
-      "fundamento": "Coincidencia del nombre de forma y su plural. No se deducen medida ni disposición de rima de cada unidad.",
+      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. El catálogo admite tres medidas; sin otra indicación se propone la octosílaba, que es la no marcada. Decisión del responsable del proyecto, 9 de noviembre de 2026: la hexasílaba o la heptasílaba se eligen a mano. No se deduce la disposición de rima de cada unidad.",
       "aprobacion": null,
       "evidencias_bibliograficas": [],
       "detalles_fuente": [],
@@ -487,11 +487,11 @@
       "identificacion_revisada": null,
       "propuesta": {
         "forma_slug": "quintilla",
-        "arquitectura_slug": null
+        "arquitectura_slug": "octosilabica_consonante"
       },
       "candidatas": [],
       "exhaustividad": null,
-      "fundamento": "Coincidencia del nombre de forma y su plural. No se deducen medida ni disposición de rima de cada unidad.",
+      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. El catálogo admite tres medidas; sin otra indicación se propone la octosílaba, que es la no marcada. Decisión del responsable del proyecto, 9 de noviembre de 2026: la hexasílaba o la heptasílaba se eligen a mano. No se deduce la disposición de rima de cada unidad.",
       "aprobacion": null,
       "evidencias_bibliograficas": [],
       "detalles_fuente": [],
@@ -615,11 +615,11 @@
       "identificacion_revisada": null,
       "propuesta": {
         "forma_slug": "quintilla",
-        "arquitectura_slug": null
+        "arquitectura_slug": "octosilabica_consonante"
       },
       "candidatas": [],
       "exhaustividad": null,
-      "fundamento": "Coincidencia del nombre de forma y su plural. No se deducen medida ni disposición de rima de cada unidad.",
+      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. El catálogo admite tres medidas; sin otra indicación se propone la octosílaba, que es la no marcada. Decisión del responsable del proyecto, 9 de noviembre de 2026: la hexasílaba o la heptasílaba se eligen a mano. No se deduce la disposición de rima de cada unidad.",
       "aprobacion": null,
       "evidencias_bibliograficas": [],
       "detalles_fuente": [],
@@ -794,9 +794,9 @@
       "porcentaje_sobre_rangos_conocidos": 97.12566844919786
     },
     "arquitectura_solo_propuesta": {
-      "segmentos": 11,
-      "versos": 1910,
-      "porcentaje_sobre_rangos_conocidos": 63.836898395721924
+      "segmentos": 14,
+      "versos": 2605,
+      "porcentaje_sobre_rangos_conocidos": 87.06550802139037
     },
     "con_candidatas": {
       "segmentos": 1,
@@ -825,7 +825,7 @@
     "fecha": "2026-10-22"
   },
   "entradas_sha256": {
-    "equivalencias.propuestas.json": "8b2f5135cf27c601fbacf6c420f55f9331797ec02e1a6cfe0f07ba3f6b053a28",
+    "equivalencias.propuestas.json": "fb9894e7f3ff64aeb10a8e11bc25d1c9ffb6e11c8b647736b5034590b665114b",
     "catalogo-referencia.json": "0f65680900ccab33fb9a258e5aca1ae6b2c0373c6dc2aab4192e80d7088e7b06",
     "auditoria-tercetos-2026-10-26.json": "433367a2e24b8e6e5fb213b907c2d810ff2078eda0e2364771070231e8cfc112",
     "segmentacion.propuestas.json": "66bfd37373162eaf06c046093f11cbd7188d0e72519bea0c30c6caefc738cd0f",

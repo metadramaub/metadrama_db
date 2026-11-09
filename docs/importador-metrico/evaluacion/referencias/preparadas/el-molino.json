@@ -139,7 +139,7 @@
         },
         "identificacion": {
           "forma_slug": "quintilla",
-          "arquitectura_slug": null
+          "arquitectura_slug": "octosilabica_consonante"
         },
         "candidatas": [],
         "regla_id": "quintilla",
@@ -327,7 +327,7 @@
         },
         "identificacion": {
           "forma_slug": "quintilla",
-          "arquitectura_slug": null
+          "arquitectura_slug": "octosilabica_consonante"
         },
         "candidatas": [],
         "regla_id": "quintilla",
@@ -415,7 +415,7 @@
         },
         "identificacion": {
           "forma_slug": "quintilla",
-          "arquitectura_slug": null
+          "arquitectura_slug": "octosilabica_consonante"
         },
         "candidatas": [],
         "regla_id": "quintilla",
@@ -527,11 +527,11 @@
       }
     ],
     "procedencia": {
-      "reglas_version": "v0.24",
+      "reglas_version": "v0.25",
       "catalogo_revision": 4948,
       "extraccion_sha256": "b17b3882c3414f0dcf63a5360cb73f8e4afe537b722b06d6dfdc3fd3ab687224",
       "entradas_sha256": {
-        "equivalencias.propuestas.json": "8b2f5135cf27c601fbacf6c420f55f9331797ec02e1a6cfe0f07ba3f6b053a28",
+        "equivalencias.propuestas.json": "fb9894e7f3ff64aeb10a8e11bc25d1c9ffb6e11c8b647736b5034590b665114b",
         "catalogo-referencia.json": "0f65680900ccab33fb9a258e5aca1ae6b2c0373c6dc2aab4192e80d7088e7b06",
         "auditoria-tercetos-2026-10-26.json": "433367a2e24b8e6e5fb213b907c2d810ff2078eda0e2364771070231e8cfc112",
         "segmentacion.propuestas.json": "66bfd37373162eaf06c046093f11cbd7188d0e72519bea0c30c6caefc738cd0f",
@@ -550,7 +550,7 @@
     "bloques": 21,
     "segmentacion_confirmada": false,
     "forma_identificada": 2983,
-    "arquitectura_identificada": 1973,
+    "arquitectura_identificada": 2668,
     "forma_pendiente": 9,
     "con_candidatas": 9,
     "sin_identificacion": 0,

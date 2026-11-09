@@ -33,11 +33,11 @@
       "candidatas": [
         {
           "forma_slug": "quintilla",
-          "arquitectura_slug": null
+          "arquitectura_slug": "octosilabica_consonante"
         }
       ],
       "exhaustividad": "pendiente_de_validacion",
-      "fundamento": "Coincidencia del nombre de forma y su plural. No se deducen medida ni disposición de rima de cada unidad.",
+      "fundamento": "Coincidencia del nombre de forma y su plural con el catálogo. El catálogo admite tres medidas; sin otra indicación se propone la octosílaba, que es la no marcada. Decisión del responsable del proyecto, 9 de noviembre de 2026: la hexasílaba o la heptasílaba se eligen a mano. No se deduce la disposición de rima de cada unidad.",
       "detalles_fuente": []
     },
     {
@@ -1236,6 +1236,6 @@
       "detalles_fuente": []
     }
   ],
-  "version": "v0.24",
+  "version": "v0.25",
   "contraste_bibliografico": "bibliografia-contraste.json"
 }

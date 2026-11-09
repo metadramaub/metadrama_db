@@ -97,7 +97,7 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
     la jornada siguiente. No se puede corregir sin ver la página; queda para el prompt.
 
 Entrada vigente: [índice del importador](importador-metrico/README.md). El dashboard ofrece
-el prompt 0.27. Las reglas de equivalencias v0.24 son
+el prompt 0.27. Las reglas de equivalencias v0.25 son
 independientes de esas versiones de prompt y su último ajuste está probado localmente.
 
 - Revisar el [lote de veinte de GPT-6 High](importador-metrico/evaluacion/informes/chatgpt-gpt6-high-v0.27.md)

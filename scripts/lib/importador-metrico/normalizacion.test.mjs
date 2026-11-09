@@ -275,16 +275,16 @@ describe('normalizador local', () => {
 	});
 	it('una aprobación explícita identifica solo lo aprobado: forma sin arquitectura', () => {
 		const ctx = context();
-		ctx.reglas.reglas.find((r) => r.id === 'quintilla').aprobacion = approval;
+		ctx.reglas.reglas.find((r) => r.id === 'soneto').aprobacion = approval;
 		const result = normalizarExtraccion(raw(), ctx);
-		const row = result.segmentos.find((s) => s.id === 't17');
+		const row = result.segmentos.find((s) => s.id === 't05');
 		expect(row.identificacion_revisada).toEqual({
-			forma_slug: 'quintilla',
+			forma_slug: 'soneto',
 			arquitectura_slug: null
 		});
 		expect(row.propuesta).toBeNull();
 		expect(row.aprobacion).toEqual(approval);
-		expect(result.cobertura.forma_revisada.versos).toBeGreaterThan(49);
+		expect(result.cobertura.forma_revisada.versos).toBe(14);
 		expect(result.cobertura.arquitectura_revisada.versos).toBe(0);
 	});
 	it('respeta el ámbito por obra y no aprende una equivalencia universal', () => {
@@ -520,8 +520,8 @@ describe('desviaciones declaradas en nota', () => {
 	});
 	it('no propone nada si la nota no se deja leer sin interpretar', () => {
 		expect(conNota(1, 'Los vv. 140-150 son de otra mano.').desviaciones).toEqual([]);
-		// Sin arquitectura no hay medida con la que comparar (t03: quintillas, vv. 591-990).
-		expect(conNota(2, 'El v. 600 es un octosílabo suelto integrado en la serie de quintillas.').desviaciones).toEqual([]);
+		// Sin arquitectura no hay medida con la que comparar (t05: soneto, vv. 1007-1020).
+		expect(conNota(4, 'El v. 1010 es un heptasílabo suelto.').desviaciones).toEqual([]);
 		expect(conNota(1, 'VERSOS CORTOS: véase la introducción.').desviaciones).toEqual([]);
 	});
 });

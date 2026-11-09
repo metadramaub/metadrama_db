@@ -1,4 +1,4 @@
-# Referencia de correspondencias v0.24
+# Referencia de correspondencias v0.25
 
 Generada desde las mismas reglas que usa el normalizador local. Es apoyo para proponer normalizaciones posteriores a la extracción literal; no autoriza a reescribir la declaración original ni a afirmar revisiones humanas.
 
@@ -26,9 +26,9 @@ Tipo: equivalencia_propuesta. Revisión: pendiente.
 
 Ámbito: propuesta general, pendiente de validar.
 
-Destinos o candidatas: quintilla. Exhaustividad: pendiente_de_validacion.
+Destinos o candidatas: quintilla/octosilabica_consonante. Exhaustividad: pendiente_de_validacion.
 
-Coincidencia del nombre de forma y su plural. No se deducen medida ni disposición de rima de cada unidad.
+Coincidencia del nombre de forma y su plural con el catálogo. El catálogo admite tres medidas; sin otra indicación se propone la octosílaba, que es la no marcada. Decisión del responsable del proyecto, 9 de noviembre de 2026: la hexasílaba o la heptasílaba se eligen a mano. No se deduce la disposición de rima de cada unidad.
 
 Detalles de la fuente: sin otros detalles declarados.
 

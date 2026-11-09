@@ -2,7 +2,7 @@
 
 **Borrador de trabajo. No importado ni apto para incorporarse automáticamente al corpus.**
 
-Reglas v0.24; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
+Reglas v0.25; catálogo revisión 4948. La revisión de transcripción se registra por separado con el hash del original.
 
 Fechas conservadas: 1592–1595. Fuente: VEGA CARPIO, Lope de, Los locos de Valencia, ed. Carlos Peña, en Comedias de Lope de Vega. Parte XIII, coord. Natalia Fernández Rodríguez, Madrid, Gredos, 2014, 2 vols, II, pp. 167-328.
 
@@ -15,7 +15,7 @@ Denominador: 3072 versos con rango conocido; 0 segmentos sin rango. Las arquitec
 | forma revisada | 1 | 14 | 0.456 |
 | arquitectura revisada | 0 | 0 | 0.000 |
 | forma solo propuesta | 19 | 3058 | 99.544 |
-| arquitectura solo propuesta | 15 | 2408 | 78.385 |
+| arquitectura solo propuesta | 18 | 2928 | 95.313 |
 | con candidatas | 0 | 0 | 0.000 |
 | sin resolver | 0 | 0 | 0.000 |
 
