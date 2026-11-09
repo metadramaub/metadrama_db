@@ -35,7 +35,10 @@ export type SegmentoMinimo = {
 	nota: string | null;
 	detalles_fuente: Record<string, unknown>[];
 	desviaciones: Record<string, unknown>[];
-	caracterizaciones?: {termino: 'prosa'; v_ini: number; v_fin: number; tramo_ref: string; literal: string}[];
+	caracterizaciones?: (
+		| {termino: 'prosa'; v_ini: number; v_fin: number; tramo_ref: string; literal: string}
+		| {termino: 'cantado'; v_ini: number; v_fin: number; tramo_ref: string; nota_ref: string; literal: string}
+	)[];
 };
 export type FichaMinima = {
 	esquema: 'versologia-ficha-minima/0.2';
@@ -53,6 +56,7 @@ export type FichaMinima = {
 	};
 	jornadas: { numero: number; v_ini: number; v_fin: number; rotulo_literal: string | null }[];
 	segmentos: SegmentoMinimo[];
+	numeracion?: { tipo: 'por_jornada'; desplazamientos: { jornada: number; desplazamiento: number }[] };
 	comprobacion?: {
 		avisos_longitud: { segmento_ref: string; v_ini: number; v_fin: number; mensaje: string }[];
 	};

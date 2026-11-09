@@ -442,3 +442,23 @@ it('lleva cada silva numerada de Morley y Bruerton a su arquitectura', () => {
 	expect(arquitectura('silva 3.ª')).toBe('endecasilabica');
 	expect(arquitectura('silva 4.ª')).toBe('consonante_irregular');
 });
+
+describe('pasajes cantados declarados en nota', () => {
+	const conNota = (texto) => {
+		const input = raw();
+		input.notas.push({ id: 'n-canto', marca: '*', texto_literal: texto, fuente_id: input.tramos[0].fuente_id, pagina: input.tramos[0].pagina, tramos_ref: [input.tramos[0].id], v_ini: null, v_fin: null });
+		input.tramos[0].notas_ref = [...input.tramos[0].notas_ref, 'n-canto'];
+		return normalizarExtraccion(input, context()).segmentos[0];
+	};
+	it('propone «cantado» en toda la fila cuando la nota lo dice', () => {
+		const s = conNota('Señalamos con asterisco los pasajes cantados.');
+		expect(s.caracterizaciones).toEqual([
+			expect.objectContaining({ termino: 'cantado', v_ini: s.v_ini, v_fin: s.v_fin, nota_ref: 'n-canto' })
+		]);
+	});
+	it('no lo propone si la nota lo niega ni por palabras parecidas', () => {
+		expect(conNota('Interrumpida por un parlamento —no cantado— del gracioso.').caracterizaciones).toEqual([]);
+		expect(conNota('El galán queda encantado con la dama.').caracterizaciones).toEqual([]);
+	});
+});
+

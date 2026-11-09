@@ -76,7 +76,10 @@ export function aplicarEdiciones<T extends {segmentos: SegmentoMinimo[]}>(datos:
 			)
 		)
 			throw new Error('Las partes deben cubrir la fila original sin huecos ni solapamientos.');
-		const prosas = originales.flatMap(s => s.caracterizaciones ?? []);
+		const caracterizaciones = originales.flatMap(s => s.caracterizaciones ?? []);
+		const prosas = caracterizaciones.filter(c => c.termino === 'prosa');
+		// Un pasaje cantado puede repartirse entre las partes: cada una conserva su tramo.
+		const cantados = caracterizaciones.filter(c => c.termino === 'cantado');
 		if (prosas.some(c => !cambio.partes.some(p => c.v_ini >= p.v_ini && c.v_fin <= p.v_fin)))
 			throw new Error('El corte separa los versos que localizan la prosa. Mueve el corte para conservarla dentro de una secuencia.');
 		const desviaciones = [
@@ -129,7 +132,11 @@ export function aplicarEdiciones<T extends {segmentos: SegmentoMinimo[]}>(datos:
 				v_ini: p.v_ini,
 				v_fin: p.v_fin,
 				segmentacion: 'provisional',
-				...(prosas.length ? {caracterizaciones: structuredClone(prosas.filter(c => c.v_ini >= p.v_ini && c.v_fin <= p.v_fin))} : {}),
+				...(caracterizaciones.length ? {caracterizaciones: [
+					...structuredClone(prosas.filter(c => c.v_ini >= p.v_ini && c.v_fin <= p.v_fin)),
+					...cantados.filter(c => c.v_fin >= p.v_ini && c.v_ini <= p.v_fin)
+						.map(c => ({...structuredClone(c), v_ini: Math.max(c.v_ini, p.v_ini), v_fin: Math.min(c.v_fin, p.v_fin)}))
+				]} : {}),
 				identificacion: structuredClone(p.identificacion),
 				candidatas: p.identificacion?.arquitectura_slug
 					? []

@@ -2,6 +2,21 @@
 import { z } from 'zod';
 import { validarExtraccion } from './validacion.mjs';
 import { pareadosEnDenominacion, cierreConExcepciones } from './pareados-declarados.mjs';
+import { numeracionPorJornada, aplicarNumeracion } from './numeracion.mjs';
+
+// Una nota que dice que unas filas son cantadas (no «no cantado») propone la caracterización.
+const CANTADO = /(?<!\p{L})cantad[oa]s?(?!\p{L})/iu;
+const NEGADO = /(?<!\p{L})no\s+cantad/iu;
+function cantadoDeclarado(row, notesById) {
+	if (row.v_ini === null || row.v_fin === null) return [];
+	for (const id of row.notas_ref ?? []) {
+		const nota = notesById.get(id);
+		const textoNota = nota?.texto_literal ?? '';
+		if (nota?.tramos_ref.includes(row.id) && CANTADO.test(textoNota) && !NEGADO.test(textoNota))
+			return [{ termino: 'cantado', v_ini: row.v_ini, v_fin: row.v_fin, tramo_ref: row.id, nota_ref: nota.id, literal: textoNota }];
+	}
+	return [];
+}
 
 export class ErrorExtraccion extends Error {
 	constructor(incidencias) {
@@ -102,6 +117,9 @@ export function normalizarExtraccion(
 	extraccion,
 	{ reglas, catalogo, fuentes, bibliografia, decisiones = [] }
 ) {
+	// Numeración por jornada: se valida y normaliza la copia continua; el original no cambia.
+	const desplazamientos = numeracionPorJornada(extraccion);
+	if (desplazamientos) extraccion = aplicarNumeracion(extraccion, desplazamientos);
 	const validation = validarExtraccion(extraccion, fuentes ? { fuentes } : {});
 	if (validation.errores.length || validation.advertencias.length)
 		throw new ErrorExtraccion([...validation.errores, ...validation.advertencias]);
@@ -304,7 +322,7 @@ export function normalizarExtraccion(
 			evidencias_bibliograficas: rule?.evidencias_bibliograficas ?? [],
 			// Estos detalles están declarados en la fuente: no equivalen a respuestas completas del editor.
 			detalles_fuente: structuredClone(rule?.detalles_fuente ?? []),
-			caracterizaciones: [],
+			caracterizaciones: cantadoDeclarado(row, notesById),
 			desviaciones: localDecisions
 				.filter((d) => d.tramo_ref === row.id)
 				.map((d) => ({
@@ -317,8 +335,9 @@ export function normalizarExtraccion(
 		if (!rule?.division) return [segmento];
 		if (rowsById.has(`${row.id}.1`) || rowsById.has(`${row.id}.2`))
 			throw new Error('Los identificadores de la división coinciden con otra fila fuente.');
+		const recorta = (s, ini, fin) => ({ ...s, caracterizaciones: s.caracterizaciones.map((c) => ({ ...c, v_ini: Math.max(c.v_ini, ini), v_fin: Math.min(c.v_fin, fin) })) });
 		return [
-			{ ...segmento, id: `${row.id}.1`, v_fin: row.v_ini + 13 },
+			recorta({ ...segmento, id: `${row.id}.1`, v_fin: row.v_ini + 13 }, row.v_ini, row.v_ini + 13),
 			{
 				...structuredClone(segmento),
 				id: `${row.id}.2`,
@@ -328,7 +347,8 @@ export function normalizarExtraccion(
 				propuesta: null,
 				candidatas: [],
 				detalles_fuente: [],
-				nota: 'Estrambote declarado por la edición. Se conserva como secuencia sin forma identificada mientras el catálogo no admite este remate en el soneto; criterio pendiente.'
+				nota: 'Estrambote declarado por la edición. Se conserva como secuencia sin forma identificada mientras el catálogo no admite este remate en el soneto; criterio pendiente.',
+				caracterizaciones: recorta(segmento, row.v_ini + 14, row.v_fin).caracterizaciones
 			}
 		];
 	});
@@ -344,13 +364,26 @@ export function normalizarExtraccion(
 	};
 	return {
 		esquema: 'versologia-normalizacion-local/0.1',
-		avisos_fuente: segmentos
-			.filter((s) => s.aviso_fuente)
-			.map((s) => ({
-				codigo: 'localizacion_pareado',
-				ruta: `segmentos.${s.id}`,
-				mensaje: `vv. ${s.v_ini}–${s.v_fin}: ${s.aviso_fuente}`
-			})),
+		avisos_fuente: [
+			...(desplazamientos
+				? [{
+						codigo: 'numeracion_por_jornada',
+						ruta: 'jornadas',
+						mensaje: `La edición numera cada jornada desde el v. 1. Se pasa a numeración continua (${desplazamientos
+							.filter((d) => d.desplazamiento)
+							.map((d) => `jornada ${d.jornada}: +${d.desplazamiento}`)
+							.join('; ')}); la transcripción original conserva la numeración de la edición.`
+					}]
+				: []),
+			...segmentos
+				.filter((s) => s.aviso_fuente)
+				.map((s) => ({
+					codigo: 'localizacion_pareado',
+					ruta: `segmentos.${s.id}`,
+					mensaje: `vv. ${s.v_ini}–${s.v_fin}: ${s.aviso_fuente}`
+				}))
+		],
+		...(desplazamientos ? { numeracion: { tipo: 'por_jornada', desplazamientos } } : {}),
 		estado: 'borrador_de_trabajo',
 		apta_para_corpus: false,
 		obra_ref: source.obra_ref,

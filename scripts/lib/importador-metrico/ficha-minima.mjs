@@ -85,9 +85,11 @@ export const fichaMinimaSchema = z
 						nota: texto.nullable(),
 						detalles_fuente: z.array(detalle),
 						desviaciones: z.array(desviacion),
-						caracterizaciones: z.array(z.object({
-							termino: z.literal('prosa'), ...rango, tramo_ref: texto, literal: texto
-						}).strict()).optional()
+						caracterizaciones: z.array(z.union([
+							z.object({ termino: z.literal('prosa'), ...rango, tramo_ref: texto, literal: texto }).strict(),
+							// Pasaje cantado que declara una nota de la edición enlazada a la fila.
+							z.object({ termino: z.literal('cantado'), ...rango, tramo_ref: texto, nota_ref: texto, literal: texto }).strict()
+						])).optional()
 					})
 					.strict()
 			)
@@ -98,6 +100,11 @@ export const fichaMinimaSchema = z
 				...rango,
 				mensaje: texto
 			}).strict())
+		}).strict().optional(),
+		// Edición que numera cada jornada desde 1: desplazamiento aplicado a cada jornada.
+		numeracion: z.object({
+			tipo: z.literal('por_jornada'),
+			desplazamientos: z.array(z.object({ jornada: entero, desplazamiento: z.number().int().nonnegative() }).strict()).min(2)
 		}).strict().optional(),
 		procedencia: z
 			.object({
@@ -201,7 +208,10 @@ export function validarFichaMinima(input, { catalogo, vistaPrevia = false } = {}
 		if (s.origen.tramos_ref && (new Set(s.origen.tramos_ref).size !== s.origen.tramos_ref.length ||
 			s.origen.tramos_ref[0] !== s.origen.tramo_ref))
 			add('origen_compuesto', ruta, 'Las filas de origen deben ser únicas y comenzar por la referencia principal.');
-		const prosas = s.caracterizaciones ?? [];
+		const prosas = (s.caracterizaciones ?? []).filter((c) => c.termino === 'prosa');
+		for (const c of (s.caracterizaciones ?? []).filter((c) => c.termino === 'cantado'))
+			if (c.v_ini < s.v_ini || c.v_fin > s.v_fin || c.v_fin < c.v_ini)
+				add('cantado_localizacion', ruta, 'El pasaje cantado debe quedar dentro de la secuencia.');
 		if (new Set(prosas.map(p => p.tramo_ref)).size !== prosas.length)
 			add('prosa_repetida', ruta, 'La misma fila de prosa no puede registrarse dos veces.');
 		for (const p of prosas) if (p.v_fin !== p.v_ini + 1 || p.v_ini < s.v_ini || p.v_fin > s.v_fin)
@@ -387,6 +397,7 @@ export function prepararFichaMinima(normalizada, { genero, metadatos = {} } = {}
 				nota: fundamento ?? null
 			}))
 		})),
+		...(normalizada.numeracion ? { numeracion: structuredClone(normalizada.numeracion) } : {}),
 		procedencia: {
 			reglas_version: normalizada.reglas_version,
 			catalogo_revision: normalizada.catalogo_referencia.estado.revision,

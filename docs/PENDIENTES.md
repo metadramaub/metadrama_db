@@ -87,12 +87,9 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 - Mejoras del importador que pide el piloto 2. Ya hechas: puntuación final, llamadas de nota
   pegadas, lira-sestina, plurales, romancillo con asonancia, silvas numeradas de Morley y Bruerton
   y sugerencia de jornada para las filas que continúan. Cada cambio debe dejar igual el piloto 1.
-  - **Numeración que vuelve a 1 en cada jornada** (*Alcalde*, *Peribáñez*): hoy bloquea por
-    «orden discrepante» y solapamiento. Falta decidir si la ficha guarda la numeración de la
-    edición o una continua.
-  - **Pasajes cantados**: cuando una nota de la edición marca filas como cantadas (*Fuenteovejuna*,
-    asteriscos), proponer la caracterización por rango «cantado», como ya se hace con la prosa.
-    Exige ampliar la ficha mínima y la función SQL que guarda las caracterizaciones.
+  - **Numeración por jornada y pasajes cantados**: hechos en código y en la migración
+    `20261110100000_importador_numeracion_y_canto.sql`, probada en el Supabase local. Falta
+    `db push`; sin ella, guardar una ficha con canto o numeración por jornada falla.
   - **Página compartida por dos obras** (*Perro*/*Castigo*): el modelo mezcló las primeras filas de
     la obra siguiente. Para el prompt: transcribir solo la obra indicada.
   - **Jornada mal asignada** a filas que continúan en otra página (*Nolasco*): el modelo les pone

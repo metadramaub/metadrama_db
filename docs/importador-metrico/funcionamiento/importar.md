@@ -35,6 +35,16 @@ información que aún no está registrada. No se exige la exhaustividad de la fi
   con esa caracterización. No se unen si hay incompatibilidades que requieren revisión.
 - Las lagunas y adiciones declaradas se tienen en cuenta al comprobar la norma de la forma.
   Esta longitud de comprobación no reescribe la numeración de la edición.
+- **Pasajes cantados.** Si una nota de la edición enlazada a una fila dice que es cantada (por
+  ejemplo, los asteriscos de *Fuenteovejuna*), se propone la caracterización por rango
+  «cantado» sobre toda la fila. Una nota que lo niega («no cantado») no la propone, y el nombre
+  de la estrofa nunca basta. Al dividir la fila, cada parte conserva su tramo cantado.
+- **Numeración por jornada.** Si la edición vuelve a numerar desde el v. 1 en cada jornada (el
+  *Alcalde* de Castalia, el *Peribáñez* de Cátedra), el importador pasa a numeración continua:
+  cada jornada empieza tras el último verso de la anterior, y un aviso dice cuánto se ha sumado
+  a cada una. La transcripción original conserva la numeración de la edición, y al guardar se
+  recalculan los desplazamientos desde ella. Solo se reconoce el caso claro: todas las filas
+  numeradas tienen jornada, no se mezclan y cada jornada, salvo la primera, empieza en el v. 1.
 
 ## Comprobar y guardar
 
