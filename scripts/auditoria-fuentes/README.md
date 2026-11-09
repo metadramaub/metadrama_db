@@ -10,8 +10,9 @@ afirmación nueva vuelve a necesitarlos, y conviene pasarlos de vez en cuando au
 tocado nada, porque un cambio en el catálogo mueve lo que señalan. Ajústalos según haga falta: lo
 que aquí se comprueba se fue aprendiendo a base de fallar.
 
-**Necesitan la bibliografía local**, que no está en el repositorio: ver
-[las fuentes del catálogo](../../docs/dominio-metrico/fuentes-del-catalogo.md).
+**Necesitan la bibliografía**, que no está en el repositorio sino en `versologia-data-sync`
+(ver [lo que no va por git](../../README.md#lo-que-no-va-por-git) y
+[las fuentes del catálogo](../../docs/dominio-metrico/fuentes-del-catalogo.md)).
 
 ## Los que se pasan de vez en cuando
 

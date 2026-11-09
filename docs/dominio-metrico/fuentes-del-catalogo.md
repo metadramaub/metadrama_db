@@ -11,7 +11,7 @@ adelante.
 
 ## Las seis
 
-| Fuente | Volcado en `bibliografía/txt/` |
+| Fuente | Volcado en `versologia-data-sync/bibliografía/txt/` |
 | --- | --- |
 | Morley y Bruerton 1968, _Cronología de las comedias de Lope de Vega_ | sus definiciones, ya en `.md` |
 | Quilis 1969, _Métrica española_ | `Quilis-1969-metrica-espanola.txt` |
@@ -45,7 +45,8 @@ epígrafes. Reparto:
 metros españoles y el de la p. 41 el endecasílabo de las formas italianas. Una afirmación que cite
 «Cap. V, «Pareados»» sin más no dice cuál de los dos.
 
-El directorio `bibliografía/` está fuera de git. Si faltan los volcados se regeneran con
+La bibliografía está fuera de git, en la carpeta `bibliografía/` de
+[`versologia-data-sync`](../../README.md#lo-que-no-va-por-git). Si faltan los volcados se regeneran con
 `pdftotext -layout -enc UTF-8`; el epub de Jauralde se extrajo descomprimiéndolo y limpiando
 etiquetas. **`metrica-clasificacion.pdf` no sirve para esto**: es un artículo sobre repertorios
 métricos, no un manual de definiciones.

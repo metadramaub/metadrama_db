@@ -1,7 +1,7 @@
 {
   "esquema": "versologia-contraste-bibliografico/0.1",
   "fecha": "2026-10-22",
-  "raiz_local": "C:\\Users\\david\\OneDrive - UAB\\Investigacion\\fuenteovejuna-data-sync\\bibliografía",
+  "raiz_sync": "bibliografía",
   "alcance": "Lectura de pasajes relevantes de las seis fuentes del catálogo; no es aprobación humana de equivalencias ni identificación de los pasajes teatrales.",
   "procedimiento": "Búsqueda en volcados, lectura de páginas completas pertinentes y cotejo visual de páginas clave de los PDF. Jauralde cotejado con el EPUB original. No se modifica la biblioteca ni se configura sincronización.",
   "fuentes": [

@@ -167,7 +167,7 @@ tiene por qué descifrar. Cada volumen tiene su unidad estable:
 | Morley y Bruerton 1968  | Capítulo y epígrafe  | Se trabaja sobre el `.md`                                    |
 
 [`scripts/lib/localizar.mjs`](../../scripts/lib/localizar.mjs) da la página de un pasaje
-sobre los volcados de `bibliografía/txt/`: parte por saltos de página y devuelve los números
+sobre los volcados de `versologia-data-sync/bibliografía/txt/`: parte por saltos de página y devuelve los números
 sueltos del bloque. Sirve para los tres primeros; para los otros tres no hay página que dar.
 
 ## Formas generales

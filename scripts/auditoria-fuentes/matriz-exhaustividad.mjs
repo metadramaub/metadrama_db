@@ -27,17 +27,18 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { query } from '../lib/consulta.mjs';
+import { rutaSync } from '../lib/sync.mjs';
 
 const RAIZ = fileURLToPath(new URL('../..', import.meta.url));
 
-/** Los volcados, por año de la fuente. Morley y Bruerton es una copia a mano, no un volcado. */
+/** Los volcados, por año de la fuente, en la carpeta sync. Morley y Bruerton es una copia a mano, no un volcado. */
 const VOLCADOS = {
-	1968: 'docs/dominio-metrico/bibliografía/txt/definiciones_Morley&Bruerton.md',
-	1969: 'docs/dominio-metrico/bibliografía/txt/Quilis-1969-metrica-espanola.txt',
-	1972: 'docs/dominio-metrico/bibliografía/txt/Navarro-Tomas-1972-metrica-espanola.txt',
-	2014: 'docs/dominio-metrico/bibliografía/txt/Dominguez-Caparros-2014-metrica-espanola.txt',
-	2016: 'docs/dominio-metrico/bibliografía/txt/Dominguez-Caparros-1999-diccionario-metrica.txt',
-	2020: 'docs/dominio-metrico/bibliografía/txt/Jauralde-Pou-2020-metrica-espanola.txt'
+	1968: 'definiciones_Morley&Bruerton.md',
+	1969: 'Quilis-1969-metrica-espanola.txt',
+	1972: 'Navarro-Tomas-1972-metrica-espanola.txt',
+	2014: 'Dominguez-Caparros-2014-metrica-espanola.txt',
+	2016: 'Dominguez-Caparros-1999-diccionario-metrica.txt',
+	2020: 'Jauralde-Pou-2020-metrica-espanola.txt'
 };
 
 /**
@@ -114,11 +115,12 @@ const afirmaciones = query(`
 
 const textos = new Map();
 for (const [anio, ruta] of Object.entries(VOLCADOS)) {
-	if (!existsSync(RAIZ + ruta)) {
+	const volcado = rutaSync('bibliografía', 'txt', ruta);
+	if (!existsSync(volcado)) {
 		console.error(`  falta el volcado de ${anio}: ${ruta}`);
 		continue;
 	}
-	textos.set(Number(anio), plano(readFileSync(RAIZ + ruta, 'utf-8')));
+	textos.set(Number(anio), plano(readFileSync(volcado, 'utf-8')));
 }
 
 const denominaciones = new Map();

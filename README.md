@@ -37,6 +37,23 @@ El resto de este archivo cubre el arranque y la operativa de la base de datos.
 - npm
 - Supabase CLI
 
+## Lo que no va por git
+
+El repositorio es público: lo que tiene derechos ajenos (la bibliografía de métrica, las fotos de
+las ediciones para el importador) o pesa demasiado vive en la carpeta de OneDrive
+`versologia-data-sync`, que ven todas las copias locales. Los scripts la localizan con
+[`scripts/lib/sync.mjs`](scripts/lib/sync.mjs): la variable `VERSOLOGIA_SYNC_DIR` (en el entorno o
+en `.env`) y, si no está, `OneDriveCommercial\Investigacion\versologia-data-sync`.
+
+| Carpeta | Contenido |
+| --- | --- |
+| `bibliografía/` | Monografías de métrica y sus volcados en `txt/` |
+| `importador/piloto-1/` | Fotos de las veinte obras (`fotos/<obra>/`, con su nombre original) y el DOCX de fechas |
+| `importador/piloto-2/` | Fotos del lote independiente (`fotos/<libro>/pNNN.jpg`) |
+
+Los manifiestos del repositorio guardan rutas relativas a esa carpeta y el hash de cada archivo.
+Nada de esto se copia al repositorio, ni siquiera a una carpeta ignorada.
+
 ## Arranque rápido
 
 ```sh

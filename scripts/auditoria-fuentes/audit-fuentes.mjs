@@ -28,9 +28,11 @@ import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { query } from '../lib/consulta.mjs';
+import { rutaSync } from '../lib/sync.mjs';
 
 const RAIZ = fileURLToPath(new URL('../..', import.meta.url));
-const BIBLIOTECA = join(RAIZ, 'docs', 'dominio-metrico', 'bibliografía');
+// La bibliografía está en versologia-data-sync, fuera de git: ver scripts/lib/sync.mjs.
+const BIBLIOTECA = rutaSync('bibliografía');
 const SALIDA_POR_DEFECTO = join(RAIZ, 'docs', 'dominio-metrico', 'auditoria-fuentes');
 
 // --------------------------------------------------------------------------

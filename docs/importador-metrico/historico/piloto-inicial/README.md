@@ -47,7 +47,8 @@ C:\Users\david\OneDrive - UAB\Documents\METADRAMA\VERSOLOGIA\Importador\Importad
 ```
 
 El inventario inicial de esta carpeta, realizado el 15 de octubre de 2026, localizó un DOCX con
-metadatos y 38 fotografías HEIC correspondientes a 20 obras según sus nombres de archivo. Es el
+metadatos y 38 fotografías HEIC correspondientes a 20 obras según sus nombres de archivo. Hoy
+esos archivos están en `versologia-data-sync/importador/piloto-1/`, con las fotos agrupadas por obra. Es el
 inventario de los materiales de partida, no un recuento del corpus de la base de datos.
 
 Se examinaron seis fotografías de cuatro obras para conversar sobre el diseño: *El verdadero

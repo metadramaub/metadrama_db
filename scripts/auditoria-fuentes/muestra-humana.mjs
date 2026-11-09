@@ -26,6 +26,7 @@
 import { readFileSync, readdirSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { rutaSync } from '../lib/sync.mjs';
 
 const RAIZ = fileURLToPath(new URL('../..', import.meta.url));
 const BASE = join(RAIZ, 'docs', 'dominio-metrico', 'auditoria-fuentes');
@@ -194,7 +195,7 @@ function main() {
 		if (hoja && PDF[x.fuente]) {
 			md.push('```bash');
 			md.push(
-				`pdftotext -enc UTF-8 -f ${hoja} -l ${hoja} "docs/dominio-metrico/bibliografía/${PDF[x.fuente]}" -`
+				`pdftotext -enc UTF-8 -f ${hoja} -l ${hoja} "${rutaSync('bibliografía', PDF[x.fuente])}" -`
 			);
 			md.push('```');
 			md.push('');

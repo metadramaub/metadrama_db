@@ -1,4 +1,5 @@
 import { rutaPiloto } from '../lib/importador-metrico/rutas.mjs';
+import { rutaSync } from '../lib/sync.mjs';
 /**
  * Comprueba el primer lote y produce sus tablas de cotejo. Solo lee archivos locales.
  * No normaliza formas, no aplica particiones y no valida la revisión humana.
@@ -153,7 +154,7 @@ for (const propuesta of segmentacion.propuestas) {
 }
 if (process.argv.includes('--verificar-fuentes')) {
   for (const fuente of [fuentes.documento_metadatos, ...fuentes.fotografias]) {
-    const file = join(fuentes.raiz_materiales_local, fuente.ruta_relativa);
+    const file = rutaSync(fuentes.raiz_sync, fuente.ruta_relativa);
     check(existsSync(file), `Original no localizado: ${fuente.ruta_relativa}`);
     if (existsSync(file)) check(createHash('sha256').update(readFileSync(file)).digest('hex') === fuente.sha256, `SHA-256 distinto: ${fuente.ruta_relativa}`);
   }
