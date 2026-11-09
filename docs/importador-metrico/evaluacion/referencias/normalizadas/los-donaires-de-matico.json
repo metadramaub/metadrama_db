@@ -4,7 +4,7 @@
   "estado": "borrador_de_trabajo",
   "apta_para_corpus": false,
   "obra_ref": "los-donaires-de-matico",
-  "reglas_version": "v0.22",
+  "reglas_version": "v0.23",
   "catalogo_referencia": {
     "estado": {
       "actualizado_en": "2026-10-19T11:26:16.630786+00:00",
@@ -706,7 +706,7 @@
     "fecha": "2026-10-22"
   },
   "entradas_sha256": {
-    "equivalencias.propuestas.json": "ed8df359da28b9165435dd7daa994526a72cc9b2f68aed9da61890011f5fb51c",
+    "equivalencias.propuestas.json": "816bb97bd27f34821c8dc4ef59154dcd75ea6a0328a07bcaa3697a00e75f6a6f",
     "catalogo-referencia.json": "0f65680900ccab33fb9a258e5aca1ae6b2c0373c6dc2aab4192e80d7088e7b06",
     "auditoria-tercetos-2026-10-26.json": "433367a2e24b8e6e5fb213b907c2d810ff2078eda0e2364771070231e8cfc112",
     "segmentacion.propuestas.json": "66bfd37373162eaf06c046093f11cbd7188d0e72519bea0c30c6caefc738cd0f",

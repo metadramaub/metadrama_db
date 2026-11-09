@@ -1,4 +1,4 @@
-# Referencia de correspondencias v0.22
+# Referencia de correspondencias v0.23
 
 Generada desde las mismas reglas que usa el normalizador local. Es apoyo para proponer normalizaciones posteriores a la extracción literal; no autoriza a reescribir la declaración original ni a afirmar revisiones humanas.
 
@@ -972,7 +972,7 @@ Tipo: equivalencia_propuesta. Revisión: pendiente.
 
 Destinos o candidatas: silva/consonante_regular. Exhaustividad: pendiente_de_validacion.
 
-Morley y Bruerton numeran cuatro tipos de silva (Cronología, s. v. Silva) y las ediciones usan esa numeración. Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 1.º, pareados de 7 y 11 (aAbBcC), es la Consonante regular.
+Morley y Bruerton numeran cuatro tipos de silva: definición en la p. 39 y, con más precisión, en el apéndice de la p. 140 (Silva 2.° y Silva 4.°). Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 1.º, pareados de 7 y 11 en alternancia fija (aAbBcC), es la Consonante regular.
 
 Detalles de la fuente: sin otros detalles declarados.
 
@@ -982,13 +982,13 @@ No inferir canto, medidas, ausencia de desviaciones ni respuestas de unidad no d
 
 Literales: «silva 2.ª».
 
-Tipo: candidatas_orientativas. Revisión: pendiente.
+Tipo: equivalencia_propuesta. Revisión: pendiente.
 
 Ámbito: propuesta general, pendiente de validar.
 
-Destinos o candidatas: silva/consonante_irregular; silva/libre. Exhaustividad: pendiente_de_validacion.
+Destinos o candidatas: silva/libre. Exhaustividad: pendiente_de_validacion.
 
-Morley y Bruerton numeran cuatro tipos de silva (Cronología, s. v. Silva) y las ediciones usan esa numeración. Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 2.º, 7 y 11 sin orden con algunos sueltos, cae entre Consonante de orden libre y Libre; las separa la proporción de pareados, que el número de M&B no dice (cuestión 3).
+Morley y Bruerton numeran cuatro tipos de silva: definición en la p. 39 y, con más precisión, en el apéndice de la p. 140 (Silva 2.° y Silva 4.°). Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 2.º agrupa 7 y 11 irregularmente con rimas como ABBA o AXA y algunos versos sin rima (p. 140): rima sin pareados, que es la arquitectura Libre.
 
 Detalles de la fuente: sin otros detalles declarados.
 
@@ -1004,7 +1004,7 @@ Tipo: equivalencia_propuesta. Revisión: pendiente.
 
 Destinos o candidatas: silva/endecasilabica. Exhaustividad: pendiente_de_validacion.
 
-Morley y Bruerton numeran cuatro tipos de silva (Cronología, s. v. Silva) y las ediciones usan esa numeración. Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 3.º, solo endecasílabos y la mayoría rimados, es la Endecasílaba.
+Morley y Bruerton numeran cuatro tipos de silva: definición en la p. 39 y, con más precisión, en el apéndice de la p. 140 (Silva 2.° y Silva 4.°). Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 3.º, solo endecasílabos y la mayoría rimados, sobre todo en dísticos, es la Endecasílaba.
 
 Detalles de la fuente: sin otros detalles declarados.
 
@@ -1018,9 +1018,9 @@ Tipo: equivalencia_propuesta. Revisión: pendiente.
 
 Ámbito: propuesta general, pendiente de validar.
 
-Destinos o candidatas: silva. Exhaustividad: pendiente_de_validacion.
+Destinos o candidatas: silva/consonante_irregular. Exhaustividad: pendiente_de_validacion.
 
-Morley y Bruerton numeran cuatro tipos de silva (Cronología, s. v. Silva) y las ediciones usan esa numeración. Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 4.º, rimas en los pares, aún no tiene arquitectura en el catálogo (cuestión 2): se propone solo la forma.
+Morley y Bruerton numeran cuatro tipos de silva: definición en la p. 39 y, con más precisión, en el apéndice de la p. 140 (Silva 2.° y Silva 4.°). Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 4.º son pareados de 7 y 11 combinados irregularmente (p. 140); el «todas las rimas en los pares» de la p. 39 se refiere a pareados, no a los versos pares. Es la Consonante de orden libre.
 
 Detalles de la fuente: sin otros detalles declarados.
 

@@ -2,7 +2,7 @@
 
 Generado con `npm run importador:informes`; corregir las reglas o decisiones de origen, no este informe.
 
-Reglas v0.22; catálogo consultado el 2026-11-02.
+Reglas v0.23; catálogo consultado el 2026-11-02.
 
 Para revisar: decisiones pendientes y tabla resumen. La procedencia y los casos complejos permiten comprobar ejemplos; el anexo conserva todas las apariciones y las reglas completas.
 
@@ -721,7 +721,7 @@ Se conservan los literales de la edición. Una sola entrada seleccionada por obr
 | Sextilla enlazada | catalogo-sextilla_enlazada | — |
 | Sextina | — | — |
 | Sextina | — | — |
-| Silva | catalogo-silva, silva-mb-1, silva-mb-3, silva-mb-4 | silva-mb-2 |
+| Silva | catalogo-silva, silva-mb-1, silva-mb-2, silva-mb-3, silva-mb-4 | — |
 | Soneto | soneto, soneto-con-estrambote | — |
 | Terceto | — | tercetos-sin-precisar |
 | Terceto encadenado | tercetos-encadenados, tercetos-serventesio, tercetos-nota-encadenados-sin-cierre-determinado, tercetos-nota-encadenados-con-cierre, tercetos-encadenados-nota-remata-serventesio | tercetos-sin-precisar |
@@ -819,10 +819,10 @@ Se indican solo reglas que seleccionan explícitamente la arquitectura. Una regl
 | Sextina | Doble petrarquista | — |
 | Sextina | Endecasílaba sin rima | — |
 | Silva | Arromanzada | — |
-| Silva | Consonante de orden libre | — |
+| Silva | Consonante de orden libre | silva-mb-4 |
 | Silva | Consonante regular | silva-mb-1 |
 | Silva | Endecasílaba | silva-mb-3 |
-| Silva | Libre | — |
+| Silva | Libre | silva-mb-2 |
 | Soneto | Endecasílabo consonante | soneto-con-estrambote |
 | Terceto | Endecasílabo | — |
 | Terceto | Hexasílabo | — |
@@ -1591,7 +1591,7 @@ Resultado: identificación directa. Silva / consonante_regular.
 
 Revisión de la regla: pendiente. Ámbito: general.
 
-Morley y Bruerton numeran cuatro tipos de silva (Cronología, s. v. Silva) y las ediciones usan esa numeración. Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 1.º, pareados de 7 y 11 (aAbBcC), es la Consonante regular.
+Morley y Bruerton numeran cuatro tipos de silva: definición en la p. 39 y, con más precisión, en el apéndice de la p. 140 (Silva 2.° y Silva 4.°). Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 1.º, pareados de 7 y 11 en alternancia fija (aAbBcC), es la Consonante regular.
 
 Patrón de reconocimiento: silva_numerada_morley_bruerton.
 
@@ -1601,11 +1601,11 @@ Datos adicionales: ninguno.
 
 Literales: «silva 2.ª».
 
-Resultado: candidatas, sin elegir. Silva / consonante_irregular; Silva / libre.
+Resultado: identificación directa. Silva / libre.
 
 Revisión de la regla: pendiente. Ámbito: general.
 
-Morley y Bruerton numeran cuatro tipos de silva (Cronología, s. v. Silva) y las ediciones usan esa numeración. Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 2.º, 7 y 11 sin orden con algunos sueltos, cae entre Consonante de orden libre y Libre; las separa la proporción de pareados, que el número de M&B no dice (cuestión 3).
+Morley y Bruerton numeran cuatro tipos de silva: definición en la p. 39 y, con más precisión, en el apéndice de la p. 140 (Silva 2.° y Silva 4.°). Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 2.º agrupa 7 y 11 irregularmente con rimas como ABBA o AXA y algunos versos sin rima (p. 140): rima sin pareados, que es la arquitectura Libre.
 
 Patrón de reconocimiento: silva_numerada_morley_bruerton.
 
@@ -1619,7 +1619,7 @@ Resultado: identificación directa. Silva / endecasilabica.
 
 Revisión de la regla: pendiente. Ámbito: general.
 
-Morley y Bruerton numeran cuatro tipos de silva (Cronología, s. v. Silva) y las ediciones usan esa numeración. Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 3.º, solo endecasílabos y la mayoría rimados, es la Endecasílaba.
+Morley y Bruerton numeran cuatro tipos de silva: definición en la p. 39 y, con más precisión, en el apéndice de la p. 140 (Silva 2.° y Silva 4.°). Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 3.º, solo endecasílabos y la mayoría rimados, sobre todo en dísticos, es la Endecasílaba.
 
 Patrón de reconocimiento: silva_numerada_morley_bruerton.
 
@@ -1629,11 +1629,11 @@ Datos adicionales: ninguno.
 
 Literales: «silva 4.ª».
 
-Resultado: identificación directa. Silva / sin arquitectura.
+Resultado: identificación directa. Silva / consonante_irregular.
 
 Revisión de la regla: pendiente. Ámbito: general.
 
-Morley y Bruerton numeran cuatro tipos de silva (Cronología, s. v. Silva) y las ediciones usan esa numeración. Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 4.º, rimas en los pares, aún no tiene arquitectura en el catálogo (cuestión 2): se propone solo la forma.
+Morley y Bruerton numeran cuatro tipos de silva: definición en la p. 39 y, con más precisión, en el apéndice de la p. 140 (Silva 2.° y Silva 4.°). Ver docs/dominio-metrico/cuestiones-para-el-ip.md, «Silva y endecasílabo suelto». El tipo 4.º son pareados de 7 y 11 combinados irregularmente (p. 140); el «todas las rimas en los pares» de la p. 39 se refiere a pareados, no a los versos pares. Es la Consonante de orden libre.
 
 Patrón de reconocimiento: silva_numerada_morley_bruerton.
 

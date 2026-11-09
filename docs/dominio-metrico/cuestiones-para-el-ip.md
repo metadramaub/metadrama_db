@@ -151,6 +151,18 @@ que ya dibuja esa figura —`[-a]…`— en asonante, así que no es una estruct
 **Si cambia** · una arquitectura más, sin tocar la cabecera de la forma. Comprobado dos veces que
 tampoco estaba en el vocabulario legado: no se perdió al migrar, no se declaró nunca.
 
+**Revisado el 9 de noviembre de 2026 contra el PDF de M&B** · la p. 39 dice del cuarto tipo
+«todas las rimas en los pares», pero el apéndice de la p. 140 lo define como **pareados de 7 y 11
+combinados irregularmente**: «en los pares» quiere decir en pareados, no en los versos pares. El
+cuarto tipo sería entonces la **Consonante de orden libre**, no una arquitectura nueva gemela de la
+Arromanzada, y esta cuestión pierde su premisa. La misma página da el segundo tipo como 7 y 11
+irregulares «algunos ABBA, AXA, otros versos sin rima», es decir, rima sin pareados: la **Libre**.
+Con eso los cuatro tipos caen en cuatro arquitecturas distintas (1.º Consonante regular, 2.º Libre,
+3.º Endecasílaba, 4.º Consonante de orden libre) y la cuestión 3 tiene respuesta en la fuente. El
+importador ya propone esa correspondencia, sin aprobar. **Decidir** · si se acepta esta lectura y
+se cierran las cuestiones 2 y 3; y si la afirmación del catálogo que resume la p. 39 debe recoger
+la p. 140.
+
 ### 3 · ¿Se distinguen dos silvas solo por un valor de rasgo? · **callan**
 
 **Hoy** · «Consonante de orden libre» y «Libre» comparten esquema de rima, medida y densidad

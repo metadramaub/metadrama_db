@@ -406,7 +406,8 @@ describe('ampliación terminológica v0.18', () => {
 		['silvas', 'silva'],
 		['romancillo en -ee', 'romancillo'],
 		['romancillo í-a', 'romancillo'],
-		['silva 2.ª', null],
+		['silva 2.ª', 'silva'],
+		['silva 4.ª', 'silva'],
 		['Silva 3.ª', 'silva'],
 		['silva 1.º', 'silva']
 	];
@@ -415,11 +416,7 @@ describe('ampliación terminológica v0.18', () => {
 			const input = raw();
 			input.tramos[0].denominacion_literal = literal;
 			const segmento = normalizarExtraccion(input, context()).segmentos[0];
-			if (forma === null) {
-				// Sin una sola arquitectura posible, la silva 2.ª queda con candidatas.
-				expect(segmento.propuesta).toBeNull();
-				expect(segmento.candidatas.map((c) => c.arquitectura_slug)).toEqual(['consonante_irregular', 'libre']);
-			} else expect((segmento.identificacion_revisada ?? segmento.propuesta).forma_slug).toBe(forma);
+			expect((segmento.identificacion_revisada ?? segmento.propuesta).forma_slug).toBe(forma);
 			expect(segmento.fuente.denominacion_literal).toBe(literal);
 		});
 	}
@@ -431,4 +428,17 @@ describe('ampliación terminológica v0.18', () => {
 			expect(regla.candidatas[0].arquitectura_slug).toBeNull();
 		}
 	});
+});
+
+it('lleva cada silva numerada de Morley y Bruerton a su arquitectura', () => {
+	const arquitectura = (literal) => {
+		const input = raw();
+		input.tramos[0].denominacion_literal = literal;
+		const s = normalizarExtraccion(input, context()).segmentos[0];
+		return (s.identificacion_revisada ?? s.propuesta).arquitectura_slug;
+	};
+	expect(arquitectura('silva 1.ª')).toBe('consonante_regular');
+	expect(arquitectura('silva 2.ª')).toBe('libre');
+	expect(arquitectura('silva 3.ª')).toBe('endecasilabica');
+	expect(arquitectura('silva 4.ª')).toBe('consonante_irregular');
 });
