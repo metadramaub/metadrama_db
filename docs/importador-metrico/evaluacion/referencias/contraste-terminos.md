@@ -2,7 +2,7 @@
 
 Estado a 22 de octubre de 2026: **pasajes relevantes consultados directamente en las seis
 fuentes bibliográficas del catálogo**. La biblioteca se ha leído desde
-`C:\Users\david\OneDrive - UAB\Investigacion\fuenteovejuna-data-sync\bibliografía`.
+`C:\Users\david\OneDrive - UAB\Investigacion\versologia-data-sync\bibliografía`.
 No se ha modificado ni se ha configurado su sincronización.
 
 El [registro de evidencia](../../../../data/importador-metrico/bibliografia-contraste.json) identifica los originales por SHA-256,

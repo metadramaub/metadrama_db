@@ -1,7 +1,7 @@
 # Revisión del pie quebrado: estructuras, posiciones y fuentes
 
 Revisión del 26 de octubre de 2026. Originales consultados en
-`C:\Users\david\OneDrive - UAB\Investigacion\fuenteovejuna-data-sync\bibliografía`.
+`C:\Users\david\OneDrive - UAB\Investigacion\versologia-data-sync\bibliografía`.
 Estado del catálogo contrastado mediante consultas de solo lectura a la base enlazada.
 Este documento recoge hallazgos y propuestas; no acredita cambios aplicados al catálogo.
 

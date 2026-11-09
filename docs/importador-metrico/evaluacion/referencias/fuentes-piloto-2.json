@@ -3,8 +3,8 @@
   "lote": "piloto-2",
   "fecha": "2026-11-09",
   "proposito": "Lote independiente: obras y ediciones no usadas para redactar el prompt. Mide cómo generaliza el importador con fotos buenas. No se ajusta el prompt con estas obras; un cambio se valida en otro lote nuevo.",
-  "raiz_materiales_local": "C:\\Users\\david\\OneDrive - UAB\\Documents\\METADRAMA\\VERSOLOGIA\\Importador\\Importador",
-  "nota_fotos": "Las fotografías no entran en el repositorio (derechos de las ediciones). Una carpeta por libro y un archivo por página; una página compartida por dos obras se guarda una vez.",
+  "raiz_materiales_local": "C:\\Users\\david\\OneDrive - UAB\\Investigacion\\versologia-data-sync\\importador",
+  "nota_fotos": "Las fotografías no entran en el repositorio (derechos de las ediciones). Están en versologia-data-sync, la carpeta de OneDrive para lo que no va por git y deben ver todas las copias locales. Una carpeta por libro y un archivo por página; una página compartida por dos obras se guarda una vez.",
   "obras": [
     {
       "obra_ref": "el-perro-del-hortelano",
@@ -13,13 +13,13 @@
       "edicion": "Lope de Vega, El perro del hortelano. El castigo sin venganza, ed. A. David Kossoff, Madrid, Castalia, 2003; ejemplar de 2019.",
       "fotos": [
         {
-          "ruta_relativa": "Fotos piloto 2/castalia_perro-del-hortelano_castigo-sin-venganza/p070.jpg",
+          "ruta_relativa": "fotos-piloto-2/castalia_perro-del-hortelano_castigo-sin-venganza/p070.jpg",
           "pagina": 70,
           "sha256": "3f5d076a6514c6003da422971a6d3e2e4e4348067937cb9fe5457c2e992c9767",
           "nombre_original": "IMG_20261109_171230662.jpg"
         },
         {
-          "ruta_relativa": "Fotos piloto 2/castalia_perro-del-hortelano_castigo-sin-venganza/p071.jpg",
+          "ruta_relativa": "fotos-piloto-2/castalia_perro-del-hortelano_castigo-sin-venganza/p071.jpg",
           "pagina": 71,
           "sha256": "87cc731d553c0942520b364d097c399bb03f1bbcb5366c47021e21c07dbee12d",
           "nombre_original": "IMG_20261109_171237600.jpg",
@@ -42,25 +42,25 @@
       "edicion": "Mismo volumen que El perro del hortelano (Castalia, ed. Kossoff, 2003; ejemplar de 2019).",
       "fotos": [
         {
-          "ruta_relativa": "Fotos piloto 2/castalia_perro-del-hortelano_castigo-sin-venganza/p071.jpg",
+          "ruta_relativa": "fotos-piloto-2/castalia_perro-del-hortelano_castigo-sin-venganza/p071.jpg",
           "pagina": 71,
           "sha256": "87cc731d553c0942520b364d097c399bb03f1bbcb5366c47021e21c07dbee12d",
           "nombre_original": "IMG_20261109_171237600.jpg"
         },
         {
-          "ruta_relativa": "Fotos piloto 2/castalia_perro-del-hortelano_castigo-sin-venganza/p072.jpg",
+          "ruta_relativa": "fotos-piloto-2/castalia_perro-del-hortelano_castigo-sin-venganza/p072.jpg",
           "pagina": 72,
           "sha256": "d97ddded65bae6d875d55f064e833cd7cdf7f8492c369bb22cd920d35481803b",
           "nombre_original": "IMG_20261109_171250140.jpg"
         },
         {
-          "ruta_relativa": "Fotos piloto 2/castalia_perro-del-hortelano_castigo-sin-venganza/p073.jpg",
+          "ruta_relativa": "fotos-piloto-2/castalia_perro-del-hortelano_castigo-sin-venganza/p073.jpg",
           "pagina": 73,
           "sha256": "f6d80f66766f3b3f68542b21d4d47191f68d74307c498b046a38e1578668b389",
           "nombre_original": "IMG_20261109_171257238.jpg"
         },
         {
-          "ruta_relativa": "Fotos piloto 2/castalia_perro-del-hortelano_castigo-sin-venganza/p074.jpg",
+          "ruta_relativa": "fotos-piloto-2/castalia_perro-del-hortelano_castigo-sin-venganza/p074.jpg",
           "pagina": 74,
           "sha256": "bdce3e9d691bcd6f9e079b4a922dc51e4dbc3b80850061a8dfba4702c11cd6bf",
           "nombre_original": "IMG_20261109_171304444.jpg"
@@ -75,7 +75,7 @@
       "edicion": "Calderón de la Barca, El alcalde de Zalamea, ed. José María Díez Borque, Madrid, Castalia, 1971; ejemplar de 2017.",
       "fotos": [
         {
-          "ruta_relativa": "Fotos piloto 2/castalia_alcalde-de-zalamea/p116.jpg",
+          "ruta_relativa": "fotos-piloto-2/castalia_alcalde-de-zalamea/p116.jpg",
           "pagina": 116,
           "sha256": "e8fe4893bd993f6a5c45cc15c22f137d1e337770658c5406806ba9335e2f22bc",
           "nombre_original": "IMG_20261109_171148904.jpg"
@@ -94,13 +94,13 @@
       "edicion": "Lope de Vega, Las bizarrías de Belisa, ed. Enrique García Santo-Tomás, Madrid, Cátedra (Letras Hispánicas), 2004; ejemplar de 2021.",
       "fotos": [
         {
-          "ruta_relativa": "Fotos piloto 2/catedra_bizarrias-de-belisa/p061.jpg",
+          "ruta_relativa": "fotos-piloto-2/catedra_bizarrias-de-belisa/p061.jpg",
           "pagina": 61,
           "sha256": "acf65b7918d902fba41094d1be00e19c605bcf9c13403387f8f1bb8e0f58b838",
           "nombre_original": "IMG_20261109_172134520.jpg"
         },
         {
-          "ruta_relativa": "Fotos piloto 2/catedra_bizarrias-de-belisa/p062.jpg",
+          "ruta_relativa": "fotos-piloto-2/catedra_bizarrias-de-belisa/p062.jpg",
           "pagina": 62,
           "sha256": "5c7bb50f6bc24d01312ad59984ff852d35eb616e8f63dba9ea53241e968568ae",
           "nombre_original": "IMG_20261109_172145704.jpg"
@@ -119,19 +119,19 @@
       "edicion": "Lope de Vega, El caballero de Olmedo, ed. Francisco Rico, Madrid, Cátedra (Letras Hispánicas, 147), 1981; ejemplar de 2009.",
       "fotos": [
         {
-          "ruta_relativa": "Fotos piloto 2/catedra_caballero-de-olmedo/p088.jpg",
+          "ruta_relativa": "fotos-piloto-2/catedra_caballero-de-olmedo/p088.jpg",
           "pagina": 88,
           "sha256": "aabd5c5140a5d9303a37fd596f5144baf19c6019a7ab4fc5caa82bb7cf55c4cd",
           "nombre_original": "IMG_20261109_171944896.jpg"
         },
         {
-          "ruta_relativa": "Fotos piloto 2/catedra_caballero-de-olmedo/p089.jpg",
+          "ruta_relativa": "fotos-piloto-2/catedra_caballero-de-olmedo/p089.jpg",
           "pagina": 89,
           "sha256": "a11cbe42b416b5244b712bcfaf1583c091abb5ecfcda8bc2ef056952764734f1",
           "nombre_original": "IMG_20261109_171952238.jpg"
         },
         {
-          "ruta_relativa": "Fotos piloto 2/catedra_caballero-de-olmedo/p090.jpg",
+          "ruta_relativa": "fotos-piloto-2/catedra_caballero-de-olmedo/p090.jpg",
           "pagina": 90,
           "sha256": "455429b5e5143f9a29d35367b49ec68e9fba403d9a14bba53974c9eb28dacb76",
           "nombre_original": "IMG_20261109_172002096.jpg"
@@ -150,7 +150,7 @@
       "edicion": "Tirso de Molina, Don Gil de las calzas verdes, ed. Enrique García Santo-Tomás, Madrid, Cátedra (Letras Hispánicas, 632), 2009; ejemplar de 2020.",
       "fotos": [
         {
-          "ruta_relativa": "Fotos piloto 2/catedra_don-gil-de-las-calzas-verdes/p069.jpg",
+          "ruta_relativa": "fotos-piloto-2/catedra_don-gil-de-las-calzas-verdes/p069.jpg",
           "pagina": 69,
           "sha256": "4c6f8211cf9b6097e3ca90447818a6db0fffd226f17bc931721f3438c973fd6a",
           "nombre_original": "IMG_20261109_172110840.jpg"
@@ -169,13 +169,13 @@
       "edicion": "Lope de Vega, Peribáñez y el comendador de Ocaña, ed. Juan María Marín, Madrid, Cátedra (Letras Hispánicas, 96), 1979; ejemplar de 2008.",
       "fotos": [
         {
-          "ruta_relativa": "Fotos piloto 2/catedra_peribanez/p046.jpg",
+          "ruta_relativa": "fotos-piloto-2/catedra_peribanez/p046.jpg",
           "pagina": 46,
           "sha256": "098e214614fecc95d740ba098b52efdaebb496bd03f517eac43712308b047a2e",
           "nombre_original": "IMG_20261109_172201713.jpg"
         },
         {
-          "ruta_relativa": "Fotos piloto 2/catedra_peribanez/p047.jpg",
+          "ruta_relativa": "fotos-piloto-2/catedra_peribanez/p047.jpg",
           "pagina": 47,
           "sha256": "49b1c98f5fe93a21d4292b452711b2ec13dce6e4e1af097185ed7e0079101d18",
           "nombre_original": "IMG_20261109_172213485.jpg"
@@ -194,19 +194,19 @@
       "edicion": "Lope de Vega, Fuente Ovejuna, ed. Donald McGrady, estudio preliminar de Noël Salomon, Barcelona, Crítica (Biblioteca Clásica, 54), 1993.",
       "fotos": [
         {
-          "ruta_relativa": "Fotos piloto 2/critica_fuenteovejuna/p039.jpg",
+          "ruta_relativa": "fotos-piloto-2/critica_fuenteovejuna/p039.jpg",
           "pagina": 39,
           "sha256": "4744c764117c7cb1d1efeadcfd8a05d962b7985f0a846691dc13a1ed47616a9f",
           "nombre_original": "IMG_20261109_170759852.jpg"
         },
         {
-          "ruta_relativa": "Fotos piloto 2/critica_fuenteovejuna/p040.jpg",
+          "ruta_relativa": "fotos-piloto-2/critica_fuenteovejuna/p040.jpg",
           "pagina": 40,
           "sha256": "9cf5142fbd61e2d25316a698680295daa038b9cfb39013add25d577032488715",
           "nombre_original": "IMG_20261109_170810470.jpg"
         },
         {
-          "ruta_relativa": "Fotos piloto 2/critica_fuenteovejuna/p041.jpg",
+          "ruta_relativa": "fotos-piloto-2/critica_fuenteovejuna/p041.jpg",
           "pagina": 41,
           "sha256": "7268ffd3ca731bfb27b825d3618f52dba1d5e9d29ebd966b2c77da92961e993c",
           "nombre_original": "IMG_20261109_170813589.jpg"
@@ -221,13 +221,13 @@
       "edicion": "Lope de Vega, Quien todo lo quiere, ed. Alejandro García-Reidy, en Comedias de Lope de Vega. Parte XXII, coord. Fausta Antonucci y Marco Presotto, Madrid, Gredos, 2023, 2 vols. (ISBN 978-84-249-4053-9), I, pp. 53-199.",
       "fotos": [
         {
-          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p086.jpg",
+          "ruta_relativa": "fotos-piloto-2/gredos_parte-xxii/p086.jpg",
           "pagina": 86,
           "sha256": "dcd322774507ba28157e2b69d71152f04c2e82cde51543961ec5ea96bfa6e420",
           "nombre_original": "IMG_20261109_172927181.jpg"
         },
         {
-          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p087.jpg",
+          "ruta_relativa": "fotos-piloto-2/gredos_parte-xxii/p087.jpg",
           "pagina": 87,
           "sha256": "5f9149c4720eb70b1b061bb401e9f77bcdf5252f619977d228677e1179a3cb7b",
           "nombre_original": "IMG_20261109_172946514.jpg"
@@ -242,19 +242,19 @@
       "edicion": "Lope de Vega, Amar, servir y esperar, ed. Eduard Gómez Vilar, en Comedias de Lope de Vega. Parte XXII, coord. Fausta Antonucci y Marco Presotto, Madrid, Gredos, 2023, 2 vols. (ISBN 978-84-249-4053-9), I, pp. 357-499.",
       "fotos": [
         {
-          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p374.jpg",
+          "ruta_relativa": "fotos-piloto-2/gredos_parte-xxii/p374.jpg",
           "pagina": 374,
           "sha256": "f217b9b680ccc49df663553f4b0bda17a92477ca9f836ce2964774260fa882fa",
           "nombre_original": "IMG_20261109_172620069.jpg"
         },
         {
-          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p375.jpg",
+          "ruta_relativa": "fotos-piloto-2/gredos_parte-xxii/p375.jpg",
           "pagina": 375,
           "sha256": "d1a5712dc735e1ab6e5760330b416408eae88ca82becbf4fecfd81b54d24db30",
           "nombre_original": "IMG_20261109_172636254.jpg"
         },
         {
-          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p376.jpg",
+          "ruta_relativa": "fotos-piloto-2/gredos_parte-xxii/p376.jpg",
           "pagina": 376,
           "sha256": "e8b8f091fe3bc6a375ab1b4baea889ef2152001e8a44da281db10c50d22b6431",
           "nombre_original": "IMG_20261109_172653228.jpg"
@@ -269,13 +269,13 @@
       "edicion": "Lope de Vega, La vida de san Pedro Nolasco, ed. Paula Casariego Castiñeira, en Comedias de Lope de Vega. Parte XXII, coord. Fausta Antonucci y Marco Presotto, Madrid, Gredos, 2023, 2 vols. (ISBN 978-84-249-4053-9), I, pp. 505-637.",
       "fotos": [
         {
-          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p523.jpg",
+          "ruta_relativa": "fotos-piloto-2/gredos_parte-xxii/p523.jpg",
           "pagina": 523,
           "sha256": "791a160128ed23a079077815b12df17c3c1c2edbc12983903387437614d93b18",
           "nombre_original": "IMG_20261109_172858443.jpg"
         },
         {
-          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p524.jpg",
+          "ruta_relativa": "fotos-piloto-2/gredos_parte-xxii/p524.jpg",
           "pagina": 524,
           "sha256": "d5d30411be8517262a5a8df79f905f64e86d183e817dcc33f7d4a513572d0279",
           "nombre_original": "IMG_20261109_172907059.jpg",
@@ -291,19 +291,19 @@
       "edicion": "Lope de Vega, La primera información, ed. Daniele Crivellari, en Comedias de Lope de Vega. Parte XXII, coord. Fausta Antonucci y Marco Presotto, Madrid, Gredos, 2023, 2 vols. (ISBN 978-84-249-4053-9), I, pp. 643-785.",
       "fotos": [
         {
-          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p658.jpg",
+          "ruta_relativa": "fotos-piloto-2/gredos_parte-xxii/p658.jpg",
           "pagina": 658,
           "sha256": "2974563896a80ca5204eb49b185f59263f990545a739ba0bc612cfa7fce54269",
           "nombre_original": "IMG_20261109_173107911.jpg"
         },
         {
-          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p659.jpg",
+          "ruta_relativa": "fotos-piloto-2/gredos_parte-xxii/p659.jpg",
           "pagina": 659,
           "sha256": "03854fb400db9288de4a1e46d833711f9422504bf65a9a263b9e886522f2a852",
           "nombre_original": "IMG_20261109_173118412.jpg"
         },
         {
-          "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p660.jpg",
+          "ruta_relativa": "fotos-piloto-2/gredos_parte-xxii/p660.jpg",
           "pagina": 660,
           "sha256": "14e36e2eccf9408ec3e8ba8349a9bd491727b37f9d5d4c17f14f68a7d6aad600",
           "nombre_original": "IMG_20261109_173126441.jpg"
@@ -319,13 +319,13 @@
       "control": true,
       "fotos": [
         {
-          "ruta_relativa": "Fotos piloto 2/gredos_locos-de-valencia/p040.jpg",
+          "ruta_relativa": "fotos-piloto-2/gredos_locos-de-valencia/p040.jpg",
           "pagina": 40,
           "sha256": "152810c097ed7c15d994bcf61eda33f1a586f6c7cece3829e73c8a41b09bae73",
           "nombre_original": "IMG_20261109_171353546.jpg"
         },
         {
-          "ruta_relativa": "Fotos piloto 2/gredos_locos-de-valencia/p041.jpg",
+          "ruta_relativa": "fotos-piloto-2/gredos_locos-de-valencia/p041.jpg",
           "pagina": 41,
           "sha256": "33b947f5d3b10eb253ce5cbfbdd763cc78644c8c42fe6d981647d61c35fc0596",
           "nombre_original": "IMG_20261109_171358519.jpg"
