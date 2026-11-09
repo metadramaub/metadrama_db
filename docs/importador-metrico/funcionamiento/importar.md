@@ -39,6 +39,26 @@ información que aún no está registrada. No se exige la exhaustividad de la fi
   ejemplo, los asteriscos de *Fuenteovejuna*), se propone la caracterización por rango
   «cantado» sobre toda la fila. Una nota que lo niega («no cantado») no la propone, y el nombre
   de la estrofa nunca basta. Al dividir la fila, cada parte conserva su tramo cantado.
+- **Desviaciones declaradas en nota.** Si una nota enlazada a la fila declara versos
+  irregulares, el importador propone la desviación, enlazada a esa nota y sin comentario del
+  editor. Solo lo hace cuando se lee sin interpretar:
+  - Listas encabezadas: «Versos cortos: 881, 2046» (metro menor que la norma), «Versos largos»
+    (mayor), «Versos que faltan» (falta) y «Versos que sobran» (sobra). Cada verso va a la fila
+    que lo contiene.
+  - Un verso de otra medida citado uno a uno: «aparece un verso heptasílabo (v. 2172)». Solo
+    se propone si la norma de la fila tiene una única medida, por su arquitectura o por su
+    nombre, como «endecasílabos sueltos». Si mide igual que la norma y la nota lo llama
+    «suelto», es un verso que sobra.
+
+  Lo demás, como «los vv. 140-150 son de otra mano» o una redondilla sin arquitectura, se
+  queda en la nota para el editor. Las propuestas se quitan o corrigen en el lápiz de la fila.
+  Las notas citan la numeración de la edición, y en una edición numerada por jornada se suma el
+  mismo desplazamiento que a la fila.
+- **Asonancia del romance.** Se reconoce escrita de cualquiera de estas maneras: «romance en
+  -ae», «romance á-e», «romance asonante en é-a», «romance de asonancia femenina en á/e» o
+  «masculina en ó». La femenina, de palabra llana, tiene dos vocales y la masculina, aguda,
+  una. Si la clase no cuadra con las vocales, la fila no se identifica. Lo mismo vale para el
+  romancillo.
 - **Numeración por jornada.** Si la edición vuelve a numerar desde el v. 1 en cada jornada (el
   *Alcalde* de Castalia, el *Peribáñez* de Cátedra), el importador pasa a numeración continua:
   cada jornada empieza tras el último verso de la anterior, y un aviso dice cuánto se ha sumado

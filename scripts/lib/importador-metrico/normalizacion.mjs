@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { validarExtraccion } from './validacion.mjs';
 import { pareadosEnDenominacion, cierreConExcepciones } from './pareados-declarados.mjs';
 import { numeracionPorJornada, aplicarNumeracion } from './numeracion.mjs';
+import { desviacionesDeclaradas } from './desviaciones-declaradas.mjs';
 
 // Una nota que dice que unas filas son cantadas (no «no cantado») propone la caracterización.
 const CANTADO = /(?<!\p{L})cantad[oa]s?(?!\p{L})/iu;
@@ -16,6 +17,28 @@ function cantadoDeclarado(row, notesById) {
 			return [{ termino: 'cantado', v_ini: row.v_ini, v_fin: row.v_fin, tramo_ref: row.id, nota_ref: nota.id, literal: textoNota }];
 	}
 	return [];
+}
+
+// La asonancia que acompaña al nombre: «romance en -ae», «romance á-e», «romance de asonancia
+// femenina en á/e», «romance asonante en ó», «romance de asonancia masculina en ó». La femenina
+// (de palabra llana) tiene dos vocales y la masculina (aguda) una; si no cuadran, no se reconoce.
+export function vocalesDeclaradas(literal, nombre) {
+	const m = literal
+		?.normalize('NFD')
+		.replace(/\p{M}/gu, '')
+		.toLowerCase()
+		.match(
+			new RegExp(
+				String.raw`^${nombre}\s+(?:(?:de|con)\s+)?(?:(?:rima|asonancia)\s+)?(?:asonantes?\s+)?` +
+					String.raw`(?:(femenina|llana|grave|masculina|aguda)\s+)?(?:en\s+)?[-–—]?\s*([aeiou])(?:\s*[-–—/]?\s*([aeiou]))?$`,
+				'u'
+			)
+		);
+	if (!m) return null;
+	const [, clase, primera, segunda] = m;
+	if (['femenina', 'llana', 'grave'].includes(clase) && !segunda) return null;
+	if (['masculina', 'aguda'].includes(clase) && segunda) return null;
+	return [m[0], primera, segunda];
 }
 
 export class ErrorExtraccion extends Error {
@@ -69,6 +92,17 @@ const deviationSchema = z
 		metro_observado_slug: texto.optional()
 	})
 	.refine((d) => d.v_fin >= d.v_ini, 'Desviación con rango invertido');
+
+// Una decisión acordada y la lectura de la nota pueden dar la misma desviación.
+function sinRepetir(desviaciones) {
+	const vistas = new Set();
+	return desviaciones.filter((d) => {
+		const clave = JSON.stringify([d.v_ini, d.v_fin, d.dimension, d.relacion_norma, d.metro_observado_slug ?? null, d.nota_ref]);
+		if (vistas.has(clave)) return false;
+		vistas.add(clave);
+		return true;
+	});
+}
 
 function unionLength(rows) {
 	const sorted = rows
@@ -161,11 +195,7 @@ export function normalizarExtraccion(
 			? sinLlamada(row.denominacion_literal.replace(/\s+/gu, ' ').trim()).replace(/[.;:,]+$/u, '').trim()
 			: row.denominacion_literal;
 		const claveLiteral = (literal) => literal?.replace(/\s+/gu, ' ').trim().toLowerCase();
-		const vocales = literalComparado
-			?.normalize('NFD')
-			.replace(/\p{M}/gu, '')
-			.toLowerCase()
-			.match(/^romances?\s+(?:en\s+)?[-–—]?\s*([aeiou])(?:\s*[-–—]?\s*([aeiou]))?$/u);
+		const vocales = vocalesDeclaradas(literalComparado, 'romances?');
 		// Los cuatro tipos de silva de Morley y Bruerton: «silva 2.ª», «Silvas 3.as», «silva 1.º».
 		const tipoSilva = (literal) =>
 			literal
@@ -174,11 +204,7 @@ export function normalizarExtraccion(
 				.match(/^silvas?\s+([1-4])\s*\.?\s*(?:ª|º|a|o|as|os|\.ª|\.º)?$/u)?.[1] ?? null;
 		const silvaNumerada = tipoSilva(literalComparado);
 		// El romancillo declara su asonancia igual que el romance («romancillo en -ee»).
-		const vocalesRomancillo = literalComparado
-			?.normalize('NFD')
-			.replace(/\p{M}/gu, '')
-			.toLowerCase()
-			.match(/^romancillos?\s+(?:en\s+)?[-–—]?\s*([aeiou])(?:\s*[-–—]?\s*([aeiou]))?$/u);
+		const vocalesRomancillo = vocalesDeclaradas(literalComparado, 'romancillos?');
 		const liraDeSeis = /^liras?(?:[-\s]sestinas?)?\s+(?:\(\s*[a-f](?:\s*[a-f]){5}\s*\)|[a-f](?:\s*[a-f]){5})$/iu.test(literalComparado ?? '');
 		const pareados = pareadosEnDenominacion(literalComparado, row);
 		const matches = reference.reglas.filter(
@@ -323,19 +349,31 @@ export function normalizarExtraccion(
 			// Estos detalles están declarados en la fuente: no equivalen a respuestas completas del editor.
 			detalles_fuente: structuredClone(rule?.detalles_fuente ?? []),
 			caracterizaciones: cantadoDeclarado(row, notesById),
-			desviaciones: localDecisions
-				.filter((d) => d.tramo_ref === row.id)
-				.map((d) => ({
-					...deviationSchema.parse(d.desviacion),
-					nota_ref: d.nota_ref,
-					texto_fuente: notesById.get(d.nota_ref).texto_literal,
-					fundamento: d.fundamento
-				}))
+			desviaciones: sinRepetir([
+				...localDecisions
+					.filter((d) => d.tramo_ref === row.id)
+					.map((d) => ({
+						...deviationSchema.parse(d.desviacion),
+						nota_ref: d.nota_ref,
+						texto_fuente: notesById.get(d.nota_ref).texto_literal,
+						fundamento: d.fundamento
+					})),
+				// Las que la nota declara sin necesidad de interpretarla: el editor puede quitarlas.
+				...desviacionesDeclaradas(row, notesById, {
+					desplazamiento: desplazamientos?.find((d) => d.jornada === row.jornada)?.desplazamiento ?? 0,
+					destino: exact ?? (rule?.candidatas.length === 1 ? rule.candidatas[0] : null),
+					metros: catalogo.metros?.map((m) => (typeof m === 'string' ? m : m.slug)) ?? null
+				})
+			])
 		};
 		if (!rule?.division) return [segmento];
 		if (rowsById.has(`${row.id}.1`) || rowsById.has(`${row.id}.2`))
 			throw new Error('Los identificadores de la división coinciden con otra fila fuente.');
-		const recorta = (s, ini, fin) => ({ ...s, caracterizaciones: s.caracterizaciones.map((c) => ({ ...c, v_ini: Math.max(c.v_ini, ini), v_fin: Math.min(c.v_fin, fin) })) });
+		const recorta = (s, ini, fin) => ({
+			...s,
+			caracterizaciones: s.caracterizaciones.map((c) => ({ ...c, v_ini: Math.max(c.v_ini, ini), v_fin: Math.min(c.v_fin, fin) })),
+			desviaciones: s.desviaciones.filter((d) => d.v_ini >= ini && d.v_fin <= fin)
+		});
 		return [
 			recorta({ ...segmento, id: `${row.id}.1`, v_fin: row.v_ini + 13 }, row.v_ini, row.v_ini + 13),
 			{
@@ -348,7 +386,8 @@ export function normalizarExtraccion(
 				candidatas: [],
 				detalles_fuente: [],
 				nota: 'Estrambote declarado por la edición. Se conserva como secuencia sin forma identificada mientras el catálogo no admite este remate en el soneto; criterio pendiente.',
-				caracterizaciones: recorta(segmento, row.v_ini + 14, row.v_fin).caracterizaciones
+				caracterizaciones: recorta(segmento, row.v_ini + 14, row.v_fin).caracterizaciones,
+				desviaciones: recorta(segmento, row.v_ini + 14, row.v_fin).desviaciones
 			}
 		];
 	});

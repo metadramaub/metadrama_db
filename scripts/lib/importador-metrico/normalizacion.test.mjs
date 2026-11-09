@@ -406,6 +406,9 @@ describe('ampliación terminológica v0.18', () => {
 		['silvas', 'silva'],
 		['romancillo en -ee', 'romancillo'],
 		['romancillo í-a', 'romancillo'],
+		['romance de asonancia femenina en á/e', 'romance'],
+		['romance de asonancia masculina en ó', 'romance'],
+		['romance asonante en é-a', 'romance'],
 		['silva 2.ª', 'silva'],
 		['silva 4.ª', 'silva'],
 		['Silva 3.ª', 'silva'],
@@ -462,3 +465,55 @@ describe('pasajes cantados declarados en nota', () => {
 	});
 });
 
+
+describe('asonancia escrita en prosa', () => {
+	const romance = (literal) => {
+		const input = raw();
+		input.tramos[0].denominacion_literal = literal;
+		return normalizarExtraccion(input, context()).segmentos[0];
+	};
+	it('lleva la femenina a sus dos vocales y la masculina a una', () => {
+		expect(romance('romance de asonancia femenina en á/e').detalles_fuente).toEqual([
+			{ literal: 'de asonancia femenina en á/e', rasgo_slug: 'vocales_asonancia', valor_slug: 'a-e' }
+		]);
+		expect(romance('romance de asonancia masculina en ó').detalles_fuente).toEqual([
+			expect.objectContaining({ rasgo_slug: 'vocales_asonancia', valor_slug: 'o' })
+		]);
+	});
+	it('no reconoce una clase que no cuadra con las vocales', () => {
+		expect(romance('romance de asonancia masculina en á/e').propuesta).toBeNull();
+		expect(romance('romance de asonancia femenina en ó').propuesta).toBeNull();
+	});
+});
+
+describe('desviaciones declaradas en nota', () => {
+	const conNota = (fila, texto) => {
+		const input = raw();
+		const t = input.tramos[fila];
+		input.notas.push({ id: 'n-desv', marca: '*', texto_literal: texto, fuente_id: t.fuente_id, pagina: t.pagina, tramos_ref: [t.id], v_ini: null, v_fin: null });
+		t.notas_ref = [...t.notas_ref, 'n-desv'];
+		return normalizarExtraccion(input, context()).segmentos.find((s) => s.id === t.id);
+	};
+	it('lee las listas de versos cortos, largos y que faltan dentro de la fila', () => {
+		// t02: redondillas, vv. 131-590.
+		const s = conNota(1, 'VERSOS CORTOS: 140, 2046. VERSOS QUE FALTAN: 200 y 300-301.');
+		expect(s.desviaciones.map(({ v_ini, v_fin, dimension, relacion_norma }) => [v_ini, v_fin, dimension, relacion_norma])).toEqual([
+			[140, 140, 'metro', 'menor_que_norma'],
+			[200, 200, 'estructura', 'falta'],
+			[300, 301, 'estructura', 'falta']
+		]);
+		expect(s.desviaciones[0]).toMatchObject({ nota_ref: 'n-desv', fundamento: null });
+	});
+	it('propone el verso de otra medida cuando la norma de la fila la fija', () => {
+		// La nota 34 real de Los locos de Valencia, sobre t13 (endecasílabos sueltos, vv. 2093-2222).
+		const s = normalizarExtraccion(raw(), context()).segmentos.find((x) => x.id === 't13');
+		expect(s.desviaciones).toEqual([
+			expect.objectContaining({ v_ini: 2172, v_fin: 2172, dimension: 'metro', relacion_norma: 'menor_que_norma', metro_observado_slug: 'heptasilabo', nota_ref: 'n01' })
+		]);
+	});
+	it('no propone nada si la nota no se deja leer sin interpretar', () => {
+		expect(conNota(1, 'Los vv. 140-150 son de otra mano.').desviaciones).toEqual([]);
+		expect(conNota(1, 'El v. 140 es un octosílabo suelto integrado en la serie de redondillas.').desviaciones).toEqual([]);
+		expect(conNota(1, 'VERSOS CORTOS: véase la introducción.').desviaciones).toEqual([]);
+	});
+});

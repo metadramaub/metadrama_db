@@ -416,7 +416,10 @@ describe('vista previa del importador sin persistencia', () => {
 		cambiado.metadatos.titulo = 'Otra obra con la misma referencia';
 		const suplantada = analizarEntrada(JSON.stringify(cambiado));
 		expect(suplantada.errores).toEqual([]);
-		expect(suplantada.filas.flatMap((f) => f.desviaciones)).toEqual([]);
+		// Sin la decisión acordada solo queda lo que la nota dice por sí sola: el heptasílabo.
+		expect(suplantada.filas.flatMap((f) => f.desviaciones)).toEqual([
+			expect.objectContaining({ v_ini: 2172, relacion_norma: 'menor_que_norma', metro_observado_slug: 'heptasilabo', nota: null })
+		]);
 	});
 	it('ofrece el prompt literal y el carácter local del catálogo', () => {
 		expect(obtenerReferenciaImportador().prompt).toContain('Transcribe las fotografías');

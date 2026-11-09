@@ -85,17 +85,19 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
   prompt 0.27 sin tocarlo, con GPT y algún modelo barato, y cotejarlo con las fotos: lectura,
   estructura, decisiones sobre notas y minutos de revisión.
 - Mejoras del importador que pide el piloto 2. Ya hechas: puntuación final, llamadas de nota
-  pegadas, lira-sestina, plurales, romancillo con asonancia, silvas numeradas de Morley y Bruerton
-  y sugerencia de jornada para las filas que continúan. Cada cambio debe dejar igual el piloto 1.
-  - **Romance con la asonancia en prosa** («romance de asonancia femenina en á/e», *Alcalde*): no
-    se reconoce como romance; hoy solo se entiende «romance en -ae» o «romance á-e».
+  pegadas, lira-sestina, plurales, romancillo con asonancia, silvas numeradas de Morley y Bruerton,
+  sugerencia de jornada para las filas que continúan, numeración por jornada, pasajes cantados,
+  asonancia escrita en prosa y desviaciones declaradas en nota. Cada cambio debe dejar igual el piloto 1;
+  la única diferencia admitida es el heptasílabo de *Locos*, que la nota ya propone y coincide con
+  la decisión acordada.
+  Para el prompt 0.28, sin urgencia:
   - **Página compartida por dos obras** (*Perro*/*Castigo*): el modelo mezcló las primeras filas de
     la obra siguiente. Para el prompt: transcribir solo la obra indicada.
   - **Jornada mal asignada** a filas que continúan en otra página (*Nolasco*): el modelo les pone
     la jornada siguiente. No se puede corregir sin ver la página; queda para el prompt.
 
 Entrada vigente: [índice del importador](importador-metrico/README.md). El dashboard ofrece
-el prompt 0.27. Las reglas de equivalencias v0.19 son
+el prompt 0.27. Las reglas de equivalencias v0.23 son
 independientes de esas versiones de prompt y su último ajuste está probado localmente.
 
 - Revisar el [lote de veinte de GPT-6 High](importador-metrico/evaluacion/informes/chatgpt-gpt6-high-v0.27.md)
@@ -103,8 +105,9 @@ independientes de esas versiones de prompt y su último ajuste está probado loc
   antes de acordar el procedimiento para colaboradores. Las veinte respuestas ya están conservadas,
   sin reintentos; no queda pendiente ejecutarlas por primera vez. Repetir algunos casos difíciles
   antes de adoptar una versión definitiva y comprobar las nuevas reglas en el flujo desplegado.
-- Cerrar el tratamiento de desviaciones declaradas en notas y la revisión de sus avisos.
-  Las erratas de rango/recuento de Ursón, Dómine, Casamiento y Mármol se consultan en la edición;
+- Las desviaciones declaradas en notas ya se proponen solas cuando se leen sin interpretar
+  ([importar](importador-metrico/funcionamiento/importar.md)); queda revisar sus avisos de
+  longitud. Las erratas de rango/recuento de Ursón, Dómine, Casamiento y Mármol se consultan en la edición;
   no son errores de lectura que deba arreglar la IA. El leal criado conserva su caso complejo.
 - Revisar el [informe de equivalencias](importador-metrico/equivalencias/revision-equivalencias.md)
   y los [casos complejos](importador-metrico/equivalencias/casos-complejos-equivalencias.md).
