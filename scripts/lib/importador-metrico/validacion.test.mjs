@@ -433,4 +433,12 @@ describe('CLI sin escrituras', () => {
 		expect(schema.properties.esquema.const).toBe('versologia-extraccion/0.1');
 		expect(schema.additionalProperties).toBe(false);
 	});
+	it('sugiere la jornada anterior a una fila que la continúa sin hueco, sin asignarla', () => {
+		const obra = ejemplo();
+		obra.tramos[1].jornada = null;
+		const r = validarExtraccion(obra);
+		const aviso = r.pendientes.find((p) => p.codigo === 'jornada_pendiente');
+		expect(aviso.mensaje).toContain('de la jornada 1');
+		expect(obra.tramos[1].jornada).toBeNull();
+	});
 });

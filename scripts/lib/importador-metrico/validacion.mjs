@@ -356,13 +356,21 @@ export function validarExtraccion(entrada, opciones = {}) {
 	obra.tramos.forEach((row, i) => {
 		const ruta = `tramos.${i}`;
 		comprobarFoto(row.fuente_id, row.pagina, ruta);
-		if (row.jornada === null)
+		if (row.jornada === null) {
+			// Una fila que sigue a la anterior sin hueco suele ser de su misma jornada: pasa cuando
+			// la tabla continúa en otra página antes del siguiente título. Se sugiere, no se asigna.
+			const anterior = obra.tramos[i - 1];
+			const sigue =
+				anterior?.jornada != null && anterior.v_fin != null && row.v_ini === anterior.v_fin + 1;
 			add(
 				'pendientes',
 				'jornada_pendiente',
 				`${ruta}.jornada`,
-				'No se ha identificado la jornada de esta fila.'
+				sigue
+					? `No se ha identificado la jornada de esta fila. Sigue sin hueco a la anterior, de la jornada ${anterior.jornada}: probablemente es de esa jornada.`
+					: 'No se ha identificado la jornada de esta fila.'
 			);
+		}
 		else if (!jornadas.has(row.jornada))
 			add(
 				'errores',
