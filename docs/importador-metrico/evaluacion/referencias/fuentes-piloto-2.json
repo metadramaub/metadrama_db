@@ -4,7 +4,7 @@
   "fecha": "2026-11-09",
   "proposito": "Lote independiente: obras y ediciones no usadas para redactar el prompt. Mide cómo generaliza el importador con fotos buenas. No se ajusta el prompt con estas obras; un cambio se valida en otro lote nuevo.",
   "raiz_sync": "importador/piloto-2",
-  "nota_fotos": "Las fotografías no entran en el repositorio (derechos de las ediciones). Están en versologia-data-sync (scripts/lib/sync.mjs), bajo raiz_sync. Una carpeta por libro y un archivo por página; una página compartida por dos obras se guarda una vez.",
+  "nota_fotos": "Las fotografías no entran en el repositorio (derechos de las ediciones). Están en versologia-data-sync (scripts/lib/sync.mjs), bajo raiz_sync. Una carpeta por libro (por obra en la Parte XXII) y un archivo por página; una página compartida por dos obras se guarda una vez.",
   "obras": [
     {
       "obra_ref": "el-perro-del-hortelano",
@@ -221,13 +221,13 @@
       "edicion": "Lope de Vega, Quien todo lo quiere, ed. Alejandro García-Reidy, en Comedias de Lope de Vega. Parte XXII, coord. Fausta Antonucci y Marco Presotto, Madrid, Gredos, 2023, 2 vols. (ISBN 978-84-249-4053-9), I, pp. 53-199.",
       "fotos": [
         {
-          "ruta_relativa": "fotos/gredos_parte-xxii/p086.jpg",
+          "ruta_relativa": "fotos/gredos_parte-xxii_quien-todo-lo-quiere/p086.jpg",
           "pagina": 86,
           "sha256": "dcd322774507ba28157e2b69d71152f04c2e82cde51543961ec5ea96bfa6e420",
           "nombre_original": "IMG_20261109_172927181.jpg"
         },
         {
-          "ruta_relativa": "fotos/gredos_parte-xxii/p087.jpg",
+          "ruta_relativa": "fotos/gredos_parte-xxii_quien-todo-lo-quiere/p087.jpg",
           "pagina": 87,
           "sha256": "5f9149c4720eb70b1b061bb401e9f77bcdf5252f619977d228677e1179a3cb7b",
           "nombre_original": "IMG_20261109_172946514.jpg"
@@ -242,19 +242,19 @@
       "edicion": "Lope de Vega, Amar, servir y esperar, ed. Eduard Gómez Vilar, en Comedias de Lope de Vega. Parte XXII, coord. Fausta Antonucci y Marco Presotto, Madrid, Gredos, 2023, 2 vols. (ISBN 978-84-249-4053-9), I, pp. 357-499.",
       "fotos": [
         {
-          "ruta_relativa": "fotos/gredos_parte-xxii/p374.jpg",
+          "ruta_relativa": "fotos/gredos_parte-xxii_amar-servir-y-esperar/p374.jpg",
           "pagina": 374,
           "sha256": "f217b9b680ccc49df663553f4b0bda17a92477ca9f836ce2964774260fa882fa",
           "nombre_original": "IMG_20261109_172620069.jpg"
         },
         {
-          "ruta_relativa": "fotos/gredos_parte-xxii/p375.jpg",
+          "ruta_relativa": "fotos/gredos_parte-xxii_amar-servir-y-esperar/p375.jpg",
           "pagina": 375,
           "sha256": "d1a5712dc735e1ab6e5760330b416408eae88ca82becbf4fecfd81b54d24db30",
           "nombre_original": "IMG_20261109_172636254.jpg"
         },
         {
-          "ruta_relativa": "fotos/gredos_parte-xxii/p376.jpg",
+          "ruta_relativa": "fotos/gredos_parte-xxii_amar-servir-y-esperar/p376.jpg",
           "pagina": 376,
           "sha256": "e8b8f091fe3bc6a375ab1b4baea889ef2152001e8a44da281db10c50d22b6431",
           "nombre_original": "IMG_20261109_172653228.jpg"
@@ -269,13 +269,13 @@
       "edicion": "Lope de Vega, La vida de san Pedro Nolasco, ed. Paula Casariego Castiñeira, en Comedias de Lope de Vega. Parte XXII, coord. Fausta Antonucci y Marco Presotto, Madrid, Gredos, 2023, 2 vols. (ISBN 978-84-249-4053-9), I, pp. 505-637.",
       "fotos": [
         {
-          "ruta_relativa": "fotos/gredos_parte-xxii/p523.jpg",
+          "ruta_relativa": "fotos/gredos_parte-xxii_la-vida-de-san-pedro-nolasco/p523.jpg",
           "pagina": 523,
           "sha256": "791a160128ed23a079077815b12df17c3c1c2edbc12983903387437614d93b18",
           "nombre_original": "IMG_20261109_172858443.jpg"
         },
         {
-          "ruta_relativa": "fotos/gredos_parte-xxii/p524.jpg",
+          "ruta_relativa": "fotos/gredos_parte-xxii_la-vida-de-san-pedro-nolasco/p524.jpg",
           "pagina": 524,
           "sha256": "d5d30411be8517262a5a8df79f905f64e86d183e817dcc33f7d4a513572d0279",
           "nombre_original": "IMG_20261109_172907059.jpg",
@@ -291,19 +291,19 @@
       "edicion": "Lope de Vega, La primera información, ed. Daniele Crivellari, en Comedias de Lope de Vega. Parte XXII, coord. Fausta Antonucci y Marco Presotto, Madrid, Gredos, 2023, 2 vols. (ISBN 978-84-249-4053-9), I, pp. 643-785.",
       "fotos": [
         {
-          "ruta_relativa": "fotos/gredos_parte-xxii/p658.jpg",
+          "ruta_relativa": "fotos/gredos_parte-xxii_la-primera-informacion/p658.jpg",
           "pagina": 658,
           "sha256": "2974563896a80ca5204eb49b185f59263f990545a739ba0bc612cfa7fce54269",
           "nombre_original": "IMG_20261109_173107911.jpg"
         },
         {
-          "ruta_relativa": "fotos/gredos_parte-xxii/p659.jpg",
+          "ruta_relativa": "fotos/gredos_parte-xxii_la-primera-informacion/p659.jpg",
           "pagina": 659,
           "sha256": "03854fb400db9288de4a1e46d833711f9422504bf65a9a263b9e886522f2a852",
           "nombre_original": "IMG_20261109_173118412.jpg"
         },
         {
-          "ruta_relativa": "fotos/gredos_parte-xxii/p660.jpg",
+          "ruta_relativa": "fotos/gredos_parte-xxii_la-primera-informacion/p660.jpg",
           "pagina": 660,
           "sha256": "14e36e2eccf9408ec3e8ba8349a9bd491727b37f9d5d4c17f14f68a7d6aad600",
           "nombre_original": "IMG_20261109_173126441.jpg"

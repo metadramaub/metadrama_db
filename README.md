@@ -49,7 +49,7 @@ en `.env`) y, si no está, `OneDriveCommercial\Investigacion\versologia-data-syn
 | --- | --- |
 | `bibliografía/` | Monografías de métrica y sus volcados en `txt/` |
 | `importador/piloto-1/` | Fotos de las veinte obras (`fotos/<obra>/`, con su nombre original) y el DOCX de fechas |
-| `importador/piloto-2/` | Fotos del lote independiente (`fotos/<libro>/pNNN.jpg`) |
+| `importador/piloto-2/` | Fotos del lote independiente (`fotos/<libro>/pNNN.jpg`; la Parte XXII, una carpeta por obra) |
 
 Los manifiestos del repositorio guardan rutas relativas a esa carpeta y el hash de cada archivo.
 Nada de esto se copia al repositorio, ni siquiera a una carpeta ignorada.
