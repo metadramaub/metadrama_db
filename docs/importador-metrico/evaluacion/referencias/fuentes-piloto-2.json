@@ -11,7 +11,7 @@
       "titulo": "El perro del hortelano",
       "autor": "Lope de Vega",
       "edicion": "Lope de Vega, El perro del hortelano. El castigo sin venganza, ed. A. David Kossoff, Madrid, Castalia (Clásicos Castalia).",
-      "edicion_por_confirmar": "Año de la edición: hay reimpresiones de 1970, 1985 y 1989.",
+      "edicion_por_confirmar": "Editor confirmado; el año de este ejemplar no consta (hay reimpresiones de 1970, 1985 y 1989).",
       "fotos": [
         {
           "ruta_relativa": "Fotos piloto 2/castalia_perro-del-hortelano_castigo-sin-venganza/p070.jpg",
@@ -66,8 +66,8 @@
       "obra_ref": "el-alcalde-de-zalamea",
       "titulo": "El alcalde de Zalamea",
       "autor": "Calderón de la Barca",
-      "edicion": "Calderón de la Barca, El alcalde de Zalamea, ed. José María Díez Borque, Madrid, Castalia (Clásicos Castalia).",
-      "edicion_por_confirmar": "Editor deducido de las iniciales «D. B.» de la página; año por confirmar.",
+      "edicion": "Calderón de la Barca, El alcalde de Zalamea, ed. José María Díez Borque, Madrid, Castalia, 2017.",
+      "edicion_por_confirmar": "Año confirmado por David; el editor se deduce de las iniciales «D. B.» de la página.",
       "fotos": [
         {
           "ruta_relativa": "Fotos piloto 2/castalia_alcalde-de-zalamea/p116.jpg",
@@ -103,8 +103,8 @@
       "obra_ref": "el-caballero-de-olmedo",
       "titulo": "El caballero de Olmedo",
       "autor": "Lope de Vega",
-      "edicion": "Lope de Vega, El caballero de Olmedo, ed. Francisco Rico, Madrid, Cátedra (Letras Hispánicas).",
-      "edicion_por_confirmar": "Editor, año e ISBN por confirmar con el ejemplar.",
+      "edicion": "Lope de Vega, El caballero de Olmedo, ed. Francisco Rico, Madrid, Cátedra (Letras Hispánicas, 147). Primera edición en Cátedra: 1981.",
+      "edicion_por_confirmar": "Según catálogos; no consta qué edición o reimpresión es este ejemplar.",
       "fotos": [
         {
           "ruta_relativa": "Fotos piloto 2/catedra_caballero-de-olmedo/p088.jpg",
@@ -132,7 +132,7 @@
       "titulo": "Don Gil de las calzas verdes",
       "autor": "Tirso de Molina",
       "edicion": "Tirso de Molina, Don Gil de las calzas verdes, ed. Enrique García Santo-Tomás, Madrid, Cátedra (Letras Hispánicas, 632), 2009.",
-      "edicion_por_confirmar": "Editor y año según el catálogo; confirmar que es este ejemplar.",
+      "edicion_por_confirmar": "Según catálogos; no consta qué edición o reimpresión es este ejemplar.",
       "fotos": [
         {
           "ruta_relativa": "Fotos piloto 2/catedra_don-gil-de-las-calzas-verdes/p069.jpg",
@@ -147,8 +147,8 @@
       "obra_ref": "peribanez-y-el-comendador-de-ocana",
       "titulo": "Peribáñez y el comendador de Ocaña",
       "autor": "Lope de Vega",
-      "edicion": "Lope de Vega, Peribáñez y el comendador de Ocaña, ed. Juan María Marín, Madrid, Cátedra (Letras Hispánicas).",
-      "edicion_por_confirmar": "Editor, año e ISBN por confirmar con el ejemplar.",
+      "edicion": "Lope de Vega, Peribáñez y el comendador de Ocaña, ed. Juan María Marín, Madrid, Cátedra (Letras Hispánicas, 96). Primera edición: 1979.",
+      "edicion_por_confirmar": "Según catálogos; no consta qué edición o reimpresión es este ejemplar.",
       "fotos": [
         {
           "ruta_relativa": "Fotos piloto 2/catedra_peribanez/p046.jpg",
@@ -170,7 +170,6 @@
       "titulo": "Fuenteovejuna",
       "autor": "Lope de Vega",
       "edicion": "Lope de Vega, Fuente Ovejuna, ed. Donald McGrady, estudio preliminar de Noël Salomon, Barcelona, Crítica (Biblioteca Clásica, 54), 1993.",
-      "edicion_por_confirmar": "Confirmar que el ejemplar es la edición de Crítica de 1993.",
       "fotos": [
         {
           "ruta_relativa": "Fotos piloto 2/critica_fuenteovejuna/p039.jpg",
@@ -197,7 +196,7 @@
       "obra_ref": "quien-todo-lo-quiere",
       "titulo": "Quien todo lo quiere",
       "autor": "Lope de Vega",
-      "edicion": "Lope de Vega, Quien todo lo quiere, ed. Alejandro García-Reidy, en Comedias de Lope de Vega. Parte XXII, coord. Fausta Antonucci y Marco Presotto, Madrid, Gredos, 2023, vol. I.",
+      "edicion": "Lope de Vega, Quien todo lo quiere, ed. Alejandro García-Reidy, en Comedias de Lope de Vega. Parte XXII, coord. Fausta Antonucci y Marco Presotto, Madrid, Gredos, 2023, 2 vols. (ISBN 978-84-249-4053-9), I, pp. 53-199.",
       "fotos": [
         {
           "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p086.jpg",
@@ -218,8 +217,7 @@
       "obra_ref": "amar-servir-y-esperar",
       "titulo": "Amar, servir y esperar",
       "autor": "Lope de Vega",
-      "edicion": "Lope de Vega, Amar, servir y esperar, en Comedias de Lope de Vega. Parte XXII, Madrid, Gredos, 2023.",
-      "edicion_por_confirmar": "Editor y volumen por confirmar.",
+      "edicion": "Lope de Vega, Amar, servir y esperar, ed. Eduard Gómez Vilar, en Comedias de Lope de Vega. Parte XXII, coord. Fausta Antonucci y Marco Presotto, Madrid, Gredos, 2023, 2 vols. (ISBN 978-84-249-4053-9), I, pp. 357-499.",
       "fotos": [
         {
           "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p374.jpg",
@@ -246,8 +244,7 @@
       "obra_ref": "la-vida-de-san-pedro-nolasco",
       "titulo": "La vida de san Pedro Nolasco",
       "autor": "Lope de Vega",
-      "edicion": "Lope de Vega, La vida de san Pedro Nolasco, en Comedias de Lope de Vega. Parte XXII, Madrid, Gredos, 2023.",
-      "edicion_por_confirmar": "Editor y volumen por confirmar.",
+      "edicion": "Lope de Vega, La vida de san Pedro Nolasco, ed. Paula Casariego Castiñeira, en Comedias de Lope de Vega. Parte XXII, coord. Fausta Antonucci y Marco Presotto, Madrid, Gredos, 2023, 2 vols. (ISBN 978-84-249-4053-9), I, pp. 505-637.",
       "fotos": [
         {
           "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p523.jpg",
@@ -269,8 +266,7 @@
       "obra_ref": "la-primera-informacion",
       "titulo": "La primera información",
       "autor": "Lope de Vega",
-      "edicion": "Lope de Vega, La primera información, en Comedias de Lope de Vega. Parte XXII, Madrid, Gredos, 2023.",
-      "edicion_por_confirmar": "Editor y volumen por confirmar.",
+      "edicion": "Lope de Vega, La primera información, ed. Daniele Crivellari, en Comedias de Lope de Vega. Parte XXII, coord. Fausta Antonucci y Marco Presotto, Madrid, Gredos, 2023, 2 vols. (ISBN 978-84-249-4053-9), I, pp. 643-785.",
       "fotos": [
         {
           "ruta_relativa": "Fotos piloto 2/gredos_parte-xxii/p658.jpg",
@@ -297,8 +293,7 @@
       "obra_ref": "los-locos-de-valencia",
       "titulo": "Los locos de Valencia",
       "autor": "Lope de Vega",
-      "edicion": "Lope de Vega, Los locos de Valencia, ed. Carlos Peña, Madrid, Gredos (edición individual; ISBN 9788424999605 según catálogo).",
-      "edicion_por_confirmar": "Editor por confirmar; por las notas coincide con el texto de la Parte XIII usado en el piloto 1.",
+      "edicion": "Lope de Vega, Los locos de Valencia, ed. Carlos Peña, Madrid, Gredos, 2024 (ISBN 978-84-249-9960-5).",
       "control": true,
       "fotos": [
         {
@@ -314,7 +309,7 @@
           "nombre_original": "IMG_20261109_171358519.jpg"
         }
       ],
-      "interes": "Control: mismo texto que el piloto 1, ahora con foto buena. Separa el efecto de la calidad de la foto del de la edición."
+      "interes": "Control: mismo editor y texto que el piloto 1 (Parte XIII, 2014), en edición individual y con foto buena. Separa el efecto de la calidad de la foto del de la edición."
     }
   ]
 }
