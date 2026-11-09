@@ -84,35 +84,19 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 - Pasar el [piloto 2](importador-metrico/evaluacion/README.md#piloto-2-lote-independiente) por el
   prompt 0.27 sin tocarlo, con GPT y algún modelo barato, y cotejarlo con las fotos: lectura,
   estructura, decisiones sobre notas y minutos de revisión.
-- Mejoras del importador que pide el piloto 2. Se anotan mientras dura el lote y se hacen
-  después; cada una debe dejar igual las veinte obras del piloto 1 (comprobarlo con sus derivados).
+- Mejoras del importador que pide el piloto 2. Ya hechas: puntuación final, llamadas de nota
+  pegadas, lira-sestina, plurales, romancillo con asonancia, silvas numeradas de Morley y Bruerton
+  y sugerencia de jornada para las filas que continúan. Cada cambio debe dejar igual el piloto 1.
   - **Numeración que vuelve a 1 en cada jornada** (*Alcalde*, *Peribáñez*): hoy bloquea por
-    «orden discrepante» y solapamiento. Aceptarla cuando el retroceso coincide con el cambio de
-    jornada y la jornada empieza en 1. Decidir si la ficha guarda la numeración de la edición o
-    una continua.
-  - **Llamadas de nota pegadas a la denominación** («Silva 1», «Octava 3», «Lira de seis versos 2»):
-    si el número final coincide con la marca de una nota de la misma extracción, quitarlo para
-    identificar y enlazar la nota. Sin nota con esa marca, no tocar el literal.
-  - **Plurales y singulares que faltan** en reglas del catálogo: «décimas», «silvas», «canción»,
-    «romancillo». «Octavas» y «tercetos» siguen sin resolverse a propósito.
-  - **Puntuación final** en la denominación («redondillas.», *Alcalde*): ignorarla al comparar.
-  - **«Lira-sestina» con esquema de seis posiciones** (*San Pedro Nolasco*): aplicarle la regla ya
-    aprobada de la lira de seis posiciones (Sexteto-lira), que hoy solo reconoce «lira(s)».
-  - **Numeración de silvas de Morley y Bruerton** («silva 2.ª», o una nota que diga «la que Morley
-    y Bruerton llaman silva 3.ª»): proponer la arquitectura de Silva que corresponda a cada tipo
-    (1.º pareados de 7 y 11; 2.º 7 y 11 sin orden, con sueltos; 3.º solo endecasílabos, la mayoría
-    rimados; 4.º rimas en los pares). La correspondencia con las arquitecturas del catálogo es una
-    decisión filológica: va a [cuestiones para el IP](dominio-metrico/cuestiones-para-el-ip.md)
-    antes de escribir la regla.
-  - **Jornada de las filas que continúan en la página siguiente**: el modelo deja `jornada: null`
-    (*Quien todo lo quiere*) o les pone la jornada siguiente (*Nolasco*). Si el primer título de
-    jornada de una página aparece después de unas filas, esas filas son de la jornada anterior:
-    el importador puede proponerlo y avisar.
+    «orden discrepante» y solapamiento. Falta decidir si la ficha guarda la numeración de la
+    edición o una continua.
   - **Pasajes cantados**: cuando una nota de la edición marca filas como cantadas (*Fuenteovejuna*,
-    asteriscos), proponer la caracterización por rango «cantado», igual que ya se hace con la prosa.
+    asteriscos), proponer la caracterización por rango «cantado», como ya se hace con la prosa.
+    Exige ampliar la ficha mínima y la función SQL que guarda las caracterizaciones.
   - **Página compartida por dos obras** (*Perro*/*Castigo*): el modelo mezcló las primeras filas de
-    la obra siguiente. Para el prompt, no para el importador: transcribir solo la obra indicada.
-    No se cambia el prompt mientras dura el lote.
+    la obra siguiente. Para el prompt: transcribir solo la obra indicada.
+  - **Jornada mal asignada** a filas que continúan en otra página (*Nolasco*): el modelo les pone
+    la jornada siguiente. No se puede corregir sin ver la página; queda para el prompt.
 
 Entrada vigente: [índice del importador](importador-metrico/README.md). El dashboard ofrece
 el prompt 0.27. Las reglas de equivalencias v0.19 son
