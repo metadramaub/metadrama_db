@@ -1,8 +1,6 @@
-import { env } from '$env/dynamic/private';
-
-/** Activar solo con la migración coordinada. El despliegue actual conserva su relación. */
+/** Modelo vigente tras la migración coordinada 20261110200000. */
 export function modeloEditorialActivo() {
-	return env.OBRAS_EDITORIALES_V2 === 'true';
+	return true;
 }
 
 export function relacionObras(): 'obras' | 'obras_editoriales' {

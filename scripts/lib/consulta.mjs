@@ -32,7 +32,8 @@ const SUPABASE_CLI = fileURLToPath(
  * es más rápido y deja el rastro en el proceso.
  */
 function ejecutar(sql) {
-	const porFichero = sql.length > 8000;
+	// La CLI interpreta un comentario SQL inicial «--» como una opción del comando.
+	const porFichero = sql.length > 8000 || sql.trimStart().startsWith('-');
 	const carpeta = porFichero ? mkdtempSync(join(tmpdir(), 'metadrama-sql-')) : null;
 	const fichero = carpeta ? join(carpeta, 'consulta.sql') : null;
 	if (fichero) writeFileSync(fichero, sql, 'utf-8');
