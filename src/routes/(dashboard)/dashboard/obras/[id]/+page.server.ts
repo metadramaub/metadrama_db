@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
 import { error as httpError, redirect } from '@sveltejs/kit';
-import { esFichaBasica } from '$lib/importador-metrico/tipo-ficha';
+import { esFichaBasica, esObraSinFicha, requiereInicioCompleta } from '$lib/importador-metrico/tipo-ficha';
 import { clienteImportador, localizarImportacion } from '$lib/server/importador-metrico/persistencia';
 import { enunciationType } from '$lib/metrica/enunciation';
 import { countAutoriaGroupsWithProposals } from '$lib/server/autoria';
@@ -26,6 +26,8 @@ export const load: PageServerLoad = async ({ locals, params, depends }) => {
 		}
 	);
 
+	if (esObraSinFicha(obra)) throw redirect(303, '/dashboard/obras?scope=all');
+	if (requiereInicioCompleta(obra)) throw redirect(303, `/dashboard/obras/${obra.obra_id}/iniciar`);
 	if (esFichaBasica(obra)) {
 		const id = await localizarImportacion(clienteImportador(locals.supabase), obra.obra_id);
 		if (!id) throw httpError(404, 'Importación no disponible.');
@@ -102,7 +104,7 @@ export const load: PageServerLoad = async ({ locals, params, depends }) => {
 	 * editor recibe `null` y la pestaña le enseña el panel de siempre en vez de una pantalla en
 	 * blanco. Abrir la RLS es el paso siguiente del camino a develop.
 	 */
-	const catalogoMetrico = await loadMetricCatalog(locals.supabase).then((catalogo) =>
+	const catalogoMetrico = await loadMetricCatalog(locals.supabase, { incluirSandbox: false }).then((catalogo) =>
 		catalogo.migrationPending
 			? null
 			: {

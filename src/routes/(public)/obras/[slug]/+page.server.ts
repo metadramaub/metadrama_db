@@ -1,3 +1,4 @@
+import { relacionObrasPublicas } from '$lib/server/modelo-obras';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import {
@@ -22,7 +23,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	// La RPC aplica el muro real de estado/visibilidad; esta consulta previa solo decide
 	// si el scope de secciones debe ser amplio para esta obra concreta.
 	const obraVisibilityResp = await locals.supabase
-		.from('obras')
+		.from(relacionObrasPublicas())
 		.select('obra_id,editor_asignado,visible_publico,estado')
 		.eq('slug', params.slug)
 		.maybeSingle();

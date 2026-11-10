@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { datacionDeObra, formatoDatacion } from '$lib/dataciones';
 	import { portal } from '$lib/actions/portal';
 	import { ChevronRight } from 'lucide-svelte';
 	import Tabs from '$lib/components/ui/tabs.svelte';
@@ -171,16 +172,8 @@
 		return items;
 	});
 
-	const datacionLabel = $derived.by(() => {
-		const inicio = obra.fecha_inicio_trad;
-		const fin = obra.fecha_fin_trad;
-		if (inicio !== null && fin !== null && inicio === fin) return `${inicio}`;
-		if (inicio !== null && fin !== null) return `${inicio} - ${fin}`;
-		if (inicio !== null) return `${inicio}`;
-		if (fin !== null) return `${fin}`;
-		return '--';
-	});
-	const fuenteDatacion = $derived((obra.fuente_fecha ?? '').trim());
+	const datacionLabel = $derived(formatoDatacion(datacionDeObra(obra)));
+	const fuenteDatacion = $derived((datacionDeObra(obra).fuente ?? '').trim());
 	const variantesLabel = $derived((obra.variantes_titulo ?? []).join(' | '));
 	const editorOrcid = $derived((obra.autor_ficha_orcid_publico ?? '').trim());
 	const editorOrcidHref = $derived.by(() => {

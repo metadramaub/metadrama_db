@@ -143,7 +143,8 @@ async function cargarSandboxDelEditor(
 }
 
 export async function loadMetricCatalog(
-	supabase: App.Locals['supabase']
+	supabase: App.Locals['supabase'],
+	{ incluirSandbox = false }: { incluirSandbox?: boolean } = {}
 ): Promise<MetricCatalogPageData> {
 	const db = supabase as unknown as UntypedSupabaseClient;
 	const stateResponse = await db
@@ -191,12 +192,12 @@ export async function loadMetricCatalog(
 	// leía aquí arriba— y devolver lo construido si no ha cambiado.
 	const revision = Number(stateResponse.data?.revision ?? 1);
 	if (catalogoEnMemoria?.revision === revision) {
-		return { ...catalogoEnMemoria.valor, editorSandbox: await cargarSandboxDelEditor(db) };
+		return { ...catalogoEnMemoria.valor, editorSandbox: incluirSandbox ? await cargarSandboxDelEditor(db) : emptyEditorSandbox() };
 	}
 
 	const [catalogo, editorSandbox] = await Promise.all([
 		construirCatalogoMetrico(db, revision),
-		cargarSandboxDelEditor(db)
+		incluirSandbox ? cargarSandboxDelEditor(db) : emptyEditorSandbox()
 	]);
 	catalogoEnMemoria = { revision, valor: catalogo };
 	return { ...catalogo, editorSandbox };

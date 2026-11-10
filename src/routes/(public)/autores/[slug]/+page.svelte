@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { datacionDeObra, limitesDatacion } from '$lib/dataciones';
 	import Breadcrumb from '$lib/components/ui/Breadcrumb.svelte';
 	import CatalogResultRow from '$lib/components/catalogo/CatalogResultRow.svelte';
 	import MetricDistributionPie from '$lib/components/metrica/MetricDistributionPie.svelte';
@@ -149,8 +150,8 @@
 			sorted.sort((a, b) => tituloSortKey(a.titulo).localeCompare(tituloSortKey(b.titulo), 'es'));
 		} else {
 			sorted.sort((a, b) => {
-				const fa = a.fecha_inicio_trad ?? Number.POSITIVE_INFINITY;
-				const fb = b.fecha_inicio_trad ?? Number.POSITIVE_INFINITY;
+				const fa = limitesDatacion(datacionDeObra(a)).inicio ?? limitesDatacion(datacionDeObra(a)).fin ?? Number.POSITIVE_INFINITY;
+				const fb = limitesDatacion(datacionDeObra(b)).inicio ?? limitesDatacion(datacionDeObra(b)).fin ?? Number.POSITIVE_INFINITY;
 				return fa - fb || tituloSortKey(a.titulo).localeCompare(tituloSortKey(b.titulo), 'es');
 			});
 		}

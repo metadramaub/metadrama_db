@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
+import { datacionVacia } from '$lib/dataciones';
 import {
 	obraDatosPatchSchema,
+	datacionSchema,
 	obraDeclaracionesPatchSchema,
 	jornadaInputSchema,
 	secuenciaInputSchema,
@@ -696,4 +698,26 @@ describe('validators', () => {
 		});
 		expect(duplicate.success).toBe(false);
 	});
+});
+
+
+describe('dataciones con límites', () => {
+ it('admite referencia y métrica, cada una con fuente y sin revisión', () => {
+  const d = { ...datacionVacia('referencia'), fin: 1600, fin_inclusivo: false, fuente: '  Fuente literal  ' };
+  expect(obraDatosPatchSchema.parse({ dataciones: [d, { ...datacionVacia('metrica'), inicio: 1610 }] }).dataciones?.[0].fuente).toBe('  Fuente literal  ');
+  expect(datacionSchema.safeParse({ ...d, revisada: true }).success).toBe(false);
+ });
+ it('rechaza un intervalo vacío y clases duplicadas', () => {
+  expect(datacionSchema.safeParse({ ...datacionVacia('referencia'), inicio: 1600, fin: 1600, fin_inclusivo: false }).success).toBe(false);
+  expect(obraDatosPatchSchema.safeParse({ dataciones: [datacionVacia('referencia'), datacionVacia('referencia')] }).success).toBe(false);
+ });
+ it('un PATCH sin fechas no las borra', () => {
+  const p = obraDatosPatchSchema.parse({ titulo: 'Otro título' });
+  expect(p.dataciones).toBeUndefined();
+  expect(p.fecha_inicio_trad).toBeUndefined();
+  expect(p.fuente_fecha).toBeUndefined();
+  expect(p.variantes_titulo).toBeUndefined();
+  expect(p.genero_id).toBeUndefined();
+  expect(p.edicion).toBeUndefined();
+ });
 });

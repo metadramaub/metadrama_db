@@ -18,6 +18,7 @@ export type ObrasIndexArtifactItem = {
 	obra_id: string;
 	slug: string;
 	titulo: string;
+	dataciones?: unknown;
 	fecha_inicio_trad: number | null;
 	fecha_fin_trad: number | null;
 	fecha_inicio_metadrama: number | null;
@@ -166,6 +167,7 @@ export type CorpusComparisonWork = {
 	obra_id: string;
 	slug: string;
 	titulo: string;
+	dataciones?: unknown;
 	fecha_inicio_trad: number | null;
 	fecha_fin_trad: number | null;
 	fecha_inicio_metadrama: number | null;

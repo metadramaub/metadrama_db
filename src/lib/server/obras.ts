@@ -1,3 +1,4 @@
+import { relacionObras } from '$lib/server/modelo-obras';
 import { error } from '@sveltejs/kit';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { countAutoriaGroupsWithProposals } from '$lib/server/autoria';
@@ -19,7 +20,7 @@ export async function getObraOrFail(
 	obraId: string
 ): Promise<Tables<'obras'>> {
 	const { data, error: obraError } = await supabase
-		.from('obras')
+		.from(relacionObras())
 		.select('*')
 		.eq('obra_id', obraId)
 		.single();

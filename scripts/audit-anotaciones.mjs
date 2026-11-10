@@ -20,7 +20,7 @@
  */
 
 import { writeFileSync } from 'node:fs';
-import { query } from './lib/consulta.mjs';
+import { query } from './lib/consulta-editorial.mjs';
 
 const opciones = { markdown: null, comprobar: false };
 for (let i = 0; i < process.argv.length; i += 1) {

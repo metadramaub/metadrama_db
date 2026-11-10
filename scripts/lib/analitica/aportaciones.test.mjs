@@ -287,10 +287,29 @@ describe('fuente, autoría y cronología', () => {
 	it('una fecha ausente no se convierte en cero ni excluye del perfil sin filtro', () => {
 		const a = fuente();
 		a.metadatos.fecha_inicio = null;
+		a.metadatos.fecha_fin = null;
 		expect(referente([a]).extension).toBe(1000);
 		expect(referente([a], { periodo: [1580, 1590] }).excluidas[0].motivo).toBe(
 			'sin_intervalo_valido'
 		);
+	});
+	it('un límite abierto conserva su extensión posible y excluye el año estricto', () => {
+		const a = fuente();
+		a.metadatos.dataciones = [{ clase: 'referencia', inicio: null, fin: 1600, inicio_inclusivo: true, fin_inclusivo: false }];
+		expect(referente([a], { periodo: [1500, 1501] }).extension).toBe(1000);
+		expect(referente([a], { periodo: [1600, 1600] }).extension).toBe(0);
+	});
+	it('las fechas vigentes sustituyen las de la copia sin modificar el JSON conservado', () => {
+		const r = registro();
+		const original = structuredClone(r.basica.datos_confirmados);
+		r.dataciones = [{ clase: 'referencia', inicio: null, fin: 1600, fin_inclusivo: false, fuente: 'Estudio posterior' },
+			{ clase: 'metrica', inicio: 1700, fin: 1705 }];
+		const a = seleccionarAportacion(r);
+		expect(a.metadatos.fecha_inicio).toBeNull();
+		expect(a.metadatos.fecha_fin).toBe(1600);
+		expect(a.metadatos.dataciones[0].fin_inclusivo).toBe(false);
+		expect(r.basica.datos_confirmados).toEqual(original);
+		expect(referente([a], { periodo: [1700, 1705] }).extension).toBe(0);
 	});
 	it('no presenta silencio como ausencia ni emite afinidad no validada', () => {
 		expect(calcular(fuente()).fenomenos.valor).toBeNull();

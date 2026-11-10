@@ -1,3 +1,5 @@
+import { relacionObras } from '$lib/server/modelo-obras';
+import { modeloEditorialActivo } from '$lib/server/modelo-obras';
 import { error } from '@sveltejs/kit';
 import { requireEditorProfile } from '$lib/server/auth';
 import { canManageEditors, normalizeRole } from '$lib/utils/permissions';
@@ -6,6 +8,7 @@ import { capacidadesImportador, clienteImportador } from '$lib/server/importador
 import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import type { ManagedEditor } from '$lib/types/editor-management.types';
 import type { User } from '@supabase/supabase-js';
+import type { ObraControlRow } from '$lib/types/control-obras.types';
 
 export async function requireEditorManager(locals: App.Locals) {
 	const profile = await requireEditorProfile({ locals });
@@ -16,18 +19,21 @@ export async function requireEditorManager(locals: App.Locals) {
 
 // PostgREST limita cada respuesta; se recorren todas las páginas sin truncar el reparto.
 export async function loadAssignmentWorks(locals: App.Locals, soloDetalladas = false) {
-	const works = [];
+	const works: ObraControlRow[] = [];
 	const reviewers: { obra_id: string; revisor_id: string }[] = [];
 	for (let offset = 0; ; offset += 500) {
 		let query = locals.supabase
-			.from('obras')
-			.select('obra_id,titulo,slug,estado,editor_asignado,updated_at,visible_publico')
+			.from(relacionObras())
+			.select(modeloEditorialActivo() ? 'obra_id,titulo,slug,estado,editor_asignado,updated_at,visible_publico,tipo_ficha,fecha_inicio_trad,fecha_fin_trad,autores,corpus,importacion_id,inicio_elaboracion,procedencia_registro' : 'obra_id,titulo,slug,estado,editor_asignado,updated_at,visible_publico')
 			.order('obra_id')
 			.range(offset, offset + 499);
-		if(soloDetalladas) query=query.eq('tipo_ficha','completa');
+		if(soloDetalladas && !modeloEditorialActivo()) query=query.eq('tipo_ficha','completa');
 		const response=await query;
-		if (response.error) throw error(500, 'No se pudieron cargar las obras.');
-		works.push(...response.data);
+		if (response.error) {
+			console.error('Error de consulta del inventario editorial', response.error);
+			throw error(500, 'No se pudieron cargar las obras.');
+		}
+		works.push(...response.data as unknown as ObraControlRow[]);
 		if (response.data.length < 500) break;
 	}
 	for (let offset = 0; ; offset += 500) {

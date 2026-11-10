@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { modeloEditorialActivo } from '$lib/server/modelo-obras';
 import { completarExtraccion } from './completar-extraccion';
 import { z } from 'zod';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -13,6 +14,7 @@ type Rpc =
 	| 'capacidades_importador_metrico'
 	| 'coincidencias_importacion_metrica'
 	| 'guardar_ficha_minima'
+	| 'guardar_ficha_basica'
 	| 'listar_fichas_basicas'
 	| 'eliminar_ficha_basica'
 	| 'localizar_importacion_metrica'
@@ -39,7 +41,7 @@ const uuid = z.string().uuid();
 const coincidenciaSchema = z.object({
 	obra_id: uuid,
 	titulo: z.string(),
-	tipo_ficha: z.enum(['minima', 'completa']),
+	tipo_ficha: z.enum(['minima', 'basica', 'completa', 'sin_ficha']),
 	autores: z.array(z.string())
 });
 export type CoincidenciaImportacion = z.infer<typeof coincidenciaSchema>;
@@ -62,7 +64,8 @@ export async function buscarCoincidencias(db: ClienteImportador, titulo: string)
 export function huellaConfirmacion(
 	datos: BorradorFichaMinima,
 	autorId: string,
-	coincidencias: CoincidenciaImportacion[]
+	coincidencias: CoincidenciaImportacion[],
+	obraId?: string | null
 ) {
 	return createHash('sha256')
 		.update(
@@ -70,6 +73,7 @@ export function huellaConfirmacion(
 				datos,
 				autorId,
 				coincidencias: [...coincidencias].sort((a, b) => a.obra_id.localeCompare(b.obra_id))
+				,...(obraId ? {obraId} : {})
 			})
 		)
 		.digest('hex');
@@ -93,6 +97,7 @@ export async function guardarImportacion(
 		coincidencias: CoincidenciaImportacion[];
 		huella: string;
 		otraObra: boolean;
+		obraId?: string | null;
 	}
 ) {
 	if (!uuid.safeParse(p.autorId).success || !uuid.safeParse(p.peticionId).success)
@@ -100,12 +105,14 @@ export async function guardarImportacion(
 	const completa = fichaMinimaSchema.safeParse(p.datos);
 	if (!completa.success)
 		throw new ErrorImportacion(400, 'Completa los datos obligatorios de la obra antes de guardar.');
-	if (p.huella !== huellaConfirmacion(p.datos, p.autorId, p.coincidencias))
+	if (p.obraId && (!modeloEditorialActivo() || !uuid.safeParse(p.obraId).success))
+		throw new ErrorImportacion(400, 'Obra de destino inválida.');
+	if (p.huella !== huellaConfirmacion(p.datos, p.autorId, p.coincidencias, p.obraId))
 		throw new ErrorImportacion(
 			409,
 			'Los datos o las coincidencias han cambiado. Revisa la importación antes de guardar.'
 		);
-	if (p.coincidencias.length && !p.otraObra)
+	if (p.coincidencias.length && !p.otraObra && !p.obraId)
 		throw new ErrorImportacion(
 			409,
 			'Revisa si las coincidencias corresponden a otra obra antes de continuar.'
@@ -113,12 +120,13 @@ export async function guardarImportacion(
 	// Guardar confirma la segmentación revisada, no identifica las formas pendientes.
 	const datos = structuredClone(completa.data);
 	for (const s of datos.segmentos) s.segmentacion = 'confirmada';
-	const r = await db.rpc('guardar_ficha_minima', {
+	const r = await db.rpc(modeloEditorialActivo() ? 'guardar_ficha_basica' : 'guardar_ficha_minima', {
 		p_peticion: p.peticionId,
 		p_autor: p.autorId,
 		p_datos: datos,
 		p_entrada_original: extraccionOriginal(p.entrada),
-		p_coincidencias_revisadas: p.coincidencias.map((c) => c.obra_id)
+		p_coincidencias_revisadas: p.coincidencias.map((c) => c.obra_id),
+		...(modeloEditorialActivo() ? {p_obra: p.obraId ?? null} : {})
 	});
 	if (r.error) {
 		if (r.error.code === '23505')

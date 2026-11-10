@@ -1,3 +1,4 @@
+import { relacionObras } from '$lib/server/modelo-obras';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { canTransitionState } from '$lib/utils/permissions';
@@ -71,7 +72,7 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 	}
 
 	const { data, error } = await locals.supabase
-		.from('obras')
+		.from(relacionObras())
 		.update({
 			estado,
 			fecha_cambio_estado: new Date().toISOString()

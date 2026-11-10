@@ -14,7 +14,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { query, tryQuery } from './lib/consulta.mjs';
+import { query, tryQuery } from './lib/consulta-editorial.mjs';
 import { cargarCatalogo } from './lib/metrica/catalogo.mjs';
 import { realizacionesDe, realizacionesPorPartes } from './lib/metrica/realizaciones.mjs';
 

@@ -1,3 +1,4 @@
+import { relacionObras } from '$lib/server/modelo-obras';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { jornadaInputSchema } from '$lib/utils/validators';
@@ -23,7 +24,7 @@ async function syncObraTotalVersos(
 
 	const totalVersos = maxJornada?.[0]?.v_fin ?? null;
 	const { error: obraUpdateError } = await supabase
-		.from('obras')
+		.from(relacionObras())
 		.update({ total_versos: totalVersos })
 		.eq('obra_id', obraId);
 	if (obraUpdateError) {

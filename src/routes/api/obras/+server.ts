@@ -1,3 +1,6 @@
+import { relacionObras } from '$lib/server/modelo-obras';
+import { modeloEditorialActivo } from '$lib/server/modelo-obras';
+import { z } from 'zod';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { buildObraCapabilities, requireEditorProfile } from '$lib/server/auth';
@@ -12,6 +15,7 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 	const requestedScope = (url.searchParams.get('scope') ?? '').trim().toLowerCase();
 	const scope = requestedScope === 'all' ? 'all' : 'mine';
 	const isAdminOrIp = profile.roleTerm === 'admin' || profile.roleTerm === 'ip';
+	if(scope==='all'&&!isAdminOrIp)return forbiddenResponse('El control de todas las obras está reservado a admin/IP.');
 
 	const parsed = queryFilterSchema.safeParse({
 		q: url.searchParams.get('q') ?? undefined,
@@ -45,7 +49,7 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 	const reviewerAssignedSet = new Set(reviewerAssignedIds);
 
 	let query = locals.supabase
-		.from('obras')
+		.from(relacionObras())
 		.select('*', { count: 'exact' })
 		.order('updated_at', { ascending: false })
 		.range(from, to);
@@ -106,7 +110,10 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	}
 
 	const body = await request.json().catch(() => ({}));
-	const parsed = obraCreateSchema.safeParse(body);
+	const schema = modeloEditorialActivo()
+		? obraCreateSchema.extend({editor_asignado:z.string().uuid().nullable().default(null)})
+		: obraCreateSchema;
+	const parsed = schema.safeParse(body);
 	if (!parsed.success) {
 		return validationErrorResponse(parsed.error);
 	}

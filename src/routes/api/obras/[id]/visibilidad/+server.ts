@@ -1,3 +1,4 @@
+import { relacionObras } from '$lib/server/modelo-obras';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getObraContext } from '$lib/server/auth';
@@ -20,7 +21,7 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 	}
 
 	const { data, error } = await locals.supabase
-		.from('obras')
+		.from(relacionObras())
 		.update({ visible_publico: parsed.data.visible_publico })
 		.eq('obra_id', obra.obra_id)
 		.select('obra_id,visible_publico,updated_at')

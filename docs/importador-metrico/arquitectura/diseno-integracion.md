@@ -1,5 +1,12 @@
 # Integración del corpus mínimo: base compartida, métrica separada
 
+**Revisión del modelo editorial:** el [control de obras](../../control-obras/README.md) es la
+referencia vigente para registro previo sin ficha, corpus múltiples, encargo y elaboración de
+completas, traslado de metadatos editoriales y retirada futura del tipo exclusivo en `obras`.
+Sus acuerdos sustituyen en esas materias la propuesta de octubre descrita aquí. La separación
+métrica y conservación de la importación se mantienen. La transición básica → completa y el cambio
+de referente del computador requieren su diseño específico; este texto no acredita su implementación.
+
 Diseño iniciado el 22 y revisado el 26 de octubre de 2026. Recoge las decisiones de la conversación y el
 contraste con el esquema vivo. **No es una migración ni describe funciones ya implementadas.**
 Los nombres nuevos de tablas y campos son orientativos; el piloto sigue en archivos locales.

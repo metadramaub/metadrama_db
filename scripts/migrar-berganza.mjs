@@ -6,7 +6,7 @@
  */
 import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { createHash, randomUUID } from 'node:crypto';
-import { query, tryQuery } from './lib/consulta.mjs';
+import { query, tryQuery } from './lib/consulta-editorial.mjs';
 import { cargarObras } from './lib/migracion/datos.mjs';
 import { cargarCatalogo } from './lib/metrica/catalogo.mjs';
 import { planificarObra } from './lib/migracion/aplicador.mjs';

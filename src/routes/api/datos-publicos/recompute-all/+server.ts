@@ -1,3 +1,4 @@
+import { relacionObras } from '$lib/server/modelo-obras';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { requireEditorProfile } from '$lib/server/auth';
@@ -57,7 +58,7 @@ async function isStillPublished(locals: App.Locals, obraId: string) {
 	if (publishedError || !publicado) return false;
 
 	const { data: obra, error: obraError } = await locals.supabase
-		.from('obras')
+		.from(relacionObras())
 		.select('obra_id')
 		.eq('obra_id', obraId)
 		.eq('estado', publicado.termino_id)

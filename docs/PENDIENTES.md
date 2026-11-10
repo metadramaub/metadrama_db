@@ -13,6 +13,33 @@ no son estado porque se rehacen con un comando.
 
 ---
 
+## Guardado métrico: timeout en secuencias largas
+
+Corrección `20261110130000` aplicada al Supabase compartido el 10 de noviembre de 2026;
+pendiente de confirmar con el guardado real de la editora de *El prado de Valencia*.
+Reduce derivaciones y recorridos repetidos sin retirar validaciones.
+Pruebas y alcance: [garantías del modelo métrico](dominio-metrico/implementacion-metrica.md#9--qué-garantiza-la-base).
+
+## Control de obras
+
+Orden de trabajo acordado:
+
+1. Desplegar coordinadamente
+   base y aplicación, conservando los cambios editoriales y la corrección del guardado métrico.
+2. Validar el funcionamiento y retirar las columnas y contratos operativos antiguos; adaptar los
+   tipos generados al contrato editorial definitivo.
+3. Atender los ajustes estéticos que solicite el usuario, una vez terminado lo funcional.
+
+Lectores, escritores, RPC, RLS, corpus múltiples e importación sobre registro existente están
+implementados y ensayados en local, con activación deshabilitada; el nuevo modelo no está
+desplegado en el Supabase compartido. Detalle: [control de obras](control-obras/README.md).
+La migración definitiva y su reversión conservadora ya se han ejecutado sobre una restauración
+completa actual; la candidata permanece fuera de `db push` hasta la activación coordinada.
+Las dataciones de referencia y métrica, con límites inclusivos/estrictos, aproximación y fuente,
+están implementadas en local en formulario, API y consumidores; falta su despliegue coordinado.
+No se registra la revisión de metadatos recibidos del CSV. La transición básica → completa
+mantiene su alcance separado.
+
 ## Los dos hitos
 
 **1 · Avanzar el laboratorio comparativo.** `corpus_comparativas` V2 ofrece la matriz por obra y los

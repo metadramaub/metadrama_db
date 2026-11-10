@@ -19,8 +19,21 @@ const comentarioTipoPatchSchema = z.enum([
 
 const nullableYear = z
 	.union([z.number().int().min(1200).max(2100), z.null()])
-	.optional()
-	.transform((value) => value ?? null);
+	.optional();
+
+export const datacionSchema = z.object({
+	clase: z.enum(['referencia', 'metrica']),
+	inicio: z.number().int().min(1200).max(2100).nullable(),
+	fin: z.number().int().min(1200).max(2100).nullable(),
+	inicio_inclusivo: z.boolean(),
+	fin_inclusivo: z.boolean(),
+	aproximada: z.boolean(),
+	fuente: z.string().max(20000).nullable()
+}).strict().superRefine((d, ctx) => {
+	if (d.inicio !== null && d.fin !== null && d.inicio + (d.inicio_inclusivo ? 0 : 1) > d.fin - (d.fin_inclusivo ? 0 : 1)) {
+		ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Los límites no dejan ningún año posible', path: ['fin'] });
+	}
+});
 
 const nullableText = (max: number) =>
 	z
@@ -49,25 +62,28 @@ const optionalNullableUuidPatch = z
 		return trimmed.length > 0 ? trimmed : null;
 	});
 
+const optionalNullableTextPatch = (max: number) => z.string().max(max).nullable().optional()
+	.transform(value => value === undefined ? undefined : value === null ? null : value.trim() || null);
+
 export const obraDatosPatchSchema = z
 	.object({
-		titulo: nullableText(2000),
+		titulo: optionalNullableTextPatch(2000),
 		variantes_titulo: z
 			.array(z.string().trim())
-			.default([])
-			.transform((items) => items.map((item) => item.trim()).filter(Boolean)),
-		genero_id: nullableUuid,
+			.transform((items) => items.map((item) => item.trim()).filter(Boolean)).optional(),
+		genero_id: optionalNullableUuidPatch,
 		fecha_inicio_trad: nullableYear,
 		fecha_fin_trad: nullableYear,
-		fuente_fecha: z.string().trim().max(2000).nullable().optional().default(null),
+		fuente_fecha: z.string().max(20000).nullable().optional(),
 		fecha_inicio_metadrama: nullableYear,
 		fecha_fin_metadrama: nullableYear,
-		edicion: nullableText(20000)
+		dataciones: z.array(datacionSchema).max(2).refine((items) => new Set(items.map(d => d.clase)).size === items.length, 'No repitas una clase de datación').optional(),
+		edicion: optionalNullableTextPatch(20000)
 	})
 	.superRefine((data, ctx) => {
 		if (
-			data.fecha_inicio_trad !== null &&
-			data.fecha_fin_trad !== null &&
+			data.fecha_inicio_trad != null &&
+			data.fecha_fin_trad != null &&
 			data.fecha_inicio_trad > data.fecha_fin_trad
 		) {
 			ctx.addIssue({
@@ -77,8 +93,8 @@ export const obraDatosPatchSchema = z
 			});
 		}
 		if (
-			data.fecha_inicio_metadrama !== null &&
-			data.fecha_fin_metadrama !== null &&
+			data.fecha_inicio_metadrama != null &&
+			data.fecha_fin_metadrama != null &&
 			data.fecha_inicio_metadrama > data.fecha_fin_metadrama
 		) {
 			ctx.addIssue({

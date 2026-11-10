@@ -1,3 +1,4 @@
+import { relacionObras } from '$lib/server/modelo-obras';
 import { error } from '@sveltejs/kit';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { AuthorWorkSummary } from '$lib/types/author.types';
@@ -353,7 +354,7 @@ export async function getAuthorWorks(
 	}
 
 	const obrasResp = await supabase
-		.from('obras')
+		.from(relacionObras())
 		.select('obra_id,titulo,updated_at')
 		.in('obra_id', obraIds)
 		.order('updated_at', { ascending: false });

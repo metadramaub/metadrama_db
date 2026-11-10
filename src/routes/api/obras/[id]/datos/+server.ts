@@ -1,3 +1,4 @@
+import { modeloEditorialActivo, relacionObras } from '$lib/server/modelo-obras';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getObraContext } from '$lib/server/auth';
@@ -18,20 +19,30 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 	}
 
 	const payload = parsed.data;
+	if (modeloEditorialActivo() && ['fecha_inicio_trad','fecha_fin_trad','fuente_fecha','fecha_inicio_metadrama','fecha_fin_metadrama']
+		.some(key => Object.prototype.hasOwnProperty.call(body, key))) {
+		return json({ message: 'El modelo de fechas se ha actualizado. Conserva tus cambios y recarga el editor antes de guardar.' }, { status: 409 });
+	}
 	const tituloToPersist = payload.titulo ?? obra.titulo;
+	if (payload.dataciones !== undefined && !modeloEditorialActivo()) {
+		return json({ message: 'El nuevo modelo de dataciones aún no está activado' }, { status: 409 });
+	}
+	const fechas = payload.dataciones !== undefined ? { dataciones: payload.dataciones } : {
+		fecha_inicio_trad: payload.fecha_inicio_trad,
+		fecha_fin_trad: payload.fecha_fin_trad,
+		fuente_fecha: payload.fuente_fecha,
+		fecha_inicio_metadrama: payload.fecha_inicio_metadrama,
+		fecha_fin_metadrama: payload.fecha_fin_metadrama
+	};
 
 	const { data, error } = await locals.supabase
-		.from('obras')
+		.from(relacionObras())
 		.update({
 			titulo: tituloToPersist,
 			titulo_normalizado: normalizeTitulo(tituloToPersist),
 			variantes_titulo: payload.variantes_titulo,
 			genero_id: payload.genero_id,
-			fecha_inicio_trad: payload.fecha_inicio_trad,
-			fecha_fin_trad: payload.fecha_fin_trad,
-			fuente_fecha: payload.fuente_fecha,
-			fecha_inicio_metadrama: payload.fecha_inicio_metadrama,
-			fecha_fin_metadrama: payload.fecha_fin_metadrama,
+			...fechas,
 			edicion: payload.edicion
 		})
 		.eq('obra_id', params.id)
@@ -41,7 +52,7 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 	if (error || !data) {
 		return json(
 			{ error: 'db_error', message: error?.message ?? 'No se pudo actualizar' },
-			{ status: 500 }
+			{ status: ['40001','PT409'].includes(error?.code ?? '') ? 409 : 500 }
 		);
 	}
 

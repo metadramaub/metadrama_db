@@ -1,5 +1,11 @@
--- Entrada del ensayo. Solo SELECT; ejecutar únicamente en la copia Docker.
+-- Entrada del ensayo. Lectura del origen; adaptación temporal solo en la copia Docker.
 -- Las básicas se leen de la copia fija, nunca de jornadas/secuencias de trabajo.
+do $$ declare relacion text; begin
+ relacion:=case when to_regclass('public.obras_editoriales') is null then 'obras' else 'obras_editoriales' end;
+ execute format('create or replace temporary view obras_analitica as
+  select o.obra_id,o.titulo,o.edicion,o.estado,o.tipo_ficha,o.fecha_inicio_trad,o.fecha_fin_trad,
+   o.fuente_fecha,to_jsonb(o)->''dataciones'' as dataciones from public.%I o',relacion);
+end $$;
 begin read only;
 select jsonb_build_object(
  'referencias',jsonb_build_object(
@@ -18,13 +24,13 @@ select jsonb_build_object(
    'arquitecturas',coalesce((select jsonb_agg(a.slug order by a.slug) from public.arquitecturas_forma a where a.forma_id=f.forma_id),'[]'::jsonb)) order by f.slug)
    from public.formas_metricas f),
  'registros',(select coalesce(jsonb_agg(jsonb_build_object(
-   'obra_id',o.obra_id,'publicada',v.termino='publicado',
+   'obra_id',o.obra_id,'publicada',v.termino='publicado','dataciones',o.dataciones,
    'basica',to_jsonb(i),
    'detallada',case when v.termino='publicado' then jsonb_build_object(
      'metadatos',jsonb_build_object('titulo',o.titulo,'edicion_base',o.edicion,
-       'fecha_inicio',case when o.fecha_inicio_metadrama is not null or o.fecha_fin_metadrama is not null then o.fecha_inicio_metadrama else o.fecha_inicio_trad end,
-       'fecha_fin',case when o.fecha_inicio_metadrama is not null or o.fecha_fin_metadrama is not null then o.fecha_fin_metadrama else o.fecha_fin_trad end,
-       'criterio_fecha',case when o.fecha_inicio_metadrama is not null or o.fecha_fin_metadrama is not null then 'metadrama' else 'tradicional' end,
+       'fecha_inicio',o.fecha_inicio_trad,
+       'fecha_fin',o.fecha_fin_trad,
+       'criterio_fecha','referencia','dataciones',o.dataciones,
        'fuente_fecha',o.fuente_fecha),
      'jornadas',coalesce((select jsonb_agg(jsonb_build_object('ref',j.jornada_id,'numero',j.jornada_num,'v_ini',j.v_ini,'v_fin',j.v_fin) order by j.v_ini,j.jornada_id)
        from public.jornadas j where j.obra_id=o.obra_id),'[]'::jsonb),
@@ -47,7 +53,7 @@ select jsonb_build_object(
          from public.secuencias_caracterizaciones_rango c join public.secuencias_metricas sm using(secuencia_id) where sm.obra_id=o.obra_id),'[]'::jsonb))
    ) else null end
  ) order by o.obra_id),'[]'::jsonb)
- from public.obras o join public.vocabularios v on v.termino_id=o.estado
+ from pg_temp.obras_analitica o join public.vocabularios v on v.termino_id=o.estado
  left join public.importaciones_metricas i on i.obra_id=o.obra_id and i.usada_en_corpus
  where (o.tipo_ficha='completa' and v.termino='publicado') or i.importacion_id is not null)
 );

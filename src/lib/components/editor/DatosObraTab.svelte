@@ -8,6 +8,8 @@
 	import InternalCommentsPanel from '$lib/components/editor/InternalCommentsPanel.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import MarkdownEditorLite from '$lib/components/ui/markdown-editor-lite.svelte';
+	import DatacionEditor from './DatacionEditor.svelte';
+	import { datacionDeObra, type Datacion } from '$lib/dataciones';
 	import {
 		OBRA_EDICION_BASE_HELP,
 		OBRA_EDICION_BASE_EJEMPLO_HTML,
@@ -27,8 +29,8 @@
 		focusComentarioId?: string | null;
 		commentsReloadKey?: string | number | null;
 	}>();
-	// Temporal: ocultar en UI hasta reactivar el flujo de fechas METADRAMA.
-	const SHOW_METADRAMA_DATES = false;
+	// La presencia del contrato nuevo distingue la copia migrada del despliegue anterior.
+	const nuevoModelo = $derived(Array.isArray(props.obra.dataciones));
 
 	type FormState = {
 		titulo: string;
@@ -39,6 +41,7 @@
 		fuente_fecha: string | null;
 		fecha_inicio_metadrama: number | null;
 		fecha_fin_metadrama: number | null;
+		dataciones: Datacion[];
 		edicion: string;
 	};
 
@@ -53,6 +56,7 @@
 			fuente_fecha: obra.fuente_fecha,
 			fecha_inicio_metadrama: obra.fecha_inicio_metadrama,
 			fecha_fin_metadrama: obra.fecha_fin_metadrama,
+			dataciones: [datacionDeObra(obra), datacionDeObra(obra, 'metrica')],
 			edicion: obra.edicion ?? ''
 		};
 	}
@@ -145,6 +149,10 @@
 		setSaving(true, 'datos');
 		const requestPayload = {
 			...form,
+			...(nuevoModelo ? {
+				fecha_inicio_trad: undefined, fecha_fin_trad: undefined, fuente_fecha: undefined,
+				fecha_inicio_metadrama: undefined, fecha_fin_metadrama: undefined
+			} : { dataciones: undefined }),
 			variantes_titulo: form.variantes_titulo.map((item) => item.trim()).filter(Boolean)
 		};
 
@@ -203,6 +211,7 @@
 				/>
 			</label>
 
+			{#if !nuevoModelo}
 			<label class="form-field">
 				<span class="form-label">Fecha inicio tradicional</span>
 				<input
@@ -228,8 +237,10 @@
 						mutateField('fecha_fin_trad', event.currentTarget.value ? Number(event.currentTarget.value) : null)}
 				/>
 			</label>
+			{/if}
 		</div>
 
+		{#if !nuevoModelo}
 		<label class="form-field">
 			<span class="form-label">
 				<span class="form-label-with-help">
@@ -251,38 +262,14 @@
 			/>
 		</label>
 
-		{#if SHOW_METADRAMA_DATES}
-			<div class="grid gap-4 md:grid-cols-2">
-				<label class="form-field">
-					<span class="form-label">Fecha inicio METADRAMA</span>
-					<input
-						type="number"
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-						disabled={props.readOnly}
-						value={form.fecha_inicio_metadrama ?? ''}
-						oninput={(event) =>
-							mutateField(
-								'fecha_inicio_metadrama',
-								event.currentTarget.value ? Number(event.currentTarget.value) : null
-							)}
-					/>
-				</label>
-
-				<label class="form-field">
-					<span class="form-label">Fecha fin METADRAMA</span>
-					<input
-						type="number"
-						class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"
-						disabled={props.readOnly}
-						value={form.fecha_fin_metadrama ?? ''}
-						oninput={(event) =>
-							mutateField(
-								'fecha_fin_metadrama',
-								event.currentTarget.value ? Number(event.currentTarget.value) : null
-							)}
-					/>
-				</label>
-			</div>
+		{/if}
+		{#if nuevoModelo}
+			{#each form.dataciones as datacion, index (datacion.clase)}
+				<DatacionEditor value={datacion} disabled={props.readOnly} onChange={(value) => {
+					const fechas = [...form.dataciones]; fechas[index] = value;
+					mutateField('dataciones', fechas);
+				}} />
+			{/each}
 		{/if}
 
 		<label class="form-field">

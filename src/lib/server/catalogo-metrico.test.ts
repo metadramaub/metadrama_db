@@ -62,11 +62,22 @@ describe('el catálogo se guarda en memoria por su revisión', () => {
 
 	it('nunca guarda el sandbox del editor, que cambia cada vez que alguien escribe', async () => {
 		const llamadas = new Map<string, number>();
-		await loadMetricCatalog(baseDeMentira(4400, llamadas));
-		await loadMetricCatalog(baseDeMentira(4400, llamadas));
+		await loadMetricCatalog(baseDeMentira(4400, llamadas), { incluirSandbox: true });
+		await loadMetricCatalog(baseDeMentira(4400, llamadas), { incluirSandbox: true });
 
 		expect(llamadas.get('anotaciones_metricas')).toBe(2);
 		expect(llamadas.get('anotacion_realizaciones')).toBe(2);
 		expect(llamadas.get('anotacion_elecciones_resueltas')).toBe(2);
+	});
+
+	it('abrir una obra no descarga las anotaciones del laboratorio ni de otras obras', async () => {
+		const llamadas = new Map<string, number>();
+		const frio = await loadMetricCatalog(baseDeMentira(4400, llamadas));
+		const caliente = await loadMetricCatalog(baseDeMentira(4400, llamadas));
+		for (const tabla of ['anotacion_escenarios_prueba','anotaciones_metricas','anotacion_realizaciones','anotacion_elecciones_resueltas','anotacion_desviaciones']) {
+			expect(llamadas.has(tabla)).toBe(false);
+		}
+		expect(frio.editorSandbox.sequences).toEqual([]);
+		expect(caliente.editorSandbox.sequences).toEqual([]);
 	});
 });

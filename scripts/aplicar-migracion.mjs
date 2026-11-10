@@ -37,7 +37,7 @@ import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { query, tryQuery } from './lib/consulta.mjs';
+import { query, tryQuery } from './lib/consulta-editorial.mjs';
 import { cargarCatalogo } from './lib/metrica/catalogo.mjs';
 import { cargarObras } from './lib/migracion/datos.mjs';
 import { planificarObra } from './lib/migracion/aplicador.mjs';

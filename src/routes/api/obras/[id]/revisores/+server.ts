@@ -1,3 +1,4 @@
+import { relacionObras } from '$lib/server/modelo-obras';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getObraContext } from '$lib/server/auth';
@@ -142,7 +143,7 @@ export const PUT: RequestHandler = async ({ locals, params, request }) => {
 	const editorCambio = editorAsignado !== obra.editor_asignado;
 	if (editorCambio) {
 		const { data: updatedObra, error: updateEditorError } = await locals.supabase
-			.from('obras')
+			.from(relacionObras())
 			.update({ editor_asignado: editorAsignado })
 			.eq('obra_id', obra.obra_id)
 			.select('editor_asignado')

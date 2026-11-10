@@ -853,6 +853,27 @@ Los disparadores comprueban el estado final de la transacción, después de escr
 las medidas, y rechazan combinaciones como 2.º/6.º. Los comprobadores internos no se exponen
 como RPC a los roles anónimo y autenticado.
 
+La corrección de rendimiento `20261110130000` está **aplicada al Supabase compartido el 10 de
+noviembre de 2026**, tras ensayarla en copia aislada a raíz del timeout comunicado para
+*El prado de Valencia*. Se contrastaron las siete funciones desplegadas con las ensayadas y se
+comprobó que el tramo 1–1236 seguía conservado; queda confirmar el reintento real de la editora.
+Deriva las opciones una
+vez por petición, materializa las preguntas antes de contrastarlas con las unidades y evita
+recorrer unidades cuya arquitectura no tiene secciones que comprobar. La derivación SQL permite
+que el planificador aplique filtros, con referencias cualificadas. Cuatro comprobadores de
+trigger diferidos ejecutan las mismas reglas con los permisos de su propietario; la autorización
+de escritura continúa en RLS y en `guardar_anotacion_metrica`.
+
+El caso sintético usa el rango real 1–1236, con 309 redondillas **sin atribuir esa forma a la
+obra**: reproduce el timeout anterior y comprueba guardado, reintento sin duplicación, rechazo de
+respuestas obligatorias ausentes y denegación a otro editor. La regresión contrasta 23 casos de
+formas distintas: 21 conservan su contenido y dos conservan el mismo rechazo previo por
+respuestas obligatorias ausentes. Se ejecuta únicamente sobre la restauración aislada mediante
+`scripts/control-obras/probar-guardado-prado-local.mjs --integridad` y
+`scripts/control-obras/regresion-guardado-local.mjs`; todas las escrituras de prueba se deshacen.
+La guarda de la propia migración compara el catálogo completo y ejecuta un guardado transitorio
+cuyos datos también se deshacen. No se cambian límites globales de tiempo ni datos editoriales.
+
 **Lo demás son claves foráneas y `CHECK`**, que es donde vive la mayor parte de la integridad: la
 unicidad de cada `slug` en su ámbito, que una arquitectura pertenezca a una sola forma, que una
 restricción excluya un esquema hermano y no ajeno, que una respuesta guarde exactamente una

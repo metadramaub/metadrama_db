@@ -11,8 +11,9 @@ import {
 	normalizeRole
 } from '$lib/utils/permissions';
 import type { EditorProfile, ObraAccessFlags } from '$lib/types/obra.types';
+import type { ObraControlRow } from '$lib/types/control-obras.types';
 import { getEstadoTerm, getObraOrFail } from '$lib/server/obras';
-import { esFichaBasica } from '$lib/importador-metrico/tipo-ficha';
+import { esFichaBasica, esObraSinFicha, requiereInicioCompleta } from '$lib/importador-metrico/tipo-ficha';
 
 type EventWithLocals = Pick<RequestEvent, 'locals'>;
 
@@ -92,15 +93,25 @@ export function canUseCustomAutoriaRanges(roleTerm: string): boolean {
 	return roleTerm === 'admin';
 }
 
+export function canStartComplete(profile: EditorProfile, obra: Pick<ObraControlRow, 'editor_asignado'> & Partial<ObraControlRow>): boolean {
+	return profile.activo && (isAdminOrIp(profile.roleTerm) || obra.editor_asignado === profile.userId)
+		&& (esObraSinFicha(obra) || requiereInicioCompleta(obra));
+}
+
 export function buildObraCapabilities(
 	profile: EditorProfile,
-	obra: Pick<Tables<'obras'>, 'editor_asignado'>,
+	obra: Pick<Tables<'obras'>, 'editor_asignado'> & Partial<Pick<ObraControlRow, 'tipo_ficha' | 'inicio_elaboracion' | 'procedencia_registro'>>,
 	estadoTerm: string,
 	assignedReviewer: boolean
 ): ObraAccessFlags {
 	const adminOrIp = isAdminOrIp(profile.roleTerm);
 	const assignedEditor = obra.editor_asignado === profile.userId;
-	if(esFichaBasica(obra)) {
+	if (requiereInicioCompleta(obra)) {
+		return {canRead:adminOrIp||assignedEditor||assignedReviewer,canEditContent:false,canComment:false,
+			canReview:false,canChangeState:false,canPreviewPublicFicha:false,
+			canManageReviewers:adminOrIp,canToggleVisibility:false,canDeleteObra:adminOrIp};
+	}
+	if(esFichaBasica(obra) || esObraSinFicha(obra)) {
 		return {canRead:adminOrIp||assignedEditor,canEditContent:false,canComment:false,
 			canReview:false,canChangeState:false,canPreviewPublicFicha:false,
 			canManageReviewers:false,canToggleVisibility:false,canDeleteObra:false};

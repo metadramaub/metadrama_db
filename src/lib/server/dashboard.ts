@@ -1,3 +1,4 @@
+import { relacionObras } from '$lib/server/modelo-obras';
 import type { EditorProfile } from '$lib/types/obra.types';
 import type { Tables } from '$lib/types/database.types';
 import {
@@ -97,12 +98,12 @@ async function loadEstadoIdsByTerm(locals: App.Locals) {
 
 async function loadAssignedScopeObraIds(locals: App.Locals, profile: EditorProfile): Promise<string[]> {
 	if (isAdminOrIp(profile)) {
-		const all = await locals.supabase.from('obras').select('obra_id').limit(2000);
+		const all = await locals.supabase.from(relacionObras()).select('obra_id').limit(2000);
 		return [...new Set((all.data ?? []).map((row) => row.obra_id))];
 	}
 
 	const [asEditorResp, asReviewerResp] = await Promise.all([
-		locals.supabase.from('obras').select('obra_id').eq('editor_asignado', profile.userId).limit(2000),
+		locals.supabase.from(relacionObras()).select('obra_id').eq('editor_asignado', profile.userId).limit(2000),
 		locals.supabase.from('obras_revisores').select('obra_id').eq('revisor_id', profile.userId).limit(2000)
 	]);
 
@@ -135,7 +136,7 @@ async function loadTitleMapForIds(locals: App.Locals, obraIds: string[]) {
 	if (obraIds.length === 0) {
 		return new Map<string, string>();
 	}
-	const { data } = await locals.supabase.from('obras').select('obra_id,titulo').in('obra_id', obraIds);
+	const { data } = await locals.supabase.from(relacionObras()).select('obra_id,titulo').in('obra_id', obraIds);
 	const titleMap = new Map<string, string>();
 	for (const row of data ?? []) {
 		setObraTitle(titleMap, row.obra_id, row.titulo);
@@ -240,7 +241,7 @@ async function loadCommentContextLabels(
 
 export async function getDashboardKpis(locals: App.Locals, profile: EditorProfile, separarBasicas = false): Promise<DashboardKpis> {
 	const contar = () => {
-		const query = locals.supabase.from('obras').select('obra_id', { count: 'exact', head: true });
+		const query = locals.supabase.from(relacionObras()).select('obra_id', { count: 'exact', head: true });
 		return separarBasicas ? query.eq('tipo_ficha', 'completa') : query;
 	};
 	const estadoIdsByTerm = await loadEstadoIdsByTerm(locals);
@@ -271,7 +272,7 @@ export async function getDashboardKpis(locals: App.Locals, profile: EditorProfil
 		};
 	}
 
-	let query = locals.supabase.from('obras').select('estado').eq('editor_asignado', profile.userId).limit(2000);
+	let query = locals.supabase.from(relacionObras()).select('estado').eq('editor_asignado', profile.userId).limit(2000);
 	if (separarBasicas) query = query.eq('tipo_ficha', 'completa');
 	const { data } = await query;
 	const rows = data ?? [];
@@ -295,7 +296,7 @@ export async function getAssignedEditorObras(
 	separarBasicas = false
 ): Promise<DashboardAssignedObra[]> {
 	let query = locals.supabase
-		.from('obras')
+		.from(relacionObras())
 		.select('obra_id,titulo,estado,updated_at')
 		.eq('editor_asignado', profile.userId)
 		.order('updated_at', { ascending: false })
@@ -329,13 +330,13 @@ export async function getPublishedAssignedSummary(
 	}
 
 	const totalResp = await locals.supabase
-		.from('obras')
+		.from(relacionObras())
 		.select('obra_id', { count: 'exact', head: true })
 		.eq('editor_asignado', profile.userId)
 		.eq('estado', publicadoId);
 
 	const listResp = await locals.supabase
-		.from('obras')
+		.from(relacionObras())
 		.select('obra_id,titulo,updated_at')
 		.eq('editor_asignado', profile.userId)
 		.eq('estado', publicadoId)
@@ -364,7 +365,7 @@ export async function getRecentActivity(
 	const scopeIds = scoped ? await loadAssignedScopeObraIds(locals, profile) : [];
 
 	let stateChangesQuery = locals.supabase
-		.from('obras')
+		.from(relacionObras())
 		.select('obra_id,titulo,estado,fecha_cambio_estado')
 		.gte('fecha_cambio_estado', sinceIso)
 		.order('fecha_cambio_estado', { ascending: false })
@@ -446,7 +447,7 @@ export async function getNotifications(
 	const scopeIds = admin ? [] : await loadAssignedScopeObraIds(locals, profile);
 
 	let editAssignmentsQuery = locals.supabase
-		.from('obras')
+		.from(relacionObras())
 		.select('obra_id,titulo,created_at')
 		.not('editor_asignado', 'is', null)
 		.gte('created_at', sinceIso)
@@ -461,7 +462,7 @@ export async function getNotifications(
 		.limit(400);
 
 	let stateChangesQuery = locals.supabase
-		.from('obras')
+		.from(relacionObras())
 		.select('obra_id,titulo,estado,fecha_cambio_estado')
 		.gte('fecha_cambio_estado', sinceIso)
 		.order('fecha_cambio_estado', { ascending: false })
@@ -649,7 +650,7 @@ export async function countUnreadNotifications(
 
 	let editAssignmentsQuery = applyUnreadWindow(
 		locals.supabase
-			.from('obras')
+			.from(relacionObras())
 			.select('obra_id', { count: 'exact', head: true })
 			.not('editor_asignado', 'is', null),
 		'created_at',
@@ -664,7 +665,7 @@ export async function countUnreadNotifications(
 	);
 	let stateChangesQuery = applyUnreadWindow(
 		locals.supabase
-			.from('obras')
+			.from(relacionObras())
 			.select('obra_id', { count: 'exact', head: true }),
 		'fecha_cambio_estado',
 		unreadWindow

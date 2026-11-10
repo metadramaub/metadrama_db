@@ -1,3 +1,4 @@
+import { relacionObrasPublicas } from '$lib/server/modelo-obras';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getPublicadoEstadoId, resolvePublicViewerContext } from '$lib/server/public-obras';
@@ -55,7 +56,7 @@ export const load: PageServerLoad = async ({ locals, setHeaders }) => {
 	}
 
 	let query = locals.supabase
-		.from('obras')
+		.from(relacionObrasPublicas())
 		.select('obra_id,slug,titulo,fecha_inicio_trad,fecha_fin_trad,total_versos,updated_at,visible_publico,editor_asignado')
 		.eq('estado', publicadoId)
 		.order('titulo');

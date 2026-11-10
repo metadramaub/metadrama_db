@@ -39,6 +39,7 @@ fiable para colaboradores. Los pendientes generales viven en [PENDIENTES](../PEN
 | Comprobar un JSON desde archivos | [Validador](./funcionamiento/validador-local.md) |
 | Consultar criterios científicos | [Metodología](./metodologia/metodologia.md) e [inventario general de medidas](../inventario-medidas-analiticas.md) |
 | Consultar campos, modelo y permisos | [Campos mínimos](./arquitectura/campos-minimos.md) y [diseño de integración](./arquitectura/diseno-integracion.md) |
+| Registro previo de obras, encargos de completas y corpus múltiples | [Control de obras y preparación de migración](../control-obras/README.md) |
 | Integrar cálculos y consumidores | [Consultas y precomputación](./arquitectura/consultas-y-precomputacion.md) |
 | Localizar reglas consumidas por la aplicación | [Datos del importador](../../data/importador-metrico/README.md) |
 | Recuperar el proceso seguido | [Histórico](./historico/README.md) |

@@ -1,3 +1,4 @@
+import { relacionObras } from '$lib/server/modelo-obras';
 /**
  * Los informes de migración que el editor lee en el dashboard.
  *
@@ -90,7 +91,7 @@ export async function getInformesVisibles(
 	if (profile.roleTerm === 'admin' || profile.roleTerm === 'ip') return informes;
 
 	const { data } = await supabase
-		.from('obras')
+		.from(relacionObras())
 		.select('obra_id')
 		.eq('editor_asignado', profile.userId)
 		.in(
@@ -123,7 +124,7 @@ export async function getInformePorSlug(
 	}
 
 	const { data } = await supabase
-		.from('obras')
+		.from(relacionObras())
 		.select('editor_asignado')
 		.eq('obra_id', informe.obraId)
 		.maybeSingle();

@@ -12,7 +12,7 @@
  * informan. Lo mismo las obras de prueba, que nacieron ya en el modelo nuevo.
  */
 
-import { query } from '../consulta.mjs';
+import { query } from '../consulta-editorial.mjs';
 import { cargarCatalogo } from '../metrica/catalogo.mjs';
 import { realizacionesDe } from '../metrica/realizaciones.mjs';
 import { preguntaAplica, tiposDeRimaAfirmados } from './aplicador.mjs';

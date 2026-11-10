@@ -1,17 +1,18 @@
+import { relacionObras } from '$lib/server/modelo-obras';
+import { modeloEditorialActivo } from '$lib/server/modelo-obras';
 import type { PageServerLoad } from './$types';
-import { buildObraCapabilities } from '$lib/server/auth';
+import { buildObraCapabilities, canStartComplete } from '$lib/server/auth';
 import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import { resolveDashboardObrasScopePlan } from '$lib/server/dashboard-obras';
 import { loadAssignmentWorks } from '$lib/server/editor-management';
 import type { Tables } from '$lib/types/database.types';
 import { error } from '@sveltejs/kit';
+import type { ObraControlRow } from '$lib/types/control-obras.types';
+import { z } from 'zod';
 
 const SCOPE_COOKIE = 'dashboard_obras_scope';
 const OBRAS_LIST_SELECT = 'obra_id,titulo,slug,estado,editor_asignado,updated_at,visible_publico';
-type DashboardObraRow = Pick<
-	Tables<'obras'>,
-	'obra_id' | 'titulo' | 'slug' | 'estado' | 'editor_asignado' | 'updated_at' | 'visible_publico'
->;
+type DashboardObraRow = ObraControlRow;
 
 export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => {
 	const parentData = await parent();
@@ -21,9 +22,13 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 	// ?scope, se usa la cookie de sesión (última selección); el resuelto se re-persiste.
 	const explicitScope = url.searchParams.get('scope');
 	const rawScope = (explicitScope ?? cookies.get(SCOPE_COOKIE) ?? '').trim().toLowerCase();
-	const scope = rawScope === 'all' ? 'all' : 'mine';
-	cookies.set(SCOPE_COOKIE, scope, { path: '/dashboard/obras', sameSite: 'lax' });
+	let scope = rawScope === 'all' ? 'all' : 'mine';
 	const isAdminOrIp = profile.roleTerm === 'admin' || profile.roleTerm === 'ip';
+	if (scope === 'all' && !isAdminOrIp) {
+		if(explicitScope==='all') throw error(403, 'El control de todas las obras está reservado a admin/IP.');
+		scope='mine';
+	}
+	cookies.set(SCOPE_COOKIE, scope, { path: '/dashboard/obras', sameSite: 'lax' });
 	// La RPC no existe antes de la migración: no se consulta una columna futura en ese caso.
 	const capacidadImportador = parentData.importador;
 
@@ -43,10 +48,10 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 	const reviewerAssignedSet = new Set(reviewerAssignedIds);
 
 	let query = locals.supabase
-		.from('obras')
-		.select(OBRAS_LIST_SELECT)
+		.from(relacionObras())
+		.select(modeloEditorialActivo() ? 'obra_id,titulo,slug,estado,editor_asignado,updated_at,visible_publico,tipo_ficha,fecha_inicio_trad,fecha_fin_trad,dataciones,autores,corpus,importacion_id,inicio_elaboracion,procedencia_registro' : OBRAS_LIST_SELECT)
 		.order('updated_at', { ascending: false });
-	if (capacidadImportador) query = query.eq('tipo_ficha', 'completa');
+	if (capacidadImportador && !modeloEditorialActivo()) query = query.eq('tipo_ficha', 'completa');
 
 	if (scope === 'mine') {
 		const scopePlan = resolveDashboardObrasScopePlan(scope, profile.userId, reviewerAssignedIds);
@@ -112,7 +117,15 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 		(editoresResp.data ?? []).map((row) => [row.user_id, row.nombre_completo])
 	);
 
+	let corpusOptions: {codigo:string;nombre:string}[]=[];
+	if(modeloEditorialActivo()&&isAdminOrIp){
+		const r=await locals.supabase.rpc('listar_corpus_gestion' as never);
+		if(r.error)throw error(500,'No se pudieron cargar los corpus.');
+		corpusOptions=z.array(z.object({codigo:z.string(),nombre:z.string()})).parse(r.data);
+	}
 	return {
+		corpusOptions,
+		modeloEditorial: modeloEditorialActivo(),
 		puedeVerBasicas: capacidadImportador?.puede_importar ?? false,
 		profile,
 		scope,
@@ -128,9 +141,10 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 			);
 			return {
 				...obra,
+				canStartComplete: modeloEditorialActivo() && canStartComplete(profile, obra),
 				reviewer_ids:
 					allAssignmentWorks?.find((work) => work.obra_id === obra.obra_id)?.reviewer_ids ?? [],
-				estadoTerm,
+					estadoTerm: obra.tipo_ficha==='sin_ficha' ? 'Sin ficha' : obra.tipo_ficha==='basica' ? 'Básica' : estadoTerm,
 				editorNombre: obra.editor_asignado
 					? (editoresMap.get(obra.editor_asignado) ?? 'Sin nombre')
 					: 'Sin asignar',

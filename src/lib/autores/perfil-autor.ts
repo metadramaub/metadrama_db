@@ -19,6 +19,7 @@ export type AutorPublicoObra = {
 	slug: string;
 	titulo: string;
 	genero_term: string | null;
+	dataciones?: unknown;
 	fecha_inicio_trad: number | null;
 	fecha_fin_trad: number | null;
 	total_versos: number | null;

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { datacionDeObra, formatoDatacion, coincideDatacion } from '$lib/dataciones';
 	import LaboratoryDistributionChart from '$lib/components/laboratorio/LaboratoryDistributionChart.svelte';
 	import LaboratoryFeatureGroupComparison from '$lib/components/laboratorio/LaboratoryFeatureGroupComparison.svelte';
 	import LaboratoryFocusedWorkSummary from '$lib/components/laboratorio/LaboratoryFocusedWorkSummary.svelte';
@@ -281,12 +282,7 @@
 	}
 
 	function dateLabel(work: CorpusComparisonWork): string {
-		const start = work.fecha_inicio_trad;
-		const end = work.fecha_fin_trad;
-		if (start === null && end === null) return 's. f.';
-		if (start === end || end === null) return String(start);
-		if (start === null) return String(end);
-		return `${start}–${end}`;
+		return formatoDatacion(datacionDeObra(work));
 	}
 
 	function buildAuthorItems(works: CorpusComparisonWork[]) {
@@ -310,12 +306,7 @@
 		return works.filter((work) => {
 			if (authors.length > 0 && !work.autores.some((author) => authors.includes(author))) return false;
 			if (from === null && to === null) return true;
-			const start = work.fecha_inicio_trad;
-			const end = work.fecha_fin_trad ?? start;
-			if (start === null && end === null) return false;
-			if (from !== null && (end ?? start ?? -Infinity) < from) return false;
-			if (to !== null && (start ?? end ?? Infinity) > to) return false;
-			return true;
+			return coincideDatacion(datacionDeObra(work), from, to);
 		});
 	}
 

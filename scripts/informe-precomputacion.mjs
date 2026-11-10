@@ -12,7 +12,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { query } from './lib/consulta.mjs';
+import { query } from './lib/consulta-editorial.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
 const SALIDA = path.join(RAIZ, 'docs', 'mapa-precomputacion.md');

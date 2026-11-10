@@ -1,3 +1,4 @@
+import { relacionObrasPublicas } from '$lib/server/modelo-obras';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import {
@@ -307,7 +308,7 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 		})) as unknown as ObraRow[];
 	} else {
 		let query = locals.supabase
-			.from('obras')
+			.from(relacionObrasPublicas())
 			.select(
 				'obra_id,slug,titulo,fecha_inicio_trad,fecha_fin_trad,fecha_inicio_metadrama,fecha_fin_metadrama,total_versos,genero_id,updated_at,visible_publico,editor_asignado,' +
 					'obras_resumen(autores,tramos,jornadas_tramos,cuadros_tramos,numero_efectivo_formas,densidad_transiciones,n_formas_distintas,formas_presentes,metros_presentes,tipos_forma_presentes,variaciones_presentes,subtipos_presentes)'

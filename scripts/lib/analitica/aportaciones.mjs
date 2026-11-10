@@ -1,6 +1,7 @@
 /** Núcleo del ensayo de precomputación. Sin DB, red ni uso desde las páginas. */
 import { createHash } from 'node:crypto';
 import { fichaMinimaSchema } from '../importador-metrico/ficha-minima.mjs';
+import { datacionDeObra, limitesDatacion, coincideDatacion } from '../../../src/lib/dataciones.ts';
 import {
 	normalizarDatosComparables,
 	precomputarDatosComparables,
@@ -9,7 +10,7 @@ import {
 	precomputarArquitecturas
 } from './datos-comparables.mjs';
 
-export const VERSION_CALCULO = 'perfil-comparable-ensayo/0.3';
+export const VERSION_CALCULO = 'perfil-comparable-ensayo/0.4';
 const ordenar = (a, b) => a.v_ini - b.v_ini || a.v_fin - b.v_fin;
 const longitud = (r) => r.v_fin - r.v_ini + 1;
 const clonar = (v) => structuredClone(v);
@@ -28,6 +29,14 @@ export const huella = (v) =>
 		.update(JSON.stringify(canonico(v)))
 		.digest('hex');
 const sinValor = (motivo) => ({ valor: null, motivo });
+const datacionAnalitica = (meta) => datacionDeObra({ dataciones: meta.dataciones,
+	fecha_inicio_trad: meta.fecha_inicio, fecha_fin_trad: meta.fecha_fin });
+function metadatosVigentes(meta, registro) {
+	if (!Array.isArray(registro.dataciones)) return clonar(meta);
+	const d = datacionDeObra(registro);
+	return { ...clonar(meta), dataciones: clonar(registro.dataciones), criterio_fecha: 'referencia',
+		fecha_inicio: d.inicio, fecha_fin: d.fin, fuente_fecha: d.fuente };
+}
 
 /** Se decide ANTES de traducir: una detallada publicada no se rellena desde la básica. */
 export function seleccionarAportacion(registro, referencias = {}) {
@@ -39,7 +48,7 @@ export function seleccionarAportacion(registro, referencias = {}) {
 				obra_id: registro.obra_id,
 				tipo: 'detallada',
 				fuente: { id: registro.obra_id, huella: huella(d), version: 'anotacion-v2' },
-				metadatos: clonar(d.metadatos),
+				metadatos: metadatosVigentes(d.metadatos, registro),
 				jornadas: clonar(d.jornadas),
 				autorias: clonar(d.autorias),
 				secuencias: d.secuencias.map((s) => ({ ...clonar(s), segmentacion: 'confirmada' })),
@@ -61,7 +70,7 @@ export function seleccionarAportacion(registro, referencias = {}) {
 				version: d.esquema,
 				procedencia: clonar(d.procedencia)
 			},
-			metadatos: clonar(d.metadatos),
+			metadatos: metadatosVigentes(d.metadatos, registro),
 			jornadas: d.jornadas.map((j) => ({ ...clonar(j), ref: `j${j.numero}` })),
 			autorias: [
 				{ autor_id: i.autor_id, ambito: 'obra', jornada_id: null, v_ini: null, v_fin: null }
@@ -122,9 +131,10 @@ export function precomputarAportacion(a, catalogo) {
 		secuencias.at(-1)?.v_fin !== jornadas.at(-1)?.v_fin
 	)
 		incidencias.push('extension:no_coinciden_extremos');
-	if (a.metadatos.fecha_inicio == null || a.metadatos.fecha_fin == null)
-		incidencias.push('fechas:sin_intervalo');
-	else if (a.metadatos.fecha_inicio > a.metadatos.fecha_fin)
+	const limitesFecha = limitesDatacion(datacionAnalitica(a.metadatos));
+	if (limitesFecha.inicio === null && limitesFecha.fin === null)
+		incidencias.push('fechas:sin_datacion');
+	else if (limitesFecha.inicio !== null && limitesFecha.fin !== null && limitesFecha.inicio > limitesFecha.fin)
 		incidencias.push('fechas:intervalo_invertido');
 	const formas = new Map(catalogo.map((f) => [f.slug, f]));
 	for (const s of secuencias) {
@@ -313,12 +323,13 @@ export function precomputarReferente(
 		const unidades = a.autorias.filter((u) => u.autor_id === autor_id);
 		if (!unidades.length) continue;
 		if (periodo) {
-			const { fecha_inicio: ini, fecha_fin: fin } = a.metadatos;
-			if (ini == null || fin == null || ini > fin) {
+			const d = datacionAnalitica(a.metadatos);
+			const { inicio: ini, fin } = limitesDatacion(d);
+			if ((ini === null && fin === null) || (ini !== null && fin !== null && ini > fin)) {
 				excluidas.push({ obra_id: a.obra_id, motivo: 'sin_intervalo_valido' });
 				continue;
 			}
-			if (ini > periodo[1] || fin < periodo[0]) continue;
+			if (!coincideDatacion(d, periodo[0], periodo[1])) continue;
 		}
 		const obra = unidades.some((u) => u.ambito === 'obra');
 		const rangos = obra ? a.jornadas : unidades.map((u) => ({ v_ini: u.v_ini, v_fin: u.v_fin }));

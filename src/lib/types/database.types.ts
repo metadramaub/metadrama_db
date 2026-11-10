@@ -14,6 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      obras_consulta_publica: {
+        Row: Pick<Database['public']['Tables']['obras']['Row'], 'obra_id'|'titulo'|'slug'|'genero_id'|'estado'|'visible_publico'|'editor_asignado'|'fecha_inicio_trad'|'fecha_fin_trad'|'fecha_inicio_metadrama'|'fecha_fin_metadrama'|'total_versos'|'updated_at'> & { dataciones: Json }
+        Insert: never
+        Update: never
+        Relationships: Database['public']['Tables']['obras']['Relationships']
+      }
+      /** Proyección editorial de la candidata local; activar con OBRAS_EDITORIALES_V2. */
+      obras_editoriales: {
+        Row: Database['public']['Tables']['obras']['Row'] & {
+          inicio_elaboracion: string | null
+          procedencia_registro: string | null
+          importacion_id: string | null
+          importado_por: string | null
+          corpus: string[]
+          autores: string[]
+          dataciones: Json
+        }
+        Insert: Database['public']['Tables']['obras']['Insert']
+        Update: Database['public']['Tables']['obras']['Update'] & { dataciones?: Json }
+        Relationships: Database['public']['Tables']['obras']['Relationships']
+      }
       afirmaciones_fuentes_metricas: {
         Row: {
           afirmacion_id: string
@@ -2998,6 +3019,7 @@ export type Database = {
       }
       obras: {
         Row: {
+          dataciones?: Json
           autor_ficha_publico: string | null
           bibliografia: string | null
           created_at: string
@@ -3115,6 +3137,7 @@ export type Database = {
         Row: {
           actualizado_en: string | null
           autores: string[]
+          dataciones: Json
           cuadros_tramos: Json | null
           densidad_transiciones: number | null
           ficha: Json | null
@@ -4263,6 +4286,7 @@ export type Database = {
         Args: { p_titulo: string }
         Returns: {
           autores: string[]
+          dataciones: Json
           obra_id: string
           tipo_ficha: string
           titulo: string

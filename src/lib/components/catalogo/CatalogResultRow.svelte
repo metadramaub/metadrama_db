@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { datacionDeObra, formatoDatacion, coincideDatacion } from '$lib/dataciones';
 	import type { Snippet } from 'svelte';
 	import ArrowRight from 'lucide-svelte/icons/arrow-right';
 	import CatalogMetricBar from '$lib/components/catalogo/CatalogMetricBar.svelte';
@@ -10,7 +11,8 @@
 		titulo: string;
 		autoria_autores?: string[];
 		genero_term: string | null;
-		fecha_inicio_trad: number | null;
+		dataciones?: unknown;
+	fecha_inicio_trad: number | null;
 		fecha_fin_trad: number | null;
 		total_versos: number | null;
 		visible_publico: boolean | null;
@@ -47,12 +49,7 @@
 	const densidadLabel = $derived(formatNumber(props.obra.densidad_transiciones));
 
 	function datacionLabel(obra: Obra): string {
-		const ini = obra.fecha_inicio_trad;
-		const fin = obra.fecha_fin_trad;
-		if (ini === null && fin === null) return 'Sin datación';
-		if (ini === fin || fin === null) return String(ini);
-		if (ini === null) return String(fin);
-		return `${ini}-${fin}`;
+		return formatoDatacion(datacionDeObra(obra));
 	}
 </script>
 

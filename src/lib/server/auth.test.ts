@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildObraCapabilities } from './auth';
+import { buildObraCapabilities, canStartComplete } from './auth';
 import type { EditorProfile } from '$lib/types/obra.types';
 
 const baseProfile = {
@@ -17,6 +17,18 @@ function profile(roleTerm: string, userId = '00000000-0000-0000-0000-00000000000
 }
 
 describe('buildObraCapabilities', () => {
+	it('solo el responsable y los gestores pueden iniciar un encargo pendiente',()=>{
+		const obra={editor_asignado:profile('editor').userId,tipo_ficha:'completa',procedencia_registro:'nuevo',inicio_elaboracion:null};
+		expect(canStartComplete(profile('editor'),obra)).toBe(true);
+		expect(canStartComplete(profile('admin'),obra)).toBe(true);
+		expect(canStartComplete(profile('editor','00000000-0000-0000-0000-000000000099'),obra)).toBe(false);
+		expect(canStartComplete(profile('editor'),{...obra,inicio_elaboracion:'2026-11-10T12:00:00Z'})).toBe(false);
+	});
+	it.each(['admin','ip','editor'])('un encargo nuevo requiere inicio antes de editar para %s',(rol)=>{
+		const obra={editor_asignado:profile(rol).userId,tipo_ficha:'completa',procedencia_registro:'nuevo',inicio_elaboracion:null};
+		expect(buildObraCapabilities(profile(rol),obra,'borrador',false)).toMatchObject({canRead:true,canEditContent:false,canChangeState:false});
+		expect(buildObraCapabilities(profile(rol),{...obra,inicio_elaboracion:'2026-11-10T12:00:00Z'},'borrador',false).canEditContent).toBe(true);
+	});
 	it.each(['admin','ip','editor'])('una básica no abre escritura detallada ni publicación para %s',(rol)=>{
 		const obra={editor_asignado:profile(rol).userId,tipo_ficha:'minima'};
 		expect(buildObraCapabilities(profile(rol),obra,'borrador',false)).toMatchObject({canRead:true,

@@ -1,3 +1,5 @@
+import { relacionObras } from '$lib/server/modelo-obras';
+import { modeloEditorialActivo } from '$lib/server/modelo-obras';
 import { error } from '@sveltejs/kit';
 import { loadInternalVocabulario } from './catalogos-internos';
 import { normalizeWorkTitle } from '$lib/utils/editor-management';
@@ -5,14 +7,15 @@ import { normalizeWorkTitle } from '$lib/utils/editor-management';
 export async function createObras(
 	locals: App.Locals,
 	titles: string[],
-	editorId: string,
+	editorId: string | null,
 	genreId: string | null = null
 ) {
-	const assigned = await locals.supabase
+	if (!editorId && !modeloEditorialActivo()) throw error(422, 'Selecciona un editor responsable.');
+	const assigned = editorId ? await locals.supabase
 		.from('editores')
 		.select('user_id,activo')
 		.eq('user_id', editorId)
-		.maybeSingle();
+		.maybeSingle() : {data: {activo: true}, error: null};
 	if (assigned.error) throw error(500, 'No se pudo validar al editor.');
 	if (!assigned.data || !assigned.data.activo)
 		throw error(422, 'El editor seleccionado no existe o está deshabilitado.');
@@ -21,12 +24,13 @@ export async function createObras(
 	if (!draft) throw error(500, 'No se encuentra el estado borrador.');
 	// Un único INSERT: si falla una obra, no se crea ninguna del lote.
 	const response = await locals.supabase
-		.from('obras')
+		.from(relacionObras())
 		.insert(
 			titles.map((title) => ({
 				titulo: title.trim(),
 				titulo_normalizado: normalizeWorkTitle(title),
 				editor_asignado: editorId,
+				...(modeloEditorialActivo() ? {tipo_ficha: editorId ? 'completa' : 'sin_ficha'} : {}),
 				estado: draft.termino_id,
 				genero_id: genreId
 			}))

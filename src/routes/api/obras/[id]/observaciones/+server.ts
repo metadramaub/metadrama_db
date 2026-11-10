@@ -1,3 +1,4 @@
+import { relacionObras } from '$lib/server/modelo-obras';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getObraContext } from '$lib/server/auth';
@@ -15,7 +16,7 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 
 	const payload = parsed.data;
 	const { data, error } = await locals.supabase
-		.from('obras')
+		.from(relacionObras())
 		.update({
 			observaciones: payload.observaciones,
 			bibliografia: payload.bibliografia

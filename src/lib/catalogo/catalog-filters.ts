@@ -1,3 +1,4 @@
+import { datacionDeObra, limitesDatacion } from '$lib/dataciones';
 import { CATALOG_SECTION_IDS, isSectionVisible, type SectionVisibilityMap } from '$lib/secciones-publicas';
 
 export type CatalogSortId =
@@ -106,6 +107,7 @@ export type CatalogObraForFilters = {
 	titulo: string;
 	autoria_autores: string[];
 	genero_term: string | null;
+	dataciones?: unknown;
 	fecha_inicio_trad: number | null;
 	fecha_fin_trad: number | null;
 	total_versos: number | null;
@@ -529,10 +531,10 @@ export function removeCatalogChip(
 }
 
 export function deriveCatalogDatacionBounds(
-	obras: Pick<CatalogObraForFilters, 'fecha_inicio_trad' | 'fecha_fin_trad'>[]
+	obras: Pick<CatalogObraForFilters, 'dataciones' | 'fecha_inicio_trad' | 'fecha_fin_trad'>[]
 ): CatalogRangeBounds | null {
 	const dataciones = obras
-		.flatMap((obra) => [obra.fecha_inicio_trad, obra.fecha_fin_trad])
+		.flatMap((obra) => { const d = limitesDatacion(datacionDeObra(obra)); return [d.inicio, d.fin]; })
 		.filter((value): value is number => Number.isFinite(value));
 	return dataciones.length > 0 ? { min: Math.min(...dataciones), max: Math.max(...dataciones) } : null;
 }
@@ -613,10 +615,9 @@ function isCatalogSortId(value: string | null): value is CatalogSortId {
 }
 
 function obraDatacionRange(obra: CatalogObraForFilters): { min: number; max: number } | null {
-	const start = obra.fecha_inicio_trad ?? obra.fecha_fin_trad;
-	const end = obra.fecha_fin_trad ?? obra.fecha_inicio_trad;
-	if (start === null || end === null) return null;
-	return { min: Math.min(start, end), max: Math.max(start, end) };
+	const { inicio, fin } = limitesDatacion(datacionDeObra(obra));
+	if (inicio === null && fin === null) return null;
+	return { min: inicio ?? -Infinity, max: fin ?? Infinity };
 }
 
 function rangesOverlap(
@@ -657,7 +658,8 @@ function compareCatalogObras<T extends CatalogObraForFilters>(
 }
 
 function obraFecha(obra: CatalogObraForFilters): number {
-	return obra.fecha_inicio_trad ?? obra.fecha_fin_trad ?? Number.POSITIVE_INFINITY;
+	const { inicio, fin } = limitesDatacion(datacionDeObra(obra));
+	return inicio ?? fin ?? Number.POSITIVE_INFINITY;
 }
 
 function shortListLabel(values: string[]): string {

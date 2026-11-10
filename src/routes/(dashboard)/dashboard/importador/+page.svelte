@@ -11,6 +11,7 @@
 	import DatosEjecucion from '$lib/components/importador-metrico/DatosEjecucion.svelte';
 
 	let { data, form } = $props<{ data: PageData; form: ActionData }>();
+	const accion=(nombre:string)=>data.obraDestino?'?obra='+data.obraDestino.obra_id+'&/'+nombre:'?/'+nombre;
 	const respuesta = () => form && 'vista' in form ? form : null;
 	let ultimaRespuesta = $state(untrack(respuesta));
 	const vacios: MetadatosEditables = { titulo:'',autor_nombre:'',genero:'comedia_o_tragicomedia',edicion_base:'',fecha_inicio:'',fecha_fin:'',fuente_fecha:'',fundamento_autoria:'',ia_generador:'',ia_modelo:'',ia_modo:'',ia_plan:'',ia_parametros:'' };
@@ -151,7 +152,9 @@
 			</label>
 			<button type="button" class="rounded-md border border-[color:var(--border)] px-4 py-2 text-sm hover:bg-[color:var(--muted)] disabled:opacity-50" disabled={!ejemplo || pendiente} onclick={cargarEjemplo}>Cargar ejemplo</button>
 		</div>
-		<form method="POST" action="?/leer" use:enhance={enviar} class="space-y-3">
+		<form method="POST" action={accion('leer')} use:enhance={enviar} class="space-y-3">
+			<input type="hidden" name="obra_id" value={data.obraDestino?.obra_id ?? ''} />
+			{#if data.obraDestino}<p>Importación para <strong>{data.obraDestino.titulo}</strong>. Se conservarán sus metadatos vigentes y se completarán los vacíos; la edición y los datos de la fuente quedarán en la importación.</p>{/if}
 			<label class="form-field" for="entrada-importador"><span class="form-label">Transcripción (JSON) <span class="required" aria-label="obligatorio">*</span></span></label>
 			<textarea id="entrada-importador" name="entrada" bind:value={entrada} oninput={cambioEntrada} rows="6" spellcheck="false" class="w-full rounded-md border border-[color:var(--border)] bg-white p-3 font-mono text-xs" placeholder="Pega la transcripción de una obra" required></textarea>
 			<button class="rounded-md bg-[color:var(--foreground)] px-5 py-2.5 text-sm font-medium text-white disabled:opacity-50" disabled={pendiente || !entrada.trim()}>{pendiente ? 'Preparando…' : 'Preparar importación'}</button>
@@ -160,7 +163,8 @@
 	{#if !entradaCambiada && form && 'mensaje' in form}<p role="alert" class="border border-red-200 bg-red-50 p-3 text-sm">{form.mensaje}</p>{/if}
 	{#if respuestaDescartada && !entradaCambiada}<p role="status" class="border-l-2 border-amber-400 bg-amber-50 p-3 text-sm">Datos modificados durante el envío. Vuelve a comprobarlos.</p>{/if}
 	{#if vista && !entradaCambiada}
-		<form bind:this={formComprobacion} method="POST" action="?/comprobar" use:enhance={enviar} novalidate class="card space-y-4 p-4 sm:p-6">
+		<form bind:this={formComprobacion} method="POST" action={accion('comprobar')} use:enhance={enviar} novalidate class="card space-y-4 p-4 sm:p-6">
+			<input type="hidden" name="obra_id" value={data.obraDestino?.obra_id ?? ''} />
 			<h2 class="text-lg font-semibold">2. Datos de la obra</h2>
 			<input type="hidden" name="entrada" value={entrada} />
 			<input type="hidden" name="ediciones" value={ediciones} />
@@ -219,7 +223,7 @@
 	{#if coincidencias.length && !entradaCambiada}
 		<aside class="border-l-2 border-amber-400 bg-amber-50 p-3 text-sm">
 			<h2 class="font-semibold">Posibles coincidencias</h2>
-			<ul class="mt-1 list-disc pl-5">{#each coincidencias as c}<li>{c.titulo} · {c.autores.join(', ') || 'Autoría no indicada'} · {c.tipo_ficha==='minima'?'Básica':'Detallada'}</li>{/each}</ul>
+			<ul class="mt-1 list-disc pl-5">{#each coincidencias as c}<li>{c.titulo} · {c.autores.join(', ') || 'Autoría no indicada'} · {['minima','basica'].includes(c.tipo_ficha)?'Básica':c.tipo_ficha==='sin_ficha'?'Sin ficha':'Completa'}</li>{/each}</ul>
 		</aside>
 	{/if}
 	{#if vista}<VistaPrevia {vista} {desactualizada} formas={data.referencia.formas} ocupado={pendiente} editable={!entradaCambiada} oneditar={editarSecuencias} oncancelar={cancelarEdicion} />{/if}
@@ -232,18 +236,19 @@
 			{#if !data.guardadoDisponible}
 				<p class="text-sm text-[color:var(--muted-foreground)]">El guardado aún no está habilitado en esta base.</p>
 			{:else}
-				<form method="POST" action="?/confirmar" use:enhance={enviar} class="space-y-3">
+				<form method="POST" action={accion('confirmar')} use:enhance={enviar} class="space-y-3">
+					<input type="hidden" name="obra_id" value={data.obraDestino?.obra_id ?? ''} />
 					<input type="hidden" name="entrada" value={entrada} />
 					<input type="hidden" name="autor_id" value={autorId} />
 					<input type="hidden" name="ediciones" value={ediciones} />
 					<input type="hidden" name="peticion_id" value={peticionId} />
 					<input type="hidden" name="huella" value={ultimaRespuesta?.huella ?? ''} />
 					{#each Object.entries(metadatos) as [nombre,valor]}<input type="hidden" name={nombre} value={valor} />{/each}
-					{#if coincidencias.length}
+					{#if coincidencias.length && !data.obraDestino}
 						<label class="flex items-start gap-2 text-sm"><input type="checkbox" name="decision_coincidencias" value="otra_obra" bind:checked={otraObra} />He revisado las coincidencias: es otra obra.</label>
 						<button type="button" onclick={descartarImportacion} class="rounded-md border px-3 py-2 text-sm" disabled={pendiente}>Es la misma obra: descartar importación</button>
 					{/if}
-					<button class="rounded-md bg-[color:var(--foreground)] px-5 py-2.5 text-sm font-medium text-[color:var(--background)] disabled:opacity-50" disabled={pendiente || desactualizada || entradaCambiada || !ultimaRespuesta?.huella || (coincidencias.length>0 && !otraObra)}>Guardar ficha básica</button>
+					<button class="rounded-md bg-[color:var(--foreground)] px-5 py-2.5 text-sm font-medium text-[color:var(--background)] disabled:opacity-50" disabled={pendiente || desactualizada || entradaCambiada || !ultimaRespuesta?.huella || (coincidencias.length>0 && !otraObra && !data.obraDestino)}>Guardar ficha básica</button>
 					{#if !ultimaRespuesta?.huella || desactualizada || entradaCambiada}<p class="text-sm">Comprueba los cambios antes de guardar.</p>{/if}
 				</form>
 			{/if}

@@ -206,6 +206,7 @@ export interface PublicObraFichaPayload {
 		slug: string;
 		titulo: string;
 		variantes_titulo: string[];
+		dataciones?: unknown;
 		fecha_inicio_trad: number | null;
 		fecha_fin_trad: number | null;
 		fuente_fecha: string | null;

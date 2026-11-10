@@ -48,7 +48,7 @@ export const createWorksSchema = z.object({
 			(titles) => new Set(titles.map(normalizeWorkTitle)).size === titles.length,
 			'Hay títulos repetidos'
 		),
-	editor_asignado: z.string().uuid()
+	editor_asignado: z.string().uuid().nullable().default(null)
 });
 
 export function normalizeWorkTitle(title: string) {

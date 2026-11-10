@@ -178,6 +178,10 @@ select
 			select jsonb_agg(to_jsonb(orv))
 			from public.obras_revisores orv where orv.obra_id = o.obra_id
 		), '[]'::jsonb),
+		'importaciones', coalesce((
+			select jsonb_agg(to_jsonb(i) order by i.importado_en)
+			from public.importaciones_metricas i where i.obra_id=o.obra_id
+		), '[]'::jsonb),
 		'resumen_publico', (
 			select to_jsonb(r) from public.obras_resumen r where r.obra_id = o.obra_id
 		)
@@ -199,7 +203,8 @@ const options = parseArguments(process.argv.slice(2));
 const destino = options.salida ?? join(RAIZ_POR_DEFECTO, marcaDeTiempo());
 mkdirSync(destino, { recursive: true });
 
-const filas = query(SQL);
+const nuevoModelo = query("select to_regclass('public.obras_editoriales') is not null as activo")[0]?.activo;
+const filas = query(nuevoModelo ? SQL.replace(/public\.obras\b/g, 'public.obras_editoriales') : SQL);
 
 /** Dos obras pueden compartir título; el fichero se nombra por slug, que es único. */
 function nombreDeFichero(fila, usados) {

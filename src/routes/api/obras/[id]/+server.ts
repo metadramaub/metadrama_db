@@ -1,3 +1,4 @@
+import { relacionObras } from '$lib/server/modelo-obras';
 import { isHttpError, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getObraContext } from '$lib/server/auth';
@@ -69,7 +70,7 @@ export const DELETE: RequestHandler = async ({ locals, params, request }) => {
 		return validationErrorResponse(parsed.error);
 	}
 
-	const { error } = await locals.supabase.from('obras').delete().eq('obra_id', obra.obra_id);
+	const { error } = await locals.supabase.from(relacionObras()).delete().eq('obra_id', obra.obra_id);
 	if (error) {
 		const status = error.code === '23503' ? 409 : 500;
 		const message =

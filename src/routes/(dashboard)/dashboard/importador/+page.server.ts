@@ -1,3 +1,6 @@
+import { relacionObras } from '$lib/server/modelo-obras';
+import { modeloEditorialActivo } from '$lib/server/modelo-obras';
+import { z } from 'zod';
 import { error, fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { estadoImportador } from '$lib/server/importador-metrico/acceso';
@@ -20,6 +23,15 @@ import { randomUUID } from 'node:crypto';
 
 export const load: PageServerLoad = async (event) => {
 	const acceso = await estadoImportador(event);
+	const destinoId = event.url.searchParams.get('obra');
+	let obraDestino: {obra_id: string; titulo: string} | null = null;
+	if (destinoId) {
+		if (!modeloEditorialActivo() || !z.string().uuid().safeParse(destinoId).success) throw error(400, 'Obra de destino inválida.');
+		const r = await event.locals.supabase.rpc('destino_importacion_metrica' as never,{p_obra:destinoId} as never);
+		const destino=z.object({obra_id:z.string().uuid(),titulo:z.string()}).safeParse(r.data);
+		if(r.error||!destino.success)throw error(409,'Selecciona una obra sin ficha.');
+		obraDestino=destino.data;
+	}
 	const [autores, generos] = await Promise.all([
 		event.locals.supabase
 			.from('autores')
@@ -34,6 +46,7 @@ export const load: PageServerLoad = async (event) => {
 	]);
 	if (autores.error || generos.error) throw error(500, 'No se pudieron cargar autores y géneros');
 	return {
+		obraDestino,
 		peticionId: randomUUID(),
 		guardadoDisponible: acceso.guardadoDisponible,
 		autores: autores.data ?? [],
@@ -58,6 +71,8 @@ async function previsualizar(
 	const form = await event.request.formData();
 	const texto = (key: string) => (typeof form.get(key) === 'string' ? String(form.get(key)) : '');
 	const entrada = texto('entrada');
+	const obraId = texto('obra_id') || null;
+	if (obraId && (!modeloEditorialActivo() || !z.string().uuid().safeParse(obraId).success)) throw error(400, 'Obra de destino inválida.');
 	if (entrada.length > 2_000_000)
 		return fail(413, { mensaje: 'La entrada supera el límite. Pega una obra cada vez.' });
 	const autorId = editar ? texto('autor_id') : '';
@@ -125,7 +140,7 @@ async function previsualizar(
 	} else if (vista.metadatos.titulo.trim()) {
 		// Coincidencia por título, no una decisión de identidad ni una reimportación.
 		const { data, error: dbError } = await event.locals.supabase
-			.from('obras')
+			.from(relacionObras())
 			.select('obra_id,titulo,slug')
 			.ilike('titulo', vista.metadatos.titulo.trim().replace(/[\\%_]/g, '\\$&'))
 			.limit(20);
@@ -141,7 +156,7 @@ async function previsualizar(
 	}
 	const huella =
 		vista.datos && autorId && !vista.errores.length && !vista.pendientes_metadatos?.length
-			? huellaConfirmacion(vista.datos, autorId, coincidencias)
+			? huellaConfirmacion(vista.datos, autorId, coincidencias, obraId)
 			: null;
 	const respuesta = { entrada, autorId, vista, coincidencias, ediciones, huella, comprobacion_realizada: editar && !confirmar };
 	if (confirmar) {
@@ -157,6 +172,7 @@ async function previsualizar(
 				coincidencias,
 				huella: texto('huella'),
 				otraObra: texto('decision_coincidencias') === 'otra_obra'
+				,obraId
 			});
 		} catch (e) {
 			return fail(e instanceof ErrorImportacion ? e.status : 503, {
