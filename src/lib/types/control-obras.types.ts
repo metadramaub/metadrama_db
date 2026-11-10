@@ -1,7 +1,7 @@
-import type { Tables } from './database.types';
+import type { ObraEditorial } from '$lib/types/obra-editorial.types';
 
 export type ObraControlRow = Pick<
-	Tables<'obras'>,
+	ObraEditorial,
 	'obra_id' | 'titulo' | 'slug' | 'estado' | 'editor_asignado' | 'updated_at' | 'visible_publico'
 > & {
 	tipo_ficha?: string;

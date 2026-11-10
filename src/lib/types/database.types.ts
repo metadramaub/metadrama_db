@@ -14,27 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      obras_consulta_publica: {
-        Row: Pick<Database['public']['Tables']['obras']['Row'], 'obra_id'|'titulo'|'slug'|'genero_id'|'estado'|'visible_publico'|'editor_asignado'|'fecha_inicio_trad'|'fecha_fin_trad'|'fecha_inicio_metadrama'|'fecha_fin_metadrama'|'total_versos'|'updated_at'> & { dataciones: Json }
-        Insert: never
-        Update: never
-        Relationships: Database['public']['Tables']['obras']['Relationships']
-      }
-      /** Proyección editorial de la candidata local; activar con OBRAS_EDITORIALES_V2. */
-      obras_editoriales: {
-        Row: Database['public']['Tables']['obras']['Row'] & {
-          inicio_elaboracion: string | null
-          procedencia_registro: string | null
-          importacion_id: string | null
-          importado_por: string | null
-          corpus: string[]
-          autores: string[]
-          dataciones: Json
-        }
-        Insert: Database['public']['Tables']['obras']['Insert']
-        Update: Database['public']['Tables']['obras']['Update'] & { dataciones?: Json }
-        Relationships: Database['public']['Tables']['obras']['Relationships']
-      }
       afirmaciones_fuentes_metricas: {
         Row: {
           afirmacion_id: string
@@ -874,6 +853,20 @@ export type Database = {
             referencedColumns: ["obra_id"]
           },
           {
+            foreignKeyName: "asignaciones_historial_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_consulta_publica"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "asignaciones_historial_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_editoriales"
+            referencedColumns: ["obra_id"]
+          },
+          {
             foreignKeyName: "asignaciones_historial_realizado_por_fkey"
             columns: ["realizado_por"]
             isOneToOne: false
@@ -1040,6 +1033,20 @@ export type Database = {
             columns: ["obra_id"]
             isOneToOne: false
             referencedRelation: "obras"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "atribuciones_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_consulta_publica"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "atribuciones_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_editoriales"
             referencedColumns: ["obra_id"]
           },
           {
@@ -1244,6 +1251,20 @@ export type Database = {
             referencedColumns: ["obra_id"]
           },
           {
+            foreignKeyName: "comentarios_internos_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_consulta_publica"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "comentarios_internos_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_editoriales"
+            referencedColumns: ["obra_id"]
+          },
+          {
             foreignKeyName: "comentarios_internos_publicado_por_fkey"
             columns: ["publicado_por"]
             isOneToOne: false
@@ -1286,6 +1307,33 @@ export type Database = {
             referencedColumns: ["user_id"]
           },
         ]
+      }
+      corpus: {
+        Row: {
+          activo: boolean
+          codigo: string
+          corpus_id: string
+          created_at: string
+          descripcion: string | null
+          nombre: string
+        }
+        Insert: {
+          activo?: boolean
+          codigo: string
+          corpus_id?: string
+          created_at?: string
+          descripcion?: string | null
+          nombre: string
+        }
+        Update: {
+          activo?: boolean
+          codigo?: string
+          corpus_id?: string
+          created_at?: string
+          descripcion?: string | null
+          nombre?: string
+        }
+        Relationships: []
       }
       correspondencias_importador: {
         Row: {
@@ -2254,6 +2302,105 @@ export type Database = {
           },
         ]
       }
+      fichas_completas: {
+        Row: {
+          autor_ficha_publico: string | null
+          bibliografia: string | null
+          created_at: string
+          edicion_base: string | null
+          editor_asignado: string | null
+          estado: string
+          fecha_asignacion: string | null
+          fecha_cambio_estado: string | null
+          fecha_publicacion: string | null
+          inicio_elaboracion: string | null
+          obra_id: string
+          observaciones: string | null
+          procedencia_registro: string
+          sin_eventos_sobrenaturales: boolean
+          sin_figuras_donaire: boolean
+          sin_personajes_sobrenaturales: boolean
+          updated_at: string
+          visible_publico: boolean | null
+        }
+        Insert: {
+          autor_ficha_publico?: string | null
+          bibliografia?: string | null
+          created_at?: string
+          edicion_base?: string | null
+          editor_asignado?: string | null
+          estado: string
+          fecha_asignacion?: string | null
+          fecha_cambio_estado?: string | null
+          fecha_publicacion?: string | null
+          inicio_elaboracion?: string | null
+          obra_id: string
+          observaciones?: string | null
+          procedencia_registro: string
+          sin_eventos_sobrenaturales?: boolean
+          sin_figuras_donaire?: boolean
+          sin_personajes_sobrenaturales?: boolean
+          updated_at?: string
+          visible_publico?: boolean | null
+        }
+        Update: {
+          autor_ficha_publico?: string | null
+          bibliografia?: string | null
+          created_at?: string
+          edicion_base?: string | null
+          editor_asignado?: string | null
+          estado?: string
+          fecha_asignacion?: string | null
+          fecha_cambio_estado?: string | null
+          fecha_publicacion?: string | null
+          inicio_elaboracion?: string | null
+          obra_id?: string
+          observaciones?: string | null
+          procedencia_registro?: string
+          sin_eventos_sobrenaturales?: boolean
+          sin_figuras_donaire?: boolean
+          sin_personajes_sobrenaturales?: boolean
+          updated_at?: string
+          visible_publico?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fichas_completas_editor_asignado_fkey"
+            columns: ["editor_asignado"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "fichas_completas_estado_fkey"
+            columns: ["estado"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "fichas_completas_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: true
+            referencedRelation: "obras"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "fichas_completas_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: true
+            referencedRelation: "obras_consulta_publica"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "fichas_completas_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: true
+            referencedRelation: "obras_editoriales"
+            referencedColumns: ["obra_id"]
+          },
+        ]
+      }
       forma_relaciones: {
         Row: {
           cantidad_max: number | null
@@ -2520,6 +2667,20 @@ export type Database = {
             referencedRelation: "obras"
             referencedColumns: ["obra_id"]
           },
+          {
+            foreignKeyName: "grupos_atribucion_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_consulta_publica"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "grupos_atribucion_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_editoriales"
+            referencedColumns: ["obra_id"]
+          },
         ]
       }
       grupos_eleccion_metrica: {
@@ -2706,6 +2867,20 @@ export type Database = {
             referencedRelation: "obras"
             referencedColumns: ["obra_id"]
           },
+          {
+            foreignKeyName: "importaciones_metricas_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_consulta_publica"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "importaciones_metricas_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_editoriales"
+            referencedColumns: ["obra_id"]
+          },
         ]
       }
       jornadas: {
@@ -2742,6 +2917,20 @@ export type Database = {
             columns: ["obra_id"]
             isOneToOne: false
             referencedRelation: "obras"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "jornadas_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_consulta_publica"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "jornadas_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_editoriales"
             referencedColumns: ["obra_id"]
           },
         ]
@@ -2808,6 +2997,13 @@ export type Database = {
             columns: ["importacion_id"]
             isOneToOne: false
             referencedRelation: "importaciones_metricas"
+            referencedColumns: ["importacion_id"]
+          },
+          {
+            foreignKeyName: "metrica_minima_secuencias_importacion_id_fkey"
+            columns: ["importacion_id"]
+            isOneToOne: false
+            referencedRelation: "obras_editoriales"
             referencedColumns: ["importacion_id"]
           },
           {
@@ -2995,6 +3191,20 @@ export type Database = {
             referencedColumns: ["obra_id"]
           },
           {
+            foreignKeyName: "migracion_secuencias_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_consulta_publica"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "migracion_secuencias_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_editoriales"
+            referencedColumns: ["obra_id"]
+          },
+          {
             foreignKeyName: "migracion_secuencias_origen_termino_id_fkey"
             columns: ["origen_termino_id"]
             isOneToOne: false
@@ -3019,111 +3229,39 @@ export type Database = {
       }
       obras: {
         Row: {
-          dataciones?: Json
-          autor_ficha_publico: string | null
-          bibliografia: string | null
           created_at: string
-          edicion: string | null
-          editor_asignado: string | null
-          estado: string
-          fecha_asignacion: string | null
-          fecha_cambio_estado: string | null
-          fecha_fin_metadrama: number | null
-          fecha_fin_trad: number | null
-          fecha_inicio_metadrama: number | null
-          fecha_inicio_trad: number | null
-          fecha_publicacion: string | null
-          fuente_fecha: string | null
           genero_id: string | null
           obra_id: string
-          observaciones: string | null
-          sin_eventos_sobrenaturales: boolean
-          sin_figuras_donaire: boolean
-          sin_personajes_sobrenaturales: boolean
           slug: string
-          tipo_ficha: string
           titulo: string
           titulo_normalizado: string | null
           total_versos: number | null
           updated_at: string
           variantes_titulo: string[] | null
-          visible_publico: boolean | null
         }
         Insert: {
-          autor_ficha_publico?: string | null
-          bibliografia?: string | null
           created_at?: string
-          edicion?: string | null
-          editor_asignado?: string | null
-          estado: string
-          fecha_asignacion?: string | null
-          fecha_cambio_estado?: string | null
-          fecha_fin_metadrama?: number | null
-          fecha_fin_trad?: number | null
-          fecha_inicio_metadrama?: number | null
-          fecha_inicio_trad?: number | null
-          fecha_publicacion?: string | null
-          fuente_fecha?: string | null
           genero_id?: string | null
           obra_id?: string
-          observaciones?: string | null
-          sin_eventos_sobrenaturales?: boolean
-          sin_figuras_donaire?: boolean
-          sin_personajes_sobrenaturales?: boolean
           slug?: string
-          tipo_ficha?: string
           titulo: string
           titulo_normalizado?: string | null
           total_versos?: number | null
           updated_at?: string
           variantes_titulo?: string[] | null
-          visible_publico?: boolean | null
         }
         Update: {
-          autor_ficha_publico?: string | null
-          bibliografia?: string | null
           created_at?: string
-          edicion?: string | null
-          editor_asignado?: string | null
-          estado?: string
-          fecha_asignacion?: string | null
-          fecha_cambio_estado?: string | null
-          fecha_fin_metadrama?: number | null
-          fecha_fin_trad?: number | null
-          fecha_inicio_metadrama?: number | null
-          fecha_inicio_trad?: number | null
-          fecha_publicacion?: string | null
-          fuente_fecha?: string | null
           genero_id?: string | null
           obra_id?: string
-          observaciones?: string | null
-          sin_eventos_sobrenaturales?: boolean
-          sin_figuras_donaire?: boolean
-          sin_personajes_sobrenaturales?: boolean
           slug?: string
-          tipo_ficha?: string
           titulo?: string
           titulo_normalizado?: string | null
           total_versos?: number | null
           updated_at?: string
           variantes_titulo?: string[] | null
-          visible_publico?: boolean | null
         }
         Relationships: [
-          {
-            foreignKeyName: "obras_editor_asignado_fkey"
-            columns: ["editor_asignado"]
-            isOneToOne: false
-            referencedRelation: "editores"
-            referencedColumns: ["user_id"]
-          },
-          {
-            foreignKeyName: "obras_estado_fkey"
-            columns: ["estado"]
-            isOneToOne: false
-            referencedRelation: "vocabularios"
-            referencedColumns: ["termino_id"]
-          },
           {
             foreignKeyName: "obras_genero_id_fkey"
             columns: ["genero_id"]
@@ -3133,11 +3271,109 @@ export type Database = {
           },
         ]
       }
+      obras_corpus: {
+        Row: {
+          corpus_id: string
+          obra_id: string
+        }
+        Insert: {
+          corpus_id: string
+          obra_id: string
+        }
+        Update: {
+          corpus_id?: string
+          obra_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "obras_corpus_corpus_id_fkey"
+            columns: ["corpus_id"]
+            isOneToOne: false
+            referencedRelation: "corpus"
+            referencedColumns: ["corpus_id"]
+          },
+          {
+            foreignKeyName: "obras_corpus_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "obras_corpus_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_consulta_publica"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "obras_corpus_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_editoriales"
+            referencedColumns: ["obra_id"]
+          },
+        ]
+      }
+      obras_dataciones: {
+        Row: {
+          aproximada: boolean
+          clase: string
+          fin: number | null
+          fin_inclusivo: boolean
+          fuente: string | null
+          inicio: number | null
+          inicio_inclusivo: boolean
+          obra_id: string
+        }
+        Insert: {
+          aproximada?: boolean
+          clase: string
+          fin?: number | null
+          fin_inclusivo?: boolean
+          fuente?: string | null
+          inicio?: number | null
+          inicio_inclusivo?: boolean
+          obra_id: string
+        }
+        Update: {
+          aproximada?: boolean
+          clase?: string
+          fin?: number | null
+          fin_inclusivo?: boolean
+          fuente?: string | null
+          inicio?: number | null
+          inicio_inclusivo?: boolean
+          obra_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "obras_dataciones_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "obras_dataciones_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_consulta_publica"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "obras_dataciones_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_editoriales"
+            referencedColumns: ["obra_id"]
+          },
+        ]
+      }
       obras_resumen: {
         Row: {
           actualizado_en: string | null
           autores: string[]
-          dataciones: Json
           cuadros_tramos: Json | null
           densidad_transiciones: number | null
           ficha: Json | null
@@ -3233,6 +3469,20 @@ export type Database = {
             referencedRelation: "obras"
             referencedColumns: ["obra_id"]
           },
+          {
+            foreignKeyName: "obras_resumen_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: true
+            referencedRelation: "obras_consulta_publica"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "obras_resumen_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: true
+            referencedRelation: "obras_editoriales"
+            referencedColumns: ["obra_id"]
+          },
         ]
       }
       obras_revisores: {
@@ -3269,7 +3519,7 @@ export type Database = {
             foreignKeyName: "obras_revisores_obra_id_fkey"
             columns: ["obra_id"]
             isOneToOne: false
-            referencedRelation: "obras"
+            referencedRelation: "fichas_completas"
             referencedColumns: ["obra_id"]
           },
           {
@@ -3677,6 +3927,20 @@ export type Database = {
             referencedRelation: "obras"
             referencedColumns: ["obra_id"]
           },
+          {
+            foreignKeyName: "secuencias_metricas_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_consulta_publica"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "secuencias_metricas_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_editoriales"
+            referencedColumns: ["obra_id"]
+          },
         ]
       }
       secuencias_subtipos_estrofa: {
@@ -3825,6 +4089,20 @@ export type Database = {
             columns: ["obra_id"]
             isOneToOne: false
             referencedRelation: "obras"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "traslados_observaciones_caracterizacion_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_consulta_publica"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "traslados_observaciones_caracterizacion_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_editoriales"
             referencedColumns: ["obra_id"]
           },
           {
@@ -4148,6 +4426,109 @@ export type Database = {
         }
         Relationships: []
       }
+      obras_consulta_publica: {
+        Row: {
+          dataciones: Json | null
+          editor_asignado: string | null
+          estado: string | null
+          fecha_fin_metadrama: number | null
+          fecha_fin_trad: number | null
+          fecha_inicio_metadrama: number | null
+          fecha_inicio_trad: number | null
+          genero_id: string | null
+          obra_id: string | null
+          slug: string | null
+          titulo: string | null
+          total_versos: number | null
+          updated_at: string | null
+          visible_publico: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fichas_completas_editor_asignado_fkey"
+            columns: ["editor_asignado"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "fichas_completas_estado_fkey"
+            columns: ["estado"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+          {
+            foreignKeyName: "obras_genero_id_fkey"
+            columns: ["genero_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+        ]
+      }
+      obras_editoriales: {
+        Row: {
+          autor_ficha_publico: string | null
+          autores: string[] | null
+          bibliografia: string | null
+          corpus: string[] | null
+          created_at: string | null
+          dataciones: Json | null
+          edicion: string | null
+          editor_asignado: string | null
+          estado: string | null
+          fecha_asignacion: string | null
+          fecha_cambio_estado: string | null
+          fecha_fin_metadrama: number | null
+          fecha_fin_trad: number | null
+          fecha_inicio_metadrama: number | null
+          fecha_inicio_trad: number | null
+          fecha_publicacion: string | null
+          fuente_fecha: string | null
+          genero_id: string | null
+          importacion_id: string | null
+          importado_por: string | null
+          inicio_elaboracion: string | null
+          obra_id: string | null
+          observaciones: string | null
+          procedencia_registro: string | null
+          sin_eventos_sobrenaturales: boolean | null
+          sin_figuras_donaire: boolean | null
+          sin_personajes_sobrenaturales: boolean | null
+          slug: string | null
+          tipo_ficha: string | null
+          titulo: string | null
+          titulo_normalizado: string | null
+          total_versos: number | null
+          updated_at: string | null
+          variantes_titulo: string[] | null
+          visible_publico: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fichas_completas_editor_asignado_fkey"
+            columns: ["editor_asignado"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "importaciones_metricas_importado_por_fkey"
+            columns: ["importado_por"]
+            isOneToOne: false
+            referencedRelation: "editores"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "obras_genero_id_fkey"
+            columns: ["genero_id"]
+            isOneToOne: false
+            referencedRelation: "vocabularios"
+            referencedColumns: ["termino_id"]
+          },
+        ]
+      }
       opciones_eleccion_metrica: {
         Row: {
           activo: boolean | null
@@ -4245,6 +4626,20 @@ export type Database = {
             referencedRelation: "obras"
             referencedColumns: ["obra_id"]
           },
+          {
+            foreignKeyName: "secuencias_metricas_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_consulta_publica"
+            referencedColumns: ["obra_id"]
+          },
+          {
+            foreignKeyName: "secuencias_metricas_obra_id_fkey"
+            columns: ["obra_id"]
+            isOneToOne: false
+            referencedRelation: "obras_editoriales"
+            referencedColumns: ["obra_id"]
+          },
         ]
       }
     }
@@ -4276,6 +4671,7 @@ export type Database = {
         Args: { p_alcance: string; p_autor_id: string }
         Returns: Json
       }
+      autores_de_obra_editorial: { Args: { p_obra: string }; Returns: string[] }
       can_view_obra_ficha_publica: {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: boolean
@@ -4286,7 +4682,6 @@ export type Database = {
         Args: { p_titulo: string }
         Returns: {
           autores: string[]
-          dataciones: Json
           obra_id: string
           tipo_ficha: string
           titulo: string
@@ -4300,8 +4695,12 @@ export type Database = {
         Args: { p_anotacion: string }
         Returns: undefined
       }
+      comprobar_numeracion_minima: {
+        Args: { p_datos: Json; p_original: Json }
+        Returns: Json
+      }
       comprobar_origen_minimo: {
-        Args: { p_fila: Json; p_original: Json }
+        Args: { p_desplazamientos?: Json; p_fila: Json; p_original: Json }
         Returns: undefined
       }
       consultar_importacion_metrica: {
@@ -4312,9 +4711,18 @@ export type Database = {
         Args: { p_alcance: string }
         Returns: Json
       }
+      desplazamiento_jornada_minima: {
+        Args: { p_desplazamientos: Json; p_jornada: number }
+        Returns: number
+      }
+      destino_importacion_metrica: { Args: { p_obra: string }; Returns: Json }
       eliminar_ficha_basica: {
         Args: { p_confirmacion: string; p_importacion: string }
         Returns: Json
+      }
+      escribir_dataciones_obra: {
+        Args: { p_dataciones: Json; p_obra: string }
+        Returns: undefined
       }
       esquema_documento_minimo: { Args: never; Returns: Json }
       esquema_extraccion_minima: { Args: never; Returns: Json }
@@ -4370,6 +4778,15 @@ export type Database = {
         Args: { p_destino: string; p_obras: Json; p_operacion: string }
         Returns: number
       }
+      gestionar_corpus: {
+        Args: {
+          p_codigo: string
+          p_nombre?: string
+          p_obras?: string[]
+          p_operacion: string
+        }
+        Returns: undefined
+      }
       get_autor_publico: { Args: { p_slug: string }; Returns: Json }
       get_autores_listado_publico: { Args: never; Returns: Json }
       get_catalogo_formas_publicas: { Args: never; Returns: Json }
@@ -4407,20 +4824,26 @@ export type Database = {
         }
         Returns: undefined
       }
-      guardar_ficha_minima: {
+      guardar_ficha_basica: {
         Args: {
           p_autor: string
           p_coincidencias_revisadas?: string[]
           p_datos: Json
           p_entrada_original: Json
+          p_obra?: string
           p_peticion: string
         }
         Returns: Json
+      }
+      iniciar_ficha_completa: {
+        Args: { p_editor?: string; p_iniciar?: boolean; p_obra: string }
+        Returns: undefined
       }
       intervencion_femenina_desde_generos: {
         Args: { valores: string[] }
         Returns: string
       }
+      listar_corpus_gestion: { Args: never; Returns: Json }
       listar_fichas_basicas: { Args: { p_desde?: number }; Returns: Json }
       localizar_importacion_metrica: {
         Args: { p_obra: string }

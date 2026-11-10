@@ -45,7 +45,7 @@ describe('confirmación de importación', () => {
 			p = caso();
 		await guardarImportacion(cliente, p);
 		expect(cliente.rpc).toHaveBeenCalledWith(
-			'guardar_ficha_minima',
+			'guardar_ficha_basica',
 			expect.objectContaining({
 				p_peticion: peticionId,
 				p_datos: {
@@ -100,7 +100,7 @@ describe('confirmación de importación', () => {
 		expect(cliente.rpc).not.toHaveBeenCalled();
 		await guardarImportacion(cliente, { ...p, otraObra: true });
 		expect(cliente.rpc).toHaveBeenCalledWith(
-			'guardar_ficha_minima',
+			'guardar_ficha_basica',
 			expect.objectContaining({ p_coincidencias_revisadas: [autorId] })
 		);
 	});

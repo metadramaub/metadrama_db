@@ -50,7 +50,7 @@ try{
  await peticion(editor,`/api/obras/${id}/datos`,'PATCH',{...datos,dataciones:[{...dataciones[0],inicio:1600}]},422);
  const sinFechas=(await peticion(editor,`/api/obras/${id}/datos`,'PATCH',datos)).obra;
  exigir(JSON.stringify(sinFechas.dataciones)===JSON.stringify(fechas.dataciones),'Guardar metadatos sin fechas conserva las dos propuestas');
- exigir(filas(`select fecha_inicio_trad is null and fecha_fin_trad is null and fuente_fecha is null as congeladas from public.obras where obra_id='${id}'`)[0].congeladas,'La API no escribe fechas en las columnas históricas');
+ exigir(filas(`select to_jsonb(o)->>'fecha_inicio_trad' is null and to_jsonb(o)->>'fecha_fin_trad' is null and to_jsonb(o)->>'fuente_fecha' is null as congeladas from public.obras o where obra_id='${id}'`)[0].congeladas,'La API no escribe fechas en las columnas históricas');
  const jornada=(await peticion(editor,`/api/obras/${id}/estructura/jornadas`,'POST',{jornada_num:1,v_ini:1,v_fin:4},201)).jornada;
  await peticion(editor,`/api/obras/${id}/estructura/cuadros`,'POST',{jornada_id:jornada.jornada_id,cuadro_num:1,v_ini:1,v_fin:4},201);
  const secuencia=(await peticion(editor,`/api/obras/${id}/secuencias`,'POST',{v_ini:1,v_fin:4,generos_intervinientes:null,intervencion_figuras_donaire:null,intervencion_personajes_sobrenaturales:null},201)).secuencia;
@@ -70,7 +70,7 @@ try{
  exigir(actuales.jornadas.length===1&&actuales.cuadros.length===1&&actuales.secuencias.length===1,'Lectura completa de estructura por editor asignado');
  const propio=(await peticion(editor,'/api/obras?scope=mine')).items.find(o=>o.obra_id===id);
  exigir(propio?.canEditContent===true,'Permisos de contenido tras inicio explícito');
- exigir(filas(`select edicion is null as antigua, f.edicion_base from public.obras o join public.fichas_completas f using(obra_id) where o.obra_id='${id}'`)[0].antigua,'La edición se escribe en la completa y no en la columna congelada');
+ exigir(filas(`select to_jsonb(o)->>'edicion' is null as antigua, f.edicion_base from public.obras o join public.fichas_completas f using(obra_id) where o.obra_id='${id}'`)[0].antigua,'La edición se escribe en la completa y no en la columna congelada');
  const revisable=await peticion(admin,'/api/obras','POST',{titulo:`Ensayo API revisión ${Date.now()}`,editor_asignado:admin.usuario.id},201);
  revisionId=revisable.obra.obra_id;
  await peticion(admin,'/api/obras/asignaciones-lote','POST',{operation:'add_reviewer',target:editor.usuario.id,works:[{obra_id:revisionId,editor_asignado:admin.usuario.id,reviewer_ids:[]}]});

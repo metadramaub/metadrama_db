@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { ObraEditorial } from '$lib/types/obra-editorial.types';
 	import { browser } from '$app/environment';
 	import { beforeNavigate, goto, invalidate } from '$app/navigation';
 	import type { RealtimeChannel } from '@supabase/supabase-js';
@@ -110,11 +111,11 @@
 	const estrofaOptions = $derived(vocabByCategory.get('estrofa_tipo') ?? []);
 	const caracterizacionRangoOptions = $derived(vocabByCategory.get('caracterizacion_rango') ?? []);
 	const obraLive = $derived.by(() => {
-		const storeObra = $currentObraStore.obra as Tables<'obras'> | null;
+		const storeObra = $currentObraStore.obra as ObraEditorial | null;
 		if (storeObra && storeObra.obra_id === data.obra.obra_id) {
 			return storeObra;
 		}
-		return data.obra as Tables<'obras'>;
+		return data.obra as ObraEditorial;
 	});
 	const canEditContent = $derived(Boolean(data.capabilities?.canEditContent));
 	const currentEstadoTerm = $derived.by(

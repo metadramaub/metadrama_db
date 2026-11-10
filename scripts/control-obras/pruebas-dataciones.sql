@@ -37,7 +37,7 @@ begin
  exception when insufficient_privilege then fallo:=true; end;
  perform pg_temp.exigir(fallo,'Sin atajo de escritura directa');
  reset role;
- perform pg_temp.exigir((select fecha_inicio_trad is null and fecha_fin_trad is null and fuente_fecha is null from public.obras where obra_id=oid),'Las columnas históricas no se actualizan');
+ perform pg_temp.exigir((select to_jsonb(o)->>'fecha_inicio_trad' is null and to_jsonb(o)->>'fecha_fin_trad' is null and to_jsonb(o)->>'fuente_fecha' is null from public.obras o where obra_id=oid),'Las columnas históricas no se actualizan');
  perform set_config('request.jwt.claim.sub',gestor::text,true);
  select f.obra_id into publicada from public.fichas_completas f join public.vocabularios v on v.termino_id=f.estado where v.termino='publicado' and f.visible_publico limit 1;
  perform pg_temp.exigir(publicada is not null,'Existe una ficha publicada para ejecutar los productores');

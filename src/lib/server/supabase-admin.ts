@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import { env } from '$env/dynamic/private';
 import { env as publicEnv } from '$env/dynamic/public';
 import { error } from '@sveltejs/kit';
-import type { Database } from '$lib/types/database.types';
+import type { Database } from '$lib/types/database-client.types';
 
 // Solo se importa desde módulos de servidor y después de comprobar admin/IP.
 export function getSupabaseAdmin() {

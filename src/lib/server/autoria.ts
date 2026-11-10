@@ -2,7 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import type { AutoriaInputParsed } from '$lib/utils/validators';
 import type { AutoriaApiPayload, AutoriaComposicionTerm } from '$lib/types/obra.types';
-import type { Database, Tables } from '$lib/types/database.types';
+import type { Database, Tables } from '$lib/types/database-client.types';
 
 type AuthorCatalogRow = Pick<Tables<'autores'>, 'autor_id' | 'nombre_completo' | 'nombre_normalizado'>;
 type JornadaRow = Pick<Tables<'jornadas'>, 'jornada_id' | 'jornada_num' | 'v_ini' | 'v_fin'>;

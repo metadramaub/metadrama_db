@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { ObraEditorial } from '$lib/types/obra-editorial.types';
 	import { portal } from '$lib/actions/portal';
 	import { goto } from '$app/navigation';
 	import { onDestroy, onMount, untrack } from 'svelte';
@@ -29,7 +30,7 @@
 
 	const props = $props<{
 		obraId: string;
-		obra: Tables<'obras'>;
+		obra: ObraEditorial;
 		profile: EditorProfile;
 		estadoTerm: string;
 		estadoOptions: EstadoOption[];
@@ -47,7 +48,7 @@
 		onNavigateToTab?: (tab: RevisionTargetTab) => void;
 	}>();
 
-	const obraLive = $derived(($currentObraStore.obra ?? props.obra) as Tables<'obras'>);
+	const obraLive = $derived(($currentObraStore.obra ?? props.obra) as ObraEditorial);
 
 	let currentEstadoId = $state(untrack(() => props.obra.estado));
 	let persistedEstadoId = $state(untrack(() => props.obra.estado));

@@ -1,3 +1,4 @@
+import type { ObraEditorial } from '$lib/types/obra-editorial.types';
 import { relacionObrasPublicas } from '$lib/server/modelo-obras';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
@@ -26,7 +27,7 @@ import type { Tables } from '$lib/types/database.types';
 import type { ObrasIndexArtifactPayload } from '$lib/types/public-artifacts.types';
 
 type PublicCatalogObra = Pick<
-	Tables<'obras'>,
+	ObraEditorial,
 	| 'obra_id'
 	| 'slug'
 	| 'titulo'
@@ -58,7 +59,7 @@ type PublicCatalogObra = Pick<
 };
 
 type ObraRow = Pick<
-	Tables<'obras'>,
+	ObraEditorial,
 	| 'obra_id'
 	| 'slug'
 	| 'titulo'

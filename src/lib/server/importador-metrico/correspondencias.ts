@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { z } from 'zod';
-import type { Database } from '$lib/types/database.types';
+import type { Database } from '$lib/types/database-client.types';
 import type { BorradorFichaMinima, IncidenciaImportador } from '$lib/importador-metrico/types';
 import { formasImportador } from '$lib/importador-metrico/catalogo';
 

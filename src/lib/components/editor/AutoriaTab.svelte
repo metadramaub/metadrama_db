@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { ObraEditorial } from '$lib/types/obra-editorial.types';
 	import { onMount, untrack } from 'svelte';
 	import ChevronDown from 'lucide-svelte/icons/chevron-down';
 	import ChevronRight from 'lucide-svelte/icons/chevron-right';
@@ -49,7 +50,7 @@
 
 	const props = $props<{
 		obraId: string;
-		obra: Tables<'obras'>;
+		obra: ObraEditorial;
 		roleTerm: string;
 		saveRequestToken?: number;
 		readOnly?: boolean;

@@ -11,7 +11,7 @@ begin
  select e.user_id into editor from public.editores e join public.vocabularios v on v.termino_id=e.role
   where coalesce(e.activo,true) and v.termino='editor' limit 1;
  perform pg_temp.exigir(gestor is not null and editor is not null,'Hay perfiles restaurados para gestores y editores');
- perform pg_temp.exigir(not has_function_privilege('authenticated','public.guardar_ficha_minima(uuid,uuid,jsonb,jsonb,uuid[])','execute'),'El escritor antiguo no elude la autoridad nueva');
+ perform pg_temp.exigir(not coalesce(has_function_privilege('authenticated',to_regprocedure('public.guardar_ficha_minima(uuid,uuid,jsonb,jsonb,uuid[])'),'execute'),false),'El escritor antiguo no elude la autoridad nueva');
  perform set_config('request.jwt.claim.sub',gestor::text,true);
  set local role authenticated;
  insert into public.obras_editoriales(titulo,tipo_ficha) values('Ensayo control: registro sin ficha','sin_ficha') returning obra_id into nueva;
@@ -36,7 +36,7 @@ begin
  perform pg_temp.exigir((select sinopsis='Ensayo de permisos nuevos' from public.secuencias_metricas where secuencia_id=secuencia),'Editor actualiza secuencia con encargo vigente');
  reset role;
  perform pg_temp.exigir((select inicio_elaboracion is not null and observaciones='Análisis de ensayo' and edicion_base='Edición de ensayo' from public.fichas_completas where obra_id=nueva),'Editor escribe en completa');
- perform pg_temp.exigir((select observaciones is null and edicion is null from public.obras where obra_id=nueva),'No se escribe análisis en núcleo');
+ perform pg_temp.exigir((select to_jsonb(o)->>'observaciones' is null and to_jsonb(o)->>'edicion' is null from public.obras o where obra_id=nueva),'No se escribe análisis en núcleo');
  set local role authenticated;
  fallo:=false;begin update public.obras_editoriales set visible_publico=true where obra_id=nueva;exception when insufficient_privilege then fallo:=true;end;
  perform pg_temp.exigir(fallo,'Editor no puede activar publicación');

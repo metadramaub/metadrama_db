@@ -213,7 +213,7 @@ contraseña global comprobada en `src/hooks.server.ts`, que redirige a `/acceso`
 ## Documentación
 
 - [docs/control-obras/README.md](docs/control-obras/README.md) — modelo acordado de registro de obras,
-  corpus múltiples y elaboración completa; inventario y preparación de migración solo ensayada en local.
+  corpus múltiples y elaboración completa; modelo activo, inventario y validación de migración.
 
 - `docs/dominio-metrico/` — el dominio métrico nuevo. Entrada:
   [README.md](docs/dominio-metrico/README.md)

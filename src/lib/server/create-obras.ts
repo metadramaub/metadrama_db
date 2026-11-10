@@ -1,5 +1,5 @@
 import { relacionObras } from '$lib/server/modelo-obras';
-import { modeloEditorialActivo } from '$lib/server/modelo-obras';
+import type { ObraEditorialInsert } from '$lib/types/obra-editorial.types';
 import { error } from '@sveltejs/kit';
 import { loadInternalVocabulario } from './catalogos-internos';
 import { normalizeWorkTitle } from '$lib/utils/editor-management';
@@ -10,7 +10,6 @@ export async function createObras(
 	editorId: string | null,
 	genreId: string | null = null
 ) {
-	if (!editorId && !modeloEditorialActivo()) throw error(422, 'Selecciona un editor responsable.');
 	const assigned = editorId ? await locals.supabase
 		.from('editores')
 		.select('user_id,activo')
@@ -26,11 +25,11 @@ export async function createObras(
 	const response = await locals.supabase
 		.from(relacionObras())
 		.insert(
-			titles.map((title) => ({
+			titles.map((title): ObraEditorialInsert => ({
 				titulo: title.trim(),
 				titulo_normalizado: normalizeWorkTitle(title),
 				editor_asignado: editorId,
-				...(modeloEditorialActivo() ? {tipo_ficha: editorId ? 'completa' : 'sin_ficha'} : {}),
+				tipo_ficha: editorId ? 'completa' : 'sin_ficha',
 				estado: draft.termino_id,
 				genero_id: genreId
 			}))

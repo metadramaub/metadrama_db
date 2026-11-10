@@ -3,11 +3,11 @@ export function modeloEditorialActivo() {
 	return true;
 }
 
-export function relacionObras(): 'obras' | 'obras_editoriales' {
-	return modeloEditorialActivo() ? 'obras_editoriales' : 'obras';
+export function relacionObras(): 'obras_editoriales' {
+	return 'obras_editoriales';
 }
 
 /** Metadatos públicos mínimos, con muro de estado/visibilidad y vista previa por obra. */
-export function relacionObrasPublicas(): 'obras' | 'obras_consulta_publica' {
-	return modeloEditorialActivo() ? 'obras_consulta_publica' : 'obras';
+export function relacionObrasPublicas(): 'obras_consulta_publica' {
+	return 'obras_consulta_publica';
 }

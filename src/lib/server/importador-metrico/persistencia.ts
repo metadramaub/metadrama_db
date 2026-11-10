@@ -1,9 +1,8 @@
 import { createHash } from 'node:crypto';
-import { modeloEditorialActivo } from '$lib/server/modelo-obras';
 import { completarExtraccion } from './completar-extraccion';
 import { z } from 'zod';
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { Database } from '$lib/types/database.types';
+import type { Database } from '$lib/types/database-client.types';
 import type { BorradorFichaMinima } from '$lib/importador-metrico/types';
 import {
 	fichaMinimaSchema,
@@ -13,7 +12,6 @@ import {
 type Rpc =
 	| 'capacidades_importador_metrico'
 	| 'coincidencias_importacion_metrica'
-	| 'guardar_ficha_minima'
 	| 'guardar_ficha_basica'
 	| 'listar_fichas_basicas'
 	| 'eliminar_ficha_basica'
@@ -105,7 +103,7 @@ export async function guardarImportacion(
 	const completa = fichaMinimaSchema.safeParse(p.datos);
 	if (!completa.success)
 		throw new ErrorImportacion(400, 'Completa los datos obligatorios de la obra antes de guardar.');
-	if (p.obraId && (!modeloEditorialActivo() || !uuid.safeParse(p.obraId).success))
+	if (p.obraId && !uuid.safeParse(p.obraId).success)
 		throw new ErrorImportacion(400, 'Obra de destino inválida.');
 	if (p.huella !== huellaConfirmacion(p.datos, p.autorId, p.coincidencias, p.obraId))
 		throw new ErrorImportacion(
@@ -120,13 +118,13 @@ export async function guardarImportacion(
 	// Guardar confirma la segmentación revisada, no identifica las formas pendientes.
 	const datos = structuredClone(completa.data);
 	for (const s of datos.segmentos) s.segmentacion = 'confirmada';
-	const r = await db.rpc(modeloEditorialActivo() ? 'guardar_ficha_basica' : 'guardar_ficha_minima', {
+	const r = await db.rpc('guardar_ficha_basica', {
 		p_peticion: p.peticionId,
 		p_autor: p.autorId,
 		p_datos: datos,
 		p_entrada_original: extraccionOriginal(p.entrada),
 		p_coincidencias_revisadas: p.coincidencias.map((c) => c.obra_id),
-		...(modeloEditorialActivo() ? {p_obra: p.obraId ?? null} : {})
+		p_obra: p.obraId ?? null
 	});
 	if (r.error) {
 		if (r.error.code === '23505')

@@ -5,7 +5,7 @@ import { jornadaInputSchema } from '$lib/utils/validators';
 import { validationErrorResponse, conflictResponse } from '$lib/server/http';
 import { getObraContext } from '$lib/server/auth';
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { Database } from '$lib/types/database.types';
+import type { Database } from '$lib/types/database-client.types';
 import { stateAllowsRangeEditing } from '$lib/utils/range-consistency';
 
 async function syncObraTotalVersos(

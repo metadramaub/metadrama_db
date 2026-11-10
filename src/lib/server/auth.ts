@@ -1,5 +1,5 @@
+import type { ObraEditorial } from '$lib/types/obra-editorial.types';
 import { error, type RequestEvent } from '@sveltejs/kit';
-import type { Tables } from '$lib/types/database.types';
 import { loadInternalVocabularioTermById } from '$lib/server/catalogos-internos';
 import {
 	canEditByState,
@@ -100,7 +100,7 @@ export function canStartComplete(profile: EditorProfile, obra: Pick<ObraControlR
 
 export function buildObraCapabilities(
 	profile: EditorProfile,
-	obra: Pick<Tables<'obras'>, 'editor_asignado'> & Partial<Pick<ObraControlRow, 'tipo_ficha' | 'inicio_elaboracion' | 'procedencia_registro'>>,
+	obra: Pick<ObraEditorial, 'editor_asignado'> & Partial<Pick<ObraControlRow, 'tipo_ficha' | 'inicio_elaboracion' | 'procedencia_registro'>>,
 	estadoTerm: string,
 	assignedReviewer: boolean
 ): ObraAccessFlags {

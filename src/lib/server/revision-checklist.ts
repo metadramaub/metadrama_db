@@ -1,6 +1,7 @@
+import type { ObraEditorial } from '$lib/types/obra-editorial.types';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { countAutoriaGroupsWithProposals } from '$lib/server/autoria';
-import type { Database, Tables } from '$lib/types/database.types';
+import type { Database, Tables } from '$lib/types/database-client.types';
 import {
 	buildRevisionChecklist,
 	type RevisionChecklistSummary
@@ -30,7 +31,7 @@ type SecuenciaChecklistRow = Pick<
 
 export async function loadObraRevisionChecklist(
 	supabase: SupabaseClient<Database>,
-	obra: Tables<'obras'>
+	obra: ObraEditorial
 ): Promise<{ summary: RevisionChecklistSummary | null; errorMessage: string | null }> {
 	const [jornadasResult, secuenciasResult] = await Promise.all([
 		supabase

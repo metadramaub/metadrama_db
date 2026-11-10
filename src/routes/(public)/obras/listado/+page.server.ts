@@ -1,12 +1,12 @@
+import type { ObraEditorial } from '$lib/types/obra-editorial.types';
 import { relacionObrasPublicas } from '$lib/server/modelo-obras';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getPublicadoEstadoId, resolvePublicViewerContext } from '$lib/server/public-obras';
 import { requireSectionVisible } from '$lib/server/secciones-publicas';
-import type { Tables } from '$lib/types/database.types';
 
 type PublicObraListItem = Pick<
-	Tables<'obras'>,
+	ObraEditorial,
 	| 'obra_id'
 	| 'slug'
 	| 'titulo'

@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { Database, Tables } from '$lib/types/database.types';
+import type { Database, Tables } from '$lib/types/database-client.types';
 
 export type InternalVocabularioTerm = Pick<
 	Tables<'vocabularios'>,

@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { datacionVacia, formatoDatacion } from '../../src/lib/dataciones.ts';
 const ruta = 'backups/control-obras/cambio/';
 const api = JSON.parse(readFileSync(ruta + 'api.json', 'utf8'));
@@ -7,11 +7,31 @@ const tests = JSON.parse(readFileSync(ruta + 'vitest.json', 'utf8'));
 const sql = readFileSync(ruta + 'pruebas.log', 'utf8');
 if (!sql.includes('OK creación') || integridad.diferencias.length || tests.numFailedTests)
 	throw Error('No hay validación completa satisfactoria');
-let md = '# Cambio editorial: resultado del ensayo local\n\n';
+const produccionPointer='backups/control-obras/produccion/ultimo-despliegue.txt';
+const produccion=existsSync(produccionPointer)?JSON.parse(readFileSync(readFileSync(produccionPointer,'utf8').trim()+'/despliegue.json','utf8')):null;
+if(produccion&&(!produccion.aplicacionActiva||produccion.vercel!=='success'||!produccion.recomputacionConfirmada||produccion.diferencias.length||produccion.funcionesCambiadas.length))throw Error('Despliegue sin verificación completa');
+let md = '# Cambio editorial: validación y despliegue\n\n';
 md +=
 	'Generado por `node scripts/control-obras/generar-resumen-cambio.mjs` desde los resultados privados de SQL, API, Vitest e integridad. No editar a mano.\n\n';
-md +=
-	'**El modelo de control y dataciones está implementado en local con activación deshabilitada; aún no está desplegado en Supabase.** Las correcciones independientes del timeout y de las tres autorías sí se aplicaron antes.\n\n';
+md += produccion
+ ? `**Modelo y dataciones activos en Supabase y en la aplicación publicada.** Migración \`${produccion.migracion}\`; activación \`${produccion.commit}\`, Vercel correcto. Verificación de integridad: ${produccion.fecha}.\n\n`
+ : '**El modelo está ensayado en local; no hay evidencia de un despliegue verificado.**\n\n';
+if(produccion){
+ md+='## Comprobación en producción\n\n';
+ md+=`- ${produccion.recuentos.obras} obras, ${produccion.recuentos.completas} completas heredadas y ${produccion.recuentos.importaciones} importaciones conservadas.\n`;
+ md+=`- Ocho tablas de métrica, estructura y procedencia con SHA-256 idéntico al respaldo; las ${produccion.funcionesTimeoutComprobadas} funciones de la corrección del timeout permanecen idénticas.\n`;
+ md+='- Creación, encargo, inicio, edición, estructura, límites de fecha y acceso por rol ejecutados en una transacción revertida.\n';
+ md+='- Carga CSV confirmada con guardas transaccionales: no cambia métrica, importaciones, dataciones presentes ni encargos. Corpus: '+produccion.corpus.map(c=>`${c.codigo}: ${c.obras}`).join('; ')+'.\n';
+ md+=`- Recomputación completa confirmada; ${produccion.comprobacionesWeb} comprobaciones HTTP correctas sobre el dominio publicado. Son comprobaciones de servidor, no revisión visual.\n\n`;
+ if(produccion.contraccion){
+  const c=produccion.contraccion;
+  md+='## Contracción aplicada\n\n';
+  md+=`Migración \`${c.migracion}\`, SHA-256 \`${c.sha256}\`. Retiradas las 19 columnas congeladas; el núcleo conserva ${c.columnasNucleo} columnas. Se retiraron el escritor y los permisos antiguos; los revisores requieren una completa mediante FK.\n\n`;
+  md+=`- Restauración de 103 tablas idénticas, recuperación con edición y fecha añadidas después, y reaplicación conservando todos los datos de la vista editorial (${c.validacionLocal}).\n`;
+  md+=`- ${c.pruebasFocalizadas} pruebas focalizadas y ${c.pruebasApi} comprobaciones de aplicación correctas con el esquema contraído. Tipos regenerados del esquema definitivo, cero errores y avisos, compilación correcta.\n`;
+  md+=`- Extractor analítico ejecutado con ${c.registrosAnaliticos} registros; límites y propuestas de fecha presentes. SQL y acceso web comprobados también después de la contracción en producción.\n\n`;
+ }
+}
 md += '## Ensayo inicial\n\n';
 md += `- ${integridad.tablas} tablas originales sin diferencias de SHA-256 después de los ensayos (${integridad.comprobado_en}).\n`;
 md += `- ${tests.numPassedTests} pruebas focalizadas correctas; ${tests.numFailedTests} fallidas.\n`;
@@ -49,6 +69,6 @@ md+=`\n## Diferencias conservadas frente al CSV\n\n${discrepancias.filter(d=>!so
 md+='| Obra | Inicio / fin vigentes | CSV | Diferencia |\n| --- | --- | --- | --- |\n';
 for(const d of discrepancias)md+=`| ${d.titulo.replaceAll('|','\\|')} | ${d.conservada.inicio??'—'} / ${d.conservada.fin??'—'} | ${formatoDatacion({...datacionVacia('referencia'),...d.csv})} | ${soloAproximacion(d)?'Aproximación':'Extremos'} |\n`;
 md+='\nEl IP confirmó que el 1612 de *El esclavo del demonio* es un límite superior por su edición: se migra a ≤1612, con la fuente intacta. La candidata comprueba el dato de origen y se detiene si ha cambiado antes del despliegue. El CSV no sustituye las demás dataciones existentes.\n';
-md+='\n## Límites de la comprobación\n\nLa interacción visual inicial cubrió corpus y encargos; el navegador integrado dejó de responder y no permitió revisar visualmente el formulario nuevo. La carga SSR y las API sí se comprobaron. No se ha ejecutado el despliegue coordinado. Las columnas antiguas permanecen congeladas para recuperación hasta la contracción. Los formatos y JSON históricos permanecen intactos.\n';
+md+='\n## Límites de la comprobación\n\nLa interacción visual inicial cubrió corpus y encargos; el navegador integrado dejó de responder y no permitió revisar visualmente el formulario nuevo. La carga SSR y las API sí se comprobaron. '+(produccion?'El despliegue coordinado está comprobado en producción. ':'No consta un despliegue coordinado verificado. ')+(produccion?.contraccion?'Las columnas antiguas están retiradas; copias y recuperación comprobadas. ':'Las columnas antiguas permanecen congeladas para recuperación hasta la contracción. ')+'Los formatos y JSON históricos permanecen intactos.\n';
 writeFileSync('docs/control-obras/cambio-verificado.md', md, 'utf8');
 console.log('Resultado del cambio editorial generado sin datos privados.');

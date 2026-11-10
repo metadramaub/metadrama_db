@@ -22,23 +22,13 @@ Pruebas y alcance: [garantías del modelo métrico](dominio-metrico/implementaci
 
 ## Control de obras
 
-Orden de trabajo acordado:
+Queda la revisión del usuario y los ajustes estéticos que solicite. El control, la migración,
+la contracción, los tipos, la carga del CSV y las dataciones están aplicados y verificados.
+Detalle: [control de obras](control-obras/README.md).
 
-1. Desplegar coordinadamente
-   base y aplicación, conservando los cambios editoriales y la corrección del guardado métrico.
-2. Validar el funcionamiento y retirar las columnas y contratos operativos antiguos; adaptar los
-   tipos generados al contrato editorial definitivo.
-3. Atender los ajustes estéticos que solicite el usuario, una vez terminado lo funcional.
-
-Lectores, escritores, RPC, RLS, corpus múltiples e importación sobre registro existente están
-implementados y ensayados en local, con activación deshabilitada; el nuevo modelo no está
-desplegado en el Supabase compartido. Detalle: [control de obras](control-obras/README.md).
-La migración definitiva y su reversión conservadora ya se han ejecutado sobre una restauración
-completa actual; la candidata permanece fuera de `db push` hasta la activación coordinada.
-Las dataciones de referencia y métrica, con límites inclusivos/estrictos, aproximación y fuente,
-están implementadas en local en formulario, API y consumidores; falta su despliegue coordinado.
-No se registra la revisión de metadatos recibidos del CSV. La transición básica → completa
-mantiene su alcance separado.
+La edición de básicas y la transición básica → completa siguen pendientes con el alcance separado
+acordado; requieren diseñar el aprovechamiento opcional de los datos importados y la sustitución
+por la completa. No se convierten automáticamente al asignar un editor.
 
 ## Los dos hitos
 

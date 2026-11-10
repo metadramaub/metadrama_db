@@ -1,0 +1,22 @@
+/** Restaura una copia completa en otra base desechable, sin sustituir ensayos anteriores. */
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { docker, contenedor, exigirAislamiento } from './local-db.mjs';
+exigirAislamiento();
+const copia=process.argv[2]??readFileSync('backups/control-obras/ultimo-despliegue.txt','utf8').trim();
+const base='control_obras_contraccion_'+Date.now();
+const dir='backups/control-obras/contraccion/'+base;
+mkdirSync(dir,{recursive:true});
+const sql=(s,db=base)=>docker(['exec','-i',contenedor,'psql','-X','-qAt','-U','supabase_admin','-d',db,'-v','ON_ERROR_STOP=1'],s).trim();
+const filas=s=>JSON.parse(sql(`select coalesce(jsonb_agg(to_jsonb(t)),'[]') from (${s}) t;`));
+sql(`create database ${base} template template0;`,'postgres');
+sql('create schema extensions; create schema vault; create publication supabase_realtime;');
+sql(readFileSync(copia+'/managed-schema.sql','utf8'));
+sql(readFileSync(copia+'/schema.sql','utf8').replace(/^CREATE EXTENSION IF NOT EXISTS "pg_cron"[^\n]*;\r?$/gm,''));
+docker(['exec','-i',contenedor,'pg_restore','-U','supabase_admin','-d',base,'--data-only','--disable-triggers','--single-transaction','--exit-on-error'],readFileSync(copia+'/datos-consistentes.dump'));
+const restauradas=filas(readFileSync(copia+'/huellas.sql','utf8').trim().replace(/;$/,''));
+const originales=JSON.parse(readFileSync(copia+'/huellas-remotas.json','utf8')).tablas;
+if(restauradas.length!==originales.length||restauradas.some(a=>!originales.some(b=>a.tabla===b.tabla&&a.filas===b.filas&&a.sha256===b.sha256)))throw Error('La copia restaurada difiere del original; revisar actividad concurrente');
+const meta={copia,base,dir,fecha:new Date().toISOString(),tablasIdenticas:restauradas.length};
+writeFileSync(dir+'/restauracion.json',JSON.stringify(meta,null,2),'utf8');
+writeFileSync('backups/control-obras/contraccion/ultima-restauracion.txt',dir,'utf8');
+console.log(meta);

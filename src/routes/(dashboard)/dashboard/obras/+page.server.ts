@@ -5,7 +5,6 @@ import { buildObraCapabilities, canStartComplete } from '$lib/server/auth';
 import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
 import { resolveDashboardObrasScopePlan } from '$lib/server/dashboard-obras';
 import { loadAssignmentWorks } from '$lib/server/editor-management';
-import type { Tables } from '$lib/types/database.types';
 import { error } from '@sveltejs/kit';
 import type { ObraControlRow } from '$lib/types/control-obras.types';
 import { z } from 'zod';

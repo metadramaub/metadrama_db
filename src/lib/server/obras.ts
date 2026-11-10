@@ -1,9 +1,10 @@
+import type { ObraEditorial } from '$lib/types/obra-editorial.types';
 import { relacionObras } from '$lib/server/modelo-obras';
 import { error } from '@sveltejs/kit';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { countAutoriaGroupsWithProposals } from '$lib/server/autoria';
 import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
-import type { Database, Tables } from '$lib/types/database.types';
+import type { Database } from '$lib/types/database-client.types';
 
 export async function getEstadoTerm(
 	supabase: SupabaseClient<Database>,
@@ -18,13 +19,13 @@ export async function getEstadoTerm(
 export async function getObraOrFail(
 	supabase: SupabaseClient<Database>,
 	obraId: string
-): Promise<Tables<'obras'>> {
+): Promise<ObraEditorial> {
 	const { data, error: obraError } = await supabase
 		.from(relacionObras())
 		.select('*')
 		.eq('obra_id', obraId)
 		.single();
-	const obra = (data ?? null) as Tables<'obras'> | null;
+	const obra = (data ?? null) as ObraEditorial | null;
 	if (obraError || !obra) {
 		throw error(404, 'Obra no encontrada');
 	}
@@ -33,7 +34,7 @@ export async function getObraOrFail(
 
 export async function computeObraProgress(
 	supabase: SupabaseClient<Database>,
-	obra: Tables<'obras'>
+	obra: ObraEditorial
 ) {
 	const flags = {
 		datos: Boolean(obra.titulo?.trim() && obra.genero_id && obra.edicion?.trim()),

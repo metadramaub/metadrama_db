@@ -1,5 +1,5 @@
+import type { ObraEditorial } from '$lib/types/obra-editorial.types';
 import { writable } from 'svelte/store';
-import type { Tables } from '$lib/types/database.types';
 
 export type ObraDirtyScope =
 	| 'datos'
@@ -10,7 +10,7 @@ export type ObraDirtyScope =
 	| 'global';
 
 export interface CurrentObraState {
-	obra: Tables<'obras'> | null;
+	obra: ObraEditorial | null;
 	dirty: boolean;
 	saving: boolean;
 	conflict: boolean;
@@ -39,7 +39,7 @@ function recomputeSaving(savingByScope: Partial<Record<ObraDirtyScope, boolean>>
 	return Object.values(savingByScope).some(Boolean);
 }
 
-export function setCurrentObra(obra: Tables<'obras'> | null) {
+export function setCurrentObra(obra: ObraEditorial | null) {
 	currentObraStore.update((state) => ({
 		...state,
 		obra,
@@ -51,7 +51,7 @@ export function setCurrentObra(obra: Tables<'obras'> | null) {
 	}));
 }
 
-export function patchCurrentObra(patch: Partial<Tables<'obras'>>) {
+export function patchCurrentObra(patch: Partial<ObraEditorial>) {
 	currentObraStore.update((state) => {
 		if (!state.obra) return state;
 		return {

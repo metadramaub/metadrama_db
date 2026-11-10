@@ -29,7 +29,7 @@ begin
  fallo:=false;begin update public.obras set titulo='No debe escribirse' where obra_id=propia;exception when insufficient_privilege then fallo:=true;end;
  perform pg_temp.exigir(fallo,'Sin escritura directa del núcleo');
  reset role;
- perform pg_temp.exigir((select edicion is null and editor_asignado is null from public.obras where obra_id=propia),'Datos editoriales en completa');
+ perform pg_temp.exigir((select to_jsonb(o)->>'edicion' is null and to_jsonb(o)->>'editor_asignado' is null from public.obras o where obra_id=propia),'Datos editoriales en completa');
  perform pg_temp.exigir((select edicion_base='Edición de ensayo reversible' from public.fichas_completas where obra_id=propia),'Edición conservada');
  select count(*) into esperadas from public.fichas_completas f join public.vocabularios v on v.termino_id=f.estado where v.termino='publicado' and f.visible_publico;
  perform set_config('request.jwt.claim.sub','',true);

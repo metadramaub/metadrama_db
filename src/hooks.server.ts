@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr';
 import type { Cookies, Handle } from '@sveltejs/kit';
 import { redirect } from '@sveltejs/kit';
 import type { User } from '@supabase/supabase-js';
-import type { Database } from '$lib/types/database.types';
+import type { Database } from '$lib/types/database-client.types';
 import { env as publicEnv } from '$env/dynamic/public';
 import { env as privateEnv } from '$env/dynamic/private';
 import {

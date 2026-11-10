@@ -74,7 +74,7 @@ describe('acciones HTTP del importador', () => {
 		expect(previa && 'vista' in previa && previa.vista.filas.length).toBeGreaterThan(0);
 		const r = await actions.confirmar!(event({fecha_inicio:'',fecha_fin:'',huella:'forzada'}));
 		expect(r).toMatchObject({status:400});
-		expect(rpc.mock.calls.some(([name])=>name==='guardar_ficha_minima')).toBe(false);
+		expect(rpc.mock.calls.some(([name])=>name==='guardar_ficha_basica')).toBe(false);
 	});
 	it('reconstruye la vista en servidor y redirige a la copia guardada', async () => {
 		const previa = await comprobar();
@@ -83,7 +83,7 @@ describe('acciones HTTP del importador', () => {
 			location: '/dashboard/importador/fichas/' + importacion
 		});
 		expect(rpc).toHaveBeenCalledWith(
-			'guardar_ficha_minima',
+			'guardar_ficha_basica',
 			expect.objectContaining({
 				p_peticion: importacion,
 				p_entrada_original: JSON.parse(entrada),
@@ -104,7 +104,7 @@ describe('acciones HTTP del importador', () => {
 			event({ huella: previa.huella!, titulo: 'Cambio posterior' })
 		);
 		expect(r).toMatchObject({ status: 409 });
-		expect(rpc.mock.calls.some(([name]) => name === 'guardar_ficha_minima')).toBe(false);
+		expect(rpc.mock.calls.some(([name]) => name === 'guardar_ficha_basica')).toBe(false);
 	});
 	it('una coincidencia nueva entre comprobar y guardar exige otra revisión', async () => {
 		const previa = await comprobar();
@@ -121,6 +121,6 @@ describe('acciones HTTP del importador', () => {
 			event({ huella: previa.huella!, decision_coincidencias: 'otra_obra' })
 		);
 		expect(r).toMatchObject({ status: 409 });
-		expect(rpc.mock.calls.some(([name]) => name === 'guardar_ficha_minima')).toBe(false);
+		expect(rpc.mock.calls.some(([name]) => name === 'guardar_ficha_basica')).toBe(false);
 	});
 });

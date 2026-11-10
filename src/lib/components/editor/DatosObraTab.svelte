@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { ObraEditorial } from '$lib/types/obra-editorial.types';
 	import { portal } from '$lib/actions/portal';
 	import { onDestroy, untrack } from 'svelte';
 	import { Plus, Trash2 } from 'lucide-svelte';
@@ -21,7 +22,7 @@
 	import { displayTerm } from '$lib/utils/vocabulario';
 
 	const props = $props<{
-		obra: Tables<'obras'>;
+		obra: ObraEditorial;
 		generoOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>>;
 		saveRequestToken?: number;
 		readOnly?: boolean;
@@ -46,7 +47,7 @@
 	};
 
 
-	function toFormState(obra: Tables<'obras'>): FormState {
+	function toFormState(obra: ObraEditorial): FormState {
 		return {
 			titulo: obra.titulo ?? '',
 			variantes_titulo: obra.variantes_titulo ?? [],

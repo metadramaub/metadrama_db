@@ -2,7 +2,7 @@ import { relacionObras } from '$lib/server/modelo-obras';
 import { error } from '@sveltejs/kit';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { AuthorWorkSummary } from '$lib/types/author.types';
-import type { Database, Tables } from '$lib/types/database.types';
+import type { Database, Tables } from '$lib/types/database-client.types';
 
 type AuthorIdentityFields = Pick<
 	Tables<'autores'>,

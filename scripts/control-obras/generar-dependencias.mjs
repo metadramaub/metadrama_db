@@ -58,7 +58,7 @@ md +=
 	'La búsqueda textual es conservadora: `estado` y `observaciones` pueden referirse a otras entidades. Las dependencias de catálogo no descubren todas las referencias dentro de PL/pgSQL ni SQL dinámico. Las migraciones aplicadas se inventarían, **no se editan**. No se incluyen valores de obras, cuentas, JWT ni definiciones privadas.\n\n';
 md += `Auditoría de esquema: ${inv.consultado_en}. ${actuales.length} archivos de código/pruebas/generadores candidatos, ${funciones.length} funciones vivas candidatas y ${politicas.length} políticas relacionadas.\n\n`;
 md +=
-	'## Campos afectados\n\n| Campo actual en obras | Destino final | Archivos candidatos fuera del histórico SQL |\n| --- | --- | ---: |\n';
+	'## Campos afectados\n\n| Campo trasladado o proyectado | Ubicación vigente | Archivos candidatos fuera del histórico SQL |\n| --- | --- | ---: |\n';
 for (const c of campos) {
 	const destino = c === 'tipo_ficha' ? 'Proyección por existencia de importación y elaboración; basica en contratos nuevos'
 		: c === 'dataciones' ? 'Contrato tipado de obras_dataciones en proyecciones y artefactos'
