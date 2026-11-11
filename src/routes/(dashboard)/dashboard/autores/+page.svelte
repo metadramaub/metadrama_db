@@ -4,6 +4,8 @@
 	import { ArrowDown, ArrowUp, ExternalLink, Eye, Pencil } from 'lucide-svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import Table from '$lib/components/ui/table.svelte';
+	import TableSearch from '$lib/components/ui/table-search.svelte';
+	import TableToolbar from '$lib/components/ui/table-toolbar.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { formatRelative } from '$lib/utils/formatters';
 	import type { PageData } from './$types';
@@ -148,22 +150,14 @@
 		{/if}
 	</header>
 
-	<form class="mb-4 grid max-w-xl gap-3 sm:grid-cols-[1fr_auto]" onsubmit={applyFilters}>
-		<label class="form-field">
-			<span class="form-label">Buscar autor</span>
-			<input
-				type="text"
-				bind:value={q}
-				placeholder="Nombre, variante o forma normalizada"
-				class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
-			/>
-		</label>
-		<div class="flex items-end">
-			<Button type="submit" variant="ghost" class="w-full">Buscar</Button>
-		</div>
-	</form>
-
-	<div class="mb-2 flex flex-wrap items-center justify-end gap-2 text-sm">
+	<TableToolbar>
+		{#snippet search()}
+			<form class="flex gap-2" onsubmit={applyFilters}>
+				<TableSearch bind:value={q} label="Buscar autor" />
+				<button type="submit" class="h-8 border border-[color:var(--border)] px-2 hover:bg-[color:var(--muted)]">Buscar</button>
+			</form>
+		{/snippet}
+		{#snippet controls()}
 		<label class="flex items-center gap-2">
 			Ordenar por
 			<select class="h-8 border border-[color:var(--border)] bg-white px-2" value={sortField}
@@ -180,7 +174,8 @@
 			aria-label={ascending ? 'Orden ascendente. Cambiar a descendente' : 'Orden descendente. Cambiar a ascendente'}>
 			{#if ascending}<ArrowUp size={16} aria-hidden="true" />{:else}<ArrowDown size={16} aria-hidden="true" />{/if}
 		</button>
-	</div>
+		{/snippet}
+	</TableToolbar>
 
 	<Table>
 			<thead>

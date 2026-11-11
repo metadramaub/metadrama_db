@@ -2,7 +2,8 @@
 	import { coincideDatacion, datacionDeObra } from '$lib/dataciones';
 	import { portal } from '$lib/actions/portal';
 	import { goto } from '$app/navigation';
-	import { Plus, Search, SlidersHorizontal, X } from 'lucide-svelte';
+	import { Plus, SlidersHorizontal, X } from 'lucide-svelte';
+	import TableSearch from '$lib/components/ui/table-search.svelte';
 	import CorpusManagement from '$lib/components/dashboard/CorpusManagement.svelte';
 	import {pushToast} from '$lib/stores/toast';
 	import ObrasTable from '$lib/components/dashboard/ObrasTable.svelte';
@@ -226,12 +227,7 @@
 		on:open={(event) => goto('/dashboard/obras/' + event.detail)}
 	>
 		{#snippet buscador()}
-			<label class="relative block">
-				<span class="sr-only">Buscar por título</span>
-				<Search size={16} aria-hidden="true" class="pointer-events-none absolute left-2.5 top-2 text-[color:var(--muted-foreground)]" />
-				<input type="search" bind:value={q} placeholder="Buscar por título"
-					class="h-8 w-full border border-[color:var(--border)] bg-white pl-8 pr-2.5 text-sm" />
-			</label>
+			<TableSearch bind:value={q} label="Buscar por título" />
 		{/snippet}
 	</ObrasTable>
 	{#if canCreate && selectedIds.length && selectedWorks.every((obra: DashboardObra) => !['basica', 'minima'].includes(obra.tipo_ficha ?? ''))}
