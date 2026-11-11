@@ -164,7 +164,7 @@
 			</div>
 		{:else if operation === 'assign'}
 			<div class="max-h-[32rem] overflow-auto">
-				<ObrasTable obras={catalogWorks} embedded selectedIds={catalogSelectedIds} onSelectionChange={(ids) => catalogSelectedIds = ids} on:open={(event) => goto('/dashboard/obras/' + event.detail)} />
+				<ObrasTable obras={catalogWorks} selectedIds={catalogSelectedIds} onSelectionChange={(ids) => catalogSelectedIds = ids} on:open={(event) => goto('/dashboard/obras/' + event.detail)} />
 			</div>
 			{#if catalogSelectedIds.length}
 				<BulkAssignments works={catalogSelected} editors={data.editorOptions} defaultTarget={data.editor.user_id} embedded oncomplete={() => openOperation(null)} />
@@ -182,7 +182,7 @@
 				{#if selectedIds.length}<Button variant="ghost" onclick={() => selectedIds = []}>Limpiar selección</Button>{/if}
 			</div>
 			<div class="max-h-[32rem] overflow-auto border-t border-[color:var(--border)]">
-				<ObrasTable obras={visible} embedded {selectedIds} onSelectionChange={(ids) => selectedIds = ids} on:open={(event) => goto('/dashboard/obras/' + event.detail)} />
+				<ObrasTable obras={visible} {selectedIds} onSelectionChange={(ids) => selectedIds = ids} on:open={(event) => goto('/dashboard/obras/' + event.detail)} />
 			</div>
 			{#if selectedIds.length}
 				<BulkAssignments works={selected} editors={data.editorOptions} defaultTarget={data.editor.user_id} embedded oncomplete={() => selectedIds = []} />

@@ -132,10 +132,10 @@
 	</div>
 {/snippet}
 
-<section class="space-y-3">
-	<div class="flex flex-wrap items-center justify-between gap-3">
+<section class="space-y-4">
+	<header class="flex flex-wrap items-center justify-between gap-3">
 		<div>
-			<h1 class="text-xl font-semibold">{data.modeloEditorial && canReadAll && scope === 'all' ? 'Control de obras' : 'Obras'}</h1>
+			<h1 class="font-display text-3xl text-[color:var(--gray-900)]">{ambitos.find((ambito) => ambito.id === data.scope)?.label}</h1>
 			{#if data.puedeVerBasicas && !data.modeloEditorial}
 				<a href="/dashboard/importador/fichas" class="text-sm underline">Fichas básicas</a>
 			{/if}
@@ -145,16 +145,16 @@
 				<CorpusManagement corpus={data.corpusOptions} obras={data.obrasParaCorpus} />
 			{/if}
 			{#if canCreate}
-				<Button onclick={() => (createModalOpen = true)}>
+				<Button variant="dark" onclick={() => (createModalOpen = true)}>
 					<Plus size={16} aria-hidden="true" /> Crear obras
 				</Button>
 			{/if}
 		</div>
-	</div>
+	</header>
 
 	{#if canReadAll}
 		<div>
-			<SegmentedChoice items={ambitos} value={scope} ariaLabel="Ámbito de obras"
+			<SegmentedChoice items={ambitos} value={scope} tone="neutral" ariaLabel="Ámbito de obras"
 				onChange={(id) => { if (id === 'mine' || id === 'all') goScope(id); }} />
 		</div>
 	{/if}

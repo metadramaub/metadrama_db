@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
-	type Variant = 'primary' | 'primary-soft' | 'secondary' | 'ghost' | 'danger' | 'success';
+	type Variant = 'primary' | 'primary-soft' | 'secondary' | 'ghost' | 'danger' | 'success' | 'dark';
 	const props = $props<{
 		type?: 'button' | 'submit' | 'reset';
 		variant?: Variant;
@@ -16,6 +16,7 @@
 	const base =
 		'inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50';
 	const variants: Record<Variant, string> = {
+		dark: 'border border-[color:var(--gray-900)] bg-[color:var(--gray-900)] text-white hover:bg-[color:var(--gray-800)]',
 		primary:
 			'border border-[color:var(--primary)] bg-[color:var(--primary)] text-[color:var(--primary-foreground)] hover:brightness-95',
 		'primary-soft':

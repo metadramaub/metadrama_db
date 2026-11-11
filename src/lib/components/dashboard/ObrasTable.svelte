@@ -39,7 +39,6 @@
 		obras: ObraRow[];
 		selectedIds?: string[];
 		onSelectionChange?: (ids: string[]) => void;
-		embedded?: boolean;
 		control?: boolean;
 		buscador?: Snippet;
 		mostrarDatosBibliograficos?: boolean;
@@ -219,13 +218,13 @@
 	</div>
 {/if}
 
-<div class={props.embedded ? 'overflow-x-auto' : 'card overflow-x-auto'}>
+<div class="overflow-x-auto">
 	<table class="w-full text-left text-sm">
-		<thead class="bg-[color:var(--muted)] text-xs text-[color:var(--muted-foreground)]">
+		<thead class="text-xs text-[color:var(--foreground)]">
 			<tr>
 				{#if props.onSelectionChange}
 					<th scope="col" class="w-px px-3 py-2">
-						<input type="checkbox" class="align-middle accent-[color:var(--primary)]" aria-label="Seleccionar todas las obras filtradas" checked={allSelected} onchange={toggleAll} />
+						<input type="checkbox" class="align-middle accent-[color:var(--gray-900)]" aria-label="Seleccionar todas las obras filtradas" checked={allSelected} onchange={toggleAll} />
 					</th>
 				{/if}
 				<th scope="col" class="min-w-48 px-3 py-2 font-medium" aria-sort={sortOrder('titulo')}>
@@ -268,7 +267,7 @@
 				<tr class={`border-t border-[color:var(--border)] hover:bg-[color:var(--muted)] ${checked ? 'bg-[color:var(--muted)]' : ''}`}>
 					{#if props.onSelectionChange}
 						<td class="px-3 py-2">
-							<input type="checkbox" class="align-middle accent-[color:var(--primary)]" aria-label={'Seleccionar ' + obra.titulo} {checked} onchange={() => toggleSelection(obra.obra_id)} />
+							<input type="checkbox" class="align-middle accent-[color:var(--gray-900)]" aria-label={'Seleccionar ' + obra.titulo} {checked} onchange={() => toggleSelection(obra.obra_id)} />
 						</td>
 					{/if}
 					<th scope="row" class="px-3 py-2 font-medium">{obra.titulo}</th>

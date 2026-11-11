@@ -22,12 +22,16 @@
 		/** Volver a pulsar la opción activa la deselecciona. Para preguntas opcionales. */
 		allowClear?: boolean;
 		size?: 'sm' | 'md';
+		tone?: 'brand' | 'neutral';
 		disabled?: boolean;
 		class?: string;
 	}>();
 
 	const size = $derived(props.size ?? 'md');
 	const sizeClass = $derived(size === 'sm' ? 'px-2.5 py-1 text-xs' : 'px-3 py-1.5 text-sm');
+	const activeClass = $derived(props.tone === 'neutral'
+		? 'z-10 border-[color:var(--gray-900)] bg-[color:var(--gray-900)] text-white'
+		: 'z-10 border-[color:var(--primary)] bg-[color:var(--primary)] text-[color:var(--primary-foreground)]');
 
 	function select(item: SegmentedItem) {
 		if (props.disabled || item.disabled) return;
@@ -50,7 +54,7 @@
 			disabled={props.disabled || item.disabled}
 			class={`relative -ml-px border font-medium transition-colors first:ml-0 disabled:cursor-not-allowed disabled:opacity-40 ${sizeClass} ${
 				active
-					? 'z-10 border-[color:var(--primary)] bg-[color:var(--primary)] text-[color:var(--primary-foreground)]'
+					? activeClass
 					: 'border-[color:var(--border)] bg-white text-[color:var(--muted-foreground)] hover:bg-[color:var(--muted)]'
 			}`}
 			onclick={() => select(item)}
