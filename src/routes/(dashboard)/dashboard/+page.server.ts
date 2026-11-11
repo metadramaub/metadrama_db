@@ -44,13 +44,19 @@ export const load: PageServerLoad = async ({ locals, parent, depends }) => {
 			const publicado = estados.find(({ termino }) => termino === 'publicado')?.termino_id;
 			if (!publicado) return null;
 			const contar = () => admin.from(relacionObras()).select('obra_id', { count: 'exact', head: true });
-			const [total, completas, publicadas] = await Promise.all([
+			const [total, enProceso, publicadas, importadas] = await Promise.all([
 				contar(),
-				contar().eq('tipo_ficha', 'completa'),
-				contar().eq('tipo_ficha', 'completa').eq('estado', publicado)
+				contar().eq('tipo_ficha', 'completa').neq('estado', publicado),
+				contar().eq('tipo_ficha', 'completa').eq('estado', publicado),
+				contar().eq('tipo_ficha', 'basica')
 			]);
-			if (total.error || completas.error || publicadas.error) return null;
-			return { total: total.count ?? 0, completas: completas.count ?? 0, publicadas: publicadas.count ?? 0 };
+			if (total.error || enProceso.error || publicadas.error || importadas.error) return null;
+			return {
+				total: total.count ?? 0,
+				enProceso: enProceso.count ?? 0,
+				publicadas: publicadas.count ?? 0,
+				importadas: importadas.count ?? 0
+			};
 		} catch {
 			return null;
 		}

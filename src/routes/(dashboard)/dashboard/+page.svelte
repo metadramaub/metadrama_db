@@ -15,7 +15,7 @@
 		{ label: 'Fichas completas', count: data.overview.completas, href: '/dashboard/obras?scope=all&tipo=completa' }
 	] : data.projectProgress ? [
 		{ label: 'Obras registradas', count: data.projectProgress.total },
-		{ label: 'Fichas completas', count: data.projectProgress.completas },
+		{ label: 'En proceso', count: data.projectProgress.enProceso },
 		{ label: 'Obras publicadas', count: data.projectProgress.publicadas }
 	] : []);
 	const estados: Record<string, string> = {
@@ -57,6 +57,12 @@
 					</li>
 				{/each}
 			</ul>
+			{#if data.projectProgress && data.projectProgress.importadas > 0}
+				<p class="border-t border-[color:var(--gray-700)] pt-3 text-sm text-[color:var(--gray-300)]">
+					<strong class="tabular-nums text-white">{data.projectProgress.importadas}</strong>
+					{data.projectProgress.importadas === 1 ? 'obra con datos métricos importados' : 'obras con datos métricos importados'} para comparaciones.
+				</p>
+			{/if}
 		</section>
 	{/if}
 
