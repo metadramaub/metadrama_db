@@ -139,10 +139,11 @@ Las familias que deben adaptarse conjuntamente son:
 - **Herramientas:** tipos generados, snapshots, informes, semillas, guiones y pruebas locales.
   Las migraciones históricas se inventarían, nunca se editan.
 
-Se mantienen todos los registros hoy marcados `completa` como `procedencia_registro='legado'`,
-con `inicio_elaboracion=NULL`. No se reclasifican obras por estar vacías ni se inventa la fecha
-de inicio a partir de `created_at`, asignación o anotaciones. La interfaz deberá distinguir este
-desconocimiento del estado «encargada, todavía no iniciada» de los registros nuevos.
+La migración inicial conservó las completas como `procedencia_registro='legado'`, con
+`inicio_elaboracion=NULL`. La reclasificación posterior `20261111140000`, aplicada y verificada en Supabase,
+se limita a 38 registros
+de planificación cotejados sin asignación ni actividad editorial. Conserva las obras, dataciones,
+autorías y pertenencias. Para el resto de completas heredadas, la fecha de inicio sigue siendo desconocida.
 
 ## Modelo aplicado y contratos
 
