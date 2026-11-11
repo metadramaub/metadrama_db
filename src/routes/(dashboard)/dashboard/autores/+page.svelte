@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { portal } from '$lib/actions/portal';
 	import { goto } from '$app/navigation';
+	import { ArrowDown, ArrowUp, ExternalLink, Eye, Pencil } from 'lucide-svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import Table from '$lib/components/ui/table.svelte';
 	import { pushToast } from '$lib/stores/toast';
@@ -18,6 +19,17 @@
 
 	let { data } = $props<{ data: PageData }>();
 	let q = $state('');
+	type SortField = 'nombre_completo' | 'nombre_normalizado' | 'works_count';
+	let sortField = $state<SortField>('nombre_normalizado');
+	let ascending = $state(true);
+	const collator = new Intl.Collator('es', { sensitivity: 'base' });
+	const sortedAuthors = $derived([...data.authors].sort((a, b) => {
+		const comparison = sortField === 'works_count'
+			? a.works_count - b.works_count
+			: collator.compare(a[sortField] ?? a.nombre_completo, b[sortField] ?? b.nombre_completo);
+		return (ascending ? comparison : -comparison) || collator.compare(a.nombre_completo, b.nombre_completo);
+	}));
+	const iconAction = 'inline-flex size-7 items-center justify-center rounded text-[color:var(--muted-foreground)] transition-colors hover:bg-[color:var(--muted)] hover:text-[color:var(--foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2';
 
 	let createModalOpen = $state(false);
 	let creating = $state(false);
@@ -44,9 +56,7 @@
 		goto(next ? `/dashboard/autores?${next}` : '/dashboard/autores');
 	}
 
-	function actionLabel() {
-		return canManage ? 'Editar' : 'Ver';
-	}
+	const actionLabel = $derived(canManage ? 'Editar' : 'Ver');
 
 	function resetCreateForm() {
 		nombreCompleto = '';
@@ -153,24 +163,44 @@
 		</div>
 	</form>
 
+	<div class="mb-2 flex flex-wrap items-center justify-end gap-2 text-sm">
+		<label class="flex items-center gap-2">
+			Ordenar por
+			<select class="h-8 border border-[color:var(--border)] bg-white px-2" value={sortField}
+				onchange={(event) => {
+					sortField = event.currentTarget.value as SortField;
+					ascending = sortField !== 'works_count';
+				}}>
+				<option value="nombre_completo">Nombre</option>
+				<option value="nombre_normalizado">Apellido</option>
+				<option value="works_count">Número de obras</option>
+			</select>
+		</label>
+		<button type="button" class={iconAction} onclick={() => (ascending = !ascending)}
+			aria-label={ascending ? 'Orden ascendente. Cambiar a descendente' : 'Orden descendente. Cambiar a ascendente'}>
+			{#if ascending}<ArrowUp size={16} aria-hidden="true" />{:else}<ArrowDown size={16} aria-hidden="true" />{/if}
+		</button>
+	</div>
+
 	<Table>
 			<thead>
 				<tr>
 					<th class="px-3 py-2">Autor</th>
 					<th class="px-3 py-2">Obras</th>
 					<th class="px-3 py-2">Última modificación</th>
-					<th class="px-3 py-2">Acción</th>
+					<th class="px-3 py-2">Wikidata</th>
+					<th class="px-3 py-2 text-right">Acciones</th>
 				</tr>
 			</thead>
 			<tbody>
 				{#if data.authors.length === 0}
 					<tr>
-						<td class="px-3 py-4 text-[color:var(--muted-foreground)]" colspan={4}>
+						<td class="px-3 py-4 text-[color:var(--muted-foreground)]" colspan={5}>
 							No hay autores para mostrar.
 						</td>
 					</tr>
 				{:else}
-					{#each data.authors as author}
+					{#each sortedAuthors as author (author.autor_id)}
 						<tr class="border-t border-[color:var(--border)]">
 							<td class="px-3 py-2">
 								<div class="font-medium">{author.nombre_completo}</div>
@@ -185,9 +215,19 @@
 							</td>
 							<td class="px-3 py-2">{formatRelative(author.updated_at)}</td>
 							<td class="px-3 py-2">
-								<Button variant="ghost" onclick={() => goto(`/dashboard/autores/${author.autor_id}`)}>
-									{actionLabel()}
-								</Button>
+								{#if author.wikidata_id}
+									<a class={iconAction} href={`https://www.wikidata.org/wiki/${encodeURIComponent(author.wikidata_id)}`}
+										target="_blank" rel="noopener noreferrer" title="Abrir en Wikidata"
+										aria-label={`Abrir ${author.nombre_completo} en Wikidata (nueva pestaña)`}>
+										<ExternalLink size={16} aria-hidden="true" />
+									</a>
+								{/if}
+							</td>
+							<td class="px-3 py-2 text-right">
+								<a class={iconAction} href={`/dashboard/autores/${author.autor_id}`} title={actionLabel}
+									aria-label={`${actionLabel} a ${author.nombre_completo}`}>
+									{#if canManage}<Pencil size={16} aria-hidden="true" />{:else}<Eye size={16} aria-hidden="true" />{/if}
+								</a>
 							</td>
 						</tr>
 					{/each}
