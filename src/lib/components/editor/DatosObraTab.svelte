@@ -42,7 +42,7 @@
 		fuente_fecha: string | null;
 		fecha_inicio_metadrama: number | null;
 		fecha_fin_metadrama: number | null;
-		dataciones: Datacion[];
+		dataciones: [referencia: Datacion, metrica: Datacion];
 		edicion: string;
 	};
 
@@ -265,12 +265,11 @@
 
 		{/if}
 		{#if nuevoModelo}
-			{#each form.dataciones as datacion, index (datacion.clase)}
-				<DatacionEditor value={datacion} disabled={props.readOnly} onChange={(value) => {
-					const fechas = [...form.dataciones]; fechas[index] = value;
-					mutateField('dataciones', fechas);
-				}} />
-			{/each}
+			<DatacionEditor
+				value={form.dataciones[0]}
+				disabled={props.readOnly}
+				onChange={(value) => mutateField('dataciones', [value, form.dataciones[1]])}
+			/>
 		{/if}
 
 		<label class="form-field">
