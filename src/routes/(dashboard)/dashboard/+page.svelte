@@ -29,6 +29,10 @@
 	});
 </script>
 
+{#snippet countBadge(count: number)}
+	<span class="bg-[color:var(--muted)] px-2 py-1 text-xs font-semibold tabular-nums text-[color:var(--foreground)]">{count}</span>
+{/snippet}
+
 <section class="space-y-6">
 	<header class="border-l-2 border-[color:var(--primary)] pl-4">
 		<h1 class="font-display text-3xl text-[color:var(--gray-900)]">Inicio</h1>
@@ -38,7 +42,12 @@
 	{#if overviewMetrics.length}
 		<section class="bg-[color:var(--gray-900)] px-5 py-5 text-white sm:px-6">
 			<div class="flex flex-wrap items-baseline justify-between gap-2">
-				<h2 class="font-display text-2xl">{data.overview ? 'Obras del proyecto' : 'Avance del proyecto'}</h2>
+				<div class="flex items-center gap-3">
+					<h2 class="font-display text-2xl">{data.overview ? 'Obras del proyecto' : 'Avance del proyecto'}</h2>
+					{#if data.overview}
+						{@render countBadge(data.overview.sinFicha + data.overview.basicas + data.overview.completas)}
+					{/if}
+				</div>
 				{#if data.overview}
 					<a class="inline-flex items-center gap-2 text-sm underline-offset-4 hover:underline" href="/dashboard/obras?scope=all">
 						Todas las obras <ArrowRight size={16} aria-hidden="true" />
@@ -96,7 +105,7 @@
 				<section>
 					<header class="flex items-center gap-3 border-b border-[color:var(--border)] pb-2">
 						<h2 class="font-display text-xl">Mis obras publicadas</h2>
-						<span class="bg-[color:var(--muted)] px-2 py-1 text-xs font-semibold tabular-nums">{data.publishedAssignedSummary.total}</span>
+						{@render countBadge(data.publishedAssignedSummary.total)}
 					</header>
 					<ul class="text-sm sm:grid sm:grid-cols-2 sm:gap-x-4">
 						{#each data.publishedAssignedSummary.items as obra (obra.obraId)}
