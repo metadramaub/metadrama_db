@@ -224,6 +224,7 @@
 	</div>
 	<ObrasTable
 		{control}
+		mostrarDatosBibliograficos={data.modeloEditorial}
 		onStart={data.modeloEditorial ? iniciar : undefined}
 		{selectedIds}
 		onSelectionChange={canCreate ? (ids) => (selectedIds = ids) : undefined}

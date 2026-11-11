@@ -39,6 +39,7 @@
 		onSelectionChange?: (ids: string[]) => void;
 		embedded?: boolean;
 		control?: boolean;
+		mostrarDatosBibliograficos?: boolean;
 		onStart?: (id:string)=>void;
 	}>();
 	const selected = $derived(props.selectedIds ?? []);
@@ -92,7 +93,12 @@
 			// La selección sigue disponible durante la visita.
 		}
 	}
-	const columnasActivas = $derived(new Set(props.control ? columnasVisibles : ['estado', 'editor', 'updated_at']));
+	const columnasActivas = $derived(new Set(
+		props.control ? columnasVisibles : [
+			...(props.mostrarDatosBibliograficos ? ['autor', 'datacion'] : []),
+			'estado', 'editor', 'updated_at'
+		]
+	));
 	const numeroColumnas = $derived(2 + columnasActivas.size + Number(Boolean(props.onSelectionChange)));
 	let sortField = $state<SortField>('updated_at');
 	let sortDirection = $state<SortDirection>('desc');
