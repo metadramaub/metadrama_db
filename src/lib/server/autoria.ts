@@ -98,14 +98,14 @@ export async function loadAutoriaData(
 	supabase: SupabaseClient<Database>,
 	obraId: string,
 	declaredTotalVersos: number | null,
-	options: { includePerfilMetrico?: boolean } = {}
+	options: { includePerfilMetrico?: boolean; soloGlobal?: boolean } = {}
 ): Promise<Omit<AutoriaApiPayload, 'loaded_at'>> {
 	const includePerfilMetrico = options.includePerfilMetrico ?? true;
 
 	// Paso 1: en paralelo, todo lo que solo depende de la obra (sin cadena previa).
 	const [effectiveTotalVersos, jornadasResp, catalogs, globalGroupsResp] = await Promise.all([
 		resolveTotalVersos(supabase, obraId, declaredTotalVersos),
-		supabase.from('jornadas').select('jornada_id,jornada_num,v_ini,v_fin').eq('obra_id', obraId).order('jornada_num'),
+		options.soloGlobal ? { data: [] } : supabase.from('jornadas').select('jornada_id,jornada_num,v_ini,v_fin').eq('obra_id', obraId).order('jornada_num'),
 		loadAutoriaCatalogs(supabase),
 		supabase.from('grupos_atribucion').select('*').eq('obra_id', obraId)
 	]);

@@ -17,6 +17,8 @@ Una obra existe antes de tener ficha. `obras` conserva identidad, títulos y gé
 `obras_dataciones` reúne sus propuestas de fecha. Las propuestas de autoría y evidencias siguen
 en sus tablas actuales. Se reutilizan
 las evidencias tradicional y estilometría léxica, sin crear columnas paralelas por proveedor.
+Admin e IP pueden editar estos datos desde el listado antes de iniciar una ficha completa.
+La columna de autoría une con «y» a quienes integran una propuesta y con «o» las propuestas alternativas.
 
 `fichas_completas`, opcional y única por obra, reúne encargo, responsable, fecha de asignación,
 inicio explícito, edición base, bibliografía, observaciones del editor, declaraciones generales,

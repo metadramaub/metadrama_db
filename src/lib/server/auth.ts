@@ -19,6 +19,7 @@ type EventWithLocals = Pick<RequestEvent, 'locals'>;
 
 type ObraContextOptions = {
 	requireEdit?: boolean;
+	requireEditMetadata?: boolean;
 	requireComment?: boolean;
 	requireChangeState?: boolean;
 	requireManageReviewers?: boolean;
@@ -254,6 +255,9 @@ export async function getObraContext(
 		throw error(403, 'Esta accion requiere que la obra este asignada');
 	}
 	if (options.requireEdit) {
+		assertCanEditContent(capabilities);
+	}
+	if (options.requireEditMetadata && !isAdminOrIp(profile.roleTerm)) {
 		assertCanEditContent(capabilities);
 	}
 	if (options.requireComment) {

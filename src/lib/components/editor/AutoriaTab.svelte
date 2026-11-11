@@ -54,6 +54,7 @@
 		roleTerm: string;
 		saveRequestToken?: number;
 		readOnly?: boolean;
+		soloDatos?: boolean;
 		canComment?: boolean;
 		focusComentarioId?: string | null;
 		commentsReloadKey?: string | number | null;
@@ -1017,7 +1018,7 @@
 		</div>
 	{/if}
 
-	{#if !loading}
+	{#if !loading && !props.soloDatos}
 		<InternalCommentsPanel
 			obraId={props.obraId}
 			canComment={canComment}

@@ -26,6 +26,7 @@
 		generoOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>>;
 		saveRequestToken?: number;
 		readOnly?: boolean;
+		soloDatos?: boolean;
 		canComment?: boolean;
 		focusComentarioId?: string | null;
 		commentsReloadKey?: string | number | null;
@@ -124,6 +125,7 @@
 		if (props.readOnly) return;
 		form = {
 			...form,
+			...(props.soloDatos ? { edicion: undefined } : {}),
 			variantes_titulo: form.variantes_titulo.filter((_, idx) => idx !== index)
 		};
 		queueSave();
@@ -272,6 +274,7 @@
 			/>
 		{/if}
 
+		{#if !props.soloDatos}
 		<label class="form-field">
 			<span class="form-label">
 				<span class="form-label-with-help">
@@ -292,6 +295,7 @@
 				onChange={(nextValue) => mutateField('edicion', nextValue)}
 			/>
 		</label>
+		{/if}
 
 		<div>
 			<div class="mb-3 flex items-center justify-between gap-3">
@@ -335,6 +339,7 @@
 		</div>
 	</div>
 
+	{#if !props.soloDatos}
 	<InternalCommentsPanel
 		obraId={props.obra.obra_id}
 		canComment={Boolean(props.canComment)}
@@ -344,6 +349,7 @@
 		title="Comentarios internos sobre datos de la obra"
 		emptyText="No hay comentarios internos sobre esta sección."
 	/>
+	{/if}
 
 	{#if varianteDeleteTargetIndex !== null}
 		<div use:portal class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">

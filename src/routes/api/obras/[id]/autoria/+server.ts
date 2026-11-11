@@ -6,6 +6,11 @@ import { validationErrorResponse } from '$lib/server/http';
 import type { Tables } from '$lib/types/database.types';
 import { canManageAutoriaMetricProfile } from '$lib/utils/permissions';
 import { autoriaInputSchema } from '$lib/utils/validators';
+import { esFichaBasica, esObraSinFicha, requiereInicioCompleta } from '$lib/importador-metrico/tipo-ficha';
+
+function soloAutoriaGlobal(obra: object) {
+	return esObraSinFicha(obra) || esFichaBasica(obra) || requiereInicioCompleta(obra);
+}
 
 function buildValidationResponse(details: Array<{ path: string; message: string }>) {
 	return json({ error: 'validation_error', details }, { status: 422 });
@@ -14,7 +19,8 @@ function buildValidationResponse(details: Array<{ path: string; message: string 
 export const GET: RequestHandler = async ({ locals, params }) => {
 	const { obra, profile } = await getObraContext({ locals }, params.id, { requireEdit: false });
 	const data = await loadAutoriaData(locals.supabase, obra.obra_id, obra.total_versos, {
-		includePerfilMetrico: canManageAutoriaMetricProfile(profile.roleTerm)
+		includePerfilMetrico: canManageAutoriaMetricProfile(profile.roleTerm),
+		soloGlobal: soloAutoriaGlobal(obra)
 	});
 	return json({
 		loaded_at: new Date().toISOString(),
@@ -23,7 +29,8 @@ export const GET: RequestHandler = async ({ locals, params }) => {
 };
 
 export const PUT: RequestHandler = async ({ locals, params, request }) => {
-	const { obra, profile } = await getObraContext({ locals }, params.id, { requireEdit: true });
+	const { obra, profile } = await getObraContext({ locals }, params.id, { requireEditMetadata: true });
+	const soloGlobal = soloAutoriaGlobal(obra);
 	const canEditPerfilMetrico = canManageAutoriaMetricProfile(profile.roleTerm);
 	const body = await request.json().catch(() => ({}));
 	const parsed = autoriaInputSchema.safeParse(body);
@@ -43,7 +50,7 @@ export const PUT: RequestHandler = async ({ locals, params, request }) => {
 				}))
 			};
 	const [jornadasResp, catalogs, autoresResp] = await Promise.all([
-		locals.supabase.from('jornadas').select('jornada_id').eq('obra_id', obra.obra_id),
+		soloGlobal ? { data: [] } : locals.supabase.from('jornadas').select('jornada_id').eq('obra_id', obra.obra_id),
 		loadAutoriaCatalogs(locals.supabase),
 		locals.supabase.from('autores').select('autor_id')
 	]);
@@ -64,15 +71,26 @@ export const PUT: RequestHandler = async ({ locals, params, request }) => {
 		return buildValidationResponse(issues);
 	}
 
-	const replaceResult = await replaceAutoriaGroups(locals.supabase, obra.obra_id, jornadaIds, payload, {
-		canManagePerfilMetrico: canEditPerfilMetrico
-	});
-	if (replaceResult.errorMessage) {
-		return json({ error: 'db_error', message: replaceResult.errorMessage }, { status: 500 });
+	if (soloGlobal) {
+		const { error } = await locals.supabase.rpc(
+			'guardar_autoria_global_previa' as never,
+			{ p_obra: obra.obra_id, p_propuestas: payload.grupos[0]?.propuestas ?? [] } as never
+		);
+		if (error) return json({ error: 'db_error', message: error.message }, {
+			status: error.code === 'PT409' ? 409 : 500
+		});
+	} else {
+		const replaceResult = await replaceAutoriaGroups(locals.supabase, obra.obra_id, jornadaIds, payload, {
+			canManagePerfilMetrico: canEditPerfilMetrico
+		});
+		if (replaceResult.errorMessage) {
+			return json({ error: 'db_error', message: replaceResult.errorMessage }, { status: 500 });
+		}
 	}
 
 	const data = await loadAutoriaData(locals.supabase, obra.obra_id, obra.total_versos, {
-		includePerfilMetrico: canEditPerfilMetrico
+		includePerfilMetrico: canEditPerfilMetrico,
+		soloGlobal
 	});
 	return json({
 		loaded_at: new Date().toISOString(),

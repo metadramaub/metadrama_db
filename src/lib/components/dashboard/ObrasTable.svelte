@@ -26,6 +26,7 @@
 		tipo_ficha?: string;
 		autores?: string[];
 		autoriaLabel?: string;
+		puedeEditarMetadatos?: boolean;
 		corpus?: string[];
 		dataciones?: unknown;
 		fecha_inicio_trad?: number|null;
@@ -288,6 +289,10 @@
 					{/if}
 					<td class="px-3 py-2">
 						<div class="flex items-center justify-end gap-0.5">
+							{#if obra.puedeEditarMetadatos}
+								<a class={acciones + ' ' + accionEdicion} href={'/dashboard/obras/' + obra.obra_id + '/metadatos'}
+									aria-label="Editar datos de la obra" title="Editar datos de la obra"><Pencil size={16} aria-hidden="true" /></a>
+							{/if}
 							{#if props.control && obra.tipo_ficha === 'sin_ficha'}
 								<a class={acciones + ' ' + accionNeutra} href={'/dashboard/importador?obra=' + obra.obra_id}
 									aria-label="Importar básica" title="Importar básica"><Upload size={16} aria-hidden="true" /></a>

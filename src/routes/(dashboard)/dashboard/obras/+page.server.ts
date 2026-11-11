@@ -178,6 +178,7 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 			return {
 				...obra,
 				autoriaLabel: autoriaPorObra.get(obra.obra_id),
+				puedeEditarMetadatos: isAdminOrIp && (sinFicha || basica || porIniciar),
 				canStartComplete: modeloEditorialActivo() && canStartComplete(profile, obra),
 				reviewer_ids:
 					allAssignmentWorks?.find((work) => work.obra_id === obra.obra_id)?.reviewer_ids ?? [],

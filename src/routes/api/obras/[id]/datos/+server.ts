@@ -4,13 +4,14 @@ import type { RequestHandler } from './$types';
 import { getObraContext } from '$lib/server/auth';
 import { obraDatosPatchSchema } from '$lib/utils/validators';
 import { validationErrorResponse } from '$lib/server/http';
+import { esFichaBasica, esObraSinFicha, requiereInicioCompleta } from '$lib/importador-metrico/tipo-ficha';
 
 function normalizeTitulo(titulo: string) {
 	return titulo.normalize('NFD').replaceAll(/\p{M}/gu, '').trim().toLowerCase();
 }
 
 export const PATCH: RequestHandler = async ({ locals, params, request }) => {
-	const { obra } = await getObraContext({ locals }, params.id, { requireEdit: true });
+	const { obra } = await getObraContext({ locals }, params.id, { requireEditMetadata: true });
 
 	const body = await request.json().catch(() => ({}));
 	const parsed = obraDatosPatchSchema.safeParse(body);
@@ -19,6 +20,10 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 	}
 
 	const payload = parsed.data;
+	const soloDatos = esObraSinFicha(obra) || esFichaBasica(obra) || requiereInicioCompleta(obra);
+	if (soloDatos && payload.edicion !== undefined) {
+		return json({ message: 'La edición base se guarda desde la ficha.' }, { status: 409 });
+	}
 	if (modeloEditorialActivo() && ['fecha_inicio_trad','fecha_fin_trad','fuente_fecha','fecha_inicio_metadrama','fecha_fin_metadrama']
 		.some(key => Object.prototype.hasOwnProperty.call(body, key))) {
 		return json({ message: 'El modelo de fechas se ha actualizado. Conserva tus cambios y recarga el editor antes de guardar.' }, { status: 409 });
