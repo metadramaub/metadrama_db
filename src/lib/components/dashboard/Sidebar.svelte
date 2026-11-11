@@ -215,7 +215,7 @@
 					<span class="inline-block h-4 w-4 shrink-0" aria-hidden="true"></span>
 				{/if}
 			</span>
-			{#if collapsed}
+			{#if collapsed && unreadCount > 0}
 				<span
 					class="absolute right-1 top-1 hidden min-w-[1.1rem] items-center justify-center border border-[color:var(--primary)] bg-[color:var(--primary)] px-1 py-0 text-[10px] leading-none text-[color:var(--primary-foreground)] md:inline-flex"
 				>
@@ -223,13 +223,15 @@
 				</span>
 			{/if}
 			<span class={collapsed ? 'md:sr-only' : ''}>Actividad reciente</span>
-			<span
-				class={`ml-auto border border-[color:var(--primary)] bg-[color:var(--primary)] px-2 py-0.5 text-xs text-[color:var(--primary-foreground)] ${
-					collapsed ? 'md:hidden' : ''
-				}`}
-			>
-				{unreadCount}
-			</span>
+			{#if unreadCount > 0}
+				<span
+					class={`ml-auto border border-[color:var(--primary)] bg-[color:var(--primary)] px-2 py-0.5 text-xs text-[color:var(--primary-foreground)] ${
+						collapsed ? 'md:hidden' : ''
+					}`}
+				>
+					{unreadCount}
+				</span>
+			{/if}
 		</a>
 
 		<a
