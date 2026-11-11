@@ -112,11 +112,11 @@
 		<aside class="min-w-0 space-y-6">
 			{#if data.overview}
 				<section class="border-t-2 border-[color:var(--primary)] bg-[color:var(--gray-50)]">
-					<h2 class="px-4 pt-3 font-display text-xl">Pendientes del proyecto</h2>
+					<h2 class="px-4 pt-3 font-display text-xl">Asignación y publicación</h2>
 					<ul class="mt-2 divide-y divide-[color:var(--border)]">
 						<li>
-							<DashboardLinkRow href="/dashboard/obras?scope=all&editor=sin_asignar">
-								<span class="font-medium">Obras sin asignar</span>
+							<DashboardLinkRow href="/dashboard/obras?scope=all&tipo=sin_ficha&editor=sin_asignar">
+								<span class="font-medium">Sin ficha y sin asignar</span>
 								{#snippet detail()}<span class="font-display text-xl tabular-nums">{data.overview.sinAsignar}</span>{/snippet}
 							</DashboardLinkRow>
 						</li>
@@ -128,6 +128,10 @@
 								</DashboardLinkRow>
 							</li>
 						{/if}
+						<li class="flex items-center justify-between gap-3 px-3 py-3 pr-10 text-sm">
+							<span class="font-medium">Publicadas</span>
+							<span class="font-display text-xl tabular-nums">{data.overview.publicadas}</span>
+						</li>
 					</ul>
 				</section>
 
