@@ -78,6 +78,22 @@ begin
  fallo:=false;begin perform public.gestionar_asignaciones_lote('editor',editor,jsonb_build_array(jsonb_build_object(
   'obra_id',destino,'editor_asignado',null,'reviewer_ids','[]'::jsonb)));exception when insufficient_privilege then fallo:=true;end;
  perform pg_temp.exigir(fallo,'Asignar una básica no registra un encargo ficticio');
+ set local role authenticated;
+ perform public.eliminar_ficha_basica(id_importacion,origen.datos_confirmados#>>'{metadatos,titulo}');
+ reset role;
+ perform pg_temp.exigir(exists(select 1 from public.obras_editoriales
+  where obra_id=destino and titulo='Ensayo: destino ya creado' and cardinality(corpus)=2
+    and tipo_ficha='sin_ficha' and total_versos is null and fecha_inicio_trad is not null
+    and cardinality(autores)>0),'Eliminar la básica conserva identidad, corpus, datación y autoría');
+ perform pg_temp.exigir(not exists(select 1 from public.importaciones_metricas where importacion_id=id_importacion)
+  and not exists(select 1 from public.secuencias_metricas where obra_id=destino)
+  and not exists(select 1 from public.jornadas where obra_id=destino),'Se retira la estructura importada');
+ set local role authenticated;
+ perform public.guardar_ficha_basica(gen_random_uuid(),origen.autor_id,origen.datos_confirmados,origen.entrada_original,
+  array(select obra_id from public.coincidencias_importacion_metrica(origen.datos_confirmados#>>'{metadatos,titulo}')),destino);
+ reset role;
+ perform pg_temp.exigir(exists(select 1 from public.obras_editoriales where obra_id=destino and tipo_ficha='basica'),
+  'La misma obra admite una nueva importación');
  insert into public.obras_editoriales(titulo,tipo_ficha) values('Ensayo: encargo en lote','sin_ficha') returning obra_id into otra;
  perform public.gestionar_asignaciones_lote('editor',editor,jsonb_build_array(jsonb_build_object(
   'obra_id',otra,'editor_asignado',null,'reviewer_ids','[]'::jsonb)));

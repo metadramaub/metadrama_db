@@ -94,7 +94,9 @@ puede haberse corregido durante la preparación; no se presenta como error vigen
 La fecha de importación y la de modificación pertenecen a la copia básica. Las fechas no
 acreditadas muestran «No consta». Consultar una copia no reaplica equivalencias ni la modifica.
 La edición/reimportación general de copias confirmadas no está implementada. Admin/IP puede
-eliminar una básica desde la papelera con confirmación de título y comprobaciones de servidor.
+eliminar la importación desde la papelera con confirmación de título. La operación retira las
+jornadas y secuencias importadas. La obra conserva su identidad, autoría, datación y corpus,
+y vuelve a «Sin ficha» para poder importarla de nuevo o encargar una completa.
 
 Campos y permisos: [referencia del modelo](../arquitectura/campos-minimos.md).
 Seguimiento del piloto: [cómo regenerarlo](./seguimiento-e-informe-equivalencias.md).

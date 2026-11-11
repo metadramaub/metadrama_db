@@ -26,8 +26,8 @@
 {#if objetivo && data.puedeEliminar}
 	<div use:portal class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div role="dialog" aria-modal="true" aria-labelledby="eliminar-basica-titulo" tabindex="-1" class="card w-full max-w-md space-y-4 p-5">
-			<h2 id="eliminar-basica-titulo" class="text-lg font-semibold">Eliminar ficha básica</h2>
-			<p class="text-sm">Se eliminarán <strong>{objetivo.titulo}</strong>, sus jornadas, secuencias e importaciones. Esta acción no se puede deshacer desde la plataforma.</p>
+			<h2 id="eliminar-basica-titulo" class="text-lg font-semibold">Eliminar importación</h2>
+			<p class="text-sm">Se eliminarán la importación de <strong>{objetivo.titulo}</strong> y sus jornadas y secuencias importadas. La obra seguirá en el listado como «Sin ficha».</p>
 			<form method="POST" action="?/eliminar" use:enhance={() => {
 				eliminando = true;
 				return async ({ result, update }) => { try { await update(); if (result.type === 'redirect' || result.type === 'success') objetivo = null; } finally { eliminando = false; } };
