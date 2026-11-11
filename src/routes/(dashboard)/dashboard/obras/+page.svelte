@@ -2,6 +2,7 @@
 	import { coincideDatacion, datacionDeObra } from '$lib/dataciones';
 	import { portal } from '$lib/actions/portal';
 	import { goto } from '$app/navigation';
+	import { untrack } from 'svelte';
 	import { Plus, SlidersHorizontal, X } from 'lucide-svelte';
 	import TableSearch from '$lib/components/ui/table-search.svelte';
 	import CorpusManagement from '$lib/components/dashboard/CorpusManagement.svelte';
@@ -90,6 +91,18 @@
 	const seleccionFueraDelFiltro = $derived(
 		selectedIds.length - filteredObras.filter((obra: DashboardObra) => selectedIds.includes(obra.obra_id)).length
 	);
+
+	const tipoInicial = $derived(data.filtrosInicio.tipo);
+	const editorInicial = $derived(data.filtrosInicio.editor);
+	const estadoInicial = $derived(data.filtrosInicio.estado);
+	$effect(() => {
+		const filtros = { tipo: tipoInicial, editor: editorInicial, estado: estadoInicial };
+		untrack(() => {
+			tipo = tipos.some((item) => item.id === filtros.tipo) ? filtros.tipo : '';
+			editor = editorDropdownItems.some((item) => item.id === filtros.editor) ? filtros.editor : '';
+			estado = estadoDropdownItems.some((item) => item.id === filtros.estado) ? filtros.estado : '';
+		});
+	});
 
 	$effect(() => {
 		// Recargar los datos tras una operación por lotes no debe perder la selección.

@@ -160,6 +160,11 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 		puedeVerBasicas: capacidadImportador?.puede_importar ?? false,
 		profile,
 		scope,
+		filtrosInicio: {
+			tipo: isAdminOrIp ? url.searchParams.get('tipo') ?? '' : '',
+			editor: isAdminOrIp ? url.searchParams.get('editor') ?? '' : '',
+			estado: isAdminOrIp ? url.searchParams.get('estado') ?? '' : ''
+		},
 		estadoOptions: estadoOptions.map((option) => ({ id: option.termino_id, label: etiquetaEstado(option) })),
 		editorOptions: editoresOptionsResp.data ?? [],
 		obras: obraRows.map((obra) => {

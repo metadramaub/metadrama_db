@@ -448,10 +448,10 @@ export async function getNotifications(
 
 	let editAssignmentsQuery = locals.supabase
 		.from(relacionObras())
-		.select('obra_id,titulo,created_at')
+		.select('obra_id,titulo,fecha_asignacion')
 		.not('editor_asignado', 'is', null)
-		.gte('created_at', sinceIso)
-		.order('created_at', { ascending: false })
+		.gte('fecha_asignacion', sinceIso)
+		.order('fecha_asignacion', { ascending: false })
 		.limit(300);
 
 	let reviewAssignmentsQuery = locals.supabase
@@ -528,12 +528,12 @@ export async function getNotifications(
 
 	const feed: DashboardNotificationItem[] = [
 		...editAssignRows.map((row) => ({
-			id: `assign-editor-${row.obra_id}-${row.created_at ?? 'null'}`,
+			id: `assign-editor-${row.obra_id}-${row.fecha_asignacion ?? 'null'}`,
 			type: 'assigned_editor' as const,
 			obraId: row.obra_id,
 			obraTitulo: resolveObraTitle(titleMap, row.obra_id),
 			description: 'Nueva obra asignada para edición',
-			eventAt: normalizeEventAt(row.created_at),
+			eventAt: normalizeEventAt(row.fecha_asignacion),
 			tab: 'datos' as const
 		})),
 		...reviewAssignRows.map((row) => ({
@@ -653,7 +653,7 @@ export async function countUnreadNotifications(
 			.from(relacionObras())
 			.select('obra_id', { count: 'exact', head: true })
 			.not('editor_asignado', 'is', null),
-		'created_at',
+		'fecha_asignacion',
 		unreadWindow
 	);
 	let reviewAssignmentsQuery = applyUnreadWindow(

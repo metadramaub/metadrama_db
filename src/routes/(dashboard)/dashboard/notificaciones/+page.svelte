@@ -1,25 +1,30 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import ActivityList from '$lib/components/dashboard/ActivityList.svelte';
 	import Button from '$lib/components/ui/button.svelte';
+	import SegmentedChoice from '$lib/components/ui/segmented-choice.svelte';
 	import { pushToast } from '$lib/stores/toast';
-	import { formatRelative } from '$lib/utils/formatters';
 	import type { PageData } from './$types';
 
 	let { data } = $props<{ data: PageData }>();
-
 	let markingSeen = $state(false);
+	let filter = $state('all');
+	const options = [
+		{ id: 'all', label: 'Toda' },
+		{ id: 'assignments', label: 'Asignaciones' },
+		{ id: 'state_change', label: 'Cambios de estado' },
+		{ id: 'comment', label: 'Comentarios' }
+	];
 
-	function openNotification(item: PageData['notifications'][number]) {
-		void goto(item.targetUrl ?? `/dashboard/obras/${item.obraId}?tab=${item.tab}`);
-	}
+	const items = $derived(data.notifications.filter((item) =>
+		filter === 'all' || item.type === filter ||
+		(filter === 'assignments' && (item.type === 'assigned_editor' || item.type === 'assigned_review'))
+	));
 
 	async function markRecentAsSeen() {
 		if (markingSeen) return;
 		markingSeen = true;
 		try {
-			const response = await fetch('/api/dashboard/activity/mark-seen', {
-				method: 'POST'
-			});
+			const response = await fetch('/api/dashboard/activity/mark-seen', { method: 'POST' });
 			if (!response.ok) {
 				const body = await response.json().catch(() => ({}));
 				pushToast('error', body.message ?? 'No se pudo marcar la actividad como vista.');
@@ -27,108 +32,29 @@
 			}
 			pushToast('success', 'Actividad reciente marcada como vista.');
 			window.dispatchEvent(new CustomEvent('dashboard-activity-seen'));
+		} catch {
+			pushToast('error', 'No se pudo marcar la actividad como vista.');
 		} finally {
 			markingSeen = false;
 		}
 	}
 </script>
 
-<section>
-	<div class="mb-4 flex flex-wrap items-end justify-between gap-3">
+<section class="max-w-4xl space-y-4">
+	<header class="flex flex-wrap items-center justify-between gap-3">
 		<div>
-			<h1 class="font-display text-3xl">ACTIVIDAD RECIENTE</h1>
-			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-				Cambios de los últimos 7 días.
-			</p>
+			<h1 class="font-display text-3xl text-[color:var(--gray-900)]">Actividad reciente</h1>
+			<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">Últimos 7 días.</p>
 		</div>
-		<div class="flex flex-wrap gap-2">
-			<Button variant="ghost" onclick={markRecentAsSeen} disabled={markingSeen}>Marcar actividad como vista</Button>
-		</div>
-	</div>
-</section>
-
-<section class="space-y-4">
-	<article class="card p-4">
-		<h2 class="mb-3 text-lg font-semibold">Obras asignadas para edición</h2>
-		{#if data.groups.assignedEditor.length === 0}
-			<p class="text-sm text-[color:var(--muted-foreground)]">Sin novedades.</p>
-		{:else}
-			<ul class="space-y-2 text-sm">
-				{#each data.groups.assignedEditor as item}
-					<li class="flex items-start justify-between gap-2 border-b border-[color:var(--border)] pb-2 last:border-b-0 last:pb-0">
-						<div class="min-w-0">
-							<button class="group text-left" onclick={() => openNotification(item)}>
-								<span class="underline-offset-2 group-hover:underline">{item.obraTitulo}</span>
-							</button>
-							<p class="text-xs text-[color:var(--gray-500)]">{item.description}</p>
-						</div>
-						<span class="shrink-0 text-xs text-[color:var(--muted-foreground)]">{formatRelative(item.eventAt)}</span>
-					</li>
-				{/each}
-			</ul>
+		{#if data.notifications.length}
+			<Button variant="ghost" onclick={markRecentAsSeen} loading={markingSeen}>Marcar actividad como vista</Button>
 		{/if}
-	</article>
+	</header>
 
-	<article class="card p-4">
-		<h2 class="mb-3 text-lg font-semibold">Obras asignadas para revisión</h2>
-		{#if data.groups.assignedReview.length === 0}
-			<p class="text-sm text-[color:var(--muted-foreground)]">Sin novedades.</p>
-		{:else}
-			<ul class="space-y-2 text-sm">
-				{#each data.groups.assignedReview as item}
-					<li class="flex items-start justify-between gap-2 border-b border-[color:var(--border)] pb-2 last:border-b-0 last:pb-0">
-						<div class="min-w-0">
-							<button class="group text-left" onclick={() => openNotification(item)}>
-								<span class="underline-offset-2 group-hover:underline">{item.obraTitulo}</span>
-							</button>
-							<p class="text-xs text-[color:var(--gray-500)]">{item.description}</p>
-						</div>
-						<span class="shrink-0 text-xs text-[color:var(--muted-foreground)]">{formatRelative(item.eventAt)}</span>
-					</li>
-				{/each}
-			</ul>
-		{/if}
-	</article>
+	{#if data.notifications.length}
+		<SegmentedChoice items={options} value={filter} tone="neutral" ariaLabel="Tipo de actividad"
+			onChange={(id) => (filter = id ?? 'all')} />
+	{/if}
 
-	<article class="card p-4">
-		<h2 class="mb-3 text-lg font-semibold">Cambios de estado</h2>
-		{#if data.groups.stateChanges.length === 0}
-			<p class="text-sm text-[color:var(--muted-foreground)]">Sin novedades.</p>
-		{:else}
-			<ul class="space-y-2 text-sm">
-				{#each data.groups.stateChanges as item}
-					<li class="flex items-start justify-between gap-2 border-b border-[color:var(--border)] pb-2 last:border-b-0 last:pb-0">
-						<div class="min-w-0">
-							<button class="group text-left" onclick={() => openNotification(item)}>
-								<span class="underline-offset-2 group-hover:underline">{item.obraTitulo}</span>
-							</button>
-							<p class="text-xs text-[color:var(--gray-500)]">{item.description}</p>
-						</div>
-						<span class="shrink-0 text-xs text-[color:var(--muted-foreground)]">{formatRelative(item.eventAt)}</span>
-					</li>
-				{/each}
-			</ul>
-		{/if}
-	</article>
-
-	<article class="card p-4">
-		<h2 class="mb-3 text-lg font-semibold">Comentarios recientes</h2>
-		{#if data.groups.comments.length === 0}
-			<p class="text-sm text-[color:var(--muted-foreground)]">Sin novedades.</p>
-		{:else}
-			<ul class="space-y-2 text-sm">
-				{#each data.groups.comments as item}
-					<li class="flex items-start justify-between gap-2 border-b border-[color:var(--border)] pb-2 last:border-b-0 last:pb-0">
-						<div class="min-w-0">
-							<button class="group text-left" onclick={() => openNotification(item)}>
-								<span class="underline-offset-2 group-hover:underline">{item.obraTitulo}</span>
-							</button>
-							<p class="text-xs text-[color:var(--gray-500)]">{item.description}</p>
-						</div>
-						<span class="shrink-0 text-xs text-[color:var(--muted-foreground)]">{formatRelative(item.eventAt)}</span>
-					</li>
-				{/each}
-			</ul>
-		{/if}
-	</article>
+	<ActivityList {items} empty={filter === 'all' ? 'Sin actividad en los últimos 7 días.' : 'Sin actividad de este tipo.'} />
 </section>
