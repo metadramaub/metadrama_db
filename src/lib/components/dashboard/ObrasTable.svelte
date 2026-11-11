@@ -25,6 +25,7 @@
 		canPreviewPublicFicha?: boolean;
 		tipo_ficha?: string;
 		autores?: string[];
+		autoriaLabel?: string;
 		corpus?: string[];
 		dataciones?: unknown;
 		fecha_inicio_trad?: number|null;
@@ -263,8 +264,8 @@
 					{/if}
 					<th scope="row" class="px-3 py-2 font-medium">{obra.titulo}</th>
 					{#if columnasActivas.has('autor')}
-						<td class="px-3 py-2 text-[color:var(--muted-foreground)]" title={obra.autores?.length ? undefined : 'Sin autoría indicada'}>
-							{obra.autores?.join(' / ') || '—'}
+						<td class="px-3 py-2 text-[color:var(--muted-foreground)]" title={obra.autoriaLabel || obra.autores?.length ? undefined : 'Sin autoría indicada'}>
+							{obra.autoriaLabel || obra.autores?.join(', ') || '—'}
 						</td>
 					{/if}
 					{#if columnasActivas.has('datacion')}

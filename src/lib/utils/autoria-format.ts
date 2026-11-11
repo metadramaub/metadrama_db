@@ -11,6 +11,13 @@ function joinNames(names: string[]): string {
 	return `${names.slice(0, -1).join(', ')} y ${names[names.length - 1]}`;
 }
 
+export function formatObraAutoriaPropuestas(propuestas: string[][]): string {
+	return propuestas.map((autores) => {
+		const nombre = joinNames(autores) || 'Autoría desconocida';
+		return propuestas.length > 1 && autores.length > 1 ? `(${nombre})` : nombre;
+	}).join(' o ');
+}
+
 export function formatPublicAuthorList(authors: PublicFichaAutor[]): string {
 	return joinNames(authors.map((author) => author.nombre_completo));
 }

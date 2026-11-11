@@ -9,6 +9,7 @@ import { error } from '@sveltejs/kit';
 import type { ObraControlRow } from '$lib/types/control-obras.types';
 import { esFichaBasica, esObraSinFicha, requiereInicioCompleta } from '$lib/importador-metrico/tipo-ficha';
 import { displayTerm } from '$lib/utils/vocabulario';
+import { formatObraAutoriaPropuestas } from '$lib/utils/autoria-format';
 import { z } from 'zod';
 
 const SCOPE_COOKIE = 'dashboard_obras_scope';
@@ -85,6 +86,28 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 	}
 
 	const obraRows = (obras ?? []) as DashboardObraRow[];
+	const autoriaPorObra = new Map<string, string>();
+	const gruposPorLote = await Promise.all(
+		Array.from({ length: Math.ceil(obraRows.length / 100) }, (_, lote) =>
+			locals.supabase.from('grupos_atribucion')
+				.select('obra_id, atribuciones(atribucion_id, created_at, atribucion_autores(orden, autores(nombre_completo)))')
+				.in('obra_id', obraRows.slice(lote * 100, (lote + 1) * 100).map((obra) => obra.obra_id))
+				.order('created_at')
+				.order('grupo_atribucion_id')
+		)
+	);
+	for (const { data: grupos, error: errorAutoria } of gruposPorLote) {
+		if (errorAutoria) throw error(500, 'No se pudieron cargar las propuestas de autoría.');
+		for (const grupo of grupos ?? []) {
+			if (!grupo.obra_id || !grupo.atribuciones.length || autoriaPorObra.has(grupo.obra_id)) continue;
+			const propuestas = [...grupo.atribuciones]
+				.sort((a, b) => a.created_at.localeCompare(b.created_at) || a.atribucion_id.localeCompare(b.atribucion_id))
+				.map((propuesta) => [...propuesta.atribucion_autores]
+					.sort((a, b) => (a.orden ?? Infinity) - (b.orden ?? Infinity))
+					.flatMap((vinculo) => vinculo.autores ? [vinculo.autores.nombre_completo] : []));
+			autoriaPorObra.set(grupo.obra_id, formatObraAutoriaPropuestas(propuestas));
+		}
+	}
 	const editorIds = [
 		...new Set(obraRows.map((obra) => obra.editor_asignado).filter(Boolean) as string[])
 	];
@@ -154,6 +177,7 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 			);
 			return {
 				...obra,
+				autoriaLabel: autoriaPorObra.get(obra.obra_id),
 				canStartComplete: modeloEditorialActivo() && canStartComplete(profile, obra),
 				reviewer_ids:
 					allAssignmentWorks?.find((work) => work.obra_id === obra.obra_id)?.reviewer_ids ?? [],
