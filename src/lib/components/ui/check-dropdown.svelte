@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onDestroy, onMount, tick } from 'svelte';
+	import { ChevronDown } from 'lucide-svelte';
 	import {
 		buildHierarchyRows,
 		collectAncestorIds,
@@ -24,7 +25,10 @@
 		autoExpandOnSearch?: boolean;
 		disableParentsWithChildren?: boolean;
 		placeholder?: string;
+		triggerLabel?: string;
 		search?: boolean;
+		compact?: boolean;
+		label?: string;
 		disabled?: boolean;
 		class?: string;
 		hierarchical?: boolean;
@@ -39,6 +43,7 @@
 
 	let rootEl = $state<HTMLDivElement | null>(null);
 	let triggerEl = $state<HTMLButtonElement | null>(null);
+	let searchEl = $state<HTMLInputElement | null>(null);
 	let panelEl = $state<HTMLDivElement | null>(null);
 	let listEl = $state<HTMLDivElement | null>(null);
 	let open = $state(false);
@@ -65,6 +70,11 @@
 	const disabledSet = $derived(new Set(props.disabledIds ?? []));
 	const hideCheckboxSet = $derived(new Set(props.hideCheckboxIds ?? []));
 	const normalizedQuery = $derived(query.trim().toLowerCase());
+	const flatQuery = $derived(normalizeSearch(query));
+
+	function normalizeSearch(value: string) {
+		return value.normalize('NFD').replace(/\p{M}/gu, '').trim().toLowerCase();
+	}
 
 	const itemById = $derived(
 		new Map<string, DropdownItem>(props.items.map((item: DropdownItem) => [item.id, item]))
@@ -104,8 +114,8 @@
 
 	const filteredFlatItems = $derived.by(() => {
 		if (hierarchical) return [];
-		if (!normalizedQuery) return props.items;
-		return props.items.filter((item: DropdownItem) => item.label.toLowerCase().includes(normalizedQuery));
+		if (!flatQuery) return props.items;
+		return props.items.filter((item: DropdownItem) => normalizeSearch(item.label).includes(flatQuery));
 	});
 
 	const selectedFlatItems = $derived(
@@ -131,6 +141,7 @@
 	});
 
 	const triggerLabel = $derived.by(() => {
+		if (props.triggerLabel) return props.triggerLabel;
 		if (selectedLabel.length === 0) return props.placeholder ?? 'Seleccionar';
 		if (!isMultiple) return selectedLabel[0];
 		if (selectedLabel.length === 1) return selectedLabel[0];
@@ -141,11 +152,15 @@
 		props.onChange?.(nextIds);
 	}
 
-	function toggleOpen() {
+	async function toggleOpen() {
 		if (props.disabled) return;
 		open = !open;
 		if (open) {
-			void refreshPortalPosition();
+			await refreshPortalPosition();
+			if (props.compact && props.search) {
+				await tick();
+				searchEl?.focus();
+			}
 		}
 		if (!open) {
 			query = '';
@@ -153,6 +168,7 @@
 	}
 
 	function closeDropdown() {
+		if (props.compact && panelEl?.contains(document.activeElement)) triggerEl?.focus();
 		open = false;
 		query = '';
 	}
@@ -217,6 +233,7 @@
 	function handleEscape(event: KeyboardEvent) {
 		if (event.key !== 'Escape') return;
 		if (!open) return;
+		if (props.compact && rootEl?.contains(event.target as Node)) event.preventDefault();
 		closeDropdown();
 	}
 
@@ -322,7 +339,10 @@
 	<button
 		bind:this={triggerEl}
 		type="button"
-		class="flex w-full items-center justify-between gap-2 rounded-md border border-[color:var(--border)] bg-white px-3 py-2 text-left text-sm disabled:cursor-not-allowed disabled:bg-[color:var(--muted)]"
+		class={`flex w-full items-center justify-between gap-2 border border-[color:var(--border)] bg-white text-left text-sm disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] ${props.compact ? 'h-9 px-2.5 hover:bg-[color:var(--muted)]' : 'rounded-md px-3 py-2'}`}
+		aria-label={props.label ? `${props.label}: ${triggerLabel}` : undefined}
+		aria-expanded={open}
+		title={props.compact ? triggerLabel : undefined}
 		disabled={props.disabled}
 		onclick={toggleOpen}
 	>
@@ -333,7 +353,11 @@
 					{selectedCount}
 				</span>
 			{/if}
-			<span class="text-xs text-[color:var(--muted-foreground)]">{open ? 'Cerrar' : 'Abrir'}</span>
+			{#if props.compact}
+				<ChevronDown size={14} aria-hidden="true" class={open ? 'rotate-180' : ''} />
+			{:else}
+				<span class="text-xs text-[color:var(--muted-foreground)]">{open ? 'Cerrar' : 'Abrir'}</span>
+			{/if}
 		</div>
 	</button>
 
@@ -345,9 +369,11 @@
 		>
 			{#if props.search}
 				<input
+					bind:this={searchEl}
 					type="text"
 					class="mb-2 w-full rounded-md border border-[color:var(--border)] px-2 py-1 text-sm"
 					placeholder="Buscar"
+					aria-label={props.label ? `Buscar en ${props.label.toLowerCase()}` : 'Buscar opciones'}
 					bind:value={query}
 				/>
 			{/if}
@@ -439,7 +465,7 @@
 								>
 									<input type="checkbox" checked={true} disabled={true} class="pointer-events-none mt-0.5" />
 									<div class="min-w-0">
-										<div class="truncate">{item.label}</div>
+										<div class={props.compact ? 'break-words' : 'truncate'}>{item.label}</div>
 										{#if item.description}
 											<div class="text-xs text-[color:var(--muted-foreground)]">{item.description}</div>
 										{/if}
@@ -461,7 +487,7 @@
 							>
 								<input type="checkbox" checked={false} disabled={true} class="pointer-events-none mt-0.5" />
 								<div class="min-w-0">
-									<div class="truncate">{item.label}</div>
+									<div class={props.compact ? 'break-words' : 'truncate'}>{item.label}</div>
 									{#if item.description}
 										<div class="text-xs text-[color:var(--muted-foreground)]">{item.description}</div>
 									{/if}
