@@ -7,7 +7,7 @@ const texto = (body: string) => body.replace(/<!--[\s\S]*?-->/g,'').replace(/<[^
 describe('tabla de fichas básicas', () => {
 	it('agrupa las formas pendientes y no inventa fecha ni ausencia de avisos antiguos', () => {
 		const { body } = render(ListaFichasBasicas,{props:{filas:[fila()]}});
-		expect(texto(body)).toContain('tercetos · 1–127, 1523–1667');
+		expect(texto(body)).toContain('tercetos — 1–127, 1523–1667');
 		expect(texto(body.slice(body.indexOf('<tbody')))).toContain('No consta');
 		expect(texto(body)).toContain('Longitud: sin registro al importar.');
 		expect(texto(body)).not.toContain('Sin pendientes registrados');

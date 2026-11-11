@@ -385,14 +385,14 @@
 										{#if arquitectura.metros.length > 0}
 											<p class="text-xs text-[color:var(--muted-foreground)]">
 												<span class="font-semibold uppercase tracking-[0.06em]">Metros:</span>
-												{arquitectura.metros.map((metro) => `${metro.label} (${metroLabel(metro, arquitectura)})`).join(' · ')}
+												{arquitectura.metros.map((metro) => `${metro.label} (${metroLabel(metro, arquitectura)})`).join(' — ')}
 											</p>
 										{/if}
 
 										{#if arquitectura.variedades.length > 0}
 											<p class="text-xs text-[color:var(--muted-foreground)]">
 												<span class="font-semibold uppercase tracking-[0.06em]">Variedades:</span>
-												{arquitectura.variedades.map((variedad) => `${variedad.label} (${formatMetricCount(variedad)})`).join(' · ')}
+												{arquitectura.variedades.map((variedad) => `${variedad.label} (${formatMetricCount(variedad)})`).join(' — ')}
 											</p>
 										{/if}
 									</section>

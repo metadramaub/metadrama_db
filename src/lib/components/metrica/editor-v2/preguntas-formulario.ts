@@ -169,7 +169,7 @@ export function preguntasDelFormulario(context: GridRowContext): PreguntaFormula
 		const seccionId =
 			row.kind !== 'acciones' && row.section ? String(row.section.seccion_id) : null;
 		for (const pregunta of preguntas) {
-			const rotulo = prefijo ? `${prefijo} · ${pregunta.label}` : pregunta.label;
+			const rotulo = prefijo ? `${prefijo} — ${pregunta.label}` : pregunta.label;
 			const groupId = String(pregunta.group.grupo_eleccion_id);
 			// Una misma respuesta puede aparecer en dos filas —la pregunta de la sección y la
 			// realización que la materializa—: se escribe una vez, así que se cuenta una vez.

@@ -16,12 +16,12 @@
 	]);
 
 	const rango = (s: MetricSummarySequence) =>
-		`${s.v_ini === s.v_fin ? `v. ${s.v_ini}` : `vv. ${s.v_ini}–${s.v_fin}`} · ${s.n_versos} ${s.n_versos === 1 ? 'v.' : 'vv.'}`;
+		`${s.v_ini === s.v_fin ? `v. ${s.v_ini}` : `vv. ${s.v_ini}–${s.v_fin}`} — ${s.n_versos} ${s.n_versos === 1 ? 'v.' : 'vv.'}`;
 </script>
 
 <section
 	class="border border-[color:var(--border)] bg-white px-4 py-3 sm:px-5"
-	aria-label={props.title ? `Resumen métrico · ${props.title}` : 'Resumen métrico'}
+	aria-label={props.title ? `Resumen métrico — ${props.title}` : 'Resumen métrico'}
 >
 	{#if props.title}
 		<h3 class="mb-3 text-sm font-semibold">{props.title}</h3>

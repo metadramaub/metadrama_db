@@ -214,7 +214,7 @@ describe('resumen de la norma', () => {
 		expect(facts).toEqual([
 			{ label: 'Extensión', value: 'unidades completas de 4 versos' },
 			{ label: 'Partes fijas', value: 'Miembros: 2 × 2 versos' },
-			{ label: 'Medida fija', value: '8·8·8·8' },
+			{ label: 'Medida fija', value: '8/8/8/8' },
 			{ label: 'Rima fija', value: 'abba' }
 		]);
 	});
@@ -366,7 +366,7 @@ describe('resumen de la norma', () => {
 			{ label: 'Extensión', value: '10 versos por unidad' },
 			{
 				label: 'Partes fijas',
-				value: 'Primera quintilla: 5 versos · Segunda quintilla: 5 versos'
+				value: 'Primera quintilla: 5 versos — Segunda quintilla: 5 versos'
 			},
 			{
 				label: 'Medida',
@@ -628,8 +628,8 @@ describe('resumen de la norma', () => {
 				// En orden de árbol, y el eslabón dice que puede no estar.
 				label: 'Partes',
 				value:
-					'Fronte: 4–18 versos · Primer pie: 2–9 versos · Segundo pie: 2–9 versos · ' +
-					'Eslabón: 1 verso (opcional) · Sirima: 1–16 versos'
+					'Fronte: 4–18 versos — Primer pie: 2–9 versos — Segundo pie: 2–9 versos — ' +
+					'Eslabón: 1 verso (opcional) — Sirima: 1–16 versos'
 			},
 			{
 				label: 'Estructura',

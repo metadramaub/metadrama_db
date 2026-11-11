@@ -222,7 +222,7 @@ export function notaDelMetroObservado(
 	const silabas = Number(metre.silabas);
 	if (!norma) return `${silabas} sílabas`;
 	const diferencia = silabas - norma.silabas;
-	if (diferencia === 0) return `${silabas} sílabas · coincide con la norma (${norma.nombre})`;
+	if (diferencia === 0) return `${silabas} sílabas — coincide con la norma (${norma.nombre})`;
 	const cuantas = Math.abs(diferencia);
 	return `${cuantas} ${cuantas === 1 ? 'sílaba' : 'sílabas'} ${
 		diferencia < 0 ? 'menos' : 'más'

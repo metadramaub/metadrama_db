@@ -123,7 +123,7 @@
 	}
 </script>
 
-<svelte:head><title>Importador métrico · Versología</title></svelte:head>
+<svelte:head><title>Importador métrico — Versología</title></svelte:head>
 
 <section class="mx-auto max-w-7xl space-y-6">
 	<header class="flex flex-wrap items-baseline justify-between gap-3">
@@ -223,7 +223,7 @@
 	{#if coincidencias.length && !entradaCambiada}
 		<aside class="border-l-2 border-amber-400 bg-amber-50 p-3 text-sm">
 			<h2 class="font-semibold">Posibles coincidencias</h2>
-			<ul class="mt-1 list-disc pl-5">{#each coincidencias as c}<li>{c.titulo} · {c.autores.join(', ') || 'Autoría no indicada'} · {['minima','basica'].includes(c.tipo_ficha)?'Básica':c.tipo_ficha==='sin_ficha'?'Sin ficha':'Completa'}</li>{/each}</ul>
+			<ul class="mt-1 list-disc pl-5">{#each coincidencias as c}<li>{c.titulo} — {c.autores.join(', ') || 'Autoría no indicada'} — {['minima','basica'].includes(c.tipo_ficha)?'Básica':c.tipo_ficha==='sin_ficha'?'Sin ficha':'Completa'}</li>{/each}</ul>
 		</aside>
 	{/if}
 	{#if vista}<VistaPrevia {vista} {desactualizada} formas={data.referencia.formas} ocupado={pendiente} editable={!entradaCambiada} oneditar={editarSecuencias} oncancelar={cancelarEdicion} />{/if}

@@ -31,10 +31,10 @@
 		const p = props.propuesta;
 		if (!p) return '';
 		if (!p.forma_propuesta) return 'sin correspondencia en el catálogo nuevo';
-		const nombre = [p.forma_propuesta, p.arquitectura_propuesta].filter(Boolean).join(' · ');
+		const nombre = [p.forma_propuesta, p.arquitectura_propuesta].filter(Boolean).join(' — ');
 		const respuestas = p.respuestas
 			.map((r: { pregunta: string; respuesta: string }) => `${r.pregunta}: ${r.respuesta}`)
-			.join(' · ');
+			.join(' — ');
 		return respuestas ? `${nombre} — ${respuestas}` : nombre;
 	});
 

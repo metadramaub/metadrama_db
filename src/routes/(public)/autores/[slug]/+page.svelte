@@ -25,7 +25,7 @@
 	const formaLabels = $derived<Record<string, string>>(data.formaLabels ?? {});
 	const arquitecturaLabels = $derived<Record<string, string>>(data.arquitecturaLabels ?? {});
 
-	const variantesLabel = $derived((autor.variantes_nombre ?? []).join(' · '));
+	const variantesLabel = $derived((autor.variantes_nombre ?? []).join(' — '));
 
 	type AuthorityLink = { label: string; href: string };
 	const authorityLinks = $derived.by<AuthorityLink[]>(() => {
@@ -247,7 +247,7 @@
 						{resumen.n_obras_completas}
 						{resumen.n_obras_completas === 1 ? 'obra' : 'obras'}
 						{#if resumen.n_jornadas_sueltas > 0}
-							· {resumen.n_jornadas_sueltas}
+							— {resumen.n_jornadas_sueltas}
 							{resumen.n_jornadas_sueltas === 1 ? 'jornada' : 'jornadas'}
 						{/if}
 					</dd>
@@ -361,9 +361,9 @@
 							{#each obra.vinculos as vinculo, i (i)}
 								<span class="inline-flex items-center gap-1 border border-[color:var(--border)] bg-[color:var(--gray-50)] px-2 py-0.5 text-[11px]">
 									<span class="font-semibold">{ambitoLabel(vinculo)}</span>
-									<span class="text-[color:var(--muted-foreground)]">· {composicionLabel(vinculo)}</span>
+									<span class="text-[color:var(--muted-foreground)]">— {composicionLabel(vinculo)}</span>
 									{#if !vinculo.unica_propuesta}
-										<span class="text-amber-700">· una de varias propuestas</span>
+										<span class="text-amber-700">— una de varias propuestas</span>
 									{/if}
 								</span>
 							{/each}

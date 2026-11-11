@@ -741,10 +741,10 @@
 		} else if (materializedUnitCount > 1) {
 			parts.push(`${materializedUnitCount} unidades`);
 		}
-		return parts.join(' · ');
+		return parts.join(' — ');
 	});
 	const identificationSummary = $derived(
-		[identificationForm, identificationDetails].filter(Boolean).join(' · ')
+		[identificationForm, identificationDetails].filter(Boolean).join(' — ')
 	);
 
 	const summary = $derived.by(() => {
@@ -757,7 +757,7 @@
 		parts.push(`vv. ${draft.v_ini}–${draft.v_fin}`);
 		parts.push(`${verses} ${verses === 1 ? 'verso' : 'versos'}`);
 		if (materializedUnitCount > 1) parts.push(`${materializedUnitCount} unidades`);
-		return parts.join(' · ');
+		return parts.join(' — ');
 	});
 
 	function formLabel(id: string): string {
@@ -1680,7 +1680,7 @@
 								<span class="form-label">Arquitectura</span>
 								<p class="text-sm leading-10">
 									{selectedConfiguration.nombre}
-									<span class="text-[color:var(--muted-foreground)]">· única de esta forma</span>
+									<span class="text-[color:var(--muted-foreground)]">— única de esta forma</span>
 								</p>
 							</div>
 						{:else if draft.forma_id}
@@ -1810,8 +1810,8 @@
 							{reparticionDelPasaje.modulo === 1 ? 'verso' : 'versos'}{reparticionDelPasaje.sobrantes >
 							0
 								? nombreDeLosSobrantes
-									? ` · y el ${nombreDeLosSobrantes.toLocaleLowerCase('es')}`
-									: ` · y ${reparticionDelPasaje.sobrantes} ${reparticionDelPasaje.sobrantes === 1 ? 'verso más' : 'versos más'}`
+									? ` — y el ${nombreDeLosSobrantes.toLocaleLowerCase('es')}`
+									: ` — y ${reparticionDelPasaje.sobrantes} ${reparticionDelPasaje.sobrantes === 1 ? 'verso más' : 'versos más'}`
 								: ''}
 						</p>
 					</div>
@@ -2062,7 +2062,7 @@
 											>
 												{observedMetreNote(deviation)}
 												{#if observedContradiction(deviation)}
-													· no concuerda con la relación elegida
+													— no concuerda con la relación elegida
 												{/if}
 											</span>
 										{/if}

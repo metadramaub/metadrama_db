@@ -27,7 +27,7 @@
 			<g
 				role={figure ? undefined : 'button'}
 				tabindex={figure ? undefined : 0}
-				aria-label={`Cantado · ${item.label}. Abrir secuencia`}
+				aria-label={`Cantado — ${item.label}. Abrir secuencia`}
 				onclick={figure ? undefined : () => onOpen?.(item.secuencia_id)}
 				onkeydown={figure ? undefined : (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onOpen?.(item.secuencia_id); } }}
 				onpointerenter={figure ? undefined : () => (activeId = item.id)}
@@ -36,7 +36,7 @@
 				onblur={figure ? undefined : () => (activeId = null)}
 				style={figure ? undefined : 'cursor:pointer'}
 			>
-				<title>Cantado · {item.label}</title>
+				<title>Cantado — {item.label}</title>
 				<rect x={item.hitLeft} y={centerY - 7} width={Math.max(0, item.hitRight - item.hitLeft)} height="14" fill="transparent" />
 			</g>
 		{/each}
@@ -45,6 +45,6 @@
 
 {#if !figure && active}
 	<div class="pointer-events-none absolute z-50 w-max max-w-full border border-[color:var(--border)] bg-white px-2 py-1 text-xs shadow-sm" style={`left:${Math.max(0, Math.min(width - 180, active.targetX))}px;top:-18px;`}>
-		Cantado · {active.label}
+		Cantado — {active.label}
 	</div>
 {/if}

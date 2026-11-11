@@ -24,49 +24,49 @@ export const DASHBOARD_GUIDE_CHAPTERS = [
 	},
 	{
 		slug: 'paso-datos',
-		title: 'Paso 1 · Datos de la obra',
+		title: 'Paso 1 — Datos de la obra',
 		summary: 'Identidad y contexto: título, género, datación y edición base.',
 		file: '03-paso-datos.md',
 		group: 'edicion'
 	},
 	{
 		slug: 'paso-estructura',
-		title: 'Paso 2 · Estructura',
+		title: 'Paso 2 — Estructura',
 		summary: 'Jornadas y cuadros, con sus rangos y reglas de delimitación.',
 		file: '04-paso-estructura.md',
 		group: 'edicion'
 	},
 	{
 		slug: 'paso-secuencias-metrica',
-		title: 'Paso 3 · Secuencias (forma y métrica)',
+		title: 'Paso 3 — Secuencias (forma y métrica)',
 		summary: 'Análisis métrico: forma, respuestas, desviaciones y caracterizaciones por rango.',
 		file: '05-paso-secuencias.md',
 		group: 'edicion'
 	},
 	{
 		slug: 'paso-secuencias-caracterizacion',
-		title: 'Paso 3 · Secuencias (caracterización y sinopsis)',
+		title: 'Paso 3 — Secuencias (caracterización y sinopsis)',
 		summary: 'Personajes, otras marcas sobre la secuencia y sinopsis argumental.',
 		file: '06-paso-secuencias-caracterizacion.md',
 		group: 'edicion'
 	},
 	{
 		slug: 'paso-autoria',
-		title: 'Paso 4 · Autoría',
+		title: 'Paso 4 — Autoría',
 		summary: 'Reglas de atribución y creación de autores nuevos.',
 		file: '07-paso-autoria.md',
 		group: 'edicion'
 	},
 	{
 		slug: 'paso-observaciones',
-		title: 'Paso 5 · Observaciones y bibliografía',
+		title: 'Paso 5 — Observaciones y bibliografía',
 		summary: 'Observaciones públicas y bibliografía específica de métrica.',
 		file: '08-paso-observaciones.md',
 		group: 'edicion'
 	},
 	{
 		slug: 'paso-revision',
-		title: 'Paso 6 · Revisión y estados',
+		title: 'Paso 6 — Revisión y estados',
 		summary: 'Checklist final, comentarios internos y transiciones de estado.',
 		file: '09-paso-revision.md',
 		group: 'edicion'

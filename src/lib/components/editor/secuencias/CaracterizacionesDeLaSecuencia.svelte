@@ -132,7 +132,7 @@
 			<label class="form-field">
 				<span class="form-label">
 					{campo.etiqueta}{#if negadoEnLaObra(campo.declaracion)}<span
-							class="text-[color:var(--muted-foreground)] font-normal"> · {NOTA_NEGADO}</span
+							class="text-[color:var(--muted-foreground)] font-normal"> — {NOTA_NEGADO}</span
 						>{/if}
 				</span>
 				<CheckDropdown
@@ -198,7 +198,7 @@
 			<span class="form-label">
 				<span class="form-label-with-help">
 					Evento sobrenatural{#if negadoEnLaObra('eventosSobrenaturales')}<span
-							class="text-[color:var(--muted-foreground)] font-normal"> · {NOTA_NEGADO}</span
+							class="text-[color:var(--muted-foreground)] font-normal"> — {NOTA_NEGADO}</span
 						>{/if}
 					<FieldHelpTooltip
 						text="Selecciona 'Sí' si en esta secuencia ocurre un milagro, una aparición, una transformación o un sueño premonitorio. Ocurre aunque no hable ningún personaje sobrenatural. Cuando la obra declara que no los hay, la respuesta viene dada y se cambia en «Datos de la obra»."

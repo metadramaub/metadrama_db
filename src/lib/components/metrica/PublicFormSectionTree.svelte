@@ -9,7 +9,7 @@
 		if (min == null && max == null) return null;
 		if (min === 1 && max === 1) return null;
 		if (min === 0 && max === 1) return 'opcional';
-		if (min === 0 && max == null) return 'opcional · repetible';
+		if (min === 0 && max == null) return 'opcional — repetible';
 		if (max == null) return `× ${min ?? 0} o más`;
 		if (min === max) return `× ${min}`;
 		return `× ${min ?? 0}–${max}`;
@@ -35,16 +35,16 @@
 				<span class={depth === 0 ? 'font-semibold' : 'font-medium'}>{section.nombre}</span>
 				{#if versos(section) || repeticiones(section)}
 					<span class="text-[color:var(--muted-foreground)]">
-						· {[versos(section), repeticiones(section)]
+						— {[versos(section), repeticiones(section)]
 							.filter(Boolean)
-							.join(' · ')}
+							.join(' — ')}
 					</span>
 				{/if}
 				<!-- Una parte con nombre propio puede llevar el suyo: el eslabón de la estancia es
 				     también la «chiave». Se lee igual que el «También» de una forma. -->
 				{#if section.denominaciones.length > 0}
 					<span class="text-[color:var(--muted-foreground)]">
-						· también {section.denominaciones.join(' · ')}
+						— también {section.denominaciones.join(' — ')}
 					</span>
 				{/if}
 				{#if section.nota}

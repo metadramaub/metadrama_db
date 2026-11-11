@@ -226,7 +226,7 @@
 	}
 
 	.metric-scheme__detalle span + span::before {
-		content: ' · ';
+		content: ' — ';
 	}
 
 	.metric-scheme__observado {

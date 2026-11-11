@@ -204,7 +204,7 @@ export function metricStructuralLevelLabel(level: MetricStructuralLevel): string
 export function metricFormLabel(
 	form: Pick<MetricCatalogForm, 'nombre' | 'nivel_estructural'>
 ): string {
-	return `${form.nombre} · ${metricStructuralLevelLabel(form.nivel_estructural)}`;
+	return `${form.nombre} — ${metricStructuralLevelLabel(form.nivel_estructural)}`;
 }
 
 /**

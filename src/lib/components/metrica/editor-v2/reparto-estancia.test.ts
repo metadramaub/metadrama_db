@@ -93,8 +93,8 @@ describe('qué unidades se reparten verso a verso', () => {
 	it('las partes asignables son todas las del árbol, en el orden del catálogo y con su camino', () => {
 		expect(partesAsignables(sections, estancia).map((parte) => [parte.id, parte.label, parte.contenedora])).toEqual([
 			['fronte', 'Fronte', true],
-			['primer_pie', 'Fronte · Primer pie', false],
-			['segundo_pie', 'Fronte · Segundo pie', false],
+			['primer_pie', 'Fronte — Primer pie', false],
+			['segundo_pie', 'Fronte — Segundo pie', false],
 			['eslabon', 'Eslabon', false],
 			['sirima', 'Sirima', false]
 		]);
@@ -218,13 +218,13 @@ describe('lo que avisa el reparto', () => {
 	it('una parte partida en dos, y una fuera de orden', () => {
 		const reparto: (string | null)[] = ['sirima', 'primer_pie', 'primer_pie', 'segundo_pie', 'segundo_pie', 'sirima', 'sirima', 'sirima', 'sirima'];
 		expect(avisosDelReparto(sections, partes, reparto)).toContain('«Sirima» aparece en dos tramos separados.');
-		expect(avisosDelReparto(sections, partes, reparto)).toContain('«Fronte · Primer pie» va antes de lo que el catálogo ordena.');
+		expect(avisosDelReparto(sections, partes, reparto)).toContain('«Fronte — Primer pie» va antes de lo que el catálogo ordena.');
 	});
 
 	it('un pie de un verso, y un hueco', () => {
 		const reparto: (string | null)[] = ['primer_pie', 'segundo_pie', 'segundo_pie', null, 'sirima', 'sirima', 'sirima', 'sirima', 'sirima'];
 		const avisos = avisosDelReparto(sections, partes, reparto);
-		expect(avisos).toContain('«Fronte · Primer pie» tiene 1 verso y admite de 2 a 9.');
+		expect(avisos).toContain('«Fronte — Primer pie» tiene 1 verso y admite de 2 a 9.');
 		expect(avisos).toContain('Hay versos sin parte entre dos partes.');
 	});
 });

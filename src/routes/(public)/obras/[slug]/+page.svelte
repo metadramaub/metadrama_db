@@ -849,7 +849,7 @@
 							onclick={() => (estructuraAbierta = true)}
 						>
 							{#each estructuraItems as item, indice (item.label)}
-								{#if indice > 0}<span class="text-[color:var(--muted-foreground)]">·</span>{/if}
+								{#if indice > 0}<span class="text-[color:var(--muted-foreground)]">—</span>{/if}
 								<span>
 									<span class="font-semibold">{item.value}</span>
 									<span class="text-xs text-[color:var(--muted-foreground)]">{item.label}</span>
@@ -863,7 +863,7 @@
 					{:else}
 						<span class="inline-flex items-center gap-1.5 border-l-2 border-[color:var(--border)] bg-[color:var(--gray-50)] px-2 py-1">
 							{#each estructuraItems as item, indice (item.label)}
-								{#if indice > 0}<span class="text-[color:var(--muted-foreground)]">·</span>{/if}
+								{#if indice > 0}<span class="text-[color:var(--muted-foreground)]">—</span>{/if}
 								<span>
 									<span class="font-semibold">{item.value}</span>
 									<span class="text-xs text-[color:var(--muted-foreground)]">{item.label}</span>
@@ -1081,7 +1081,7 @@
 						<div class="space-y-5">
 							{#each metricProfilesByJornada as profile (profile.jornada.jornada_id)}
 								<MetricDistributionPie
-									title={`Perfil métrico · Jornada ${profile.jornada.jornada_num}`}
+									title={`Perfil métrico — Jornada ${profile.jornada.jornada_num}`}
 									items={profile.distribution}
 									canto={profile.canto}
 									sequences={profile.sequences}
@@ -1389,7 +1389,7 @@
 					<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
 						{sinopsisMetricaSequences.length} secuencias
 						{#if sinopsisMetricaMissingCount > 0}
-							· {sinopsisMetricaMissingCount} sin sinopsis
+							— {sinopsisMetricaMissingCount} sin sinopsis
 						{/if}
 					</p>
 				</div>

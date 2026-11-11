@@ -169,7 +169,7 @@
 			.map((work) => ({
 				id: work.obra_id,
 				label: work.titulo,
-				description: `${work.autores.join(', ') || 'Autoría sin identificar'} · ${dateLabel(work)}`
+				description: `${work.autores.join(', ') || 'Autoría sin identificar'} — ${dateLabel(work)}`
 			}))
 	);
 	const situatedReading = $derived(
@@ -221,7 +221,7 @@
 			x: row.diffusion * 100,
 			y: row.medianShare * 100,
 			color: colorByForma[row.id],
-			detail: `${row.works} de ${sampleWorks.length} obras · mediana ${formatPercent(row.medianShare)} donde aparece`
+			detail: `${row.works} de ${sampleWorks.length} obras — mediana ${formatPercent(row.medianShare)} donde aparece`
 		}))
 	);
 
@@ -232,7 +232,7 @@
 			label: `${humanize(row.from)} → ${humanize(row.to)}`,
 			x: row.diffusion * 100,
 			y: row.meanWhenPresent,
-			detail: `${row.works} de ${sampleWorks.length} obras · ${row.occurrences} apariciones en total`
+			detail: `${row.works} de ${sampleWorks.length} obras — ${row.occurrences} apariciones en total`
 		}))
 	);
 

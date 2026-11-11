@@ -37,7 +37,7 @@
 			Todas
 		</button>
 		{#each props.options as option (option.value)}
-			<span class="text-[color:var(--gray-300)]" aria-hidden="true">·</span>
+			<span class="text-[color:var(--gray-300)]" aria-hidden="true">—</span>
 			<button
 				type="button"
 				class={optionClass(props.selected === option.value)}

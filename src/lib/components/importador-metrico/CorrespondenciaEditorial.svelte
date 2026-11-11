@@ -58,7 +58,7 @@
 		<span class="rounded border border-[color:var(--border)] bg-white px-2 py-1 italic">«{literal}»</span>
 		<span aria-hidden="true" class="text-[color:var(--muted-foreground)]">→</span>
 		<span class="rounded border border-[color:var(--border)] bg-white px-2 py-1 font-medium">
-			{formaNombre}{#if arquitecturaNombre}<span class="font-normal text-[color:var(--muted-foreground)]"> · {arquitecturaNombre}</span>{/if}
+			{formaNombre}{#if arquitecturaNombre}<span class="font-normal text-[color:var(--muted-foreground)]"> — {arquitecturaNombre}</span>{/if}
 		</span>
 	</p>
 

@@ -10,7 +10,7 @@
 
 {#if props.idea === 'N1'}
 	<!--
-		**N1 · Una línea por dimensión, diciendo solo en qué estado está.**
+		**N1 — Una línea por dimensión, diciendo solo en qué estado está.**
 
 		Lo más cercano al recuadro de hoy, pero sin enumerar lo que el desplegable ya ofrece: si la
 		rima se elige, lo que hace falta saber es **que se elige** y con qué criterio, no cuáles son
@@ -29,7 +29,7 @@
 						la norma la fija
 					{/if}
 					{#if fila.texto}
-						<span class="text-[color:var(--muted-foreground)]"> · {fila.texto}</span>
+						<span class="text-[color:var(--muted-foreground)]"> — {fila.texto}</span>
 					{/if}
 				</span>
 			</div>
@@ -37,7 +37,7 @@
 	</div>
 {:else if props.idea === 'N2'}
 	<!--
-		**N2 · Lo que la norma fija, lo que dice el pasaje, y lo que no cabe en ninguna de las dos.**
+		**N2 — Lo que la norma fija, lo que dice el pasaje, y lo que no cabe en ninguna de las dos.**
 
 		Separa por lo único que le importa al editor mientras anota: de qué no tiene que ocuparse y de
 		qué sí. Lo fijo se resume en una frase corrida, porque no se consulta renglón a renglón.
@@ -55,7 +55,7 @@
 				Ya está fijado
 			</span><br />
 			<span class="text-[color:var(--muted-foreground)]">
-				{fijas.map((fila) => `${fila.dimension.toLowerCase()}: ${fila.texto}`).join(' · ')}
+				{fijas.map((fila) => `${fila.dimension.toLowerCase()}: ${fila.texto}`).join(' — ')}
 			</span>
 		</p>
 		{#if eleccion.length > 0}
@@ -66,7 +66,7 @@
 				{#each eleccion as fila (fila.dimension)}
 					<span class="block">
 						<strong>{fila.dimension}</strong>
-						{#if fila.texto}<span class="text-[color:var(--muted-foreground)]"> · {fila.texto}</span
+						{#if fila.texto}<span class="text-[color:var(--muted-foreground)]"> — {fila.texto}</span
 							>{/if}
 					</span>
 				{/each}
@@ -87,7 +87,7 @@
 	</div>
 {:else}
 	<!--
-		**N3 · Arriba una frase; el criterio, pegado a su pregunta.**
+		**N3 — Arriba una frase; el criterio, pegado a su pregunta.**
 
 		Si la norma solo sirve para saber si eliges bien, su sitio es la pregunta, no un recuadro
 		aparte. Arriba queda lo que identifica la forma y un enlace a la ficha para lo demás.
@@ -96,7 +96,7 @@
 		<p class="border-l-2 border-[color:var(--border)] pl-3 text-sm">
 			{props.escenario.forma}:
 			<span class="text-[color:var(--muted-foreground)]">
-				{fijas.map((fila) => fila.texto).join(' · ')}
+				{fijas.map((fila) => fila.texto).join(' — ')}
 			</span>
 			<a class="link-action ml-1" href="/recursos/catalogo-metrico">ver la ficha ↗</a>
 		</p>

@@ -38,8 +38,8 @@ describe('sequence-structure', () => {
 		expect(resolved[0]?.endingCuadro.label).toBe('Cuadro 2');
 		expect(resolved[0]?.spansMultipleCuadros).toBe(true);
 		expect(resolved[0]?.tramos.map((tramo) => tramo.label)).toEqual([
-			'Cuadro 1 · vv. 40-50',
-			'Cuadro 2 · vv. 51-80'
+			'Cuadro 1 — vv. 40-50',
+			'Cuadro 2 — vv. 51-80'
 		]);
 	});
 

@@ -59,7 +59,7 @@ const indice: IndiceGenerado = Object.values(indices)[0] ?? { generado: '', obra
 const fragmentoPorSlug = new Map<string, string>(
 	Object.entries(fragmentos).map(([ruta, html]) => [
 		(ruta.split('/').pop() ?? '').replace(/\.html$/, ''),
-		html
+		html.replaceAll(' · ', ' — ')
 	])
 );
 

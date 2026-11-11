@@ -440,7 +440,7 @@ describe('vista previa del importador sin persistencia', () => {
 		const destino = segmento!.identificacion!;
 		const propuesta = analizarEntrada(JSON.stringify(ficha));
 		const nombre = propuesta.filas.find((f) => f.ref === segmento!.ref)?.forma_nombre;
-		expect(nombre).toContain(' · ');
+		expect(nombre).toContain(' — ');
 		expect(nombre).not.toContain(destino.arquitectura_slug);
 		segmento!.candidatas = [destino];
 		segmento!.identificacion = null;

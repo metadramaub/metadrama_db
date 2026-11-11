@@ -110,7 +110,7 @@
 	}
 
 	function formatTramoLabel(tramo: SequenceStructureTramo) {
-		return `${formatCuadroLabel(tramo.cuadroNum)} · vv. ${tramo.vIni}–${tramo.vFin}`;
+		return `${formatCuadroLabel(tramo.cuadroNum)} — vv. ${tramo.vIni}–${tramo.vFin}`;
 	}
 
 	function humanize(value: string) {
@@ -262,9 +262,9 @@
 				<div class="min-w-0">
 					<p class="mb-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.7rem] font-semibold uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]">
 						<span class="text-[color:var(--primary)]">Secuencia {props.index + 1} de {props.total}</span>
-						<span aria-hidden="true">·</span>
+						<span aria-hidden="true">—</span>
 						<span>{formatJornadaLabel()}</span>
-						<span aria-hidden="true">·</span>
+						<span aria-hidden="true">—</span>
 						<span>{formatCuadroSummary()}</span>
 					</p>
 					<h2 id="sequence-modal-title" class="leading-tight tracking-[-0.01em]">
@@ -274,7 +274,7 @@
 						{/if}
 					</h2>
 					<p class="mt-1.5 text-sm text-[color:var(--muted-foreground)]">
-						Versos {props.secuencia.v_ini}–{props.secuencia.v_fin} · {props.secuencia.n_versos}
+						Versos {props.secuencia.v_ini}–{props.secuencia.v_fin} — {props.secuencia.n_versos}
 						{props.secuencia.n_versos === 1 ? 'verso' : 'versos'}
 					</p>
 				</div>
@@ -328,7 +328,7 @@
 							{#if varieties.length > 0}
 								<div class="grid gap-2 px-4 py-3.5 sm:grid-cols-[9rem_1fr] sm:gap-5">
 									<dt class="font-medium text-[color:var(--muted-foreground)]">{varieties.length === 1 ? 'Variedad' : 'Variedades'}</dt>
-									<dd>{varieties.join(' · ')}</dd>
+									<dd>{varieties.join(' — ')}</dd>
 								</div>
 							{/if}
 						</dl>
@@ -344,7 +344,7 @@
 											{/if}
 										</div>
 										{#if part.schemes.length > 0}
-											<p class="mt-1 font-mono text-xs tracking-wide">{part.schemes.join(' · ')}</p>
+											<p class="mt-1 font-mono text-xs tracking-wide">{part.schemes.join(' — ')}</p>
 										{/if}
 									</li>
 								{/each}
@@ -365,7 +365,7 @@
 								{#each features as feature (feature.label)}
 									<div class="grid gap-1 sm:grid-cols-[11rem_1fr] sm:gap-4">
 										<dt class="text-[color:var(--muted-foreground)]">{feature.label}</dt>
-										<dd>{feature.values.join(' · ')}</dd>
+										<dd>{feature.values.join(' — ')}</dd>
 									</div>
 								{/each}
 							</dl>
@@ -378,7 +378,7 @@
 										<div class="flex flex-wrap items-start justify-between gap-2">
 											<div>
 												<p class="text-xs uppercase tracking-[0.05em] text-[color:var(--muted-foreground)]">
-													Desviación · {humanize(deviation.dimension)}
+													Desviación — {humanize(deviation.dimension)}
 												</p>
 												<p class="font-semibold">{humanize(deviation.relacion_norma)}</p>
 											</div>

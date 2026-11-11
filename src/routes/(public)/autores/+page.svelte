@@ -97,7 +97,7 @@
 								{autor.n_obras_completas}
 								{autor.n_obras_completas === 1 ? 'obra' : 'obras'}
 								{#if autor.n_jornadas_sueltas > 0}
-									· {autor.n_jornadas_sueltas}
+									— {autor.n_jornadas_sueltas}
 									{autor.n_jornadas_sueltas === 1 ? 'jornada' : 'jornadas'}
 								{/if}
 							</span>

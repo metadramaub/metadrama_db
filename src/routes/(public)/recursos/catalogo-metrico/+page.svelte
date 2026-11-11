@@ -88,7 +88,7 @@
 </script>
 
 <svelte:head>
-	<title>Catálogo métrico · Versología</title>
+	<title>Catálogo métrico — Versología</title>
 	<meta
 		name="description"
 		content="Las formas métricas del verso dramático español, con sus arquitecturas, esquemas y rasgos."
@@ -195,7 +195,7 @@
 					? ` de ${totalFormas}`
 					: ''}
 				{formas.length === 1 ? ' forma' : ' formas'}{sinForma.length > 0
-					? ` · ${sinForma.length}${hayFiltro ? ` de ${totalSinForma}` : ''} ${sinForma.length === 1 ? 'tramo sin forma' : 'tramos sin forma'}`
+					? ` — ${sinForma.length}${hayFiltro ? ` de ${totalSinForma}` : ''} ${sinForma.length === 1 ? 'tramo sin forma' : 'tramos sin forma'}`
 					: ''}
 			</p>
 

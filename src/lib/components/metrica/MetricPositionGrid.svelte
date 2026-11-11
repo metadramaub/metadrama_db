@@ -373,10 +373,10 @@
 						>{/if}
 
 					{#if fila.modalidad && modalidades}<span class="text-[color:var(--muted-foreground)]"
-							>· {fila.modalidad}</span
+							>— {fila.modalidad}</span
 						>{/if}
 					{#if fila.tipoRima}<span class="text-[color:var(--muted-foreground)]"
-							>· {fila.tipoRima}</span
+							>— {fila.tipoRima}</span
 						>{/if}
 					<!--
 						Los nombres que la tradición da a **esta disposición** y no a la forma entera van
@@ -388,7 +388,7 @@
 						<span
 							class="block max-w-[15rem] whitespace-normal italic text-[color:var(--muted-foreground)]"
 						>
-							también {denominaciones[fila.esquemaRimaId].join(' · ')}
+							también {denominaciones[fila.esquemaRimaId].join(' — ')}
 						</span>
 					{/if}
 					<!-- La glosa de la disposición, junto a su nombre. Es de esta fila y de ninguna

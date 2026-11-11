@@ -448,7 +448,7 @@ async function construirCatalogoMetrico(
 			// Los metros son ya entidades del dominio, no términos del vocabulario genérico.
 			metres: (verseModelsDomain.data ?? []).map((row: any) => ({
 				id: String(row.metro_id),
-				label: `${row.nombre} · ${row.silabas} sílabas${row.tipo === 'compuesto' ? ' (compuesto)' : ''}`
+				label: `${row.nombre} — ${row.silabas} sílabas${row.tipo === 'compuesto' ? ' (compuesto)' : ''}`
 			}))
 		},
 		stats: {

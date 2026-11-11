@@ -128,7 +128,7 @@
 					const works = point.rows
 						.map((row) => `<strong>${escapeHtml(row.title)}</strong><br>${escapeHtml(row.authors)}`)
 						.join('<br>');
-					return `<strong>${escapeHtml(point.groupLabel ?? '')} · ${escapeHtml(props.formatValue(point.metricValue))}</strong><br>${works}`;
+					return `<strong>${escapeHtml(point.groupLabel ?? '')} — ${escapeHtml(props.formatValue(point.metricValue))}</strong><br>${works}`;
 				}
 			},
 			xAxis: {

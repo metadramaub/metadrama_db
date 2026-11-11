@@ -8,7 +8,7 @@
 		if (aviso.codigo !== 'forma_pendiente') return aviso.mensaje;
 		const filas = vista.filas.filter((f: FilaVistaPrevia) => !f.identificacion);
 		return filas.length ? 'Formas pendientes de identificar: ' + filas.map((f: FilaVistaPrevia) =>
-			`${f.origen.denominacion_literal ? '«' + f.origen.denominacion_literal + '» · ' : ''}vv. ${f.v_ini}–${f.v_fin}`
+			`${f.origen.denominacion_literal ? '«' + f.origen.denominacion_literal + '» — ' : ''}vv. ${f.v_ini}–${f.v_fin}`
 		).join('; ') + '.' : aviso.mensaje;
 	}
 </script>

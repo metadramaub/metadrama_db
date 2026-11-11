@@ -12,7 +12,7 @@
 	function formasPendientes(f: FilaBasica) {
 		const grupos = new Map<string, string[]>();
 		for (const p of f.formas_pendientes) grupos.set(p.denominacion, [...(grupos.get(p.denominacion) ?? []), `${p.v_ini}–${p.v_fin}`]);
-		return [...grupos].map(([nombre, rangos]) => `${nombre} · ${rangos.join(', ')}`);
+		return [...grupos].map(([nombre, rangos]) => `${nombre} — ${rangos.join(', ')}`);
 	}
 </script>
 

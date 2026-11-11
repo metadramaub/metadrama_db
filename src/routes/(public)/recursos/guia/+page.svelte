@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-	<title>Guía · Versología</title>
+	<title>Guía — Versología</title>
 	<meta
 		name="description"
 		content="Orientaciones básicas para recorrer Versología e interpretar sus fichas."

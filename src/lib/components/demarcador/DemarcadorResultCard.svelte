@@ -66,7 +66,7 @@
 					<p class="text-xs font-medium text-[color:var(--muted-foreground)]">{index + 1}</p>
 					<h3 class="mt-1 text-xl font-semibold">{forma.formaNombre}</h3>
 					<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">
-						{arquitectura.hipotesis.nivelEstructural} · {arquitectura.hipotesis.arquitecturaNombre}
+						{arquitectura.hipotesis.nivelEstructural} — {arquitectura.hipotesis.arquitecturaNombre}
 					</p>
 				</div>
 				<div class="flex shrink-0 flex-col items-end gap-1.5">

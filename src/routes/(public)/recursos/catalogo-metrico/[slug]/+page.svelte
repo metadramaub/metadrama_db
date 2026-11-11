@@ -35,7 +35,7 @@
 	 */
 	const nombreConNivel = $derived(
 		forma.nombreAmbiguo
-			? `${forma.nombre} · ${metricStructuralLevelLabel(forma.nivelEstructural)}`
+			? `${forma.nombre} — ${metricStructuralLevelLabel(forma.nivelEstructural)}`
 			: forma.nombre
 	);
 
@@ -80,7 +80,7 @@
 </script>
 
 <svelte:head>
-	<title>{nombreConNivel} · Catálogo métrico · Versología</title>
+	<title>{nombreConNivel} — Catálogo métrico — Versología</title>
 	{#if forma.definicion}
 		<meta name="description" content={stripMarkdown(forma.definicion)} />
 	{/if}
@@ -104,7 +104,7 @@
 			<header id="resumen" class="scroll-mt-20 pt-7 lg:scroll-mt-6 lg:pt-0">
 				<p class="text-xs font-semibold uppercase tracking-[0.09em] text-[color:var(--muted-foreground)]">
 					{forma.tipoRegistro === 'forma' ? 'Forma métrica' : 'Tramo sin forma'}
-					<span class="mx-1.5 text-[color:var(--gray-300)]" aria-hidden="true">·</span>
+					<span class="mx-1.5 text-[color:var(--gray-300)]" aria-hidden="true">—</span>
 					{metricStructuralLevelLabel(forma.nivelEstructural)}
 				</p>
 				<h1 class="mt-3 max-w-4xl font-display text-4xl leading-tight text-[color:var(--gray-900)] md:text-5xl">
@@ -114,7 +114,7 @@
 				{#if forma.denominaciones.length > 0}
 					<p class="mt-3 text-sm leading-6 text-[color:var(--muted-foreground)]">
 						<span class="font-medium text-[color:var(--gray-700)]">Otras denominaciones:</span>
-						{forma.denominaciones.join(' · ')}
+						{forma.denominaciones.join(' — ')}
 					</p>
 				{/if}
 
@@ -181,7 +181,7 @@
 										{relacion.nombre}
 									</a>
 									<span class="text-sm text-[color:var(--muted-foreground)]">
-										· {metricStructuralLevelLabel(relacion.nivelEstructural)}
+										— {metricStructuralLevelLabel(relacion.nivelEstructural)}
 									</span>
 								</p>
 								{#if relacion.nota}
@@ -213,7 +213,7 @@
 											{/if}
 											<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">
 												{afirmacion.localizador ?? 'Sin localizar'}{afirmacion.sobre !== forma.nombre
-													? ` · sobre ${afirmacion.sobre}`
+													? ` — sobre ${afirmacion.sobre}`
 													: ''}
 											</p>
 										</li>

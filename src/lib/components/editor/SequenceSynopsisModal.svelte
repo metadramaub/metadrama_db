@@ -46,7 +46,7 @@
 								<p class="text-sm text-[color:var(--muted-foreground)]">
 									{props.totalSequences} secuencias
 									{#if props.missingSynopsisCount > 0}
-										· {props.missingSynopsisCount} sin sinopsis
+										— {props.missingSynopsisCount} sin sinopsis
 									{/if}
 								</p>
 							</div>

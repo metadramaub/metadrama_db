@@ -34,7 +34,7 @@
 <svelte:window onkeydown={handleKeydown} />
 
 <svelte:head>
-	<title>Equipo · Versología</title>
+	<title>Equipo — Versología</title>
 	<meta
 		name="description"
 		content="Responsables y colaboradores de Versología, proyecto de METADRAMA."

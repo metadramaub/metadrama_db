@@ -480,7 +480,7 @@
 					}))
 					.sort((left, right) => left.position - right.position)
 					.map((item) => item.value)
-					.join('·')
+					.join('/')
 			: '';
 		const rhymeValue = rhyme
 			? choiceTextValue(String(rhyme.group.grupo_eleccion_id), source.realizacion_id).trim()
@@ -494,7 +494,7 @@
 				repartoDeLaUnidad(props.units, props.sections, source),
 				partesDelPatron(row)
 			);
-			if (escrita) return `${length} versos · ${escrita}`;
+			if (escrita) return `${length} versos — ${escrita}`;
 		}
 		return [
 			`${length} ${length === 1 ? 'verso' : 'versos'}`,
@@ -502,7 +502,7 @@
 			rhymeValue || null
 		]
 			.filter(Boolean)
-			.join(' · ');
+			.join(' — ');
 	}
 
 	function commitUnits(sinSincronizar: MetricUnitDraft[], previous = props.units) {
@@ -921,7 +921,7 @@
 			);
 			return opcion?.nombre ? String(opcion.nombre) : slug;
 		});
-		return nombres.join(' · ');
+		return nombres.join(' — ');
 	}
 
 	/** «vv. 91-95, 141-150» en vez de una lista de números. */
@@ -2910,7 +2910,7 @@
 
 		Una pregunta que se responde en conjunto solo baja a la unidad cuando hay algo que mirar: o
 		la unidad se aparta de las demás, o el editor ha pedido responderlas una a una. Si todas
-		coinciden, la fila de la unidad se queda en su rótulo —«Copla 2 · vv. 9–16»— y la lista cabe
+		coinciden, la fila de la unidad se queda en su rótulo —«Copla 2 — vv. 9–16»— y la lista cabe
 		de un vistazo.
 
 		Antes bajaban siempre, resumidas con un «Coincide con las demás unidades» repetido tantas
@@ -3102,7 +3102,7 @@
 			</MetricGridRow>
 		{:else if row.kind === 'fijas'}
 			<!--
-				«Cuartetos · 2 · vv. 1–8» se lee como «el cuarteto número 2». Cuántas hay va con
+				«Cuartetos — 2 — vv. 1–8» se lee como «el cuarteto número 2». Cuántas hay va con
 				su sustantivo, del lado de la respuesta, y en femenino porque concuerda con
 				«realizaciones»: el catálogo no declara el género de los nombres de sección.
 			-->
@@ -3118,9 +3118,9 @@
 				variant={row.preguntas.length > 0 ? 'normal' : 'resumen'}
 			>
 				<!--
-					Cuando la parte no pregunta nada, no se dice nada. «1 realización de 4 versos · la
+					Cuando la parte no pregunta nada, no se dice nada. «1 realización de 4 versos — la
 					norma las fija enteras», repetido en cada redondilla de cada copla, era media
-					pantalla para decir lo que el rótulo de al lado —«Primera redondilla · vv. 1–4»— ya
+					pantalla para decir lo que el rótulo de al lado —«Primera redondilla — vv. 1–4»— ya
 					deja ver. La extensión sigue explicándose donde importa: en las partes que sí
 					preguntan, por su `nota`.
 				-->
@@ -3362,7 +3362,7 @@
 								<div class="border-b border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2">
 									<p class="text-sm font-medium">{part.label}</p>
 									<p class="text-xs tabular-nums text-[color:var(--muted-foreground)]">
-										vv. {part.v_ini}–{part.v_fin} · {part.versos} versos
+										vv. {part.v_ini}–{part.v_fin} — {part.versos} versos
 									</p>
 								</div>
 								<div class="space-y-4 p-3">
@@ -3418,7 +3418,7 @@
 				-->
 				{#if row.preguntas.length === 0 && !row.lengthEditable}
 					<span class="text-sm text-[color:var(--muted-foreground)]">
-						{row.unit.v_fin - row.unit.v_ini + 1} versos · patrón fijo por la arquitectura
+						{row.unit.v_fin - row.unit.v_ini + 1} versos — patrón fijo por la arquitectura
 					</span>
 				{:else if completePatternQuestion && preguntaRimaEscrita(row)}
 					<!--
@@ -3538,7 +3538,7 @@
 				<span
 					class="flex min-h-9 w-40 shrink-0 items-center text-xs uppercase tracking-wide text-[color:var(--muted-foreground)]"
 				>
-					{state.total === 1 ? 'En la unidad' : `En todas · ${state.total} unidades`}
+					{state.total === 1 ? 'En la unidad' : `En todas — ${state.total} unidades`}
 				</span>
 			{/if}
 			{#if pregunta.admiteEscrito}
@@ -3604,8 +3604,8 @@
 					<p class="text-sm leading-6">
 						<span class="font-medium">{grupo.etiqueta}</span>
 						<span class="text-[color:var(--muted-foreground)]">
-							· {grupo.unidades.length}
-							{grupo.unidades.length === 1 ? 'unidad' : 'unidades'} · {grupo.rangos}</span
+							— {grupo.unidades.length}
+							{grupo.unidades.length === 1 ? 'unidad' : 'unidades'} — {grupo.rangos}</span
 						>
 						<button
 							type="button"
@@ -3732,8 +3732,8 @@
 								aria-label={`Unidad ${fila.numero}, versos ${fila.unit.v_ini} a ${fila.unit.v_fin}${
 									ocupada ? ', ya tiene otra excepción; al elegirla se sustituirá' : ''
 								}`}
-								title={`Unidad ${fila.numero} · vv. ${fila.unit.v_ini}–${fila.unit.v_fin}${
-									ocupada ? ' · ya tiene otra excepción; al elegirla se sustituirá' : ''
+								title={`Unidad ${fila.numero} — vv. ${fila.unit.v_ini}–${fila.unit.v_fin}${
+									ocupada ? ' — ya tiene otra excepción; al elegirla se sustituirá' : ''
 								}`}
 								onclick={() => alternarUnidadDeExcepcion(fila.unit.realizacion_id)}
 							>
@@ -3763,7 +3763,7 @@
 					{#if excepcionUnidades.length > 0}
 						<span class="text-xs text-[color:var(--muted-foreground)]">
 							{excepcionUnidades.length}
-							{excepcionUnidades.length === 1 ? 'unidad' : 'unidades'} · {rangosDeUnidades(
+							{excepcionUnidades.length === 1 ? 'unidad' : 'unidades'} — {rangosDeUnidades(
 								filas
 									.filter((fila) => excepcionUnidades.includes(fila.unit.realizacion_id))
 									.map((fila) => fila.unit)

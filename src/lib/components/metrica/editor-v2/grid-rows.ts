@@ -480,8 +480,10 @@ function unidadDe(context: GridRowContext, unitId: string | null): MetricUnitDra
 /** Sin el nombre de la sección delante, que ya lo dice la fila. */
 function sinPrefijoDeSeccion(nombre: string, etiquetaDeSeccion: string): string {
 	if (nombre === etiquetaDeSeccion) return 'Modalidad';
-	const prefijo = `${etiquetaDeSeccion} · `;
-	return nombre.startsWith(prefijo) ? nombre.slice(prefijo.length) : nombre;
+	const prefijo = [`${etiquetaDeSeccion} — `, `${etiquetaDeSeccion} · `].find((texto) =>
+		nombre.startsWith(texto)
+	);
+	return prefijo ? nombre.slice(prefijo.length) : nombre;
 }
 
 /**

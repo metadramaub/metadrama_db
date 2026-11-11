@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-	<title>Datos, reutilización y ciencia abierta · Versología</title>
+	<title>Datos, reutilización y ciencia abierta — Versología</title>
 	<meta
 		name="description"
 		content="Información sobre los datos disponibles, su reutilización y las prácticas de ciencia abierta de Versología."

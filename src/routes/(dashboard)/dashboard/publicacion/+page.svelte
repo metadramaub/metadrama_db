@@ -314,7 +314,7 @@
 		</div>
 		{#if recomputeStatus === 'running' || recomputeStatus === 'done' || recomputeStatus === 'partial'}
 			<p class="mt-3 text-sm text-[color:var(--muted-foreground)]">
-				Obras {recomputeProgress.obrasDone}/{recomputeProgress.obrasTotal} · Autores
+				Obras {recomputeProgress.obrasDone}/{recomputeProgress.obrasTotal} — Autores
 				{recomputeProgress.autoresDone}/{recomputeProgress.autoresTotal}
 			</p>
 		{/if}

@@ -95,7 +95,7 @@ export function partesAsignables(
 /** «Primer pie» se lee solo; «Fronte · Primer pie» dice además de dónde cuelga. */
 function etiquetaDeParte(section: MetricCatalogDomainRow, ancestros: MetricCatalogDomainRow[]): string {
 	const propio = sectionLabel(section);
-	return ancestros.length > 0 ? `${sectionLabel(ancestros[ancestros.length - 1])} · ${propio}` : propio;
+	return ancestros.length > 0 ? `${sectionLabel(ancestros[ancestros.length - 1])} — ${propio}` : propio;
 }
 
 function descendientesDe(units: MetricUnitDraft[], unitId: string): MetricUnitDraft[] {

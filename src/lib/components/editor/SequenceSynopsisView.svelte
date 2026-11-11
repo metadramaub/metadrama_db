@@ -168,7 +168,7 @@
 					<span class="font-medium text-[color:var(--muted-foreground)]">vv. {item.card.vIni}-{item.card.vFin}</span>
 					<span class="font-medium">{item.card.formaLabel}</span>
 					{#if item.card.arquitecturaLabel}
-						<span class="text-[color:var(--muted-foreground)]">· {item.card.arquitecturaLabel}</span>
+						<span class="text-[color:var(--muted-foreground)]">— {item.card.arquitecturaLabel}</span>
 					{/if}
 					{#if item.card.nVersos !== null}
 						<span class="text-xs text-[color:var(--muted-foreground)]">{item.card.nVersos} versos</span>
@@ -228,7 +228,7 @@
 							<span class="block text-xs text-[color:var(--muted-foreground)]">
 								{item.count} secuencias
 								{#if item.missingCount > 0}
-									· {item.missingCount} sin sinopsis
+									— {item.missingCount} sin sinopsis
 								{/if}
 							</span>
 						</button>
@@ -263,7 +263,7 @@
 								</span>
 								<span class="block text-sm text-[color:var(--muted-foreground)]">
 									{#if group.rangeLabel}
-										{group.rangeLabel} ·
+										{group.rangeLabel} —
 									{/if}
 									{group.cards.length} secuencias
 								</span>

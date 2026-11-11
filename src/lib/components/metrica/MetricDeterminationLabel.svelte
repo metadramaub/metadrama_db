@@ -10,6 +10,6 @@
 <span class="block text-[0.6rem] leading-tight text-[color:var(--muted-foreground)]">
 	<span class="font-medium">{ETIQUETAS_DETERMINACION[valor.grado]}</span>
 	{#if valor.detalle}
-		<span class="font-normal opacity-70">· {valor.detalle}</span>
+		<span class="font-normal opacity-70">— {valor.detalle}</span>
 	{/if}
 </span>

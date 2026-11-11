@@ -63,6 +63,6 @@ export function shortPositionOptionLabel(option: MetricCatalogDomainRow, positio
 	const syllables = Number(option.metro_silabas);
 	if (Number.isFinite(syllables) && syllables > 0) return String(syllables);
 	const label = String(option.nombre);
-	const prefix = `Verso ${position} · `;
-	return label.startsWith(prefix) ? label.slice(prefix.length) : label;
+	const prefix = [`Verso ${position} — `, `Verso ${position} · `].find((text) => label.startsWith(text));
+	return prefix ? label.slice(prefix.length) : label;
 }

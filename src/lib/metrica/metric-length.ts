@@ -140,7 +140,7 @@ export function metricLengthError(
 		additions > 0
 			? ` Descontando ${additions} ${additions === 1 ? 'verso declarado como adición estructural, quedan' : 'versos declarados como adiciones estructurales, quedan'} ${length - additions} para comprobar la norma.`
 			: '';
-	const selectedName = [formName, configurationName].filter(Boolean).join(' · ');
+	const selectedName = [formName, configurationName].filter(Boolean).join(' — ');
 	const subject = selectedName ? `«${selectedName}» exige` : 'La configuración exige';
 	return `La secuencia contiene ${length} ${length === 1 ? 'verso' : 'versos'}.${adjustment} ${subject} ${rule.explicacion}. Revisa el rango y las desviaciones declaradas. Si la fuente presenta una laguna, incluye su posición en el rango y regístrala como desviación, sin reconstruir el texto.`;
 }

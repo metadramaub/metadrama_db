@@ -128,7 +128,7 @@
 		{/each}
 		{#each divisionesNotas as division}
 			<div class="space-y-2 border-l-2 border-amber-400 bg-amber-50 p-3 text-sm">
-				<p>División a partir de la nota: {division.propuesta.partes.map((p) => `${p.v_ini}–${p.v_fin} (${p.v_fin - p.v_ini + 1} versos, ${p.identificacion.forma_slug === 'quintilla' ? 'Quintilla' : 'Copla real'})`).join(' · ')}.</p>
+				<p>División a partir de la nota: {division.propuesta.partes.map((p) => `${p.v_ini}–${p.v_fin} (${p.v_fin - p.v_ini + 1} versos, ${p.identificacion.forma_slug === 'quintilla' ? 'Quintilla' : 'Copla real'})`).join(' — ')}.</p>
 				{#each division.propuesta.avisos.filter((p) => p.longitud.estado === 'revisar') as aviso}
 					<p>Al dividir, vv. {aviso.v_ini}–{aviso.v_fin}: {aviso.longitud.mensaje}</p>
 				{/each}
@@ -144,7 +144,7 @@
 				detalles_fuente: parte.remate !== null ? [{tipo_seccion: 'remate', n_versos: Number(parte.remate)}] : [],
 				desviaciones: parte.desviaciones.map((d) => ({v_ini: Number(d.v_ini), v_fin: Number(d.v_fin), dimension: d.dimension, relacion_norma: d.relacion_norma}))})}
 			<fieldset class="space-y-4 border border-[color:var(--border)] bg-white p-4" disabled={ocupado}>
-				<legend class="px-1 text-sm font-medium">{partes.length > 1 ? 'Secuencia ' + (i + 1) + ' · ' : ''}vv. {principio(i)}–{parte.fin} · {Number(parte.fin) - principio(i) + 1} versos</legend>
+				<legend class="px-1 text-sm font-medium">{partes.length > 1 ? 'Secuencia ' + (i + 1) + ' — ' : ''}vv. {principio(i)}–{parte.fin} — {Number(parte.fin) - principio(i) + 1} versos</legend>
 				{#each originales.flatMap(s => s.caracterizaciones ?? []).filter(c => c.termino === 'prosa' && c.v_ini >= principio(i) && c.v_fin <= Number(parte.fin)) as prosa}
 					<p class="text-sm">Prosa entre vv. {prosa.v_ini} y {prosa.v_fin}</p>
 				{/each}
@@ -154,10 +154,10 @@
 				{#if sugerencia}<p class="text-sm text-[color:var(--muted-foreground)]">{sugerencia}</p>{/if}
 				{#if longitud.estado === 'revisar'}<p role="status" class="border-l-2 border-amber-400 bg-amber-50 p-3 text-sm">{longitud.mensaje}</p>{/if}
 				<div class="grid gap-4 sm:grid-cols-2">
-					<label class="form-field"><span class="form-label">Forma</span><select id={'forma-importada-' + parte.id} aria-label={'Forma · secuencia ' + (i + 1)} value={parte.forma} onchange={(e) => { parte.forma = e.currentTarget.value; parte.arquitectura = ''; }} class="w-full rounded-md border border-[color:var(--border)] bg-white px-3 py-2">
+					<label class="form-field"><span class="form-label">Forma</span><select id={'forma-importada-' + parte.id} aria-label={'Forma — secuencia ' + (i + 1)} value={parte.forma} onchange={(e) => { parte.forma = e.currentTarget.value; parte.arquitectura = ''; }} class="w-full rounded-md border border-[color:var(--border)] bg-white px-3 py-2">
 						<option value="">Forma sin resolver</option>{#each formas as forma}<option value={forma.slug}>{forma.nombre}</option>{/each}
 					</select></label>
-					<label class="form-field"><span class="form-label">Arquitectura <span class="font-normal">(opcional)</span></span><select aria-label={'Arquitectura · secuencia ' + (i + 1) + ' (opcional)'} bind:value={parte.arquitectura} disabled={!parte.forma} class="w-full rounded-md border border-[color:var(--border)] bg-white px-3 py-2 disabled:opacity-50">
+					<label class="form-field"><span class="form-label">Arquitectura <span class="font-normal">(opcional)</span></span><select aria-label={'Arquitectura — secuencia ' + (i + 1) + ' (opcional)'} bind:value={parte.arquitectura} disabled={!parte.forma} class="w-full rounded-md border border-[color:var(--border)] bg-white px-3 py-2 disabled:opacity-50">
 						<option value="">Sin especificar</option>{#each formas.find((f: FormaEditable) => f.slug === parte.forma)?.arquitecturas ?? [] as a}<option value={a.slug}>{a.nombre}</option>{/each}
 					</select></label>
 				</div>
@@ -168,13 +168,13 @@
 						arquitecturaNombre={formaElegida?.arquitecturas.find((a: { slug: string }) => a.slug === parte.arquitectura)?.nombre ?? null}
 						procedencia={{ edicion: datos.metadatos.edicion_base || null, obra: datos.metadatos.titulo || datos.obra_ref, fila: tramoRef, foto: originales[0].origen.fuente_id, pagina: originales[0].origen.pagina }} />
 				{/if}
-				{#if i < partes.length - 1}<label class="form-field"><span class="form-label">Último verso de esta secuencia</span><input aria-label={'Último verso · secuencia ' + (i + 1)} inputmode="numeric" bind:value={parte.fin} class="w-40 rounded-md border border-[color:var(--border)] px-3 py-2" /></label>{/if}
+				{#if i < partes.length - 1}<label class="form-field"><span class="form-label">Último verso de esta secuencia</span><input aria-label={'Último verso — secuencia ' + (i + 1)} inputmode="numeric" bind:value={parte.fin} class="w-40 rounded-md border border-[color:var(--border)] px-3 py-2" /></label>{/if}
 				{#if parte.remate !== null}
 					{@const resumen = resumenCuerpo(principio(i), Number(parte.fin), Number(parte.remate), desviaciones)}
 					<div class="space-y-2 border-t border-[color:var(--border)] pt-3">
-						<div class="flex flex-wrap items-end gap-3"><label class="form-field"><span class="form-label">Remate final · número de versos</span><input aria-label={'Versos del remate · secuencia ' + (i + 1)} inputmode="numeric" bind:value={parte.remate} class="w-28 rounded-md border border-[color:var(--border)] px-3 py-2" /></label>
+						<div class="flex flex-wrap items-end gap-3"><label class="form-field"><span class="form-label">Remate final — número de versos</span><input aria-label={'Versos del remate — secuencia ' + (i + 1)} inputmode="numeric" bind:value={parte.remate} class="w-28 rounded-md border border-[color:var(--border)] px-3 py-2" /></label>
 						<Button variant="secondary" onclick={() => { parte.remate = null; sucio = true; }}>Quitar dato de remate</Button></div>
-						{#if Number.isInteger(Number(parte.remate)) && Number(parte.remate) > 0}<p class="text-sm">Cuerpo: {resumen.cuerpo} versos{unidad ? ' en tercetos' : ''} · Remate: {parte.remate} {Number(parte.remate) === 1 ? 'verso' : 'versos'}{resumen.adicionales ? ' · Versos añadidos: ' + resumen.adicionales : ''} · Total: {resumen.total}</p>{/if}
+						{#if Number.isInteger(Number(parte.remate)) && Number(parte.remate) > 0}<p class="text-sm">Cuerpo: {resumen.cuerpo} versos{unidad ? ' en tercetos' : ''} — Remate: {parte.remate} {Number(parte.remate) === 1 ? 'verso' : 'versos'}{resumen.adicionales ? ' — Versos añadidos: ' + resumen.adicionales : ''} — Total: {resumen.total}</p>{/if}
 						{#if parte.remate.trim() && problemaRemate(parte)}<p role="status" class="text-sm text-[color:var(--danger)]">{problemaRemate(parte)}</p>{/if}
 					</div>
 				{/if}
@@ -187,7 +187,7 @@
 						<label class="form-field"><span class="form-label">La nueva secuencia empieza en el verso</span><input aria-label="Primer verso de la nueva secuencia" inputmode="numeric" bind:value={nuevoInicio} onkeydown={(e) => { if (e.key === 'Enter') { e.preventDefault(); if (propuesta(i).rangos) dividir(i); } }} class="w-40 rounded-md border border-[color:var(--border)] bg-white px-3 py-2" /></label>
 						{#if nuevoInicio.trim()}
 							{@const calculo = propuesta(i)}
-							{#if calculo.rangos}<p class="text-sm">Primera: vv. {calculo.rangos.anterior.v_ini}–{calculo.rangos.anterior.v_fin} · Nueva: vv. {calculo.rangos.nueva.v_ini}–{calculo.rangos.nueva.v_fin}</p>
+							{#if calculo.rangos}<p class="text-sm">Primera: vv. {calculo.rangos.anterior.v_ini}–{calculo.rangos.anterior.v_fin} — Nueva: vv. {calculo.rangos.nueva.v_ini}–{calculo.rangos.nueva.v_fin}</p>
 							{:else}<p role="alert" class="text-sm text-[color:var(--danger)]">{calculo.error}</p>{/if}
 						{/if}
 						<div class="flex gap-2"><Button variant="secondary" disabled={!nuevoInicio.trim() || !propuesta(i).rangos} onclick={() => dividir(i)}>Crear nueva secuencia</Button><Button variant="secondary" onclick={() => dividiendo = null}>Cancelar división</Button></div>
@@ -195,7 +195,7 @@
 				{/if}
 				<DatosSecuencia prefijo={'datos-secuencia-' + parte.id} forma={parte.forma} arquitectura={parte.arquitectura} bind:rasgos={parte.rasgos} bind:desviaciones={parte.desviaciones} {notas} inicio={principio(i)} fin={Number(parte.fin)} />
 				{#if parte.mostrarNota}
-					<div class="form-field"><div class="flex items-baseline justify-between gap-3"><label for={'nota-secuencia-' + parte.id} class="form-label">Nota <span class="font-normal">(opcional)</span></label><button type="button" class="link-action link-action--danger text-xs" onclick={() => { parte.nota = ''; parte.mostrarNota = false; }}>Quitar</button></div><textarea id={'nota-secuencia-' + parte.id} aria-label={'Nota · secuencia ' + (i + 1) + ' (opcional)'} rows="2" maxlength="4000" bind:value={parte.nota} class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"></textarea></div>
+					<div class="form-field"><div class="flex items-baseline justify-between gap-3"><label for={'nota-secuencia-' + parte.id} class="form-label">Nota <span class="font-normal">(opcional)</span></label><button type="button" class="link-action link-action--danger text-xs" onclick={() => { parte.nota = ''; parte.mostrarNota = false; }}>Quitar</button></div><textarea id={'nota-secuencia-' + parte.id} aria-label={'Nota — secuencia ' + (i + 1) + ' (opcional)'} rows="2" maxlength="4000" bind:value={parte.nota} class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"></textarea></div>
 				{/if}
 				<MetricPanelSection id={'datos-importados-' + parte.id} titulo="Añadir datos" abierta={parte.extras} alAlternar={() => parte.extras = !parte.extras} sinContenedor>
 					{#if parte.remate === null && secciones(parte, 'remate').length}<Button variant="secondary" onclick={() => { const s = secciones(parte, 'remate')[0]; parte.remate = s.versos_min && s.versos_min === s.versos_max ? String(s.versos_min) : ''; sucio = true; }}>Añadir remate</Button>{/if}

@@ -496,7 +496,7 @@
 		if (partialPositionalSelection) {
 			const base = Number(visibleOptions[0]?.metro_base_silabas);
 			if (selectedOptions.length === 0) {
-				return `Ningún verso quebrado${Number.isFinite(base) ? ` · todos, ${base} síl.` : ''}`;
+				return `Ningún verso quebrado${Number.isFinite(base) ? ` — todos, ${base} síl.` : ''}`;
 			}
 			const broken = selectedOptions.map((option: MetricCatalogDomainRow) => {
 				const position = Number(option.posicion_unidad);
@@ -508,7 +508,7 @@
 			const remaining = visiblePositions.length - selectedOptions.length;
 			return `Quebrados: ${broken.join(', ')}${
 				remaining > 0 && Number.isFinite(base)
-					? ` · los demás, ${base} síl.`
+					? ` — los demás, ${base} síl.`
 					: ''
 			}`;
 		}
@@ -520,9 +520,9 @@
 		const names = selectedOptions.map((option: MetricCatalogDomainRow) => String(option.nombre));
 		const distinct = [...new Set(names)];
 		if (names.length > 1 && distinct.length === 1) {
-			return `${distinct[0]} · ${names.length} posiciones`;
+			return `${distinct[0]} — ${names.length} posiciones`;
 		}
-		return names.join(' · ');
+		return names.join(' — ');
 	});
 
 	/**
@@ -557,7 +557,7 @@
 					)?.notacion
 			)
 			.filter((notacion: string | null | undefined): notacion is string => Boolean(notacion));
-		return notaciones.length > 0 ? [...new Set(notaciones)].join(' · ') : null;
+		return notaciones.length > 0 ? [...new Set(notaciones)].join(' — ') : null;
 	});
 
 	/** «rima», «medida»: el nombre largo del grupo sobra cuando solo se está leyendo. */

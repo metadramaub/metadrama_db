@@ -26,7 +26,7 @@
 		const partes = rama.facetas
 			.filter((faceta) => faceta.total > 0)
 			.map((faceta) => `${faceta.label} ${faceta.total}`);
-		return partes.length > 0 ? partes.join(' · ') : 'Sin casos';
+		return partes.length > 0 ? partes.join(' — ') : 'Sin casos';
 	}
 </script>
 

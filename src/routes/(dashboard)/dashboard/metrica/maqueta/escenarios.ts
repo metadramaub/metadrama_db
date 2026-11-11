@@ -71,7 +71,7 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 	{
 		id: 'redondillas_estables',
 		nombre: 'Tirada de redondillas con una suelta',
-		clase: 'Estrofa repetible · 24 unidades',
+		clase: 'Estrofa repetible — 24 unidades',
 		porque: 'lo normal es que no varíe, y de pronto una abba entre abab',
 		forma: 'Redondilla',
 		partes: [],
@@ -87,7 +87,7 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 				rotulo: 'Esquema de rima',
 				alcance: 'unidad',
 				opcional: false,
-				opciones: ['Abrazada · abba', 'Cruzada · abab'],
+				opciones: ['Abrazada — abba', 'Cruzada — abab'],
 				porUnidad: porUnidad(
 					[...repetir('abab', 14), 'abba', ...repetir('abab', 9)],
 					4
@@ -99,7 +99,7 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 	{
 		id: 'quintillas_reales',
 		nombre: 'Cincuenta y dos quintillas, tres esquemas',
-		clase: 'Estrofa repetible · 52 unidades',
+		clase: 'Estrofa repetible — 52 unidades',
 		porque: 'el patrón medido en El mágico prodigioso',
 		forma: 'Quintilla',
 		partes: [],
@@ -140,14 +140,14 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 				opcional: true,
 				porUnidad: porUnidad(repetir('', 52), 5)
 					.filter((unidad) => [7, 31].includes(unidad.numero))
-					.map((unidad) => ({ ...unidad, valor: 'v. 1 · tetrasílabo' }))
+					.map((unidad) => ({ ...unidad, valor: 'v. 1 — tetrasílabo' }))
 			}
 		]
 	},
 	{
 		id: 'quintillas_imposibles',
 		nombre: 'Doce quintillas, todas distintas',
-		clase: 'Estrofa repetible · el caso que no se ha visto',
+		clase: 'Estrofa repetible — el caso que no se ha visto',
 		porque: 'el máximo real son 4 esquemas en 43 unidades',
 		forma: 'Quintilla',
 		partes: [],
@@ -172,14 +172,14 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 				opcional: true,
 				porUnidad: porUnidad(repetir('', 12), 5)
 					.filter((unidad) => [2, 5, 9, 12].includes(unidad.numero))
-					.map((unidad) => ({ ...unidad, valor: 'v. 1 · tetrasílabo' }))
+					.map((unidad) => ({ ...unidad, valor: 'v. 1 — tetrasílabo' }))
 			}
 		]
 	},
 	{
 		id: 'sexteto_lira',
 		nombre: 'Ocho sextetos-lira',
-		clase: 'Estrofa repetible · con variedad',
+		clase: 'Estrofa repetible — con variedad',
 		porque: 'la variedad combina medida y rima: dos respuestas en una',
 		forma: 'Sexteto-lira',
 		partes: [],
@@ -194,9 +194,9 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 				rotulo: 'Variedad',
 				alcance: 'unidad',
 				opcional: false,
-				opciones: ['A1 · aBaBcC', 'A2 · ABABcC', 'B1 · aBaBCC'],
+				opciones: ['A1 — aBaBcC', 'A2 — ABABcC', 'B1 — aBaBCC'],
 				porUnidad: porUnidad(
-					['A2', 'A2', 'A2', 'A1', 'A2', 'A2', 'A1', 'A2'].map((v) => `${v} · aBaBcC`),
+					['A2', 'A2', 'A2', 'A1', 'A2', 'A2', 'A1', 'A2'].map((v) => `${v} — aBaBcC`),
 					6
 				)
 			}
@@ -205,7 +205,7 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 	{
 		id: 'romance',
 		nombre: 'Romance de trescientos versos',
-		clase: 'Serie no estrófica · sin unidades',
+		clase: 'Serie no estrófica — sin unidades',
 		porque: 'no hay unidad que recorrer: se responde una vez',
 		forma: 'Romance',
 		partes: [],
@@ -222,7 +222,7 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 	{
 		id: 'endecasilabo_suelto',
 		nombre: 'Endecasílabo suelto de doscientos versos',
-		clase: 'Serie no estrófica · cinco rasgos',
+		clase: 'Serie no estrófica — cinco rasgos',
 		porque: 'cinco preguntas seguidas, y ninguna es una elección entre esquemas',
 		forma: 'Endecasílabo suelto',
 		partes: [],
@@ -247,7 +247,7 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 	{
 		id: 'villancico',
 		nombre: 'Villancico con tres ciclos',
-		clase: 'Composición · partes y ciclos',
+		clase: 'Composición — partes y ciclos',
 		porque: 'las partes se repiten y cada ciclo responde lo suyo',
 		forma: 'Villancico',
 		partes: ['Cabeza', 'Mudanza', 'Vuelta', 'Repetición del estribillo'],
@@ -259,12 +259,12 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 			{ dimension: 'Repetición del estribillo', estado: 'elige', texto: 'entera o en parte' }
 		],
 		preguntas: [
-			{ rotulo: 'Cabeza · Medida de los versos', alcance: 'secuencia', opcional: false, valor: 'Octosílabo', opciones: ['Hexasílabo', 'Octosílabo'] },
+			{ rotulo: 'Cabeza — Medida de los versos', alcance: 'secuencia', opcional: false, valor: 'Octosílabo', opciones: ['Hexasílabo', 'Octosílabo'] },
 			{
-				rotulo: 'Mudanza · Esquema de rima',
+				rotulo: 'Mudanza — Esquema de rima',
 				alcance: 'unidad',
 				opcional: false,
-				opciones: ['Mudanza en redondilla · abba', 'Mudanza en redondilla cruzada · abab'],
+				opciones: ['Mudanza en redondilla — abba', 'Mudanza en redondilla cruzada — abab'],
 				porUnidad: [
 					{ numero: 1, vIni: 5, vFin: 8, valor: 'abba' },
 					{ numero: 2, vIni: 14, vFin: 17, valor: 'abba' },
@@ -287,7 +287,7 @@ export const ESCENARIOS: EscenarioMaqueta[] = [
 	{
 		id: 'enlazada',
 		nombre: 'Redondilla enlazada de cuarenta versos',
-		clase: 'Serie enlazada · no pregunta nada',
+		clase: 'Serie enlazada — no pregunta nada',
 		porque: 'la norma lo fija todo: solo hay que marcar el rango',
 		forma: 'Redondilla enlazada',
 		partes: [],

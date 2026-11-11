@@ -129,7 +129,7 @@
 				</div>
 				<p class="mt-3 text-xs text-[color:var(--muted-foreground)]">
 					{props.cuts.total} {props.cuts.total === 1 ? 'cambio de cuadro analizado' : 'cambios de cuadro analizados'}
-					{#if props.cuts.sinCobertura > 0} · {props.cuts.sinCobertura} sin cobertura métrica{/if}
+					{#if props.cuts.sinCobertura > 0} — {props.cuts.sinCobertura} sin cobertura métrica{/if}
 				</p>
 
 				{#if detalle === 'cambios'}

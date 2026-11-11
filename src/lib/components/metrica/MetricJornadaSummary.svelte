@@ -21,7 +21,7 @@
 	] as const;
 
 	const rango = (s: MetricSummarySequence) =>
-		`${s.v_ini === s.v_fin ? `v. ${s.v_ini}` : `vv. ${s.v_ini}–${s.v_fin}`} · ${s.n_versos} ${s.n_versos === 1 ? 'v.' : 'vv.'}`;
+		`${s.v_ini === s.v_fin ? `v. ${s.v_ini}` : `vv. ${s.v_ini}–${s.v_fin}`} — ${s.n_versos} ${s.n_versos === 1 ? 'v.' : 'vv.'}`;
 </script>
 
 <!-- El contenedor recibe foco para desplazar la tabla con el teclado en pantallas estrechas. -->

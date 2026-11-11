@@ -23,7 +23,7 @@
 				{#if props.form.denominaciones.length > 0}
 					<p class="mt-2 text-[0.8rem] leading-5 text-[color:var(--muted-foreground)]">
 						<span class="font-medium text-[color:var(--gray-700)]">También</span>
-						· {props.form.denominaciones.join(' · ')}
+						— {props.form.denominaciones.join(' — ')}
 					</p>
 				{/if}
 			</div>
@@ -61,7 +61,7 @@
 						class="mr-2 uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]"
 						>Tradición</span
 					>
-					<span class="font-medium">{props.form.tradiciones.join(' · ')}</span>
+					<span class="font-medium">{props.form.tradiciones.join(' — ')}</span>
 				</p>
 			{/if}
 			{#if props.form.tiposRima.length > 0}
@@ -70,7 +70,7 @@
 						class="mr-2 uppercase tracking-[0.07em] text-[color:var(--muted-foreground)]"
 						>Rima</span
 					>
-					<span class="font-medium">{props.form.tiposRima.join(' · ')}</span>
+					<span class="font-medium">{props.form.tiposRima.join(' — ')}</span>
 				</p>
 			{/if}
 		</footer>

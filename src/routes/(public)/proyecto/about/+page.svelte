@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<title>Acerca de · Versología</title>
+	<title>Acerca de — Versología</title>
 	<meta name="description" content="Información sobre Versología, proyecto de METADRAMA." />
 </svelte:head>
 

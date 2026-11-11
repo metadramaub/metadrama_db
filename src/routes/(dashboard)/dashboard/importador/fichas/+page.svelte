@@ -15,7 +15,7 @@
 		await tick(); document.getElementById('confirmar-eliminar-basica')?.focus();
 	}
 </script>
-<svelte:head><title>Fichas básicas · Versología</title></svelte:head>
+<svelte:head><title>Fichas básicas — Versología</title></svelte:head>
 <svelte:window onkeydown={(e) => { if (e.key === 'Escape' && !eliminando) objetivo = null; }} />
 <section class="mx-auto max-w-7xl space-y-5">
 	<header class="flex flex-wrap items-baseline justify-between gap-3"><h1 class="font-display text-3xl">Fichas básicas</h1><a href="/dashboard/importador" class="text-sm underline">Importar obra</a></header>

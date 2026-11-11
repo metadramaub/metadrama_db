@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-	<title>Contacto · Versología</title>
+	<title>Contacto — Versología</title>
 	<meta
 		name="description"
 		content="Vías de contacto de Versología y acceso al sitio web de METADRAMA."

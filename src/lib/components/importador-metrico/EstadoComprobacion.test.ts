@@ -27,7 +27,7 @@ describe('confirmación explícita de comprobación', () => {
 		vista.pendientes_metadatos=[];
 		const contenido=texto(render(EstadoComprobacion,{props:{vista}}).body);
 		expect(contenido).toContain('Cambios comprobados: 1 aviso para revisar.');
-		expect(contenido).toContain('Formas pendientes de identificar: «tercetos» · vv. 1–127; «tercetos» · vv. 1523–1667.');
+		expect(contenido).toContain('Formas pendientes de identificar: «tercetos» — vv. 1–127; «tercetos» — vv. 1523–1667.');
 	});
 	it('no anuncia ausencia de incidencias cuando quedan errores o campos obligatorios', () => {
 		const vista=base();vista.avisos=[];

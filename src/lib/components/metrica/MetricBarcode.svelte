@@ -167,7 +167,7 @@
 	}
 
 	/** Lo que dice un corte al pasar por él: qué empieza y en qué verso. */
-	const avisoDeCorte = (marker: PositionedMarker) => `${marker.title} · desde el v. ${marker.desde}`;
+	const avisoDeCorte = (marker: PositionedMarker) => `${marker.title} — desde el v. ${marker.desde}`;
 	let corteActivo = $state<string | null>(null);
 	/**
 	 * Los versos de los cortes, **en dos alturas cuando no caben**. Dos cuadros a once versos uno de
@@ -204,7 +204,7 @@
 
 	function segmentTitle(segment: MetricBarSegment) {
 		if (props.compactMarkers) {
-			return `${segment.label} · vv. ${segment.v_ini}-${segment.v_fin}`;
+			return `${segment.label} — vv. ${segment.v_ini}-${segment.v_fin}`;
 		}
 		const verses = `Versos ${segment.v_ini}-${segment.v_fin}`;
 		const count = segment.n_versos !== undefined ? `, ${segment.n_versos} versos` : '';

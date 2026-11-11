@@ -36,7 +36,7 @@
 						<p class="text-xs text-[color:var(--muted-foreground)]">{percentFormatter.format(row.porcentaje)} %</p>
 					{/if}
 				</div>
-				<p class="text-sm"><span class="text-[color:var(--muted-foreground)]">En</span> {row.formas.join(' · ')}</p>
+				<p class="text-sm"><span class="text-[color:var(--muted-foreground)]">En</span> {row.formas.join(' — ')}</p>
 			</li>
 		{/each}
 	</ul>

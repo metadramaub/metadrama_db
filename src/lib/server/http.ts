@@ -11,11 +11,11 @@ export function validationErrorResponse(error: z.ZodError) {
 	const message = details
 		.slice(0, 3)
 		.map((detail) => (detail.path ? `${detail.path}: ${detail.message}` : detail.message))
-		.join(' · ');
+		.join(' — ');
 	return json(
 		{
 			error: 'validation_error',
-			message: details.length > 3 ? `${message} · y ${details.length - 3} más` : message,
+			message: details.length > 3 ? `${message} — y ${details.length - 3} más` : message,
 			details
 		},
 		{ status: 422 }

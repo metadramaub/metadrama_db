@@ -129,7 +129,7 @@
 				<div class="space-y-1">
 					<div class="text-xs text-[color:var(--muted-foreground)]">
 						<span class="font-semibold text-[color:var(--foreground)]">{scopeLabel(fuente.jornada_num)}</span>
-						<span>· {fuente.atribucion_label}</span>
+						<span>— {fuente.atribucion_label}</span>
 					</div>
 					<div class="space-y-1 text-sm leading-6">{@html renderMarkdown(fuente.fuente_autoria ?? '')}</div>
 				</div>

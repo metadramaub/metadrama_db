@@ -152,7 +152,7 @@ export function buildComentarioContextLabel(
 		if (!cuadro) return 'Cuadro';
 		const jornada = cuadro.jornada_id ? maps.jornadaById.get(cuadro.jornada_id) : null;
 		if (jornada) {
-			return `Jornada ${jornada.jornada_num} · Cuadro ${cuadro.cuadro_num} (vv. ${cuadro.v_ini}-${cuadro.v_fin})`;
+			return `Jornada ${jornada.jornada_num} — Cuadro ${cuadro.cuadro_num} (vv. ${cuadro.v_ini}-${cuadro.v_fin})`;
 		}
 		return `Cuadro ${cuadro.cuadro_num} (vv. ${cuadro.v_ini}-${cuadro.v_fin})`;
 	}

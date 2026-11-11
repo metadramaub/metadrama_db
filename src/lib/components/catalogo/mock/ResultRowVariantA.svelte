@@ -19,7 +19,7 @@
 	<div class="min-w-0">
 		<p class="truncate text-sm font-semibold text-[color:var(--gray-900)]">{work.title}</p>
 		<p class="truncate text-xs text-[color:var(--muted-foreground)]">{work.author}</p>
-		<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">{work.datingLabel} · {work.genre}</p>
+		<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">{work.datingLabel} — {work.genre}</p>
 	</div>
 
 	<div class="min-w-0">

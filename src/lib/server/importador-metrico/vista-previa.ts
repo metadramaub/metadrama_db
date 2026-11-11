@@ -130,7 +130,7 @@ function nombreDestino(destino: { forma_slug: string; arquitectura_slug: string 
 	const arquitectura =
 		nombresArquitectura.get(`${destino.forma_slug}/${destino.arquitectura_slug}`) ??
 		destino.arquitectura_slug;
-	return `${forma} · ${arquitectura}`;
+	return `${forma} — ${arquitectura}`;
 }
 
 function filasDeFicha(ficha: BorradorFichaMinima, notasOriginales: Registro[] | null = null) {

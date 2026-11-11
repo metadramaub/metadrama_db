@@ -73,10 +73,10 @@ export function detalleDeSecuencia(secuencia: PublicFichaSecuencia): string | nu
 			esquemas
 				.map((esquema) =>
 					esquema.cantidad > 1
-						? `${esquema.label} · ${formatMetricCount(esquema)}`
+						? `${esquema.label} — ${formatMetricCount(esquema)}`
 						: esquema.label
 				)
-				.join(' · ')
+				.join(' — ')
 		);
 	}
 
@@ -88,7 +88,7 @@ export function detalleDeSecuencia(secuencia: PublicFichaSecuencia): string | nu
 		);
 	}
 
-	return partes.length > 0 ? partes.join(' · ') : null;
+	return partes.length > 0 ? partes.join(' — ') : null;
 }
 
 /** Una secuencia como línea del esquema métrico. */

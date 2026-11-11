@@ -133,7 +133,7 @@
 		}
 		return [
 			...activas,
-			{ id: heredado.id, label: `${heredado.label} · del sistema anterior`, parentId: null }
+			{ id: heredado.id, label: `${heredado.label} — del sistema anterior`, parentId: null }
 		];
 	});
 

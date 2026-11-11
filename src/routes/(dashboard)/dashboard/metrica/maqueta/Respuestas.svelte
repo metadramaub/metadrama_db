@@ -59,7 +59,7 @@
 	</div>
 {:else if props.idea === 'A'}
 	<!--
-		**A′ · Lo general arriba, las excepciones debajo, y el detalle a un clic.**
+		**A′ — Lo general arriba, las excepciones debajo, y el detalle a un clic.**
 
 		Tres renglones que dicen tres cosas distintas y se leen en ese orden: qué responde la
 		secuencia, qué se aparta, y —si hace falta comprobarlo— la lista entera unidad por unidad.
@@ -98,7 +98,7 @@
 							</select>
 						{/if}
 						<span class="text-xs text-[color:var(--muted-foreground)]">
-							· {totalUnidades}
+							— {totalUnidades}
 							{totalUnidades === 1 ? 'unidad' : 'unidades'}
 						</span>
 					</div>
@@ -120,8 +120,8 @@
 								<p class="text-sm leading-6">
 									<strong>{grupo.valor}</strong>
 									<span class="text-[color:var(--muted-foreground)]">
-										· {grupo.unidades.length}
-										{grupo.unidades.length === 1 ? 'unidad' : 'unidades'} · {grupo.rangos}</span
+										— {grupo.unidades.length}
+										{grupo.unidades.length === 1 ? 'unidad' : 'unidades'} — {grupo.rangos}</span
 									>
 									<button type="button" class="link-action ml-1">quitar</button>
 								</p>
@@ -212,7 +212,7 @@
 	</div>
 {:else}
 	<!--
-		**E · Por respuesta, no por unidad.**
+		**E — Por respuesta, no por unidad.**
 
 		Una tabla por pregunta: qué se ha respondido, en cuántas unidades y dónde. Fuera de la
 		quintilla la tabla tiene una fila, y ahí es donde hay que ver si aguanta o si es papeleo.
@@ -224,14 +224,14 @@
 				<p class="border-b border-[color:var(--border)] px-4 py-2 text-sm font-medium">
 					{pregunta.rotulo}
 					{#if pregunta.opcional}<span class="font-normal text-[color:var(--muted-foreground)]"
-							>· opcional</span
+							>— opcional</span
 						>{/if}
 				</p>
 				{#if pregunta.alcance === 'secuencia'}
 					<p class="px-4 py-2 text-sm">
 						{#if pregunta.valor}
 							<strong>{pregunta.valor}</strong>
-							<span class="text-[color:var(--muted-foreground)]">· en toda la secuencia</span>
+							<span class="text-[color:var(--muted-foreground)]">— en toda la secuencia</span>
 						{:else}
 							<span class="text-[color:var(--muted-foreground)]">Sin responder</span>
 						{/if}

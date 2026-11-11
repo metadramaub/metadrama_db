@@ -7,7 +7,7 @@
 	const elegido = $derived(ESCENARIOS.find((caso) => caso.id === escenario) ?? ESCENARIOS[0]);
 </script>
 
-<svelte:head><title>Maqueta del formulario · Versología</title></svelte:head>
+<svelte:head><title>Maqueta del formulario — Versología</title></svelte:head>
 
 <section class="mx-auto max-w-5xl space-y-6 p-6">
 	<header class="space-y-3">
@@ -49,25 +49,25 @@
 	</div>
 
 	<div class="border-l-2 border-[color:var(--border)] pl-3">
-		<p class="text-sm font-medium">{elegido.forma} · {elegido.nombre}</p>
+		<p class="text-sm font-medium">{elegido.forma} — {elegido.nombre}</p>
 		<p class="text-sm text-[color:var(--muted-foreground)]">{elegido.porque}</p>
 		{#if elegido.partes.length > 0}
 			<p class="text-xs text-[color:var(--muted-foreground)]">
-				Partes: {elegido.partes.join(' · ')}
+				Partes: {elegido.partes.join(' — ')}
 			</p>
 		{/if}
 	</div>
 
 	<div class="grid gap-6 lg:grid-cols-2">
 		<article class="space-y-2">
-			<h2 class="text-base font-semibold">A′ · Una respuesta y sus excepciones</h2>
+			<h2 class="text-base font-semibold">A′ — Una respuesta y sus excepciones</h2>
 			<p class="text-xs text-[color:var(--muted-foreground)]">
 				Se responde una vez; lo que se aparta se añade y se lee agrupado.
 			</p>
 			<Respuestas escenario={elegido} idea="A" />
 		</article>
 		<article class="space-y-2">
-			<h2 class="text-base font-semibold">E · Por respuesta, no por unidad</h2>
+			<h2 class="text-base font-semibold">E — Por respuesta, no por unidad</h2>
 			<p class="text-xs text-[color:var(--muted-foreground)]">
 				Una tabla por pregunta: qué se respondió, en cuántas unidades y dónde.
 			</p>
@@ -90,7 +90,7 @@
 	<div class="grid gap-6 lg:grid-cols-3">
 		{#each [['N1', 'Una línea por dimensión'], ['N2', 'Lo fijado, lo que dice el pasaje, y lo que no cabe'], ['N3', 'El criterio, pegado a su pregunta']] as [clave, nombre] (clave)}
 			<article class="space-y-2">
-				<h3 class="text-base font-semibold">{clave} · {nombre}</h3>
+				<h3 class="text-base font-semibold">{clave} — {nombre}</h3>
 				<Norma escenario={elegido} idea={clave as 'N1' | 'N2' | 'N3'} />
 			</article>
 		{/each}

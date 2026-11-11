@@ -34,8 +34,8 @@
 						<p class="mt-1 text-xs text-[color:var(--muted-foreground)]">{informe.editor}</p>
 					{/if}
 					<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
-						{informe.secuencias} secuencias · {informe.decidir} por decidir · {informe.responder}
-						por responder · {informe.confirmar} por confirmar · {informe.desviaciones} desviaciones
+						{informe.secuencias} secuencias — {informe.decidir} por decidir — {informe.responder}
+						por responder — {informe.confirmar} por confirmar — {informe.desviaciones} desviaciones
 					</p>
 				</li>
 			{/each}

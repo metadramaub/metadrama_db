@@ -72,7 +72,7 @@ describe('buildComentarioContextLabel', () => {
 				{ seccion: null, secuencia_id: null, jornada_id: null, cuadro_id: 'c1' },
 				createMaps()
 			)
-		).toBe('Jornada 2 · Cuadro 1 (vv. 121-180)');
+		).toBe('Jornada 2 — Cuadro 1 (vv. 121-180)');
 	});
 
 	it('falls back to cuadro-only label when the jornada cannot be resolved', () => {

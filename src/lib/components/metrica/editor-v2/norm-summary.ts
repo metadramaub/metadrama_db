@@ -133,7 +133,7 @@ function sectionPartsSummary(
 		parts.push(`${label}: ${extent}${optional}`);
 	}
 	if (parts.length === 0) return null;
-	return { value: [...new Set(parts)].join(' · '), allFixed };
+	return { value: [...new Set(parts)].join(' — '), allFixed };
 }
 
 function pluralizeSectionName(value: unknown): string {
@@ -209,8 +209,8 @@ function metreSyllables(models: MetricCatalogDomainRow[], metreId: string): stri
 
 function repeatedMeasure(tokens: string[], count: number | null): string {
 	if (tokens.length === 1 && count && count > 1) return `${count} × ${tokens[0]}`;
-	if (tokens.length <= 16) return tokens.join('·');
-	return `${tokens.slice(0, 16).join('·')}·…`;
+	if (tokens.length <= 16) return tokens.join('/');
+	return `${tokens.slice(0, 16).join('/')}/…`;
 }
 
 function naturalList(values: string[]): string {
@@ -281,7 +281,7 @@ function roleBasedMetreSummary(
 		 */
 		entries.push(`Base de ${naturalList(dominant)} sílabas`);
 	}
-	return entries.length > 0 ? [...new Set(entries)].join(' · ') : null;
+	return entries.length > 0 ? [...new Set(entries)].join(' — ') : null;
 }
 
 /**
@@ -482,7 +482,7 @@ function openMetreSummary(
 			: '';
 		entries.push(`${subject}versos de ${naturalList(syllables)} sílabas${inheritance}`);
 	}
-	return entries.length > 0 ? [...new Set(entries)].join(' · ') : null;
+	return entries.length > 0 ? [...new Set(entries)].join(' — ') : null;
 }
 
 function fixedMetreSummary(
@@ -541,7 +541,7 @@ function fixedMetreSummary(
 		const subject = sectionName(sections, id(pattern, 'seccion_id'));
 		entries.push(subject ? `${subject}: ${value}` : value);
 	}
-	return entries.length > 0 ? [...new Set(entries)].join(' · ') : null;
+	return entries.length > 0 ? [...new Set(entries)].join(' — ') : null;
 }
 
 function fixedRhymeSummary(
@@ -567,7 +567,7 @@ function fixedRhymeSummary(
 		const notation = String(scheme.notacion);
 		return [subject ? `${subject}: ${notation}` : notation];
 	});
-	return entries.length > 0 ? [...new Set(entries)].join(' · ') : null;
+	return entries.length > 0 ? [...new Set(entries)].join(' — ') : null;
 }
 
 function openRhymeSummary(
@@ -605,7 +605,7 @@ function openRhymeSummary(
 		const fragment = description.charAt(0).toLocaleLowerCase('es') + description.slice(1);
 		return [subject ? `${subject}: ${fragment}` : description];
 	});
-	return entries.length > 0 ? [...new Set(entries)].join(' · ') : null;
+	return entries.length > 0 ? [...new Set(entries)].join(' — ') : null;
 }
 
 function rhymeRestrictionValue(restriction: MetricCatalogDomainRow): string | null {
@@ -655,7 +655,7 @@ function rhymeRestrictionSummary(
 		.filter((restriction) => normativeSchemeIds.has(id(restriction, 'esquema_rima_id')))
 		.map(rhymeRestrictionValue)
 		.filter((value): value is string => Boolean(value));
-	return values.length > 0 ? [...new Set(values)].join(' · ') : null;
+	return values.length > 0 ? [...new Set(values)].join(' — ') : null;
 }
 
 function repetitionSummary(
@@ -670,7 +670,7 @@ function repetitionSummary(
 		)
 		.map((pattern) => String(pattern.descripcion || pattern.nombre || '').replace(/[.]$/, ''))
 		.filter(Boolean);
-	return values.length > 0 ? [...new Set(values)].join(' · ') : null;
+	return values.length > 0 ? [...new Set(values)].join(' — ') : null;
 }
 
 /**

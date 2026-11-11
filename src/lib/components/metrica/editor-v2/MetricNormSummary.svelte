@@ -34,7 +34,7 @@
 		if (fijadas.length > 0) trozos.push(`${fijadas.length} fijados`);
 		if (delPasaje.length > 0) trozos.push(`${delPasaje.length} del pasaje`);
 		if (admitidas.length > 0) trozos.push(`${admitidas.length} admitidos`);
-		return trozos.join(' · ');
+		return trozos.join(' — ');
 	});
 </script>
 
@@ -71,7 +71,7 @@
 				La norma
 			</span>
 			{#if !abierta && resumen}
-				<span class="truncate text-xs text-[color:var(--muted-foreground)]">· {resumen}</span>
+				<span class="truncate text-xs text-[color:var(--muted-foreground)]">— {resumen}</span>
 			{/if}
 		</button>
 		<a class="link-action shrink-0 text-xs" href={props.catalogHref} target="_blank" rel="noreferrer">
@@ -90,8 +90,8 @@
 						**Una rejilla, no una fila que envuelve.**
 
 						Cada dato lleva su nombre encima, y eso estaba bien; lo que descuadraba era el
-						`flex-wrap`: «extensión · unidades completas de 5 versos» es cuatro veces más ancho
-						que «medida · 11», así que cada renglón partía por un sitio distinto y las
+						`flex-wrap`: «extensión — unidades completas de 5 versos» es cuatro veces más ancho
+						que «medida — 11», así que cada renglón partía por un sitio distinto y las
 						etiquetas no caían nunca en la misma vertical. En columnas se leen las etiquetas
 						en línea y se salta a la que interesa.
 					-->

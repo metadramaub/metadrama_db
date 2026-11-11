@@ -23,7 +23,7 @@
 			</p>
 			<h3 class="mt-1 font-semibold">{props.work.titulo}</h3>
 			<p class="mt-0.5 text-xs text-[color:var(--muted-foreground)]">
-				{props.work.autores.join(', ') || 'Autoría sin identificar'} · {props.date}
+				{props.work.autores.join(', ') || 'Autoría sin identificar'} — {props.date}
 			</p>
 		</div>
 		<a

@@ -73,7 +73,7 @@
 		const dominantes = esquema.repertorio.filter((medida) => medida.rol === 'dominante');
 		const quebrados = esquema.repertorio.filter((medida) => medida.rol === 'quebrado');
 		const listar = (medidas: typeof esquema.repertorio) =>
-			medidas.map((medida) => medida.silabas).join(' · ');
+			medidas.map((medida) => medida.silabas).join(' — ');
 		if (dominantes.length > 0 && quebrados.length > 0) {
 			return `${listar(dominantes)} de base, con quebrados de ${listar(quebrados)}`;
 		}
@@ -171,7 +171,7 @@
 	 * dibujo al lado y «A1» a secas sería opaco, así que el nombre guardado se queda entero y es
 	 * la ficha la que se queda con la primera parte.
 	 */
-	const codigoDeVariedad = (nombre: string): string => nombre.split(' · ')[0].trim() || nombre;
+	const codigoDeVariedad = (nombre: string): string => nombre.split(/ [·—] /)[0].trim() || nombre;
 
 	const palabraFinal = $derived(
 		arquitectura.repeticiones.some((repeticion) => repeticion.tipo === 'palabra_final')
@@ -298,11 +298,11 @@
 				>{valorPropio}</span
 			>{/if}
 		{#if rasgo.modalidad}
-			<span class="text-[color:var(--muted-foreground)]">· {rasgo.modalidad}</span>
+			<span class="text-[color:var(--muted-foreground)]">— {rasgo.modalidad}</span>
 		{/if}
 		{#if rasgo.posicionesMax !== null}
 			<span class="text-[color:var(--muted-foreground)]">
-				· hasta {rasgo.posicionesMax}
+				— hasta {rasgo.posicionesMax}
 				{rasgo.posicionesMax === 1 ? 'posición' : 'posiciones'}
 			</span>
 		{/if}
@@ -313,7 +313,7 @@
 				se conserva porque dice otra cosa — dónde cae el quiebro en esta arquitectura.
 			-->
 			<span class="text-[color:var(--muted-foreground)] italic">
-				· {rasgo.denominaciones.join(' · ')}
+				— {rasgo.denominaciones.join(' — ')}
 			</span>
 		{/if}
 		{#if rasgo.nota}
@@ -346,7 +346,7 @@
 	{/if}
 	{#if arquitectura.denominaciones.length > 0}
 		<p class="mt-2 text-sm text-[color:var(--muted-foreground)]">
-			También: {arquitectura.denominaciones.join(' · ')}
+			También: {arquitectura.denominaciones.join(' — ')}
 		</p>
 	{/if}
 
@@ -366,7 +366,7 @@
 					<td class="py-2.5 align-top">
 						<!--
 							Una variedad empareja medida y rima, así que se dibuja como todo lo demás de la
-							ficha: las dos alineadas verso a verso. Antes se leía «A1 · aBaBcC», luego
+							ficha: las dos alineadas verso a verso. Antes se leía «A1 — aBaBcC», luego
 							`7-11-7-11-7-11` y luego `ababcc` en tres columnas, y había que cruzarlas de
 							memoria; encima la última va sin caja, porque el esquema lo comparten tres
 							variedades de medidas distintas y la caja depende de la medida. Dibujadas
@@ -379,7 +379,7 @@
 										<span class="font-medium">{codigoDeVariedad(variedad.nombre)}</span>
 										{#if variedad.modalidad}
 											<span class="text-[color:var(--muted-foreground)]">
-												· {variedad.modalidad}
+												— {variedad.modalidad}
 											</span>
 										{/if}
 									</p>
@@ -396,7 +396,7 @@
 										</div>
 									{:else}
 										<p class="font-mono text-xs">
-											{[variedad.medida, variedad.rima].filter(Boolean).join(' · ')}
+											{[variedad.medida, variedad.rima].filter(Boolean).join(' — ')}
 										</p>
 									{/if}
 								</li>
@@ -424,7 +424,7 @@
 				{#each repertoriosAbiertos as esquema, i (`m:${i}`)}
 					<tr class="border-t border-[color:var(--border)]">
 						{@render dimension(
-							esquema.deLaSeccion ? `Medida · ${esquema.deLaSeccion}` : 'Medida',
+							esquema.deLaSeccion ? `Medida — ${esquema.deLaSeccion}` : 'Medida',
 							medidaDeterminada
 						)}
 						<td class="py-2.5 align-top">
@@ -602,7 +602,7 @@
 									<span class="font-medium">{repeticion.nombre}</span>
 									{#if repeticion.modalidad}
 										<span class="text-[color:var(--muted-foreground)]">
-											· {repeticion.modalidad}
+											— {repeticion.modalidad}
 										</span>
 									{/if}
 								{#if repeticion.descripcion}
@@ -632,8 +632,8 @@
 			{/if}
 
 			<!--
-				`permitidos` y `opcionales` se pintaban en dos bloques, «Rasgos permitidos ·
-				Permitido» y «Rasgos · Opcional», que dicen lo mismo con dos palabras distintas.
+				`permitidos` y `opcionales` se pintaban en dos bloques, «Rasgos permitidos —
+				Permitido» y «Rasgos — Opcional», que dicen lo mismo con dos palabras distintas.
 				Lo que de verdad los separa no es del lector sino del editor: `opcionales` son los
 				que tienen una pregunta en el formulario y `permitidos` los que no. Para quien lee
 				la ficha, los dos son lo mismo —puede darse, con esta frecuencia—, y la modalidad
@@ -674,7 +674,7 @@
 									>
 										{rasgo.valor ?? 'Sí'}
 										{#if !modalidadComun(grupo.valores) && rasgo.modalidad}
-											<span class="text-[color:var(--muted-foreground)]">· {rasgo.modalidad}</span>
+											<span class="text-[color:var(--muted-foreground)]">— {rasgo.modalidad}</span>
 										{/if}
 									</li>
 								{/each}
@@ -696,7 +696,7 @@
 									<li>
 										<span class="font-medium">{rasgo.valor ?? 'Sí'}</span>
 										{#if rasgo.modalidad}
-											<span class="text-[color:var(--muted-foreground)]">· {rasgo.modalidad}</span>
+											<span class="text-[color:var(--muted-foreground)]">— {rasgo.modalidad}</span>
 										{/if}
 										{#if rasgo.nota}
 											<InlineNotePopover

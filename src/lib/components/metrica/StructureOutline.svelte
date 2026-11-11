@@ -58,7 +58,7 @@
 							</span>
 							{#if props.secuenciasPorCuadro?.[`${jornada.numero}-${cuadro.numero}`]}
 								<span class="structure-outline__cuantos">
-									· {props.secuenciasPorCuadro[`${jornada.numero}-${cuadro.numero}`]} secuencias
+									— {props.secuenciasPorCuadro[`${jornada.numero}-${cuadro.numero}`]} secuencias
 								</span>
 							{/if}
 						</li>

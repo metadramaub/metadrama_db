@@ -173,7 +173,7 @@ export function resolveSequenceStructures<
 				return {
 					cuadroId: cuadro.cuadro_id,
 					cuadroNum: cuadro.cuadro_num,
-					label: `Cuadro ${cuadro.cuadro_num} · vv. ${vIni}-${vFin}`,
+					label: `Cuadro ${cuadro.cuadro_num} — vv. ${vIni}-${vFin}`,
 					vIni,
 					vFin
 				} satisfies SequenceStructureTramo;

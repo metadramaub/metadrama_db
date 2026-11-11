@@ -273,7 +273,7 @@
 <!--
 	**Una lista de versos, no una tabla.**
 
-	Esto llevaba una cabecera de tres columnas —«Posición · Medida · Elección»— dentro de una caja
+	Esto llevaba una cabecera de tres columnas —«Posición — Medida — Elección»— dentro de una caja
 	con su borde. En el pareado son tres rótulos para dos filas, y en ninguna forma dicen nada que la
 	fila no diga ya: el verso lleva su número, la barra lo que mide y los botones son visiblemente lo
 	que se elige. Rotular una tabla de dos filas es lo que la hacía parecer una tabla.
@@ -397,7 +397,7 @@
 				>
 					{#if choices.length === 0}
 						<span class="px-2 text-xs leading-7 text-[color:var(--muted-foreground)]">
-							{silabasAt(position) !== null ? `${silabasAt(position)} sílabas · fijo` : 'Sin medidas disponibles'}
+							{silabasAt(position) !== null ? `${silabasAt(position)} sílabas — fijo` : 'Sin medidas disponibles'}
 						</span>
 					{/if}
 					{#each choices as option (String(option.opcion_eleccion_id))}
@@ -450,9 +450,9 @@
 <p class="text-xs text-[color:var(--muted-foreground)]">
 		{props.selectedIds.length} de {versosQuePreguntan} versos con medida
 	{#if props.onRhymeChange}
-		· {Array.from(String(props.rhymeValue ?? '')).filter((char: string) => char.trim()).length} de {props.length} con rima
+		— {Array.from(String(props.rhymeValue ?? '')).filter((char: string) => char.trim()).length} de {props.length} con rima
 	{/if}
 	{#if props.partes && props.reparto}
-		· {tramos.filter((tramo) => tramo.parteId).map((tramo) => nombreEnLaLlave(tramo.parteId)).join(' · ') || 'sin partes'}
+		— {tramos.filter((tramo) => tramo.parteId).map((tramo) => nombreEnLaLlave(tramo.parteId)).join(' — ') || 'sin partes'}
 	{/if}
 </p>

@@ -76,7 +76,7 @@
 					<h3 class="text-base font-semibold">{props.titulo}</h3>
 					{#if props.rango}
 						<span class="whitespace-nowrap text-sm text-[color:var(--muted-foreground)]">
-							vv. {props.rango.v_ini}–{props.rango.v_fin} · {versos}
+							vv. {props.rango.v_ini}–{props.rango.v_fin} — {versos}
 							{versos === 1 ? 'verso' : 'versos'}
 						</span>
 					{/if}

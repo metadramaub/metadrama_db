@@ -58,7 +58,7 @@ describe('sequence-synopsis', () => {
 			{
 				cuadroId: 'c1',
 				cuadroNum: 1,
-				label: 'Cuadro 1 · vv. 10-20',
+				label: 'Cuadro 1 — vv. 10-20',
 				vIni: 10,
 				vFin: 20
 			}
@@ -97,8 +97,8 @@ describe('sequence-synopsis', () => {
 		expect(groups[0]?.cards[0]?.startingCuadro.label).toBe('Cuadro 1');
 		expect(groups[0]?.cards[0]?.endingCuadro.label).toBe('Cuadro 2');
 		expect(groups[0]?.cards[0]?.tramos.map((tramo) => tramo.label)).toEqual([
-			'Cuadro 1 · vv. 40-50',
-			'Cuadro 2 · vv. 51-80'
+			'Cuadro 1 — vv. 40-50',
+			'Cuadro 2 — vv. 51-80'
 		]);
 		expect(groups[0]?.items.map((item) => item.type)).toEqual(['card']);
 		// **La banda se parte donde cae el corte.** La secuencia va del 40 al 80 —41 versos— y el

@@ -36,7 +36,7 @@ export function datosMetricos(fila: FilaVistaPrevia): DatoMetricoVisible[] {
 		const metro = metrosImportador.find((m) => m.slug === d.metro_observado_slug)?.nombre ?? d.metro_observado_slug;
 		datos.push({
 			etiqueta: d.dimension === 'metro' ? 'Desviación de metro' : 'Desviación estructural',
-			valor: `${rango}: ${relaciones[String(d.relacion_norma)] ?? String(d.relacion_norma)}${metro ? ' · ' + String(metro) : ''}`
+			valor: `${rango}: ${relaciones[String(d.relacion_norma)] ?? String(d.relacion_norma)}${metro ? ' — ' + String(metro) : ''}`
 		});
 	}
 	return datos;
