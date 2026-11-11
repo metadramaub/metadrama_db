@@ -14,7 +14,6 @@
 		items: BreadcrumbItem[];
 		/** Etiqueta accesible del nav. */
 		ariaLabel?: string;
-		underlineCurrent?: boolean;
 	}>();
 
 	function display(item: BreadcrumbItem): string {
@@ -40,7 +39,7 @@
 			</a>
 		{:else}
 			<span
-				class="border-b pb-0.5 text-[color:var(--foreground)] {props.underlineCurrent === false ? 'border-transparent' : 'border-[color:var(--primary)]'}"
+				class="border-b border-[color:var(--primary)] pb-0.5 text-[color:var(--foreground)]"
 				aria-current="page"
 			>
 				{display(item)}

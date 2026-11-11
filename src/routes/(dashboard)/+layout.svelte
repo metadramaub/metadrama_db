@@ -189,7 +189,6 @@
 	<main class="min-w-0 bg-[color:var(--background)] p-6 md:h-screen md:overflow-y-auto">
 		<div class="mb-4 pb-3">
 			<Breadcrumb
-				underlineCurrent={$page.url.pathname !== '/dashboard/obras'}
 				items={breadcrumbs.length === 0 ? [{ label: 'Dashboard', href: '/dashboard' }] : breadcrumbs}
 			/>
 		</div>
