@@ -85,9 +85,9 @@
 						<h2 class="font-display text-xl">Mis obras publicadas</h2>
 						<span class="bg-[color:var(--muted)] px-2 py-1 text-xs font-semibold tabular-nums">{data.publishedAssignedSummary.total}</span>
 					</header>
-					<ul class="divide-y divide-[color:var(--border)] text-sm sm:grid sm:grid-cols-2 sm:gap-x-4 sm:divide-y-0">
+					<ul class="text-sm sm:grid sm:grid-cols-2 sm:gap-x-4">
 						{#each data.publishedAssignedSummary.items as obra (obra.obraId)}
-							<li class="sm:border-b sm:border-[color:var(--border)]">
+							<li>
 								<DashboardLinkRow href={`/dashboard/obras/${obra.obraId}`}><span class="font-medium">{obra.titulo}</span></DashboardLinkRow>
 							</li>
 						{/each}
