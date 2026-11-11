@@ -121,14 +121,8 @@
 		<aside class="min-w-0 space-y-6">
 			{#if data.overview}
 				<section class="border-t-2 border-[color:var(--primary)] bg-[color:var(--gray-50)]">
-					<h2 class="px-4 pt-3 font-display text-xl">Asignación y publicación</h2>
+					<h2 class="px-4 pt-3 font-display text-xl">Publicación</h2>
 					<ul class="mt-2 divide-y divide-[color:var(--border)]">
-						<li>
-							<DashboardLinkRow href="/dashboard/obras?scope=all&tipo=sin_ficha&editor=sin_asignar">
-								<span class="font-medium">Sin ficha y sin asignar</span>
-								{#snippet detail()}<span class="font-display text-xl tabular-nums">{data.overview.sinAsignar}</span>{/snippet}
-							</DashboardLinkRow>
-						</li>
 						{#if data.overview.estadoListo}
 							<li>
 								<DashboardLinkRow href={`/dashboard/obras?scope=all&estado=${data.overview.estadoListo}`}>

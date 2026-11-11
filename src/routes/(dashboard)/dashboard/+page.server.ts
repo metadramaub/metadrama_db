@@ -17,22 +17,20 @@ export const load: PageServerLoad = async ({ locals, parent, depends }) => {
 		const listo = estados.find(({ termino }) => termino === 'listo_para_publicar')?.termino_id;
 		const contar = () => locals.supabase.from(relacionObras()).select('obra_id', { count: 'exact', head: true });
 		const publicado = estados.find(({ termino }) => termino === 'publicado')?.termino_id;
-		const [sinFicha, basicas, completas, sinAsignar, listas, publicadas] = await Promise.all([
+		const [sinFicha, basicas, completas, listas, publicadas] = await Promise.all([
 			contar().eq('tipo_ficha', 'sin_ficha'),
 			contar().eq('tipo_ficha', 'basica'),
 			contar().eq('tipo_ficha', 'completa'),
-			contar().eq('tipo_ficha', 'sin_ficha').is('editor_asignado', null),
 			listo ? contar().eq('tipo_ficha', 'completa').eq('estado', listo) : null,
 			publicado ? contar().eq('tipo_ficha', 'completa').eq('estado', publicado).eq('visible_publico', true) : null
 		]);
-		if ([sinFicha, basicas, completas, sinAsignar, listas, publicadas].some((result) => result?.error)) {
+		if ([sinFicha, basicas, completas, listas, publicadas].some((result) => result?.error)) {
 			throw error(500, 'No se pudo cargar el resumen de obras.');
 		}
 		return {
 			sinFicha: sinFicha.count ?? 0,
 			basicas: basicas.count ?? 0,
 			completas: completas.count ?? 0,
-			sinAsignar: sinAsignar.count ?? 0,
 			listas: listas?.count ?? 0,
 			publicadas: publicadas?.count ?? 0,
 			estadoListo: listo
