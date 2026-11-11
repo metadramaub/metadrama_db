@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { datacionDeObra, limitesDatacion, mediaDatacion, formatoDatacion } from '$lib/dataciones';
-	import { createEventDispatcher, onMount } from 'svelte';
+	import { createEventDispatcher, onMount, type Snippet } from 'svelte';
 	import { ArrowDown, ArrowUp, ClipboardCheck, ExternalLink, Eye, FilePlus2, FileText, Pencil, Upload } from 'lucide-svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import { esFichaBasica } from '$lib/importador-metrico/tipo-ficha';
@@ -41,6 +41,7 @@
 		onSelectionChange?: (ids: string[]) => void;
 		embedded?: boolean;
 		control?: boolean;
+		buscador?: Snippet;
 		mostrarDatosBibliograficos?: boolean;
 		onStart?: (id:string)=>void;
 	}>();
@@ -192,8 +193,13 @@
 	</a>
 {/snippet}
 
-{#if props.control}
+{#if props.control || props.buscador}
 	<div class="mb-2 flex flex-wrap items-center justify-end gap-2 text-sm">
+		{#if props.buscador}
+			<div class="mr-auto w-full sm:max-w-xs">{@render props.buscador()}</div>
+		{/if}
+		{#if props.control}
+		<div class="ml-auto flex flex-wrap items-center gap-2">
 		<label class="flex items-center gap-2">
 			<span>Ordenar por</span>
 			<select value={sortField} onchange={(event) => cambiarOrden(event.currentTarget.value as SortField)}
@@ -208,6 +214,8 @@
 			() => toggleSort(sortField))}
 		<CheckDropdown compact portal closeOnSelect={false} label="Columnas visibles" placeholder="Columnas"
 			items={columnas} selectedIds={columnasVisibles} onChange={cambiarColumnas} triggerLabel="Columnas" />
+		</div>
+		{/if}
 	</div>
 {/if}
 

@@ -152,18 +152,12 @@
 		</div>
 	</div>
 
-	<div class="flex flex-wrap items-center justify-between gap-2">
-		{#if canReadAll}
+	{#if canReadAll}
+		<div>
 			<SegmentedChoice items={ambitos} value={scope} ariaLabel="Ámbito de obras"
 				onChange={(id) => { if (id === 'mine' || id === 'all') goScope(id); }} />
-		{/if}
-		<label class="relative min-w-0 flex-1 sm:max-w-xs">
-			<span class="sr-only">Buscar por título</span>
-			<Search size={16} aria-hidden="true" class="pointer-events-none absolute left-2.5 top-2.5 text-[color:var(--muted-foreground)]" />
-			<input type="search" bind:value={q} placeholder="Buscar por título"
-				class="h-9 w-full border border-[color:var(--border)] bg-white pl-8 pr-2.5 text-sm" />
-		</label>
-	</div>
+		</div>
+	{/if}
 
 	{#if control}
 		<div class="grid items-end gap-2 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">
@@ -230,7 +224,16 @@
 		onSelectionChange={canCreate ? (ids) => (selectedIds = ids) : undefined}
 		obras={filteredObras}
 		on:open={(event) => goto('/dashboard/obras/' + event.detail)}
-	/>
+	>
+		{#snippet buscador()}
+			<label class="relative block">
+				<span class="sr-only">Buscar por título</span>
+				<Search size={16} aria-hidden="true" class="pointer-events-none absolute left-2.5 top-2 text-[color:var(--muted-foreground)]" />
+				<input type="search" bind:value={q} placeholder="Buscar por título"
+					class="h-8 w-full border border-[color:var(--border)] bg-white pl-8 pr-2.5 text-sm" />
+			</label>
+		{/snippet}
+	</ObrasTable>
 	{#if canCreate && selectedIds.length && selectedWorks.every((obra: DashboardObra) => !['basica', 'minima'].includes(obra.tipo_ficha ?? ''))}
 		<BulkAssignments works={selectedWorks} editors={data.editorOptions} oncomplete={() => (selectedIds = [])} />
 	{/if}
