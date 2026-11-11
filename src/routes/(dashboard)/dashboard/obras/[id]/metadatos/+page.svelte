@@ -4,12 +4,18 @@
 	import DatosObraTab from '$lib/components/editor/DatosObraTab.svelte';
 	import AutoriaTab from '$lib/components/editor/AutoriaTab.svelte';
 	import Button from '$lib/components/ui/button.svelte';
+	import Tabs from '$lib/components/ui/tabs.svelte';
 	import { currentObraStore, setCurrentObra } from '$lib/stores/currentObra';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 	let guardarDatos = $state(0);
 	let guardarAutoria = $state(0);
+	const tabs = [
+		{ id: 'datos', label: 'Datos de la obra' },
+		{ id: 'autoria', label: 'Autoría' }
+	];
+	let pestaña = $state<'datos' | 'autoria'>('datos');
 	const obra = $derived($currentObraStore.obra?.obra_id === data.obra.obra_id ? $currentObraStore.obra : data.obra);
 
 	beforeNavigate(({ cancel, willUnload }) => {
@@ -26,14 +32,22 @@
 <section class="space-y-5">
 	<a href="/dashboard/obras" class="text-sm underline">Volver a Obras</a>
 	<h1 class="text-xl font-semibold">{obra.titulo}</h1>
-	<div class="space-y-3">
+	<Tabs {tabs} active={pestaña} onChange={(id) => {
+		if (id === 'datos' || id === 'autoria') pestaña = id;
+	}}>
+		{#snippet actions()}
+			<Button loading={Boolean($currentObraStore.savingByScope[pestaña])}
+				disabled={!$currentObraStore.dirtyByScope[pestaña]}
+				onclick={() => {
+					if (pestaña === 'datos') guardarDatos++;
+					else guardarAutoria++;
+				}}>Guardar</Button>
+		{/snippet}
+	</Tabs>
+	<div hidden={pestaña !== 'datos'}>
 		<DatosObraTab {obra} generoOptions={data.generoOptions} saveRequestToken={guardarDatos} soloDatos />
-		<Button loading={Boolean($currentObraStore.savingByScope.datos)}
-			disabled={!$currentObraStore.dirtyByScope.datos} onclick={() => guardarDatos++}>Guardar datos</Button>
 	</div>
-	<div class="space-y-3 border-t border-[color:var(--border)] pt-5">
+	<div hidden={pestaña !== 'autoria'}>
 		<AutoriaTab obraId={obra.obra_id} {obra} roleTerm={data.roleTerm} saveRequestToken={guardarAutoria} soloDatos />
-		<Button loading={Boolean($currentObraStore.savingByScope.autoria)}
-			disabled={!$currentObraStore.dirtyByScope.autoria} onclick={() => guardarAutoria++}>Guardar autoría</Button>
 	</div>
 </section>
