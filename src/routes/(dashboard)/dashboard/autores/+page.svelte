@@ -201,9 +201,15 @@
 					</tr>
 				{:else}
 					{#each sortedAuthors as author (author.autor_id)}
+						{@const nombreVisible = sortField === 'nombre_normalizado'
+							? author.nombre_normalizado || author.nombre_completo
+							: author.nombre_completo}
 						<tr class="border-t border-[color:var(--border)]">
 							<td class="px-3 py-2">
-								<div class="font-medium">{author.nombre_completo}</div>
+								<div class="font-medium">{nombreVisible}</div>
+								{#if nombreVisible !== author.nombre_completo}
+									<div class="mt-1 text-xs text-[color:var(--muted-foreground)]">{author.nombre_completo}</div>
+								{/if}
 								{#if author.variantes_nombre && author.variantes_nombre.length > 0}
 									<div class="mt-1 text-xs text-[color:var(--muted-foreground)]">
 										Variantes: {author.variantes_nombre.join(', ')}
