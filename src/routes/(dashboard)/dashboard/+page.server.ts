@@ -4,6 +4,7 @@ import { getAssignedEditorObras, getNotifications, getPublishedAssignedSummary }
 import { getInformesVisibles } from '$lib/server/migracion-informes';
 import { relacionObras } from '$lib/server/modelo-obras';
 import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
+import { getSupabaseAdmin } from '$lib/server/supabase-admin';
 
 export const load: PageServerLoad = async ({ locals, parent, depends }) => {
 	depends('dashboard:home');
@@ -35,13 +36,34 @@ export const load: PageServerLoad = async ({ locals, parent, depends }) => {
 		};
 	}
 
-	const [overview, recentActivity, assignedEditorObras, publishedAssignedSummary, informesMigracion] = await Promise.all([
+	async function loadProjectProgress() {
+		try {
+			// La consulta privilegiada devuelve solo recuentos. Las obras conservan su acceso habitual.
+			const admin = getSupabaseAdmin();
+			const estados = await loadInternalVocabulario(locals.supabase, ['estado']);
+			const publicado = estados.find(({ termino }) => termino === 'publicado')?.termino_id;
+			if (!publicado) return null;
+			const contar = () => admin.from(relacionObras()).select('obra_id', { count: 'exact', head: true });
+			const [total, completas, publicadas] = await Promise.all([
+				contar(),
+				contar().eq('tipo_ficha', 'completa'),
+				contar().eq('tipo_ficha', 'completa').eq('estado', publicado)
+			]);
+			if (total.error || completas.error || publicadas.error) return null;
+			return { total: total.count ?? 0, completas: completas.count ?? 0, publicadas: publicadas.count ?? 0 };
+		} catch {
+			return null;
+		}
+	}
+
+	const [overview, recentActivity, assignedEditorObras, publishedAssignedSummary, informesMigracion, projectProgress] = await Promise.all([
 		isAdminOrIp ? loadOverview() : null,
 		isAdminOrIp ? getNotifications(locals, profile, 7, 3, importador != null) : [],
 		getAssignedEditorObras(locals, profile, true),
 		getPublishedAssignedSummary(locals, profile),
-		getInformesVisibles(locals.supabase, profile)
+		getInformesVisibles(locals.supabase, profile),
+		isAdminOrIp ? null : loadProjectProgress()
 	]);
 
-	return { profile, overview, recentActivity, assignedEditorObras, publishedAssignedSummary, informesMigracion: informesMigracion.length };
+	return { profile, overview, recentActivity, assignedEditorObras, publishedAssignedSummary, projectProgress, informesMigracion: informesMigracion.length };
 };

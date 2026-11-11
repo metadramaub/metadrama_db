@@ -9,6 +9,15 @@
 
 	let { data } = $props<{ data: PageData }>();
 	const assigned = $derived(data.assignedEditorObras.filter((obra) => obra.estadoTerm !== 'publicado'));
+	const overviewMetrics = $derived(data.overview ? [
+		{ label: 'Sin ficha', count: data.overview.sinFicha, href: '/dashboard/obras?scope=all&tipo=sin_ficha' },
+		{ label: 'Fichas básicas', count: data.overview.basicas, href: '/dashboard/obras?scope=all&tipo=basica' },
+		{ label: 'Fichas completas', count: data.overview.completas, href: '/dashboard/obras?scope=all&tipo=completa' }
+	] : data.projectProgress ? [
+		{ label: 'Obras registradas', count: data.projectProgress.total },
+		{ label: 'Fichas completas', count: data.projectProgress.completas },
+		{ label: 'Obras publicadas', count: data.projectProgress.publicadas }
+	] : []);
 	const estados: Record<string, string> = {
 		borrador: 'Borrador', vista_previa: 'Vista previa', listo_para_publicar: 'Lista para publicar'
 	};
@@ -26,27 +35,25 @@
 		<p class="mt-1 text-sm text-[color:var(--muted-foreground)]">Hola, {data.profile.nombreCompleto}</p>
 	</header>
 
-	{#if data.overview}
+	{#if overviewMetrics.length}
 		<section class="bg-[color:var(--gray-900)] px-5 py-5 text-white sm:px-6">
 			<div class="flex flex-wrap items-baseline justify-between gap-2">
-				<h2 class="font-display text-2xl">Obras del proyecto</h2>
-				<a class="inline-flex items-center gap-2 text-sm underline-offset-4 hover:underline" href="/dashboard/obras?scope=all">
-					Todas las obras <ArrowRight size={16} aria-hidden="true" />
-				</a>
+				<h2 class="font-display text-2xl">{data.overview ? 'Obras del proyecto' : 'Avance del proyecto'}</h2>
+				{#if data.overview}
+					<a class="inline-flex items-center gap-2 text-sm underline-offset-4 hover:underline" href="/dashboard/obras?scope=all">
+						Todas las obras <ArrowRight size={16} aria-hidden="true" />
+					</a>
+				{/if}
 			</div>
 			<ul class="mt-4 grid gap-2 sm:grid-cols-3 sm:gap-4">
-				{#each [
-					{ tipo: 'sin_ficha', label: 'Sin ficha', count: data.overview.sinFicha },
-					{ tipo: 'basica', label: 'Fichas básicas', count: data.overview.basicas },
-					{ tipo: 'completa', label: 'Fichas completas', count: data.overview.completas }
-				] as item (item.tipo)}
+				{#each overviewMetrics as item (item.label)}
 					<li>
-						<a class="group flex items-center gap-3 border-t border-[color:var(--gray-700)] py-3 hover:bg-[color:var(--gray-800)] sm:flex-wrap"
-							href={`/dashboard/obras?scope=all&tipo=${item.tipo}`}>
+						<svelte:element this={item.href ? 'a' : 'div'} href={item.href}
+							class="group flex items-center gap-3 border-t border-[color:var(--gray-700)] py-3 sm:flex-wrap {item.href ? 'hover:bg-[color:var(--gray-800)]' : ''}">
 							<span class="font-display text-3xl tabular-nums">{item.count}</span>
 							<span class="text-sm text-[color:var(--gray-300)]">{item.label}</span>
-							<ArrowRight class="ml-auto shrink-0 transition-transform group-hover:translate-x-0.5" size={16} aria-hidden="true" />
-						</a>
+							{#if item.href}<ArrowRight class="ml-auto shrink-0 transition-transform group-hover:translate-x-0.5" size={16} aria-hidden="true" />{/if}
+						</svelte:element>
 					</li>
 				{/each}
 			</ul>
