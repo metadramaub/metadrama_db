@@ -46,8 +46,8 @@ export const load: PageServerLoad = async ({ locals, parent, depends }) => {
 			const contar = () => admin.from(relacionObras()).select('obra_id', { count: 'exact', head: true });
 			const [total, enProceso, publicadas, importadas] = await Promise.all([
 				contar(),
-				contar().eq('tipo_ficha', 'completa').neq('estado', publicado),
-				contar().eq('tipo_ficha', 'completa').eq('estado', publicado),
+				contar().eq('tipo_ficha', 'completa').not('editor_asignado', 'is', null).neq('estado', publicado),
+				contar().eq('tipo_ficha', 'completa').eq('estado', publicado).eq('visible_publico', true),
 				contar().eq('tipo_ficha', 'basica')
 			]);
 			if (total.error || enProceso.error || publicadas.error || importadas.error) return null;

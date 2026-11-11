@@ -60,7 +60,7 @@
 			{#if data.projectProgress && data.projectProgress.importadas > 0}
 				<p class="border-t border-[color:var(--gray-700)] pt-3 text-sm text-[color:var(--gray-300)]">
 					<strong class="tabular-nums text-white">{data.projectProgress.importadas}</strong>
-					{data.projectProgress.importadas === 1 ? 'obra con datos métricos importados' : 'obras con datos métricos importados'} para comparaciones.
+					{data.projectProgress.importadas === 1 ? 'obra' : 'obras'} con datos métricos básicos importados.
 				</p>
 			{/if}
 		</section>
