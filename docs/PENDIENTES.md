@@ -30,6 +30,17 @@ La edición de básicas y la transición básica → completa siguen pendientes 
 acordado; requieren diseñar el aprovechamiento opcional de los datos importados y la sustitución
 por la completa. No se convierten automáticamente al asignar un editor.
 
+## Revisión del dashboard
+
+- Acordar la referencia visual y revisar breadcrumb, cabeceras, acciones y tablas de obras,
+  secuencias, autores y editores. Consolidar estilos compartidos y reducir el uso decorativo
+  del dorado, los separadores y las tarjetas anidadas.
+- Unificar los modales y diálogos de toda la web en un componente base. Compartir el cierre,
+  la gestión del foco y la estructura de cabecera, contenido y pie. Incluir Crear obras y
+  Gestionar corpus en el inventario.
+- Después del repaso visual, revisar comportamientos, llamadas y reutilización de datos.
+  Empezar por las dos entradas de Iniciar completa y la protección de cambios sin guardar.
+
 ## Los dos hitos
 
 **1 · Avanzar el laboratorio comparativo.** `corpus_comparativas` V2 ofrece la matriz por obra y los
