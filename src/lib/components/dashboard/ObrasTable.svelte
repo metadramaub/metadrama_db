@@ -3,6 +3,7 @@
 	import { createEventDispatcher, onMount, type Snippet } from 'svelte';
 	import { ArrowDown, ArrowUp, ClipboardCheck, ExternalLink, Eye, FilePlus2, FileText, Pencil, Upload } from 'lucide-svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
+	import Table from '$lib/components/ui/table.svelte';
 	import { esFichaBasica } from '$lib/importador-metrico/tipo-ficha';
 	import { formatRelative } from '$lib/utils/formatters';
 
@@ -218,9 +219,8 @@
 	</div>
 {/if}
 
-<div class="overflow-x-auto">
-	<table class="w-full text-left text-sm">
-		<thead class="text-xs text-[color:var(--foreground)]">
+<Table>
+		<thead>
 			<tr>
 				{#if props.onSelectionChange}
 					<th scope="col" class="w-px px-3 py-2">
@@ -329,5 +329,4 @@
 				</tr>
 			{/each}
 		</tbody>
-	</table>
-</div>
+</Table>

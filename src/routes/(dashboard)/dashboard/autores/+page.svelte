@@ -2,6 +2,7 @@
 	import { portal } from '$lib/actions/portal';
 	import { goto } from '$app/navigation';
 	import Button from '$lib/components/ui/button.svelte';
+	import Table from '$lib/components/ui/table.svelte';
 	import { pushToast } from '$lib/stores/toast';
 	import { formatRelative } from '$lib/utils/formatters';
 	import type { PageData } from './$types';
@@ -130,17 +131,14 @@
 </script>
 
 <section>
-	<div class="mb-4 flex items-end justify-between gap-4">
-		<div>
-			<h1 class="font-display text-3xl">AUTORES</h1>
-			<p class="text-sm text-[color:var(--muted-foreground)]">Listado de autores de la base de datos.</p>
-		</div>
+	<header class="mb-4 flex flex-wrap items-center justify-between gap-3">
+		<h1 class="font-display text-3xl text-[color:var(--gray-900)]">Autores</h1>
 		{#if canCreate}
-			<Button variant="secondary" onclick={() => (createModalOpen = true)}>Crear nuevo autor</Button>
+			<Button variant="dark" onclick={() => (createModalOpen = true)}>Crear autor</Button>
 		{/if}
-	</div>
+	</header>
 
-	<form class="card mb-4 grid gap-3 p-4 md:grid-cols-[1fr_auto]" onsubmit={applyFilters}>
+	<form class="mb-4 grid max-w-xl gap-3 sm:grid-cols-[1fr_auto]" onsubmit={applyFilters}>
 		<label class="form-field">
 			<span class="form-label">Buscar autor</span>
 			<input
@@ -151,13 +149,12 @@
 			/>
 		</label>
 		<div class="flex items-end">
-			<Button type="submit" class="w-full">Aplicar filtros</Button>
+			<Button type="submit" variant="ghost" class="w-full">Buscar</Button>
 		</div>
 	</form>
 
-	<div class="card overflow-x-auto">
-		<table class="min-w-full text-left text-sm">
-			<thead class="bg-[color:var(--muted)]">
+	<Table>
+			<thead>
 				<tr>
 					<th class="px-3 py-2">Autor</th>
 					<th class="px-3 py-2">Obras</th>
@@ -184,9 +181,7 @@
 								{/if}
 							</td>
 							<td class="px-3 py-2">
-								<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-1 text-xs">
-									{author.works_count}
-								</span>
+								{author.works_count}
 							</td>
 							<td class="px-3 py-2">{formatRelative(author.updated_at)}</td>
 							<td class="px-3 py-2">
@@ -198,8 +193,7 @@
 					{/each}
 				{/if}
 			</tbody>
-		</table>
-	</div>
+	</Table>
 </section>
 
 {#if createModalOpen}
