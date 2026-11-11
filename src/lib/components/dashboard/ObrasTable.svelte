@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { datacionDeObra, limitesDatacion, mediaDatacion, formatoDatacion } from '$lib/dataciones';
-	import { createEventDispatcher } from 'svelte';
-	import Button from '$lib/components/ui/button.svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
+	import { ArrowDown, ArrowUp, ClipboardCheck, ExternalLink, Eye, FilePlus2, FileText, Pencil, Upload } from 'lucide-svelte';
+	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
+	import { esFichaBasica } from '$lib/importador-metrico/tipo-ficha';
 	import { formatRelative } from '$lib/utils/formatters';
 
 	export interface ObraRow {
@@ -9,6 +11,8 @@
 		slug: string | null;
 		titulo: string;
 		estadoTerm: string;
+		estadoLabel?: string;
+		tipoFichaLabel?: string;
 		editorNombre: string;
 		updated_at: string | null;
 		visible_publico?: boolean | null;
@@ -46,11 +50,56 @@
 		const visible = new Set(props.obras.map((obra: ObraRow) => obra.obra_id));
 		props.onSelectionChange?.(allSelected ? selected.filter((id: string) => !visible.has(id)) : [...new Set([...selected, ...visible])]);
 	}
-	const dispatch = createEventDispatcher<{ open: string; preview: string }>();
+	const dispatch = createEventDispatcher<{ open: string }>();
 	type SortField = 'titulo' | 'updated_at' | 'autor' | 'editor' | 'inicio' | 'fin' | 'media' | 'corpus';
 	type SortDirection = 'asc' | 'desc';
+	const columnas = [
+		{ id: 'autor', label: 'Autoría' },
+		{ id: 'datacion', label: 'Datación' },
+		{ id: 'corpus', label: 'Corpus' },
+		{ id: 'ficha', label: 'Ficha' },
+		{ id: 'estado', label: 'Estado' },
+		{ id: 'editor', label: 'Editor' },
+		{ id: 'updated_at', label: 'Modificación' }
+	];
+	const criterios: { id: SortField; label: string }[] = [
+		{ id: 'titulo', label: 'Título' },
+		{ id: 'autor', label: 'Autoría' },
+		{ id: 'inicio', label: 'Datación (inicio)' },
+		{ id: 'fin', label: 'Datación (fin)' },
+		{ id: 'media', label: 'Datación (media)' },
+		{ id: 'corpus', label: 'Corpus' },
+		{ id: 'editor', label: 'Editor' },
+		{ id: 'updated_at', label: 'Modificación' }
+	];
+	let columnasVisibles = $state(columnas.filter(({ id }) => id !== 'updated_at').map(({ id }) => id));
+	const claveColumnas = 'dashboard-obras-columnas';
+	onMount(() => {
+		if (!props.control) return;
+		try {
+			const guardadas: unknown = JSON.parse(localStorage.getItem(claveColumnas) ?? 'null');
+			if (Array.isArray(guardadas)) columnasVisibles = columnas.filter(({ id }) => guardadas.includes(id)).map(({ id }) => id);
+		} catch {
+			// La preferencia de este navegador es opcional.
+		}
+	});
+
+	function cambiarColumnas(ids: string[]) {
+		columnasVisibles = ids;
+		try {
+			localStorage.setItem(claveColumnas, JSON.stringify(ids));
+		} catch {
+			// La selección sigue disponible durante la visita.
+		}
+	}
+	const columnasActivas = $derived(new Set(props.control ? columnasVisibles : ['estado', 'editor', 'updated_at']));
+	const numeroColumnas = $derived(2 + columnasActivas.size + Number(Boolean(props.onSelectionChange)));
 	let sortField = $state<SortField>('updated_at');
 	let sortDirection = $state<SortDirection>('desc');
+	let criterioDatacion = $state<'inicio' | 'fin' | 'media'>('inicio');
+	const acciones = 'inline-flex size-7 items-center justify-center rounded transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2';
+	const accionNeutra = 'text-[color:var(--muted-foreground)] hover:bg-[color:var(--muted)] hover:text-[color:var(--foreground)]';
+	const accionEdicion = 'text-[color:var(--success)] hover:bg-[color:var(--success)] hover:text-white';
 
 	const sortedObras = $derived.by(() => {
 		const rows = [...props.obras];
@@ -82,13 +131,18 @@
 			sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
 			return;
 		}
-		sortField = field;
-		sortDirection = field === 'updated_at' ? 'desc' : 'asc';
+		cambiarOrden(field);
 	}
 
-	function sortIndicator(field: SortField): string {
-		if (sortField !== field) return '';
-		return sortDirection === 'asc' ? ' ↑' : ' ↓';
+	function cambiarOrden(field: SortField) {
+		sortField = field;
+		sortDirection = field === 'updated_at' ? 'desc' : 'asc';
+		if (field === 'inicio' || field === 'fin' || field === 'media') criterioDatacion = field;
+	}
+
+	function sortOrder(field: SortField) {
+		if (sortField !== field) return undefined;
+		return sortDirection === 'asc' ? 'ascending' : 'descending';
 	}
 
 	function actionLabel(obra: ObraRow) {
@@ -97,110 +151,164 @@
 		return 'Ver';
 	}
 
-	function actionHint(obra: ObraRow) {
-		if (obra.canRead === false) return '';
-		if (obra.canEditContent) return '';
-		if (obra.canReview || obra.canComment || obra.canChangeState) return 'Solo revisión';
-		return 'Solo lectura';
-	}
-
 	function canOpenPreview(obra: ObraRow) {
 		return Boolean(obra.slug && obra.canPreviewPublicFicha);
 	}
 
-	// Obra ajena que no puedo abrir en el dashboard: si tiene ficha pública visible,
-	// ofrezco su ficha; si no, no muestro ninguna acción.
-	// visible_publico solo puede ser true cuando la obra está en estado publicado
-	// (lo garantiza un trigger en BD), así que basta con comprobar ese flag.
 	function canOpenPublicFicha(obra: ObraRow) {
-		return obra.canRead === false && Boolean(obra.slug) && obra.visible_publico === true;
+		return Boolean(obra.slug && obra.visible_publico && obra.estadoTerm === 'publicado');
 	}
 </script>
 
+{#snippet ordenar(field: SortField, label: string)}
+	<button type="button" class="inline-flex items-center gap-0.5 whitespace-nowrap underline-offset-2 hover:underline"
+		onclick={() => toggleSort(field)}>
+		{label}
+		{#if sortField === field}
+			{#if sortDirection === 'asc'}<ArrowUp size={12} aria-hidden="true" />
+			{:else}<ArrowDown size={12} aria-hidden="true" />{/if}
+		{/if}
+	</button>
+{/snippet}
+
+{#snippet accion(Icon: typeof Pencil, label: string, onclick: () => void, editar = false)}
+	<button type="button" class={acciones + ' ' + (editar ? accionEdicion : accionNeutra)}
+		aria-label={label} title={label} {onclick}>
+		<Icon size={16} aria-hidden="true" />
+	</button>
+{/snippet}
+
+{#snippet enlaceFicha(Icon: typeof Pencil, label: string, slug: string)}
+	<a class={acciones + ' ' + accionNeutra} href={'/obras/' + slug} aria-label={label} title={label}>
+		<Icon size={16} aria-hidden="true" />
+	</a>
+{/snippet}
+
+{#if props.control}
+	<div class="mb-2 flex flex-wrap items-center justify-end gap-2 text-sm">
+		<label class="flex items-center gap-2">
+			<span>Ordenar por</span>
+			<select value={sortField} onchange={(event) => cambiarOrden(event.currentTarget.value as SortField)}
+				class="h-8 border border-[color:var(--border)] bg-white px-2">
+				{#each criterios as criterio (criterio.id)}
+					<option value={criterio.id}>{criterio.label}</option>
+				{/each}
+			</select>
+		</label>
+		{@render accion(sortDirection === 'asc' ? ArrowUp : ArrowDown,
+			sortDirection === 'asc' ? 'Orden ascendente. Cambiar a descendente' : 'Orden descendente. Cambiar a ascendente',
+			() => toggleSort(sortField))}
+		<CheckDropdown compact portal closeOnSelect={false} label="Columnas visibles" placeholder="Columnas"
+			items={columnas} selectedIds={columnasVisibles} onChange={cambiarColumnas} triggerLabel="Columnas" />
+	</div>
+{/if}
+
 <div class={props.embedded ? 'overflow-x-auto' : 'card overflow-x-auto'}>
-	<table class="min-w-full text-left text-sm">
-		<thead class="bg-[color:var(--muted)]">
+	<table class="w-full text-left text-sm">
+		<thead class="bg-[color:var(--muted)] text-xs text-[color:var(--muted-foreground)]">
 			<tr>
-				{#if props.onSelectionChange}<th class="px-3 py-2"><input type="checkbox" aria-label="Seleccionar todas las obras filtradas" checked={allSelected} onchange={toggleAll} /></th>{/if}
-				<th class="px-3 py-2">
-					<button class="underline-offset-2 hover:underline" onclick={() => toggleSort('titulo')}>
-						Título{sortIndicator('titulo')}
-					</button>
-				</th>
-				<th class="px-3 py-2">Estado</th>
-				{#if props.control}
-					<th class="px-3 py-2"><button onclick={()=>toggleSort('autor')}>Autoría{sortIndicator('autor')}</button></th>
-					<th class="px-3 py-2"><button onclick={()=>toggleSort('inicio')}>Inicio{sortIndicator('inicio')}</button> / <button onclick={()=>toggleSort('fin')}>Fin{sortIndicator('fin')}</button> / <button onclick={()=>toggleSort('media')}>Media{sortIndicator('media')}</button></th>
-					<th class="px-3 py-2"><button onclick={()=>toggleSort('corpus')}>Corpus{sortIndicator('corpus')}</button></th>
+				{#if props.onSelectionChange}
+					<th scope="col" class="w-px px-3 py-2">
+						<input type="checkbox" class="align-middle accent-[color:var(--primary)]" aria-label="Seleccionar todas las obras filtradas" checked={allSelected} onchange={toggleAll} />
+					</th>
 				{/if}
-				<th class="px-3 py-2"><button onclick={()=>toggleSort('editor')}>Editor{sortIndicator('editor')}</button></th>
-				<th class="px-3 py-2">
-					<button class="underline-offset-2 hover:underline" onclick={() => toggleSort('updated_at')}>
-						Última modificación{sortIndicator('updated_at')}
-					</button>
+				<th scope="col" class="min-w-48 px-3 py-2 font-medium" aria-sort={sortOrder('titulo')}>
+					{@render ordenar('titulo', 'Título')}
 				</th>
-				<th class="px-3 py-2">Acciones</th>
+				{#if columnasActivas.has('autor')}
+					<th scope="col" class="min-w-[8rem] px-3 py-2 font-medium" aria-sort={sortOrder('autor')}>
+						{@render ordenar('autor', 'Autoría')}
+					</th>
+				{/if}
+				{#if columnasActivas.has('datacion')}
+					<th scope="col" class="px-3 py-2 font-medium" aria-sort={sortOrder(criterioDatacion)}>
+						{@render ordenar(criterioDatacion, 'Datación')}
+					</th>
+				{/if}
+				{#if columnasActivas.has('corpus')}
+					<th scope="col" class="px-3 py-2 font-medium" aria-sort={sortOrder('corpus')}>
+						{@render ordenar('corpus', 'Corpus')}
+					</th>
+				{/if}
+				{#if columnasActivas.has('ficha')}<th scope="col" class="px-3 py-2 font-medium">Ficha</th>{/if}
+				{#if columnasActivas.has('estado')}<th scope="col" class="px-3 py-2 font-medium">Estado</th>{/if}
+				{#if columnasActivas.has('editor')}
+					<th scope="col" class="min-w-36 px-3 py-2 font-medium" aria-sort={sortOrder('editor')}>
+						{@render ordenar('editor', 'Editor')}
+					</th>
+				{/if}
+				{#if columnasActivas.has('updated_at')}
+					<th scope="col" class="px-3 py-2 font-medium" aria-sort={sortOrder('updated_at')}>
+						{@render ordenar('updated_at', 'Modificación')}
+					</th>
+				{/if}
+				<th scope="col" class="w-px px-3 py-2 text-right font-medium">Acciones</th>
 			</tr>
 		</thead>
 		<tbody>
-			{#if sortedObras.length === 0}
-				<tr>
-					<td class="px-3 py-4 text-[color:var(--muted-foreground)]" colspan={(props.onSelectionChange ? 6 : 5)+(props.control?3:0)}>
-						No hay obras para mostrar.
+			{#each sortedObras as obra (obra.obra_id)}
+				{@const checked = selected.includes(obra.obra_id)}
+				{@const label = actionLabel(obra)}
+				<tr class={`border-t border-[color:var(--border)] hover:bg-[color:var(--muted)] ${checked ? 'bg-[color:var(--muted)]' : ''}`}>
+					{#if props.onSelectionChange}
+						<td class="px-3 py-2">
+							<input type="checkbox" class="align-middle accent-[color:var(--primary)]" aria-label={'Seleccionar ' + obra.titulo} {checked} onchange={() => toggleSelection(obra.obra_id)} />
+						</td>
+					{/if}
+					<th scope="row" class="px-3 py-2 font-medium">{obra.titulo}</th>
+					{#if columnasActivas.has('autor')}
+						<td class="px-3 py-2 text-[color:var(--muted-foreground)]" title={obra.autores?.length ? undefined : 'Sin autoría indicada'}>
+							{obra.autores?.join(' / ') || '—'}
+						</td>
+					{/if}
+					{#if columnasActivas.has('datacion')}
+						<td class="whitespace-nowrap px-3 py-2 tabular-nums">{formatoDatacion(datacionDeObra(obra))}</td>
+					{/if}
+					{#if columnasActivas.has('corpus')}
+						<td class="px-3 py-2 text-xs text-[color:var(--muted-foreground)]" title={obra.corpus?.length ? undefined : 'Sin corpus'}>
+							{obra.corpus?.join(', ') || '—'}
+						</td>
+					{/if}
+					{#if columnasActivas.has('ficha')}
+						<td class="whitespace-nowrap px-3 py-2 text-xs">{obra.tipoFichaLabel ?? '—'}</td>
+					{/if}
+					{#if columnasActivas.has('estado')}
+						<td class="whitespace-nowrap px-3 py-2 text-xs text-[color:var(--muted-foreground)]">{obra.estadoLabel ?? obra.estadoTerm}</td>
+					{/if}
+					{#if columnasActivas.has('editor')}<td class="px-3 py-2">{obra.editorNombre}</td>{/if}
+					{#if columnasActivas.has('updated_at')}
+						<td class="whitespace-nowrap px-3 py-2 text-xs text-[color:var(--muted-foreground)]">{formatRelative(obra.updated_at)}</td>
+					{/if}
+					<td class="px-3 py-2">
+						<div class="flex items-center justify-end gap-0.5">
+							{#if props.control && obra.tipo_ficha === 'sin_ficha'}
+								<a class={acciones + ' ' + accionNeutra} href={'/dashboard/importador?obra=' + obra.obra_id}
+									aria-label="Importar básica" title="Importar básica"><Upload size={16} aria-hidden="true" /></a>
+								{#if props.onStart}
+									{@render accion(FilePlus2, 'Iniciar completa', () => props.onStart?.(obra.obra_id), true)}
+								{/if}
+							{:else if obra.canStartComplete && props.onStart}
+								{@render accion(FilePlus2, 'Iniciar completa', () => props.onStart?.(obra.obra_id), true)}
+							{:else if obra.canRead !== false && obra.tipo_ficha !== 'sin_ficha'}
+								{@render accion(label === 'Editar' ? Pencil : label === 'Revisar' ? ClipboardCheck : esFichaBasica(obra) ? FileText : Eye,
+									label + (esFichaBasica(obra) ? ' ficha básica' : ' obra'),
+									() => dispatch('open', obra.obra_id), label === 'Editar')}
+							{/if}
+							{#if obra.slug && canOpenPreview(obra)}
+								{@render enlaceFicha(Eye, 'Vista previa', obra.slug)}
+							{:else if obra.slug && canOpenPublicFicha(obra)}
+								{@render enlaceFicha(ExternalLink, 'Ver ficha pública', obra.slug)}
+							{/if}
+						</div>
 					</td>
 				</tr>
 			{:else}
-				{#each sortedObras as obra}
-					<tr class="border-t border-[color:var(--border)]">
-						{#if props.onSelectionChange}<td class="px-3 py-2"><input type="checkbox" aria-label={`Seleccionar ${obra.titulo}`} checked={selected.includes(obra.obra_id)} onchange={() => toggleSelection(obra.obra_id)} /></td>{/if}
-						<td class="px-3 py-2">{obra.titulo}</td>
-						<td class="px-3 py-2">
-							<span class="border border-[color:var(--border)] bg-[color:var(--muted)] px-2 py-1 text-xs">{obra.estadoTerm}</span>
-						</td>
-						{#if props.control}
-							<td class="px-3 py-2">{obra.autores?.join(' / ') || 'Sin indicar'}</td>
-							<td class="px-3 py-2">{formatoDatacion(datacionDeObra(obra))}</td>
-							<td class="px-3 py-2">{obra.corpus?.join(' · ') || 'Sin corpus'}</td>
-						{/if}
-						<td class="px-3 py-2">{obra.editorNombre}</td>
-						<td class="px-3 py-2">{formatRelative(obra.updated_at)}</td>
-						<td class="px-3 py-2">
-							<div class="flex items-center gap-2">
-								{#if props.control && obra.tipo_ficha==='sin_ficha'}
-									<a class="underline" href={'/dashboard/importador?obra='+obra.obra_id}>Importar básica</a>
-									<Button variant="ghost" onclick={()=>props.onStart?.(obra.obra_id)}>Iniciar completa</Button>
-								{:else if obra.canStartComplete && props.onStart}
-									<Button variant="ghost" onclick={()=>props.onStart?.(obra.obra_id)}>Iniciar completa</Button>
-								{:else if obra.canRead === false}
-									{#if canOpenPublicFicha(obra)}
-										<Button
-											variant="secondary"
-											onclick={() => obra.slug && dispatch('preview', obra.slug)}
-										>
-											Ver ficha
-										</Button>
-									{/if}
-								{:else}
-									<Button variant="ghost" onclick={() => dispatch('open', obra.obra_id)}>
-										{actionLabel(obra)}
-									</Button>
-									{#if actionHint(obra)}
-										<span class="text-xs text-[color:var(--muted-foreground)]">{actionHint(obra)}</span>
-									{/if}
-									{#if canOpenPreview(obra)}
-										<Button
-											variant="secondary"
-											onclick={() => obra.slug && dispatch('preview', obra.slug)}
-										>
-											Vista previa
-										</Button>
-									{/if}
-								{/if}
-							</div>
-						</td>
-					</tr>
-				{/each}
-			{/if}
+				<tr>
+					<td class="px-3 py-6 text-center text-[color:var(--muted-foreground)]" colspan={numeroColumnas}>
+						No hay obras para mostrar.
+					</td>
+				</tr>
+			{/each}
 		</tbody>
 	</table>
 </div>

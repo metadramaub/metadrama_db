@@ -3,6 +3,7 @@ import { z } from 'zod';
 import type { PageServerLoad } from './$types';
 import { requireEditorManager, loadManagedEditors } from '$lib/server/editor-management';
 import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
+import { buildObraCapabilities } from '$lib/server/auth';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const manager = await requireEditorManager(locals);
@@ -21,13 +22,14 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 			nombre_completo,
 			activo
 		})),
-		works: works.map((work) => ({
-			...work,
-			estadoTerm: states.find((row) => row.termino_id === work.estado)?.termino ?? '',
-			editorNombre:
-				editors.find((row) => row.user_id === work.editor_asignado)?.nombre_completo ??
-				'Sin asignar',
-			canEditContent: true
-		}))
+		works: works.map((work) => {
+			const estadoTerm = states.find((row) => row.termino_id === work.estado)?.termino ?? '';
+			return {
+				...work,
+				estadoTerm,
+				editorNombre: editors.find((row) => row.user_id === work.editor_asignado)?.nombre_completo ?? 'Sin asignar',
+				...buildObraCapabilities(manager, work, estadoTerm, false)
+			};
+		})
 	};
 };

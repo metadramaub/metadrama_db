@@ -24,7 +24,7 @@ export async function loadAssignmentWorks(locals: App.Locals, soloDetalladas = f
 	for (let offset = 0; ; offset += 500) {
 		let query = locals.supabase
 			.from(relacionObras())
-			.select(modeloEditorialActivo() ? 'obra_id,titulo,slug,estado,editor_asignado,updated_at,visible_publico,tipo_ficha,fecha_inicio_trad,fecha_fin_trad,autores,corpus,importacion_id,inicio_elaboracion,procedencia_registro' : 'obra_id,titulo,slug,estado,editor_asignado,updated_at,visible_publico')
+			.select(modeloEditorialActivo() ? 'obra_id,titulo,slug,estado,editor_asignado,updated_at,visible_publico,tipo_ficha,fecha_inicio_trad,fecha_fin_trad,dataciones,autores,corpus,importacion_id,inicio_elaboracion,procedencia_registro' : 'obra_id,titulo,slug,estado,editor_asignado,updated_at,visible_publico')
 			.order('obra_id')
 			.range(offset, offset + 499);
 		if(soloDetalladas && !modeloEditorialActivo()) query=query.eq('tipo_ficha','completa');

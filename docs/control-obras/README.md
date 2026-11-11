@@ -23,6 +23,12 @@ inicio explícito, edición base, bibliografía, observaciones del editor, decla
 estado editorial y publicación. Un encargo puede existir antes de iniciar la anotación. Una fecha
 de asignación o una fila heredada no acreditan el inicio del trabajo.
 
+En Control de obras, «Ficha» distingue «Sin ficha», «Básica» y «Completa». «Estado» describe
+el flujo de la completa. Una obra registrada sin encargo puede importarse como básica o pasar
+a completa al asignarla o iniciar su elaboración. Un encargo nuevo aparece «Por iniciar» hasta
+que el editor inicia el borrador. Las básicas pueden consultarse desde el listado. La vista previa
+editorial y el enlace a una ficha publicada y visible tienen acciones propias.
+
 `importaciones_metricas` conserva quién importó, cuándo, el JSON recibido y el confirmado. La edición
 de la básica está en `datos_confirmados.metadatos.edicion_base`; no se depende de `obras.edicion`
 para reconstruirla. El JSON original no tiene por qué contener todos los metadatos añadidos al confirmar.

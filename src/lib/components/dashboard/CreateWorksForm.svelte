@@ -4,7 +4,8 @@
 	import { pushToast } from '$lib/stores/toast';
 	import type { EditorOption } from '$lib/types/editor-management.types';
 	let { editors, defaultEditor = '', fixedEditor = false, allowUnassigned = false, oncomplete }: {
-		editors: EditorOption[]; defaultEditor?: string; fixedEditor?: boolean; allowUnassigned?: boolean; oncomplete?: (works: { obra_id: string; titulo: string }[]) => void;
+		editors: EditorOption[]; defaultEditor?: string; fixedEditor?: boolean; allowUnassigned?: boolean;
+		oncomplete?: (works: { obra_id: string; titulo: string; editor_asignado: string | null }[]) => void;
 	} = $props();
 	let editorId = $state('');
 	let titles = $state('');

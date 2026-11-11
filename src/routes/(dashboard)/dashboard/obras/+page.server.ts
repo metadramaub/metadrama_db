@@ -7,6 +7,8 @@ import { resolveDashboardObrasScopePlan } from '$lib/server/dashboard-obras';
 import { loadAssignmentWorks } from '$lib/server/editor-management';
 import { error } from '@sveltejs/kit';
 import type { ObraControlRow } from '$lib/types/control-obras.types';
+import { esFichaBasica, esObraSinFicha, requiereInicioCompleta } from '$lib/importador-metrico/tipo-ficha';
+import { displayTerm } from '$lib/utils/vocabulario';
 import { z } from 'zod';
 
 const SCOPE_COOKIE = 'dashboard_obras_scope';
@@ -110,8 +112,12 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 	}
 
 	const estadoMap = new Map(
-		estadoOptions.map((estadoItem) => [estadoItem.termino_id, estadoItem.termino])
+		estadoOptions.map((estadoItem) => [estadoItem.termino_id, estadoItem])
 	);
+	function etiquetaEstado(option: (typeof estadoOptions)[number]) {
+		const label = displayTerm(option);
+		return label.charAt(0).toUpperCase() + label.slice(1).replaceAll('_', ' ');
+	}
 	const editoresMap = new Map(
 		(editoresResp.data ?? []).map((row) => [row.user_id, row.nombre_completo])
 	);
@@ -124,18 +130,26 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 	}
 	return {
 		corpusOptions,
+		obrasParaCorpus: modeloEditorialActivo() && allAssignmentWorks
+			? allAssignmentWorks.map(({ obra_id, titulo, autores, corpus }) => ({ obra_id, titulo, autores, corpus }))
+			: [],
 		modeloEditorial: modeloEditorialActivo(),
 		puedeVerBasicas: capacidadImportador?.puede_importar ?? false,
 		profile,
 		scope,
-		estadoOptions,
+		estadoOptions: estadoOptions.map((option) => ({ id: option.termino_id, label: etiquetaEstado(option) })),
 		editorOptions: editoresOptionsResp.data ?? [],
 		obras: obraRows.map((obra) => {
-			const estadoTerm = estadoMap.get(obra.estado) ?? obra.estado;
+			const estadoItem = estadoMap.get(obra.estado);
+			const estadoTerm = estadoItem?.termino.toLowerCase() ?? '';
+			const basica = esFichaBasica(obra);
+			const sinFicha = esObraSinFicha(obra);
+			const porIniciar = requiereInicioCompleta(obra);
+			const estadoEditorial = basica || sinFicha ? null : porIniciar ? 'por_iniciar' : obra.estado;
 			const capabilities = buildObraCapabilities(
 				profile,
 				obra,
-				estadoTerm.toLowerCase(),
+				estadoTerm,
 				reviewerAssignedSet.has(obra.obra_id)
 			);
 			return {
@@ -143,7 +157,10 @@ export const load: PageServerLoad = async ({ locals, parent, url, cookies }) => 
 				canStartComplete: modeloEditorialActivo() && canStartComplete(profile, obra),
 				reviewer_ids:
 					allAssignmentWorks?.find((work) => work.obra_id === obra.obra_id)?.reviewer_ids ?? [],
-					estadoTerm: obra.tipo_ficha==='sin_ficha' ? 'Sin ficha' : obra.tipo_ficha==='basica' ? 'Básica' : estadoTerm,
+				estadoTerm,
+				estadoEditorial,
+				estadoLabel: estadoEditorial === 'por_iniciar' ? 'Por iniciar' : estadoEditorial && estadoItem ? etiquetaEstado(estadoItem) : '—',
+				tipoFichaLabel: sinFicha ? 'Sin ficha' : basica ? 'Básica' : 'Completa',
 				editorNombre: obra.editor_asignado
 					? (editoresMap.get(obra.editor_asignado) ?? 'Sin nombre')
 					: 'Sin asignar',

@@ -2,14 +2,15 @@
 	import { coincideDatacion, datacionDeObra } from '$lib/dataciones';
 	import { portal } from '$lib/actions/portal';
 	import { goto } from '$app/navigation';
+	import { Plus, Search, SlidersHorizontal, X } from 'lucide-svelte';
 	import CorpusManagement from '$lib/components/dashboard/CorpusManagement.svelte';
 	import {pushToast} from '$lib/stores/toast';
 	import ObrasTable from '$lib/components/dashboard/ObrasTable.svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
+	import SegmentedChoice from '$lib/components/ui/segmented-choice.svelte';
 	import BulkAssignments from '$lib/components/dashboard/BulkAssignments.svelte';
 	import CreateWorksForm from '$lib/components/dashboard/CreateWorksForm.svelte';
-	import { displayTerm } from '$lib/utils/vocabulario';
 	import type { PageData } from './$types';
 
 	type DashboardObra = PageData['obras'][number];
@@ -19,38 +20,65 @@
 	let estado = $state('');
 	let editor = $state('');
 	let tipo=$state(''),corpus=$state(''),autor=$state('');
-	let desde=$state<number|''>(''),hasta=$state<number|''>('');
+	let desde = $state<number | undefined>();
+	let hasta = $state<number | undefined>();
 	let scope = $state<'mine' | 'all'>('mine');
 
 	let createModalOpen = $state(false);
+	let masFiltros = $state(false);
 	let selectedIds = $state<string[]>([]);
 	const selectedWorks = $derived(data.obras.filter((obra: DashboardObra) => selectedIds.includes(obra.obra_id)));
-	const autorOptions=$derived([...new Set<string>(data.obras.flatMap((o:DashboardObra)=>o.autores??[]))].sort((a,b)=>a.localeCompare(b,'es')));
+	const autorOptions = $derived(
+		[...new Set<string>(data.obras.flatMap((obra: DashboardObra) => obra.autores ?? []))]
+			.sort((a, b) => a.localeCompare(b, 'es'))
+			.map((nombre) => ({ id: nombre, label: nombre }))
+	);
+	const corpusOptions = $derived([
+		{ id: 'sin_corpus', label: 'Sin corpus' },
+		...data.corpusOptions.map(({ codigo, nombre }: { codigo: string; nombre: string }) => ({
+			id: codigo,
+			label: nombre + ' (' + codigo + ')'
+		}))
+	]);
+	const tipos = [
+		{ id: 'sin_ficha', label: 'Sin ficha' },
+		{ id: 'basica', label: 'Básica' },
+		{ id: 'completa', label: 'Completa' }
+	];
+	const ambitos = [{ id: 'mine', label: 'Mis obras' }, { id: 'all', label: 'Todas las obras' }];
+	const filtroActivo = $derived(Boolean(q || estado || editor || tipo || corpus || autor || desde != null || hasta != null));
+	const campoFiltro = 'h-9 min-w-0 w-full border border-[color:var(--border)] bg-white px-2.5 text-sm';
 	async function iniciar(id:string){
 		try{const r=await fetch('/api/obras/'+id+'/iniciar',{method:'POST'});if(!r.ok){const d=await r.json();pushToast('error',d.message??'No se pudo iniciar.');return;}await goto('/dashboard/obras/'+id);}catch{pushToast('error','No se pudo comprobar el inicio.');}
 	}
 
 	const canReadAll = $derived(['admin', 'ip'].includes(data.profile.roleTerm));
+	const control = $derived(data.modeloEditorial && canReadAll);
 	const canCreate = $derived(['admin', 'ip'].includes(data.profile.roleTerm));
-	const estadoDropdownItems = $derived(
-		data.estadoOptions.map((option: { termino_id: string; termino: string; etiqueta?: string | null }) => ({
-			id: option.termino_id,
-			label: displayTerm(option)
-		}))
-	);
+	const estadoDropdownItems = $derived([
+		{ id: 'por_iniciar', label: 'Por iniciar' },
+		...data.estadoOptions
+	]);
 	const editorDropdownItems = $derived(
 		[{id:'sin_asignar',label:'Sin asignar'},...data.editorOptions.map((option: { user_id: string; nombre_completo: string; activo: boolean | null }) => ({
 			id: option.user_id,
 			label: option.nombre_completo + (option.activo === false ? ' (deshabilitado)' : '')
 		}))]
 	);
+	const filtrosAdicionales = $derived([
+		estadoDropdownItems.find((item) => item.id === estado)?.label,
+		editorDropdownItems.find((item) => item.id === editor)?.label,
+		tipos.find((item) => item.id === tipo)?.label,
+		desde != null && hasta != null ? `${desde}–${hasta}`
+			: desde != null ? `Desde ${desde}` : hasta != null ? `Hasta ${hasta}` : null
+	].filter(Boolean));
 	const filteredObras = $derived.by(() => {
 		const term = normalizeTitle(q);
 		return data.obras.filter((obra: DashboardObra) => {
 			if (term && !normalizeTitle(obra.titulo ?? '').includes(term)) return false;
-			if (estado && (obra.estado !== estado || (data.modeloEditorial&&obra.tipo_ficha!=='completa'))) return false;
+			if (estado && obra.estadoEditorial !== estado) return false;
 			if (editor==='sin_asignar' ? obra.editor_asignado!=null : editor && obra.editor_asignado !== editor) return false;
-			if ((desde !== '' || hasta !== '') && !coincideDatacion(datacionDeObra(obra), desde === '' ? null : Number(desde), hasta === '' ? null : Number(hasta))) return false;
+			if ((desde != null || hasta != null) && !coincideDatacion(datacionDeObra(obra), desde ?? null, hasta ?? null)) return false;
 			if (tipo && obra.tipo_ficha!==tipo) return false;
 			if (autor && !obra.autores?.includes(autor)) return false;
 			if (corpus==='sin_corpus' && obra.corpus?.length) return false;
@@ -58,6 +86,9 @@
 			return true;
 		});
 	});
+	const seleccionFueraDelFiltro = $derived(
+		selectedIds.length - filteredObras.filter((obra: DashboardObra) => selectedIds.includes(obra.obra_id)).length
+	);
 
 	$effect(() => {
 		// Recargar los datos tras una operación por lotes no debe perder la selección.
@@ -66,10 +97,6 @@
 			selectedIds = [];
 		}
 	});
-
-	function applyFilters(event: SubmitEvent) {
-		event.preventDefault();
-	}
 
 	function goScope(nextScope: 'mine' | 'all') {
 		const params = new URLSearchParams();
@@ -90,117 +117,121 @@
 		estado = '';
 		editor = '';
 		tipo='';corpus='';autor='';
-		desde='';hasta='';
+		desde = undefined;
+		hasta = undefined;
 	}
 
 </script>
 
-<section class="space-y-4">
-	<div class="flex items-end justify-between gap-4">
+{#snippet filtro(label: string, items: { id: string; label: string }[], value: string, change: (value: string) => void)}
+	<div class="form-field min-w-0">
+		<span class="form-label">{label}</span>
+		<CheckDropdown compact search portal multiple={false} allowSingleClear
+			{label} {items} placeholder="Cualquiera" selectedIds={value ? [value] : []}
+			onChange={(ids) => change(ids[0] ?? '')} />
+	</div>
+{/snippet}
+
+<section class="space-y-3">
+	<div class="flex flex-wrap items-center justify-between gap-3">
 		<div>
-			<h1 class="text-lg font-semibold">{data.modeloEditorial&&canReadAll&&scope==='all'?'Control de obras':'Obras'}</h1>
-			{#if data.puedeVerBasicas&&!data.modeloEditorial}<a href="/dashboard/importador/fichas" class="text-sm underline">Fichas básicas</a>{/if}
-			<p class="text-sm text-[color:var(--muted-foreground)]">{filteredObras.length} de {data.obras.length} obras{data.modeloEditorial?' · '+data.obras.filter((o:DashboardObra)=>o.tipo_ficha==='basica').length+' básicas · '+data.obras.filter((o:DashboardObra)=>o.tipo_ficha==='completa').length+' completas':''}</p>
+			<h1 class="text-xl font-semibold">{data.modeloEditorial && canReadAll && scope === 'all' ? 'Control de obras' : 'Obras'}</h1>
+			{#if data.puedeVerBasicas && !data.modeloEditorial}
+				<a href="/dashboard/importador/fichas" class="text-sm underline">Fichas básicas</a>
+			{/if}
 		</div>
-		{#if canCreate}
-			<Button variant="secondary" onclick={() => (createModalOpen = true)}>Crear obras</Button>
+		<div class="flex flex-wrap gap-2">
+			{#if data.modeloEditorial && canReadAll}
+				<CorpusManagement corpus={data.corpusOptions} obras={data.obrasParaCorpus} />
+			{/if}
+			{#if canCreate}
+				<Button onclick={() => (createModalOpen = true)}>
+					<Plus size={16} aria-hidden="true" /> Crear obras
+				</Button>
+			{/if}
+		</div>
+	</div>
+
+	<div class="flex flex-wrap items-center justify-between gap-2">
+		{#if canReadAll}
+			<SegmentedChoice items={ambitos} value={scope} ariaLabel="Ámbito de obras"
+				onChange={(id) => { if (id === 'mine' || id === 'all') goScope(id); }} />
 		{/if}
+		<label class="relative min-w-0 flex-1 sm:max-w-xs">
+			<span class="sr-only">Buscar por título</span>
+			<Search size={16} aria-hidden="true" class="pointer-events-none absolute left-2.5 top-2.5 text-[color:var(--muted-foreground)]" />
+			<input type="search" bind:value={q} placeholder="Buscar por título"
+				class="h-9 w-full border border-[color:var(--border)] bg-white pl-8 pr-2.5 text-sm" />
+		</label>
 	</div>
 
-	<div class="flex flex-wrap gap-2">
-		<Button
-			variant={scope === 'mine' ? 'primary' : 'ghost'}
-			onclick={() => goScope('mine')}
-		>
-			Mis obras
-		</Button>
-		{#if canReadAll}<Button
-			variant={scope === 'all' ? 'primary' : 'ghost'}
-			onclick={() => goScope('all')}
-		>
-			Todas las obras
-		</Button>{/if}
-	</div>
-
-	<form class="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_minmax(0,14rem)_minmax(0,14rem)_auto]" onsubmit={applyFilters}>
-		<label class="form-field min-w-0">
-			<span class="form-label">Buscar título</span>
-			<input
-				type="text"
-				bind:value={q}
-				class="w-full border border-[color:var(--border)] bg-white px-3 py-2 text-sm"
-			/>
-		</label>
-
-		<label class="form-field min-w-0">
-			<span class="form-label">Estado</span>
-			<CheckDropdown
-				multiple={false}
-				allowSingleClear={true}
-				search={estadoDropdownItems.length > 8}
-				placeholder="Todos"
-				items={estadoDropdownItems}
-				selectedIds={estado ? [estado] : []}
-				onChange={(ids) => {
-					estado = ids[0] ?? '';
-				}}
-			/>
-		</label>
-
-		<label class="form-field min-w-0">
-			<span class="form-label">Editor asignado</span>
-			<CheckDropdown
-				multiple={false}
-				allowSingleClear={true}
-				search={editorDropdownItems.length > 8}
-				placeholder="Todos"
-				items={editorDropdownItems}
-				disabled={!canReadAll}
-				selectedIds={editor ? [editor] : []}
-				onChange={(ids) => {
-					editor = ids[0] ?? '';
-				}}
-			/>
-		</label>
-
-		<div class="flex items-end gap-2">
-			<Button type="submit">Aplicar filtros</Button>
-			<button
-				type="button"
-				class="border border-[color:var(--border)] bg-white px-2 py-2 text-xs font-medium text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)]"
-				onclick={clearFilters}
-			>
-				Limpiar
+	{#if control}
+		<div class="grid items-end gap-2 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">
+			{@render filtro('Autoría', autorOptions, autor, (value) => (autor = value))}
+			{@render filtro('Corpus', corpusOptions, corpus, (value) => (corpus = value))}
+			<button type="button" class={campoFiltro + ' inline-flex items-center justify-center gap-2 whitespace-nowrap'}
+				aria-expanded={masFiltros} aria-controls="filtros-adicionales-obras"
+				onclick={() => (masFiltros = !masFiltros)}>
+				<SlidersHorizontal size={15} aria-hidden="true" /> Más filtros
+				{#if filtrosAdicionales.length}({filtrosAdicionales.length}){/if}
 			</button>
 		</div>
-	</form>
-	{#if data.modeloEditorial && canReadAll}
-		<div class="grid gap-3 md:grid-cols-3">
-			<label class="form-field min-w-0"><span class="form-label">Ficha</span><select bind:value={tipo} class="w-full min-w-0 border border-[color:var(--border)] p-2"><option value="">Todas</option><option value="sin_ficha">Sin ficha</option><option value="basica">Básica</option><option value="completa">Completa</option></select></label>
-			<label class="form-field min-w-0"><span class="form-label">Autoría</span><select bind:value={autor} class="w-full min-w-0 border border-[color:var(--border)] p-2"><option value="">Todas</option>{#each autorOptions as a}<option value={a}>{a}</option>{/each}</select></label>
-			<label class="form-field min-w-0"><span class="form-label">Corpus</span><select bind:value={corpus} class="w-full min-w-0 border border-[color:var(--border)] p-2"><option value="">Todos</option><option value="sin_corpus">Sin corpus</option>{#each data.corpusOptions as c}<option value={c.codigo}>{c.codigo} · {c.nombre}</option>{/each}</select></label>
-		</div>
-		<div class="flex flex-wrap gap-3">
-			<label class="form-field min-w-0"><span class="form-label">Datación desde</span><input type="number" bind:value={desde} class="w-full min-w-0 border border-[color:var(--border)] p-2" /></label>
-			<label class="form-field min-w-0"><span class="form-label">Datación hasta</span><input type="number" bind:value={hasta} class="w-full min-w-0 border border-[color:var(--border)] p-2" /></label>
-		</div>
-		<CorpusManagement corpus={data.corpusOptions} {selectedIds} />
 	{/if}
+	<div id="filtros-adicionales-obras" hidden={control && !masFiltros}>
+		<div class="grid items-end gap-2 sm:grid-cols-2 lg:grid-cols-4">
+			{@render filtro('Estado', estadoDropdownItems, estado, (value) => (estado = value))}
+			{#if canReadAll}
+				{@render filtro('Editor', editorDropdownItems, editor, (value) => (editor = value))}
+			{/if}
+			{#if control}
+				{@render filtro('Ficha', tipos, tipo, (value) => (tipo = value))}
+				<div class="form-field min-w-0">
+					<span class="form-label">Datación</span>
+					<div class="grid grid-cols-2 gap-1">
+						<input type="number" bind:value={desde} aria-label="Datación desde" placeholder="Desde" class={campoFiltro} />
+						<input type="number" bind:value={hasta} aria-label="Datación hasta" placeholder="Hasta" class={campoFiltro} />
+					</div>
+				</div>
+			{/if}
+		</div>
+	</div>
 
-	{#if canCreate && selectedIds.length}
-		<div class="flex items-center gap-3 text-sm"><span>{selectedIds.length} obras seleccionadas en todos los filtros</span><Button variant="ghost" onclick={() => selectedIds = []}>Limpiar selección</Button></div>
-	{/if}
+	<div class="flex min-h-7 flex-wrap items-center justify-between gap-x-3 gap-y-1 text-sm">
+		<div class="flex flex-wrap items-center gap-2 text-[color:var(--muted-foreground)]">
+			<span>{filteredObras.length} de {data.obras.length} obras</span>
+			{#if control && !masFiltros}
+				{#each filtrosAdicionales as etiqueta}
+					<span class="border border-[color:var(--border)] px-1.5 py-0.5 text-xs">{etiqueta}</span>
+				{/each}
+			{/if}
+			{#if filtroActivo}
+				<button type="button" class="inline-flex items-center gap-1 px-1 py-0.5 hover:bg-[color:var(--muted)] hover:text-[color:var(--foreground)]" onclick={clearFilters}>
+					<X size={14} aria-hidden="true" /> Limpiar filtros
+				</button>
+			{/if}
+		</div>
+		{#if canCreate && selectedIds.length}
+			<div class="flex items-center gap-2">
+				<span>{selectedIds.length} {selectedIds.length === 1 ? 'obra seleccionada' : 'obras seleccionadas'}</span>
+				{#if seleccionFueraDelFiltro > 0}
+					<span class="text-xs text-[color:var(--muted-foreground)]">{seleccionFueraDelFiltro} fuera del filtro</span>
+				{/if}
+				<button type="button" class="rounded p-1 hover:bg-[color:var(--muted)]" aria-label="Limpiar selección" title="Limpiar selección" onclick={() => (selectedIds = [])}>
+					<X size={15} aria-hidden="true" />
+				</button>
+			</div>
+		{/if}
+	</div>
 	<ObrasTable
-		control={data.modeloEditorial&&canReadAll}
-		onStart={data.modeloEditorial?iniciar:undefined}
+		{control}
+		onStart={data.modeloEditorial ? iniciar : undefined}
 		{selectedIds}
-		onSelectionChange={canCreate ? (ids) => selectedIds = ids : undefined}
+		onSelectionChange={canCreate ? (ids) => (selectedIds = ids) : undefined}
 		obras={filteredObras}
-		on:open={(event) => goto(`/dashboard/obras/${event.detail}`)}
-		on:preview={(event) => goto(`/obras/${event.detail}`)}
+		on:open={(event) => goto('/dashboard/obras/' + event.detail)}
 	/>
-	{#if canCreate && selectedIds.length && selectedWorks.every((o:DashboardObra)=>!['basica','minima'].includes(o.tipo_ficha??''))}
-		<BulkAssignments works={selectedWorks} editors={data.editorOptions} oncomplete={() => selectedIds = []} />
+	{#if canCreate && selectedIds.length && selectedWorks.every((obra: DashboardObra) => !['basica', 'minima'].includes(obra.tipo_ficha ?? ''))}
+		<BulkAssignments works={selectedWorks} editors={data.editorOptions} oncomplete={() => (selectedIds = [])} />
 	{/if}
 </section>
 
@@ -210,7 +241,11 @@
 			<div class="flex items-center justify-between"><h2 class="text-lg font-semibold">Crear obras</h2><Button variant="ghost" onclick={() => createModalOpen = false}>Cerrar</Button></div>
 			<CreateWorksForm editors={data.editorOptions} allowUnassigned={data.modeloEditorial} oncomplete={async (works) => {
 				createModalOpen = false;
-				if (works.length === 1) await goto('/dashboard/obras/' + works[0].obra_id);
+				if (works.length === 1 && works[0].editor_asignado) {
+					await goto('/dashboard/obras/' + works[0].obra_id);
+				} else if (scope === 'mine' && works.some((obra) => !obra.editor_asignado)) {
+					goScope('all');
+				}
 			}} />
 		</div>
 	</div>
