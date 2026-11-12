@@ -17,8 +17,11 @@
 </script>
 <svelte:head><title>Fichas básicas — Versología</title></svelte:head>
 <svelte:window onkeydown={(e) => { if (e.key === 'Escape' && !eliminando) objetivo = null; }} />
-<section class="mx-auto max-w-7xl space-y-5">
-	<header class="flex flex-wrap items-baseline justify-between gap-3"><h1 class="font-display text-3xl">Fichas básicas</h1><a href="/dashboard/importador" class="text-sm underline">Importar obra</a></header>
+<section class="space-y-5">
+	<header class="flex flex-wrap items-center justify-between gap-3">
+		<h1 class="font-display text-3xl text-[color:var(--gray-900)]">Fichas básicas</h1>
+		<a href="/dashboard/importador" class="border border-[color:var(--gray-900)] bg-[color:var(--gray-900)] px-3 py-2 text-sm font-medium text-white hover:bg-[color:var(--gray-800)]">Importar obra</a>
+	</header>
 	<ListaFichasBasicas filas={data.filas} puedeEliminar={data.puedeEliminar} oneliminar={abrirEliminar} />
 	<nav class="flex gap-4 text-sm" aria-label="Páginas de fichas básicas">{#if data.pagina>1}<a class="underline" href={'?pagina='+(data.pagina-1)}>Anterior</a>{/if}{#if data.hayMas}<a class="underline" href={'?pagina='+(data.pagina+1)}>Siguiente</a>{/if}</nav>
 </section>

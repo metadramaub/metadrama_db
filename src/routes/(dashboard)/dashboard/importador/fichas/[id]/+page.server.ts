@@ -9,10 +9,12 @@ import {
 import { vistaDeFichaGuardada } from '$lib/server/importador-metrico/vista-previa';
 
 export const load: PageServerLoad = async (event) => {
-	await requireEditorProfile(event);
+	const profile = await requireEditorProfile(event);
 	try {
 		const f = await consultarImportacion(clienteImportador(event.locals.supabase), event.params.id);
 		return {
+			obraId: f.obra_id,
+			puedeEditarMetadatos: ['admin', 'ip'].includes(profile.roleTerm),
 			importadoPor: f.importado_por,
 			importadoEn: f.importado_en,
 			vista: vistaDeFichaGuardada(f.datos_confirmados, f.entrada_original, {

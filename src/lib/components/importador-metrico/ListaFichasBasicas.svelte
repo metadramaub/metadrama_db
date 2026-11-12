@@ -1,7 +1,8 @@
 <script lang="ts">
 	import type { FilaBasica } from '$lib/server/importador-metrico/persistencia';
 	import Trash2 from 'lucide-svelte/icons/trash-2';
-	import LogIn from 'lucide-svelte/icons/log-in';
+	import Eye from 'lucide-svelte/icons/eye';
+	import Table from '$lib/components/ui/table.svelte';
 	import InlineNotePopover from '$lib/components/ui/inline-note-popover.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	let { filas, puedeEliminar = false, oneliminar } = $props<{
@@ -16,10 +17,9 @@
 	}
 </script>
 
-<div class="overflow-x-auto rounded-lg border border-[color:var(--border)] bg-white">
-	<table class="w-full min-w-[1000px] text-left text-sm">
-		<thead class="bg-[color:var(--muted)]"><tr>
-			<th class="px-4 py-3">Obra</th><th class="px-4 py-3">Autor</th>
+	<Table>
+		<thead><tr>
+			<th class="min-w-44 px-4 py-3">Obra</th><th class="px-4 py-3">Autor</th>
 			<th class="px-4 py-3">Importada por</th><th class="px-4 py-3">Importada el</th>
 			<th class="px-4 py-3"><span class="form-label-with-help">Última modificación<FieldHelpTooltip label="Última modificación" text="Fecha guardada de la copia básica. Las importaciones anteriores a este registro muestran «No consta». Consultar la ficha no cambia esta fecha." /></span></th>
 			<th class="px-4 py-3"><span class="form-label-with-help">Por revisar<FieldHelpTooltip label="Pendientes y avisos" text="Formas sin identificar y avisos de longitud conservados al guardar. Las incidencias del JSON original se muestran aparte: pueden haberse corregido durante la importación." /></span></th>
@@ -27,7 +27,7 @@
 		</tr></thead>
 		<tbody class="divide-y divide-[color:var(--border)]">
 			{#each filas as f (f.importacion_id)}
-				<tr class="align-top">
+				<tr class="align-top border-t border-[color:var(--border)]">
 					<td class="px-4 py-3">{f.titulo}</td>
 					<td class="px-4 py-3">{f.autor_nombre}</td><td class="px-4 py-3">{f.importado_por}</td>
 					<td class="whitespace-nowrap px-4 py-3" title={fechaCompleta(f.importado_en)}>{fecha(f.importado_en)}</td>
@@ -41,12 +41,11 @@
 					</td>
 					<td class="px-4 py-3">
 						<div class="flex items-center justify-end gap-1">
-							<a href={'/dashboard/importador/fichas/' + f.importacion_id} title="Abrir ficha básica" aria-label={'Abrir ' + f.titulo} class="rounded p-1 text-[color:var(--success)] transition-colors hover:bg-[color:var(--success)] hover:text-white"><LogIn size={16} /></a>
+							<a href={'/dashboard/importador/fichas/' + f.importacion_id} title="Ver ficha básica" aria-label={'Ver ' + f.titulo} class="rounded p-1 text-[color:var(--muted-foreground)] transition-colors hover:bg-[color:var(--muted)] hover:text-[color:var(--foreground)]"><Eye size={16} aria-hidden="true" /></a>
 							{#if puedeEliminar}<button type="button" title="Eliminar ficha básica" aria-label={'Eliminar ' + f.titulo} class="rounded p-1 text-[color:var(--danger)] transition-colors hover:bg-[color:var(--danger)] hover:text-white" onclick={() => oneliminar?.(f)}><Trash2 size={16} /></button>{/if}
 						</div>
 					</td>
 				</tr>
 			{:else}<tr><td colspan={7} class="px-4 py-6 text-[color:var(--muted-foreground)]">No hay fichas básicas guardadas en esta página.</td></tr>{/each}
 		</tbody>
-	</table>
-</div>
+	</Table>
