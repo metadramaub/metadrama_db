@@ -16,6 +16,21 @@ function entrada() {
 }
 
 describe('prosa entre tramos de la misma forma', () => {
+	it('distingue la prosa de un pasaje cantado en la misma secuencia', () => {
+		const raw = entrada();
+		raw.notas = [{
+			id: 'n01', marca: '*', texto_literal: 'El asterisco señala un pasaje cantado.',
+			fuente_id: 'foto-prosa', pagina: 996, tramos_ref: ['t01'], v_ini: null, v_fin: null
+		}];
+		raw.tramos[0].notas_ref = ['n01'];
+		const vista = analizarEntrada(JSON.stringify(raw));
+		expect(vista.errores).toEqual([]);
+		expect(datosMetricos(vista.filas[0])).toEqual(expect.arrayContaining([
+			{ etiqueta: 'Prosa', valor: 'Entre vv. 96 y 97' },
+			{ etiqueta: 'Pasaje cantado', valor: 'vv. 1–96' }
+		]));
+		expect(datosMetricos(vista.filas[0]).filter((dato) => dato.etiqueta === 'Prosa')).toHaveLength(1);
+	});
 	it('conserva el original y guarda una sola secuencia con prosa, sin sumar versos', () => {
 		const raw = entrada(), original = structuredClone(raw);
 		const vista = analizarEntrada(JSON.stringify(raw));

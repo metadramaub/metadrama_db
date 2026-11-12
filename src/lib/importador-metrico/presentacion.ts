@@ -14,8 +14,14 @@ export function sugerenciaTercetos(fila: Pick<FilaVistaPrevia, 'identificacion' 
 /** Solo datos estructurados del documento mínimo; un literal por sí solo no es un rasgo anotado. */
 export function datosMetricos(fila: FilaVistaPrevia): DatoMetricoVisible[] {
 	const datos: DatoMetricoVisible[] = [];
-	for (const p of fila.caracterizaciones ?? [])
-		datos.push({etiqueta: 'Prosa', valor: `Entre vv. ${p.v_ini} y ${p.v_fin}`});
+	for (const caracterizacion of fila.caracterizaciones ?? []) {
+		const { v_ini, v_fin } = caracterizacion;
+		if (caracterizacion.termino === 'prosa') {
+			datos.push({ etiqueta: 'Prosa', valor: `Entre vv. ${v_ini} y ${v_fin}` });
+		} else if (caracterizacion.termino === 'cantado') {
+			datos.push({ etiqueta: 'Pasaje cantado', valor: v_ini === v_fin ? `v. ${v_ini}` : `vv. ${v_ini}–${v_fin}` });
+		}
+	}
 	for (const d of fila.detalles_fuente) {
 		if (d.rasgo_slug) {
 			const rasgo = rasgosImportador.find((r) => r.slug === d.rasgo_slug);
