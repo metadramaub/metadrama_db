@@ -8,6 +8,9 @@ export type MetadatosEditables = {
 	edicion_base: string;
 	fecha_inicio: string;
 	fecha_fin: string;
+	inicio_inclusivo?: string;
+	fin_inclusivo?: string;
+	fecha_aproximada?: string;
 	fuente_fecha: string;
 	fundamento_autoria: string;
 	ia_generador?: string;
@@ -46,10 +49,16 @@ export type FichaMinima = {
 	metadatos: Omit<
 		MetadatosEditables,
 		'fecha_inicio' | 'fecha_fin' | 'fuente_fecha' | 'fundamento_autoria' |
+		'inicio_inclusivo' | 'fin_inclusivo' | 'fecha_aproximada' |
 		'ia_generador' | 'ia_modelo' | 'ia_modo' | 'ia_plan' | 'ia_parametros'
 	> & {
-		fecha_inicio: number;
-		fecha_fin: number;
+		fecha_inicio: number | null;
+		fecha_fin: number | null;
+		inicio_inclusivo?: boolean;
+		fin_inclusivo?: boolean;
+		fecha_aproximada?: boolean;
+		variantes_titulo?: string[];
+		propuestas_autoria?: Record<string, unknown>[];
 		fuente_fecha: string | null;
 		fundamento_autoria: string | null;
 		observaciones: string[];

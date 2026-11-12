@@ -29,8 +29,13 @@ export const huella = (v) =>
 		.update(JSON.stringify(canonico(v)))
 		.digest('hex');
 const sinValor = (motivo) => ({ valor: null, motivo });
-const datacionAnalitica = (meta) => datacionDeObra({ dataciones: meta.dataciones,
-	fecha_inicio_trad: meta.fecha_inicio, fecha_fin_trad: meta.fecha_fin });
+const datacionAnalitica = (meta) => datacionDeObra({
+	dataciones: meta.dataciones ?? [{
+		clase: 'referencia', inicio: meta.fecha_inicio ?? null, fin: meta.fecha_fin ?? null,
+		inicio_inclusivo: meta.inicio_inclusivo ?? true, fin_inclusivo: meta.fin_inclusivo ?? true,
+		aproximada: meta.fecha_aproximada ?? false, fuente: meta.fuente_fecha ?? null
+	}]
+});
 function metadatosVigentes(meta, registro) {
 	if (!Array.isArray(registro.dataciones)) return clonar(meta);
 	const d = datacionDeObra(registro);
@@ -72,9 +77,9 @@ export function seleccionarAportacion(registro, referencias = {}) {
 			},
 			metadatos: metadatosVigentes(d.metadatos, registro),
 			jornadas: d.jornadas.map((j) => ({ ...clonar(j), ref: `j${j.numero}` })),
-			autorias: [
+			autorias: Array.isArray(registro.autorias) ? clonar(registro.autorias) : i.autor_id ? [
 				{ autor_id: i.autor_id, ambito: 'obra', jornada_id: null, v_ini: null, v_fin: null }
-			],
+			] : [],
 			secuencias: d.segmentos.map((s) => ({
 				ref: s.ref,
 				v_ini: s.v_ini,

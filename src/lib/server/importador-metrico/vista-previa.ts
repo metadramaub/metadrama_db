@@ -111,6 +111,9 @@ function leerMetadatos(raw: unknown): MetadatosEditables {
 		edicion_base: cadena(m.edicion_base),
 		fecha_inicio: cadena(m.fecha_inicio),
 		fecha_fin: cadena(m.fecha_fin),
+		...(typeof m.inicio_inclusivo === 'boolean' ? { inicio_inclusivo: String(m.inicio_inclusivo) } : {}),
+		...(typeof m.fin_inclusivo === 'boolean' ? { fin_inclusivo: String(m.fin_inclusivo) } : {}),
+		...(typeof m.fecha_aproximada === 'boolean' ? { fecha_aproximada: String(m.fecha_aproximada) } : {}),
 		fuente_fecha: cadena(m.fuente_fecha),
 		fundamento_autoria: cadena(m.fundamento_autoria)
 	};
@@ -213,11 +216,15 @@ export function analizarEntrada(
 		const ejecucionOriginal = entrada.esquema === 'versologia-extraccion/0.1'
 			? objeto(entrada.procedencia) : objeto(objeto(minima.procedencia).ejecucion);
 		resultado.metadatos = { ...leerMetadatos(minima.metadatos), ...leerEjecucion(ejecucionOriginal), ...cambios };
-		const { ia_generador, ia_modelo, ia_modo, ia_plan, ia_parametros, ...datosObra } = resultado.metadatos;
+		const { ia_generador, ia_modelo, ia_modo, ia_plan, ia_parametros,
+			inicio_inclusivo, fin_inclusivo, fecha_aproximada, ...datosObra } = resultado.metadatos;
 		const metadatos = {
 			...datosObra,
 			fecha_inicio: resultado.metadatos.fecha_inicio.trim() ? Number(resultado.metadatos.fecha_inicio) : null,
 			fecha_fin: resultado.metadatos.fecha_fin.trim() ? Number(resultado.metadatos.fecha_fin) : null,
+			...(inicio_inclusivo === undefined ? {} : { inicio_inclusivo: inicio_inclusivo !== 'false' }),
+			...(fin_inclusivo === undefined ? {} : { fin_inclusivo: fin_inclusivo !== 'false' }),
+			...(fecha_aproximada === undefined ? {} : { fecha_aproximada: fecha_aproximada === 'true' }),
 			fuente_fecha: resultado.metadatos.fuente_fecha.trim() || null,
 			fundamento_autoria: resultado.metadatos.fundamento_autoria.trim() || null
 		};

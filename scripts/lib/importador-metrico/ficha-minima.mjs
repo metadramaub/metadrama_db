@@ -49,11 +49,16 @@ export const fichaMinimaSchema = z
 		metadatos: z
 			.object({
 				titulo: texto,
-				autor_nombre: texto,
+				autor_nombre: z.string().trim(),
 				genero: texto,
 				edicion_base: texto,
-				fecha_inicio: entero,
-				fecha_fin: entero,
+				fecha_inicio: entero.nullable(),
+				fecha_fin: entero.nullable(),
+				inicio_inclusivo: z.boolean().optional(),
+				fin_inclusivo: z.boolean().optional(),
+				fecha_aproximada: z.boolean().optional(),
+				variantes_titulo: z.array(texto).optional(),
+				propuestas_autoria: z.array(z.record(z.string(), z.unknown())).optional(),
 				fuente_fecha: texto.nullable().default(null),
 				fundamento_autoria: texto.nullable().default(null),
 				observaciones: z.array(texto)
@@ -148,7 +153,8 @@ export function validarFichaMinima(input, { catalogo, vistaPrevia = false } = {}
 	if (
 		datos.metadatos.fecha_inicio !== null &&
 		datos.metadatos.fecha_fin !== null &&
-		datos.metadatos.fecha_inicio > datos.metadatos.fecha_fin
+		datos.metadatos.fecha_inicio + (datos.metadatos.inicio_inclusivo === false ? 1 : 0) >
+			datos.metadatos.fecha_fin - (datos.metadatos.fin_inclusivo === false ? 1 : 0)
 	)
 		add('fechas_invertidas', 'metadatos', 'La fecha inicial supera la final.');
 	const revisarParticion = (rows, path) => {
@@ -349,6 +355,9 @@ export function prepararFichaMinima(normalizada, { genero, metadatos = {} } = {}
 			edicion_base: m.edicion_base,
 			fecha_inicio: m.fecha_inicio,
 			fecha_fin: m.fecha_fin,
+			inicio_inclusivo: m.inicio_inclusivo,
+			fin_inclusivo: m.fin_inclusivo,
+			fecha_aproximada: m.fecha_aproximada,
 			fuente_fecha: m.fuente_fecha ?? null,
 			fundamento_autoria: null,
 			observaciones: structuredClone(m.observaciones ?? []),

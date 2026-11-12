@@ -334,16 +334,19 @@ describe('vista previa del importador sin persistencia', () => {
 			fecha_fin: 1590
 		});
 	});
-	it('deja revisar con fechas vacías, pero impide guardar; rechaza fechas invertidas', () => {
+	it('admite datación abierta y rechaza fechas invertidas', () => {
 		expect(
 			analizarEntrada(obtenerPilotos()[0].entrada, { fecha_inicio: '' }).pendientes_metadatos!.length
-		).toBeGreaterThan(0);
+		).toBe(0);
 		expect(
 			analizarEntrada(obtenerPilotos()[0].entrada, {
 				fecha_inicio: '1600',
 				fecha_fin: '1590'
 			}).errores.length
 		).toBeGreaterThan(0);
+		expect(analizarEntrada(obtenerPilotos()[0].entrada, {
+			fecha_inicio: '1600', fecha_fin: '1600', fin_inclusivo: 'false'
+		}).errores).toEqual(expect.arrayContaining([expect.objectContaining({ codigo: 'fechas_invertidas' })]));
 	});
 	it('corrige las fechas inválidas de la extracción sin cambiar la huella de la fuente original', () => {
 		const raw = JSON.parse(obtenerPilotos()[0].entrada);

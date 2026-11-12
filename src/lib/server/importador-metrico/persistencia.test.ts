@@ -35,7 +35,7 @@ function db() {
 describe('confirmación de importación', () => {
 	it('rechaza una vista con metadatos pendientes aunque su huella sea correcta', async () => {
 		const cliente = db();
-		const datos = analizarEntrada(piloto.entrada, {fecha_inicio:''}).datos!;
+		const datos = analizarEntrada(piloto.entrada, {edicion_base:''}).datos!;
 		await expect(guardarImportacion(cliente, {...caso(),datos,huella:huellaConfirmacion(datos,autorId,[])}))
 			.rejects.toMatchObject({status:400});
 		expect(cliente.rpc).not.toHaveBeenCalled();

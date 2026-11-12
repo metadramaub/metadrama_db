@@ -99,7 +99,8 @@ export async function guardarImportacion(
 		obraId?: string | null;
 	}
 ) {
-	if (!uuid.safeParse(p.autorId).success || !uuid.safeParse(p.peticionId).success)
+	const autoriaEditorial = p.obraId || p.datos.metadatos.propuestas_autoria;
+	if ((!uuid.safeParse(p.autorId).success && !(autoriaEditorial && p.autorId === '')) || !uuid.safeParse(p.peticionId).success)
 		throw new ErrorImportacion(400, 'Autor o identificador de petición inválidos.');
 	const completa = fichaMinimaSchema.safeParse(p.datos);
 	if (!completa.success)
@@ -121,7 +122,7 @@ export async function guardarImportacion(
 	for (const s of datos.segmentos) s.segmentacion = 'confirmada';
 	const r = await db.rpc('guardar_ficha_basica', {
 		p_peticion: p.peticionId,
-		p_autor: p.autorId,
+		p_autor: p.autorId || null,
 		p_datos: datos,
 		p_entrada_original: extraccionOriginal(p.entrada),
 		p_coincidencias_revisadas: p.coincidencias.map((c) => c.obra_id),
