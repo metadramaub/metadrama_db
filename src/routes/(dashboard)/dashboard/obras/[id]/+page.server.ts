@@ -1,7 +1,8 @@
-import type { PageServerLoad } from './$types';
-import { error as httpError, redirect } from '@sveltejs/kit';
+import type { Actions, PageServerLoad } from './$types';
+import { error as httpError, fail, redirect } from '@sveltejs/kit';
+import { z } from 'zod';
 import { esFichaBasica, esObraSinFicha, requiereInicioCompleta } from '$lib/importador-metrico/tipo-ficha';
-import { clienteImportador, localizarImportacion } from '$lib/server/importador-metrico/persistencia';
+import { cargarFichaBasica, guardarMetricaBasica } from '$lib/server/importador-metrico/ficha-basica';
 import { enunciationType } from '$lib/metrica/enunciation';
 import { countAutoriaGroupsWithProposals } from '$lib/server/autoria';
 import { getObraContext } from '$lib/server/auth';
@@ -15,7 +16,7 @@ const CUADROS_EDITOR_SELECT = 'cuadro_id,cuadro_num,jornada_id,v_ini,v_fin';
 const SECUENCIAS_EDITOR_SELECT =
 	'secuencia_id,obra_id,v_ini,v_fin,n_versos,estrofa_tipo_id,inaugura_espacio,versos_partidos,generos_intervinientes,intervencion_figuras_donaire,intervencion_personajes_sobrenaturales,evento_sobrenatural,sinopsis';
 
-export const load: PageServerLoad = async ({ locals, params, depends }) => {
+export const load: PageServerLoad = async ({ locals, params, depends, url }) => {
 	depends(`dashboard:obra:${params.id}`);
 
 	const { obra, profile, estadoTerm, assignedReviewer, capabilities } = await getObraContext(
@@ -27,11 +28,24 @@ export const load: PageServerLoad = async ({ locals, params, depends }) => {
 	);
 
 	if (esObraSinFicha(obra)) throw redirect(303, '/dashboard/obras?scope=all');
-	if (requiereInicioCompleta(obra)) throw redirect(303, `/dashboard/obras/${obra.obra_id}/iniciar`);
-	if (esFichaBasica(obra)) {
-		const id = await localizarImportacion(clienteImportador(locals.supabase), obra.obra_id);
-		if (!id) throw httpError(404, 'Importación no disponible.');
-		throw redirect(303, '/dashboard/importador/fichas/' + id);
+	const gestor = ['admin', 'ip'].includes(profile.roleTerm);
+	const pestaña = url.searchParams.get('tab');
+	if (esFichaBasica(obra) || pestaña === 'basica') {
+		if (!obra.importacion_id) throw httpError(404, 'Ficha básica no disponible.');
+		const basica = await cargarFichaBasica({ locals }, obra.importacion_id);
+		if (!esFichaBasica(obra)) return { pantalla: 'referencia' as const, obra, basica: { ...basica, puedeEditarMetrica: false } };
+		const [generoOptions, editores] = await Promise.all([
+			gestor ? loadInternalVocabulario(locals.supabase, ['genero']) : [],
+			gestor ? locals.supabase.from('editores').select('user_id,nombre_completo')
+				.or('activo.eq.true,activo.is.null').order('nombre_completo') : { data: [] }
+		]);
+		return { pantalla: 'basica' as const, obra, basica, generoOptions, roleTerm: profile.roleTerm,
+			editores: editores.data ?? [], pestaña };
+	}
+	if (requiereInicioCompleta(obra)) {
+		if (!obra.importacion_id) throw redirect(303, `/dashboard/obras/${obra.obra_id}/iniciar`);
+		return { pantalla: 'encargada' as const, obra,
+			puedeIniciar: gestor || obra.editor_asignado === profile.userId };
 	}
 
 	const [jornadasResp, secuenciasResp, vocabularios] = await Promise.all([
@@ -180,7 +194,13 @@ export const load: PageServerLoad = async ({ locals, params, depends }) => {
 				.maybeSingle()
 		: { data: null };
 
+	const propuestasBasica = obra.importacion_id
+		? await locals.supabase.rpc('propuestas_metricas_de_basica' as never, { p_obra: obra.obra_id } as never)
+		: null;
+
 	return {
+		pantalla: 'completa' as const,
+		propuestasBasica: (propuestasBasica?.data ?? []) as { secuencia_id: string; forma: string; arquitectura: string | null }[],
 		profile,
 		obra,
 		estadoTerm,
@@ -210,4 +230,34 @@ export const load: PageServerLoad = async ({ locals, params, depends }) => {
 		catalogoMetrico,
 		anotacionMetrica
 	};
+};
+
+export const actions: Actions = {
+	guardarMetrica: async (event) => {
+		const { obra } = await getObraContext(event, event.params.id);
+		if (!esFichaBasica(obra) || !obra.importacion_id) return fail(409, { mensaje: 'La básica ya no está en edición.' });
+		return guardarMetricaBasica(event, obra.importacion_id);
+	},
+	encargarCompleta: async (event) => {
+		const { obra, profile } = await getObraContext(event, event.params.id);
+		if (!['admin', 'ip'].includes(profile.roleTerm)) return fail(403, { mensaje: 'Solo admin o IP pueden encargar la ficha.' });
+		const formulario = await event.request.formData();
+		const editor = z.string().uuid().safeParse(formulario.get('editor'));
+		if (!editor.success) return fail(400, { mensaje: 'Selecciona un editor.' });
+		const respuesta = await event.locals.supabase.rpc('encargar_completa_desde_basica' as never,
+			{ p_obra: obra.obra_id, p_editor: editor.data } as never);
+		if (respuesta.error) return fail(respuesta.error.code === '42501' ? 403 : 409, { mensaje: respuesta.error.message });
+		throw redirect(303, `/dashboard/obras/${obra.obra_id}`);
+	},
+	iniciarDesdeBasica: async (event) => {
+		const { obra } = await getObraContext(event, event.params.id);
+		const formulario = await event.request.formData();
+		const modo = formulario.get('modo');
+		const edicion = formulario.get('edicion');
+		if (modo !== 'reutilizar' && modo !== 'desde_cero') return fail(400, { mensaje: 'Elige cómo iniciar la ficha.' });
+		const respuesta = await event.locals.supabase.rpc('iniciar_completa_desde_basica' as never,
+			{ p_obra: obra.obra_id, p_reutilizar: modo === 'reutilizar', p_edicion: typeof edicion === 'string' ? edicion : null } as never);
+		if (respuesta.error) return fail(respuesta.error.code === '42501' ? 403 : 409, { mensaje: respuesta.error.message });
+		throw redirect(303, `/dashboard/obras/${obra.obra_id}?tab=secuencias`);
+	}
 };

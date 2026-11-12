@@ -183,7 +183,7 @@ async function previsualizar(
 						: 'No se pudo guardar. Comprueba los datos y reintenta.'
 			});
 		}
-		throw redirect(303, '/dashboard/importador/fichas/' + guardada.importacion_id);
+		throw redirect(303, '/dashboard/obras/' + guardada.obra_id + '?tab=secuencias');
 	}
 	return respuesta;
 }

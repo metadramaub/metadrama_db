@@ -111,6 +111,7 @@
 			elecciones: MetricCatalogDomainRow[];
 			desviaciones: MetricCatalogDomainRow[];
 		} | null;
+		propuestasBasica?: { secuencia_id: string; forma: string; arquitectura: string | null }[];
 	}>();
 
 	type IntervencionValue = 'sin_intervencion' | 'exclusiva' | 'compartida';
@@ -313,6 +314,11 @@
 	let secuencias = $state(untrack(() => [...props.secuenciasInitial]));
 	let sidebarOpen = $state(false);
 	let editingId = $state<string | null>(null);
+	const propuestaBasica = $derived(
+		editingId && !props.anotacionesEnSesion.has(editingId)
+			? props.propuestasBasica?.find((fila: { secuencia_id: string }) => fila.secuencia_id === editingId)
+			: undefined
+	);
 	let filtroForma = $state('');
 	let filtroFormaDraft = $state('');
 
@@ -1860,6 +1866,12 @@
 			alCerrar={requestCloseSidebar}
 			alGuardar={() => void save()}
 		>
+			{#if propuestaBasica && !props.readOnly}
+				<div class="mx-5 mt-4 rounded border border-[color:var(--border)] p-3 text-sm">
+					<span class="font-medium">Propuesta de la ficha básica</span>
+					<p>{propuestaBasica.forma}{propuestaBasica.arquitectura ? ' — ' + propuestaBasica.arquitectura : ''}</p>
+				</div>
+			{/if}
 			{#if propuestaDeLaAbierta || buscandoLaPropuesta}
 				<div class="px-5 pt-4">
 					<DeDondeVieneLaSecuencia

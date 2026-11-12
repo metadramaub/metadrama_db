@@ -80,7 +80,7 @@ describe('acciones HTTP del importador', () => {
 		const previa = await comprobar();
 		await expect(actions.confirmar!(event({ huella: previa.huella! }))).rejects.toMatchObject({
 			status: 303,
-			location: '/dashboard/importador/fichas/' + importacion
+			location: '/dashboard/obras/' + autor + '?tab=secuencias'
 		});
 		expect(rpc).toHaveBeenCalledWith(
 			'guardar_ficha_basica',

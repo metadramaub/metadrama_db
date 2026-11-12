@@ -59,9 +59,22 @@ flowchart TB
 ```
 
 Las básicas confirmadas podrán aportar a los análisis autorizados, sin ficha pública individual.
-La integración de sus productores sigue pendiente. Encargar o iniciar una completa no cambia
-automáticamente el referente analítico. El mecanismo de transición y sustitución queda fuera
-de esta preparación; la importación original siempre permanece consultable.
+El selector de aportaciones da prioridad a la completa desde su publicación y toma una sola
+fuente por obra. Su integración en los productores de datos sigue pendiente.
+
+La transición preparada en `20261112160000` mantiene el identificador de la obra. Admin/IP
+encarga la completa desde la ficha básica. El editor responsable o admin/IP puede iniciar la
+elaboración de dos formas:
+
+- **Reutilizar jornadas y secuencias.** Se usa la edición base de la básica. Las formas y
+  arquitecturas compatibles se muestran como propuestas en las secuencias que conservan su rango.
+  La ficha completa comienza sin anotaciones métricas confirmadas.
+- **Empezar desde cero.** Se elige la edición base. Se retiran las filas de estructura importadas
+  tras comprobar sus dependencias y se conserva la ficha básica confirmada.
+
+La pantalla de la completa enlaza a la última básica corregida, en solo lectura. El registro
+de importación conserva también la extracción original. La edición de la básica se abre en
+la misma ruta de obra, con las pestañas de datos, autoría y secuencias.
 
 El listado global y la gestión de corpus/asignaciones son exclusivos de admin/IP. Los editores
 mantienen sus encargos y la consulta autorizada de la importación de origen. No se elimina
@@ -235,5 +248,6 @@ para el dominio publicado, con autorización del usuario, y no sustituyen una re
 
 La revisión visual inicial cubrió corpus y encargos; la herramienta dejó de responder antes de
 cerrar el repaso del formulario. La carga SSR, las API y los permisos sí se comprobaron.
-La edición de básicas y la transición básica → completa conservan el alcance separado acordado;
-la incorporación de sus productores a los análisis se sigue en [PENDIENTES](../PENDIENTES.md).
+La transición básica → completa está preparada y validada en una copia aislada. Su aplicación
+y la incorporación de las básicas a los productores de análisis se siguen en
+[PENDIENTES](../PENDIENTES.md).

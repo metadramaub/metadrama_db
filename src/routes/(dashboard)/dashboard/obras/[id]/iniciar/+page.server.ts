@@ -7,6 +7,6 @@ import { modeloEditorialActivo } from '$lib/server/modelo-obras';
 export const load: PageServerLoad = async ({locals,params}) => {
 	if (!modeloEditorialActivo()) throw error(404, 'Página no disponible.');
 	const {obra,profile,assignedEditor} = await getObraContext({locals},params.id);
-	if (!requiereInicioCompleta(obra)) throw redirect(303, `/dashboard/obras/${obra.obra_id}`);
+	if (obra.importacion_id || !requiereInicioCompleta(obra)) throw redirect(303, `/dashboard/obras/${obra.obra_id}`);
 	return {obraId:obra.obra_id,titulo:obra.titulo,puedeIniciar:assignedEditor||['admin','ip'].includes(profile.roleTerm)};
 };

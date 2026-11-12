@@ -41,7 +41,7 @@
 					</td>
 					<td class="px-4 py-3">
 						<div class="flex items-center justify-end gap-1">
-							<a href={'/dashboard/importador/fichas/' + f.importacion_id} title="Ver ficha básica" aria-label={'Ver ' + f.titulo} class="rounded p-1 text-[color:var(--muted-foreground)] transition-colors hover:bg-[color:var(--muted)] hover:text-[color:var(--foreground)]"><Eye size={16} aria-hidden="true" /></a>
+							<a href={'/dashboard/obras/' + f.obra_id + '?tab=basica'} title="Ver ficha básica" aria-label={'Ver ' + f.titulo} class="rounded p-1 text-[color:var(--muted-foreground)] transition-colors hover:bg-[color:var(--muted)] hover:text-[color:var(--foreground)]"><Eye size={16} aria-hidden="true" /></a>
 							{#if puedeEliminar}<button type="button" title="Eliminar ficha básica" aria-label={'Eliminar ' + f.titulo} class="rounded p-1 text-[color:var(--danger)] transition-colors hover:bg-[color:var(--danger)] hover:text-white" onclick={() => oneliminar?.(f)}><Trash2 size={16} /></button>{/if}
 						</div>
 					</td>

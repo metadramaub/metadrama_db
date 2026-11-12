@@ -21,6 +21,7 @@
 		canRead?: boolean;
 		canEditContent?: boolean;
 		canStartComplete?: boolean;
+		importacion_id?: string | null;
 		canComment?: boolean;
 		canReview?: boolean;
 		canChangeState?: boolean;
@@ -29,7 +30,6 @@
 		autores?: string[];
 		autoriaLabel?: string;
 		puedeEditarMetadatos?: boolean;
-		puedeEditarMetricaBasica?: boolean;
 		corpus?: string[];
 		dataciones?: unknown;
 		fecha_inicio_trad?: number|null;
@@ -293,7 +293,7 @@
 					{/if}
 					<td class="px-3 py-2">
 						<div class="flex items-center justify-end gap-0.5">
-							{#if obra.puedeEditarMetadatos}
+							{#if obra.puedeEditarMetadatos && !esFichaBasica(obra)}
 								<a class={acciones + ' ' + accionEdicion} href={'/dashboard/obras/' + obra.obra_id + '/metadatos'}
 									aria-label="Editar datos de la obra" title="Editar datos de la obra"><Pencil size={16} aria-hidden="true" /></a>
 							{/if}
@@ -304,9 +304,12 @@
 									{@render accion(FilePlus2, 'Iniciar completa', () => props.onStart?.(obra.obra_id), true)}
 								{/if}
 							{:else if obra.canStartComplete && props.onStart}
-								{@render accion(FilePlus2, 'Iniciar completa', () => props.onStart?.(obra.obra_id), true)}
-							{:else if obra.puedeEditarMetricaBasica}
-								{@render accion(Pencil, 'Editar métrica de la ficha básica', () => dispatch('open', obra.obra_id), true)}
+								{@render accion(FilePlus2, 'Iniciar completa', () => {
+									if (obra.importacion_id) dispatch('open', obra.obra_id);
+									else props.onStart?.(obra.obra_id);
+								}, true)}
+							{:else if esFichaBasica(obra) && obra.puedeEditarMetadatos}
+								{@render accion(Pencil, 'Editar ficha básica', () => dispatch('open', obra.obra_id), true)}
 							{:else if obra.canRead !== false && obra.tipo_ficha !== 'sin_ficha'}
 								{@render accion(label === 'Editar' ? Pencil : label === 'Revisar' ? ClipboardCheck : esFichaBasica(obra) ? FileText : Eye,
 									label + (esFichaBasica(obra) ? ' ficha básica' : ' obra'),

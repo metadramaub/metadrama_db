@@ -7,7 +7,7 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const { obra, profile } = await getObraContext({ locals }, params.id);
 	if (profile.roleTerm !== 'admin' && profile.roleTerm !== 'ip') throw error(403, 'Acceso reservado a admin e IP.');
-	if (!esFichaBasica(obra) && !esObraSinFicha(obra) && !requiereInicioCompleta(obra)) {
+	if (esFichaBasica(obra) || (!esObraSinFicha(obra) && !requiereInicioCompleta(obra))) {
 		throw redirect(303, '/dashboard/obras/' + obra.obra_id);
 	}
 	const generoOptions = await loadInternalVocabulario(locals.supabase, ['genero']);
