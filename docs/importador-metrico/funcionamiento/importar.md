@@ -10,6 +10,15 @@
 3. Cotejar las filas con las fotos y completar los metadatos obligatorios para guardar. Los datos
    facilitados se precargan; los que faltan no impiden preparar y revisar la métrica.
 
+Con la migración `20261112170000`, admin e IP disponen de **Datos de la obra** y **Autoría**
+dentro del importador. Al abrirlo desde **Obras**, estas pestañas consultan y guardan los
+metadatos del registro elegido. Tras cambiar los metadatos, se comprueba de nuevo la importación.
+Al preparar una obra nueva, las pestañas trabajan con un borrador. **Guardar ficha básica**
+crea juntos el registro, sus propuestas de autoría y la ficha métrica.
+
+La datación de referencia admite un solo límite, límites exclusivos y fechas aproximadas.
+La edición base y los datos de la extracción se introducen en **Fuente de la importación**.
+
 La forma original y las notas de la edición se conservan. La tabla muestra lo que se registrará:
 forma, arquitectura y datos estructurados adicionales, separados de los textos de notas y fuente.
 No hay estados de «propuesta» o «revisada» que deba aprobar quien importa.

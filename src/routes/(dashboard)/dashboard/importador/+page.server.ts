@@ -21,6 +21,10 @@ import {
 import type { MetadatosEditables } from '$lib/importador-metrico/types';
 import { randomUUID } from 'node:crypto';
 import { datacionDeObra } from '$lib/dataciones';
+import { loadInternalVocabulario } from '$lib/server/catalogos-internos';
+import type { ObraEditorial } from '$lib/types/obra-editorial.types';
+import { loadAutoriaCatalogs, validateAutoriaPayload } from '$lib/server/autoria';
+import { autoriaInputSchema, obraDatosPatchSchema } from '$lib/utils/validators';
 
 async function cargarDestino(locals: App.Locals, id: string) {
 	if (!modeloEditorialActivo() || !z.string().uuid().safeParse(id).success)
@@ -35,21 +39,35 @@ export const load: PageServerLoad = async (event) => {
 	const acceso = await estadoImportador(event);
 	const destinoId = event.url.searchParams.get('obra');
 	const obraDestino = destinoId ? await cargarDestino(event.locals, destinoId) : null;
-	const [autores, generos] = await Promise.all([
+	const esGestor = ['admin', 'ip'].includes(acceso.profile.roleTerm);
+	let metadatosDestino = null;
+	if (obraDestino && esGestor) {
+		const [obra, generoOptions] = await Promise.all([
+			event.locals.supabase.from('obras_editoriales').select('*').eq('obra_id', obraDestino.obra_id).single(),
+			loadInternalVocabulario(event.locals.supabase, ['genero'])
+		]);
+		if (obra.error || !obra.data) throw error(500, 'No se pudieron cargar los datos de la obra.');
+		metadatosDestino = { obra: obra.data as ObraEditorial, generoOptions, roleTerm: acceso.profile.roleTerm };
+	}
+	const [autores, generos, catalogosAutoria] = await Promise.all([
 		event.locals.supabase
 			.from('autores')
-			.select('autor_id,nombre_completo')
+			.select('autor_id,nombre_completo,nombre_normalizado')
 			.order('nombre_completo'),
 		event.locals.supabase
 			.from('vocabularios')
-			.select('termino,etiqueta')
+			.select('termino_id,termino,etiqueta')
 			.eq('categoria', 'genero')
 			.eq('activo', true)
-			.order('orden')
+			.order('orden'),
+		esGestor && !obraDestino ? loadAutoriaCatalogs(event.locals.supabase) : null
 	]);
 	if (autores.error || generos.error) throw error(500, 'No se pudieron cargar autores y géneros');
 	return {
 		obraDestino,
+		metadatosDestino,
+		catalogosAutoria,
+		roleTerm: acceso.profile.roleTerm,
 		peticionId: randomUUID(),
 		guardadoDisponible: acceso.guardadoDisponible,
 		autores: autores.data ?? [],
@@ -95,27 +113,70 @@ async function previsualizar(
 			'edicion_base',
 			'fecha_inicio',
 			'fecha_fin',
+			'inicio_inclusivo', 'fin_inclusivo', 'fecha_aproximada',
 			'fuente_fecha',
 			'fundamento_autoria',
 			'ia_generador', 'ia_modelo', 'ia_modo', 'ia_plan', 'ia_parametros'
 		] as const)
-			if (!key.startsWith('ia_') || form.has(key)) cambios[key] = texto(key);
+			if (form.has(key)) cambios[key] = texto(key);
 	}
-	if (obraId && !confirmar) {
-		const destino = await cargarDestino(event.locals, obraId);
-		cambios.titulo = destino.titulo;
-		if (!editar) {
+	const esGestor = ['admin', 'ip'].includes(acceso.profile?.roleTerm ?? '');
+	const metadatosVigentes = !!obraId && esGestor;
+	let datosNuevos: { variantes_titulo: string[]; propuestas_autoria: Record<string, unknown>[] } | undefined;
+	if (!obraId && editar && esGestor && form.has('autoria_borrador')) {
+		let propuesta: unknown;
+		let variantes: unknown;
+		try {
+			propuesta = JSON.parse(texto('autoria_borrador'));
+			variantes = JSON.parse(texto('variantes_borrador'));
+		} catch {
+			return fail(400, { mensaje: 'Revisa los datos de la obra.' });
+		}
+		const autoria = autoriaInputSchema.safeParse(propuesta);
+		const datos = obraDatosPatchSchema.safeParse({ variantes_titulo: variantes });
+		if (!autoria.success || !datos.success) return fail(400, { mensaje: 'Revisa los datos y la autoría de la obra.' });
+		const [catalogos, autores] = await Promise.all([
+			loadAutoriaCatalogs(event.locals.supabase),
+			event.locals.supabase.from('autores').select('autor_id,nombre_completo')
+		]);
+		if (autores.error) throw error(500, 'No se pudo comprobar la autoría.');
+		const nombres = new Map(autores.data.map((autor) => [autor.autor_id, autor.nombre_completo]));
+		const problemas = validateAutoriaPayload(autoria.data, {
+			jornadaIds: new Set(),
+			tipoIds: new Set(catalogos.tipos.map((tipo) => tipo.termino_id)),
+			composicionTermById: new Map(catalogos.composiciones.map((tipo) => [tipo.termino_id, tipo.termino])),
+			authorIds: new Set(nombres.keys())
+		});
+		if (problemas.length) return fail(400, { mensaje: problemas[0].message });
+		const propuestas = autoria.data.grupos[0]?.propuestas ?? [];
+		datosNuevos = { variantes_titulo: datos.data.variantes_titulo ?? [], propuestas_autoria: propuestas };
+		cambios.autor_nombre = propuestas.map((p) => p.autores.map((a) => nombres.get(a.autor_id)).join(' y '))
+			.filter(Boolean).join(' o ');
+		autorId = '';
+	}
+	if (obraId) {
+		if (!confirmar) cambios.titulo = (await cargarDestino(event.locals, obraId)).titulo;
+		if (!editar || metadatosVigentes) {
 			const { data: obra, error: errorObra } = await event.locals.supabase
 				.from('obras_editoriales')
-				.select('autores,genero_id,dataciones')
+				.select('titulo,autores,genero_id,dataciones')
 				.eq('obra_id', obraId)
 				.maybeSingle();
 			if (errorObra) throw error(500, 'No se pudieron cargar los datos de la obra.');
 			if (obra) {
 				const fecha = datacionDeObra(obra);
-				if (fecha.inicio !== null) cambios.fecha_inicio = String(fecha.inicio);
-				if (fecha.fin !== null) cambios.fecha_fin = String(fecha.fin);
-				if (fecha.fuente) cambios.fuente_fecha = fecha.fuente;
+				if (metadatosVigentes) {
+					cambios.titulo = obra.titulo ?? cambios.titulo;
+					cambios.autor_nombre = (obra.autores ?? []).join(', ');
+					cambios.genero = '';
+					autorId = '';
+				}
+				if (fecha.inicio !== null || metadatosVigentes) cambios.fecha_inicio = fecha.inicio?.toString() ?? '';
+				if (fecha.fin !== null || metadatosVigentes) cambios.fecha_fin = fecha.fin?.toString() ?? '';
+				if (fecha.fuente || metadatosVigentes) cambios.fuente_fecha = fecha.fuente ?? '';
+				cambios.inicio_inclusivo = String(fecha.inicio_inclusivo);
+				cambios.fin_inclusivo = String(fecha.fin_inclusivo);
+				cambios.fecha_aproximada = String(fecha.aproximada);
 				const nombre = obra.autores?.length === 1 ? obra.autores[0] : undefined;
 				if (nombre) {
 					const { data: candidatos, error: errorAutor } = await event.locals.supabase
@@ -153,6 +214,8 @@ async function previsualizar(
 		cambios.autor_nombre = autor.nombre_completo;
 	}
 	const vista = analizarEntrada(entrada, cambios, cambiosSecuencias, correspondencias);
+	if (vista.datos && datosNuevos) Object.assign(vista.datos.metadatos, datosNuevos);
+	const autoriaLista = autorId || metadatosVigentes || datosNuevos;
 	let coincidencias: CoincidenciaImportacion[] = [];
 	if (vista.metadatos.titulo.trim() && acceso.guardadoDisponible) {
 		try {
@@ -189,12 +252,12 @@ async function previsualizar(
 		);
 	}
 	const huella =
-		vista.datos && autorId && !vista.errores.length && !vista.pendientes_metadatos?.length
+		vista.datos && autoriaLista && !vista.errores.length && !vista.pendientes_metadatos?.length
 			? huellaConfirmacion(vista.datos, autorId, coincidencias, obraId)
 			: null;
 	const respuesta = { entrada, autorId, vista, coincidencias, ediciones, huella, comprobacion_realizada: editar && !confirmar };
 	if (confirmar) {
-		if (!vista.datos || vista.errores.length || vista.pendientes_metadatos?.length || !autorId)
+		if (!vista.datos || vista.errores.length || vista.pendientes_metadatos?.length || !autoriaLista)
 			return fail(400, { ...respuesta, mensaje: 'Comprueba los datos antes de guardar.' });
 		let guardada;
 		try {

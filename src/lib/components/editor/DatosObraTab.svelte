@@ -20,9 +20,14 @@
 	import { pushToast } from '$lib/stores/toast';
 	import { markSaved, patchCurrentObra, setDirty, setSaving } from '$lib/stores/currentObra';
 	import { displayTerm } from '$lib/utils/vocabulario';
+	import type { ObraDatosPatchInput } from '$lib/utils/validators';
+
+	type DatosObra = Pick<ObraEditorial, 'obra_id' | 'titulo' | 'variantes_titulo' | 'genero_id' |
+		'fecha_inicio_trad' | 'fecha_fin_trad' | 'fuente_fecha' | 'fecha_inicio_metadrama' |
+		'fecha_fin_metadrama' | 'dataciones' | 'edicion'>;
 
 	const props = $props<{
-		obra: ObraEditorial;
+		obra: DatosObra;
 		generoOptions: Array<Pick<Tables<'vocabularios'>, 'termino_id' | 'termino' | 'etiqueta'>>;
 		saveRequestToken?: number;
 		readOnly?: boolean;
@@ -30,6 +35,7 @@
 		canComment?: boolean;
 		focusComentarioId?: string | null;
 		commentsReloadKey?: string | number | null;
+		alCambiarBorrador?: (datos: ObraDatosPatchInput) => void;
 	}>();
 	// La presencia del contrato nuevo distingue la copia migrada del despliegue anterior.
 	const nuevoModelo = $derived(Array.isArray(props.obra.dataciones));
@@ -48,7 +54,7 @@
 	};
 
 
-	function toFormState(obra: ObraEditorial): FormState {
+	function toFormState(obra: DatosObra): FormState {
 		return {
 			titulo: obra.titulo ?? '',
 			variantes_titulo: obra.variantes_titulo ?? [],
@@ -110,6 +116,15 @@
 
 	function queueSave() {
 		if (props.readOnly) return;
+		if (props.alCambiarBorrador) {
+			props.alCambiarBorrador({
+				titulo: form.titulo,
+				variantes_titulo: form.variantes_titulo,
+				genero_id: form.genero_id || null,
+				dataciones: form.dataciones
+			});
+			return;
+		}
 		setDirty(true, 'datos');
 		clearQueuedSave();
 		timer = setTimeout(() => save(), 10_000);

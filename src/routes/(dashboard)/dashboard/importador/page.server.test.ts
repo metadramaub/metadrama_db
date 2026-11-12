@@ -103,13 +103,18 @@ describe('acciones HTTP del importador', () => {
 		expect(await actions.comprobar!(event())).toMatchObject({comprobacion_realizada:true});
 		expect(await actions.leer!(event())).toMatchObject({comprobacion_realizada:false});
 	});
-	it('sin fechas prepara las filas, no emite huella y bloquea confirmar aunque se fuerce el POST', async () => {
-		const previa = await actions.comprobar!(event({fecha_inicio:'',fecha_fin:''}));
-		expect(previa).toMatchObject({huella:null,vista:{errores:[]}});
+	it('prepara y guarda una datación con un solo límite exclusivo', async () => {
+		const fechas = { fecha_inicio: '', fecha_fin: '1614', fin_inclusivo: 'false', fecha_aproximada: 'true' };
+		const previa = await actions.comprobar!(event(fechas));
+		expect(previa).toMatchObject({ huella: expect.any(String), vista: { errores: [] } });
 		expect(previa && 'vista' in previa && previa.vista.filas.length).toBeGreaterThan(0);
-		const r = await actions.confirmar!(event({fecha_inicio:'',fecha_fin:'',huella:'forzada'}));
-		expect(r).toMatchObject({status:400});
-		expect(rpc.mock.calls.some(([name])=>name==='guardar_ficha_basica')).toBe(false);
+		const huella = (previa as { huella: string }).huella;
+		await expect(actions.confirmar!(event({ ...fechas, huella }))).rejects.toMatchObject({ status: 303 });
+		expect(rpc).toHaveBeenCalledWith('guardar_ficha_basica', expect.objectContaining({
+			p_datos: expect.objectContaining({ metadatos: expect.objectContaining({
+				fecha_inicio: null, fecha_fin: 1614, fin_inclusivo: false, fecha_aproximada: true
+			}) })
+		}));
 	});
 	it('reconstruye la vista en servidor y redirige a la copia guardada', async () => {
 		const previa = await comprobar();

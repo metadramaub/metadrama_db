@@ -9,11 +9,12 @@
 	import type { Snippet } from 'svelte';
 	import type { PageData } from './$types';
 
-	let { data, secuencias, acciones, inicial }: {
+	let { data, secuencias, acciones, inicial, integrado = false }: {
 		data: Pick<PageData, 'obra' | 'generoOptions' | 'roleTerm'>;
 		secuencias?: Snippet;
 		acciones?: Snippet;
 		inicial?: string | null;
+		integrado?: boolean;
 	} = $props();
 	let guardarDatos = $state(0);
 	let guardarAutoria = $state(0);
@@ -39,8 +40,10 @@
 </script>
 
 <section class="space-y-5">
-	<a href="/dashboard/obras" class="text-sm underline">Volver a Obras</a>
-	<h1 class="text-xl font-semibold">{obra.titulo}</h1>
+	{#if !integrado}
+		<a href="/dashboard/obras" class="text-sm underline">Volver a Obras</a>
+		<h1 class="text-xl font-semibold">{obra.titulo}</h1>
+	{/if}
 	{@render acciones?.()}
 	<Tabs {tabs} active={pestaña} onChange={(id) => {
 		if (id === 'datos' || id === 'autoria' || id === 'secuencias') pestaña = id;

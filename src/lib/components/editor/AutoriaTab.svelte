@@ -16,6 +16,7 @@
 	import type { AutoriaApiPayload, AutoriaComposicionTerm } from '$lib/types/obra.types';
 	import { canManageAutoriaMetricProfile } from '$lib/utils/permissions';
 	import { displayTerm } from '$lib/utils/vocabulario';
+	import type { AutoriaInputParsed } from '$lib/utils/validators';
 
 	type CatalogItem = {
 		termino_id: string;
@@ -50,7 +51,7 @@
 
 	const props = $props<{
 		obraId: string;
-		obra: ObraEditorial;
+		obra?: ObraEditorial;
 		roleTerm: string;
 		saveRequestToken?: number;
 		readOnly?: boolean;
@@ -60,6 +61,10 @@
 		commentsReloadKey?: string | number | null;
 		onMetricaDirty?: () => void;
 		onAutoriaChange?: (payload: AutoriaApiPayload) => void;
+		borrador?: {
+			inicial: AutoriaApiPayload;
+			alCambiar: (payload: AutoriaInputParsed | null) => void;
+		};
 	}>();
 
 	const PERFIL_HELP =
@@ -343,6 +348,18 @@
 
 	function syncDirty() {
 		if (effectiveReadOnly) return;
+		if (props.borrador) {
+			const payload = buildPayload();
+			props.borrador.alCambiar(validateClientPayload() ? null : {
+				grupos: payload.grupos.map((grupo) => ({
+					...grupo,
+					propuestas: grupo.propuestas.map((propuesta) => ({
+						...propuesta, perfil_metrico: propuesta.perfil_metrico ?? false
+					}))
+				}))
+			});
+			return;
+		}
 		const dirty = normalizeSnapshot() !== baselineSnapshot;
 		setDirty(dirty, 'autoria');
 		if (!dirty) setSaving(false, 'autoria');
@@ -390,12 +407,12 @@
 			openProposalId = null;
 		}
 
-		patchCurrentObra({
-			total_versos: payload.obra.total_versos ?? null
-		});
 		baselineSnapshot = normalizeSnapshot();
-		setDirty(false, 'autoria');
-		setSaving(false, 'autoria');
+		if (!props.borrador) {
+			patchCurrentObra({ total_versos: payload.obra.total_versos ?? null });
+			setDirty(false, 'autoria');
+			setSaving(false, 'autoria');
+		}
 	}
 
 	async function refreshFromServer(silent = false) {
@@ -672,7 +689,10 @@
 	});
 
 	onMount(() => {
-		void refreshFromServer(true);
+		if (props.borrador) {
+			applyServerState(props.borrador.inicial);
+			loading = false;
+		} else void refreshFromServer(true);
 	});
 </script>
 
