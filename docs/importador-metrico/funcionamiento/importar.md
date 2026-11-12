@@ -95,7 +95,7 @@ La fecha de importación y la de modificación pertenecen a la copia básica. La
 acreditadas muestran «No consta». Consultar una copia no reaplica equivalencias ni la modifica.
 Con la migración de edición métrica instalada, admin/IP y quien importó la ficha, si conserva
 el permiso de importación, pueden corregir las secuencias de una básica vigente. Desde la ficha,
-«Editar métrica» abre el editor. Después de revisar la corrección, «Guardar corrección» actualiza
+el lápiz de cada secuencia abre su editor. «Guardar» actualiza
 la ficha, los avisos y las secuencias en una operación. Se conserva el JSON original y una sola
 copia confirmada vigente. Si alguien modifica la ficha entretanto, hay que recargarla antes
 de volver a editar. Los límites de jornada y la edición base quedan fuera de esta operación.

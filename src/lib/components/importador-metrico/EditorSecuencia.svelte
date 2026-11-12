@@ -12,10 +12,11 @@
 	import Button from '$lib/components/ui/button.svelte';
 	import { sugerenciaTercetos } from '$lib/importador-metrico/presentacion';
 	import { comprobarLongitud } from '$lib/importador-metrico/longitud';
-	let { datos, tramoRef, formas, ocupado = false, errores = [], notasFuente = [], onaplicar, onrestablecer, oncancelar } = $props<{
+	let { datos, tramoRef, formas, ocupado = false, errores = [], notasFuente = [], guardarDirecto = false, onaplicar, onrestablecer, oncancelar } = $props<{
 		datos: BorradorFichaMinima; tramoRef: string; formas: FormaEditable[]; ocupado?: boolean; errores?: string[];
 		notasFuente?: NotaFuenteImportador[];
 		onaplicar: (cambio: EdicionFila) => void; onrestablecer?: () => void; oncancelar: () => void;
+		guardarDirecto?: boolean;
 	}>();
 	const originales = $derived<SegmentoMinimo[]>(datos.segmentos.filter((s: SegmentoMinimo) => s.origen.tramo_ref === tramoRef));
 	const inicio = $derived(originales[0].v_ini);
@@ -120,7 +121,8 @@
 
 <MetricSequenceModal titulo={partes.length === 1 ? 'Editar secuencia' : 'Editar secuencias'} rango={{ v_ini: inicio, v_fin: fin }}
 	guardando={ocupado} {sucio} error={[mensaje, ...errores].filter(Boolean).join(' ') || null}
-	alCerrar={oncancelar} alGuardar={aplicar} etiquetaGuardar="Comprobar cambios" etiquetaProcesando="Comprobando…">
+	alCerrar={oncancelar} alGuardar={aplicar} etiquetaGuardar={guardarDirecto ? 'Guardar' : 'Comprobar cambios'}
+	etiquetaProcesando={guardarDirecto ? 'Guardando…' : 'Comprobando…'}>
 	<section bind:this={panel} tabindex="-1" aria-label="Editar secuencias" class="space-y-4 p-5 focus:outline-none" oninput={() => sucio = true} onchange={() => sucio = true}>
 		<p class="text-sm text-[color:var(--muted-foreground)]">En la edición: {originales[0].origen.denominacion_literal ?? '—'}</p>
 		{#each notas.filter((n) => !partes.some((p) => p.desviaciones.some((d) => d.nota_ref === n.id))) as n}

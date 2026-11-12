@@ -34,7 +34,7 @@ export const load: PageServerLoad = async (event) => {
 	}
 };
 
-async function revisar(event: Parameters<Actions[string]>[0], guardar: boolean) {
+async function guardar(event: Parameters<Actions[string]>[0]) {
 	const profile = await requireEditorProfile(event);
 	try {
 		const ficha = await consultarImportacion(clienteImportador(event.locals.supabase), event.params.id);
@@ -54,13 +54,6 @@ async function revisar(event: Parameters<Actions[string]>[0], guardar: boolean) 
 		} catch (e) {
 			return fail(400, { mensaje: e instanceof Error ? e.message : 'Revisa los cambios de secuencia.' });
 		}
-		if (!guardar) {
-			return { revision: vistaDeFichaGuardada(corregida, ficha.entrada_original, {
-				obra_id: ficha.obra_id,
-				importacion_id: ficha.importacion_id
-			}) };
-		}
-
 		const resultado = await clienteImportador(getSupabaseAdmin()).rpc('editar_metrica_ficha_basica', {
 			p_importacion: ficha.importacion_id,
 			p_actor: profile.userId,
@@ -83,6 +76,5 @@ async function revisar(event: Parameters<Actions[string]>[0], guardar: boolean) 
 }
 
 export const actions: Actions = {
-	revisar: (event) => revisar(event, false),
-	guardar: (event) => revisar(event, true)
+	guardar
 };

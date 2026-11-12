@@ -29,6 +29,7 @@
 		autores?: string[];
 		autoriaLabel?: string;
 		puedeEditarMetadatos?: boolean;
+		puedeEditarMetricaBasica?: boolean;
 		corpus?: string[];
 		dataciones?: unknown;
 		fecha_inicio_trad?: number|null;
@@ -304,6 +305,8 @@
 								{/if}
 							{:else if obra.canStartComplete && props.onStart}
 								{@render accion(FilePlus2, 'Iniciar completa', () => props.onStart?.(obra.obra_id), true)}
+							{:else if obra.puedeEditarMetricaBasica}
+								{@render accion(Pencil, 'Editar métrica de la ficha básica', () => dispatch('open', obra.obra_id), true)}
 							{:else if obra.canRead !== false && obra.tipo_ficha !== 'sin_ficha'}
 								{@render accion(label === 'Editar' ? Pencil : label === 'Revisar' ? ClipboardCheck : esFichaBasica(obra) ? FileText : Eye,
 									label + (esFichaBasica(obra) ? ' ficha básica' : ' obra'),

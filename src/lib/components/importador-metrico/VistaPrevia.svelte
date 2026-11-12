@@ -10,9 +10,10 @@
 	import InlineNotePopover from '$lib/components/ui/inline-note-popover.svelte';
 	import { proponerDivisionDesdeNota } from '$lib/importador-metrico/division-nota';
 
-	let { vista, desactualizada = false, formas = [], ocupado = false, editable = false, restablecer = true, oneditar, oncancelar } = $props<{
+	let { vista, desactualizada = false, formas = [], ocupado = false, editable = false, restablecer = true, guardarDirecto = false, errorEdicion, onabrir, oneditar, oncancelar } = $props<{
 		vista: ResultadoVistaPrevia; desactualizada?: boolean; formas?: FormaEditable[]; ocupado?: boolean;
 		editable?: boolean; restablecer?: boolean; oneditar?: (tramo: string, cambio: EdicionFila | null) => void;
+		guardarDirecto?: boolean; errorEdicion?: string; onabrir?: () => void;
 		oncancelar?: () => void;
 	}>();
 	let editando = $state<string | null>(null);
@@ -62,7 +63,7 @@
 	{#if vista.resumen && vista.datos}
 		{#if editando && editable}
 			{#key editando}
-				<EditorSecuencia datos={vista.datos} tramoRef={editando} {formas} {ocupado} notasFuente={vista.filas.filter((f: FilaVistaPrevia) => f.origen.tramo_ref === editando).flatMap((f: FilaVistaPrevia) => f.notas_fuente ?? [])} errores={vista.errores.map((e: { mensaje: string }) => e.mensaje)}
+				<EditorSecuencia datos={vista.datos} tramoRef={editando} {formas} {ocupado} {guardarDirecto} notasFuente={vista.filas.filter((f: FilaVistaPrevia) => f.origen.tramo_ref === editando).flatMap((f: FilaVistaPrevia) => f.notas_fuente ?? [])} errores={[...vista.errores.map((e: { mensaje: string }) => e.mensaje), ...(errorEdicion ? [errorEdicion] : [])]}
 					onaplicar={(cambio) => aplicar(cambio.tramo_ref, cambio)}
 					onrestablecer={restablecer ? () => { if (editando) aplicar(editando, null); } : undefined}
 					oncancelar={() => { editando = null; oncancelar?.(); }} />
@@ -159,7 +160,7 @@
 										{#if oneditar}
 											<td class="px-3 py-2">
 												<div class="flex items-center justify-end gap-1">
-													<button type="button" class="rounded p-1 text-[color:var(--success)] transition-colors hover:bg-[color:var(--success)] hover:text-white disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-[color:var(--success)]" disabled={!editable || ocupado} title="Editar secuencia" aria-label={'Editar secuencia ' + fila.v_ini + '–' + fila.v_fin} onclick={() => editando = fila.origen.tramo_ref}><Pencil size={16} /></button>
+													<button type="button" class="rounded p-1 text-[color:var(--success)] transition-colors hover:bg-[color:var(--success)] hover:text-white disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-[color:var(--success)]" disabled={!editable || ocupado} title="Editar secuencia" aria-label={'Editar secuencia ' + fila.v_ini + '–' + fila.v_fin} onclick={() => { onabrir?.(); editando = fila.origen.tramo_ref; }}><Pencil size={16} /></button>
 												</div>
 											</td>
 										{/if}
