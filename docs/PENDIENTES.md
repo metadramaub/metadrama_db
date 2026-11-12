@@ -142,7 +142,8 @@ independientes de esas versiones de prompt y su último ajuste está probado loc
   No identificar octavas, tercetos, letrillas o sextinas únicamente por el número de versos.
 - Preparar una guía breve y probar el circuito con un importador real, incluida su cuenta y el
   modelo que tenga disponible. Mantener respuestas originales; no cerrar casos mediante JSON reparados a mano.
-- Validar en una copia la migración de edición métrica de básicas antes del despliegue.
+- Aplicar la migración de edición métrica de básicas en el despliegue. Validada en la copia
+  aislada con corrección, división, unión, control de concurrencia y reversión ante un fallo.
   Sigue pendiente el flujo de reimportación para cambiar la edición base o los límites de jornada.
 - Integrar la precomputación combinada y la sustitución editorial según el
   [plan aprobado](importador-metrico/arquitectura/consultas-y-precomputacion.md): una aportación

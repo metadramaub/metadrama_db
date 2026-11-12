@@ -28,6 +28,7 @@ returns jsonb language sql stable security definer set search_path = '' as $$
 $$;
 
 -- Solo el servidor llama a esta función tras validar la edición contra la ficha vigente.
+grant usage on schema extensions to service_role;
 grant execute on function public.esquema_documento_minimo() to service_role;
 grant execute on function public.comprobar_destino_minimo(jsonb) to service_role;
 
