@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
+	import { pushToast } from '$lib/stores/toast';
 	import type { EdicionFila } from '$lib/importador-metrico/edicion';
 	import VistaPrevia from '$lib/components/importador-metrico/VistaPrevia.svelte';
 	import DatosEjecucion from '$lib/components/importador-metrico/DatosEjecucion.svelte';
@@ -9,7 +10,6 @@
 	const m = $derived(data.vista.datos!.metadatos);
 	let pendiente = $state(false);
 	let mensaje = $state('');
-	let guardada = $state(false);
 	let cambio = '';
 	let modificadoEn = '';
 	let importacionId = '';
@@ -17,7 +17,6 @@
 
 	function abrirEdicion() {
 		mensaje = '';
-		guardada = false;
 		modificadoEn = data.modificadoEn ?? '';
 		importacionId = data.vista.confirmacion?.importacion_id ?? '';
 	}
@@ -38,7 +37,6 @@
 	<div class="card space-y-2 p-4"><h2 class="font-semibold">Edición base</h2><p class="whitespace-pre-wrap text-sm">{m.edicion_base}</p></div>
 	{#if data.vista.datos?.procedencia.ejecucion}<div class="card p-4"><DatosEjecucion metadatos={data.vista.metadatos} soloLectura /></div>{/if}
 	<p class="text-sm text-[color:var(--muted-foreground)]">Se conserva el JSON original de la importación.</p>
-	{#if guardada}<p role="status" class="text-sm text-[color:var(--success)]">Corrección guardada.</p>{/if}
 	<form hidden method="POST" action="?/guardar" bind:this={formulario} use:enhance={({ formData }) => {
 		formData.set('cambio', cambio);
 		formData.set('modificado_en', modificadoEn);
@@ -49,7 +47,7 @@
 			try {
 				if (result.type === 'success') {
 					await update();
-					guardada = true;
+					pushToast('success', 'Corrección guardada.');
 				} else {
 					mensaje = result.type === 'failure'
 						? String(result.data?.mensaje ?? 'No se pudo guardar la corrección.')
