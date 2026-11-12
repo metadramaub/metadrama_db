@@ -64,6 +64,41 @@ async function comprobar() {
 	return r;
 }
 describe('acciones HTTP del importador', () => {
+	it('prepara una básica con los metadatos de su obra de destino', async () => {
+		rpc.mockImplementation(async (name: string) => ({
+			data: name === 'destino_importacion_metrica'
+				? { obra_id: importacion, titulo: 'Fuenteovejuna' }
+				: [],
+			error: null
+		}));
+		const solicitud = event({ obra_id: importacion }) as Parameters<typeof actions.leer>[0];
+		vi.spyOn(solicitud.locals.supabase, 'from').mockImplementation((tabla: string) => ({
+			select: () => ({
+				eq: () => ({
+					limit: async () => ({ data: [{ autor_id: autor }], error: null }),
+					maybeSingle: async () => ({
+						data: tabla === 'obras_editoriales'
+							? {
+								autores: ['Lope de Vega'],
+								genero_id: importacion,
+								dataciones: [{ clase: 'referencia', inicio: 1612, fin: 1614, fuente: 'Datación registrada' }]
+							}
+							: tabla === 'vocabularios'
+								? { termino: 'comedia_o_tragicomedia' }
+								: { autor_id: autor, nombre_completo: 'Lope de Vega' },
+						error: null
+					})
+				})
+			})
+		}) as never);
+		expect(await actions.leer!(solicitud)).toMatchObject({
+			autorId: autor,
+			vista: { metadatos: {
+				titulo: 'Fuenteovejuna', autor_nombre: 'Lope de Vega', genero: 'comedia_o_tragicomedia',
+				fecha_inicio: '1612', fecha_fin: '1614', fuente_fecha: 'Datación registrada'
+			} }
+		});
+	});
 	it('marca la comprobación terminada solo en comprobar, no al preparar el JSON', async () => {
 		expect(await actions.comprobar!(event())).toMatchObject({comprobacion_realizada:true});
 		expect(await actions.leer!(event())).toMatchObject({comprobacion_realizada:false});

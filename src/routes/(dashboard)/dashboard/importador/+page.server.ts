@@ -20,18 +20,21 @@ import {
 } from '$lib/server/importador-metrico/vista-previa';
 import type { MetadatosEditables } from '$lib/importador-metrico/types';
 import { randomUUID } from 'node:crypto';
+import { datacionDeObra } from '$lib/dataciones';
+
+async function cargarDestino(locals: App.Locals, id: string) {
+	if (!modeloEditorialActivo() || !z.string().uuid().safeParse(id).success)
+		throw error(400, 'Obra de destino inválida.');
+	const permiso = await locals.supabase.rpc('destino_importacion_metrica' as never, { p_obra: id } as never);
+	const destino = z.object({ obra_id: z.string().uuid(), titulo: z.string() }).safeParse(permiso.data);
+	if (permiso.error || !destino.success) throw error(409, 'Selecciona una obra sin ficha.');
+	return destino.data;
+}
 
 export const load: PageServerLoad = async (event) => {
 	const acceso = await estadoImportador(event);
 	const destinoId = event.url.searchParams.get('obra');
-	let obraDestino: {obra_id: string; titulo: string} | null = null;
-	if (destinoId) {
-		if (!modeloEditorialActivo() || !z.string().uuid().safeParse(destinoId).success) throw error(400, 'Obra de destino inválida.');
-		const r = await event.locals.supabase.rpc('destino_importacion_metrica' as never,{p_obra:destinoId} as never);
-		const destino=z.object({obra_id:z.string().uuid(),titulo:z.string()}).safeParse(r.data);
-		if(r.error||!destino.success)throw error(409,'Selecciona una obra sin ficha.');
-		obraDestino=destino.data;
-	}
+	const obraDestino = destinoId ? await cargarDestino(event.locals, destinoId) : null;
 	const [autores, generos] = await Promise.all([
 		event.locals.supabase
 			.from('autores')
@@ -75,7 +78,7 @@ async function previsualizar(
 	if (obraId && (!modeloEditorialActivo() || !z.string().uuid().safeParse(obraId).success)) throw error(400, 'Obra de destino inválida.');
 	if (entrada.length > 2_000_000)
 		return fail(413, { mensaje: 'La entrada supera el límite. Pega una obra cada vez.' });
-	const autorId = editar ? texto('autor_id') : '';
+	let autorId = editar ? texto('autor_id') : '';
 	const ediciones = editar ? texto('ediciones') || '[]' : '[]';
 	let cambiosSecuencias: unknown;
 	try {
@@ -97,6 +100,37 @@ async function previsualizar(
 			'ia_generador', 'ia_modelo', 'ia_modo', 'ia_plan', 'ia_parametros'
 		] as const)
 			if (!key.startsWith('ia_') || form.has(key)) cambios[key] = texto(key);
+	}
+	if (obraId && !confirmar) {
+		const destino = await cargarDestino(event.locals, obraId);
+		cambios.titulo = destino.titulo;
+		if (!editar) {
+			const { data: obra, error: errorObra } = await event.locals.supabase
+				.from('obras_editoriales')
+				.select('autores,genero_id,dataciones')
+				.eq('obra_id', obraId)
+				.maybeSingle();
+			if (errorObra) throw error(500, 'No se pudieron cargar los datos de la obra.');
+			if (obra) {
+				const fecha = datacionDeObra(obra);
+				if (fecha.inicio !== null) cambios.fecha_inicio = String(fecha.inicio);
+				if (fecha.fin !== null) cambios.fecha_fin = String(fecha.fin);
+				if (fecha.fuente) cambios.fuente_fecha = fecha.fuente;
+				const nombre = obra.autores?.length === 1 ? obra.autores[0] : undefined;
+				if (nombre) {
+					const { data: candidatos, error: errorAutor } = await event.locals.supabase
+						.from('autores').select('autor_id').eq('nombre_completo', nombre).limit(2);
+					if (errorAutor) throw error(500, 'No se pudo cargar la autoría de la obra.');
+					if (candidatos?.length === 1) autorId = candidatos[0].autor_id;
+				}
+				if (obra.genero_id) {
+					const { data: genero, error: errorGenero } = await event.locals.supabase
+						.from('vocabularios').select('termino').eq('termino_id', obra.genero_id).maybeSingle();
+					if (errorGenero) throw error(500, 'No se pudo cargar el género de la obra.');
+					if (genero) cambios.genero = genero.termino;
+				}
+			}
+		}
 	}
 	const correspondencias = await cargarCorrespondencias(event.locals.supabase);
 	if (autorId) {

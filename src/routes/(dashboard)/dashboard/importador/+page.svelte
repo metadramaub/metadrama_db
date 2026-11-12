@@ -41,7 +41,9 @@
 		peticionId=crypto.randomUUID();
 	}
 	const vista = $derived(!entradaCambiada && ultimaRespuesta?.entrada === entrada ? ultimaRespuesta.vista : null);
-	const coincidencias = $derived(ultimaRespuesta?.coincidencias ?? []);
+	const coincidencias = $derived(
+		(ultimaRespuesta?.coincidencias ?? []).filter((obra: { obra_id: string }) => obra.obra_id !== data.obraDestino?.obra_id)
+	);
 	$effect(() => {
 		const r = respuesta();
 		if (r) {
