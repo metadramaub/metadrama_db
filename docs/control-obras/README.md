@@ -62,7 +62,7 @@ Las básicas confirmadas podrán aportar a los análisis autorizados, sin ficha 
 El selector de aportaciones da prioridad a la completa desde su publicación y toma una sola
 fuente por obra. Su integración en los productores de datos sigue pendiente.
 
-La transición preparada en `20261112160000` mantiene el identificador de la obra. Admin/IP
+La transición de `20261112160000` mantiene el identificador de la obra. Admin/IP
 encarga la completa desde la ficha básica. El editor responsable o admin/IP puede iniciar la
 elaboración de dos formas:
 
@@ -248,6 +248,8 @@ para el dominio publicado, con autorización del usuario, y no sustituyen una re
 
 La revisión visual inicial cubrió corpus y encargos; la herramienta dejó de responder antes de
 cerrar el repaso del formulario. La carga SSR, las API y los permisos sí se comprobaron.
-La transición básica → completa está preparada y validada en una copia aislada. Su aplicación
-y la incorporación de las básicas a los productores de análisis se siguen en
+La transición básica → completa se validó en una copia aislada. La migración
+`20261112160000` se aplicó al Supabase compartido el 12 de noviembre de 2026 tras
+guardar la copia completa y el snapshot de obras. La revisión en navegador y la
+incorporación de las básicas a los productores de análisis se siguen en
 [PENDIENTES](../PENDIENTES.md).

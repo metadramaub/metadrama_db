@@ -26,9 +26,9 @@ Queda la revisión del usuario y los ajustes estéticos que solicite. El control
 la contracción, los tipos, la carga del CSV y las dataciones están aplicados y verificados.
 Detalle: [control de obras](control-obras/README.md).
 
-Queda desplegar y revisar el inicio de una completa a partir de una básica, con reutilización
-opcional de su estructura. La integración de las básicas en los productores de datos se sigue
-en el apartado de análisis.
+La migración para iniciar completas a partir de básicas ya está aplicada. Queda revisar el
+recorrido en navegador y desplegar la interfaz. La integración de las básicas en los
+productores de datos se sigue en el apartado de análisis.
 
 ## Revisión del dashboard
 
