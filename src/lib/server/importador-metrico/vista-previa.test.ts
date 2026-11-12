@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import type { FichaMinima } from '$lib/importador-metrico/types';
-import { analizarEntrada, obtenerPilotos, obtenerReferenciaImportador, vistaDeFichaGuardada } from './vista-previa';
+import { analizarEntrada, corregirFichaGuardada, obtenerPilotos, obtenerReferenciaImportador, vistaDeFichaGuardada } from './vista-previa';
 import { extraccionOriginal } from './persistencia';
 import preparada from '../../../../docs/importador-metrico/evaluacion/referencias/preparadas/el-verdadero-amante.json';
 
@@ -137,6 +137,12 @@ describe('vista previa del importador sin persistencia', () => {
 		expect(corregida.errores).toEqual([]);
 		expect(corregida.filas[0].longitud?.estado).toBe('compatible');
 		expect(corregida.datos!.comprobacion?.avisos_longitud).toEqual([]);
+		const guardada = corregirFichaGuardada(copia, raw, ediciones[0]);
+		expect(guardada.comprobacion?.avisos_longitud).toEqual([]);
+		expect(guardada.segmentos[0].segmentacion).toBe('confirmada');
+		expect(guardada.jornadas).toEqual(antes.jornadas);
+		expect(guardada.metadatos).toEqual(antes.metadatos);
+		expect(copia).toEqual(antes);
 		expect(corregida.avisos.some(a=>a.codigo==='longitud_metrica')).toBe(false);
 		expect(corregida.resumen!.extension).toBe(53);
 		expect(corregida.filas[0].v_ini).toBe(1);expect(corregida.filas[0].v_fin).toBe(53);

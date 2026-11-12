@@ -158,6 +158,27 @@ export function vistaDeFichaGuardada(ficha: FichaMinima, original: Registro,
 		datos:ficha,resumen:{...resumirFichaMinima(ficha),segmentacion_confirmada:true},filas:filasDeFicha(ficha,notas),errores:[],avisos:[]};
 }
 
+export function corregirFichaGuardada(ficha: FichaMinima, original: Registro, cambio: unknown) {
+	const notas = Array.isArray(original.notas) ? original.notas.map(objeto).flatMap((nota) =>
+		typeof nota.id === 'string' && typeof nota.texto_literal === 'string'
+			? [{ id: nota.id, texto_literal: nota.texto_literal }] : []
+	) : [];
+	const corregida = aplicarEdiciones(ficha, [cambio], notas);
+	for (const segmento of corregida.segmentos) segmento.segmentacion = 'confirmada';
+	const validacion = validarFichaMinima(corregida, { catalogo: referencia });
+	if (validacion.errores.length) {
+		throw new Error(validacion.errores.map((e) => e.mensaje).join(' '));
+	}
+	corregida.comprobacion = {
+		avisos_longitud: filasDeFicha(corregida, notas).flatMap((fila) =>
+			fila.longitud?.estado === 'revisar'
+				? [{ segmento_ref: fila.ref, v_ini: fila.v_ini, v_fin: fila.v_fin, mensaje: fila.longitud.mensaje! }]
+				: []
+		)
+	};
+	return corregida;
+}
+
 /** Los valores vacíos aportados expresamente sustituyen al original para poder borrar una fuente opcional. */
 export function analizarEntrada(
 	texto: string,

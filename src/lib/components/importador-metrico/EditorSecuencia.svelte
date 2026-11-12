@@ -15,7 +15,7 @@
 	let { datos, tramoRef, formas, ocupado = false, errores = [], notasFuente = [], onaplicar, onrestablecer, oncancelar } = $props<{
 		datos: BorradorFichaMinima; tramoRef: string; formas: FormaEditable[]; ocupado?: boolean; errores?: string[];
 		notasFuente?: NotaFuenteImportador[];
-		onaplicar: (cambio: EdicionFila) => void; onrestablecer: () => void; oncancelar: () => void;
+		onaplicar: (cambio: EdicionFila) => void; onrestablecer?: () => void; oncancelar: () => void;
 	}>();
 	const originales = $derived<SegmentoMinimo[]>(datos.segmentos.filter((s: SegmentoMinimo) => s.origen.tramo_ref === tramoRef));
 	const inicio = $derived(originales[0].v_ini);
@@ -204,6 +204,8 @@
 				</MetricPanelSection>
 			</fieldset>
 		{/each}
-		<Button variant="secondary" onclick={onrestablecer} disabled={ocupado}>Restablecer fila</Button>
+		{#if onrestablecer}
+			<Button variant="secondary" onclick={onrestablecer} disabled={ocupado}>Restablecer fila</Button>
+		{/if}
 	</section>
 </MetricSequenceModal>

@@ -15,6 +15,7 @@ type Rpc =
 	| 'guardar_ficha_basica'
 	| 'listar_fichas_basicas'
 	| 'eliminar_ficha_basica'
+	| 'editar_metrica_ficha_basica'
 	| 'localizar_importacion_metrica'
 	| 'consultar_importacion_metrica';
 type DbError = { code?: string; message?: string };
@@ -184,6 +185,8 @@ export async function consultarImportacion(db: ClienteImportador, id: string) {
 			obra_id: uuid,
 			importado_por: z.string(),
 			importado_en: z.string(),
+			modificado_en: z.string().nullable().default(null),
+			puede_editar: z.boolean().default(false),
 			datos_confirmados: fichaMinimaSchema,
 			entrada_original: z.record(z.string(), z.unknown())
 		})

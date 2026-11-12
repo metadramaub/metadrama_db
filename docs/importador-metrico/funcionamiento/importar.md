@@ -93,8 +93,14 @@ puede haberse corregido durante la preparación; no se presenta como error vigen
 
 La fecha de importación y la de modificación pertenecen a la copia básica. Las fechas no
 acreditadas muestran «No consta». Consultar una copia no reaplica equivalencias ni la modifica.
-La edición/reimportación general de copias confirmadas no está implementada. Admin/IP puede
-eliminar la importación desde la papelera con confirmación de título. La operación retira las
+Con la migración de edición métrica instalada, admin/IP y quien importó la ficha, si conserva
+el permiso de importación, pueden corregir las secuencias de una básica vigente. Desde la ficha,
+«Editar métrica» abre el editor. Después de revisar la corrección, «Guardar corrección» actualiza
+la ficha, los avisos y las secuencias en una operación. Se conserva el JSON original y una sola
+copia confirmada vigente. Si alguien modifica la ficha entretanto, hay que recargarla antes
+de volver a editar. Los límites de jornada y la edición base quedan fuera de esta operación.
+
+Admin/IP puede eliminar la importación desde la papelera con confirmación de título. La operación retira las
 jornadas y secuencias importadas. La obra conserva su identidad, autoría, datación y corpus,
 y vuelve a «Sin ficha» para poder importarla de nuevo o encargar una completa.
 
