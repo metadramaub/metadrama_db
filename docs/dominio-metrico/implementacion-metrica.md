@@ -836,6 +836,7 @@ Lo que de verdad valida un disparador, y solo eso:
 | Que un grupo de elección pregunte algo incoherente con su dimensión o su alcance                             | `grupos_eleccion_metrica`                                   |
 | Que una variedad apunte a esquemas de otra arquitectura                                                      | `variedades_arquitectura`                                   |
 | Que una respuesta del editor no esté entre las que su pregunta ofrece, o caiga en una posición que no existe | `anotacion_elecciones`                                 |
+| Que un esquema escrito no tenga tantas posiciones como versos describe: los de su sección si la respuesta trata de una (`seccion_tratada_id`, el soneto), y si no los de su realización. Desde `20261113120000`; antes el soneto se medía entero y unos tercetos escritos no se podían guardar | `anotacion_elecciones` |
 | Que los quebrados de una sextilla o quintilla mezclen disposiciones o dejen incompleto el esquema elegido | Disparadores diferidos en `anotacion_elecciones`, `anotacion_realizaciones` y `anotaciones_metricas` |
 | Que una unidad se salga del rango de su secuencia o rompa la estructura declarada                            | `anotacion_realizaciones`, `anotaciones_metricas` |
 | Que una unidad declare una arquitectura que no sea de su forma, que no sea intercalable, o que la declare una sección | `anotacion_realizaciones`, `arquitecturas_forma`       |

@@ -10,7 +10,7 @@
 	import MetricFamilyControl from './MetricFamilyControl.svelte';
 	import MetricGridRow from './MetricGridRow.svelte';
 	import MetricVersePatternField from './MetricVersePatternField.svelte';
-	import { compactRhymeNotation } from './rhyme-notation';
+	import { compactRhymeNotation, repartirNotacion } from './rhyme-notation';
 	import {
 		haveAlternativesByPosition,
 		isPartialPositionalSelection
@@ -1386,8 +1386,6 @@
 		rama.sort((primera, segunda) => primera.v_ini - segunda.v_ini);
 
 		for (const parte of rama) {
-			const desplazamiento = parte.v_ini - unit.v_ini;
-			const suyos = parte.v_fin - parte.v_ini + 1;
 			for (const group of context.groups) {
 				const groupId = String(group.grupo_eleccion_id);
 				const alcanza = unitsForGroup(context, group).some(
@@ -1435,19 +1433,42 @@
 						)
 						.find(Boolean) ?? (escrito || null);
 				if (!notacion) continue;
-				const seguidas = Array.from(String(notacion).replace(/\|/gu, ''));
-				// Una notación que no case verso a verso no se puede repartir por posiciones.
-				if (seguidas.length !== suyos) continue;
-				// El `|` que el propio esquema trae también corta.
+				/**
+				 * **A qué versos se refiere la notación.** Casi siempre, a los de la parte que la
+				 * guarda. En el soneto no: sus dos esquemas se guardan en la unidad, pero cada uno
+				 * describe solo su sección —`seccion_tratada_id`—, ocho versos o seis. Medidos contra
+				 * los catorce se descartaban siempre, y el resumen pintaba en su lugar la rima
+				 * habitual de la norma: ABBA ABBA aunque se hubieran elegido cuartetos cruzados, y
+				 * los tercetos sin letras, elegidos o escritos.
+				 */
+				const seccionTratada = group.seccion_tratada_id
+					? String(group.seccion_tratada_id)
+					: null;
+				const tramosTratados = seccionTratada
+					? props.units
+							.filter(
+								(candidata: MetricUnitDraft) =>
+									String(candidata.seccion_id ?? '') === seccionTratada &&
+									candidata.v_ini >= parte.v_ini &&
+									candidata.v_fin <= parte.v_fin
+							)
+							.sort((a: MetricUnitDraft, b: MetricUnitDraft) => a.v_ini - b.v_ini)
+					: [];
+				const destino = (tramosTratados.length > 0 ? tramosTratados : [parte]).flatMap(
+					(tramo: MetricUnitDraft) =>
+						Array.from(
+							{ length: tramo.v_fin - tramo.v_ini + 1 },
+							(_, indice) => tramo.v_ini - unit.v_ini + 1 + indice
+						)
+				);
+				// Una notación que no case verso a verso no se puede repartir por posiciones; los
+				// separadores que trae —`|`, `:`, el espacio— también cortan.
+				const reparto = repartirNotacion(String(notacion), destino);
+				if (!reparto) continue;
+				for (const corte of reparto.cortes) cortes.add(corte);
 				const renombre = new Map<string, string>();
 				const esDeSeccion = Boolean(group.seccion_id);
-				let recorrido = 0;
-				for (const signo of Array.from(String(notacion))) {
-					if (signo === '|') {
-						if (recorrido > 0) cortes.add(desplazamiento + recorrido + 1);
-						continue;
-					}
-					recorrido += 1;
+				for (const [posicion, signo] of reparto.letras) {
 					let letra = signo;
 					if (letra !== '-') {
 						const clave = letra.toLocaleLowerCase('es');
@@ -1462,7 +1483,7 @@
 							usadas.add(clave);
 						}
 					}
-					letras.set(desplazamiento + recorrido, letra);
+					letras.set(posicion, letra);
 				}
 			}
 		}

@@ -183,6 +183,14 @@ guarda un esquema local por sección y al reunirlas renumera la segunda con letr
 enlace existe, lo borra. **Un caso así no se debe migrar ni guardar: hay que detener la anotación.**
 Hace falta declarar equivalencias de clase entre secciones, o una disposición global de la unidad.
 
+**A11 · «Qué se va a registrar» tiene que decir siempre lo que se guarda.** Es la garantía que da
+al editor de que lo anotado es lo que lee en su texto, y no puede inventar nada. Revisión a fondo
+de todo lo que la transforma: el renombrado de letras «a las siguientes libres» al reunir partes, el
+relleno con la rima habitual de la norma cuando una pregunta no casa, y el aviso ámbar de rimas
+compartidas (A5), que hoy sale también donde una sola respuesta cubre la sección entera. El 13 de
+noviembre de 2026 el soneto enseñaba ABBA ABBA con cuartetos cruzados elegidos y los tercetos sin
+letras; eso está corregido, pero se encontró por una editora y no por una comprobación.
+
 **A6 · Revisar la organización en pareados de *Adonis y Venus*, vv. 2021–2094.** La silva consonante
 de orden libre deja de dar «Predominantes» por hecho y pregunta «Predominantes» o «Regulares».
 La densidad ya está anotada como total; falta confirmar cuánto organizan los pareados la serie.
