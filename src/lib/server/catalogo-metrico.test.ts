@@ -24,6 +24,7 @@ function baseDeMentira(revision: number, llamadas: Map<string, number>) {
 			is: () => constructor,
 			gt: () => constructor,
 			filter: () => constructor,
+			range: () => constructor,
 			maybeSingle: () =>
 				Promise.resolve({ data: { revision, modelo_version: 99 }, error: null }),
 			then: (resolver: (valor: unknown) => unknown) => resolver({ data: [], error: null })
@@ -79,5 +80,64 @@ describe('el catálogo se guarda en memoria por su revisión', () => {
 		}
 		expect(frio.editorSandbox.sequences).toEqual([]);
 		expect(caliente.editorSandbox.sequences).toEqual([]);
+	});
+});
+
+/**
+ * Una base que se porta como PostgREST: ordena por lo que se le pide, aplica el rango y **nunca
+ * devuelve más de 1000 filas**, sin avisar. Solo `opciones_eleccion_metrica` tiene filas.
+ */
+function baseQueCorta(opciones: Record<string, unknown>[]) {
+	const from = (tabla: string) => {
+		const ordenes: { columna: string; ascendente: boolean }[] = [];
+		let rango: [number, number] = [0, Number.POSITIVE_INFINITY];
+		const resolver = () => {
+			const filas = tabla === 'opciones_eleccion_metrica' ? [...opciones] : [];
+			filas.sort((a, b) => {
+				for (const { columna, ascendente } of ordenes) {
+					const x = String(a[columna] ?? '').padStart(12, '0');
+					const y = String(b[columna] ?? '').padStart(12, '0');
+					if (x !== y) return (x < y ? -1 : 1) * (ascendente ? 1 : -1);
+				}
+				return 0;
+			});
+			const hasta = Math.min(rango[1], rango[0] + 999);
+			return { data: filas.slice(rango[0], hasta + 1), error: null };
+		};
+		const constructor: Record<string, unknown> = {
+			select: () => constructor,
+			order: (columna: string, opciones?: { ascending?: boolean }) => {
+				ordenes.push({ columna, ascendente: opciones?.ascending !== false });
+				return constructor;
+			},
+			eq: () => constructor,
+			in: () => constructor,
+			range: (desde: number, hasta: number) => {
+				rango = [desde, hasta];
+				return constructor;
+			},
+			maybeSingle: () => Promise.resolve({ data: { revision: 1, modelo_version: 99 }, error: null }),
+			then: (seguir: (valor: unknown) => unknown) => seguir(resolver())
+		};
+		return constructor;
+	};
+	return { from } as unknown as App.Locals['supabase'];
+}
+
+describe('el catálogo se lee entero aunque pase de mil filas', () => {
+	beforeEach(() => olvidarCatalogoMetricoEnMemoria());
+
+	it('trae todas las opciones, también las que empatan en el orden justo en el corte', async () => {
+		// 2.500 opciones con solo cinco valores de `orden`: cada página corta dentro de un empate,
+		// que es lo que pasó en noviembre de 2026 con las treinta opciones de `orden` 20.
+		const opciones = Array.from({ length: 2500 }, (_, indice) => ({
+			opcion_eleccion_id: `opcion-${String(indice).padStart(5, '0')}`,
+			orden: indice % 5
+		}));
+		const catalogo = await loadMetricCatalog(baseQueCorta(opciones));
+		const ids = catalogo.domain.choiceOptions.map((opcion) => String(opcion.opcion_eleccion_id));
+
+		expect(ids).toHaveLength(2500);
+		expect(new Set(ids).size).toBe(2500);
 	});
 });

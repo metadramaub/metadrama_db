@@ -297,6 +297,13 @@ visual.* No bloquea anotar, pero es previo a comparar y cuantificar.
 **C4 · Separar y renombrar `loadMetricCatalog`.** Conserva el nombre y parte del contrato de la
 pantalla retirada. Debe devolver solo `MetricCatalogForEditor` y el estado de migración.
 
+**C12 · Abrir una obra descarga el catálogo métrico entero**, unos 1,9 MB de JSON sin comprimir
+medidos el 12 de noviembre de 2026: opciones de elección 637 kB, afirmaciones de las fuentes
+274 kB —que el editor quizá no usa—, posiciones de rima 252 kB. No falla, pero pesa en cada carga, y
+**preocupa más el tráfico de Vercel**, compartido con otros proyectos, que el egress de Supabase, que
+va holgado. Primero medir qué viaja comprimido de verdad; luego quitar lo que el editor no lee y, más
+adelante, cargar solo lo de la forma elegida. Va con C4.
+
 **C5 · El disparador de posiciones toma la caja por clase de rima.**
 `sincronizar_posiciones_esquema_rima_fijo` deriva las posiciones letra a letra, y de `-a-A` saca las
 clases `a` y `A` como si fueran dos rimas distintas. Pero **la caja dice el arte del verso**, no con

@@ -31,6 +31,44 @@ function throwQueryError(context: string, error: QueryError | null): void {
 	throw new Error(`${context}: ${error.message}`);
 }
 
+/**
+ * Cuántas filas se piden de una vez. **No puede pasar del `max_rows` de la API de Supabase**, que en
+ * este proyecto es el de serie: 1000. Si se pidiera más de lo que el servidor da, la primera página
+ * llegaría corta y `leerTodo` creería que la tabla se ha acabado.
+ */
+const PAGINA = 1000;
+
+/**
+ * Lee una tabla o una vista entera, página a página.
+ *
+ * **PostgREST no devuelve nunca más de 1000 filas por petición, y cuando corta no avisa**: ni error
+ * ni marca, solo menos filas. El catálogo se leía de una vez, y en noviembre de 2026
+ * `opciones_eleccion_metrica` pasó de las mil: el editor perdió en silencio las 96 últimas por
+ * `orden`, que eran las medidas de los versos 10 a 15 de la canción y la asonancia u-o del romance,
+ * entre otras. Una editora no pudo dar medida al último verso de una sirima.
+ *
+ * `clave` desempata el orden con columnas que juntas son únicas. Sin ella, dos filas con el mismo
+ * `orden` pueden caer en cualquiera de las dos páginas, y una se repite mientras otra se pierde:
+ * el corte de noviembre cayó justo en un empate de treinta opciones con `orden` 20.
+ */
+async function leerTodo(
+	construir: () => any,
+	clave: string[]
+	// `data` sigue siendo `any`, como lo era la respuesta del cliente sin tipos que esto sustituye.
+	// Tiparla destapa que `options.metres` no lleva el `slug` de `MetricCatalogOption`, que es
+	// otro asunto.
+): Promise<{ data: any; error: QueryError | null }> {
+	const filas: any[] = [];
+	for (let desde = 0; ; desde += PAGINA) {
+		let consulta = construir();
+		for (const columna of clave) consulta = consulta.order(columna, { ascending: true });
+		const { data, error } = await consulta.range(desde, desde + PAGINA - 1);
+		if (error) return { data: filas, error };
+		filas.push(...(data ?? []));
+		if (!data || data.length < PAGINA) return { data: filas, error: null };
+	}
+}
+
 function labelForVocabularyOption(row: {
 	termino: string;
 	etiqueta: string | null;
@@ -120,14 +158,21 @@ async function cargarSandboxDelEditor(
 	db: UntypedSupabaseClient
 ): Promise<MetricCatalogPageData['editorSandbox']> {
 	const responses = await Promise.all([
-		db.from('anotacion_escenarios_prueba').select('*').order('updated_at', { ascending: false }),
-		db.from('anotaciones_metricas').select('*').order('orden'),
-		db.from('anotacion_realizaciones').select('*').order('orden'),
+		leerTodo(
+			() =>
+				db.from('anotacion_escenarios_prueba').select('*').order('updated_at', { ascending: false }),
+			['escenario_id']
+		),
+		leerTodo(() => db.from('anotaciones_metricas').select('*').order('orden'), ['anotacion_id']),
+		leerTodo(
+			() => db.from('anotacion_realizaciones').select('*').order('orden'),
+			['realizacion_id']
+		),
 		// La respuesta guarda el dato del catálogo que se eligió, no la opción que lo ofrecía,
 		// para que las preguntas puedan regenerarse sin dejarla huérfana. La vista resuelve la
 		// opción de vuelta, que es lo que el formulario pinta y marca como seleccionado.
-		db.from('anotacion_elecciones_resueltas').select('*'),
-		db.from('anotacion_desviaciones').select('*').order('v_ini')
+		leerTodo(() => db.from('anotacion_elecciones_resueltas').select('*'), ['eleccion_id']),
+		leerTodo(() => db.from('anotacion_desviaciones').select('*').order('v_ini'), ['desviacion_id'])
 	]);
 	for (const response of responses) {
 		throwQueryError('No se pudo cargar el editor métrico de prueba', response.error);
@@ -223,57 +268,106 @@ async function construirCatalogoMetrico(
 		lengthRulesResponse,
 		optionsResponse
 	] = await Promise.all([
-		db.from('formas_metricas').select(FORM_SELECT).order('nombre', { ascending: true }),
-		db
-			.from('arquitecturas_forma')
-			.select(CONFIGURATION_SELECT)
-			.order('principal', { ascending: false })
-			.order('orden', { ascending: true })
-			.order('nombre', { ascending: true }),
-		db
-			.from('tradiciones_metricas')
-			.select('tradicion_id,slug,nombre,descripcion,activo')
-			.order('nombre', { ascending: true }),
-		db.from('formas_tradiciones').select('tradicion_id,forma_id'),
-		db.from('esquemas_metricos').select('esquema_metrico_id,arquitectura_id'),
-		db.from('esquemas_rima').select('esquema_rima_id,arquitectura_id'),
-		db
-			.from('arquitecturas_reglas_longitud')
-			.select(
-				'arquitectura_id,arquitectura_nombre,modulo_versos,residuo_versos,minimo_versos,origen,explicacion,desplazamientos'
-			),
-		db
-			.from('vocabularios')
-			.select('termino_id,categoria,termino,etiqueta,numero_silabas')
-			.in('categoria', ['tipo_rima', 'metro'])
-			.eq('activo', true)
+		leerTodo(
+			() => db.from('formas_metricas').select(FORM_SELECT).order('nombre', { ascending: true }),
+			['forma_id']
+		),
+		leerTodo(
+			() =>
+				db
+					.from('arquitecturas_forma')
+					.select(CONFIGURATION_SELECT)
+					.order('principal', { ascending: false })
+					.order('orden', { ascending: true })
+					.order('nombre', { ascending: true }),
+			['arquitectura_id']
+		),
+		leerTodo(
+			() =>
+				db
+					.from('tradiciones_metricas')
+					.select('tradicion_id,slug,nombre,descripcion,activo')
+					.order('nombre', { ascending: true }),
+			['tradicion_id']
+		),
+		leerTodo(
+			() => db.from('formas_tradiciones').select('tradicion_id,forma_id'),
+			['forma_id', 'tradicion_id']
+		),
+		leerTodo(
+			() => db.from('esquemas_metricos').select('esquema_metrico_id,arquitectura_id'),
+			['esquema_metrico_id']
+		),
+		leerTodo(
+			() => db.from('esquemas_rima').select('esquema_rima_id,arquitectura_id'),
+			['esquema_rima_id']
+		),
+		leerTodo(
+			() =>
+				db
+					.from('arquitecturas_reglas_longitud')
+					.select(
+						'arquitectura_id,arquitectura_nombre,modulo_versos,residuo_versos,minimo_versos,origen,explicacion,desplazamientos'
+					),
+			['arquitectura_id']
+		),
+		leerTodo(
+			() =>
+				db
+					.from('vocabularios')
+					.select('termino_id,categoria,termino,etiqueta,numero_silabas')
+					.in('categoria', ['tipo_rima', 'metro'])
+					.eq('activo', true),
+			['termino_id']
+		)
 	]);
 
+	// Cada lectura lleva su clave única —la primaria, o la que es única en la vista— para que la
+	// paginación no repita ni pierda filas en los empates del orden. Ver `leerTodo`.
 	const domainResponses = await Promise.all([
-		db.from('tradiciones_metricas').select('*').order('nombre'),
-		db.from('formas_tradiciones').select('*'),
-		db.from('denominaciones_metricas').select('*').order('nombre'),
-		db.from('forma_relaciones').select('*'),
-		db.from('metros').select('*').order('silabas'),
-		db.from('metro_segmentos').select('*').order('posicion'),
-		db.from('esquemas_metricos').select('*'),
-		db.from('esquema_metrico_posiciones').select('*').order('posicion'),
-		db.from('esquema_metrico_opciones').select('*').order('orden'),
-		db.from('esquemas_rima').select('*'),
-		db.from('esquema_rima_posiciones').select('*').order('posicion'),
-		db.from('esquema_rima_enlaces').select('*'),
-		db.from('esquema_rima_restricciones').select('*'),
-		db.from('variedades_arquitectura').select('*').order('orden'),
-		db.from('estructuras_secciones').select('*').order('orden'),
-		db.from('repeticiones_metricas').select('*'),
-		db.from('repeticion_posiciones').select('*').order('posicion'),
-		db.from('rasgos_metricos').select('*').order('nombre'),
-		db.from('rasgo_valores').select('*').order('orden'),
-		db.from('arquitectura_rasgos').select('*'),
-		db.from('grupos_eleccion_metrica_resueltos').select('*').order('orden'),
-		db.from('opciones_eleccion_metrica').select('*').order('orden'),
-		db.from('fuentes_metricas').select('*').order('titulo'),
-		db.from('afirmaciones_fuentes_metricas').select('*')
+		leerTodo(() => db.from('tradiciones_metricas').select('*').order('nombre'), ['tradicion_id']),
+		leerTodo(() => db.from('formas_tradiciones').select('*'), ['forma_id', 'tradicion_id']),
+		leerTodo(() => db.from('denominaciones_metricas').select('*').order('nombre'), ['alias_id']),
+		leerTodo(() => db.from('forma_relaciones').select('*'), ['relacion_id']),
+		leerTodo(() => db.from('metros').select('*').order('silabas'), ['metro_id']),
+		leerTodo(() => db.from('metro_segmentos').select('*').order('posicion'), ['segmento_id']),
+		leerTodo(() => db.from('esquemas_metricos').select('*'), ['esquema_metrico_id']),
+		leerTodo(
+			() => db.from('esquema_metrico_posiciones').select('*').order('posicion'),
+			['posicion_id']
+		),
+		leerTodo(
+			() => db.from('esquema_metrico_opciones').select('*').order('orden'),
+			['esquema_metrico_id', 'metro_id']
+		),
+		leerTodo(() => db.from('esquemas_rima').select('*'), ['esquema_rima_id']),
+		leerTodo(
+			() => db.from('esquema_rima_posiciones').select('*').order('posicion'),
+			['posicion_id']
+		),
+		leerTodo(() => db.from('esquema_rima_enlaces').select('*'), ['enlace_id']),
+		leerTodo(() => db.from('esquema_rima_restricciones').select('*'), ['restriccion_id']),
+		leerTodo(() => db.from('variedades_arquitectura').select('*').order('orden'), ['variedad_id']),
+		leerTodo(() => db.from('estructuras_secciones').select('*').order('orden'), ['seccion_id']),
+		leerTodo(() => db.from('repeticiones_metricas').select('*'), ['repeticion_id']),
+		leerTodo(() => db.from('repeticion_posiciones').select('*').order('posicion'), ['posicion_id']),
+		leerTodo(() => db.from('rasgos_metricos').select('*').order('nombre'), ['rasgo_id']),
+		leerTodo(() => db.from('rasgo_valores').select('*').order('orden'), ['valor_id']),
+		// Su índice único trata los nulos como iguales; ordenar por las cuatro columnas basta.
+		leerTodo(
+			() => db.from('arquitectura_rasgos').select('*'),
+			['arquitectura_id', 'rasgo_id', 'modalidad', 'valor_id']
+		),
+		leerTodo(
+			() => db.from('grupos_eleccion_metrica_resueltos').select('*').order('orden'),
+			['grupo_eleccion_id']
+		),
+		leerTodo(
+			() => db.from('opciones_eleccion_metrica').select('*').order('orden'),
+			['opcion_eleccion_id']
+		),
+		leerTodo(() => db.from('fuentes_metricas').select('*').order('titulo'), ['fuente_id']),
+		leerTodo(() => db.from('afirmaciones_fuentes_metricas').select('*'), ['afirmacion_id'])
 	]);
 	for (const response of domainResponses) {
 		throwQueryError('No se pudo cargar una sección del catálogo métrico', response.error);
