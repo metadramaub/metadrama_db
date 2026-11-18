@@ -4,13 +4,13 @@
 	import SegmentedChoice from '$lib/components/ui/segmented-choice.svelte';
 	import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 	import type { FilaDeRima, Rejilla } from '$lib/metrica/rejilla';
-	import { normalizeRhymeSymbol } from './rhyme-notation';
+	import { normalizeRhymeSymbol, normalizarRimaEscrita, repartirNotacion } from './rhyme-notation';
+	import { leerEsquemaEscrito, separarRegimen } from '$lib/metrica/esquema-rima-escrito';
 	import { disposicionesDeOpciones, medidasDeLosQuebrados } from './disposiciones-quebrados';
 	import MetricChoiceField from './MetricChoiceField.svelte';
 	import MetricFamilyControl from './MetricFamilyControl.svelte';
 	import MetricGridRow from './MetricGridRow.svelte';
 	import MetricVersePatternField from './MetricVersePatternField.svelte';
-	import { compactRhymeNotation, repartirNotacion } from './rhyme-notation';
 	import {
 		haveAlternativesByPosition,
 		isPartialPositionalSelection
@@ -101,7 +101,7 @@
 		 * Los regímenes de rima entre los que elegir al escribir un esquema, y solo cuando la
 		 * arquitectura no declara uno único. Los calcula el contenedor, que ve el catálogo entero.
 		 */
-		rhymeRegimes?: { slug: string; etiqueta: string }[];
+		rhymeRegimes?: { id: string; slug: string; etiqueta: string }[];
 		/**
 		 * Las arquitecturas de la forma que el catálogo declara **intercalables**: pueden aparecer
 		 * entre realizaciones de otra sin abrir otra secuencia. Hoy solo la décima aumentada. Vacío
@@ -266,6 +266,17 @@
 		}
 		return null;
 	}
+	export function validarEsquemasEscritos(): string | null {
+		for (const group of context.groups) {
+			if (group.dimension !== 'rima' || !admiteEscrito(group)) continue;
+			for (const unit of unitsForGroup(context, group)) {
+				const valor = choiceTextValue(String(group.grupo_eleccion_id), unit.realizacion_id);
+				const lectura = leerEsquemaEscrito(valor, { versos: versosDelEsquema(group, unit) });
+				if (lectura.estado === 'error') return String(group.nombre) + ': ' + lectura.mensaje;
+			}
+		}
+		return null;
+	}
 	function esLicenciaSinUsar(pregunta: PreguntaFormulario): boolean {
 		if (pregunta.groups.some((group) => Number(group.selecciones_min ?? 0) >= 1)) return false;
 		if (!esLicencia(pregunta)) return false;
@@ -393,22 +404,11 @@
 	 * la medida está sin responder, y en cuanto se responde la caja se recompone al escribir.
 	 */
 	function normalizeRhymeScheme(value: string, unit?: MetricUnitDraft): string {
-		const compacto = compactRhymeNotation(value);
-		if (!unit) return compacto;
+		if (!unit) return normalizarRimaEscrita(value, () => null);
 		const { medidas, base, pendientes } = medidasDeLaUnidad(unit);
-		if (medidas.size === 0 && base === null) return compacto;
-		let posicion = 0;
-		return Array.from(compacto)
-			.map((signo) => {
-				if (signo === '|') return signo;
-				posicion += 1;
-				if (signo === '-') return signo;
-				const silabas = pendientes.has(posicion) ? null : (medidas.get(posicion) ?? base);
-				return silabas === null || silabas === undefined
-					? signo
-					: normalizeRhymeSymbol(signo, silabas);
-			})
-			.join('');
+		return normalizarRimaEscrita(value, (posicion) =>
+			pendientes.has(posicion) ? null : (medidas.get(posicion) ?? base)
+		);
 	}
 
 	/**
@@ -1341,6 +1341,7 @@
 		const { medidas, base, pendientes } = medidasDeLaUnidad(unit);
 		const letras = new Map<number, string>();
 		const cortes = new Set<number>();
+		const regimenes: string[] = [];
 		/**
 		 * La rejilla contiene también la disposición habitual de una arquitectura, pero habitual no
 		 * significa elegida. Estas posiciones impiden que esa referencia se presente como respuesta
@@ -1398,27 +1399,6 @@
 				// La medida ya la trae `medidasDeLaUnidad`; aquí solo se reparte la rima.
 				if (group.dimension !== 'rima') continue;
 				const escrito = choiceTextValue(groupId, parte.realizacion_id).trim();
-				if (elegidas.length === 0 && !escrito) {
-					const seccionTratadaId = group.seccion_tratada_id
-						? String(group.seccion_tratada_id)
-						: group.seccion_id
-							? String(group.seccion_id)
-							: null;
-					const tramos = seccionTratadaId
-						? props.units.filter(
-								(candidata: MetricUnitDraft) =>
-									String(candidata.seccion_id ?? '') === seccionTratadaId &&
-									candidata.v_ini >= parte.v_ini &&
-									candidata.v_fin <= parte.v_fin
-							)
-						: [parte];
-					for (const tramo of tramos.length > 0 ? tramos : [parte]) {
-						for (let verso = tramo.v_ini; verso <= tramo.v_fin; verso += 1) {
-							const posicion = verso - unit.v_ini + 1;
-							if (posicion >= 1 && posicion <= versos) rimaPendiente.add(posicion);
-						}
-					}
-				}
 				const catalogados = normaEsquemaDe(group, parte).catalogados;
 				const notacion =
 					opciones
@@ -1432,7 +1412,6 @@
 								)?.notacion
 						)
 						.find(Boolean) ?? (escrito || null);
-				if (!notacion) continue;
 				/**
 				 * **A qué versos se refiere la notación.** Casi siempre, a los de la parte que la
 				 * guarda. En el soneto no: sus dos esquemas se guardan en la unidad, pero cada uno
@@ -1463,8 +1442,20 @@
 				);
 				// Una notación que no case verso a verso no se puede repartir por posiciones; los
 				// separadores que trae —`|`, `:`, el espacio— también cortan.
-				const reparto = repartirNotacion(String(notacion), destino);
-				if (!reparto) continue;
+				const lectura = escrito ? leerEsquemaEscrito(escrito, { versos: destino.length }) : null;
+				const reparto = notacion && lectura?.estado !== 'error'
+					? repartirNotacion(String(notacion), destino)
+					: null;
+				if (!reparto) {
+					for (const posicion of destino) rimaPendiente.add(posicion);
+					continue;
+				}
+				const regimen = escrito ? separarRegimen(escrito).regimen : null;
+				if (regimen) {
+					const inicio = unit.v_ini + destino[0] - 1;
+					const fin = unit.v_ini + destino.at(-1)! - 1;
+					regimenes.push(destino.length === versos ? regimen : 'vv. ' + inicio + '–' + fin + ' ' + regimen);
+				}
 				for (const corte of reparto.cortes) cortes.add(corte);
 				const renombre = new Map<string, string>();
 				const esDeSeccion = Boolean(group.seccion_id);
@@ -1553,7 +1544,7 @@
 			piezas.push(`${silabas ?? (pendientes.has(posicion) ? 'q' : '')}${simbolo}`);
 		}
 		const escrita = piezas.join(' ').replace(/\s\|\s/gu, ' | ').trim();
-		return escrita ? escrita : null;
+		return escrita ? [escrita, ...regimenes].join(' · ') : null;
 	}
 
 	/**
@@ -2038,7 +2029,8 @@
 				return {
 					esquemaRimaId: String(option.opcion_eleccion_id),
 					notacion: scheme?.notacion ? String(scheme.notacion) : null,
-					regimen: null
+					regimen: props.rhymeRegimes
+						?.find((tipo: { id: string; slug: string }) => tipo.id === String(scheme?.tipo_rima_id))?.slug ?? null
 				};
 			});
 		return {

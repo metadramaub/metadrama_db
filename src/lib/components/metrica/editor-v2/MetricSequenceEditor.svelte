@@ -7,6 +7,7 @@
 	import { errorDeCoherenciaDeRasgos } from './coherencia-rasgos';
 	import { disposicionesDeQuebrados, disposicionCompatible } from './disposiciones-quebrados';
 	import { preguntaAplica, tiposDeRimaAfirmados } from './regimen-respondido';
+	import { leerEsquemaEscrito } from '$lib/metrica/esquema-rima-escrito';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import SegmentedChoice from '$lib/components/ui/segmented-choice.svelte';
 	import type {
@@ -162,7 +163,10 @@
 	);
 
 	/** El editor ha vuelto a abrir la identificación ya resuelta para corregirla. */
-	let structureEditor = $state<{ validarDisposicionesPendientes: () => string | null } | null>(null);
+	let structureEditor = $state<{
+		validarDisposicionesPendientes: () => string | null;
+		validarEsquemasEscritos: () => string | null;
+	} | null>(null);
 	let identificationForced = $state(false);
 	/** Las desviaciones son una sección secundaria: al añadir una se abre, pero puede plegarse. */
 	let desviacionesAbiertas = $state(false);
@@ -300,7 +304,7 @@
 		// Leía `domain.vocabularies`, que **no existe**: no está entre los recursos del dominio ni
 		// lo rellena nadie. Así que esta lista salía siempre vacía y el régimen de un esquema
 		// escrito no se ha podido preguntar nunca, en las doce arquitecturas que admiten más de uno.
-		const terminos = new Map<string, string>();
+		const terminos = new Map<string, { id: string; slug: string; etiqueta: string }>();
 		for (const esquema of props.catalog.domain.rhymePatterns) {
 			if (String(esquema.arquitectura_id) !== String(draft.arquitectura_id)) continue;
 			if (!esquema.tipo_rima_id) continue;
@@ -308,10 +312,12 @@
 				(row: MetricCatalogOption) => String(row.id) === String(esquema.tipo_rima_id)
 			);
 			if (!termino) continue;
-			if (termino.slug) terminos.set(termino.slug, termino.label || termino.slug);
+			if (termino.slug) terminos.set(termino.slug, {
+				id: String(termino.id), slug: termino.slug, etiqueta: termino.label || termino.slug
+			});
 		}
 		return terminos.size > 1
-			? [...terminos].map(([slug, etiqueta]) => ({ slug, etiqueta }))
+			? [...terminos.values()]
 			: [];
 	});
 
@@ -1192,6 +1198,8 @@
 	function validateDraft(): string | null {
 		const pendiente = structureEditor?.validarDisposicionesPendientes();
 		if (pendiente) return pendiente;
+		const esquemaInvalido = structureEditor?.validarEsquemasEscritos();
+		if (esquemaInvalido) return esquemaInvalido;
 		if (!draft.forma_id) {
 			return 'Selecciona una forma o una salida editorial.';
 		}
@@ -1321,9 +1329,43 @@
 		}
 
 		for (const group of sequenceChoiceGroups) {
-			const total = choiceCount(String(group.grupo_eleccion_id), null);
+			const grupoId = String(group.grupo_eleccion_id);
+			if (group.dimension === 'rima') {
+				const lectura = leerEsquemaEscrito(choiceTextValue(grupoId, null), {
+					versos: draft.v_fin - draft.v_ini + 1
+				});
+				if (lectura.estado === 'error') return String(group.nombre) + ': ' + lectura.mensaje;
+			}
+			const total = choiceCount(grupoId, null);
 			if (total < Number(group.selecciones_min) || total > Number(group.selecciones_max)) {
 				return `Revisa la pregunta «${String(group.nombre)}».`;
+			}
+		}
+		const preguntaCopla = unitChoiceGroups.find(
+			(group: MetricCatalogDomainRow) => group.slug === 'rima_copla_completa'
+		);
+		if (preguntaCopla) {
+			const preguntasLocales = unitChoiceGroups.filter(
+				(group: MetricCatalogDomainRow) =>
+					group.slug === 'rima_primera_quintilla' || group.slug === 'rima_segunda_quintilla'
+			);
+			for (const unidad of draft.unidades.filter((u: MetricUnitDraft) => u.realizacion_padre_id === null)) {
+				const texto = choiceTextValue(String(preguntaCopla.grupo_eleccion_id), unidad.realizacion_id);
+				const partes = draft.unidades.filter((u: MetricUnitDraft) => u.realizacion_padre_id === unidad.realizacion_id);
+				const locales = preguntasLocales.map((group: MetricCatalogDomainRow) => partes.reduce(
+					(total: number, parte: MetricUnitDraft) => parte.seccion_id === group.seccion_id
+						? total + choiceCount(String(group.grupo_eleccion_id), parte.realizacion_id) : total,
+					0
+				));
+				if (!texto && locales.length === 2 && locales.every((n: number) => n === 1)) continue;
+				if (!texto || locales.some((n: number) => n !== 0))
+					return 'La copla debe tener un esquema completo o una respuesta para cada quintilla.';
+				const notacion = texto.toLowerCase().replace(/\s/gu, '');
+				if (!/^[a-z-]{5}\|[a-z-]{5}$/u.test(notacion))
+					return 'Escribe cinco posiciones en cada quintilla, separadas por una barra.';
+				const [primera, segunda] = notacion.split('|');
+				if (Array.from(primera).some(letra => letra !== '-' && segunda.includes(letra)))
+					return 'El catálogo vigente exige rimas independientes en las dos quintillas.';
 			}
 		}
 		for (const group of unitChoiceGroups) {

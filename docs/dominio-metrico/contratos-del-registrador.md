@@ -35,6 +35,16 @@ la pantalla las recoge en un resumen y «Cambiar» abre únicamente la excepció
 Y todo lo que la norma fija **no se pregunta**: la décima espinela, la lira o la seguidilla se
 anotan eligiendo la forma y guardando, porque no queda nada que decidir.
 
+En la revisión local de «Qué se va a registrar», un esquema escrito inválido impide guardar y
+deja sin letras sus posiciones en el resumen. La disposición habitual puede consultarse en la
+norma. Si hay un régimen explícito, se muestra con la notación y viaja en la misma respuesta,
+fuera del recuento de posiciones. El guardado de esta última mejora requiere su migración.
+
+La migración de la copla real reúne las dos respuestas locales ordinarias en un esquema de diez
+posiciones con una barra entre las quintillas. Las letras tienen alcance de una copla y vuelven a
+empezar en la siguiente. Durante la transición, las coplas con incidencias conservan las dos
+respuestas locales. El editor y la base comprueban que cada copla tenga uno de los dos registros.
+
 ## Criterio de las desviaciones
 
 Una opción admitida **nunca** se registra como desviación. Se usa una desviación cuando un tramo
