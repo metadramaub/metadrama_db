@@ -48,6 +48,8 @@
 						? String(result.data?.mensaje ?? 'No se pudo guardar la corrección.')
 						: 'No se pudo guardar la corrección.';
 				}
+			} catch {
+				mensaje = 'Se guardó la corrección, pero no se pudo actualizar la ficha. Recarga para verla.';
 			} finally {
 				pendiente = false;
 			}

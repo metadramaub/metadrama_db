@@ -17,9 +17,13 @@
 		oncancelar?: () => void;
 	}>();
 	let editando = $state<string | null>(null);
-	let enviada = $state<ResultadoVistaPrevia | null>(null);
+	// Conserva la identidad de la vista para distinguir el envío de la respuesta.
+	let enviada = $state.raw<ResultadoVistaPrevia | null>(null);
 	$effect(() => {
-		if (enviada && vista !== enviada) {
+		if (!enviada || ocupado) return;
+		if (errorEdicion) {
+			enviada = null;
+		} else if (vista !== enviada) {
 			if (!vista.errores.length) editando = null;
 			enviada = null;
 		}
@@ -66,7 +70,7 @@
 				<EditorSecuencia datos={vista.datos} tramoRef={editando} {formas} {ocupado} {guardarDirecto} notasFuente={vista.filas.filter((f: FilaVistaPrevia) => f.origen.tramo_ref === editando).flatMap((f: FilaVistaPrevia) => f.notas_fuente ?? [])} errores={[...vista.errores.map((e: { mensaje: string }) => e.mensaje), ...(errorEdicion ? [errorEdicion] : [])]}
 					onaplicar={(cambio) => aplicar(cambio.tramo_ref, cambio)}
 					onrestablecer={restablecer ? () => { if (editando) aplicar(editando, null); } : undefined}
-					oncancelar={() => { editando = null; oncancelar?.(); }} />
+					oncancelar={() => { editando = null; enviada = null; oncancelar?.(); }} />
 			{/key}
 		{/if}
 		<div class:opacity-60={desactualizada} class="grid gap-3 sm:grid-cols-3">
