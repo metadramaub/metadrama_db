@@ -2,6 +2,7 @@
 import { createHash } from 'node:crypto';
 import { completarExtraccion } from './completar-extraccion';
 import { aplicarCorrespondencias, type Correspondencia } from './correspondencias';
+import { filasDeRevision, jornadasRevisadas, revisarFuente, revisionVacia } from './revision-fuente';
 import { aplicarEdiciones } from '$lib/importador-metrico/edicion';
 import { comprobarLongitud } from '$lib/importador-metrico/longitud';
 import reglasLongitudRaw from '../../../../data/importador-metrico/reglas-longitud.json?raw';
@@ -156,9 +157,14 @@ export function vistaDeFichaGuardada(ficha: FichaMinima, original: Registro,
 	confirmacion: NonNullable<ResultadoVistaPrevia['confirmacion']>): ResultadoVistaPrevia {
 	const notas=Array.isArray(original.notas)?original.notas.map(objeto)
 		.filter(n=>typeof n.id==='string' && typeof n.texto_literal==='string'):null;
+	const originales = new Map(filasDeRevision(original.tramos).map(fila => [fila.id, fila]));
+	const filas = filasDeFicha(ficha, notas).map(fila => ({
+		...fila,
+		cifras_originales: (fila.origen.correcciones ?? []).flatMap(c => originales.get(c.tramo_ref) ?? [])
+	}));
 	return {persistido:true,confirmacion,formato:ficha.esquema,metadatos:{...leerMetadatos(ficha.metadatos),
 		...leerEjecucion(ficha.procedencia.ejecucion ?? original.procedencia)},
-		datos:ficha,resumen:{...resumirFichaMinima(ficha),segmentacion_confirmada:true},filas:filasDeFicha(ficha,notas),errores:[],avisos:[]};
+		datos:ficha,resumen:{...resumirFichaMinima(ficha),segmentacion_confirmada:true},filas,errores:[],avisos:[]};
 }
 
 export function corregirFichaGuardada(ficha: FichaMinima, original: Registro, cambio: unknown) {
@@ -187,7 +193,8 @@ export function analizarEntrada(
 	texto: string,
 	cambios: Partial<MetadatosEditables> = {},
 	ediciones: unknown = [],
-	correspondencias: Correspondencia[] = []
+	correspondencias: Correspondencia[] = [],
+	revisionFuente: unknown = revisionVacia
 ): ResultadoVistaPrevia {
 	const resultado: ResultadoVistaPrevia = {
 		persistido: false,
@@ -229,6 +236,7 @@ export function analizarEntrada(
 			fundamento_autoria: resultado.metadatos.fundamento_autoria.trim() || null
 		};
 		let datos: BorradorFichaMinima;
+		let finales = '';
 		if (entrada.esquema === 'versologia-extraccion/0.1') {
 			const esPiloto = huellasPiloto.has(sha(serializarCanonico(entrada)));
 			const segmentacion = JSON.parse(segmentacionRaw);
@@ -250,8 +258,15 @@ export function analizarEntrada(
 			// El original identifica la fuente y las decisiones particulares. Los metadatos
 			// editables se corrigen en una copia antes de validar también la extracción.
 			const completa = completarExtraccion(entrada);
+			const filas = filasDeRevision(completa.tramos);
+			const sin_jornadas = Array.isArray(completa.jornadas) && completa.jornadas.length === 0;
+			resultado.revision_fuente = { filas, sin_jornadas };
+			const revision = revisarFuente(completa, revisionFuente, filas);
+			finales = revision.finales;
+			if (finales && !sin_jornadas)
+				throw new Error('Los finales manuales se usan cuando la tabla no trae jornadas.');
 			const entradaCorregida = {
-				...completa,
+				...revision.fuente,
 				metadatos: {
 					genero_literal: null,
 					observaciones: [],
@@ -271,7 +286,8 @@ export function analizarEntrada(
 				bibliografia: JSON.parse(bibliografiaRaw),
 				decisiones
 			});
-			resultado.avisos.push(...normalizada.avisos_fuente);
+			resultado.avisos.push(...normalizada.avisos_fuente.map(i => i.codigo === 'porcentaje_total_impreso'
+				? { ...i, mensaje: localizarIncidencia(i.ruta) + ': ' + i.mensaje } : i));
 			normalizada.revision_transcripcion = { sha256: sha(limpio) };
 			normalizada.entradas_sha256 = {
 				'equivalencias.propuestas.json': sha(reglasRaw),
@@ -281,6 +297,11 @@ export function analizarEntrada(
 				...(esPiloto ? { 'segmentacion.propuestas.json': sha(segmentacionRaw) } : {})
 			};
 			datos = prepararFichaMinima(normalizada, { genero: metadatos.genero, metadatos });
+			for (const s of datos.segmentos) {
+				const correcciones = (s.origen.tramos_ref ?? [s.origen.tramo_ref])
+					.flatMap(ref => revision.porRef.get(ref) ?? []);
+				if (correcciones.length) s.origen.correcciones = correcciones;
+			}
 			// Las correspondencias registradas completan lo que las reglas dejaron pendiente.
 			aplicarCorrespondencias(datos, correspondencias, resultado.avisos);
 			if (correspondencias.length)
@@ -324,6 +345,23 @@ export function analizarEntrada(
 			});
 		}
 		const completa = validarFichaMinima(datos, { catalogo: referencia });
+		if (!datos.jornadas.length && finales && !resultado.errores.length && !validacion.errores.length) {
+			try {
+				datos.jornadas = jornadasRevisadas(datos, finales);
+				validacion = validarFichaMinima(datos, { catalogo: referencia, vistaPrevia: true });
+				resultado.avisos.push({
+					codigo: 'jornadas_indicadas', ruta: 'jornadas',
+					mensaje: 'Los límites de jornada proceden de la revisión editorial de esta importación.'
+				});
+			} catch (error) {
+				resultado.errores.push({ codigo: 'limites_jornadas', ruta: 'jornadas',
+					mensaje: error instanceof Error ? error.message : 'Revisa los límites de jornada.' });
+			}
+		}
+		resultado.jornadas_pendientes = datos.jornadas.length === 0;
+		if (resultado.jornadas_pendientes)
+			resultado.avisos.push({ codigo: 'jornadas_pendientes', ruta: 'jornadas',
+				mensaje: 'La tabla se puede revisar. Indica dónde termina cada jornada para poder guardarla.' });
 		resultado.pendientes_metadatos = completa.errores.filter(e => e.ruta.startsWith('metadatos'));
 		resultado.errores.push(...validacion.errores);
 		resultado.avisos.push(...validacion.avisos);

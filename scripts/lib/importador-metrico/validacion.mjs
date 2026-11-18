@@ -1,5 +1,6 @@
 /** Validación técnica del intercambio 0.1. Sin archivos, red, catálogo ni escrituras. */
 import { z } from 'zod';
+import { esProsaSinRango } from './prosa.mjs';
 import { camposEjecucionSchema } from './ejecucion.mjs';
 
 const texto = z.string().regex(/\S/, 'Debe contener texto');
@@ -386,14 +387,14 @@ export function validarExtraccion(entrada, opciones = {}) {
 				'Denominación no transcrita por completo.'
 			);
 		}
-		if (row.v_ini === null || row.v_fin === null)
+		if ((row.v_ini === null || row.v_fin === null) && !esProsaSinRango(row))
 			add(
 				'pendientes',
 				'rango_pendiente',
 				ruta,
 				'Falta un extremo del rango; la cobertura global no puede cerrarse.'
 			);
-		else if (!rangoValido(row))
+		else if (!esProsaSinRango(row) && !rangoValido(row))
 			add(
 				'advertencias',
 				'rango_invertido',
@@ -510,9 +511,10 @@ export function validarExtraccion(entrada, opciones = {}) {
 					`No existe la fila ${id}.`
 				);
 	});
-	const validos = obra.tramos.filter(rangoValido);
+	const numerados = obra.tramos.filter(row => !esProsaSinRango(row));
+	const validos = numerados.filter(rangoValido);
 	const conocidos = intervalos(validos);
-	const todosLosRangos = obra.tramos.length > 0 && validos.length === obra.tramos.length;
+	const todosLosRangos = numerados.length > 0 && validos.length === numerados.length;
 	const numeroSeguro = (value) => {
 		if (value <= BigInt(Number.MAX_SAFE_INTEGER)) return Number(value);
 		add(
@@ -576,24 +578,26 @@ export function validarExtraccion(entrada, opciones = {}) {
 			'tramos',
 			'Sin rango esperado no se puede detectar la falta de versos al principio o al final de las fotos.'
 		);
+	const esTotal = row => /^total[.:]?$/iu.test(row.denominacion_literal?.trim() ?? '');
 	obra.resumen_fuente.forEach((row, i) => {
 		comprobarFoto(row.fuente_id, row.pagina, `resumen_fuente.${i}`);
 		if (row.porcentaje_literal !== null && Number(row.porcentaje_literal.replace(/[,.‘’']/u, '.')) > 100) {
 			add(
 				'advertencias',
-				'porcentaje_fuera_de_rango',
+				esTotal(row) ? 'porcentaje_total_impreso' : 'porcentaje_fuera_de_rango',
 				`resumen_fuente.${i}.porcentaje_literal`,
-				'El porcentaje impreso es mayor que 100; se conserva.'
+				'El porcentaje impreso (' + row.porcentaje_literal + ' %) es mayor que 100; se conserva.'
 			);
 		}
 	});
+	const filasResumen = obra.resumen_fuente.filter(row => !esTotal(row));
 	let totalResumen = null;
 	if (
-		obra.resumen_fuente.length &&
-		obra.resumen_fuente.every((row) => row.n_versos_fuente !== null)
+		filasResumen.length &&
+		filasResumen.every((row) => row.n_versos_fuente !== null)
 	) {
 		totalResumen = numeroSeguro(
-			obra.resumen_fuente.reduce((n, row) => n + BigInt(row.n_versos_fuente), 0n)
+			filasResumen.reduce((n, row) => n + BigInt(row.n_versos_fuente), 0n)
 		);
 	}
 	if (resumenCompleto) {

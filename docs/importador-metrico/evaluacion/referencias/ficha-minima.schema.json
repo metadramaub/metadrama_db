@@ -18,8 +18,7 @@
           "minLength": 1
         },
         "autor_nombre": {
-          "type": "string",
-          "minLength": 1
+          "type": "string"
         },
         "genero": {
           "type": "string",
@@ -30,14 +29,54 @@
           "minLength": 1
         },
         "fecha_inicio": {
-          "type": "integer",
-          "exclusiveMinimum": 0,
-          "maximum": 2147483647
+          "anyOf": [
+            {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "fecha_fin": {
-          "type": "integer",
-          "exclusiveMinimum": 0,
-          "maximum": 2147483647
+          "anyOf": [
+            {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "inicio_inclusivo": {
+          "type": "boolean"
+        },
+        "fin_inclusivo": {
+          "type": "boolean"
+        },
+        "fecha_aproximada": {
+          "type": "boolean"
+        },
+        "variantes_titulo": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "propuestas_autoria": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          }
         },
         "fuente_fecha": {
           "default": null,
@@ -200,6 +239,54 @@
                 "items": {
                   "type": "string",
                   "minLength": 1
+                }
+              },
+              "correcciones": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "tramo_ref": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "v_ini": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 2147483647
+                    },
+                    "v_fin": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 2147483647
+                    },
+                    "n_versos_fuente": {
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "exclusiveMinimum": 0,
+                          "maximum": 2147483647
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "motivo": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    }
+                  },
+                  "required": [
+                    "tramo_ref",
+                    "v_ini",
+                    "v_fin",
+                    "n_versos_fuente",
+                    "motivo"
+                  ],
+                  "additionalProperties": false
                 }
               }
             },

@@ -5,14 +5,15 @@ vi.mock('$lib/server/importador-metrico/correspondencias', async (original) => (
 	cargarCorrespondencias: vi.fn().mockResolvedValue([])
 }));
 import { actions, load } from './+page.server';
+import { invalidateInternalCatalogCache } from '$lib/server/catalogos-internos';
 import { obtenerPilotos } from '$lib/server/importador-metrico/vista-previa';
 import type { ResultadoVistaPrevia } from '$lib/importador-metrico/types';
 
-const { autorizar } = vi.hoisted(() => ({ autorizar: vi.fn() }));
+const { autorizar, guardadoDisponible } = vi.hoisted(() => ({ autorizar: vi.fn(), guardadoDisponible: vi.fn() }));
 vi.mock('$lib/server/importador-metrico/acceso', () => ({
 	estadoImportador: async (event: unknown) => ({
 		profile: await autorizar(event),
-		guardadoDisponible: false
+		guardadoDisponible: guardadoDisponible()
 	})
 }));
 
@@ -50,18 +51,14 @@ function entorno(
 			error: opciones.falloTabla === tabla ? { message: 'fallo' } : null
 		};
 		const cadena: Record<string, unknown> = {};
-		for (const metodo of ['select', 'eq', 'ilike']) {
+		for (const metodo of ['select', 'eq', 'in', 'ilike', 'order', 'limit']) {
 			cadena[metodo] = (...args: unknown[]) => {
 				consultas.push({ tabla, metodo, args });
 				return cadena;
 			};
 		}
-		for (const metodo of ['order', 'limit']) {
-			cadena[metodo] = async (...args: unknown[]) => {
-				consultas.push({ tabla, metodo, args });
-				return resultado;
-			};
-		}
+		cadena.then = (resolve: (value: typeof resultado) => unknown) =>
+			Promise.resolve(resultado).then(resolve);
 		cadena.maybeSingle = async () => ({
 			data:
 				'autor' in opciones
@@ -76,6 +73,7 @@ function entorno(
 		form.set(clave, valor);
 	const formData = vi.fn(async () => form);
 	const event = {
+		url: new URL('http://localhost/dashboard/importador'),
 		locals: { supabase: { from } },
 		request: {
 			headers: new Headers(opciones.longitud ? { 'content-length': opciones.longitud } : {}),
@@ -86,11 +84,59 @@ function entorno(
 }
 
 beforeEach(() => {
+	invalidateInternalCatalogCache();
 	autorizar.mockReset();
 	autorizar.mockResolvedValue({ roleTerm: 'admin' });
+	guardadoDisponible.mockReturnValue(false);
 });
 
 describe('acciones de la vista previa del importador', () => {
+	it('exige jornadas explícitas y envía al guardado la copia corregida junto con el original', async () => {
+		guardadoDisponible.mockReturnValue(true);
+		const id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+		const original = JSON.parse(piloto.entrada);
+		original.jornadas = [];
+		for (const t of original.tramos) t.jornada = null;
+		const fila = original.tramos[0];
+		const recuento = fila.v_fin - fila.v_ini + 1;
+		fila.n_versos_fuente = recuento + 1;
+		const entrada = JSON.stringify(original);
+		const campos = { ...metadatos, entrada, autor_id: id, peticion_id: id };
+		const correcciones = [{
+			tramo_ref: fila.id, v_ini: fila.v_ini, v_fin: fila.v_fin,
+			n_versos_fuente: recuento, motivo: 'Corrección comprobada en la edición'
+		}];
+		const rpc = vi.fn(async (nombre: string, _args: unknown) => nombre === 'coincidencias_importacion_metrica'
+			? { data: [], error: null }
+			: { data: { obra_id: id, importacion_id: id, repetida: false }, error: null });
+		const evento = (cambios: Record<string, string>) => {
+			const { event } = entorno({ ...campos, ...cambios }, { autor: { autor_id: id, nombre_completo: 'Autor vigente' } });
+			return { ...event, locals: { supabase: { ...event.locals.supabase, rpc } } } as never;
+		};
+		const revisar = (finales: string) => ({ revision_fuente: JSON.stringify({ finales, correcciones }) });
+		expect(await actions.confirmar(evento(revisar('')))).toMatchObject({
+			status: 400, data: { huella: null, vista: { jornadas_pendientes: true } }
+		});
+		expect(rpc).not.toHaveBeenCalledWith('guardar_ficha_basica', expect.anything());
+		const cambios = revisar(String(original.tramos.at(-1).v_fin));
+		const comprobacion = await actions.comprobar(evento(cambios)) as Devuelto & { huella: string };
+		expect(comprobacion.vista.errores).toEqual([]);
+		expect(comprobacion.huella).toBeTruthy();
+		await expect(actions.confirmar(evento({ ...cambios, huella: comprobacion.huella }))).rejects.toMatchObject({
+			status: 303
+		});
+		expect(rpc).toHaveBeenCalledWith('guardar_ficha_basica', expect.objectContaining({
+			p_datos: expect.objectContaining({
+				segmentos: expect.arrayContaining([expect.objectContaining({
+					origen: expect.objectContaining({ correcciones })
+				})])
+			}),
+			p_entrada_original: expect.objectContaining({
+				jornadas: [],
+				tramos: expect.arrayContaining([expect.objectContaining({ id: fila.id, n_versos_fuente: recuento + 1 })])
+			})
+		}));
+	});
 	it('recibe las correcciones de ejecución en el formulario sin mezclarlas con los datos de la obra', async () => {
 		const { event } = entorno({ ...metadatos, ia_generador: 'ChatGPT', ia_modelo: '', ia_modo: 'Instant', ia_plan: 'Plus', ia_parametros: 'top_p=0.8' });
 		const resultado = await actions.comprobar(event as never) as Devuelto;
@@ -184,12 +230,12 @@ describe('acciones de la vista previa del importador', () => {
 		const e = entorno({ ...metadatos, titulo });
 		const resultado = (await actions.comprobar!(e.event as never)) as Devuelto;
 		expect(e.consultas).toContainEqual({
-			tabla: 'obras',
+			tabla: 'obras_editoriales',
 			metodo: 'ilike',
 			args: ['titulo', 'Obra 100\\%\\_\\\\final']
 		});
 		expect(resultado.coincidencias).toHaveLength(1);
-		expect(e.consultas).toContainEqual({ tabla: 'obras', metodo: 'limit', args: [20] });
+		expect(e.consultas).toContainEqual({ tabla: 'obras_editoriales', metodo: 'limit', args: [20] });
 	});
 	it.each(['leer', 'comprobar'] as const)(
 		'%s autoriza antes de leer el cuerpo o consultar DB',
@@ -244,7 +290,11 @@ describe('load del importador', () => {
 			metodo: 'eq',
 			args: ['activo', true]
 		});
-		expect(e.from.mock.calls.map(([tabla]) => tabla)).toEqual(['autores', 'vocabularios']);
+		expect(e.consultas).toContainEqual({
+			tabla: 'vocabularios',
+			metodo: 'in',
+			args: ['categoria', ['composicion_autoria', 'modalidad_atribucion', 'tipo_atribucion']]
+		});
 	});
 	it('autoriza antes de cualquier lectura DB', async () => {
 		const e = entorno();

@@ -1,0 +1,425 @@
+{
+  "esquema": "versologia-extraccion/0.1",
+  "procedencia": {
+    "prompt_version": "extraccion/0.27"
+  },
+  "obra_ref": "el-castigo-sin-venganza",
+  "metadatos": {
+    "titulo": "El castigo sin venganza",
+    "autoria": null,
+    "genero_literal": null,
+    "fecha_inicio": null,
+    "fecha_fin": null,
+    "fuente_fecha": null,
+    "edicion_base": null,
+    "observaciones": [],
+    "fuente_id": null
+  },
+  "jornadas": [
+    {
+      "numero": 1,
+      "rotulo_literal": "ACTO I"
+    },
+    {
+      "numero": 2,
+      "rotulo_literal": "ACTO II"
+    },
+    {
+      "numero": 3,
+      "rotulo_literal": "ACTO III"
+    }
+  ],
+  "tramos": [
+    {
+      "id": "t01",
+      "jornada": 1,
+      "v_ini": 1,
+      "v_fin": 196,
+      "denominacion_literal": "Redondilla",
+      "n_versos_fuente": null,
+      "fuente_id": "p071.jpg",
+      "pagina": 71
+    },
+    {
+      "id": "t02",
+      "jornada": 1,
+      "v_ini": 197,
+      "v_fin": 205,
+      "denominacion_literal": "Silva",
+      "n_versos_fuente": null,
+      "fuente_id": "p071.jpg",
+      "pagina": 71
+    },
+    {
+      "id": "t03",
+      "jornada": 1,
+      "v_ini": 206,
+      "v_fin": 233,
+      "denominacion_literal": "Redondilla",
+      "n_versos_fuente": null,
+      "fuente_id": "p072.jpg",
+      "pagina": 72
+    },
+    {
+      "id": "t04",
+      "jornada": 1,
+      "v_ini": 234,
+      "v_fin": 339,
+      "denominacion_literal": "Silva",
+      "n_versos_fuente": null,
+      "fuente_id": "p072.jpg",
+      "pagina": 72
+    },
+    {
+      "id": "t05",
+      "jornada": 1,
+      "v_ini": 340,
+      "v_fin": 467,
+      "denominacion_literal": "Romance",
+      "n_versos_fuente": null,
+      "fuente_id": "p072.jpg",
+      "pagina": 72
+    },
+    {
+      "id": "t06",
+      "jornada": 1,
+      "v_ini": 468,
+      "v_fin": 527,
+      "denominacion_literal": "Décima",
+      "n_versos_fuente": null,
+      "fuente_id": "p072.jpg",
+      "pagina": 72
+    },
+    {
+      "id": "t07",
+      "jornada": 1,
+      "v_ini": 528,
+      "v_fin": 651,
+      "denominacion_literal": "Romance",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t08",
+      "jornada": 1,
+      "v_ini": 652,
+      "v_fin": 699,
+      "denominacion_literal": "Redondilla",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t09",
+      "jornada": 1,
+      "v_ini": 700,
+      "v_fin": 735,
+      "denominacion_literal": "Lira de seis versos",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t10",
+      "jornada": 1,
+      "v_ini": 736,
+      "v_fin": 759,
+      "denominacion_literal": "Redondilla",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t11",
+      "jornada": 1,
+      "v_ini": 760,
+      "v_fin": 993,
+      "denominacion_literal": "Romance",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t12",
+      "jornada": 2,
+      "v_ini": 994,
+      "v_fin": 1113,
+      "denominacion_literal": "Décima",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t13",
+      "jornada": 2,
+      "v_ini": 1114,
+      "v_fin": 1195,
+      "denominacion_literal": "Terceto",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t14",
+      "jornada": 2,
+      "v_ini": 1196,
+      "v_fin": 1295,
+      "denominacion_literal": "Redondilla",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t15",
+      "jornada": 2,
+      "v_ini": 1296,
+      "v_fin": 1531,
+      "denominacion_literal": "Romance",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t16",
+      "jornada": 2,
+      "v_ini": 1532,
+      "v_fin": 1591,
+      "denominacion_literal": "Décima",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t17",
+      "jornada": 2,
+      "v_ini": 1592,
+      "v_fin": 1623,
+      "denominacion_literal": "Redondilla",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t18",
+      "jornada": 2,
+      "v_ini": 1624,
+      "v_fin": 1653,
+      "denominacion_literal": "Décima",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t19",
+      "jornada": 2,
+      "v_ini": 1654,
+      "v_fin": 1681,
+      "denominacion_literal": "Redondilla",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t20",
+      "jornada": 2,
+      "v_ini": 1682,
+      "v_fin": 1708,
+      "denominacion_literal": "Silva",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t21",
+      "jornada": 2,
+      "v_ini": 1709,
+      "v_fin": 1796,
+      "denominacion_literal": "Romance",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t22",
+      "jornada": 2,
+      "v_ini": 1797,
+      "v_fin": 1810,
+      "denominacion_literal": "Soneto",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t23",
+      "jornada": 2,
+      "v_ini": 1811,
+      "v_fin": 2030,
+      "denominacion_literal": "Quintilla",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t24",
+      "jornada": 3,
+      "v_ini": 2031,
+      "v_fin": 2160,
+      "denominacion_literal": "Romance",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t25",
+      "jornada": 3,
+      "v_ini": 2161,
+      "v_fin": 2288,
+      "denominacion_literal": "Redondilla",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t26",
+      "jornada": 3,
+      "v_ini": 2289,
+      "v_fin": 2340,
+      "denominacion_literal": "Tercetos",
+      "n_versos_fuente": null,
+      "fuente_id": "p073.jpg",
+      "pagina": 73
+    },
+    {
+      "id": "t27",
+      "jornada": 3,
+      "v_ini": 2341,
+      "v_fin": 2466,
+      "denominacion_literal": "Romance",
+      "n_versos_fuente": null,
+      "fuente_id": "p074.jpg",
+      "pagina": 74
+    },
+    {
+      "id": "t28",
+      "jornada": 3,
+      "v_ini": 2467,
+      "v_fin": 2483,
+      "denominacion_literal": "Endecasílabos pareados",
+      "n_versos_fuente": null,
+      "fuente_id": "p074.jpg",
+      "pagina": 74
+    },
+    {
+      "id": "t29",
+      "jornada": 3,
+      "v_ini": 2484,
+      "v_fin": 2491,
+      "denominacion_literal": "Octava",
+      "n_versos_fuente": null,
+      "fuente_id": "p074.jpg",
+      "pagina": 74
+    },
+    {
+      "id": "t30",
+      "jornada": 3,
+      "v_ini": 2492,
+      "v_fin": 2551,
+      "denominacion_literal": "Décima",
+      "n_versos_fuente": null,
+      "fuente_id": "p074.jpg",
+      "pagina": 74
+    },
+    {
+      "id": "t31",
+      "jornada": 3,
+      "v_ini": 2552,
+      "v_fin": 2611,
+      "denominacion_literal": "Romance",
+      "n_versos_fuente": null,
+      "fuente_id": "p074.jpg",
+      "pagina": 74
+    },
+    {
+      "id": "t32",
+      "jornada": 3,
+      "v_ini": 2612,
+      "v_fin": 2635,
+      "denominacion_literal": "Lira de seis versos",
+      "n_versos_fuente": null,
+      "fuente_id": "p074.jpg",
+      "pagina": 74
+    },
+    {
+      "id": "t33",
+      "jornada": 3,
+      "v_ini": 2636,
+      "v_fin": 2823,
+      "denominacion_literal": "Redondilla",
+      "n_versos_fuente": null,
+      "fuente_id": "p074.jpg",
+      "pagina": 74
+    },
+    {
+      "id": "t34",
+      "jornada": 3,
+      "v_ini": 2824,
+      "v_fin": 3021,
+      "denominacion_literal": "Romance",
+      "n_versos_fuente": null,
+      "fuente_id": "p074.jpg",
+      "pagina": 74
+    }
+  ],
+  "notas": [
+    {
+      "id": "n01",
+      "marca": "1",
+      "texto_literal": "El castigo, vv. 197-205: son versos de silva como los describió correctamente A. Gasparetti (Las novelas de Mateo Bandello como fuentes de Lope de Vega Carpio, Salamanca, 1939, p. 34). Van Dam y luego Morley y Bruerton los llaman canción, pero es un evidente descuido puesto que por definición no puede haber sólo una estrofa de canción; tienen que repetirse las estrofas, a no ser que una sola corresponda a un paradigma conocido, y esta serie de versos —en cuanto a su “rima” y silabeo— no se halla en otra comedia de Lope (cfr. Morley y Bruerton, Chronology, pp. 99-100) ni entre los muchísimos paradigmas de canción publicados por Segura Covarsí (La canción petrarquista en la lírica española del Siglo de Oro, Madrid, 1959). Además, la misma serie de rimas, con otro silabeo, se halla en El castigo al principio de un diálogo en silvas (así las llaman también van Dam y Morley y Bruerton) en los vv. 234-242. (Otro descuido de éstos fue contar sólo ocho versos en la descripción de esta “canción” en las pp. 47 y 100, pero correctamente, nueve versos en su p. 31.) Esta enmienda puede tener algún alcance: aparte este ejemplo de “canción”, esa estrofa se encuentra entre las “Comedias auténticas fechables” después de El premio de la hermosura de 1609-1620 (Chronology, p. 28) o con un poco más de precisión, entre 1610-1618 (op. cit., p. 161 —en la traducción española se fecha entre 1610-1615— Cronología de las comedias de Lope de Vega, Madrid, 1968, p. 270). No se halla en una comedia fechada después de 1618 en la tabla de “Comedias o intervalo impreciso” (Chronology, pp. 125-162). En la tabla de “Comedias auténticas sin fechar” (op. cit., pp. 163-248) encontramos las siguientes comedias de fecha tardía que contienen versos de canción: La Felisarda, 1620 (pp. 197-198); El hijo de los leones, 1620-1622 (p. 205); Porfiando vence amor, 1624-1626 (p. 231); Los trabajos de Jacob, 1620-1630 (pp. 243-244) pero probablemente hay que descartar esta comedia que por tener sólo 2238 versos parece ser truncada; y El vellocino de oro (pp. 245-246). Total, por estos datos se ve que alrededor de 1620 Lope debía dejar de emplear canciones en sus comedias (y por cierto no se hallan tan tarde como en El castigo de 1631). Por tanto, en casos de necesidad de escoger entre fecha y fecha después de 1618 lo más cuerdo sería optar por la más temprana si la comedia contiene versos de canción. Para Morley y Bruerton la canción no es una estrofa de principal importancia en su sistema de fechar las comedias de Lope según la versificación (véase Chronology, pp. 99-100); sin embargo, es de alguna utilidad, como tratándose de comedias auténticas sin fechar (véanse por ejemplo, las pp. 178, 186, 191 y 196) o de las comedias de intervalo impreciso como El premio de la hermosura; para Morley y Bruerton uno de los factores en fijar la fecha de esta comedia (1610-15 ó 1610-18) es que “canc. no aparece en las comedias fechadas de 1604-1609” (Chronology, p. 161; versión española, p. 270). Por el mismo estilo, si no hubiesen repetido la errónea clasificación de van Dam, la tabla de comedias auténticas fechables no hubiera incluido ninguna comedia con versos de canción después de El premio de la hermosura, 1609-1620 (pp. 28-31) y ese datum podría influir en la selección de fechas de otras comedias. Otra consecuencia de corregir este inocente descuido es que la cantidad de diferentes estrofas empleadas en El castigo resulta ser diez y no once; por eso la comedia no es excepcional como creía Aubrun (La comédie espagnole, París, 1966, p. 126; lo mismo opinaba el propio Morley en “The Curious Phenomenon of Spanish Verse Drama” en Bulletin Hispanique, L (1948), p. 51. En la tabla de Morley y Bruerton de comedias auténticas fechables (Chronology, pp. 14-31) de 54 comedias a partir de El caballero del Sacramento (año 1610) siete tienen diez clases de versos. Siete sobre 54 es una nutrida proporción, lo cual demuestra que nuestra comedia es poco excepcional en este sentido.",
+      "fuente_id": "p071.jpg",
+      "pagina": 71,
+      "tramos_ref": [
+        "t02",
+        "t04"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n02",
+      "marca": "2",
+      "texto_literal": "He seguido a Morley y Bruerton en llamar liras de seis versos los vv. 700-735 y 2612-2635, para evitar confusiones con la verdadera sextina petrarquista que no empleó Lope.",
+      "fuente_id": "p073.jpg",
+      "pagina": 73,
+      "tramos_ref": [
+        "t09",
+        "t32"
+      ],
+      "v_ini": null,
+      "v_fin": null
+    },
+    {
+      "id": "n03",
+      "marca": "3",
+      "texto_literal": "Sobre la octava (vv. 2484-2491) cuya existencia van Dam negó, véase mi nota a esos versos.",
+      "fuente_id": "p074.jpg",
+      "pagina": 74,
+      "tramos_ref": [
+        "t29"
+      ],
+      "v_ini": 2484,
+      "v_fin": 2491
+    }
+  ],
+  "resumen_fuente": [],
+  "incidencias": [
+    {
+      "tipo": "lectura_pendiente",
+      "descripcion": "En p074.jpg, junto al tramo t28 (vv. 2467-2483), aparece la precisión métrica «(el v. 2473 no tiene rima)», sin llamada de nota.",
+      "fuente_id": "p074.jpg",
+      "tramos_ref": [
+        "t28"
+      ]
+    }
+  ]
+}

@@ -4,7 +4,8 @@
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import type { ActionData, PageData } from './$types';
-	import type { MetadatosEditables, ResultadoVistaPrevia, IncidenciaImportador } from '$lib/importador-metrico/types';
+	import type { MetadatosEditables, ResultadoVistaPrevia, IncidenciaImportador, RevisionFuente as CambiosFuente } from '$lib/importador-metrico/types';
+	import RevisionFuente from '$lib/components/importador-metrico/RevisionFuente.svelte';
 	import VistaPrevia from '$lib/components/importador-metrico/VistaPrevia.svelte';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
 	import EstadoComprobacion from '$lib/components/importador-metrico/EstadoComprobacion.svelte';
@@ -56,6 +57,14 @@
 		const r = respuesta(); return Boolean(r && 'comprobacion_realizada' in r && r.comprobacion_realizada);
 	}));
 	let ediciones = $state(untrack(() => respuesta()?.ediciones ?? '[]'));
+	function leerRevision(texto?: string): CambiosFuente {
+		try {
+			const valor = JSON.parse(texto ?? '');
+			if (Array.isArray(valor?.correcciones) && typeof valor.finales === 'string') return valor;
+		} catch { /* El formulario vuelve a presentar una revisión vacía. */ }
+		return { correcciones: [], finales: '' };
+	}
+	let revision = $state(untrack(() => leerRevision(respuesta()?.revisionFuente)));
 	let edicionesComprobadas = $state(untrack(() => respuesta()?.vista.errores.length ? '[]' : respuesta()?.ediciones ?? '[]'));
 	let vistaComprobada = $state<ResultadoVistaPrevia | null>(untrack(() => respuesta()?.vista.errores.length ? null : respuesta()?.vista ?? null));
 	let formComprobacion = $state<HTMLFormElement>();
@@ -126,6 +135,7 @@
 		comprobacionTerminada=false;
 		autoriaBorrador=undefined; variantesBorrador=[];
 		peticionId=crypto.randomUUID();
+		revision = leerRevision();
 	}
 	const vista = $derived(!entradaCambiada && ultimaRespuesta?.entrada === entrada ? ultimaRespuesta.vista : null);
 	const etiquetasMetadatos: Record<string, string> = {
@@ -153,9 +163,11 @@
 				edicionesComprobadas = '[]';
 			}
 			ultimaRespuesta = r.vista.errores.length && anterior ? {
-				...r, vista: { ...r.vista, datos: anterior.datos, filas: anterior.filas, resumen: anterior.resumen }
+				...r, vista: { ...r.vista, datos: anterior.datos, filas: anterior.filas, resumen: anterior.resumen,
+					jornadas_pendientes: anterior.jornadas_pendientes }
 			} : r;
 			ediciones = untrack(() => edicionesComprobadas);
+			revision = leerRevision(r.revisionFuente);
 			entrada = r.entrada;
 			metadatos = { ...r.vista.metadatos };
 			autorId = r.autorId || untrack(() => reconocerAutor(r.vista.metadatos.autor_nombre));
@@ -165,12 +177,12 @@
 	});
 	const enviar: SubmitFunction = () => {
 		comprobacionTerminada = false;
-		const enviados = JSON.stringify([entrada, metadatos, autorId, ediciones, autoriaParaGuardar, variantesBorrador]);
+		const enviados = JSON.stringify([entrada, metadatos, autorId, ediciones, revision, autoriaParaGuardar, variantesBorrador]);
 		respuestaDescartada = false;
 		pendiente = true;
 		return async ({ update }) => {
 			try {
-				if (JSON.stringify([entrada, metadatos, autorId, ediciones, autoriaParaGuardar, variantesBorrador]) !== enviados) {
+				if (JSON.stringify([entrada, metadatos, autorId, ediciones, revision, autoriaParaGuardar, variantesBorrador]) !== enviados) {
 					respuestaDescartada = true;
 					desactualizada = true;
 					return;
@@ -191,6 +203,11 @@
 		comprobacionTerminada = false;
 		autoriaBorrador = undefined;
 		variantesBorrador = [];
+		revision = leerRevision();
+	}
+	function cambiarRevision(valor: CambiosFuente) {
+		revision = valor;
+		cambioMetadatos();
 	}
 	function cambioMetadatos() { desactualizada = true; comprobacionTerminada = false; }
 	function cancelarEdicion() {
@@ -294,6 +311,7 @@
 			<h2 class="text-lg font-semibold">{data.metadatosDestino || autoriaInicial ? '2. Fuente de la importación' : '2. Datos de la obra'}</h2>
 			<input type="hidden" name="entrada" value={entrada} />
 			<input type="hidden" name="ediciones" value={ediciones} />
+			<input type="hidden" name="revision_fuente" value={JSON.stringify(revision)} />
 			<input type="hidden" name="autor_nombre" value={metadatos.autor_nombre} />
 			{#if autoriaInicial}
 				<input type="hidden" name="autoria_borrador" value={JSON.stringify(autoriaParaGuardar)} />
@@ -342,6 +360,10 @@
 				</label>{/if}
 			</div>
 			<DatosEjecucion bind:metadatos alCambiar={cambioMetadatos} />
+			{#if vista.revision_fuente}
+				<RevisionFuente filas={vista.revision_fuente.filas} sinJornadas={vista.revision_fuente.sin_jornadas}
+					{revision} alCambiar={cambiarRevision} />
+			{/if}
 			<div class="flex flex-wrap items-center gap-3">
 				<button class="rounded-md border border-[color:var(--foreground)] px-5 py-2.5 text-sm font-medium hover:bg-[color:var(--muted)] disabled:opacity-50" disabled={pendiente || metadatosPendientes}>{pendiente ? 'Comprobando…' : 'Comprobar cambios'}</button>
 				{#if metadatosPendientes}<p role="status" class="text-sm">{autoriaBorrador === null ? 'Completa las propuestas de autoría antes de continuar.' : 'Guarda los cambios de la obra antes de continuar.'}</p>{/if}
@@ -365,7 +387,7 @@
 			{camposPendientes.length ? 'Completa los campos pendientes (' + camposPendientes.join(', ') + ') para guardar.' : 'Revisa los datos de la obra antes de guardar.'}
 		</p>
 	{/if}
-	{#if vista?.datos && !vista.errores.length && !vista.pendientes_metadatos?.length}
+	{#if vista?.datos && !vista.errores.length && !vista.pendientes_metadatos?.length && !vista.jornadas_pendientes}
 		<section class="card space-y-3 p-4 sm:p-6">
 			<h2 class="text-lg font-semibold">Confirmar importación</h2>
 			{#if !data.guardadoDisponible}
@@ -376,6 +398,7 @@
 					<input type="hidden" name="entrada" value={entrada} />
 					<input type="hidden" name="autor_id" value={autorId} />
 					<input type="hidden" name="ediciones" value={ediciones} />
+					<input type="hidden" name="revision_fuente" value={JSON.stringify(revision)} />
 					<input type="hidden" name="peticion_id" value={peticionId} />
 					<input type="hidden" name="huella" value={ultimaRespuesta?.huella ?? ''} />
 					{#if autoriaInicial}

@@ -309,7 +309,7 @@ describe('contrato local de la ficha mínima', () => {
 describe('copia fija y contexto de confirmación', () => {
 	it('la opción de vista previa nunca permite confirmar una copia incompleta', () => {
 		const datos = preparar();
-		datos.metadatos.fecha_inicio = null;
+		datos.metadatos.edicion_base = '';
 		expect(validarFichaMinima(datos, { catalogo, vistaPrevia: true }).errores).toEqual([]);
 		expect(() => crearCopiaConfirmada(datos, actor(), { catalogo, vistaPrevia: true })).toThrow(
 			/no confirmable/

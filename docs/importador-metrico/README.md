@@ -12,6 +12,9 @@ del dashboard. Las reglas v0.19 amplían las propuestas por nombre explícito de
 inferir arquitecturas.
 Quien importa puede [enseñar al importador un término nuevo](funcionamiento/importar.md#enseñar-al-importador-un-término-nuevo)
 que llegó sin identificar.
+En local, la [revisión de la fuente](funcionamiento/importar.md#comprobar-y-guardar) permite
+corregir erratas con motivo, comprobar tablas sin jornadas impresas y conservar el total
+declarado y la prosa localizada. La ampliación del guardado requiere su migración.
 
 **El prompt activo es [0.27](../../prompts/importador-metrico/extraccion-v0.27.md)**: es el que
 copia el botón del dashboard y el que se usa en las pruebas.

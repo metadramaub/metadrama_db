@@ -1,0 +1,147 @@
+{
+  "lote": "piloto-2",
+  "servicio": "ChatGPT (aplicación web)",
+  "modelo_mostrado": "5.6 Instant",
+  "tipo_de_cuenta": "No consta",
+  "fecha": "2026-11-18",
+  "prompt": "extraccion/0.27",
+  "fotos": "Manifiesto docs/importador-metrico/evaluacion/referencias/fuentes-piloto-2.json",
+  "procedimiento": "Un chat nuevo por ejecución. Se pegó el prompt íntegro con el título, obra_ref e identificadores de las fotos. ChatGPT convirtió el texto largo en un adjunto. Se conservó el contenido del bloque de código tal como se mostró, sin correcciones. No se midió el tiempo de revisión.",
+  "respuestas": [
+    {
+      "obra_ref": "el-perro-del-hortelano",
+      "archivo": "el-perro-del-hortelano/intento-01.json",
+      "fotos_en_orden": [
+        "p070.jpg",
+        "p071.jpg"
+      ],
+      "sha256": "1ab726c01e433812f5d077c163fb4af80e28ef8e7de136c2cd8d5fd51d137175"
+    },
+    {
+      "obra_ref": "el-castigo-sin-venganza",
+      "archivo": "el-castigo-sin-venganza/intento-01.json",
+      "fotos_en_orden": [
+        "p071.jpg",
+        "p072.jpg",
+        "p073.jpg",
+        "p074.jpg"
+      ],
+      "nota_fotos": "ChatGPT mostró p071(1).jpg para la misma foto p071.jpg ya usada en el otro chat. El identificador facilitado al modelo fue p071.jpg.",
+      "sha256": "d22eae96ad64c7a76285e42a105dad8d9db7aef306518d04ac28db6a800f0f8d"
+    },
+    {
+      "obra_ref": "el-alcalde-de-zalamea",
+      "archivo": "el-alcalde-de-zalamea/intento-01.json",
+      "fotos_en_orden": [
+        "p116.jpg"
+      ],
+      "sha256": "37d38cbd0519bd5715f8a5a893c59fc4289cd9f295a714e832ec572e69486aca",
+      "nota_modelo": "El selector mostró 5.6 Instant durante la preparación. No se volvió a comprobar después de enviar."
+    },
+    {
+      "obra_ref": "las-bizarrias-de-belisa",
+      "archivo": "las-bizarrias-de-belisa/intento-02.json",
+      "fotos_en_orden": [
+        "p061.jpg",
+        "p062.jpg"
+      ],
+      "sha256": "6d51212640996636488d9849662857d90f1f50297eed01173bbd810c95c64526",
+      "primer_intento": "ChatGPT generó una imagen en vez de un bloque JSON. El selector después mostró Medium y no quedó confirmado el modelo efectivo de la primera respuesta. La imagen permanece en el chat original. El segundo intento se envió en un chat nuevo, con 5.6 Instant visible antes y después de enviar."
+    },
+    {
+      "obra_ref": "el-caballero-de-olmedo",
+      "archivo": "el-caballero-de-olmedo/intento-01.json",
+      "fotos_en_orden": [
+        "p088.jpg",
+        "p089.jpg",
+        "p090.jpg"
+      ],
+      "sha256": "99f00d5248fd0a8ce2dbdcdb072cfcde0e6c26d97d0715495cd8fbd0fa1c120a",
+      "nota_modelo": "El selector mostró 5.6 Instant durante la preparación. No se volvió a comprobar después de enviar."
+    },
+    {
+      "obra_ref": "don-gil-de-las-calzas-verdes",
+      "archivo": "don-gil-de-las-calzas-verdes/intento-02.json",
+      "fotos_en_orden": [
+        "p069.jpg"
+      ],
+      "sha256": "bc5baf1a75b74f85e9f8f3b8271f4ecbe15b800b9c769a28becfbf03c0913899",
+      "primer_intento": "ChatGPT generó una imagen en vez de un bloque JSON. El selector después mostró Medium y no quedó confirmado el modelo efectivo de la primera respuesta. La imagen permanece en el chat original. El segundo intento se envió en un chat nuevo, con 5.6 Instant visible antes y después de enviar."
+    },
+    {
+      "obra_ref": "peribanez-y-el-comendador-de-ocana",
+      "archivo": "peribanez-y-el-comendador-de-ocana/intento-01.json",
+      "fotos_en_orden": [
+        "p046.jpg",
+        "p047.jpg"
+      ],
+      "sha256": "4ae91d56adf4ae6d213129d21371d3058421b6333b7601c52c4a760d07d7a60e",
+      "nota_modelo": "5.6 Instant visible antes y después de enviar."
+    },
+    {
+      "obra_ref": "fuenteovejuna",
+      "archivo": "fuenteovejuna/intento-01.json",
+      "fotos_en_orden": [
+        "p039.jpg",
+        "p040.jpg",
+        "p041.jpg"
+      ],
+      "sha256": "03661f8531fe844b38cccd4650f3129800bf92ea9cfd1002e4e63e184c16ce39",
+      "nota_modelo": "5.6 Instant visible antes y después de enviar."
+    },
+    {
+      "obra_ref": "quien-todo-lo-quiere",
+      "archivo": "quien-todo-lo-quiere/intento-01.json",
+      "fotos_en_orden": [
+        "p086.jpg",
+        "p087.jpg"
+      ],
+      "sha256": "80b741b63fa9acdef181317d7b04fb08f078b80f67ec49f6f069879de16fcbac",
+      "nota_modelo": "5.6 Instant visible antes y después de enviar."
+    },
+    {
+      "obra_ref": "amar-servir-y-esperar",
+      "archivo": "amar-servir-y-esperar/intento-01.json",
+      "fotos_en_orden": [
+        "p374.jpg",
+        "p375.jpg",
+        "p376.jpg"
+      ],
+      "sha256": "76435babc3a2e92d6e0aec138c57cf2fad773d4bb978576371fc09e17d2c80bd",
+      "nota_modelo": "5.6 Instant visible antes y después de enviar."
+    },
+    {
+      "obra_ref": "la-vida-de-san-pedro-nolasco",
+      "archivo": "la-vida-de-san-pedro-nolasco/intento-01.json",
+      "fotos_en_orden": [
+        "p523.jpg",
+        "p524.jpg"
+      ],
+      "sha256": "e7352a2db6ac9cc2c3d792c38c151d21386dd849c0353a58f62fc00f38f06938",
+      "nota_modelo": "5.6 Instant visible antes y después de enviar."
+    },
+    {
+      "obra_ref": "la-primera-informacion",
+      "archivo": "la-primera-informacion/intento-01.json",
+      "fotos_en_orden": [
+        "p658.jpg",
+        "p659.jpg",
+        "p660.jpg"
+      ],
+      "sha256": "7c5ee6011712320a5f8c67c3ee16680bc1b8edee1273f57a3bf475d7b1ed7639",
+      "nota_modelo": "5.6 Instant visible antes y después de enviar."
+    },
+    {
+      "obra_ref": "los-locos-de-valencia",
+      "archivo": "los-locos-de-valencia/intento-01.json",
+      "fotos_en_orden": [
+        "p040.jpg",
+        "p041.jpg"
+      ],
+      "sha256": "02c35e09d4772a62851a126b61ba315d12bdf93e3e2f4e0ad7fab247f5c49004",
+      "nota_modelo": "5.6 Instant visible antes y después de enviar."
+    }
+  ],
+  "mensaje_inicial": "Aplica el prompt 0.27 adjunto a las fotografías de {título}.",
+  "mensaje_para_las_ejecuciones_verificadas_antes_y_despues": "Al mensaje inicial se añadió: Devuelve la transcripción en un bloque de código JSON en el chat."
+}

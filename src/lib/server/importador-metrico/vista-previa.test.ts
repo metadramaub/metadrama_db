@@ -1,10 +1,105 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import type { FichaMinima } from '$lib/importador-metrico/types';
+import type { CorreccionFuente, FichaMinima } from '$lib/importador-metrico/types';
 import { analizarEntrada, corregirFichaGuardada, obtenerPilotos, obtenerReferenciaImportador, vistaDeFichaGuardada } from './vista-previa';
 import { extraccionOriginal } from './persistencia';
 import preparada from '../../../../docs/importador-metrico/evaluacion/referencias/preparadas/el-verdadero-amante.json';
+
+const instant = (slug: string, intento = '01') => readFileSync(
+	new URL('../../../../docs/importador-metrico/evaluacion/ensayos/piloto-2/ChatGPT%20GPT-5.6%20Instant/' +
+		slug + '/intento-' + intento + '.json', import.meta.url), 'utf8'
+);
+
+describe('revisión de la fuente con los originales del piloto 2', () => {
+	it('localiza la carta del Perro dentro del romance, sin sumar versos', () => {
+		const texto = instant('el-perro-del-hortelano');
+		const vista = analizarEntrada(texto);
+		expect(vista.errores).toEqual([]);
+		expect(vista.filas.find(f => f.v_ini === 1988 && f.v_fin === 2071)?.caracterizaciones).toContainEqual({
+			termino: 'prosa', tramo_ref: 't27', v_ini: 2025, v_fin: 2026,
+			literal: '[Carta en prosa entre los vv. 2025-2026]'
+		});
+		expect(vista.filas.some(f => f.origen.tramo_ref === 't27')).toBe(false);
+		const sinLocalizadorExacto = texto.replace('2025-2026','2025-2027');
+		expect(analizarEntrada(sinLocalizadorExacto).errores[0]?.mensaje).toMatch(/dos versos consecutivos/);
+	});
+
+	it('conserva el total impreso de Fuenteovejuna y bloquea porcentajes inválidos de otras filas', () => {
+		const texto = instant('fuenteovejuna');
+		const vista = analizarEntrada(texto);
+		expect(vista.errores).toEqual([]);
+		expect(vista.avisos).toContainEqual(expect.objectContaining({ codigo: 'porcentaje_total_impreso' }));
+		expect(extraccionOriginal(texto).resumen_fuente).toEqual(JSON.parse(texto).resumen_fuente);
+		const falsaForma = JSON.parse(texto);
+		falsaForma.resumen_fuente.find((fila: { denominacion_literal: string }) =>
+			fila.denominacion_literal === 'Total').denominacion_literal = 'Quintillas';
+		expect(analizarEntrada(JSON.stringify(falsaForma)).errores[0]?.codigo).toBe('porcentaje_fuera_de_rango');
+	});
+
+	it('muestra Don Gil sin jornadas y exige límites coherentes para confirmarlas', () => {
+		const texto = instant('don-gil-de-las-calzas-verdes', '02');
+		const vista = analizarEntrada(texto);
+		expect(vista.errores).toEqual([]);
+		expect(vista.jornadas_pendientes).toBe(true);
+		expect(vista.datos?.jornadas).toEqual([]);
+		expect(vista.filas.length).toBeGreaterThanOrEqual(27);
+		expect(vista.filas.every(f => f.jornada === null)).toBe(true);
+		expect(vista.resumen?.extension).toBe(3272);
+
+		const conLimites = (finales: string) => analizarEntrada(texto, {}, [], [], { correcciones: [], finales });
+		expect(conLimites('1014, 3272').errores[0]?.codigo).toBe('limites_jornadas');
+		expect(conLimites('1015, 3271').jornadas_pendientes).toBe(true);
+		// Extremos de prueba para el mecanismo. No documentan el corte de la edición.
+		const conJornadas = conLimites('1015, 2045, 3272');
+		expect(conJornadas.errores).toEqual([]);
+		expect(conJornadas.jornadas_pendientes).toBe(false);
+		expect(conJornadas.datos?.jornadas.map(j => [j.v_ini, j.v_fin, j.rotulo_literal])).toEqual([
+			[1, 1015, null], [1016, 2045, null], [2046, 3272, null]
+		]);
+		expect(extraccionOriginal(texto).jornadas).toEqual([]);
+	});
+
+	it.each([
+		['los-locos-de-valencia', 't06', 1021, 1050, 30, 80],
+		['quien-todo-lo-quiere', 't25', 1915, 2014, 100, 100]
+	] as const)('acepta una corrección explícita en %s y conserva las cifras impresas', (slug, tramo_ref, v_ini, v_fin, n_versos_fuente, impreso) => {
+		const texto = instant(slug);
+		expect(analizarEntrada(texto).errores).not.toHaveLength(0);
+		const original = (extraccionOriginal(texto).tramos as { id: string; n_versos_fuente: number }[])
+			.find(f => f.id === tramo_ref);
+		const correccion: CorreccionFuente = { tramo_ref, v_ini, v_fin, n_versos_fuente, motivo: 'Cotejo simulado para la prueba' };
+		const revisar = (c = correccion) => analizarEntrada(texto, {}, [], [], { finales: '', correcciones: [c] });
+		expect(revisar({ ...correccion, motivo: ' ' }).errores).not.toHaveLength(0);
+		expect(revisar({ ...correccion, v_fin: v_fin + 1, n_versos_fuente: n_versos_fuente + 1 }).errores).not.toHaveLength(0);
+		const vista = revisar();
+		expect(vista.errores).toEqual([]);
+		expect(vista.revision_fuente?.filas.find(f => f.id === tramo_ref)?.n_versos_fuente).toBe(impreso);
+		expect(vista.filas.find(f => f.origen.tramo_ref === tramo_ref)?.origen.correcciones).toEqual([correccion]);
+		expect((extraccionOriginal(texto).tramos as typeof original[]).find(f => f?.id === tramo_ref)).toEqual(original);
+	});
+
+	it('recalcula la numeración continua si se corrige el último verso de una jornada', () => {
+		const entrada = JSON.parse(instant('el-perro-del-hortelano'));
+		entrada.jornadas = entrada.jornadas.slice(0, 2);
+		const [primera, segunda] = entrada.tramos;
+		entrada.tramos = [
+			{ ...primera, v_ini: 1, v_fin: 10, n_versos_fuente: 11, notas_ref: [] },
+			{ ...segunda, jornada: 2, v_ini: 1, v_fin: 3, n_versos_fuente: 3, notas_ref: [] }
+		];
+		entrada.notas = [];
+		entrada.incidencias = [];
+		const texto = JSON.stringify(entrada);
+		const vista = analizarEntrada(texto, {}, [], [], { finales: '', correcciones: [{
+			tramo_ref: primera.id, v_ini: 1, v_fin: 11, n_versos_fuente: 11, motivo: 'Cotejo simulado'
+		}] });
+		expect(vista.errores).toEqual([]);
+		expect(vista.datos?.numeracion?.desplazamientos).toEqual([
+			{ jornada: 1, desplazamiento: 0 }, { jornada: 2, desplazamiento: 11 }
+		]);
+		expect(vista.datos?.jornadas.map(j => [j.v_ini, j.v_fin])).toEqual([[1, 11], [12, 14]]);
+	});
+});
 
 describe('vista previa del importador sin persistencia', () => {
 	const ensayo = (slug: string) =>

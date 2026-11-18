@@ -155,8 +155,9 @@ export function normalizarExtraccion(
 	const desplazamientos = numeracionPorJornada(extraccion);
 	if (desplazamientos) extraccion = aplicarNumeracion(extraccion, desplazamientos);
 	const validation = validarExtraccion(extraccion, fuentes ? { fuentes } : {});
-	if (validation.errores.length || validation.advertencias.length)
-		throw new ErrorExtraccion([...validation.errores, ...validation.advertencias]);
+	const bloqueantes = validation.advertencias.filter(a => a.codigo !== 'porcentaje_total_impreso');
+	if (validation.errores.length || bloqueantes.length)
+		throw new ErrorExtraccion([...validation.errores, ...bloqueantes]);
 	const reference = indexRules(reglas, catalogo, bibliografia);
 	const source = structuredClone(extraccion);
 	const rowsById = new Map(source.tramos.map((r) => [r.id, r]));
@@ -404,6 +405,7 @@ export function normalizarExtraccion(
 	return {
 		esquema: 'versologia-normalizacion-local/0.1',
 		avisos_fuente: [
+			...validation.advertencias.filter(a => a.codigo === 'porcentaje_total_impreso'),
 			...(desplazamientos
 				? [{
 						codigo: 'numeracion_por_jornada',

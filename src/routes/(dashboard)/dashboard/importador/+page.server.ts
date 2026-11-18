@@ -98,11 +98,18 @@ async function previsualizar(
 		return fail(413, { mensaje: 'La entrada supera el límite. Pega una obra cada vez.' });
 	let autorId = editar ? texto('autor_id') : '';
 	const ediciones = editar ? texto('ediciones') || '[]' : '[]';
+	const revisionFuente = editar ? texto('revision_fuente') || '{"correcciones":[],"finales":""}' : '{"correcciones":[],"finales":""}';
 	let cambiosSecuencias: unknown;
+	let cambiosFuente: unknown;
 	try {
 		cambiosSecuencias = JSON.parse(ediciones);
 	} catch {
 		cambiosSecuencias = null;
+	}
+	try {
+		cambiosFuente = JSON.parse(revisionFuente);
+	} catch {
+		cambiosFuente = null;
 	}
 	const cambios: Partial<MetadatosEditables> = {};
 	if (editar) {
@@ -206,14 +213,15 @@ async function previsualizar(
 				mensaje: 'El autor seleccionado ya no está disponible. Elige otro autor del catálogo.',
 				entrada,
 				ediciones,
+				revisionFuente,
 				autorId: '',
-				vista: analizarEntrada(entrada, cambios, cambiosSecuencias, correspondencias),
+				vista: analizarEntrada(entrada, cambios, cambiosSecuencias, correspondencias, cambiosFuente),
 				coincidencias: [],
 				huella: null
 			});
 		cambios.autor_nombre = autor.nombre_completo;
 	}
-	const vista = analizarEntrada(entrada, cambios, cambiosSecuencias, correspondencias);
+	const vista = analizarEntrada(entrada, cambios, cambiosSecuencias, correspondencias, cambiosFuente);
 	if (vista.datos && datosNuevos) Object.assign(vista.datos.metadatos, datosNuevos);
 	const autoriaLista = autorId || metadatosVigentes || datosNuevos;
 	let coincidencias: CoincidenciaImportacion[] = [];
@@ -231,6 +239,7 @@ async function previsualizar(
 				vista,
 				coincidencias,
 				ediciones,
+				revisionFuente,
 				huella: null
 			});
 		}
@@ -252,12 +261,12 @@ async function previsualizar(
 		);
 	}
 	const huella =
-		vista.datos && autoriaLista && !vista.errores.length && !vista.pendientes_metadatos?.length
+		vista.datos && autoriaLista && !vista.errores.length && !vista.pendientes_metadatos?.length && !vista.jornadas_pendientes
 			? huellaConfirmacion(vista.datos, autorId, coincidencias, obraId)
 			: null;
-	const respuesta = { entrada, autorId, vista, coincidencias, ediciones, huella, comprobacion_realizada: editar && !confirmar };
+	const respuesta = { entrada, autorId, vista, coincidencias, ediciones, revisionFuente, huella, comprobacion_realizada: editar && !confirmar };
 	if (confirmar) {
-		if (!vista.datos || vista.errores.length || vista.pendientes_metadatos?.length || !autoriaLista)
+		if (!vista.datos || vista.errores.length || vista.pendientes_metadatos?.length || vista.jornadas_pendientes || !autoriaLista)
 			return fail(400, { ...respuesta, mensaje: 'Comprueba los datos antes de guardar.' });
 		let guardada;
 		try {

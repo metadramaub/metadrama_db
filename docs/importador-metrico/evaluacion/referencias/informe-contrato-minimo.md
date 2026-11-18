@@ -9,7 +9,7 @@
 | Los donaires de Matico | 2812 | 3 | 18 | 2540 | 272 | [ver](./preparadas/los-donaires-de-matico.md) |
 | Los locos de Valencia | 3072 | 3 | 20 | 3072 | 0 | [ver](./preparadas/los-locos-de-valencia.md) |
 
-El contrato exige género, fechas, autor y edición. Fuente de datación y fundamentos de autoría pueden estar vacíos; tampoco exige editor asignado.
+El contrato exige género y edición. Los límites de datación pueden quedar abiertos y la autoría admite una referencia nominal vacía. La fuente de datación, el fundamento de autoría y el editor asignado son opcionales.
 
 El perfil mantiene los versos pendientes en el denominador. El remate de Canción y las desviaciones de Los locos se conservan; no se crean respuestas v2. La segmentación sigue siendo provisional.
 

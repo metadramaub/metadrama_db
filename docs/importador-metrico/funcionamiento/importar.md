@@ -42,6 +42,9 @@ información que aún no está registrada. No se exige la exhaustividad de la fi
 - La prosa es presencia y localización entre versos, nunca extensión. Dos tramos consecutivos
   de la misma forma y jornada, separados por prosa no numerada, pueden formar una sola secuencia
   con esa caracterización. No se unen si hay incompatibilidades que requieren revisión.
+  Una fila sin numeración propia puede declarar su lugar dentro de otra, como «Carta en prosa
+  entre los vv. 2025–2026». Se registra en la fila que contiene ambos versos consecutivos y se
+  conserva el literal.
 - Las lagunas y adiciones declaradas se tienen en cuenta al comprobar la norma de la forma.
   Esta longitud de comprobación no reescribe la numeración de la edición.
 - **Pasajes cantados.** Si una nota de la edición enlazada a una fila dice que es cantada (por
@@ -74,7 +77,7 @@ información que aún no está registrada. No se exige la exhaustividad de la fi
   *Alcalde* de Castalia, el *Peribáñez* de Cátedra), el importador pasa a numeración continua:
   cada jornada empieza tras el último verso de la anterior, y un aviso dice cuánto se ha sumado
   a cada una. La transcripción original conserva la numeración de la edición, y al guardar se
-  recalculan los desplazamientos desde ella. Solo se reconoce el caso claro: todas las filas
+  recalculan los desplazamientos desde ella y sus correcciones justificadas. Solo se reconoce el caso claro: todas las filas
   numeradas tienen jornada, no se mezclan y cada jornada, salvo la primera, empieza en el v. 1.
 
 ## Comprobar y guardar
@@ -83,6 +86,19 @@ información que aún no está registrada. No se exige la exhaustividad de la fi
 las incidencias deben poder localizarse en sus filas. La comprobación se invalida al modificar
 los datos. Incluye rangos, cobertura y norma métrica, pero no certifica la edición ni la lectura.
 Un aviso de longitud no identifica por sí mismo la causa ni bloquea automáticamente todo guardado.
+
+- Si la tabla completa carece de encabezados de jornada, se prepara la tabla métrica con jornadas
+  pendientes. Coteja la edición y escribe el último verso de cada jornada, en orden e incluido el
+  último de la tabla. Si un límite cruza una secuencia, divide la fila en la vista previa antes
+  de asignar las jornadas. El guardado exige que la obra completa quede repartida sin huecos.
+- **Corregir rangos o recuentos de la fuente** permite elegir la fila, ver sus cifras y página
+  originales y aplicar otros valores con un motivo. Se pueden acumular varias correcciones antes
+  de comprobarlas juntas. La copia debe cuadrar y cubrir rangos consecutivos para poder guardarse.
+  La ficha conserva el motivo junto a la referencia de la fila, y las cifras impresas siguen en
+  la transcripción original.
+- Un porcentaje mayor de 100 en la fila «Total» del resumen se conserva literalmente con un aviso.
+  La fila agregada no suma versos ni entra en el perfil métrico. Un porcentaje fuera de rango en
+  las otras filas sigue bloqueando la preparación.
 
 Si hay coincidencias de título/autor, se revisan antes de crear otra obra: un parecido no
 identifica una obra. Una básica no sustituye una detallada. La confirmación reconstruye y valida
