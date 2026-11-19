@@ -43,6 +43,7 @@
 		respuestas?: { contestadas: number; total: number } | null;
 		sucio?: boolean;
 		guardando?: boolean;
+		confirmando?: boolean;
 		error?: string | null;
 		/** Solo se ofrece borrar lo que ya existe. */
 		alEliminar?: (() => void) | null;
@@ -67,7 +68,7 @@
 		role="dialog"
 		aria-modal="true"
 		aria-label={props.titulo}
-		inert={props.guardando}
+		inert={props.guardando || props.confirmando}
 		aria-busy={props.guardando}
 	>
 		<div class="border-b border-[color:var(--border)] bg-white px-5 py-3">

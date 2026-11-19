@@ -9,6 +9,7 @@
 	import type { MetricDeviationRange } from '$lib/metrica/structural-additions';
 	import MetricSequenceModal from '$lib/components/metrica/editor-v2/MetricSequenceModal.svelte';
 	import MetricPanelSection from '$lib/components/metrica/editor-v2/MetricPanelSection.svelte';
+	import UnsavedChangesModal from '$lib/components/editor/UnsavedChangesModal.svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import { sugerenciaTercetos } from '$lib/importador-metrico/presentacion';
 	import { comprobarLongitud } from '$lib/importador-metrico/longitud';
@@ -35,12 +36,28 @@
 		v_ini: Number(d.v_ini), v_fin: Number(d.v_fin), dimension: String(d.dimension), relacion_norma: String(d.relacion_norma)
 	})));
 	let mensaje = $state('');
-	let sucio = $state(false);
-	const contenidoInicial = untrack(() => JSON.stringify(partes));
-	$effect(() => { if (JSON.stringify(partes) !== contenidoInicial) sucio = true; });
 	let panel = $state<HTMLElement>();
 	let dividiendo = $state<number | null>(null);
 	let nuevoInicio = $state('');
+	let confirmarCierre = $state(false);
+	function contenidoEditable() {
+		return JSON.stringify(partes.map(({ fin, forma, arquitectura, nota, remate, rasgos, desviaciones }) =>
+			({ fin, forma, arquitectura, nota, remate, rasgos, desviaciones })));
+	}
+	const contenidoInicial = untrack(contenidoEditable);
+	const sucio = $derived(contenidoEditable() !== contenidoInicial || (dividiendo !== null && nuevoInicio.trim() !== ''));
+
+	function pedirCierre() {
+		if (sucio) confirmarCierre = true;
+		else oncancelar();
+	}
+
+	async function seguirEditando() {
+		confirmarCierre = false;
+		await tick();
+		panel?.focus({ preventScroll: true });
+	}
+
 	type DivisionNota = NonNullable<ReturnType<typeof proponerDivisionDesdeNota>>;
 	const divisionesNotas = $derived<{ nota: NotaFuenteImportador; propuesta: DivisionNota }[]>(originales.length === 1 ? notasFuente.flatMap((nota: NotaFuenteImportador) => {
 		const propuesta = proponerDivisionDesdeNota(originales[0], nota);
@@ -53,7 +70,7 @@
 		partes = propuesta.partes.map((p, i) => ({ ...original, id: i ? siguienteId++ : original.id,
 			fin: String(p.v_fin), forma: p.identificacion.forma_slug, arquitectura: p.identificacion.arquitectura_slug ?? '',
 			rasgos: [], desviaciones: [], remate: null }));
-		mensaje = ''; sucio = true;
+		mensaje = '';
 	}
 	onMount(() => panel?.focus());
 	const principio = (i: number) => i ? Number(partes[i - 1].fin) + 1 : inicio;
@@ -87,7 +104,7 @@
 		const p = partes[i], id = siguienteId++;
 		partes.splice(i, 1, { ...p, fin: String(calculo.rangos.anterior.v_fin), remate: null, rasgos: p.rasgos.filter((r) => r.rasgo_slug !== 'distico_final'), desviaciones: p.desviaciones.filter((d) => Number(d.v_fin) < Number(nuevoInicio)) },
 			{ ...p, id, forma: '', arquitectura: '', nota: '', mostrarNota: false, rasgos: p.rasgos.map((r) => ({...r})), desviaciones: p.desviaciones.filter((d) => Number(d.v_ini) >= Number(nuevoInicio)), extras: false });
-		dividiendo = null; nuevoInicio = ''; mensaje = ''; sucio = true;
+		dividiendo = null; nuevoInicio = ''; mensaje = '';
 		await tick(); document.getElementById('forma-importada-' + id)?.focus();
 	}
 	function unir(i: number) {
@@ -99,7 +116,7 @@
 		partes.splice(i, 2, { ...p, fin: siguiente.fin, remate: siguiente.remate,
 			rasgos: [...new Map([...p.rasgos, ...siguiente.rasgos].map((r) => [r.rasgo_slug, r])).values()], desviaciones: [...p.desviaciones, ...siguiente.desviaciones],
 			nota: [...new Set([p.nota, siguiente.nota].filter(Boolean))].join(' '), mostrarNota: p.mostrarNota || siguiente.mostrarNota, extras: p.extras || siguiente.extras });
-		dividiendo = null; mensaje = ''; sucio = true;
+		dividiendo = null; mensaje = '';
 	}
 	function aplicar() {
 		if (dividiendo !== null) { mensaje = 'Termina o cancela la división antes de comprobar.'; return; }
@@ -120,10 +137,10 @@
 </script>
 
 <MetricSequenceModal titulo={partes.length === 1 ? 'Editar secuencia' : 'Editar secuencias'} rango={{ v_ini: inicio, v_fin: fin }}
-	guardando={ocupado} {sucio} error={[mensaje, ...errores].filter(Boolean).join(' ') || null}
-	alCerrar={oncancelar} alGuardar={aplicar} etiquetaGuardar={guardarDirecto ? 'Guardar' : 'Comprobar cambios'}
+	guardando={ocupado} confirmando={confirmarCierre} {sucio} error={[mensaje, ...errores].filter(Boolean).join(' ') || null}
+	alCerrar={pedirCierre} alGuardar={aplicar} etiquetaGuardar={guardarDirecto ? 'Guardar' : 'Comprobar cambios'}
 	etiquetaProcesando={guardarDirecto ? 'Guardando…' : 'Comprobando…'}>
-	<section bind:this={panel} tabindex="-1" aria-label="Editar secuencias" class="space-y-4 p-5 focus:outline-none" oninput={() => sucio = true} onchange={() => sucio = true}>
+	<section bind:this={panel} tabindex="-1" aria-label="Editar secuencias" class="space-y-4 p-5 focus:outline-none">
 		<p class="text-sm text-[color:var(--muted-foreground)]">En la edición: {originales[0].origen.denominacion_literal ?? '—'}</p>
 		{#each notas.filter((n) => !partes.some((p) => p.desviaciones.some((d) => d.nota_ref === n.id))) as n}
 			<p class="text-sm text-[color:var(--muted-foreground)]">{n.texto_literal}</p>
@@ -175,7 +192,7 @@
 					{@const resumen = resumenCuerpo(principio(i), Number(parte.fin), Number(parte.remate), desviaciones)}
 					<div class="space-y-2 border-t border-[color:var(--border)] pt-3">
 						<div class="flex flex-wrap items-end gap-3"><label class="form-field"><span class="form-label">Remate final — número de versos</span><input aria-label={'Versos del remate — secuencia ' + (i + 1)} inputmode="numeric" bind:value={parte.remate} class="w-28 rounded-md border border-[color:var(--border)] px-3 py-2" /></label>
-						<Button variant="secondary" onclick={() => { parte.remate = null; sucio = true; }}>Quitar dato de remate</Button></div>
+						<Button variant="secondary" onclick={() => { parte.remate = null; }}>Quitar dato de remate</Button></div>
 						{#if Number.isInteger(Number(parte.remate)) && Number(parte.remate) > 0}<p class="text-sm">Cuerpo: {resumen.cuerpo} versos{unidad ? ' en tercetos' : ''} — Remate: {parte.remate} {Number(parte.remate) === 1 ? 'verso' : 'versos'}{resumen.adicionales ? ' — Versos añadidos: ' + resumen.adicionales : ''} — Total: {resumen.total}</p>{/if}
 						{#if parte.remate.trim() && problemaRemate(parte)}<p role="status" class="text-sm text-[color:var(--danger)]">{problemaRemate(parte)}</p>{/if}
 					</div>
@@ -200,7 +217,7 @@
 					<div class="form-field"><div class="flex items-baseline justify-between gap-3"><label for={'nota-secuencia-' + parte.id} class="form-label">Nota <span class="font-normal">(opcional)</span></label><button type="button" class="link-action link-action--danger text-xs" onclick={() => { parte.nota = ''; parte.mostrarNota = false; }}>Quitar</button></div><textarea id={'nota-secuencia-' + parte.id} aria-label={'Nota — secuencia ' + (i + 1) + ' (opcional)'} rows="2" maxlength="4000" bind:value={parte.nota} class="w-full rounded-md border border-[color:var(--border)] px-3 py-2"></textarea></div>
 				{/if}
 				<MetricPanelSection id={'datos-importados-' + parte.id} titulo="Añadir datos" abierta={parte.extras} alAlternar={() => parte.extras = !parte.extras} sinContenedor>
-					{#if parte.remate === null && secciones(parte, 'remate').length}<Button variant="secondary" onclick={() => { const s = secciones(parte, 'remate')[0]; parte.remate = s.versos_min && s.versos_min === s.versos_max ? String(s.versos_min) : ''; sucio = true; }}>Añadir remate</Button>{/if}
+					{#if parte.remate === null && secciones(parte, 'remate').length}<Button variant="secondary" onclick={() => { const s = secciones(parte, 'remate')[0]; parte.remate = s.versos_min && s.versos_min === s.versos_max ? String(s.versos_min) : ''; }}>Añadir remate</Button>{/if}
 					<DatosSecuencia modo="anadir" prefijo={'datos-secuencia-' + parte.id} forma={parte.forma} arquitectura={parte.arquitectura} bind:rasgos={parte.rasgos} bind:desviaciones={parte.desviaciones} {notas} inicio={principio(i)} fin={Number(parte.fin)} />
 					{#if !parte.mostrarNota}<Button variant="secondary" onclick={async () => { parte.mostrarNota = true; await tick(); document.getElementById('nota-secuencia-' + parte.id)?.focus(); }}>Añadir nota</Button>{/if}
 				</MetricPanelSection>
@@ -211,3 +228,6 @@
 		{/if}
 	</section>
 </MetricSequenceModal>
+
+<UnsavedChangesModal open={confirmarCierre} message="La edición de la secuencia tiene cambios sin guardar."
+	discardLabel="Salir sin guardar" onCancel={seguirEditando} onDiscard={oncancelar} />

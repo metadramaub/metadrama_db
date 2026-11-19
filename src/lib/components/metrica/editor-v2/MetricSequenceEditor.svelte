@@ -168,6 +168,7 @@
 		validarEsquemasEscritos: () => string | null;
 	} | null>(null);
 	let identificationForced = $state(false);
+	let rangoEnEdicion = $state(false);
 	/** Las desviaciones son una sección secundaria: al añadir una se abre, pero puede plegarse. */
 	let desviacionesAbiertas = $state(false);
 
@@ -1110,6 +1111,16 @@
 		draft.unidades = synchronized.units;
 	}
 
+	function confirmarExtremo(input: HTMLInputElement, campo: 'v_ini' | 'v_fin') {
+		const value = input.valueAsNumber;
+		if (Number.isFinite(value) && value !== draft[campo]) {
+			if (campo === 'v_ini') updateSequenceStart(value);
+			else updateSequenceEnd(value);
+		}
+		input.value = String(draft[campo]);
+		rangoEnEdicion = false;
+	}
+
 	function removeStructuredReferences(unitIds: string[]) {
 		if (unitIds.length === 0) return;
 		const removed = new Set(unitIds);
@@ -1423,6 +1434,7 @@
 	$effect(() => {
 		props.onStateChange?.({
 			draft,
+			rangoEnEdicion,
 			summary,
 			answered: questionProgress.answered,
 			total: questionProgress.total,
@@ -1659,7 +1671,9 @@
 							min="1"
 							class="h-10 w-full border border-[color:var(--border)] px-3"
 							value={draft.v_ini}
-							onchange={(event) => updateSequenceStart(Number(event.currentTarget.value))}
+							oninput={(event) => rangoEnEdicion = event.currentTarget.valueAsNumber !== draft.v_ini}
+							onchange={(event) => confirmarExtremo(event.currentTarget, 'v_ini')}
+							onblur={(event) => confirmarExtremo(event.currentTarget, 'v_ini')}
 						/>
 					</label>
 					<label class="form-field">
@@ -1669,7 +1683,9 @@
 							min={draft.v_ini}
 							class="h-10 w-full border border-[color:var(--border)] px-3 disabled:bg-[color:var(--muted)]"
 							value={draft.v_fin}
-							onchange={(event) => updateSequenceEnd(Number(event.currentTarget.value))}
+							oninput={(event) => rangoEnEdicion = event.currentTarget.valueAsNumber !== draft.v_fin}
+							onchange={(event) => confirmarExtremo(event.currentTarget, 'v_fin')}
+							onblur={(event) => confirmarExtremo(event.currentTarget, 'v_fin')}
 							disabled={isIsolatedVerse}
 						/>
 					</label>

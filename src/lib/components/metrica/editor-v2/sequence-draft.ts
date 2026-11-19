@@ -151,6 +151,8 @@ export type MetricSequenceDraft = {
 export type MetricSequenceEditorState = {
 	/** El borrador vivo, para que el contenedor pueda guardarlo. */
 	draft: MetricSequenceDraft;
+	/** Hay un extremo que se está escribiendo y todavía no se ha aplicado al borrador. */
+	rangoEnEdicion: boolean;
 	summary: string;
 	/** Preguntas obligatorias respondidas y totales. */
 	answered: number;
