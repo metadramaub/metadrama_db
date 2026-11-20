@@ -34,7 +34,7 @@
 	<div class="border-b border-[color:var(--border)] px-4 py-4 sm:px-5">
 		<MetricAnalysisHeading
 			id="phenomena-index-title"
-			title="Localizar en la obra"
+			title="Localizar anotaciones"
 			description="En qué formas aparece cada fenómeno —y en cuáles no—. Cada forma despliega sus secuencias."
 		/>
 		<div class="mt-3 flex flex-wrap gap-2">

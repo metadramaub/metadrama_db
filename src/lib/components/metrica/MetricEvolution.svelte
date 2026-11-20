@@ -31,8 +31,8 @@
 <section class="space-y-3" aria-labelledby="metric-evolution-title">
 	<MetricAnalysisHeading
 		id="metric-evolution-title"
-		title="Longitud y variedad, jornada a jornada"
-		description="Si las tiradas se alargan o se acortan al avanzar, y si el repertorio de formas se abre o se cierra."
+		title="Longitud y variedad por jornada"
+		description="Compara la longitud media de las tiradas y el reparto de los versos entre formas en cada jornada."
 	/>
 
 	<div class="overflow-x-auto rounded-lg border border-[color:var(--border)] bg-white">
