@@ -1,4 +1,6 @@
 <script lang="ts">
+	import FinalAcentualRecuento from '$lib/components/metrica/FinalAcentualRecuento.svelte';
+	import { contarFinales } from '$lib/metrica/final-acentual';
 	import { datacionDeObra, formatoDatacion } from '$lib/dataciones';
 	import { portal } from '$lib/actions/portal';
 	import { ChevronRight } from 'lucide-svelte';
@@ -1067,6 +1069,7 @@
 
 				{#snippet perfilEnPantalla()}
 					{#if metricViewMode === 'obra_completa'}
+						<FinalAcentualRecuento recuento={contarFinales(secuenciasOrdenadas)} />
 						<MetricDistributionPie
 							items={distribucionFormasSlices}
 							canto={cantoDelPerfil}

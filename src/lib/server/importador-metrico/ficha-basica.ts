@@ -1,6 +1,7 @@
 import { error, fail } from '@sveltejs/kit';
 import type { RequestEvent } from '@sveltejs/kit';
 import { requireEditorProfile } from '$lib/server/auth';
+import { canManageImportCorrespondences } from '$lib/utils/permissions';
 import { getSupabaseAdmin } from '$lib/server/supabase-admin';
 import {
 	clienteImportador,
@@ -17,6 +18,7 @@ export async function cargarFichaBasica(event: Pick<RequestEvent, 'locals'>, imp
 			obraId: f.obra_id,
 			puedeEditarMetadatos: ['admin', 'ip'].includes(profile.roleTerm),
 			puedeEditarMetrica: f.puede_editar,
+			puedeRegistrarCorrespondencias: canManageImportCorrespondences(profile.roleTerm),
 			modificadoEn: f.modificado_en,
 			formas: f.puede_editar ? obtenerReferenciaImportador().formas : [],
 			importadoPor: f.importado_por,

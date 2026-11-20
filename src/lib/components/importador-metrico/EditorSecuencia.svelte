@@ -13,11 +13,12 @@
 	import Button from '$lib/components/ui/button.svelte';
 	import { sugerenciaTercetos } from '$lib/importador-metrico/presentacion';
 	import { comprobarLongitud } from '$lib/importador-metrico/longitud';
-	let { datos, tramoRef, formas, ocupado = false, errores = [], notasFuente = [], guardarDirecto = false, onaplicar, onrestablecer, oncancelar } = $props<{
+	let { datos, tramoRef, formas, ocupado = false, errores = [], notasFuente = [], guardarDirecto = false, puedeRegistrarCorrespondencias = false, onaplicar, onrestablecer, oncancelar } = $props<{
 		datos: BorradorFichaMinima; tramoRef: string; formas: FormaEditable[]; ocupado?: boolean; errores?: string[];
 		notasFuente?: NotaFuenteImportador[];
 		onaplicar: (cambio: EdicionFila) => void; onrestablecer?: () => void; oncancelar: () => void;
 		guardarDirecto?: boolean;
+		puedeRegistrarCorrespondencias?: boolean;
 	}>();
 	const originales = $derived<SegmentoMinimo[]>(datos.segmentos.filter((s: SegmentoMinimo) => s.origen.tramo_ref === tramoRef));
 	const inicio = $derived(originales[0].v_ini);
@@ -182,7 +183,7 @@
 				</div>
 				{#if partes.length === 1 && !originales[0].identificacion && originales[0].origen.denominacion_literal && parte.forma}
 					{@const formaElegida = formas.find((f: FormaEditable) => f.slug === parte.forma)}
-					<CorrespondenciaEditorial literal={originales[0].origen.denominacion_literal} forma={parte.forma} arquitectura={parte.arquitectura || null}
+					<CorrespondenciaEditorial puedeRegistrar={puedeRegistrarCorrespondencias} literal={originales[0].origen.denominacion_literal} forma={parte.forma} arquitectura={parte.arquitectura || null}
 						formaNombre={formaElegida?.nombre ?? parte.forma}
 						arquitecturaNombre={formaElegida?.arquitecturas.find((a: { slug: string }) => a.slug === parte.arquitectura)?.nombre ?? null}
 						procedencia={{ edicion: datos.metadatos.edicion_base || null, obra: datos.metadatos.titulo || datos.obra_ref, fila: tramoRef, foto: originales[0].origen.fuente_id, pagina: originales[0].origen.pagina }} />

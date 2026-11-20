@@ -83,6 +83,23 @@ function options(overrides: Partial<CatalogFilterOptions> = {}): CatalogFilterOp
 }
 
 describe('catalog-filters', () => {
+	it('filtra por mayorías documentadas y excluye obras sin dato', () => {
+		const opts = options();
+		const marcadas: CatalogObraForFilters[] = [
+			{ ...obras[0], finales_acentuales_presentes: ['esdrujulo'] },
+			{ ...obras[1], finales_acentuales_presentes: ['agudo'] },
+			obras[2]
+		];
+		const filtros = (value: string, visibility = visibilityWithMetric) =>
+			parseCatalogFilters(new URLSearchParams({ final_acentual: value }), opts, visibility);
+		expect(filterAndSortCatalogObras(marcadas, filtros('cualquiera'), opts)).toHaveLength(2);
+		expect(filterAndSortCatalogObras(marcadas, filtros('agudo'), opts)).toEqual([marcadas[1]]);
+		expect(filterAndSortCatalogObras(marcadas, filtros('esdrujulo'), opts)).toEqual([marcadas[0]]);
+		expect(filtros('llano').finalAcentual).toBeNull();
+		expect(filtros('agudo', visibilityAll).finalAcentual).toBeNull();
+		expect(serializeCatalogFilters(filtros('agudo'), opts, visibilityWithMetric).get('final_acentual')).toBe('agudo');
+	});
+
 	it('deriva bounds compactos desde las obras visibles', () => {
 		expect(deriveCatalogBounds(obras)).toEqual({
 			datacion: { min: 1613, max: 1644 },

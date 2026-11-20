@@ -14,7 +14,7 @@ function entorno(conTipo = true) {
 		{
 			obra_id: 'basica',
 			titulo: 'Básica',
-			tipo_ficha: 'minima',
+			tipo_ficha: 'basica',
 			estado: 'borrador',
 			editor_asignado: 'editor'
 		},
@@ -36,7 +36,7 @@ function entorno(conTipo = true) {
 	const locals = {
 		supabase: {
 			from: (tabla: string) => {
-				let rows = tabla === 'obras' ? [...obras] : [];
+				let rows = tabla === 'obras_editoriales' ? [...obras] : [];
 				let contar = false;
 				const q = {
 					select: (_s: string, options?: { count?: string }) => {
@@ -44,7 +44,7 @@ function entorno(conTipo = true) {
 						return q;
 					},
 					eq: (key: string, value: unknown) => {
-						if (key === 'tipo_ficha' && !conTipo) throw Error('Columna aún no instalada');
+						if (key === 'tipo_ficha' && !conTipo) throw Error('No se esperaba un filtro por tipo');
 						rows = rows.filter((r) => r[key as keyof typeof r] === value);
 						return q;
 					},
@@ -86,7 +86,7 @@ describe('contadores editoriales y fichas básicas', () => {
 			(await getAssignedEditorObras(entorno(), profile('editor'), true)).map((r) => r.obraId)
 		).toEqual(['detallada', 'publicada']);
 	});
-	it('antes de la migración conserva las consultas sin pedir la columna futura', async () => {
+	it('sin separar fichas básicas incluye todas las obras asignadas y evita filtrar por tipo', async () => {
 		expect((await getDashboardKpis(entorno(false), profile('admin'))).totalObras).toBe(3);
 		expect(await getAssignedEditorObras(entorno(false), profile('editor'))).toHaveLength(3);
 	});

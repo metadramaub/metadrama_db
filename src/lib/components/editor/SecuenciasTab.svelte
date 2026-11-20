@@ -1237,6 +1237,8 @@
 		if (borradorEnSesion) {
 			return {
 				...borradorEnSesion,
+				final_acentual_predominante: borradorEnSesion.v_ini === vIni && borradorEnSesion.v_fin === vFin
+					? borradorEnSesion.final_acentual_predominante : null,
 				secuencia_id: editingId,
 				v_ini: vIni,
 				v_fin: vFin
@@ -1254,7 +1256,11 @@
 				choices: props.anotacionMetrica?.elecciones ?? [],
 				deviations: props.anotacionMetrica?.desviaciones ?? []
 			});
-			return { ...borrador, v_ini: vIni, v_fin: vFin };
+			return {
+				...borrador, v_ini: vIni, v_fin: vFin,
+				final_acentual_predominante: borrador.v_ini === vIni && borrador.v_fin === vFin
+					? borrador.final_acentual_predominante : null
+			};
 		}
 
 		return {

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { render } from 'svelte/server';
 import VistaPrevia from './VistaPrevia.svelte';
+import CorrespondenciaEditorial from './CorrespondenciaEditorial.svelte';
 import { analizarEntrada, obtenerPilotos } from '$lib/server/importador-metrico/vista-previa';
 
 function vista(n: number, conJornada = true) {
@@ -11,6 +12,28 @@ function vista(n: number, conJornada = true) {
 	return analizarEntrada(JSON.stringify(raw));
 }
 const texto = (html: string) => html.replace(/<!--[\s\S]*?-->/g,'').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ');
+
+describe('permiso de establecer equivalencias', () => {
+	const equivalencia = {
+		literal: 'estrofa de prueba',
+		forma: 'quintilla',
+		arquitectura: null,
+		formaNombre: 'Quintilla',
+		arquitecturaNombre: null,
+		procedencia: { edicion: 'Edición de prueba', obra: 'Obra ficticia', fila: 't01', foto: null, pagina: null }
+	};
+
+	it('orienta al editor a pedir la equivalencia por correo', () => {
+		const { body } = render(CorrespondenciaEditorial, { props: { ...equivalencia, puedeRegistrar: false } });
+		expect(body).toContain('pídela por correo a admin o IP');
+		expect(body).not.toContain('Recordar para próximas importaciones');
+	});
+
+	it('muestra el botón de registro a quien tiene permiso', () => {
+		const { body } = render(CorrespondenciaEditorial, { props: { ...equivalencia, puedeRegistrar: true } });
+		expect(body).toContain('Recordar para próximas importaciones');
+	});
+});
 
 describe('avisos de longitud en la tabla del importador', () => {
 	it('muestra la tabla y permite editar filas mientras se revisan las jornadas', () => {

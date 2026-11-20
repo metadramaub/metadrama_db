@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { etiquetaFinal, finalPredominante, finalesPredominantes } from '$lib/metrica/final-acentual';
 	import { untrack } from 'svelte';
 	import {
 		structuralAdditionCount,
@@ -9,6 +10,7 @@
 	import { preguntaAplica, tiposDeRimaAfirmados } from './regimen-respondido';
 	import { leerEsquemaEscrito } from '$lib/metrica/esquema-rima-escrito';
 	import FieldHelpTooltip from '$lib/components/ui/field-help-tooltip.svelte';
+	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import SegmentedChoice from '$lib/components/ui/segmented-choice.svelte';
 	import type {
 		MetricCatalogConfiguration,
@@ -189,6 +191,58 @@
 	);
 	const isEditorialOutput = $derived(selectedForm?.tipo_registro === 'sin_forma');
 	const isIsolatedVerse = $derived(selectedForm?.slug === 'verso_aislado');
+	const admiteFinalPredominante = $derived(
+		Boolean(selectedForm) && !isIsolatedVerse && selectedForm?.slug !== 'prosa' && draft.v_fin > draft.v_ini
+	);
+	const finalSistematico = $derived.by(() => {
+		if (!['endecasilabo_suelto', 'endecasilabo_encadenado'].includes(selectedForm?.slug ?? '')) return null;
+		const grupo = sequenceChoiceGroups.find((group: MetricCatalogDomainRow) =>
+			group.slug === 'final_acentual_destacado'
+		);
+		if (!grupo) return null;
+		const grupoId = String(grupo.grupo_eleccion_id);
+		const opcion = optionsForGroup(grupoId).find((row) =>
+			props.catalog.domain.traitValues.some((value: MetricCatalogDomainRow) =>
+				value.valor_id === row.valor_rasgo_id && value.slug === 'esdrujulo'
+			)
+		);
+		return opcion ? { grupoId, opcionId: String(opcion.opcion_eleccion_id) } : null;
+	});
+	const esdrujuloSistematico = $derived(
+		finalSistematico !== null &&
+		selectedChoiceIds(finalSistematico.grupoId, null).includes(finalSistematico.opcionId)
+	);
+	let rangoDelFinal = $state(untrack(() => ({ inicio: draft.v_ini, fin: draft.v_fin })));
+	const finalAcentualVigente = $derived(
+		admiteFinalPredominante && !esdrujuloSistematico &&
+		rangoDelFinal.inicio === draft.v_ini && rangoDelFinal.fin === draft.v_fin
+			? draft.final_acentual_predominante ?? null : null
+	);
+	const seleccionFinal = $derived(esdrujuloSistematico ? 'sistematico' : finalAcentualVigente);
+	const opcionesFinal = $derived([
+		...finalesPredominantes.map((final) => ({
+			id: final,
+			label: etiquetaFinal[final],
+			description: 'Más de la mitad de los versos de la secuencia.'
+		})),
+		...(finalSistematico ? [{ id: 'sistematico', label: 'Esdrújulos sistemáticos',
+			description: 'Los versos del pasaje terminan sistemáticamente en palabra esdrújula.' }] : []),
+		...(seleccionFinal ? [{ id: 'quitar', label: 'Quitar marca' }] : [])
+	]);
+
+	function cambiarFinalAcentual(id: string | undefined) {
+		if (id === seleccionFinal) return;
+		if (finalSistematico) {
+			setChoices(finalSistematico.grupoId, null, id === 'sistematico' ? [finalSistematico.opcionId] : []);
+		}
+		rangoDelFinal = { inicio: draft.v_ini, fin: draft.v_fin };
+		draft.final_acentual_predominante = finalPredominante(id);
+	}
+	$effect(() => {
+		if (draft.final_acentual_predominante && !finalAcentualVigente) {
+			draft.final_acentual_predominante = null;
+		}
+	});
 	const selectedLengthRule = $derived(
 		props.catalog.lengthRules.find(
 			(rule: MetricLengthRule) => rule.arquitectura_id === draft.arquitectura_id
@@ -563,12 +617,16 @@
 	const licenciasActivasDeSecuencia = $derived(
 		sequenceChoiceGroups.filter(
 			(group: MetricCatalogDomainRow) =>
-				esLicenciaDeSecuencia(group) && !rasgoSinTocar(group)
+				esLicenciaDeSecuencia(group) && !rasgoSinTocar(group) &&
+				String(group.grupo_eleccion_id) !== finalSistematico?.grupoId
 		)
 	);
 	const rasgosQueAdmite = $derived(
-		sequenceChoiceGroups.filter((group: MetricCatalogDomainRow) => rasgoSinTocar(group))
+		sequenceChoiceGroups.filter((group: MetricCatalogDomainRow) =>
+			rasgoSinTocar(group) && String(group.grupo_eleccion_id) !== finalSistematico?.grupoId
+		)
 	);
+	const cuantasLicenciasDeSecuencia = $derived(rasgosQueAdmite.length + Number(admiteFinalPredominante));
 
 	function quitarLicenciaDeSecuencia(group: MetricCatalogDomainRow) {
 		const groupId = String(group.grupo_eleccion_id);
@@ -764,6 +822,7 @@
 		parts.push(`vv. ${draft.v_ini}–${draft.v_fin}`);
 		parts.push(`${verses} ${verses === 1 ? 'verso' : 'versos'}`);
 		if (materializedUnitCount > 1) parts.push(`${materializedUnitCount} unidades`);
+		if (finalAcentualVigente) parts.push(etiquetaFinal[finalAcentualVigente]);
 		return parts.join(' — ');
 	});
 
@@ -1007,6 +1066,13 @@
 	// merecen prueba. Aquí quedan solo los envoltorios que las atan al borrador vivo.
 
 	const normSyllables = $derived(medidaDeLaNorma(props.catalog.domain, draft.arquitectura_id));
+
+	function esFinalAcentual(id: string) {
+		const value = props.catalog.domain.traitValues.find((row: MetricCatalogDomainRow) => String(row.valor_id) === id);
+		return Boolean(finalPredominante(value?.slug)) && props.catalog.domain.traits.some(
+			(row: MetricCatalogDomainRow) => row.rasgo_id === value?.rasgo_id && row.slug === 'final_acentual'
+		);
+	}
 
 	function observedOptions(dimension: MetricDeviationDimension | '') {
 		return opcionesObservadas(
@@ -1433,7 +1499,7 @@
 	// motivo por el que todavía no se puede guardar.
 	$effect(() => {
 		props.onStateChange?.({
-			draft,
+			draft: { ...draft, final_acentual_predominante: finalAcentualVigente },
 			rangoEnEdicion,
 			summary,
 			answered: questionProgress.answered,
@@ -1824,10 +1890,10 @@
 					<h4 class="form-subsection-title mb-0">Respuestas</h4>
 					{@render camposDeLaSecuencia()}
 					{@render licenciasActivasDeLaSecuencia()}
-					{#if rasgosQueAdmite.length > 0}
+					{#if cuantasLicenciasDeSecuencia > 0}
 						<div class="flex flex-wrap items-center gap-2">
 							<span class="text-xs text-[color:var(--muted-foreground)]">
-								{rasgosQueAdmite.length === 1
+								{cuantasLicenciasDeSecuencia === 1
 									? 'Esta forma admite además, si lo hay:'
 									: 'Esta forma admite además, si los hay:'}
 							</span>
@@ -1915,8 +1981,8 @@
 							0
 								? licenciasActivasDeLaSecuencia
 								: undefined}
-							licenciasDeSecuencia={rasgosQueAdmite.length > 0 ? licenciasDeLaSecuencia : undefined}
-							cuantasLicenciasDeSecuencia={rasgosQueAdmite.length}
+							licenciasDeSecuencia={cuantasLicenciasDeSecuencia > 0 ? licenciasDeLaSecuencia : undefined}
+							{cuantasLicenciasDeSecuencia}
 							rangoSinCuadrar={structureCoverage.state !== 'complete' ||
 								Boolean(
 									metricLengthError(
@@ -1942,6 +2008,10 @@
 				termina diciendo «lo que no encaje aquí se registra como desviación», y esto es
 				justamente aquí.
 			-->
+			{#if admiteFinalPredominante && (!draft.arquitectura_id || (!hasSequenceChoices && !hasStructuredEditor))}
+				<div class="mt-4 flex flex-wrap gap-2">{@render selectorFinalAcentual()}</div>
+			{/if}
+
 			{#if draft.arquitectura_id && !isEditorialOutput}
 				<p class="text-sm text-[color:var(--muted-foreground)]">
 					¿Hay algo que no encaja en la norma?
@@ -2079,7 +2149,9 @@
 								—rima interna, rima donde la norma da versos por sueltos— se escribe.
 							-->
 							{#if deviation.relacion_norma !== 'falta' && deviation.dimension !== 'rima'}
-								{@const opciones = observedOptions(deviation.dimension)}
+								{@const opciones = observedOptions(deviation.dimension).filter((option) =>
+									option.id === observedValue(deviation) || !esFinalAcentual(option.id)
+								)}
 								{#if opciones.length > 0}
 									<label class="form-field sm:col-span-2 xl:col-span-3">
 										<span class="form-label">
@@ -2314,4 +2386,22 @@
 			+ {String(group.nombre ?? group.slug ?? '').toLocaleLowerCase('es')}
 		</button>
 	{/each}
+	{#if admiteFinalPredominante}
+		{@render selectorFinalAcentual()}
+	{/if}
+{/snippet}
+
+{#snippet selectorFinalAcentual()}
+	<CheckDropdown
+		compact
+		portal
+		portalScrollBoundary="[data-metric-editor-scroll]"
+		multiple={false}
+		label="Final acentual predominante"
+		placeholder="+ final acentual predominante"
+		triggerClass="px-2 py-1 text-xs hover:border-[color:var(--primary)]"
+		items={opcionesFinal}
+		selectedIds={seleccionFinal ? [seleccionFinal] : []}
+		onChange={(ids) => cambiarFinalAcentual(ids[0])}
+	/>
 {/snippet}

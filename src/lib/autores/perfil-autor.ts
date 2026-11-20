@@ -1,3 +1,4 @@
+import type { RecuentoFinalAcentual } from '$lib/metrica/final-acentual';
 // Tipos y helpers de la zona pública de autores (Fase 6).
 // Metodología: docs/metodologia-perfil-metrico.md §2-§3.
 
@@ -62,6 +63,7 @@ export type AutorPublicoPayload = {
 // --- Perfil métrico agregado (autores_resumen) ---
 
 export type AutorResumen = {
+	finales_acentuales?: RecuentoFinalAcentual;
 	perfil_formas: Record<string, number>;
 	perfil_formas_hijos: Record<string, number>;
 	numero_efectivo_formas_medio: number | null;

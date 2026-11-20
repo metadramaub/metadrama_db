@@ -150,7 +150,7 @@
 		</div>
 
 		<!-- El cuerpo se desplaza solo, para que la cabecera no se vaya al leer un pasaje largo. -->
-		<div class="min-h-0 flex-1 overflow-y-auto">
+		<div class="min-h-0 flex-1 overflow-y-auto" data-metric-editor-scroll>
 			{@render props.children()}
 		</div>
 	</div>

@@ -5,13 +5,14 @@
 	// Va en un recuadro propio para que no se confunda con las acciones de la secuencia
 	// (dividir, unir, añadir datos): esto no cambia la ficha, enseña al importador.
 	type Procedencia = { edicion: string | null; obra: string; fila: string; foto: string | null; pagina: number | null };
-	let { literal, forma, arquitectura, formaNombre, arquitecturaNombre, procedencia } = $props<{
+	let { literal, forma, arquitectura, formaNombre, arquitecturaNombre, procedencia, puedeRegistrar } = $props<{
 		literal: string;
 		forma: string;
 		arquitectura: string | null;
 		formaNombre: string;
 		arquitecturaNombre: string | null;
 		procedencia: Procedencia;
+		puedeRegistrar: boolean;
 	}>();
 
 	let error = $state('');
@@ -21,6 +22,7 @@
 	const hecha = $derived(registrada === destino);
 
 	async function registrar() {
+		if (!puedeRegistrar) return;
 		ocupado = true;
 		error = '';
 		try {
@@ -46,11 +48,15 @@
 >
 	<div class="space-y-1">
 		<h4 id="correspondencia-titulo" class="text-xs font-semibold uppercase tracking-wide text-[color:var(--muted-foreground)]">
-			Enseñar al importador
+			{puedeRegistrar ? 'Enseñar al importador' : 'Equivalencia para futuras importaciones'}
 		</h4>
 		<p class="text-[color:var(--muted-foreground)]">
-			Este término llegó sin identificar. Si tu identificación vale siempre que una edición lo use, el
-			importador la propondrá en las próximas obras. No cambia esta ficha.
+			{#if puedeRegistrar}
+				Registra esta identificación para que el importador la proponga en futuras obras.
+			{:else}
+				Puedes guardar la identificación en esta ficha. Si debe usarse en futuras importaciones,
+				pídela por correo a admin o IP e indica el término literal, la edición y el destino propuesto.
+			{/if}
 		</p>
 	</div>
 
@@ -62,11 +68,11 @@
 		</span>
 	</p>
 
-	{#if hecha}
+	{#if puedeRegistrar && hecha}
 		<p role="status" class="font-medium text-[color:var(--success)]">
 			✓ Registrada. Las próximas importaciones propondrán {formaNombre} para «{literal}».
 		</p>
-	{:else}
+	{:else if puedeRegistrar}
 		<Button variant="primary-soft" loading={ocupado} loadingLabel="Registrando…" onclick={registrar}>
 			Recordar para próximas importaciones
 		</Button>

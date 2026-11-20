@@ -1,3 +1,4 @@
+import { etiquetaFinal, finalPredominante, type FinalPredominante } from '$lib/metrica/final-acentual';
 import { datacionDeObra, limitesDatacion } from '$lib/dataciones';
 import { CATALOG_SECTION_IDS, isSectionVisible, type SectionVisibilityMap } from '$lib/secciones-publicas';
 
@@ -66,7 +67,14 @@ export type CatalogFilterOptions = {
 	};
 };
 
+export type FiltroFinalAcentual = FinalPredominante | 'cualquiera' | null;
+
+export function filtroFinalAcentual(value: unknown): FiltroFinalAcentual {
+	return value === 'cualquiera' ? value : finalPredominante(value);
+}
+
 export type CatalogFilters = {
+	finalAcentual?: FiltroFinalAcentual;
 	textQuery: string;
 	autores: string[];
 	generos: string[];
@@ -95,6 +103,7 @@ export type CatalogActiveChipId =
 	| 'metros'
 	| 'tiposForma'
 	| 'variaciones'
+	| 'finalAcentual'
 	| 'subtipos'
 	| 'densidad';
 
@@ -118,6 +127,7 @@ export type CatalogObraForFilters = {
 	metros_presentes?: string[] | null;
 	tipos_forma_presentes?: string[] | null;
 	variaciones_presentes?: string[] | null;
+	finales_acentuales_presentes?: FinalPredominante[] | null;
 	subtipos_presentes?: string[] | null;
 };
 
@@ -237,6 +247,7 @@ export function createDefaultCatalogFilters(options: CatalogFilterOptions): Cata
 		metros: [],
 		tiposForma: [],
 		variaciones: [],
+		finalAcentual: null,
 		subtipos: [],
 		densidadMin: options.bounds.densidad?.min ?? null,
 		densidadMax: options.bounds.densidad?.max ?? null,
@@ -277,6 +288,7 @@ export function parseCatalogFilters(
 		filters.formas = sanitizeSelectedIds(readListParam(searchParams, 'forma'), options.formas);
 		filters.metros = sanitizeSelectedIds(readListParam(searchParams, 'metro'), options.metros);
 		filters.tiposForma = sanitizeSelectedIds(readListParam(searchParams, 'tipo_forma'), options.tiposForma);
+		filters.finalAcentual = filtroFinalAcentual(searchParams.get('final_acentual'));
 		filters.variaciones = sanitizeSelectedIds(readListParam(searchParams, 'variacion'), options.variaciones);
 		filters.subtipos = sanitizeSelectedIds(readListParam(searchParams, 'subtipo'), options.subtipos);
 		filters.densidadMin = parseBound(searchParams.get('densidad_min'), defaults.densidadMin);
@@ -324,6 +336,7 @@ export function serializeCatalogFilters(
 		for (const forma of normalized.formas) params.append('forma', forma);
 		for (const metro of normalized.metros) params.append('metro', metro);
 		for (const tipo of normalized.tiposForma) params.append('tipo_forma', tipo);
+		if (normalized.finalAcentual) params.set('final_acentual', normalized.finalAcentual);
 		for (const variacion of normalized.variaciones) params.append('variacion', variacion);
 		for (const subtipo of normalized.subtipos) params.append('subtipo', subtipo);
 		if (normalized.densidadMin !== defaults.densidadMin && normalized.densidadMin !== null) {
@@ -356,6 +369,7 @@ export function normalizeCatalogFilters(
 		formas: sanitizeSelectedIds(filters.formas, options.formas),
 		metros: sanitizeSelectedIds(filters.metros, options.metros),
 		tiposForma: sanitizeSelectedIds(filters.tiposForma, options.tiposForma),
+		finalAcentual: filtroFinalAcentual(filters.finalAcentual),
 		variaciones: sanitizeSelectedIds(filters.variaciones, options.variaciones),
 		subtipos: sanitizeSelectedIds(filters.subtipos, options.subtipos),
 		densidadMin: densidad.min,
@@ -416,6 +430,10 @@ export function filterAndSortCatalogObras<T extends CatalogObraForFilters>(
 		if (normalized.tiposForma.length > 0 && !overlaps(obra.tipos_forma_presentes, normalized.tiposForma)) {
 			return false;
 		}
+		const final = normalized.finalAcentual;
+		if (final && !(final === 'cualquiera'
+			? obra.finales_acentuales_presentes?.some((valor) => finalPredominante(valor))
+			: obra.finales_acentuales_presentes?.includes(final))) return false;
 		if (normalized.variaciones.length > 0 && !overlaps(obra.variaciones_presentes, normalized.variaciones)) {
 			return false;
 		}
@@ -489,6 +507,13 @@ export function buildCatalogActiveChips(
 				label: `Tipo: ${labelListFor(normalized.tiposForma, options.tiposForma)}`
 			});
 		}
+		if (normalized.finalAcentual) {
+			chips.push({
+				id: 'finalAcentual',
+				label: normalized.finalAcentual === 'cualquiera'
+					? 'Mayoría de finales agudos o esdrújulos' : etiquetaFinal[normalized.finalAcentual]
+			});
+		}
 		if (normalized.variaciones.length > 0) {
 			chips.push({
 				id: 'variaciones',
@@ -525,6 +550,7 @@ export function removeCatalogChip(
 	if (chipId === 'formas') return { ...filters, formas: [], subtipos: [] };
 	if (chipId === 'metros') return { ...filters, metros: [] };
 	if (chipId === 'tiposForma') return { ...filters, tiposForma: [] };
+	if (chipId === 'finalAcentual') return { ...filters, finalAcentual: null };
 	if (chipId === 'variaciones') return { ...filters, variaciones: [] };
 	if (chipId === 'subtipos') return { ...filters, subtipos: [] };
 	return { ...filters, densidadMin: defaults.densidadMin, densidadMax: defaults.densidadMax };

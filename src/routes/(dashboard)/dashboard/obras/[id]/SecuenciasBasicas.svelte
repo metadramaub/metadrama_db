@@ -57,6 +57,7 @@
 	}}></form>
 	{#key data.vista.confirmacion?.importacion_id}
 		<VistaPrevia vista={data.vista} editable={data.puedeEditarMetrica} formas={data.formas}
+			puedeRegistrarCorrespondencias={data.puedeRegistrarCorrespondencias}
 			ocupado={pendiente} restablecer={false} guardarDirecto errorEdicion={mensaje}
 			onabrir={abrirEdicion} oneditar={data.puedeEditarMetrica ? guardar : undefined} />
 	{/key}

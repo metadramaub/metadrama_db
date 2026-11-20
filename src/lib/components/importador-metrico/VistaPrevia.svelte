@@ -10,9 +10,10 @@
 	import InlineNotePopover from '$lib/components/ui/inline-note-popover.svelte';
 	import { proponerDivisionDesdeNota } from '$lib/importador-metrico/division-nota';
 
-	let { vista, desactualizada = false, formas = [], ocupado = false, editable = false, restablecer = true, guardarDirecto = false, errorEdicion, onabrir, oneditar, oncancelar } = $props<{
+	let { vista, desactualizada = false, formas = [], ocupado = false, editable = false, puedeRegistrarCorrespondencias = false, restablecer = true, guardarDirecto = false, errorEdicion, onabrir, oneditar, oncancelar } = $props<{
 		vista: ResultadoVistaPrevia; desactualizada?: boolean; formas?: FormaEditable[]; ocupado?: boolean;
 		editable?: boolean; restablecer?: boolean; oneditar?: (tramo: string, cambio: EdicionFila | null) => void;
+		puedeRegistrarCorrespondencias?: boolean;
 		guardarDirecto?: boolean; errorEdicion?: string; onabrir?: () => void;
 		oncancelar?: () => void;
 	}>();
@@ -73,7 +74,7 @@
 	{#if vista.resumen && vista.datos}
 		{#if editando && editable}
 			{#key editando}
-				<EditorSecuencia datos={vista.datos} tramoRef={editando} {formas} {ocupado} {guardarDirecto} notasFuente={vista.filas.filter((f: FilaVistaPrevia) => f.origen.tramo_ref === editando).flatMap((f: FilaVistaPrevia) => f.notas_fuente ?? [])} errores={[...vista.errores.map((e: { mensaje: string }) => e.mensaje), ...(errorEdicion ? [errorEdicion] : [])]}
+				<EditorSecuencia datos={vista.datos} tramoRef={editando} {formas} {ocupado} {guardarDirecto} {puedeRegistrarCorrespondencias} notasFuente={vista.filas.filter((f: FilaVistaPrevia) => f.origen.tramo_ref === editando).flatMap((f: FilaVistaPrevia) => f.notas_fuente ?? [])} errores={[...vista.errores.map((e: { mensaje: string }) => e.mensaje), ...(errorEdicion ? [errorEdicion] : [])]}
 					onaplicar={(cambio) => aplicar(cambio.tramo_ref, cambio)}
 					onrestablecer={restablecer ? () => { if (editando) aplicar(editando, null); } : undefined}
 					oncancelar={() => { editando = null; enviada = null; oncancelar?.(); }} />

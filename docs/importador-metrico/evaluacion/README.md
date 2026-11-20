@@ -76,6 +76,12 @@ divergencias que siguen, sin certificar la literalidad completa ni medir el tiem
   las cifras impresas. *Olmedo* trae además localizadores de prosa abreviados como «570 +»,
   algunos entre filas de distinta forma.
 
+En la prueba de aceptación del 18 de noviembre de 2026, el dashboard desplegado bloqueó los
+originales de *Los locos de Valencia* y *Quien todo lo quiere*. En *Los locos* también bloqueó
+un recuento propuesto de 31. La ficha privada de prueba, reabierta después de guardar, mostró
+los 80 versos impresos, los 30 comprobados para los vv. 1021–1050 y el motivo de la corrección.
+La prueba con un colaborador se hará al empezar a usar el importador.
+
 ## Guardar una respuesta
 
 Usar `ensayos/v0.27/<modelo-y-modo>/<obra>/intento-01.json`, una obra por archivo y sin corregir

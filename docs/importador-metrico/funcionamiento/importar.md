@@ -135,19 +135,29 @@ Los ensayos y detalles de implementación anteriores están en el [histórico](.
 
 ## Enseñar al importador un término nuevo
 
-Cuando una fila llega como «Forma sin resolver» y quien importa le pone forma en el lápiz,
-aparece el botón «Identificar siempre "…" como …». Registra que ese término, tal como lo
-escribe la edición, es esa forma, con arquitectura o sin ella. Desde entonces, cualquier
-importación que traiga el mismo término sin identificar lo recibe propuesto, como cualquier
-otra propuesta editable. Mayúsculas y espacios no cuentan.
+Cuando una fila llega como «Forma sin resolver» y quien importa la identifica en el lápiz,
+puede guardar la elección en su ficha. Admin e IP tienen además el botón «Recordar para
+próximas importaciones». Quien solo importa puede pedir la equivalencia por correo a admin o
+IP, con el término literal, la edición y el destino propuesto.
 
 - **Solo completa filas pendientes.** Nunca pisa una regla de
   `data/importador-metrico/equivalencias.propuestas.json` ni una ficha ya guardada.
 - **Si dos registros del mismo término no coinciden, no elige:** la fila queda sin resolver y
   se avisa del conflicto.
 - **Queda quién lo señaló y de dónde salió:** edición, obra, fila, foto y página.
-- **Registra quien tiene permiso de importar; admin/IP revisa y retira.** Un registro no se
-  reescribe: si está mal, se borra y se registra otro. La revisión solo marca quién y cuándo.
+- **El registro entra en uso desde que se crea.** Las importaciones siguientes proponen el
+  destino registrado, con arquitectura o sin ella. Mayúsculas y espacios no cuentan.
+
+### Revisar el registro
+
+La pantalla «Correspondencias», accesible desde el importador, está implementada
+localmente para admin e IP. Muestra las pendientes primero, con su destino, la procedencia y
+quién las registró. «Marcar revisada» guarda quién revisó y cuándo. «Retirar» elimina la
+propuesta de futuras importaciones y conserva lo que ya se guardó en cada ficha.
+El aviso del dashboard confirma ambas acciones y desaparece automáticamente.
+
+La restricción a admin e IP está implementada en la interfaz, el servidor y la migración
+`20261119120000_reserva_las_correspondencias_a_admin_e_ip.sql`, pendiente de aplicar en Supabase.
 
 Tabla: `correspondencias_importador`
 (migración `20261109180000_correspondencias_importador.sql`). Se prueba sin tocar la base

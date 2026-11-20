@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { etiquetaFinal } from '$lib/metrica/final-acentual';
 	import CheckDropdown from '$lib/components/ui/check-dropdown.svelte';
 	import DualRange from '$lib/components/ui/DualRange.svelte';
 	import {
 		buildFormaSelectorItems,
 		catalogSortOptions,
+		filtroFinalAcentual,
 		isCatalogBasicFiltersVisible,
 		isCatalogMetricFiltersVisible,
 		isCatalogRangeFiltersVisible,
@@ -211,25 +213,19 @@
 					</label>
 				{/if}
 
-				<!--
-					**Rasgos, todavía sin faceta.** Hay seis dimensiones anotadas —vocales de la
-					asonancia, final acentual, densidad de rima, organización en pareados, dístico
-					final y encadenamiento interior— y ninguna columna que las lleve a `obras_resumen`.
-					Crearla ahora sería deuda: cuando el buscador filtre sobre el JSON ya cargado, el
-					rasgo se filtra sin columna ninguna. Se deja a la vista y desactivado —es C26—
-					para que se entienda que el dato existe y aún no se puede cruzar.
-				-->
-				<div class="form-field opacity-60">
-					<span class="form-label">Rasgos</span>
-					<button
-						type="button"
-						disabled
-						class="w-full cursor-not-allowed border border-dashed border-[color:var(--border)] bg-[color:var(--muted)] px-3 py-2 text-left text-sm text-[color:var(--muted-foreground)]"
-						title="Asonancia, final acentual, densidad de rima… Anotado, todavía sin filtro."
+				<label class="form-field">
+					<span class="form-label">Final acentual predominante</span>
+					<select
+						class="h-10 w-full border border-[color:var(--border)] bg-white px-2 text-sm"
+						value={props.filters.finalAcentual ?? ''}
+						onchange={(event) => update({ finalAcentual: filtroFinalAcentual(event.currentTarget.value) })}
 					>
-						Asonancia, final acentual… — en preparación
-					</button>
-				</div>
+						<option value="">Todas las obras</option>
+						<option value="cualquiera">Cualquiera de las dos mayorías</option>
+						<option value="agudo">{etiquetaFinal.agudo}</option>
+						<option value="esdrujulo">{etiquetaFinal.esdrujulo}</option>
+					</select>
+				</label>
 
 				{#if canShowDensidad && props.options.bounds.densidad}
 					<DualRange

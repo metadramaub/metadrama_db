@@ -19,8 +19,10 @@
 	import Tabs from '$lib/components/ui/tabs.svelte';
 	import type { AutoriaApiPayload } from '$lib/types/obra.types';
 	import type { AutoriaInputParsed, ObraDatosPatchInput } from '$lib/utils/validators';
+	import { canManageImportCorrespondences } from '$lib/utils/permissions';
 
 	let { data, form } = $props<{ data: PageData; form: ActionData }>();
+	const puedeRegistrarCorrespondencias = $derived(canManageImportCorrespondences(data.roleTerm));
 	const accion=(nombre:string)=>data.obraDestino?'?obra='+data.obraDestino.obra_id+'&/'+nombre:'?/'+nombre;
 	const respuesta = () => form && 'vista' in form ? form : null;
 	let ultimaRespuesta = $state(untrack(respuesta));
@@ -248,7 +250,12 @@
 <section class="mx-auto max-w-7xl space-y-6">
 	<header class="flex flex-wrap items-baseline justify-between gap-3">
 		<h1 class="font-display text-3xl">Importador métrico</h1>
-		{#if data.guardadoDisponible}<a href="/dashboard/importador/fichas" class="text-sm underline">Fichas básicas</a>{/if}
+		<nav aria-label="Gestión del importador" class="flex flex-wrap gap-4 text-sm">
+			{#if data.guardadoDisponible}<a href="/dashboard/importador/fichas" class="underline">Fichas básicas</a>{/if}
+			{#if puedeRegistrarCorrespondencias}
+				<a href="/dashboard/importador/correspondencias" class="underline">Correspondencias</a>
+			{/if}
+		</nav>
 	</header>
 	<div class="card space-y-4 p-4 sm:p-6">
 		<div class="flex flex-wrap items-center justify-between gap-3">
@@ -381,7 +388,7 @@
 			<ul class="mt-1 list-disc pl-5">{#each coincidencias as c}<li>{c.titulo} — {c.autores.join(', ') || 'Autoría no indicada'} — {['minima','basica'].includes(c.tipo_ficha)?'Básica':c.tipo_ficha==='sin_ficha'?'Sin ficha':'Completa'}</li>{/each}</ul>
 		</aside>
 	{/if}
-	{#if vista}<VistaPrevia {vista} {desactualizada} formas={data.referencia.formas} ocupado={pendiente} editable={!entradaCambiada && !metadatosPendientes} oneditar={editarSecuencias} oncancelar={cancelarEdicion} />{/if}
+	{#if vista}<VistaPrevia {vista} {desactualizada} {puedeRegistrarCorrespondencias} formas={data.referencia.formas} ocupado={pendiente} editable={!entradaCambiada && !metadatosPendientes} oneditar={editarSecuencias} oncancelar={cancelarEdicion} />{/if}
 	{#if vista?.datos && vista.pendientes_metadatos?.length}
 		<p role="status" class="text-sm text-[color:var(--muted-foreground)]">
 			{camposPendientes.length ? 'Completa los campos pendientes (' + camposPendientes.join(', ') + ') para guardar.' : 'Revisa los datos de la obra antes de guardar.'}

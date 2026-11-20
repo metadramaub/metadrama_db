@@ -12,6 +12,7 @@ import { randomUUID } from 'node:crypto';
 
 const CONTENEDOR = 'versologia-registro-pruebas';
 const MIGRACION = '../../supabase/migrations/20261109180000_correspondencias_importador.sql';
+const MIGRACION_PERMISOS = '../../supabase/migrations/20261119120000_reserva_las_correspondencias_a_admin_e_ip.sql';
 
 function docker(args, input) {
 	const r = spawnSync('docker', args, { input, encoding: 'utf8', maxBuffer: 4 * 1024 * 1024 });
@@ -113,6 +114,14 @@ try {
 	s += rechaza(alta('quintilla'), 'sin permiso no registra');
 	s += 'reset role;\nset role anon;\n';
 	s += rechaza('select * from public.correspondencias_importador', 'anónimo no consulta');
+
+	s += 'reset role;\n' + readFileSync(new URL(MIGRACION_PERMISOS, import.meta.url), 'utf8');
+	s += como(IMPORTADOR, { importa: true });
+	s += comprueba(`${filas} = 2`, 'el editor sigue consultando equivalencias');
+	s += rechaza(alta('quintilla'), 'el permiso de importación no permite registrar');
+	s += como(ADMIN, { admin: true });
+	s += alta('quintilla') + ';\n' + comprueba(`${filas} = 3`, 'admin/IP puede registrar');
+	s += rechaza(alta('retirada'), 'sigue exigiendo formas activas');
 
 	console.log(sql(s).split('\n').filter((l) => l.startsWith('OK')).join('\n'));
 	console.log(JSON.stringify({ pruebas, resultado: 'correcto', limite: 'Catálogo y permisos sintéticos.' }));

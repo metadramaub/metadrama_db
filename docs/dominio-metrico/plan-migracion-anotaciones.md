@@ -46,8 +46,8 @@ el informe y el aplicador; esto es su lectura, con lo contado sobre las 11 obras
 | `rima_defectuosa` | 16 | desviación `rima` · `otra`, con la nota | nada |
 | `laguna` | 2 | desviación `estructura` · `falta` | nada; pero ver §4 |
 | `patron_alternativo` | 8 | desviación `rima` · `otra`, con la nota | que le valga |
-| `mayoria_agudas` | 1 | en un romance en «a» lo dice ya la asonancia | que le valga |
-| `mayoria_esdrujulas` | 0 | rasgo `final_acentual` = esdrújulo | — |
+| `mayoria_agudas` | 1 | final predominante agudo si abarca el rango completo | conserva el origen |
+| `mayoria_esdrujulas` | 0 | final predominante esdrújulo si abarca el rango completo | conserva el origen |
 | `cantado` · `prosa` · `evocacion_metrica` | 11 · 5 · 6 | **se quedan**: siguen activas como caracterizaciones enunciativas | nada |
 
 Las relaciones son las que la base admite: `metro` acepta `menor_que_norma`, `mayor_que_norma` y

@@ -1,3 +1,4 @@
+import type { FinalPredominante } from '$lib/metrica/final-acentual';
 export interface PublicFichaAutor {
 	autor_id: string;
 	slug: string;
@@ -131,6 +132,7 @@ export interface PublicFichaDesviacion {
 }
 
 export interface PublicFichaSecuencia {
+	final_acentual_predominante?: FinalPredominante | null;
 	secuencia_id: string;
 	v_ini: number;
 	v_fin: number;

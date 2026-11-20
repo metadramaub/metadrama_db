@@ -12,9 +12,10 @@ del dashboard. Las reglas v0.19 amplían las propuestas por nombre explícito de
 inferir arquitecturas.
 Quien importa puede [enseñar al importador un término nuevo](funcionamiento/importar.md#enseñar-al-importador-un-término-nuevo)
 que llegó sin identificar.
-En local, la [revisión de la fuente](funcionamiento/importar.md#comprobar-y-guardar) permite
+La [revisión de la fuente](funcionamiento/importar.md#comprobar-y-guardar) permite
 corregir erratas con motivo, comprobar tablas sin jornadas impresas y conservar el total
-declarado y la prosa localizada. La ampliación del guardado requiere su migración.
+declarado y la prosa localizada. Se verificaron en el dashboard publicado el bloqueo de erratas
+y la conservación de las cifras originales, las revisadas y su motivo al reabrir una ficha básica.
 
 **El prompt activo es [0.27](../../prompts/importador-metrico/extraccion-v0.27.md)**: es el que
 copia el botón del dashboard y el que se usa en las pruebas.
@@ -37,7 +38,7 @@ fiable para colaboradores. Los pendientes generales viven en [PENDIENTES](../PEN
 | Importar y revisar una obra | [Funcionamiento](./funcionamiento/importar.md) |
 | Guardar y evaluar respuestas de modelos | [Evaluación](./evaluacion/README.md) |
 | Saber qué obras faltan y por qué | [Seguimiento generado](./evaluacion/informes/seguimiento-lote.md) |
-| Revisar correspondencias del catálogo | [Informe de equivalencias](./equivalencias/revision-equivalencias.md) |
+| Revisar correspondencias del catálogo | [Registro editorial](./funcionamiento/importar.md#revisar-el-registro) · [Informe de equivalencias](./equivalencias/revision-equivalencias.md) |
 | Regenerar los informes | [Seguimiento y generación](./funcionamiento/seguimiento-e-informe-equivalencias.md) |
 | Comprobar un JSON desde archivos | [Validador](./funcionamiento/validador-local.md) |
 | Consultar criterios científicos | [Metodología](./metodologia/metodologia.md) e [inventario general de medidas](../inventario-medidas-analiticas.md) |

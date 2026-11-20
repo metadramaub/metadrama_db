@@ -1,3 +1,4 @@
+import { finalPredominante, type FinalPredominante } from '$lib/metrica/final-acentual';
 import type {
 	MetricCatalogConfiguration,
 	MetricCatalogDomainRow,
@@ -129,6 +130,7 @@ export type MetricDeviationDraft = {
 };
 
 export type MetricSequenceDraft = {
+	final_acentual_predominante?: FinalPredominante | null;
 	anotacion_id: string | null;
 	/**
 	 * De dónde cuelga la prueba: un escenario ficticio o una secuencia real que se anota en
@@ -479,6 +481,7 @@ export function draftFromRows(
 
 	return {
 		anotacion_id: sequenceId,
+		final_acentual_predominante: finalPredominante(sequence.final_acentual_predominante),
 		escenario_id: id(sequence.escenario_id),
 		secuencia_id: id(sequence.secuencia_id),
 		orden: Number(sequence.orden),

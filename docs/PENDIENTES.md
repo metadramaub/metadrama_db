@@ -13,22 +13,16 @@ no son estado porque se rehacen con un comando.
 
 ---
 
-## Guardado métrico: timeout en secuencias largas
-
-Corrección `20261110130000` aplicada al Supabase compartido el 10 de noviembre de 2026;
-pendiente de confirmar con el guardado real de la editora de *El prado de Valencia*.
-Reduce derivaciones y recorridos repetidos sin retirar validaciones.
-Pruebas y alcance: [garantías del modelo métrico](dominio-metrico/implementacion-metrica.md#9--qué-garantiza-la-base).
-
 ## Control de obras
 
 Queda la revisión del usuario y los ajustes estéticos que solicite. El control, la migración,
 la contracción, los tipos, la carga del CSV y las dataciones están aplicados y verificados.
 Detalle: [control de obras](control-obras/README.md).
 
-La migración para iniciar completas a partir de básicas ya está aplicada. Queda revisar el
-recorrido en navegador y desplegar la interfaz. La integración de las básicas en los
-productores de datos se sigue en el apartado de análisis.
+Los recorridos básica → completa con reutilización y desde cero están comprobados en producción.
+Queda aislar la prueba de recarga de la ficha completa antes de que se ejecute el guardado
+automático de Datos.
+Detalle: [validación del control de obras](control-obras/README.md#copias-ensayo-y-recuperación).
 
 ## Revisión del dashboard
 
@@ -39,14 +33,14 @@ productores de datos se sigue en el apartado de análisis.
   la gestión del foco y la estructura de cabecera, contenido y pie. Incluir Crear obras y
   Gestionar corpus en el inventario.
 - Después del repaso visual, revisar comportamientos, llamadas y reutilización de datos.
-  Empezar por las dos entradas de Iniciar completa y la protección de cambios sin guardar.
 
 ## Los dos hitos
 
 **1 · Avanzar el laboratorio comparativo.** `corpus_comparativas` V2 ofrece la matriz por obra y los
 agregados. Debe sustituir la carga relacional del laboratorio y servir para ensayar qué medidas son
-interpretables, antes de proyectar una selección pequeña a las fichas. Las 11 obras visibles son de
-prueba: valen para comprobar cálculo y presentación, no para sostener resultados.
+interpretables, antes de proyectar una selección pequeña a las fichas. Retomar el laboratorio y la
+integración analítica cuando haya suficientes fichas básicas para ponerlos a prueba. Las obras
+visibles son de prueba: valen para comprobar cálculo y presentación, no para sostener resultados.
 → [plan de comparativas](./plan-comparativas-corpus.md)
 
 **2 · Migrar las secuencias ya anotadas.** Continuar obra por obra al recibir sus Excel.
@@ -107,11 +101,14 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
 
 ## Proyecto de importador métrico
 
-- Registro de correspondencias del importador: falta una pantalla para que admin/IP revise los
-  registros nuevos (quién los señaló, de qué obra) y los retire; hoy solo se puede por SQL.
-- Pasar el [piloto 2](importador-metrico/evaluacion/README.md#piloto-2-lote-independiente) por el
-  prompt 0.27 sin tocarlo, con GPT y algún modelo barato, y cotejarlo con las fotos: lectura,
-  estructura, decisiones sobre notas y minutos de revisión.
+Prioridad actual: terminar el flujo de importación y validarlo con un colaborador.
+
+- Desplegar y verificar en producción el [registro de correspondencias](importador-metrico/funcionamiento/importar.md#revisar-el-registro),
+  incluida la migración de Supabase que reserva el registro a admin e IP.
+- Cotejar los finales de jornada de *Don Gil* en la edición y revisar la prosa abreviada «570 +»
+  de *Olmedo*, que incluye pasajes entre filas de distinta forma. Los números impresos de las
+  obras con erratas siguen sujetos a revisión editorial.
+  [Contraste](importador-metrico/evaluacion/README.md#contraste-con-gpt-56-instant).
 - Mejoras del importador que pide el piloto 2. Ya hechas: puntuación final, llamadas de nota
   pegadas, lira-sestina, plurales, romancillo con asonancia, silvas numeradas de Morley y Bruerton,
   sugerencia de jornada para las filas que continúan, numeración por jornada, pasajes cantados,
@@ -119,10 +116,10 @@ métrica ni autoriza comparaciones concluyentes tratándola como dato exacto.
   la única diferencia admitida es el heptasílabo de *Locos*, que la nota ya propone y coincide con
   la decisión acordada.
   Para el prompt 0.28, sin urgencia:
-  - **Página compartida por dos obras** (*Perro*/*Castigo*): el modelo mezcló las primeras filas de
+  - **Página compartida por dos obras** (*Perro*/*Castigo*): Gemini mezcló las primeras filas de
     la obra siguiente. Para el prompt: transcribir solo la obra indicada.
-  - **Jornada mal asignada** a filas que continúan en otra página (*Nolasco*): el modelo les pone
-    la jornada siguiente. No se puede corregir sin ver la página; queda para el prompt.
+  - **Jornada mal asignada** a filas que continúan en otra página (*Nolasco*): Gemini les puso
+    la jornada siguiente. La continuidad se comprueba en la foto.
 
 Entrada vigente: [índice del importador](importador-metrico/README.md). El dashboard ofrece
 el prompt 0.27. Las reglas de equivalencias v0.25 son
@@ -140,12 +137,11 @@ independientes de esas versiones de prompt y su último ajuste está probado loc
 - Revisar el [informe de equivalencias](importador-metrico/equivalencias/revision-equivalencias.md)
   y los [casos complejos](importador-metrico/equivalencias/casos-complejos-equivalencias.md).
   No identificar octavas, tercetos, letrillas o sextinas únicamente por el número de versos.
-- Preparar una guía breve y probar el circuito con un importador real, incluida su cuenta y el
-  modelo que tenga disponible. Mantener respuestas originales; no cerrar casos mediante JSON reparados a mano.
-- Comprobar en el navegador la edición métrica de básicas. Migración aplicada al Supabase
-  compartido y validada en la copia aislada con corrección, división, unión, concurrencia y reversión.
-  Sigue pendiente el flujo de reimportación para cambiar la edición base o los límites de jornada.
-- Integrar la precomputación combinada y la sustitución editorial según el
+- Preparar una guía breve con los resultados del [piloto 2](importador-metrico/evaluacion/README.md#contraste-con-gpt-56-instant)
+  y probar el circuito con un importador real, incluida su cuenta y el modelo que tenga disponible.
+  Medir los minutos de revisión y conservar las respuestas originales.
+- Implementar la reimportación para cambiar la edición base o los límites de jornada.
+- Cuando se retome el laboratorio, integrar la precomputación combinada y la sustitución editorial según el
   [plan aprobado](importador-metrico/arquitectura/consultas-y-precomputacion.md): una aportación
   por obra, copia básica durante la elaboración y sustitución al publicar la detallada, autoría
   por obra/jornada, versiones, invalidación y permisos por consumidor. Los análisis seguirán
@@ -182,14 +178,23 @@ catálogo.
 guarda un esquema local por sección y al reunirlas renumera la segunda con letras nuevas; si el
 enlace existe, lo borra. **Un caso así no se debe migrar ni guardar: hay que detener la anotación.**
 Hace falta declarar equivalencias de clase entre secciones, o una disposición global de la unidad.
+Las coplas reales ordinarias ya guardan una disposición de diez versos por copla. La admisión de
+rimas compartidas entre sus quintillas queda aplazada hasta la consulta editorial, sin un caso
+confirmado que la requiera. Las cinco unidades excluidas quedan para el cotejo de A12.
 
-**A11 · «Qué se va a registrar» tiene que decir siempre lo que se guarda.** Es la garantía que da
-al editor de que lo anotado es lo que lee en su texto, y no puede inventar nada. Revisión a fondo
-de todo lo que la transforma: el renombrado de letras «a las siguientes libres» al reunir partes, el
-relleno con la rima habitual de la norma cuando una pregunta no casa, y el aviso ámbar de rimas
-compartidas (A5), que hoy sale también donde una sola respuesta cubre la sección entera. El 13 de
-noviembre de 2026 el soneto enseñaba ABBA ABBA con cuartetos cruzados elegidos y los tercetos sin
-letras; eso está corregido, pero se encontró por una editora y no por una comprobación.
+**A12 · Cotejar las cinco unidades excluidas de la conversión de copla real.** El snapshot previo
+conserva cuatro unidades en *El prado de Valencia* (vv. 1456–1465, 1486–1495, 1732–1741 y
+1922–1931) y una en *Los amantes* (vv. 412–421). Las notas editoriales señalan, respectivamente,
+los vv. 1456–1460, 1491–1495, 1732–1736, 1927–1931 y 417–421. Cotejar con Ana las tiradas
+que contienen esos tramos, incluidas las coplas contiguas, para fijar dónde se emparejan las
+quintillas y dónde queda una suelta. Una inversión o un cambio de esquema puede mantener la
+agrupación de dos en dos. Con los límites confirmados, acordar con el IP si las quintillas sueltas
+se registran como secuencias propias. Mantener las anotaciones pendientes hasta acordar el criterio.
+
+**A11 · Comprobar cómo se muestran las rimas al reunir partes.** Revisar el renombrado de letras
+entre partes y el aviso de rimas compartidas (A5), incluido el caso en que una respuesta cubre
+la sección entera. Los arreglos ya desplegados figuran en los
+[contratos del registrador](dominio-metrico/contratos-del-registrador.md).
 
 **A6 · Revisar la organización en pareados de *Adonis y Venus*, vv. 2021–2094.** La silva consonante
 de orden libre deja de dar «Predominantes» por hecho y pregunta «Predominantes» o «Regulares».
@@ -224,12 +229,11 @@ para que confirme o cambie la respuesta en el editor. No proceden de una respues
 **B1 · Registrar una disposición que el catálogo no tiene.** El hueco que A4 nombra desde la serie
 alirada y que alcanza también a la sextilla y al sexteto.
 
-**B2 · El reparto de los rasgos, revisado entero.** Con él, la modalidad aguda: Jauralde dice que se
-extendió «a otras muchas variedades estróficas, como la sextilla y la décima», y hoy solo la declaran
-la octava aguda, el septeto y el sexteto. Y hay que decidir cómo se cruza con las vocales de la
-asonancia, porque los cuatro valores simples —`a`, `e`, `i`, `o`— **son** las asonancias agudas y los
-quince pares las llanas, relación que no está declarada: hoy se puede responder «final agudo» y una
-asonancia en par, que se contradicen.
+**B2 · Mayoría de finales agudos o esdrújulos.** El registro, las fichas, el buscador y el
+laboratorio se han probado en una copia local. Quedan la revisión de pantalla y el despliegue.
+Conservar las tres marcas localizadas de *Dido restaurada* hasta consultar a la editora.
+El criterio de cómputo está en el [modelo métrico](dominio-metrico/implementacion-metrica.md)
+y el traslado de los rangos legados en el [plan de migración](dominio-metrico/plan-migracion-anotaciones.md).
 
 **B3 · La modalidad y los rasgos heredados por reutilización no son los de la posición que ocupan.**
 `aabba` sale «admitida» en la segunda quintilla de la copla real, donde M&B dicen que en Lope es
@@ -375,6 +379,16 @@ selector**: hoy es «formas + subtipos anidados» en un control único que no ag
 Lo que quedó abierto al cerrar el inventario de la ficha. Su relato punto por punto, con lo que se
 descartó y por qué, está en el [histórico](./dominio-metrico/historico/ficha-publica-2026-09.md).
 
+**D11 · Ficha descargable en PDF y depósito con DOI.** Antes de implementar la exportación,
+definir qué datos acompañan al PDF en Zenodo, la unidad de depósito, la cita y el versionado.
+Zenodo permite [reservar el DOI en el borrador](https://help.zenodo.org/docs/deposit/describe-records/reserve-doi/).
+Con ese DOI se puede generar el PDF y subirlo junto con los datos aprobados antes de publicar el depósito.
+
+**D12 · Ampliar el resumen métrico de la ficha.** Mostrar el reparto global de formas españolas e
+italianas y los recuentos y porcentajes de secuencias y formas por cuadro, jornada y obra.
+
+**D13 · Emojis en la sinopsis pública.** Pendiente de concretar su uso.
+
 **D1 · Los gráficos de análisis no llevan a ninguna parte.** Un tramo del código de barras o una
 barra de la evolución debería abrir o filtrar las secuencias que cuenta. Hoy solo se miran.
 
@@ -480,5 +494,4 @@ apoyándose en unas afirmaciones que la auditoría corrigió después en más de
 
 **F2 · Crear cuadros sin exigir una jornada creada previamente.** El responsable quiere permitir
 registrarlos por rangos de obra, como las secuencias, para reducir fricción editorial. Revisar cómo
-derivar su pertenencia a jornada y adaptar validación y consumidores. Mejora futura independiente
-del importador; no se modifica ahora el registrador ni la DB.
+derivar su pertenencia a jornada y adaptar validación y consumidores. Prioridad baja.

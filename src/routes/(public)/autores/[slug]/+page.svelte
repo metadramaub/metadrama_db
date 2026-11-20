@@ -1,4 +1,5 @@
 <script lang="ts">
+	import FinalAcentualRecuento from '$lib/components/metrica/FinalAcentualRecuento.svelte';
 	import { datacionDeObra, limitesDatacion } from '$lib/dataciones';
 	import Breadcrumb from '$lib/components/ui/Breadcrumb.svelte';
 	import CatalogResultRow from '$lib/components/catalogo/CatalogResultRow.svelte';
@@ -278,6 +279,10 @@
 					</dd>
 				</div>
 			</dl>
+
+			{#if resumen.finales_acentuales}
+				<FinalAcentualRecuento recuento={resumen.finales_acentuales} />
+			{/if}
 
 			{#if pieItems.length > 0}
 				<div class="mt-5">

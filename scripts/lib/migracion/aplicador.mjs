@@ -977,6 +977,15 @@ export function planificarObra(
 			resolverPregunta(pregunta);
 		}
 
+		const finales = new Set(partes.flatMap((parte) =>
+			(parte.caracterizaciones ?? [])
+				.filter((marca) => Number(marca.v_ini) === vIni && Number(marca.v_fin) === vFin)
+				.map((marca) => DESTINO_CARACTERIZACION[marca.termino]?.final)
+				.filter(Boolean)
+		));
+		if (finales.size > 1) pendientes.push('Hay dos mayorías de final acentual para el mismo tramo.');
+		const finalPredominante = vFin > vIni ? [...finales][0] : undefined;
+
 		const { desviaciones, conservadas, traslados } = desviacionesDe(
 			partes,
 			respuestas,
@@ -1012,6 +1021,7 @@ export function planificarObra(
 				forma_id: arquitectura.forma_id,
 				arquitectura_id: secuencia.arquitectura_propuesta_id,
 				observaciones: null,
+				...(finalPredominante ? { final_acentual_predominante: finalPredominante } : {}),
 				unidades,
 				elecciones,
 				desviaciones

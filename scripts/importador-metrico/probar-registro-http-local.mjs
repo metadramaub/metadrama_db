@@ -35,12 +35,14 @@ const literal = 'término de ensayo ' + Date.now();
 const fila = (forma) => ({ literal, forma, arquitectura: null, procedencia: { obra: 'Obra sintética', fila: 't01' } });
 const tabla = (c) => c.from('correspondencias_importador');
 
-ok(!(await tabla(importador.c).insert(fila('seguidilla'))).error, 'quien importa registra con su sesión');
-ok((await tabla(importador.c).insert(fila('seguidilla'))).error?.code === '23505', 'no se registra dos veces');
-ok(!(await tabla(importador.c).insert(fila('quintilla'))).error, 'se conserva un registro contradictorio');
-const propias = await tabla(importador.c).select('*').eq('literal', literal);
-ok(propias.data?.length === 2 && propias.data.every((r) => r.creado_por === importador.id), 'queda quién la señaló');
-ok(Boolean((await tabla(importador.c).insert({ ...fila('redondilla'), creado_por: admin.id })).error), 'no se registra en nombre de otro');
+ok((await tabla(importador.c).insert(fila('seguidilla'))).error?.code === '42501', 'importar no concede permiso de registro');
+ok(!(await tabla(admin.c).insert(fila('seguidilla'))).error, 'admin registra con su sesión');
+ok((await tabla(admin.c).insert(fila('seguidilla'))).error?.code === '23505', 'no se registra dos veces');
+ok(!(await tabla(admin.c).insert(fila('quintilla'))).error, 'se conserva un registro contradictorio');
+const disponibles = await tabla(importador.c).select('*').eq('literal', literal);
+ok(disponibles.data?.length === 2 && disponibles.data.every((r) => r.creado_por === admin.id),
+	'quien importa consulta las correspondencias y su autoría');
+ok(Boolean((await tabla(admin.c).insert({ ...fila('redondilla'), creado_por: importador.id })).error), 'no se registra en nombre de otro');
 ok(Boolean((await tabla(sinPermiso.c).insert(fila('redondilla'))).error), 'sin permiso no registra');
 ok((await tabla(sinPermiso.c).select('*').eq('literal', literal)).data?.length === 0, 'sin permiso no consulta');
 ok(Boolean((await tabla(cliente()).select('*')).error), 'anónimo rechazado');

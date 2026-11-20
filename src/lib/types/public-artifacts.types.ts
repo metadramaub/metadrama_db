@@ -1,3 +1,4 @@
+import type { FinalPredominante } from '$lib/metrica/final-acentual';
 import type {
 	AutorListadoItem,
 	AutorPublicoPayload,
@@ -15,6 +16,7 @@ export type ObraFichaArtifactPayload = {
 };
 
 export type ObrasIndexArtifactItem = {
+	finales_acentuales_presentes?: FinalPredominante[];
 	obra_id: string;
 	slug: string;
 	titulo: string;
@@ -164,6 +166,7 @@ export type ObraAnalysisArtifactPayload = {
 };
 
 export type CorpusComparisonWork = {
+	finales_acentuales?: { forma: string | null; v_ini: number; v_fin: number; valor: FinalPredominante }[];
 	obra_id: string;
 	slug: string;
 	titulo: string;

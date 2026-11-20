@@ -501,6 +501,7 @@ export type Database = {
           created_at: string
           created_by: string
           escenario_id: string | null
+          final_acentual_predominante: string | null
           forma_id: string
           observaciones: string | null
           orden: number
@@ -516,6 +517,7 @@ export type Database = {
           created_at?: string
           created_by?: string
           escenario_id?: string | null
+          final_acentual_predominante?: string | null
           forma_id: string
           observaciones?: string | null
           orden?: number
@@ -531,6 +533,7 @@ export type Database = {
           created_at?: string
           created_by?: string
           escenario_id?: string | null
+          final_acentual_predominante?: string | null
           forma_id?: string
           observaciones?: string | null
           orden?: number

@@ -35,15 +35,18 @@ la pantalla las recoge en un resumen y «Cambiar» abre únicamente la excepció
 Y todo lo que la norma fija **no se pregunta**: la décima espinela, la lira o la seguidilla se
 anotan eligiendo la forma y guardando, porque no queda nada que decidir.
 
-En la revisión local de «Qué se va a registrar», un esquema escrito inválido impide guardar y
-deja sin letras sus posiciones en el resumen. La disposición habitual puede consultarse en la
-norma. Si hay un régimen explícito, se muestra con la notación y viaja en la misma respuesta,
-fuera del recuento de posiciones. El guardado de esta última mejora requiere su migración.
+Desde el despliegue de `128312f3` del 18 de noviembre, un esquema escrito inválido impide guardar y
+deja sin letras sus posiciones en «Qué se va a registrar». La disposición habitual se consulta en
+la norma. Si hay un régimen explícito, se muestra con la notación y se guarda en la misma
+respuesta, fuera del recuento de posiciones. En el soneto, los esquemas escritos se cuentan y se
+muestran en el bloque que describen desde `ecebdca2`.
 
 La migración de la copla real reúne las dos respuestas locales ordinarias en un esquema de diez
 posiciones con una barra entre las quintillas. Las letras tienen alcance de una copla y vuelven a
 empezar en la siguiente. Durante la transición, las coplas con incidencias conservan las dos
 respuestas locales. El editor y la base comprueban que cada copla tenga uno de los dos registros.
+En producción se comprobó al reabrir *El prado de Valencia*, vv. 1356–1365, que el resumen
+representaba las dos quintillas del esquema guardado.
 
 ## Criterio de las desviaciones
 
