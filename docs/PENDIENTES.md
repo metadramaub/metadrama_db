@@ -7,7 +7,7 @@ archiva «por si acaso», porque para mirar atrás está `git` y está el
 Cada asunto ocupa pocas líneas: **qué falta, qué bloquea y dónde está el detalle**. Cuando un asunto
 necesita un plan largo, vive en su propio documento y aquí solo se le nombra.
 
-Lo que **no** va en esta lista: las decisiones filológicas, que son del IP y están en
+Lo que **no** va en esta lista: las decisiones filológicas, están en
 [cuestiones para el IP](./dominio-metrico/cuestiones-para-el-ip.md); y los informes generados, que
 no son estado porque se rehacen con un comando.
 
@@ -188,7 +188,7 @@ conserva cuatro unidades en *El prado de Valencia* (vv. 1456–1465, 1486–1495
 los vv. 1456–1460, 1491–1495, 1732–1736, 1927–1931 y 417–421. Cotejar con Ana las tiradas
 que contienen esos tramos, incluidas las coplas contiguas, para fijar dónde se emparejan las
 quintillas y dónde queda una suelta. Una inversión o un cambio de esquema puede mantener la
-agrupación de dos en dos. Con los límites confirmados, acordar con el IP si las quintillas sueltas
+agrupación de dos en dos. Con los límites confirmados, acordar si las quintillas sueltas
 se registran como secuencias propias. Mantener las anotaciones pendientes hasta acordar el criterio.
 
 **A11 · Comprobar cómo se muestran las rimas al reunir partes.** Revisar el renombrado de letras
@@ -198,8 +198,7 @@ la sección entera. Los arreglos ya desplegados figuran en los
 
 **A6 · Revisar la organización en pareados de *Adonis y Venus*, vv. 2021–2094.** La silva consonante
 de orden libre deja de dar «Predominantes» por hecho y pregunta «Predominantes» o «Regulares».
-La densidad ya está anotada como total; falta confirmar cuánto organizan los pareados la serie.
-El IP avisará al editor. No se asigna una respuesta automáticamente.
+La densidad ya está anotada como total; falta confirmar cuánto organizan los pareados la serie. No se asigna una respuesta automáticamente.
 
 **A7 · Corregir las medidas del villancico de *Adonis y Venus*, vv. 852–871.** El editor ya está
 avisado de la ampliación a los metros de arte menor catalogados (3–8 sílabas), una medida por
@@ -208,7 +207,7 @@ de que las medidas anotadas sean correctas.
 
 **A8 · Revisar los géneros de quienes intervienen.** Tras convertir las respuestas antiguas,
 los editores deben comprobar los pasajes con canto, personajes sobrenaturales y coros. La lista
-incluye las ocho obras reales, sus responsables y los versos donde empezar. El IP les avisará
+incluye las ocho obras reales, sus responsables y los versos donde empezar. Se les avisará
 cuando esté desplegado el nuevo formulario; la conversión no confirma el género de esas voces.
 → [lista y criterios de revisión](./revision-generos-intervinientes.md)
 
@@ -238,7 +237,7 @@ Detalle de los tramos en [cuestiones para el IP](dominio-metrico/cuestiones-para
 **B3 · La modalidad y los rasgos heredados por reutilización no son los de la posición que ocupan.**
 `aabba` sale «admitida» en la segunda quintilla de la copla real, donde M&B dicen que en Lope es
 siempre esa; y en la sextilla enlazada el pie quebrado es definitorio y en la quintilla que reutiliza,
-admitido. Afecta a las 18 reutilizaciones. *El IP decidió el 20 de agosto decirlo en prosa y no tocar
+admitido. Afecta a las 18 reutilizaciones. *Se decidió el 20 de agosto decirlo en prosa y no tocar
 el modelo por ahora.*
 
 **B4 · `numero_clases` admite un solo valor**, así que no puede expresar «dos o tres». Con él, las dos
@@ -255,12 +254,12 @@ no se saca un mínimo.
 sirven a dos. Hoy no señalan ninguna y funciona; si aparece uno que deba señalar sección y servir a
 varias, habrá que emparejar por `tipo_seccion`.
 
-**B7 · No hay dónde guardar un ejemplo de verso.** El IP quiere un botón de ejemplos en cada ficha.
+**B7 · No hay dónde guardar un ejemplo de verso.** Queremos un botón de ejemplos en cada ficha.
 Hay que modelarlo —de qué cuelga, cómo se guarda la anotación de clases— y luego poblarlo. Con él se
 resuelve dibujar la permutación de la sextina, que hoy solo se lee.
 
 **B8 · La `suelta` de la endecha real es un ciclo con notación y cero posiciones.** O se expanden las
-posiciones o se admite que la notación baste. *Puede retirarlo una decisión del IP sobre qué es una
+posiciones o se admite que la notación baste. *Puede retirarlo una decisión sobre qué es una
 endecha real.*
 
 **B9 · Dos cosas de la seguidilla, anotadas y sin tocar.** El «Estribillo final» de la compuesta
@@ -384,9 +383,9 @@ definir qué datos acompañan al PDF en Zenodo, la unidad de depósito, la cita 
 Zenodo permite [reservar el DOI en el borrador](https://help.zenodo.org/docs/deposit/describe-records/reserve-doi/).
 Con ese DOI se puede generar el PDF y subirlo junto con los datos aprobados antes de publicar el depósito.
 
-**D12 · Ampliar el resumen métrico de la ficha.** El reparto por tradición para la obra completa y
-por jornadas está comprobado en local, incluida la descarga. Quedan los recuentos y porcentajes
-de secuencias y formas por cuadro, jornada y obra.
+**D12 · Aclarar qué se quiere comparar entre cuadros.** El esquema métrico ya permite consultar
+las secuencias de cada cuadro. Antes de añadir recuentos o porcentajes a la ficha, concretar qué
+pregunta deberían responder.
 
 **D13 · Emojis en la sinopsis pública.** Pendiente de concretar su uso.
 
