@@ -52,6 +52,7 @@
 		evolucionPorJornada,
 		fichaTecnica,
 		perfilDeFormas,
+		perfilDeTradiciones,
 		perfilPorJornada,
 		tradicionesPorJornada,
 		secuenciasPorForma,
@@ -85,6 +86,10 @@
 		| 'observaciones'
 		| 'bibliografia';
 	type MetricViewMode = 'obra_completa' | 'por_jornadas';
+	const opcionesDeAmbito: { valor: MetricViewMode; etiqueta: string }[] = [
+		{ valor: 'obra_completa', etiqueta: 'Obra completa' },
+		{ valor: 'por_jornadas', etiqueta: 'Por jornadas' }
+	];
 	type PieValueMode = 'percent' | 'absolute';
 	type ResolvedPublicSequence = ResolvedSequenceStructure<SequenceModalPayload>;
 
@@ -102,6 +107,7 @@
 		return () => document.removeEventListener('keydown', alPulsar);
 	});
 	let metricViewMode = $state<MetricViewMode>('obra_completa');
+	let vistaTradiciones = $state<MetricViewMode>('obra_completa');
 	let pieValueMode = $state<PieValueMode>('percent');
 	let mostrarCanto = $state(false);
 	// Forma resaltada al pasar el ratón por la leyenda del pie. Se aísla por grupo
@@ -551,16 +557,6 @@
 		leyenda: () =>
 			pendientesMenores.map(({ forma }) => ({ etiqueta: forma, color: '#bdbdbd', muestra: 'linea' as const }))
 	});
-	const figuraTradiciones = $derived<Figura>({
-		titulo: 'Españolas e italianas por jornada',
-		archivo: 'tradiciones-por-jornada',
-		admiteGrises: true,
-		leyenda: ({ paleta }) =>
-			leyendaDeTradiciones(
-				paleta,
-				tradiciones.some((fila) => fila.sinTradicion.porcentaje > 0)
-			)
-	});
 	const evolucion = $derived(
 		perfilPorJornada(analizables).map((jornada) => ({
 			etiqueta: `Jornada ${jornada.jornada}`,
@@ -579,6 +575,13 @@
 				.map((s) => ({ secuencia_id: s.secuencia_id, v_ini: s.v_ini, v_fin: s.v_fin }))
 		}))
 	);
+	const tradicionGlobal = $derived(perfilDeTradiciones(analizables));
+	const tradicionesDeLaObra = $derived({
+		momento: 'Obra completa',
+		espanola: tradicionGlobal.espanola.porcentaje,
+		italiana: tradicionGlobal.italiana.porcentaje,
+		sinTradicion: tradicionGlobal.sinTradicion.porcentaje
+	});
 	const tradiciones = $derived(tradicionesPorJornada(analizables));
 
 	const momentos = $derived(evolucion.map((serie) => serie.etiqueta));
@@ -647,7 +650,7 @@
 					{
 						id: 'analisis-tradiciones',
 						label: 'Españolas e italianas',
-						hay: tradiciones.length > 0
+						hay: tradicionGlobal.total > 0
 					},
 					{
 						id: 'analisis-evolucion',
@@ -693,7 +696,7 @@
 			.filter((grupo) => grupo.items.length > 0)
 	);
 
-	const repartoDeTradiciones = $derived(
+	const repartoPorJornadas = $derived(
 		tradiciones.map((fila) => ({
 			momento: `Jornada ${fila.jornada}`,
 			espanola: fila.espanola.porcentaje,
@@ -701,6 +704,28 @@
 			sinTradicion: fila.sinTradicion.porcentaje
 		}))
 	);
+	const muestraTradicionesPorJornadas = $derived(
+		vistaTradiciones === 'por_jornadas' && repartoPorJornadas.length > 0
+	);
+
+	function tradicionesExportables(contenido: string | undefined) {
+		return contenido === 'todas-las-jornadas' ? repartoPorJornadas : [tradicionesDeLaObra];
+	}
+
+	const figuraTradiciones = $derived<Figura>({
+		titulo: 'Españolas e italianas',
+		archivo: 'tradiciones',
+		admiteGrises: true,
+		contenidos: [
+			{ valor: 'obra-completa', etiqueta: 'Obra completa' },
+			...(repartoPorJornadas.length ? [{ valor: 'todas-las-jornadas', etiqueta: 'Por jornadas' }] : [])
+		],
+		contenidoInicial: muestraTradicionesPorJornadas ? 'todas-las-jornadas' : 'obra-completa',
+		leyenda: ({ paleta, contenido }) => {
+			const puntos = tradicionesExportables(contenido);
+			return leyendaDeTradiciones(paleta, puntos.some((fila) => fila.sinTradicion > 0));
+		}
+	});
 
 	/** Las jornadas con sus cuadros dentro, que es como se lee una comedia. */
 	const estructuraJornadas = $derived(
@@ -948,27 +973,29 @@
 		<Tabs tabs={tabs} active={activeTab} onChange={(id) => (activeTab = id as TabId)} />
 	{/if}
 
+	{#snippet selectorAmbito(
+		label: string,
+		vista: MetricViewMode,
+		cambiarVista: (vista: MetricViewMode) => void
+	)}
+		<div class="flex flex-wrap items-center gap-2" role="group" aria-label={label}>
+			{#each opcionesDeAmbito as opcion (opcion.valor)}
+				<button
+					type="button"
+					class={`rounded-full border px-3 py-1.5 text-xs font-semibold tracking-[0.05em] ${vista === opcion.valor ? 'border-[color:var(--gray-800)] bg-[color:var(--gray-800)] text-white' : 'border-[color:var(--border)] bg-white text-[color:var(--gray-800)]'}`}
+					aria-pressed={vista === opcion.valor}
+					onclick={() => cambiarVista(opcion.valor)}
+				>
+					{opcion.etiqueta}
+				</button>
+			{/each}
+		</div>
+	{/snippet}
+
 	{#if activeTab === 'estructura'}
 		{#if showMetrica}
 			<section class="space-y-6">
-				<div class="flex flex-wrap items-center gap-2" role="group" aria-label="Vista de De un vistazo">
-					<button
-						type="button"
-						class={`rounded-full border px-3 py-1.5 text-xs font-semibold tracking-[0.05em] ${metricViewMode === 'obra_completa' ? 'border-[color:var(--gray-800)] bg-[color:var(--gray-800)] text-white' : 'border-[color:var(--border)] bg-white text-[color:var(--gray-800)]'}`}
-						aria-pressed={metricViewMode === 'obra_completa'}
-						onclick={() => (metricViewMode = 'obra_completa')}
-					>
-						Obra completa
-					</button>
-					<button
-						type="button"
-						class={`rounded-full border px-3 py-1.5 text-xs font-semibold tracking-[0.05em] ${metricViewMode === 'por_jornadas' ? 'border-[color:var(--gray-800)] bg-[color:var(--gray-800)] text-white' : 'border-[color:var(--border)] bg-white text-[color:var(--gray-800)]'}`}
-						aria-pressed={metricViewMode === 'por_jornadas'}
-						onclick={() => (metricViewMode = 'por_jornadas')}
-					>
-						Por jornadas
-					</button>
-				</div>
+				{@render selectorAmbito('Vista de De un vistazo', metricViewMode, (vista) => (metricViewMode = vista))}
 				{#if metricViewMode === 'obra_completa'}
 					<MetricWorkSummary summary={tecnica} />
 				{:else}
@@ -1319,19 +1346,27 @@
 					{/if}
 				</div>
 
-				{#if tradiciones.length > 0}
+				{#if tradicionGlobal.total > 0}
 					<div id="analisis-tradiciones" class="space-y-3 scroll-mt-4">
 						<MetricAnalysisHeading
-							title="Españolas e italianas por jornada"
-							description="De qué tradición métrica es cada jornada. La línea de puntos marca la mitad."
+							title="Españolas e italianas"
+							description="Porcentaje de versos en las secuencias registradas. La línea de puntos marca la mitad."
 						/>
-						<!-- Sin tabla al lado: el gráfico da la cifra dentro de cada tramo —a dos
-						     decimales, como todo porcentaje del proyecto— y repetirla en columnas no
-						     añadía nada. -->
+						{#if repartoPorJornadas.length}
+							{@render selectorAmbito('Vista del reparto por tradición', vistaTradiciones, (vista) => (vistaTradiciones = vista))}
+						{/if}
 						<FiguraDescargable figura={figuraTradiciones} procedencia={procedenciaFigura}>
-							<MetricTraditionSplit puntos={repartoDeTradiciones} />
-							{#snippet grafico({ paleta })}
-								<MetricTraditionSplit puntos={repartoDeTradiciones} modo="figura" {paleta} />
+							<MetricTraditionSplit
+								puntos={muestraTradicionesPorJornadas ? repartoPorJornadas : [tradicionesDeLaObra]}
+								obraCompleta={!muestraTradicionesPorJornadas}
+							/>
+							{#snippet grafico({ paleta, contenido })}
+								<MetricTraditionSplit
+									puntos={tradicionesExportables(contenido)}
+									obraCompleta={contenido !== 'todas-las-jornadas'}
+									modo="figura"
+									{paleta}
+								/>
 							{/snippet}
 						</FiguraDescargable>
 					</div>

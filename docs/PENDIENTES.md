@@ -229,11 +229,11 @@ para que confirme o cambie la respuesta en el editor. No proceden de una respues
 **B1 · Registrar una disposición que el catálogo no tiene.** El hueco que A4 nombra desde la serie
 alirada y que alcanza también a la sextilla y al sexteto.
 
-**B2 · Mayoría de finales agudos o esdrújulos.** El registro, las fichas, el buscador y el
-laboratorio se han probado en una copia local. Quedan la revisión de pantalla y el despliegue.
-Conservar las tres marcas localizadas de *Dido restaurada* hasta consultar a la editora.
-El criterio de cómputo está en el [modelo métrico](dominio-metrico/implementacion-metrica.md)
-y el traslado de los rangos legados en el [plan de migración](dominio-metrico/plan-migracion-anotaciones.md).
+**B2 · Resolver las tres marcas de agudos de *Dido restaurada*.** El rasgo de final acentual
+predominante está desplegado. Consultar a María Isabel Cuena si los agudos predominaban en toda
+la tirada de redondillas (vv. 1557–1620) o eran localizados. Conservar las marcas hasta su
+respuesta y sustituirlas por el rasgo general si confirma la mayoría y da el visto bueno.
+Detalle de los tramos en [cuestiones para el IP](dominio-metrico/cuestiones-para-el-ip.md).
 
 **B3 · La modalidad y los rasgos heredados por reutilización no son los de la posición que ocupan.**
 `aabba` sale «admitida» en la segunda quintilla de la copla real, donde M&B dicen que en Lope es
@@ -384,8 +384,9 @@ definir qué datos acompañan al PDF en Zenodo, la unidad de depósito, la cita 
 Zenodo permite [reservar el DOI en el borrador](https://help.zenodo.org/docs/deposit/describe-records/reserve-doi/).
 Con ese DOI se puede generar el PDF y subirlo junto con los datos aprobados antes de publicar el depósito.
 
-**D12 · Ampliar el resumen métrico de la ficha.** Mostrar el reparto global de formas españolas e
-italianas y los recuentos y porcentajes de secuencias y formas por cuadro, jornada y obra.
+**D12 · Ampliar el resumen métrico de la ficha.** El reparto por tradición para la obra completa y
+por jornadas está comprobado en local, incluida la descarga. Quedan los recuentos y porcentajes
+de secuencias y formas por cuadro, jornada y obra.
 
 **D13 · Emojis en la sinopsis pública.** Pendiente de concretar su uso.
 

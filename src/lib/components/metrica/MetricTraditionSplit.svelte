@@ -4,6 +4,7 @@
 	import type { ItemLeyenda, Paleta } from '$lib/figuras/tipos';
 
 	type Parte = 'espanola' | 'italiana' | 'sinTradicion';
+	type Reparto = Record<Parte, number>;
 
 	/**
 	 * El color de cada tradición en cada paleta, y el del número que va encima.
@@ -33,17 +34,20 @@
 		sinTradicion: 'Sin tradición'
 	};
 
-	/** La leyenda de la figura descargada: las tres partes, en la paleta elegida. */
+	/** Las tradiciones, en la paleta elegida para la ficha o la descarga. */
 	export function leyendaDeTradiciones(paleta: Paleta, conSinTradicion: boolean): ItemLeyenda[] {
 		const colores = coloresDeTradicion(paleta);
 		return (Object.keys(NOMBRES) as Parte[])
 			.filter((parte) => conSinTradicion || parte !== 'sinTradicion')
-			.map((parte) => ({ etiqueta: NOMBRES[parte], color: colores[parte].fondo }));
+			.map((parte) => ({
+				etiqueta: NOMBRES[parte],
+				color: colores[parte].fondo
+			}));
 	}
 </script>
 
 <script lang="ts">
-	// Españolas contra italianas, jornada a jornada. REUTILIZABLE y descargable.
+	// Reparto por tradición de la obra completa o de cada jornada.
 	//
 	// **Las dos partes se dibujan, no se deducen.** Antes era una sola línea con la proporción
 	// italiana, y obligaba a rellenar mentalmente que el resto era español; además repetía el
@@ -61,25 +65,33 @@
 	import SelloFigura from '$lib/components/figuras/SelloFigura.svelte';
 	import { CUERPO } from '$lib/figuras/tema';
 
-	const props = $props<{
-		puntos: { momento: string; espanola: number; italiana: number; sinTradicion: number }[];
+	const props: {
+		puntos: ({ momento: string } & Reparto)[];
+		obraCompleta: boolean;
 		modo?: 'pantalla' | 'figura';
 		paleta?: Paleta;
-	}>();
+	} = $props();
 
-	const ANCHO_COL = 96;
 	const HUECO = 56;
 	const ALTO_UTIL = 260;
 	const MARGEN_SUP = 14;
 	const MARGEN_INF = 38;
 	const SITIO_SELLO = 18;
+	const marcas = [0, 25, 50, 75, 100];
 
 	const figura = $derived(props.modo === 'figura');
 	const colores = $derived(coloresDeTradicion(props.paleta ?? 'color'));
+	const leyenda = $derived(
+		leyendaDeTradiciones(
+			props.paleta ?? 'color',
+			props.puntos.some((punto) => punto.sinTradicion > 0)
+		)
+	);
 	const margenIzq = $derived(46 + (figura ? SITIO_SELLO : 0));
+	const anchoColumna = $derived(props.obraCompleta ? 196 : 96);
 
 	const ancho = $derived(
-		margenIzq + props.puntos.length * ANCHO_COL + Math.max(0, props.puntos.length - 1) * HUECO + 8
+		margenIzq + props.puntos.length * anchoColumna + Math.max(0, props.puntos.length - 1) * HUECO + 8
 	);
 	const alto = MARGEN_SUP + ALTO_UTIL + MARGEN_INF;
 
@@ -89,10 +101,10 @@
 			.range([MARGEN_SUP + ALTO_UTIL, MARGEN_SUP])
 	);
 
-	const x = (columna: number) => margenIzq + columna * (ANCHO_COL + HUECO);
+	const x = (columna: number) => margenIzq + columna * (anchoColumna + HUECO);
 
 	/** Las tres partes de una columna, de abajo arriba: española, italiana y lo que no es ninguna. */
-	const partesDe = (punto: { espanola: number; italiana: number; sinTradicion: number }) => {
+	const partesDe = (punto: Reparto) => {
 		let acumulado = 0;
 		return (['espanola', 'italiana', 'sinTradicion'] as Parte[])
 			.map((parte) => ({ parte, nombre: NOMBRES[parte], valor: punto[parte], ...colores[parte] }))
@@ -109,10 +121,10 @@
 	<svg
 		viewBox={`0 0 ${ancho} ${alto}`}
 		role="img"
-		aria-label="Españolas e italianas por jornadas"
+		aria-label={props.obraCompleta ? 'Españolas e italianas en la obra completa' : 'Españolas e italianas por jornada'}
 		data-figura={figura ? '' : undefined}
 	>
-		{#each [0, 25, 50, 75, 100] as valor (valor)}
+		{#each marcas as valor (valor)}
 			<!-- La mitad se marca más: es la referencia que dice de qué lado cae cada jornada. -->
 			<line
 				x1={margenIzq - 6}
@@ -139,7 +151,7 @@
 				<rect
 					x={x(indice)}
 					y={y(parte.desde + parte.valor)}
-					width={ANCHO_COL}
+					width={anchoColumna}
 					height={altoParte}
 					fill={parte.fondo}
 				>
@@ -149,7 +161,7 @@
 				     Dos decimales, que es la norma del proyecto para cualquier porcentaje. -->
 				{#if altoParte > 22}
 					<text
-						x={x(indice) + ANCHO_COL / 2}
+						x={x(indice) + anchoColumna / 2}
 						y={y(parte.desde + parte.valor / 2)}
 						font-size={CUERPO.rotulo}
 						font-weight="600"
@@ -161,7 +173,7 @@
 			{/each}
 
 			<text
-				x={x(indice) + ANCHO_COL / 2}
+				x={x(indice) + anchoColumna / 2}
 				y={MARGEN_SUP + ALTO_UTIL + 24}
 				font-size={CUERPO.rotulo}
 				font-weight="600"
@@ -180,12 +192,13 @@
 {#if figura}
 	{@render lienzo()}
 {:else}
-	<figure class="metric-tradition">
+	<figure class="metric-tradition" style:--ancho-grafico={`${ancho}px`}>
 		{@render lienzo()}
 
 		<figcaption class="metric-tradition__leyenda">
-			<span><span style={`background:${colores.espanola.fondo}`}></span>Españolas</span>
-			<span><span style={`background:${colores.italiana.fondo}`}></span>Italianas</span>
+			{#each leyenda as item (item.etiqueta)}
+				<span><span style:background={item.color}></span>{item.etiqueta}</span>
+			{/each}
 		</figcaption>
 	</figure>
 {/if}
@@ -198,13 +211,14 @@
 	.metric-tradition :global(svg) {
 		display: block;
 		width: 100%;
-		max-width: 30rem;
+		max-width: min(30rem, var(--ancho-grafico));
 		height: auto;
 	}
 
 	.metric-tradition__leyenda {
 		display: flex;
-		gap: 1rem;
+		flex-wrap: wrap;
+		gap: 0.25rem 1rem;
 		margin-top: 0.35rem;
 		font-size: 0.75rem;
 		color: var(--muted-foreground);
