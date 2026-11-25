@@ -28,7 +28,7 @@ export const PUBLIC_NAV: NavGroup[] = [
 			{ label: 'GUÍA', href: '/recursos/guia' },
 			{
 				label: 'BIBLIOGRAFÍA',
-				href: 'https://www.ub.edu/metadrama/wp-content/uploads/2026/09/Bibliografia-Versificacion-Dramatica-METADRAMA.pdf',
+				href: 'https://www.ub.edu/metadrama/bibliografia/',
 				external: true
 			}
 		]
