@@ -495,3 +495,8 @@ apoyándose en unas afirmaciones que la auditoría corrigió después en más de
 **F2 · Crear cuadros sin exigir una jornada creada previamente.** El responsable quiere permitir
 registrarlos por rangos de obra, como las secuencias, para reducir fricción editorial. Revisar cómo
 derivar su pertenencia a jornada y adaptar validación y consumidores. Prioridad baja.
+
+**F3 · Avisar de las secuencias que cruzan el final de una jornada.** El control de rangos solo mira
+solapamientos, y esas secuencias salen como «Sin jornada» sin que nadie lo diga. Añadir el aviso al
+checklist. Hay al menos dos en borrador —*El prado de Valencia*, vv. 2256-2859, y *El mercader
+amante*, vv. 966-1453—, que corrige su editor, no nosotros.
