@@ -181,6 +181,7 @@ describe('secuenciasPorForma', () => {
 	it('da cuántas, la media y los extremos', () => {
 		const redondilla = secuenciasPorForma(OBRA).find((t) => t.colorKey === 'redondilla')!;
 		expect(redondilla).toMatchObject({ secuencias: 2, versos: 180, media: 90, minima: 80, maxima: 100 });
+		expect(redondilla.tiradas.map((tirada) => tirada.secuencia_id)).toEqual(['s1', 's201']);
 	});
 });
 
@@ -338,10 +339,10 @@ describe('fichaTecnica', () => {
 
 describe('cierreDeJornadas', () => {
 	it('dice con qué abre y con qué cierra cada jornada', () => {
-		expect(cierreDeJornadas(OBRA)).toEqual([
-			{ jornada: 1, abre: 'Redondilla', abreColorKey: 'redondilla', cierra: 'Romance', cierraColorKey: 'romance' },
-			{ jornada: 2, abre: 'Octava real', abreColorKey: 'octava_real', cierra: 'Redondilla', cierraColorKey: 'redondilla' },
-			{ jornada: 3, abre: SIN_FORMA, abreColorKey: SIN_FORMA, cierra: SIN_FORMA, cierraColorKey: SIN_FORMA }
+		expect(cierreDeJornadas(OBRA)).toMatchObject([
+			{ jornada: 1, abre: { forma: 'Redondilla', secuencia_id: 's1' }, cierra: { forma: 'Romance', secuencia_id: 's101' } },
+			{ jornada: 2, abre: { forma: 'Octava real', secuencia_id: 's161' }, cierra: { forma: 'Redondilla', secuencia_id: 's201' } },
+			{ jornada: 3, abre: { forma: SIN_FORMA, secuencia_id: 's281' }, cierra: { forma: SIN_FORMA, secuencia_id: 's281' } }
 		]);
 	});
 });

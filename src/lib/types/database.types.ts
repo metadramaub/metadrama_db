@@ -501,6 +501,7 @@ export type Database = {
           created_at: string
           created_by: string
           escenario_id: string | null
+          final_acentual_predominante: string | null
           forma_id: string
           observaciones: string | null
           orden: number
@@ -516,6 +517,7 @@ export type Database = {
           created_at?: string
           created_by?: string
           escenario_id?: string | null
+          final_acentual_predominante?: string | null
           forma_id: string
           observaciones?: string | null
           orden?: number
@@ -531,6 +533,7 @@ export type Database = {
           created_at?: string
           created_by?: string
           escenario_id?: string | null
+          final_acentual_predominante?: string | null
           forma_id?: string
           observaciones?: string | null
           orden?: number
@@ -4746,6 +4749,10 @@ export type Database = {
         Args: { p_include_hidden?: boolean; p_obra_id: string }
         Returns: Json
       }
+      final_acentual_de_secuencia: {
+        Args: { p_anotacion: string }
+        Returns: string
+      }
       finalizar_recompute_datos_publicos: { Args: never; Returns: number }
       firma_de_eleccion: {
         Args: { e: Database["public"]["Tables"]["anotacion_elecciones"]["Row"] }
@@ -4986,6 +4993,10 @@ export type Database = {
       recompute_vocabulario_arte_metrico: {
         Args: { p_estrofa_tipo_id: string }
         Returns: undefined
+      }
+      recuento_final_acentual_autor: {
+        Args: { p_alcance: string; p_autor: string }
+        Returns: Json
       }
       regla_longitud_arquitectura_metrica: {
         Args: { p_arquitectura_id: string }

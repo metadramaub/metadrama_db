@@ -3,6 +3,7 @@ import { z } from 'zod';
 import type { RequestHandler } from './$types';
 import { estadoImportador } from '$lib/server/importador-metrico/acceso';
 import { formasImportador } from '$lib/importador-metrico/catalogo';
+import { canManageImportCorrespondences } from '$lib/utils/permissions';
 
 /** Registra que un término que llegó sin identificar es esta forma (y arquitectura, si se da). */
 const texto = z.string().trim().min(1).max(400);
@@ -25,7 +26,9 @@ const cuerpoSchema = z
 const TAMANO_MAXIMO = 25_000;
 
 export const POST: RequestHandler = async (event) => {
-	await estadoImportador(event);
+	const { profile } = await estadoImportador(event);
+	if (!canManageImportCorrespondences(profile.roleTerm))
+		throw error(403, 'Solo admin e IP pueden registrar equivalencias. Pídesela por correo al equipo responsable.');
 	const cuerpo = await event.request.text();
 	if (cuerpo.length > TAMANO_MAXIMO) throw error(413, 'La correspondencia es demasiado extensa.');
 	let entrada: unknown;
@@ -48,6 +51,7 @@ export const POST: RequestHandler = async (event) => {
 		.from('correspondencias_importador')
 		.insert({ ...d, literal, creado_por: session.user.id });
 	if (r.error?.code === '23505') throw error(409, 'Esta correspondencia ya estaba registrada.');
+	if (r.error?.code === '42501') throw error(403, 'No tienes permiso para registrar equivalencias.');
 	if (r.error) throw error(503, 'No se pudo registrar la correspondencia.');
 	return json({ guardada: true }, { status: 201 });
 };

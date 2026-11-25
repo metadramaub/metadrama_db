@@ -277,10 +277,10 @@ export function transiciones(secuencias: SecuenciaAnalizable[]) {
 /** Cómo son las secuencias de cada forma: cuántas, cuánto miden y cuáles son sus extremos. */
 export function secuenciasPorForma(secuencias: SecuenciaAnalizable[]) {
 	return perfilDeFormas(secuencias).map((peso) => {
-		const largos = secuencias
+		const tiradas = secuencias
 			.filter((s) => claveDe(s) === peso.colorKey)
-			.map((s) => s.n_versos)
-			.sort((a, b) => a - b);
+			.sort((a, b) => a.v_ini - b.v_ini);
+		const largos = tiradas.map((s) => s.n_versos).sort((a, b) => a - b);
 		return {
 			forma: peso.forma,
 			colorKey: peso.colorKey,
@@ -288,7 +288,8 @@ export function secuenciasPorForma(secuencias: SecuenciaAnalizable[]) {
 			versos: peso.versos,
 			media: largos.length > 0 ? Math.round(peso.versos / largos.length) : 0,
 			minima: largos[0] ?? 0,
-			maxima: largos[largos.length - 1] ?? 0
+			maxima: largos[largos.length - 1] ?? 0,
+			tiradas: tiradas.map((s) => ({ ...referenciaDe(s), versos: s.n_versos }))
 		};
 	});
 }
@@ -495,10 +496,8 @@ export function cierreDeJornadas(secuencias: SecuenciaAnalizable[]) {
 			.sort((a, b) => a.v_ini - b.v_ini);
 		return {
 			jornada,
-			abre: suyas[0] ? nombreDe(suyas[0]) : null,
-			abreColorKey: suyas[0] ? claveDe(suyas[0]) : null,
-			cierra: suyas.length > 0 ? nombreDe(suyas[suyas.length - 1]) : null,
-			cierraColorKey: suyas.length > 0 ? claveDe(suyas[suyas.length - 1]) : null
+			abre: referenciaDe(suyas[0]),
+			cierra: referenciaDe(suyas[suyas.length - 1])
 		};
 	});
 }

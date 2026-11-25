@@ -1,6 +1,22 @@
 /** Presentación del ensayo de importación. Ninguno de estos tipos autoriza un guardado. */
 export type IncidenciaImportador = { codigo: string; ruta: string; mensaje: string };
 export type DestinoMetrico = { forma_slug: string; arquitectura_slug: string | null };
+export type CorreccionFuente = {
+	tramo_ref: string;
+	v_ini: number;
+	v_fin: number;
+	n_versos_fuente: number | null;
+	motivo: string;
+};
+export type FilaRevisionFuente = {
+	id: string;
+	denominacion_literal: string | null;
+	pagina: number | null;
+	v_ini: number | null;
+	v_fin: number | null;
+	n_versos_fuente: number | null;
+};
+export type RevisionFuente = { correcciones: CorreccionFuente[]; finales: string };
 export type MetadatosEditables = {
 	titulo: string;
 	autor_nombre: string;
@@ -31,6 +47,7 @@ export type SegmentoMinimo = {
 		pagina: number | null;
 		notas_ref: string[];
 		tramos_ref?: string[];
+		correcciones?: CorreccionFuente[];
 	};
 	identificacion: DestinoMetrico | null;
 	candidatas: DestinoMetrico[];
@@ -111,6 +128,7 @@ export type NotaFuenteImportador = {
 	tramos_ref?: string[];
 };
 export type FilaVistaPrevia = SegmentoMinimo & {
+	cifras_originales?: FilaRevisionFuente[];
 	longitud?: { estado: 'compatible' | 'revisar' | 'sin_regla' | 'sin_identificar'; mensaje: string | null };
 	notas_fuente?: NotaFuenteImportador[];
 	jornada: number | null;
@@ -125,6 +143,8 @@ export type ResultadoVistaPrevia = {
 	metadatos: MetadatosEditables;
 	datos: BorradorFichaMinima | null;
 	pendientes_metadatos?: IncidenciaImportador[];
+	revision_fuente?: { filas: FilaRevisionFuente[]; sin_jornadas: boolean };
+	jornadas_pendientes?: boolean;
 	resumen: ResumenMinimo | null;
 	filas: FilaVistaPrevia[];
 	errores: IncidenciaImportador[];

@@ -10,16 +10,21 @@
 	import InlineNotePopover from '$lib/components/ui/inline-note-popover.svelte';
 	import { proponerDivisionDesdeNota } from '$lib/importador-metrico/division-nota';
 
-	let { vista, desactualizada = false, formas = [], ocupado = false, editable = false, restablecer = true, guardarDirecto = false, errorEdicion, onabrir, oneditar, oncancelar } = $props<{
+	let { vista, desactualizada = false, formas = [], ocupado = false, editable = false, puedeRegistrarCorrespondencias = false, restablecer = true, guardarDirecto = false, errorEdicion, onabrir, oneditar, oncancelar } = $props<{
 		vista: ResultadoVistaPrevia; desactualizada?: boolean; formas?: FormaEditable[]; ocupado?: boolean;
 		editable?: boolean; restablecer?: boolean; oneditar?: (tramo: string, cambio: EdicionFila | null) => void;
+		puedeRegistrarCorrespondencias?: boolean;
 		guardarDirecto?: boolean; errorEdicion?: string; onabrir?: () => void;
 		oncancelar?: () => void;
 	}>();
 	let editando = $state<string | null>(null);
-	let enviada = $state<ResultadoVistaPrevia | null>(null);
+	// Conserva la identidad de la vista para distinguir el envío de la respuesta.
+	let enviada = $state.raw<ResultadoVistaPrevia | null>(null);
 	$effect(() => {
-		if (enviada && vista !== enviada) {
+		if (!enviada || ocupado) return;
+		if (errorEdicion) {
+			enviada = null;
+		} else if (vista !== enviada) {
 			if (!vista.errores.length) editando = null;
 			enviada = null;
 		}
@@ -34,9 +39,15 @@
 		filtro === 'todos' || (filtro === 'sin_resolver' && sinEquivalencia(f)) ||
 		(filtro === 'desviaciones' && f.desviaciones.length > 0) ||
 		(filtro === 'longitud' && f.longitud?.estado === 'revisar')));
-	const jornadas = $derived<Array<FichaMinima['jornadas'][number] & { filas: FilaVistaPrevia[] }>>((vista.datos?.jornadas ?? []).map((j: FichaMinima['jornadas'][number]) => ({
-		...j, filas: filas.filter((f: FilaVistaPrevia) => f.jornada === j.numero)
-	})));
+	type Grupo = Omit<FichaMinima['jornadas'][number], 'numero'> & { numero: number | null; filas: FilaVistaPrevia[] };
+	const jornadas = $derived.by((): Grupo[] => {
+		if (vista.jornadas_pendientes && filas.length) return [{
+			numero: null, rotulo_literal: null, v_ini: filas[0].v_ini, v_fin: filas.at(-1)!.v_fin, filas
+		}];
+		return (vista.datos?.jornadas ?? []).map((j: FichaMinima['jornadas'][number]) => ({
+			...j, filas: filas.filter(f => f.jornada === j.numero)
+		}));
+	});
 	const numero = (n: number) => new Intl.NumberFormat('es-ES').format(n);
 	const fuente = (id: string | null) => (id ?? '').replace(/^foto-/, 'Foto ');
 	function propuestasDivision(fila: FilaVistaPrevia) {
@@ -63,10 +74,10 @@
 	{#if vista.resumen && vista.datos}
 		{#if editando && editable}
 			{#key editando}
-				<EditorSecuencia datos={vista.datos} tramoRef={editando} {formas} {ocupado} {guardarDirecto} notasFuente={vista.filas.filter((f: FilaVistaPrevia) => f.origen.tramo_ref === editando).flatMap((f: FilaVistaPrevia) => f.notas_fuente ?? [])} errores={[...vista.errores.map((e: { mensaje: string }) => e.mensaje), ...(errorEdicion ? [errorEdicion] : [])]}
+				<EditorSecuencia datos={vista.datos} tramoRef={editando} {formas} {ocupado} {guardarDirecto} {puedeRegistrarCorrespondencias} notasFuente={vista.filas.filter((f: FilaVistaPrevia) => f.origen.tramo_ref === editando).flatMap((f: FilaVistaPrevia) => f.notas_fuente ?? [])} errores={[...vista.errores.map((e: { mensaje: string }) => e.mensaje), ...(errorEdicion ? [errorEdicion] : [])]}
 					onaplicar={(cambio) => aplicar(cambio.tramo_ref, cambio)}
 					onrestablecer={restablecer ? () => { if (editando) aplicar(editando, null); } : undefined}
-					oncancelar={() => { editando = null; oncancelar?.(); }} />
+					oncancelar={() => { editando = null; enviada = null; oncancelar?.(); }} />
 			{/key}
 		{/if}
 		<div class:opacity-60={desactualizada} class="grid gap-3 sm:grid-cols-3">
@@ -84,7 +95,7 @@
 			</div>
 			<div class="card p-4">
 				<p class="form-label">Jornadas</p>
-				<p class="text-2xl font-semibold">{vista.resumen.jornadas}</p>
+				<p class="text-2xl font-semibold">{vista.jornadas_pendientes ? 'Pendientes' : vista.resumen.jornadas}</p>
 			</div>
 		</div>
 		<div class="flex justify-end">
@@ -105,14 +116,14 @@
 		{/if}
 		{#each jornadas as jornada (jornada.numero)}
 			{#if jornada.filas.length}
-				<section class="space-y-2" aria-label={'Jornada ' + jornada.numero}>
+				<section class="space-y-2" aria-label={jornada.numero === null ? 'Filas sin jornada asignada' : 'Jornada ' + jornada.numero}>
 					<header class="flex items-baseline justify-between gap-3">
-						<h3 class="font-semibold">Jornada {jornada.numero}</h3>
+						<h3 class="font-semibold">{jornada.numero === null ? 'Filas sin jornada asignada' : 'Jornada ' + jornada.numero}</h3>
 						<span class="text-xs text-[color:var(--muted-foreground)]">vv. {jornada.v_ini}–{jornada.v_fin}</span>
 					</header>
 					<div class="card overflow-x-auto">
 						<table class="w-full min-w-[860px] table-fixed text-left text-sm">
-							<caption class="sr-only">Esquema métrico de la jornada {jornada.numero}</caption>
+							<caption class="sr-only">{jornada.numero === null ? 'Esquema métrico sin jornadas asignadas' : 'Esquema métrico de la jornada ' + jornada.numero}</caption>
 							<colgroup><col class="w-[11%]" /><col class="w-[17%]" /><col class="w-[17%]" /><col class="w-[24%]" /><col class="w-[15%]" /><col class={oneditar ? 'w-[11%]' : 'w-[16%]'} />{#if oneditar}<col class="w-[5%]" />{/if}</colgroup>
 							<thead class="bg-[color:var(--muted)]">
 								<tr><th class="px-3 py-2">Versos</th><th class="px-3 py-2">En la edición</th><th class="px-3 py-2">Forma</th><th class="px-3 py-2"><span class="form-label-with-help">Datos métricos<FieldHelpTooltip label="Datos métricos que se guardarán" text="Rasgos y valores, remates y desviaciones incorporados a la ficha mínima. Los campos sin especificar quedan sin dato." /></span></th><th class="px-3 py-2">Notas</th><th class="px-3 py-2">Fuente</th>{#if oneditar}<th class="px-3 py-2"><span class="sr-only">Acciones</span></th>{/if}</tr>
@@ -156,6 +167,14 @@
 										<td class="min-w-0 overflow-hidden px-3 py-2 text-xs text-[color:var(--muted-foreground)]">
 											<span class="block max-w-full truncate" title={fila.origen.fuente_id ?? ''}>{fuente(fila.origen.fuente_id)}</span>
 											{#if fila.origen.pagina}<p class="mt-1">p. {fila.origen.pagina}</p>{/if}
+											{#each fila.origen.correcciones ?? [] as correccion (correccion.tramo_ref)}
+												{@const original = fila.cifras_originales?.find((f: NonNullable<FilaVistaPrevia['cifras_originales']>[number]) => f.id === correccion.tramo_ref)}
+												{#if original}
+													<p class="mt-1">Original · vv. {original.v_ini ?? '—'}–{original.v_fin ?? '—'} · {original.n_versos_fuente === null ? 'sin recuento' : original.n_versos_fuente + ' versos'}</p>
+												{/if}
+												<p class="mt-1">Corrección de {correccion.tramo_ref} · vv. {correccion.v_ini}–{correccion.v_fin} · {correccion.n_versos_fuente === null ? 'sin recuento' : correccion.n_versos_fuente + ' versos'}</p>
+												<p>{correccion.motivo}</p>
+											{/each}
 										</td>
 										{#if oneditar}
 											<td class="px-3 py-2">

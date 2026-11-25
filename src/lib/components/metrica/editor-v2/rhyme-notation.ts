@@ -1,6 +1,27 @@
+import { separarRegimen } from '$lib/metrica/esquema-rima-escrito';
+
 /** Elimina solo separación accidental: la caja de las letras también codifica la medida. */
 export function compactRhymeNotation(value: string): string {
 	return value.normalize('NFC').replace(/\s+/gu, '');
+}
+
+const esSeparador = (signo: string) => signo === '|' || signo === ':' || /\s/u.test(signo);
+
+/** Ajusta la caja de las letras sin convertir el régimen ni los caracteres inválidos en versos. */
+export function normalizarRimaEscrita(
+	value: string,
+	medidaEn: (posicion: number) => number | null
+): string {
+	const { notacion, regimen } = separarRegimen(value);
+	let posicion = 0;
+	const letras = Array.from(compactRhymeNotation(notacion))
+		.map((signo) => {
+			if (esSeparador(signo)) return signo;
+			posicion += 1;
+			return /^[A-Za-z]$/u.test(signo) ? normalizeRhymeSymbol(signo, medidaEn(posicion)) : signo;
+		})
+		.join('');
+	return value.includes('·') ? letras + ' · ' + (regimen ?? '') : letras;
 }
 
 /**
@@ -20,8 +41,7 @@ export function repartirNotacion(
 	notacion: string,
 	destino: number[]
 ): { letras: [number, string][]; cortes: number[] } | null {
-	const signos = Array.from(notacion.normalize('NFC').trim());
-	const esSeparador = (signo: string) => signo === '|' || signo === ':' || /\s/u.test(signo);
+	const signos = Array.from(separarRegimen(notacion).notacion.normalize('NFC'));
 	if (signos.filter((signo) => !esSeparador(signo)).length !== destino.length) return null;
 
 	const letras: [number, string][] = [];

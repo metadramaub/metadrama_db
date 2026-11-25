@@ -117,7 +117,7 @@ try {
 				({ datos: d, resumen: r }) =>
 					`| ${cell(d.metadatos.titulo)} | ${r.extension} | ${r.jornadas} | ${r.bloques} | ${r.forma_identificada} | ${r.forma_pendiente} | [ver](./preparadas/${d.obra_ref}.md) |`
 			),
-			'El contrato exige género, fechas, autor y edición. Fuente de datación y fundamentos de autoría pueden estar vacíos; tampoco exige editor asignado.',
+			'El contrato exige género y edición. Los límites de datación pueden quedar abiertos y la autoría admite una referencia nominal vacía. La fuente de datación, el fundamento de autoría y el editor asignado son opcionales.',
 			'El perfil mantiene los versos pendientes en el denominador. El remate de Canción y las desviaciones de Los locos se conservan; no se crean respuestas v2. La segmentación sigue siendo provisional.',
 			'El JSON Schema describe campos y tipos. Las comprobaciones entre rangos, catálogo, identificaciones y permisos se ejecutan en el módulo; no quedan certificadas por JSON Schema solo.',
 			'La referencia del catálogo es la conservada con el piloto. La futura integración deberá resolver identidades y consultar el catálogo vigente en el servidor.'

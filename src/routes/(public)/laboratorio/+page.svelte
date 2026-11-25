@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { etiquetaFinal } from '$lib/metrica/final-acentual';
 	import { datacionDeObra, formatoDatacion, coincideDatacion } from '$lib/dataciones';
 	import LaboratoryDistributionChart from '$lib/components/laboratorio/LaboratoryDistributionChart.svelte';
 	import LaboratoryFeatureGroupComparison from '$lib/components/laboratorio/LaboratoryFeatureGroupComparison.svelte';
@@ -36,7 +37,7 @@
 	let { data } = $props<{ data: PageData }>();
 
 	type LaboratorySpace = 'explorar' | 'comparar';
-	type ExplorationView = 'medidas' | 'formas' | 'transiciones';
+	type ExplorationView = 'medidas' | 'formas' | 'transiciones' | 'finales';
 	type ComparisonView = 'medidas' | 'formas' | 'transiciones';
 	type FeatureComparisonMode = 'diffusion' | 'typical';
 	type FormRow = {
@@ -77,12 +78,28 @@
 	let groupADateFrom = $state('');
 	let groupADateTo = $state('');
 	let groupBAuthors = $state<string[]>([]);
+	let formaFinal = $state('');
+	let obraFinal = $state('');
 	let groupBDateFrom = $state('');
 	let groupBDateTo = $state('');
 
 	const authorItems = $derived(buildAuthorItems(allWorks));
 	const sampleWorks = $derived(filterWorks(allWorks, selectedAuthors, dateFrom, dateTo));
 	const sampleAuthorItems = $derived(buildAuthorItems(sampleWorks));
+	const finalesDocumentados = $derived(
+		sampleWorks.flatMap((work) => (work.finales_acentuales ?? []).map((final) => ({ ...final, work })))
+	);
+	const formasConFinal = $derived(
+		[...new Set(finalesDocumentados.map((final) => final.forma).filter((forma) => forma !== null))]
+			.sort((a, b) => humanize(a).localeCompare(humanize(b), 'es'))
+	);
+	const obrasConFinal = $derived(sampleWorks.filter((work) => work.finales_acentuales?.length));
+	const finalesFiltrados = $derived(
+		finalesDocumentados.filter((final) =>
+			(!formaFinal || !formasConFinal.includes(formaFinal) || final.forma === formaFinal) &&
+			(!obraFinal || !obrasConFinal.some((work) => work.obra_id === obraFinal) || final.work.obra_id === obraFinal)
+		)
+	);
 	const groupAWorks = $derived(filterWorks(sampleWorks, groupAAuthors, groupADateFrom, groupADateTo));
 	const groupBWorks = $derived(filterWorks(sampleWorks, groupBAuthors, groupBDateFrom, groupBDateTo));
 	const formGroupComparisonRows = $derived(buildFormGroupComparisons(groupAWorks, groupBWorks));
@@ -478,7 +495,8 @@
 								tabs={[
 									{ id: 'medidas', label: 'Medidas' },
 									{ id: 'formas', label: 'Formas' },
-									{ id: 'transiciones', label: 'Transiciones' }
+									{ id: 'transiciones', label: 'Transiciones' },
+									{ id: 'finales', label: 'Finales acentuales' }
 								]}
 								active={activeView}
 								onChange={(id) => (activeView = id as ExplorationView)}
@@ -561,6 +579,60 @@
 							</div>
 						</section>
 					</div>
+				{:else if activeView === 'finales'}
+					<section class="space-y-4">
+						<h2 class="text-lg font-semibold">Finales acentuales predominantes</h2>
+						{#if finalesDocumentados.length > 0}
+							<div class="grid max-w-xl gap-3 sm:grid-cols-2">
+								<label class="form-field">
+									<span class="form-label">Forma</span>
+									<select class="h-10 border border-[color:var(--border)] bg-white px-2 text-sm" bind:value={formaFinal}>
+										<option value="">Todas las formas</option>
+										{#each formasConFinal as forma (forma)}
+											<option value={forma}>{humanize(forma)}</option>
+										{/each}
+									</select>
+								</label>
+								<label class="form-field">
+									<span class="form-label">Obra</span>
+									<select class="h-10 border border-[color:var(--border)] bg-white px-2 text-sm" bind:value={obraFinal}>
+										<option value="">Todas las obras</option>
+										{#each obrasConFinal as work (work.obra_id)}
+											<option value={work.obra_id}>{work.titulo}</option>
+										{/each}
+									</select>
+								</label>
+							</div>
+						{/if}
+						<p class="text-sm text-[color:var(--muted-foreground)]">
+							{finalesFiltrados.length} {finalesFiltrados.length === 1 ? 'secuencia' : 'secuencias'} con mayoría documentada.
+							Las secuencias sin marca quedan sin dato.
+						</p>
+						{#if finalesFiltrados.length > 0}
+							<div class="overflow-x-auto">
+								<table class="w-full text-left text-sm">
+									<thead class="border-b border-[color:var(--border)]">
+										<tr>
+											<th scope="col" class="py-2 pr-4">Obra</th>
+											<th scope="col" class="py-2 pr-4">Versos</th>
+											<th scope="col" class="py-2 pr-4">Forma</th>
+											<th scope="col" class="py-2">Final predominante</th>
+										</tr>
+									</thead>
+									<tbody>
+										{#each finalesFiltrados as final (`${final.work.obra_id}:${final.v_ini}:${final.v_fin}`)}
+											<tr class="border-b border-[color:var(--border)]">
+												<td class="py-2 pr-4"><a class="underline" href={`/obras/${final.work.slug}`}>{final.work.titulo}</a></td>
+												<td class="py-2 pr-4 tabular-nums">{final.v_ini}–{final.v_fin}</td>
+												<td class="py-2 pr-4">{final.forma ? humanize(final.forma) : 'Sin forma'}</td>
+												<td class="py-2">{etiquetaFinal[final.valor]}</td>
+											</tr>
+										{/each}
+									</tbody>
+								</table>
+							</div>
+						{/if}
+					</section>
 				{:else if activeView === 'formas'}
 					<section class="border border-[color:var(--border)] bg-white">
 						<header class="border-b border-[color:var(--border)] px-5 py-4">

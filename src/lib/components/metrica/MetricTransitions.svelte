@@ -33,7 +33,7 @@
 <section class="space-y-3" aria-labelledby="metric-transitions-title">
 	<MetricAnalysisHeading
 		id="metric-transitions-title"
-		title="Qué forma sigue a cuál"
+		title="Transiciones entre formas"
 		description="Transiciones entre secuencias consecutivas, incluidos los pasos de una jornada a otra."
 	/>
 

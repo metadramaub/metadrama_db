@@ -6,6 +6,7 @@
 	import type { MetricSequenceFormGroup } from './metric-display.types';
 	import type {
 		CambioDeSecuenciaEnCuadro,
+		ReferenciaSecuenciaEnCorte,
 		SecuenciaPorCortesDeCuadro
 	} from '$lib/metrica/analisis-ficha';
 
@@ -20,10 +21,8 @@
 
 	interface JornadaEnds {
 		jornada: number;
-		abre: string | null;
-		abreColorKey: string | null;
-		cierra: string | null;
-		cierraColorKey: string | null;
+		abre: ReferenciaSecuenciaEnCorte;
+		cierra: ReferenciaSecuenciaEnCorte;
 	}
 
 	const props = $props<{
@@ -92,13 +91,15 @@
 
 	const gruposConCortes = $derived(agruparPorForma(conCortes, true));
 	const gruposSinCortes = $derived(agruparPorForma(sinCortes, false));
+	const rango = (s: { v_ini: number; v_fin: number }) =>
+		s.v_ini === s.v_fin ? `v. ${s.v_ini}` : `vv. ${s.v_ini}–${s.v_fin}`;
 </script>
 
 <section class="space-y-3" aria-labelledby="metric-articulation-title">
 	<MetricAnalysisHeading
 		id="metric-articulation-title"
 		title="Jornadas y cuadros"
-		description="Cómo se relacionan los límites dramáticos con el curso de las formas."
+		description="Dónde coinciden los cambios de cuadro con los de secuencia y con qué formas abre y cierra cada jornada."
 	/>
 	<div class="space-y-3">
 		<div class="rounded-lg border border-[color:var(--border)] bg-white px-4 py-4 sm:px-5">
@@ -107,7 +108,7 @@
 				Solo cambios internos de jornada; los cortes de jornada se cuentan aparte.
 			</p>
 			{#if props.cuts.total > 0}
-				<div class="mt-4 flex gap-5 text-sm">
+				<div class="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm">
 					<button
 						type="button"
 						class={`min-w-36 border-b-2 px-1 py-2 text-left transition-colors ${detalle === 'cambios' ? 'border-[color:var(--gray-800)]' : 'border-transparent hover:border-[color:var(--gray-300)]'}`}
@@ -199,14 +200,10 @@
 							<tr class="border-b border-[color:var(--border)] last:border-b-0">
 								<th scope="row" class="py-2.5 pr-3 text-left font-medium">{jornada.jornada}</th>
 								<td class="px-3 py-2.5">
-									{#if jornada.abre && jornada.abreColorKey}
-										<MetricFormLabel forma={jornada.abre} colorKey={jornada.abreColorKey} colorByForma={props.colorByForma} />
-									{:else}—{/if}
+									{@render extremo(jornada.abre, `Apertura de la jornada ${jornada.jornada}`)}
 								</td>
 								<td class="py-2.5 pl-3">
-									{#if jornada.cierra && jornada.cierraColorKey}
-										<MetricFormLabel forma={jornada.cierra} colorKey={jornada.cierraColorKey} colorByForma={props.colorByForma} />
-									{:else}—{/if}
+									{@render extremo(jornada.cierra, `Cierre de la jornada ${jornada.jornada}`)}
 								</td>
 							</tr>
 						{/each}
@@ -218,3 +215,14 @@
 		</div>
 	</div>
 </section>
+
+{#snippet extremo(secuencia: ReferenciaSecuenciaEnCorte, contexto: string)}
+	<button
+		type="button"
+		class="rounded text-left underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2"
+		aria-label={`${contexto}, ${secuencia.forma}, ${rango(secuencia)}`}
+		onclick={() => props.onOpen(secuencia.secuencia_id)}
+	>
+		<MetricFormLabel forma={secuencia.forma} colorKey={secuencia.colorKey} colorByForma={props.colorByForma} />
+	</button>
+{/snippet}

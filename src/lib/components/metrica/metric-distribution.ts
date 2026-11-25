@@ -1,3 +1,4 @@
+import type { FinalPredominante } from '$lib/metrica/final-acentual';
 // Construye la jerarquía real de la ficha: forma → arquitectura → respuestas observadas.
 // Cada dimensión se cuenta en su escala métrica: secuencias, versos o realizaciones concretas.
 import type { MetricDistributionSlice } from './metric-display.types';
@@ -68,6 +69,8 @@ export interface MetricDistributionGroup extends MetricDistributionSlice {
 }
 
 export interface MetricDistributionSequence {
+	forma_slug?: string | null;
+	final_acentual_predominante?: FinalPredominante | null;
 	secuencia_id?: string;
 	v_ini?: number;
 	v_fin?: number;
@@ -265,6 +268,9 @@ function featureLayers(sequences: MetricDistributionSequence[]): MetricDistribut
 	const porRasgo = new Map<string, Map<string, Map<string, number>>>();
 	for (const sequence of sequences) {
 		for (const row of (sequence.rasgos ?? []).filter(esCapa)) {
+			if (sequence.final_acentual_predominante === 'esdrujulo' &&
+				['endecasilabo_suelto', 'endecasilabo_encadenado'].includes(sequence.forma_slug ?? '') &&
+				row.rasgo_slug === 'final_acentual' && row.valor_slug === 'esdrujulo') continue;
 			const valores = porRasgo.get(row.rasgo_nombre) ?? new Map<string, Map<string, number>>();
 			const secuencias = valores.get(row.valor_nombre) ?? new Map<string, number>();
 			secuencias.set(sequenceKey(sequence), sequence.n_versos);

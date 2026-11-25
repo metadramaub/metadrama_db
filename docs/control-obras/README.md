@@ -250,6 +250,21 @@ La revisión visual inicial cubrió corpus y encargos; la herramienta dejó de r
 cerrar el repaso del formulario. La carga SSR, las API y los permisos sí se comprobaron.
 La transición básica → completa se validó en una copia aislada. La migración
 `20261112160000` se aplicó al Supabase compartido el 12 de noviembre de 2026 tras
-guardar la copia completa y el snapshot de obras. La revisión en navegador y la
-incorporación de las básicas a los productores de análisis se siguen en
-[PENDIENTES](../PENDIENTES.md).
+guardar la copia completa y el snapshot de obras. El 18 de noviembre se creó una básica
+sintética desde el importador en producción, se corrigió su forma, se encargó la completa y
+se inició reutilizando la jornada y la secuencia (vv. 1–8). «Romance» apareció como propuesta
+en el editor V2 y en la copia básica consultable, y la identificación V2 seguía por hacer.
+Tras desplegar `a0438607`, una segunda básica sintética reflejó las correcciones en la tabla al
+cerrarse el editor, sin recarga de página. Se inició su completa desde cero, con otra edición base
+y sin copiar jornadas ni secuencias. La básica siguió consultable con su edición y los vv. 1–8.
+
+El 19 de noviembre, en una ficha completa de prueba, el aviso apareció al cambiar de pestaña y
+al intentar volver a Obras desde Datos. «Seguir editando» conservó el título temporal y «Salir sin
+guardar» recuperó el título guardado en la prueba de cambio de pestaña. Durante la prueba de
+recarga actuó el guardado automático de Datos. Se restauró el título original y se comprobó en
+una carga posterior. Los recorridos que requieren revisión figuran en [Pendientes](../PENDIENTES.md).
+
+Tras desplegar `ef8014c0`, se comprobó en las fichas sintéticas de producción que al cerrar el
+editor de secuencias aparece el aviso tanto al cambiar la arquitectura de una básica como al
+cambiar el rango de una completa. «Seguir editando» recupera el borrador y, tras confirmar el
+descarte, al reabrir se recupera el valor guardado.

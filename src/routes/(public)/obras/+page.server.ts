@@ -24,7 +24,7 @@ import {
 import { loadPublicSections, requireSectionVisible } from '$lib/server/secciones-publicas';
 import { loadPublicArtifact, publicArtifactKeys } from '$lib/server/public-artifacts';
 import type { Tables } from '$lib/types/database.types';
-import type { ObrasIndexArtifactPayload } from '$lib/types/public-artifacts.types';
+import type { ObrasIndexArtifactItem, ObrasIndexArtifactPayload } from '$lib/types/public-artifacts.types';
 
 type PublicCatalogObra = Pick<
 	ObraEditorial,
@@ -55,6 +55,7 @@ type PublicCatalogObra = Pick<
 	metros_presentes: string[] | null;
 	tipos_forma_presentes: string[] | null;
 	variaciones_presentes: string[] | null;
+	finales_acentuales_presentes: ObrasIndexArtifactItem['finales_acentuales_presentes'] | null;
 	subtipos_presentes: string[] | null;
 };
 
@@ -304,6 +305,7 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 				metros_presentes: item.metros_presentes,
 				tipos_forma_presentes: item.tipos_forma_presentes,
 				variaciones_presentes: item.variaciones_presentes,
+				finales_acentuales_presentes: item.finales_acentuales_presentes,
 				subtipos_presentes: item.subtipos_presentes
 			}
 		})) as unknown as ObraRow[];
@@ -371,7 +373,7 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 		| 'tipos_forma_presentes'
 		| 'variaciones_presentes'
 		| 'subtipos_presentes'
-	>;
+	> & Pick<ObrasIndexArtifactItem, 'finales_acentuales_presentes'>;
 	/**
 	 * El resumen de una obra, que llegó incrustado en la consulta.
 	 *
@@ -415,6 +417,7 @@ export const load: PageServerLoad = async ({ locals, setHeaders, url }) => {
 			formas_presentes: wantsMetricFilters ? (resumen?.formas_presentes ?? null) : null,
 			metros_presentes: wantsMetricFilters ? (resumen?.metros_presentes ?? null) : null,
 			tipos_forma_presentes: wantsMetricFilters ? (resumen?.tipos_forma_presentes ?? null) : null,
+			finales_acentuales_presentes: wantsMetricFilters ? (resumen?.finales_acentuales_presentes ?? null) : null,
 			variaciones_presentes: wantsMetricFilters ? (resumen?.variaciones_presentes ?? null) : null,
 			subtipos_presentes: wantsMetricFilters ? (resumen?.subtipos_presentes ?? null) : null
 		};

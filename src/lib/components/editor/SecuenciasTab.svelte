@@ -780,6 +780,7 @@
 
 	function setSidebarBaselineFromCurrent() {
 		sidebarBaselineSnapshot = sidebarSnapshot();
+		metricaInicial = metricaActual;
 		sidebarDirty = false;
 		reportPendingChanges(false);
 	}
@@ -789,9 +790,10 @@
 			sidebarDirty = false;
 			return false;
 		}
-		const current = sidebarSnapshot();
-		sidebarDirty = current !== sidebarBaselineSnapshot;
-		return sidebarDirty;
+		const pending = sidebarSnapshot() !== sidebarBaselineSnapshot ||
+			Boolean(estadoMetrico?.rangoEnEdicion) || metricaActual !== metricaInicial;
+		sidebarDirty = pending;
+		return pending;
 	}
 
 	function validateForm(showToast = true) {
@@ -1044,6 +1046,7 @@
 	 * validación y el rango que acota las caracterizaciones.
 	 */
 	function recibirEstadoMetrico(estado: MetricSequenceEditorState) {
+		if (metricaInicial === null) metricaInicial = JSON.stringify(estado.draft);
 		estadoMetrico = estado;
 		const { v_ini, v_fin } = estado.draft;
 		if (form.v_ini !== v_ini || form.v_fin !== v_fin) {
@@ -1159,6 +1162,8 @@
 		}
 	]);
 	let estadoMetrico = $state<MetricSequenceEditorState | null>(null);
+	let metricaInicial = $state<string | null>(null);
+	const metricaActual = $derived(estadoMetrico ? JSON.stringify(estadoMetrico.draft) : null);
 
 	/**
 	 * De dónde viene cada secuencia que ya estaba anotada con el vocabulario legado.
@@ -1232,6 +1237,8 @@
 		if (borradorEnSesion) {
 			return {
 				...borradorEnSesion,
+				final_acentual_predominante: borradorEnSesion.v_ini === vIni && borradorEnSesion.v_fin === vFin
+					? borradorEnSesion.final_acentual_predominante : null,
 				secuencia_id: editingId,
 				v_ini: vIni,
 				v_fin: vFin
@@ -1249,7 +1256,11 @@
 				choices: props.anotacionMetrica?.elecciones ?? [],
 				deviations: props.anotacionMetrica?.desviaciones ?? []
 			});
-			return { ...borrador, v_ini: vIni, v_fin: vFin };
+			return {
+				...borrador, v_ini: vIni, v_fin: vFin,
+				final_acentual_predominante: borrador.v_ini === vIni && borrador.v_fin === vFin
+					? borrador.final_acentual_predominante : null
+			};
 		}
 
 		return {
@@ -1438,19 +1449,13 @@
 	});
 
 	$effect(() => {
-		const open = sidebarOpen;
-		const readOnly = props.readOnly;
-		const track = `${form.v_ini}|${form.v_fin}|${form.estrofa_tipo_id}|${form.inaugura_espacio}|${form.versos_partidos}|${form.generos_intervinientes}|${form.intervencion_figuras_donaire}|${form.intervencion_personajes_sobrenaturales}|${form.evento_sobrenatural}|${form.sinopsis}|${editingId}`;
-		void track;
-
-		if (!open || readOnly) {
+		if (props.readOnly) {
 			sidebarDirty = false;
 			reportPendingChanges(false);
 			return;
 		}
 
-		sidebarDirty = sidebarSnapshot() !== sidebarBaselineSnapshot;
-		reportPendingChanges(sidebarDirty);
+		reportPendingChanges(refreshSidebarDirty());
 	});
 
 	onDestroy(() => {
@@ -1861,6 +1866,7 @@
 			haySiguiente={Boolean(nextSecuencia)}
 			sucio={sidebarDirty}
 			guardando={sidebarSaving}
+			confirmando={Boolean(pendingSidebarAction)}
 			error={estadoMetrico?.errorDeRango ?? null}
 			alEliminar={editingId && !props.readOnly ? () => openDelete(editingId as string) : null}
 			alCerrar={requestCloseSidebar}

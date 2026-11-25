@@ -19,6 +19,69 @@ ahora con foto buena.
 el prompt, el cambio se valida en otro lote nuevo, no en este. Las respuestas se guardan en
 `ensayos/piloto-2/<modelo-y-modo>/<obra_ref>/intento-01.json`.
 
+Las trece primeras respuestas de Gemini 3.5 Flash-Lite High pasan la validación de estructura
+tras la compleción mecánica. Seis tienen avisos de recuento, orden o solapamiento. El cotejo
+de la p. 71 de Castalia confirma que *El perro del hortelano* termina en el verso 3383. La
+respuesta le añade la redondilla de los vv. 1–196 y la silva de los vv. 197–205, que pertenecen
+a *El castigo sin venganza*. La primera respuesta de *El castigo* empieza en el verso 206 y
+también pasa la validación de estructura. En ese intento faltaba la foto de la p. 71. Al
+adjuntarla, el reintento recupera ambas filas. Para medir cobertura hay que contrastar las
+páginas y los extremos con el manifiesto y las fotos. Los originales se conservan en el
+[registro del ensayo](./ensayos/piloto-2/Gemini%203.5%20Flash-Lite%20High/registro.json).
+
+### Contraste con GPT-5.6 Instant
+
+Hay un JSON original por cada una de las trece obras (451 filas y 13 notas). Once llegaron en el
+primer intento. Los primeros intentos de *Las bizarrías de Belisa* y *Don Gil de las calzas verdes*
+produjeron imágenes y no quedó confirmado el modelo efectivo de esas dos respuestas. Se repitieron
+en chats nuevos con 5.6 Instant visible antes y después de enviar, pidiendo el bloque JSON en el
+chat. El prompt 0.27 se mantuvo íntegro. En *Alcalde* y *Olmedo* se verificó el selector durante
+la preparación. Los originales, hashes y condiciones se conservan en el
+[registro de GPT-5.6 Instant](./ensayos/piloto-2/ChatGPT%20GPT-5.6%20Instant/registro.json).
+
+Tras la compleción mecánica, los trece JSON pasan el validador de estructura y seis tienen avisos.
+Antes de ampliar la revisión de la fuente se preparaban siete vistas previas de GPT y ocho de
+Gemini. Al repetir la comprobación local con los mismos originales y el reintento de *El castigo*
+con las cuatro fotos, se preparan diez de GPT y nueve de Gemini. En ambos recuentos nuevos se
+incluye *Don Gil*, que aún necesita los límites de jornada. Se cotejaron con las fotos las
+divergencias que siguen, sin certificar la literalidad completa ni medir el tiempo de revisión.
+
+- **El perro del hortelano, pp. 70–71.** Conserva 48 filas métricas, vv. 1–3383, y la carta en
+  prosa entre los vv. 2025 y 2026 como fila sin intervalo. Deja cuatro precisiones de rima en
+  incidencias enlazadas a sus filas. La vista previa registra la carta dentro del romance de los
+  vv. 1988–2071. El primer
+  intento de Gemini falla por orden y solapamiento al añadir dos filas de la obra siguiente.
+- **El castigo sin venganza, pp. 71–74.** Conserva las 34 filas, vv. 1–3021, y enlaza las tres
+  notas. Trata los superíndices como llamadas, incluido el de «Octava», que Gemini había dejado
+  pegado al nombre. Hay diferencias de literalidad en la nota 1, como «Gasparetti» por el impreso
+  «Gasparretti». La precisión del v. 2473 sin rima se conserva como incidencia. La vista previa
+  prepara las 34 filas y deja seis formas sin resolver, las mismas que en el reintento de Gemini
+  con las cuatro fotos. Falta completar la edición base para guardar. La primera respuesta de
+  Gemini carecía de la p. 71, por lo que la comparación de cobertura se hace con su reintento.
+- **Don Gil de las calzas verdes, p. 69.** La tabla continua contiene los vv. 1–3272 sin encabezados
+  de acto. Ambos modelos dejan la jornada sin asignar en las 27 filas y conservan la décima
+  intercalada en los vv. 2270–2279. La vista previa de ambos prepara las filas y deja las
+  jornadas pendientes de cotejo.
+- **Fuenteovejuna, pp. 40–41.** GPT conserva el esquema `bccbbaa;a` en los vv. 2037–2044 y el total
+  impreso de `100,01` %. Gemini omite una `a` antes del separador y no recoge la fila del total.
+  La vista previa prepara ambos JSON y avisa del total transcrito por GPT.
+- **La vida de san Pedro Nolasco, p. 524.** GPT mantiene en el acto segundo las filas de los
+  vv. 1390–1587 que continúan la página anterior. Gemini las adelanta al tercero. GPT copia la
+  caja de `aBaBCC` en los vv. 1669–1722 y lee `-o` donde la foto dice `-eo` en los vv. 2265–2330.
+- **El caballero de Olmedo, Quien todo lo quiere y Los locos de Valencia.** Ambos modelos conservan
+  los números impresos que bloquean la vista previa. Se verificaron el recuento de 109 para los
+  vv. 787–887 y el inicio 1066 tras 1465 en *Olmedo* (pp. 88–89), el solapamiento del v. 1914
+  en *Quien todo lo quiere* (p. 87) y el recuento de 80 para los vv. 1021–1050 en *Los locos* (p. 40).
+  Las pruebas con correcciones simuladas preparan *Quien todo lo quiere* y *Los locos* conservando
+  las cifras impresas. *Olmedo* trae además localizadores de prosa abreviados como «570 +»,
+  algunos entre filas de distinta forma.
+
+En la prueba de aceptación del 18 de noviembre de 2026, el dashboard desplegado bloqueó los
+originales de *Los locos de Valencia* y *Quien todo lo quiere*. En *Los locos* también bloqueó
+un recuento propuesto de 31. La ficha privada de prueba, reabierta después de guardar, mostró
+los 80 versos impresos, los 30 comprobados para los vv. 1021–1050 y el motivo de la corrección.
+La prueba con un colaborador se hará al empezar a usar el importador.
+
 ## Guardar una respuesta
 
 Usar `ensayos/v0.27/<modelo-y-modo>/<obra>/intento-01.json`, una obra por archivo y sin corregir

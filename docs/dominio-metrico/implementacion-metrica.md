@@ -809,6 +809,18 @@ organización en pareados, dístico final, encadenamiento interior— y solo se 
 Sumar los versos de un rasgo de secuencia afirmaría de cada verso lo que solo se dijo del conjunto.
 Un rasgo nuevo tiene que declararla: la columna no tiene valor por defecto.
 
+El **final acentual predominante** es una observación transversal en
+`anotaciones_metricas.final_acentual_predominante`. El editor lo ofrece en las fichas detalladas
+para secuencias de dos o más versos e incluye la versificación irregular. Se rellena al observar
+más de la mitad de los finales agudos o esdrújulos. El valor nulo deja la mayoría sin dato.
+Un cambio del tramo invalida la observación. Los cierres específicos conservan sus preguntas.
+
+`final_acentual_de_secuencia` resuelve un solo valor efectivo por tramo. Los esdrújulos
+sistemáticos de los endecasílabos sueltos y encadenados acreditan mayoría cuando la respuesta
+abarca la secuencia. El detalle de la ficha, los recuentos de obra y autor y el índice usan ese
+valor. El laboratorio usa los rangos documentados de fichas detalladas en el artefacto privado de
+comparativas y los cuenta por secuencia. El recuento representa observaciones positivas.
+
 **Y dice si construye la secuencia o se le añade** (`naturaleza`, obligatoria desde el mismo día).
 `construccion`: describe cómo está hecha —densidad de rima, organización en pareados, dístico final,
 encadenamiento interior, asonancia, pie quebrado—, y la combinación de estos es el tipo de la
@@ -857,9 +869,9 @@ como RPC a los roles anónimo y autenticado.
 La corrección de rendimiento `20261110130000` está **aplicada al Supabase compartido el 10 de
 noviembre de 2026**, tras ensayarla en copia aislada a raíz del timeout comunicado para
 *El prado de Valencia*. Se contrastaron las siete funciones desplegadas con las ensayadas y se
-comprobó que el tramo 1–1236 seguía conservado; queda confirmar el reintento real de la editora.
-Deriva las opciones una
-vez por petición, materializa las preguntas antes de contrastarlas con las unidades y evita
+comprobó que el tramo 1–1236 seguía conservado. El 18 de noviembre se confirmó que la editora
+pudo guardar sin problemas. La corrección deriva las opciones una vez por petición, materializa
+las preguntas antes de contrastarlas con las unidades y evita
 recorrer unidades cuya arquitectura no tiene secciones que comprobar. La derivación SQL permite
 que el planificador aplique filtros, con referencias cualificadas. Cuatro comprobadores de
 trigger diferidos ejecutan las mismas reglas con los permisos de su propietario; la autorización

@@ -26,7 +26,7 @@ function evento(input: unknown = cuerpo) {
 const post = (e: ReturnType<typeof evento>) => POST(e as never);
 
 beforeEach(() => {
-	vi.mocked(estadoImportador).mockReset().mockResolvedValue({} as never);
+	vi.mocked(estadoImportador).mockReset().mockResolvedValue({ profile: { roleTerm: 'admin' } } as never);
 });
 
 describe('registro de correspondencias', () => {
@@ -53,6 +53,18 @@ describe('registro de correspondencias', () => {
 		const e = evento();
 		await expect(post(e)).rejects.toMatchObject({ status: 403 });
 		expect(e.from).not.toHaveBeenCalled();
+	});
+	it('impide registrar a un editor autorizado a importar', async () => {
+		vi.mocked(estadoImportador).mockResolvedValue({
+			profile: { roleTerm: 'editor' }, guardadoDisponible: true
+		} as never);
+		const e = evento();
+		await expect(post(e)).rejects.toMatchObject({ status: 403, body: { message: expect.stringContaining('por correo') } });
+		expect(e.from).not.toHaveBeenCalled();
+	});
+	it('permite registrar al IP', async () => {
+		vi.mocked(estadoImportador).mockResolvedValue({ profile: { roleTerm: 'ip' } } as never);
+		expect((await post(evento())).status).toBe(201);
 	});
 	it('rechaza una sesión caducada', async () => {
 		const e = evento();

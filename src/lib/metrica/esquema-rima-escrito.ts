@@ -250,6 +250,9 @@ export function leerEsquemaEscrito(
 	if (!bruto) {
 		return { estado: 'error', mensaje: 'Falta la disposición: se ha escrito solo el régimen.' };
 	}
+	if (crudo.includes('·') && !/^[a-z][a-z0-9_-]*$/u.test(separado.regimen ?? '')) {
+		return { estado: 'error', mensaje: 'El régimen de rima escrito no es válido.' };
+	}
 
 	if (esCiclo(bruto)) {
 		return {

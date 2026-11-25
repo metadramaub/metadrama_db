@@ -106,6 +106,7 @@ const requestSchema = z.discriminatedUnion('action', [
 		v_fin: z.number().int().positive(),
 		forma_id: uuid,
 		arquitectura_id: nullableUuid,
+		final_acentual_predominante: z.enum(['agudo', 'esdrujulo']).nullable().optional(),
 		observaciones: z.string().trim().max(30_000).nullable(),
 		unidades: z.array(unitSchema).max(500),
 		elecciones: z.array(choiceSchema).max(2_000),
@@ -175,6 +176,12 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		}
 		rangeStart = Number(realSequence.v_ini);
 		rangeEnd = Number(realSequence.v_fin);
+		if (input.final_acentual_predominante && (input.v_ini !== rangeStart || input.v_fin !== rangeEnd)) {
+			return json(
+				{ error: 'validation_error', message: 'El rango cambió. Vuelve a abrir la secuencia antes de marcar el final predominante.' },
+				{ status: 422 }
+			);
+		}
 
 		/**
 		 * Una secuencia real solo puede tener una anotación métrica. El formulario suele traer su

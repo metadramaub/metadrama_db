@@ -9,6 +9,12 @@ const entero = z.number().int().positive().max(2147483647);
 const hash = z.string().regex(/^[a-f0-9]{64}$/);
 const destino = z.object({ forma_slug: texto, arquitectura_slug: texto.nullable() }).strict();
 const rango = { v_ini: entero, v_fin: entero };
+export const correccionFuenteSchema = z.object({
+	tramo_ref: texto,
+	...rango,
+	n_versos_fuente: entero.nullable(),
+	motivo: texto.max(2000)
+}).strict();
 const remate = z
 	.object({
 		literal: texto,
@@ -81,7 +87,8 @@ export const fichaMinimaSchema = z
 								fuente_id: texto,
 								pagina: entero.nullable(),
 								notas_ref: z.array(texto),
-								tramos_ref: z.array(texto).min(2).optional()
+								tramos_ref: z.array(texto).min(2).optional(),
+								correcciones: z.array(correccionFuenteSchema).min(1).optional()
 							})
 							.strict(),
 						identificacion: destino.nullable(),
@@ -127,6 +134,7 @@ const error = (codigo, ruta, mensaje) => ({ codigo, ruta, mensaje });
 
 // Solo preparación editorial: nunca es el contrato de una copia confirmada.
 const borradorSchema = fichaMinimaSchema.extend({
+	jornadas: z.array(fichaMinimaSchema.shape.jornadas.element),
 	metadatos: fichaMinimaSchema.shape.metadatos.extend({
 		titulo: z.string().trim(),
 		autor_nombre: z.string().trim(),
@@ -176,10 +184,10 @@ export function validarFichaMinima(input, { catalogo, vistaPrevia = false } = {}
 	revisarParticion(datos.segmentos, 'segmentos');
 	if (datos.jornadas.some((j, i) => j.numero !== i + 1))
 		add('orden_jornadas', 'jornadas', `Las jornadas deben comenzar por 1 y seguir en orden (1, 2, 3…). En el JSON aparecen: ${datos.jornadas.map(j => j.numero).join(', ')}.`);
-	if (
+	if (datos.jornadas.length && (
 		datos.jornadas[0].v_ini !== datos.segmentos[0].v_ini ||
 		datos.jornadas.at(-1).v_fin !== datos.segmentos.at(-1).v_fin
-	)
+	))
 		add('ambito', 'segmentos', 'Jornadas y segmentos deben cubrir el mismo ámbito numerado.');
 	const formas = catalogo ? new Map(catalogo.formas.map((f) => [f.slug, f])) : null;
 	if (!formas)
@@ -208,12 +216,18 @@ export function validarFichaMinima(input, { catalogo, vistaPrevia = false } = {}
 	};
 	for (const [i, s] of datos.segmentos.entries()) {
 		const ruta = `segmentos.${i}`;
-		if (datos.jornadas.filter((j) => s.v_ini >= j.v_ini && s.v_fin <= j.v_fin).length !== 1)
+		if (datos.jornadas.length && datos.jornadas.filter((j) => s.v_ini >= j.v_ini && s.v_fin <= j.v_fin).length !== 1)
 			add('jornada', ruta, 'El segmento debe quedar dentro de una sola jornada.');
 		const destinos = [s.identificacion, ...s.candidatas];
 		if (s.origen.tramos_ref && (new Set(s.origen.tramos_ref).size !== s.origen.tramos_ref.length ||
 			s.origen.tramos_ref[0] !== s.origen.tramo_ref))
 			add('origen_compuesto', ruta, 'Las filas de origen deben ser únicas y comenzar por la referencia principal.');
+		const correcciones = s.origen.correcciones ?? [];
+		const refs = s.origen.tramos_ref ?? [s.origen.tramo_ref];
+		if (new Set(correcciones.map(c => c.tramo_ref)).size !== correcciones.length ||
+			correcciones.some(c => !refs.includes(c.tramo_ref) || c.v_fin < c.v_ini ||
+				(c.n_versos_fuente !== null && c.n_versos_fuente !== c.v_fin - c.v_ini + 1)))
+			add('correccion_origen', ruta, 'La corrección debe corresponder a una fila de origen y a un rango coherente.');
 		const prosas = (s.caracterizaciones ?? []).filter((c) => c.termino === 'prosa');
 		for (const c of (s.caracterizaciones ?? []).filter((c) => c.termino === 'cantado'))
 			if (c.v_ini < s.v_ini || c.v_fin > s.v_fin || c.v_fin < c.v_ini)
@@ -369,7 +383,7 @@ export function prepararFichaMinima(normalizada, { genero, metadatos = {} } = {}
 			v_fin: j.v_fin,
 			rotulo_literal: j.rotulo_literal
 		})),
-		segmentos: integrarProsa(normalizada.segmentos).map((s) => ({
+		segmentos: integrarProsa(normalizada.segmentos, normalizada.numeracion?.desplazamientos).map((s) => ({
 			ref: s.id,
 			v_ini: s.v_ini,
 			v_fin: s.v_fin,

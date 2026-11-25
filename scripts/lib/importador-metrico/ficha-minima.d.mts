@@ -1,6 +1,7 @@
 import type {
 	FichaMinima,
 	BorradorFichaMinima,
+	CorreccionFuente,
 	IncidenciaImportador,
 	ResumenMinimo
 } from '../../../src/lib/importador-metrico/types';
@@ -27,6 +28,7 @@ export function resumirFichaMinima(
 export function serializarCanonico(input: unknown): string;
 export function huellaFichaMinima(input: unknown): string;
 export const fichaMinimaSchema: import('zod').ZodType<FichaMinima>;
+export const correccionFuenteSchema: import('zod').ZodType<CorreccionFuente>;
 export function crearCopiaConfirmada(
 	input: unknown,
 	contexto: unknown,

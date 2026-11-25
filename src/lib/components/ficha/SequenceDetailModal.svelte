@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { etiquetaFinal, finalPredominante } from '$lib/metrica/final-acentual';
 	import { formatGenerosIntervinientes } from '$lib/utils/generos-intervinientes';
 	// Lectura editorial de una secuencia: identidad, construcción, observación y contexto.
 	import { ArrowLeft, ArrowRight, ChevronDown, X } from 'lucide-svelte';
@@ -183,6 +184,19 @@
 			const values = grouped.get(row.rasgo_nombre) ?? new Set<string>();
 			values.add(row.valor_nombre);
 			grouped.set(row.rasgo_nombre, values);
+		}
+		const final = finalPredominante(sequence.final_acentual_predominante);
+		const hayEsdrujulosSistematicos = final === 'esdrujulo' &&
+			['endecasilabo_suelto', 'endecasilabo_encadenado'].includes(sequence.forma_slug ?? '') &&
+			(sequence.rasgos ?? []).some((row) => row.rasgo_slug === 'final_acentual' && row.valor_slug === 'esdrujulo');
+		if (hayEsdrujulosSistematicos) {
+			const especifico = (sequence.rasgos ?? []).find((row) =>
+				row.rasgo_slug === 'final_acentual' && row.valor_slug === 'esdrujulo'
+			);
+			if (especifico) grouped.set(especifico.rasgo_nombre, new Set(['Esdrújulos sistemáticos']));
+		}
+		if (final && !hayEsdrujulosSistematicos) {
+			grouped.set('Final acentual predominante', new Set([etiquetaFinal[final]]));
 		}
 		return [...grouped.entries()].map(([label, values]) => ({ label, values: [...values] }));
 	}

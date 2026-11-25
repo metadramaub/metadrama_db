@@ -118,6 +118,9 @@ rellenar en todas las secuencias:
   posibilidades no es necesariamente exhaustiva ni tiene porcentajes de probabilidad.
 - **Origen:** permite volver a la fila, foto o nota de donde salió el dato. Si una fila se convierte
   en A → B → A, las tres secuencias siguen enlazadas con esa misma declaración original.
+  Una corrección numérica conserva la referencia, los valores revisados y el motivo en el origen
+  del segmento. Sus valores usan la numeración impresa y la transcripción original conserva
+  los valores de la fuente.
 - **Detalles:** si la edición aporta algo más, se conserva sin completar lo que no dice. Por ejemplo,
   Canción sin arquitectura conocida, con un remate en pareado declarado. No se inventa el patrón
   de las estancias ni se genera por ello una anotación v2.

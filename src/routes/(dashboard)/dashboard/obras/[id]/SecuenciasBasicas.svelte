@@ -48,6 +48,8 @@
 						? String(result.data?.mensaje ?? 'No se pudo guardar la corrección.')
 						: 'No se pudo guardar la corrección.';
 				}
+			} catch {
+				mensaje = 'Se guardó la corrección, pero no se pudo actualizar la ficha. Recarga para verla.';
 			} finally {
 				pendiente = false;
 			}
@@ -55,6 +57,7 @@
 	}}></form>
 	{#key data.vista.confirmacion?.importacion_id}
 		<VistaPrevia vista={data.vista} editable={data.puedeEditarMetrica} formas={data.formas}
+			puedeRegistrarCorrespondencias={data.puedeRegistrarCorrespondencias}
 			ocupado={pendiente} restablecer={false} guardarDirecto errorEdicion={mensaje}
 			onabrir={abrirEdicion} oneditar={data.puedeEditarMetrica ? guardar : undefined} />
 	{/key}

@@ -1,3 +1,4 @@
+import { finalPredominante, type FinalPredominante } from '$lib/metrica/final-acentual';
 import type {
 	MetricCatalogConfiguration,
 	MetricCatalogDomainRow,
@@ -129,6 +130,7 @@ export type MetricDeviationDraft = {
 };
 
 export type MetricSequenceDraft = {
+	final_acentual_predominante?: FinalPredominante | null;
 	anotacion_id: string | null;
 	/**
 	 * De dónde cuelga la prueba: un escenario ficticio o una secuencia real que se anota en
@@ -151,6 +153,8 @@ export type MetricSequenceDraft = {
 export type MetricSequenceEditorState = {
 	/** El borrador vivo, para que el contenedor pueda guardarlo. */
 	draft: MetricSequenceDraft;
+	/** Hay un extremo que se está escribiendo y todavía no se ha aplicado al borrador. */
+	rangoEnEdicion: boolean;
 	summary: string;
 	/** Preguntas obligatorias respondidas y totales. */
 	answered: number;
@@ -477,6 +481,7 @@ export function draftFromRows(
 
 	return {
 		anotacion_id: sequenceId,
+		final_acentual_predominante: finalPredominante(sequence.final_acentual_predominante),
 		escenario_id: id(sequence.escenario_id),
 		secuencia_id: id(sequence.secuencia_id),
 		orden: Number(sequence.orden),

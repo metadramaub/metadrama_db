@@ -26,6 +26,7 @@
 		disableParentsWithChildren?: boolean;
 		placeholder?: string;
 		triggerLabel?: string;
+		triggerClass?: string;
 		search?: boolean;
 		compact?: boolean;
 		label?: string;
@@ -36,6 +37,7 @@
 		allowSingleClear?: boolean;
 		closeOnSelect?: boolean;
 		portal?: boolean;
+		portalScrollBoundary?: string;
 		portalOffsetPx?: number;
 		portalViewportPaddingPx?: number;
 		onChange?: (ids: string[]) => void;
@@ -167,8 +169,10 @@
 		}
 	}
 
-	function closeDropdown() {
-		if (props.compact && panelEl?.contains(document.activeElement)) triggerEl?.focus();
+	function closeDropdown(restoreFocus = true) {
+		if (restoreFocus && props.compact && panelEl?.contains(document.activeElement)) {
+			triggerEl?.focus({ preventScroll: true });
+		}
 		open = false;
 		query = '';
 	}
@@ -248,6 +252,37 @@
 
 		const width = Math.min(triggerRect.width, viewportWidth - padding * 2);
 		const left = Math.max(padding, Math.min(triggerRect.left, viewportWidth - padding - width));
+
+		const boundary = props.portalScrollBoundary
+			? triggerEl.closest(props.portalScrollBoundary)?.getBoundingClientRect()
+			: null;
+		if (boundary) {
+			const visibleTop = Math.max(0, boundary.top);
+			const visibleBottom = Math.min(viewportHeight, boundary.bottom);
+			if (triggerRect.bottom <= visibleTop || triggerRect.top >= visibleBottom) {
+				closeDropdown(false);
+				return;
+			}
+
+			const panelChrome = panelEl.offsetHeight - (listEl?.offsetHeight ?? 0);
+			const contentHeight = listEl?.scrollHeight ?? 0;
+			const below = visibleBottom - padding - triggerRect.bottom - offset;
+			const above = triggerRect.top - visibleTop - padding - offset;
+			const openUpward = below < panelChrome + contentHeight && above > below;
+			const available = (openUpward ? above : below) - panelChrome;
+			if (available <= 0) {
+				closeDropdown(false);
+				return;
+			}
+
+			const listMaxHeight = Math.floor(Math.min(contentHeight, available));
+			portalListMaxHeight = listMaxHeight;
+			const top = openUpward
+				? triggerRect.top - offset - panelChrome - listMaxHeight
+				: triggerRect.bottom + offset;
+			portalStyle = `top:${Math.round(top)}px;left:${Math.round(left)}px;width:${Math.round(width)}px;`;
+			return;
+		}
 
 		const panelHeight = panelEl.offsetHeight || 280;
 		const listHeight = listEl?.offsetHeight ?? 0;
@@ -339,7 +374,7 @@
 	<button
 		bind:this={triggerEl}
 		type="button"
-		class={`flex w-full items-center justify-between gap-2 border border-[color:var(--border)] bg-white text-left text-sm disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] ${props.compact ? 'h-9 px-2.5 hover:bg-[color:var(--muted)]' : 'rounded-md px-3 py-2'}`}
+		class={`flex w-full items-center justify-between gap-2 border border-[color:var(--border)] bg-white text-left disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] ${props.triggerClass ?? (props.compact ? 'h-9 px-2.5 text-sm hover:bg-[color:var(--muted)]' : 'rounded-md px-3 py-2 text-sm')}`}
 		aria-label={props.label ? `${props.label}: ${triggerLabel}` : undefined}
 		aria-expanded={open}
 		title={props.compact ? triggerLabel : undefined}

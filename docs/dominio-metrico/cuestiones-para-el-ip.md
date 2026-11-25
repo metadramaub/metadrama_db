@@ -12,7 +12,7 @@ porque se contradicen entre sí, o porque documentan algo y lo que falta por dec
 proyecto lo sigue. Lo que ya está en el catálogo, lo que es deuda técnica y lo que una fuente
 contesta sin que quede nada que elegir **no se guarda aquí**.
 
-## Las 67 preguntas, de un vistazo
+## Las preguntas, de un vistazo
 
 **callan** · ninguna fuente lo resuelve · **chocan** · las fuentes se contradicen · **seguir** ·
 lo documentan y falta decidir si el catálogo las sigue. **▲** marca las que conviene resolver
@@ -460,6 +460,89 @@ _Es silencio, no una regla enunciada, y de una enumeración no se saca un mínim
 
 **Cuidado con esto** · ninguna de esas tres fuentes dice «no fija en qué verso»: eso es nuestra
 lectura de su silencio, y conviene que la ficha no lo escriba entre comillas.
+
+### 6 · Mayoría de finales agudos o esdrújulos
+
+**Propuesta de registro** · ofrecer «Mayoría de finales agudos» y «Mayoría de finales
+esdrújulos» en las secuencias de dos o más versos, sea cual sea la forma, incluida la
+versificación irregular. El verso aislado queda fuera del recuento de mayorías, y los pasajes
+en prosa no cuentan como versos. Se elige una marca si, durante la lectura habitual, el editor
+aprecia con claridad que más de la mitad de los versos tiene ese final. La rutina de anotación
+no incluye recuento, casilla de revisión ni reapertura de obras.
+
+**Lectura de los datos** · una marca acredita una observación positiva. La ausencia de marca
+deja sin dato la mayoría, incluso en una ficha terminada. Mientras se desconozca la cobertura de
+la observación, se pueden localizar y agrupar los casos registrados por forma. Las diferencias
+de recuento también pueden depender de qué se haya anotado en cada ficha.
+
+**Cuando el final caracteriza una modalidad**, se mantiene la norma o la pregunta propia de
+esa forma. Elegir una modalidad con posiciones fijas basta para declarar esas posiciones.
+La mayoría sigue describiendo el conjunto de la secuencia.
+
+#### Contraste de las seis fuentes
+
+Se revisaron las entradas estróficas pertinentes de las [seis fuentes del catálogo](./fuentes-del-catalogo.md).
+Los ejemplos se distinguen de las definiciones, que permiten fijar posiciones en una modalidad.
+
+| Forma o modalidad | Final documentado y fuente | Consecuencia para el editor |
+| --- | --- | --- |
+| Octava y octavilla agudas | Vv. 4 y 8 agudos y rimados entre sí. Quilis, § 5.4.7.3; Caparrós, *Métrica española*, cap. 9, y *Diccionario*, voces «octava aguda» y «octavilla aguda»; Navarro, índice; Jauralde, «Octavillas y octavas». | Conservar los dos cierres como parte de la norma. La elección de forma declara esas posiciones. |
+| Sexteto agudo, incluido el alejandrino | Vv. 3 y 6 agudos y rimados. *Diccionario*, «sexteto agudo»; Navarro, § 292 e índice; Jauralde, ejemplo de la *Sonatina*. Quilis lo ejemplifica en § 5.4.5.3 dentro de las variantes de la sexta rima. Navarro da también ejemplos de semiestrofas desiguales con cierres en 4 y 6. | Conservar la pregunta por los cierres en la alejandrina del catálogo. Si aparece una variante de mitades desiguales, comprobar su disposición antes de darle cabida. |
+| Septeto agudo | En el patrón de dos agudos, normalmente en 3 o 4 y en 7. Con tres, el 7 y dos alternados en la primera mitad. *Diccionario*, «septeto agudo», según Navarro. | Conservar la pregunta por la modalidad y su flexibilidad. La fuente da alternativas. |
+| Cuarteto agudo | Vv. 2 y 4 agudos y rimados, generalmente en consonante, también en asonante. *Diccionario*, «cuarteto agudo»; Navarro, §§ 237 y 326. | Candidato a disposición específica si aparece en el corpus. El catálogo activo tiene cuarteto endecasilábico y todavía no pregunta por esta modalidad. |
+| Sextilla aguda y septilla aguda | Sextilla en 3 y 6, incluso hexasilábica en el teatro de Peralta Barnuevo. Septilla en 3 y 7 en el tipo que documenta Navarro. Navarro, §§ 245 y 308; Jauralde, «Octavillas y octavas», menciona la extensión de la modalidad a la sextilla. Quilis, § 5.4.5.4, trae además una sextilla medieval con rima aguda alternada en 2, 4 y 6. | Revisar primero las sextillas de teatro y tratar la disposición aguda como una opción cuando esté atestiguada. El ejemplo medieval impide fijar un solo reparto para todas las sextillas con agudos. |
+| Décima italiana o aguda | Vv. 5 y 10 agudos y rimados entre sí, en dos mitades de cinco versos. Navarro, § 310; *Diccionario*, «décima italiana»; Jauralde, «Décima aguda en el Romanticismo». | Si se incorpora, necesita su disposición. La espinela del catálogo tiene otra arquitectura. |
+| Soneto agudo | Cierres de los cuartetos y los tercetos en 4, 8, 11 y 14, con las rimas de cierre emparejadas dentro de cada bloque. *Diccionario*, «soneto agudo», atribuido a Navarro. | Candidato a modalidad de soneto si aparece en el corpus. Los cuatro finales quedan muy por debajo de la mayoría de catorce. |
+| Quinteto agudo | Dos agudos que riman entre sí, con frecuencia 2 y 5. *Diccionario*, «quinteto agudo»; Navarro, § 294. | Candidato fuera del catálogo actual, que carece de quinteto activo. Las posiciones frecuentes no son una regla fija. |
+| Romance y romance con esdrújulos | En el romance, el acento de la asonancia se refiere a los versos que riman. El *Diccionario* distingue además un tipo con final esdrújulo en todos los versos. | La rima aguda de los pares se describe con la asonancia. El tipo enteramente esdrújulo se puede acreditar con mayoría. Una pregunta sobre su carácter íntegramente esdrújulo solo se justifica si interesa distinguir esa modalidad. |
+
+La redondilla que Jauralde titula «aguda del Romanticismo» (Zorrilla, *Dueña de la negra toca*)
+tiene agudos en 2 y 4. Ese ejemplo documenta una disposición concreta en una redondilla cruzada.
+La definición de redondilla de Morley y Bruerton (cap. V, p. 38) describe la disposición de
+la rima en Lope sin fijar el acento de los finales. Su repertorio tampoco establece una
+regla posicional de agudos o esdrújulos para el soneto (p. 40). Las terminaciones sistemáticamente
+esdrújulas se pueden documentar con la observación general. En los endecasílabos sueltos y
+encadenados se conserva la marca específica de esdrújulos sistemáticos. Cuando abarca la
+secuencia, también acredita una mayoría para la consulta y el recuento. La revisión no convierte
+los ejemplos aislados ni el silencio de las fuentes en reglas del catálogo.
+
+**Evidencia del corpus** · las dos redondillas octosilábicas consonantes de *El prado de Valencia*
+conservan la disposición `abba` y difieren en el alcance de los finales agudos. En los vv. 261–264,
+los cuatro son agudos (*descubrís, erráis, afrentáis, sentís*). En los vv. 269–272, son agudos
+solo los dos versos de la rima interior (*intención, dispensación*). La rima exterior
+(*digo, comigo*) es llana. [Edición de Teresa Ferrer Valls en EMOTHE](https://emothe.uv.es/biblioteca/textosEMOTHE/EMOTHE0631_ElPradoDeValencia.php).
+
+**Las fuentes** · Domínguez Caparrós, *Métrica española*, cap. 2, recoge una redondilla
+octosilábica aguda citada por Caramuel y remite a Rengifo (1606, caps. XII–XIII, pp. 15–17).
+Rengifo admite los finales agudos en los metros castellanos tradicionales. Dice que él no había
+visto coplas redondillas con finales esdrújulos y contempla su uso, especialmente con música.
+La terminología de Rengifo abarca más de una clase de copla. Esta noticia no acredita un caso
+de redondilla esdrújula en el corpus. [Domínguez Caparrós](https://eva.fhce.udelar.edu.uy/pluginfile.php/163003/mod_resource/content/1/M%C3%A9trica%20espa%C3%B1ola.%20%20%20%20DOM%C3%8DNGUEZ%20CAPARR%C3%93S%2C%20Jos%C3%A9.%20%20UNED%20arte%20y%20humanidades.pdf).
+
+El repertorio teatral sí ofrece un contraste en otra forma. El soneto de *El caballero del
+milagro*, vv. 2350–2363 en la edición citada por Restrepo Ramírez, sostiene los finales esdrújulos
+en sus catorce versos. [Restrepo Ramírez, *Studia Aurea* 11 (2017), p. 553](https://studiaaurea.com/article/download/v11-restrepo/270-pdf-es/1339).
+
+Si esas dos redondillas se tomaran por separado, los vv. 261–264 tendrían mayoría aguda y los
+vv. 269–272 quedarían en empate. En una tirada, la mayoría se decide para la secuencia completa.
+En *Tragedia de la honra de Dido restaurada*, los agudos de los vv. 1572–1580, 1585–1596 y
+1617–1620 se guardaron como desviaciones de rasgo en la secuencia de redondillas vv. 1557–1620.
+El desplegable del valor observado usa todos los valores activos de rasgo. Así admite «Agudo»
+aunque la arquitectura no ofrezca una pregunta de final acentual. Las marcas conservan el
+detalle que recogió la editora y su alcance de tramo. Al incorporar la marca de mayoría, dejar
+de ofrecer «Agudo» y «Esdrújulo» como desviaciones genéricas nuevas. Los registros existentes se
+pueden consultar y volver a guardar al editar su secuencia. En *Dido restaurada*, consultar primero
+a la editora si observó una mayoría en toda la tirada y si procede sustituir las tres marcas.
+
+Revisar el significado de las respuestas antiguas antes de reutilizarlas. En el sexteto
+alejandrino, la pregunta por los agudos se refiere al verso de cierre de cada mitad. La octava
+aguda también fija los finales de cierre como parte de su norma.
+
+El rasgo de mayoría abarca todos los versos de la secuencia, mientras que la asonancia abarca
+los que participan en esa rima. Una asonancia de dos vocales también puede corresponder a
+finales esdrújulos, que pueden asonar con llanos prescindiendo de la vocal postónica intermedia.
+Caparrós lo ilustra con *mirarse* y *cáliz* en un romance de Lope, que asuenan en `a-e`.
+[Domínguez Caparrós, *Métrica española*, pp. 113–114](https://eva.fhce.udelar.edu.uy/pluginfile.php/163003/mod_resource/content/1/M%C3%A9trica%20espa%C3%B1ola.%20%20%20%20DOM%C3%8DNGUEZ%20CAPARR%C3%93S%2C%20Jos%C3%A9.%20%20UNED%20arte%20y%20humanidades.pdf).
 
 ## Sextilla y copla manriqueña
 

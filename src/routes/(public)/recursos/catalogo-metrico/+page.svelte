@@ -116,6 +116,11 @@
 		rasgos observables con los datos del catálogo para proponer las formas y arquitecturas más
 		compatibles.
 	</p>
+	<p>
+		En las fichas detalladas se puede registrar un <strong>final acentual predominante</strong>
+		cuando más de la mitad de los versos de una secuencia tienen final agudo o esdrújulo.
+		Las fichas del catálogo describen las preguntas específicas de cada forma.
+	</p>
 {/snippet}
 
 <section class="grid w-full gap-7 pb-16 pt-10 md:pb-24 md:pt-16">
