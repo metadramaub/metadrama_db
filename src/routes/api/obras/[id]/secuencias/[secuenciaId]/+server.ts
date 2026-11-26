@@ -39,6 +39,7 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 		.single();
 
 	if (error || !secuencia) {
+		if (error?.code === '23514') return conflictResponse(error.message);
 		return json(
 			{ error: 'db_error', message: error?.message ?? 'No se pudo actualizar la secuencia' },
 			{ status: 500 }
@@ -59,6 +60,7 @@ export const DELETE: RequestHandler = async ({ locals, params }) => {
 		.eq('secuencia_id', params.secuenciaId);
 
 	if (error) {
+		if (error.code === '23514') return conflictResponse(error.message);
 		return json(
 			{ error: 'db_error', message: error.message ?? 'No se pudo eliminar la secuencia' },
 			{ status: 500 }

@@ -119,6 +119,10 @@ De ahí leen el recompute de la obra y los dos ayudantes del perfil de autor —
 Estas no dependen de la forma, sino de rangos `v_ini`–`v_fin` declarados sobre la secuencia, con un
 `tipo_caracterizacion_rango` del vocabulario `caracterizacion_rango`.
 
+- **Prosa entre secuencias**. Los dos versos localizan el pasaje y pueden ser el último de una
+  secuencia y el primero de la siguiente. Se guarda una sola marca, asociada a la secuencia desde
+  la que se anota. La ficha muestra la localización y toma de esa asociación la forma. Los dos
+  números son referencias y quedan fuera del cómputo de extensión de la prosa.
 - **`pct_cantado`** = versos en rangos de tipo **`cantado`** / `total_versos`. "Cantado" **no es una
   forma** (error frecuente): es un término de `fenomenos_enunciativos` (hijo de `caracterizacion_rango`).
   Calcularlo desde la forma daría siempre 0.

@@ -1,0 +1,32 @@
+{
+  "obra": "el-caballero-de-olmedo",
+  "fecha": "2026-11-26",
+  "respuestas_revisadas": [
+    {
+      "clave": "D|77a5e0a2-ad8c-4969-abaa-1d68b9ed1952",
+      "esperado": {
+        "respuesta": "No es así (lo corrijo al lado)",
+        "comentario": "Rango de versos: 1727-1728"
+      },
+      "usar": { "respuesta": "Es correcto" },
+      "motivo": "La respuesta valida la misma marca una vez corregidas sus referencias, según Desviaciones I41."
+    }
+  ],
+  "correcciones": [
+    {
+      "tipo": "caracterizacion",
+      "secuencia_id": "32c2791a-3096-4bcc-bfe9-5f66b6652ff3",
+      "id": "77a5e0a2-ad8c-4969-abaa-1d68b9ed1952",
+      "origen": {
+        "secuencia_id": "32c2791a-3096-4bcc-bfe9-5f66b6652ff3",
+        "tipo_caracterizacion_rango_id": "a2086ad5-59fc-438e-aaf3-784efa95a0be",
+        "v_ini": 1726,
+        "v_fin": 1727,
+        "observaciones": null
+      },
+      "v_ini": 1727,
+      "v_fin": 1728,
+      "descripcion": "Localizar el final en prosa de la carta entre los vv. 1727 y 1728, actualizando la marca asociada a la redondilla."
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import type { SecuenciaCaracterizacionRangoInput } from '$lib/types/obra.types';
 import type { Tables } from '$lib/types/database.types';
+import { ladoDeProsa } from '$lib/metrica/enunciation';
 
 const SINGLE_VERSE_TERMS = new Set(['hipometrico', 'hipermetrico']);
 
@@ -27,12 +28,15 @@ export function validateSecuenciaCaracterizacionRangoContext(args: {
 	payload: Pick<SecuenciaCaracterizacionRangoInput, 'v_ini' | 'v_fin'>;
 }): string | null {
 	const { secuencia, tipo, payload } = args;
+	const normalizedTerm = normalizeCaracterizacionRangoTerm(tipo.termino);
 
 	if (payload.v_ini > payload.v_fin) {
 		return 'El verso inicial no puede ser mayor que el final.';
 	}
 
-	if (payload.v_ini < secuencia.v_ini || payload.v_fin > secuencia.v_fin) {
+	const dentro = payload.v_ini >= secuencia.v_ini && payload.v_fin <= secuencia.v_fin;
+	// La base comprueba que el otro extremo corresponda a una secuencia de la misma obra.
+	if (!dentro && !(normalizedTerm === 'prosa' && ladoDeProsa(secuencia, payload))) {
 		return `El rango de la caracterizacion debe quedar dentro de la secuencia (${secuencia.v_ini}-${secuencia.v_fin}).`;
 	}
 
@@ -40,7 +44,6 @@ export function validateSecuenciaCaracterizacionRangoContext(args: {
 		return 'Este termino es solo agrupador y no se puede guardar como caracterizacion.';
 	}
 
-	const normalizedTerm = normalizeCaracterizacionRangoTerm(tipo.termino);
 	if (normalizedTerm === 'prosa' && payload.v_ini >= payload.v_fin) {
 		return 'Para "prosa", v_ini debe ser menor que v_fin.';
 	}

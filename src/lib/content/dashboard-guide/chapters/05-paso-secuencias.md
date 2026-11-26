@@ -101,7 +101,7 @@ Cada caracterización incluye tipo, verso inicial y verso final (que puede ser e
 
 Reglas de cada tipo:
 
-- En **prosa**, `v_ini` y `v_fin` indican el verso **anterior y posterior** a la prosa, pues esta, en realidad, no está numerada; deben ser dos versos distintos.
+- En **prosa**, indica el verso **anterior** y el **posterior**. Si la prosa cae en el límite entre dos secuencias contiguas, abre aquella a la que va asociada y elige **Antes de esta secuencia** o **Después de esta secuencia**. Se guarda una sola marca para ese punto.
 - En **cantado**, puedes marcar un solo verso (`v_ini` = `v_fin`) o un rango.
 - En **evocación métrica**, la caracterización nace por defecto abarcando el rango completo de la secuencia —la evocación suele afectarla entera—, pero puedes acotarla si empieza o acaba dentro de ella.
 - Toda caracterización debe quedar **dentro del rango de versos** de su secuencia.

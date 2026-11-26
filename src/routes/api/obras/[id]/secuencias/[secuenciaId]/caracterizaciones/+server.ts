@@ -183,6 +183,9 @@ export const POST: RequestHandler = async ({ locals, params, request }) => {
 		.single();
 
 	if (insertError || !created) {
+		if (insertError?.code === '23514' || insertError?.code === '23505') {
+			return validationMessageResponse(insertError.message, 'v_ini');
+		}
 		return json(
 			{ error: 'db_error', message: insertError?.message ?? 'No se pudo crear la caracterización' },
 			{ status: 500 }

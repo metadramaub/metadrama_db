@@ -34,6 +34,26 @@ describe('secuencias-caracterizaciones-rango', () => {
 		expect(error).toContain('v_ini debe ser menor');
 	});
 
+	it('admite los extremos de la frontera desde las dos secuencias', () => {
+		for (const secuencia of [{ v_ini: 1660, v_fin: 1727 }, { v_ini: 1728, v_fin: 1813 }]) {
+			expect(validateSecuenciaCaracterizacionRangoContext({
+				secuencia,
+				tipo: { termino: 'prosa', termino_padre_id: 'parent-1' },
+				payload: { v_ini: 1727, v_fin: 1728 }
+			})).toBeNull();
+		}
+	});
+
+	it('conserva las localizaciones interiores y rechaza los cruces que saltan un verso', () => {
+		const tipo = { termino: 'prosa', termino_padre_id: 'parent-1' };
+		expect(validateSecuenciaCaracterizacionRangoContext({
+			secuencia, tipo, payload: { v_ini: 20, v_fin: 29 }
+		})).toBeNull();
+		expect(validateSecuenciaCaracterizacionRangoContext({
+			secuencia, tipo, payload: { v_ini: 40, v_fin: 42 }
+		})).toContain('dentro de la secuencia');
+	});
+
 	it('exige verso unico para hipometrico e hipermetrico', () => {
 		const hipo = validateSecuenciaCaracterizacionRangoContext({
 			secuencia,

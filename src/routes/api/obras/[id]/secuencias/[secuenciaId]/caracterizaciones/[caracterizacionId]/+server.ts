@@ -222,6 +222,9 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 		.single();
 
 	if (updateError || !updated) {
+		if (updateError?.code === '23514' || updateError?.code === '23505') {
+			return validationMessageResponse(updateError.message, 'v_ini');
+		}
 		return json(
 			{ error: 'db_error', message: updateError?.message ?? 'No se pudo actualizar la caracterización' },
 			{ status: 500 }

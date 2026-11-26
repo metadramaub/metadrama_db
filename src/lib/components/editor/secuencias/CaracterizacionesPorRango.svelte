@@ -9,7 +9,7 @@
 	import { pushToast } from '$lib/stores/toast';
 	import type { Tables } from '$lib/types/database.types';
 	import { displayTerm } from '$lib/utils/vocabulario';
-	import { enunciationType } from '$lib/metrica/enunciation';
+	import { enunciationType, ladoDeProsa } from '$lib/metrica/enunciation';
 
 	/**
 	 * Las caracterizaciones por rango de una secuencia: prosa, versos cantados, lagunas, hipometría.
@@ -54,6 +54,8 @@
 		secuenciaId: string | null;
 		/** El rango de la secuencia: acota el de cada caracterización y da el valor de partida. */
 		rango: { v_ini: number; v_fin: number };
+		finAnterior?: number;
+		inicioSiguiente?: number;
 		opciones: Opcion[];
 		readOnly?: boolean;
 		/**
@@ -160,17 +162,26 @@
 	const terminoElegido = $derived.by(() =>
 		normalizarTermino(opcionPorId.get(form.tipo_caracterizacion_rango_id)?.termino ?? '')
 	);
+	const fronteraAnterior = $derived(
+		props.finAnterior === props.rango.v_ini - 1
+			? { v_ini: props.finAnterior, v_fin: props.rango.v_ini }
+			: null
+	);
+	const fronteraSiguiente = $derived(
+		props.inicioSiguiente === props.rango.v_fin + 1
+			? { v_ini: props.rango.v_fin, v_fin: props.inicioSiguiente }
+			: null
+	);
 
 	/**
 	 * Cada tipo se anota de una manera y el modal lo dice mientras se rellena.
 	 *
-	 * Lo que separa unos de otros no es un capricho: la prosa ocupa por fuerza más de un verso
-	 * porque no va numerada, y la hipometría es de un verso concreto. Decirlo aquí evita el aviso
-	 * de error después.
+	 * Los extremos de la prosa localizan el texto sin numerar. La hipometría se anota
+	 * sobre el verso en que ocurre.
 	 */
 	const ayudaDelRango = $derived.by(() => {
 		if (terminoElegido === 'prosa') {
-			return 'Indica entre qué versos aparece la prosa (no numerada). Ej.: v_ini=56, v_fin=57.';
+			return 'Indica entre qué versos aparece la prosa o elige la frontera con una secuencia contigua.';
 		}
 		if (terminoElegido === 'hipometrico' || terminoElegido === 'hipermetrico') {
 			return 'Esta caracterización aplica a un solo verso: usa el mismo número en V. ini y V. fin.';
@@ -277,11 +288,18 @@
 			if (avisar) pushToast('error', 'El verso inicial no puede ser mayor que el final');
 			return false;
 		}
-		if (vIni < Number(props.rango.v_ini) || vFin > Number(props.rango.v_fin)) {
+		const dentro = vIni >= props.rango.v_ini && vFin <= props.rango.v_fin;
+		const enFrontera =
+			terminoElegido === 'prosa' &&
+			((vIni === fronteraAnterior?.v_ini && vFin === fronteraAnterior.v_fin) ||
+				(vIni === fronteraSiguiente?.v_ini && vFin === fronteraSiguiente.v_fin));
+		if (!dentro && !enFrontera) {
 			if (avisar) {
 				pushToast(
 					'error',
-					`La caracterización debe quedar dentro del rango de la secuencia (${props.rango.v_ini}-${props.rango.v_fin})`
+					terminoElegido === 'prosa'
+						? 'Usa dos versos de la secuencia o una frontera con la anterior o la siguiente.'
+						: `La caracterización debe quedar dentro del rango de la secuencia (${props.rango.v_ini}-${props.rango.v_fin})`
 				);
 			}
 			return false;
@@ -452,12 +470,21 @@
 				</thead>
 				<tbody>
 					{#each items as caracterizacion (caracterizacion.caracterizacion_rango_id)}
+						{@const lado =
+							enunciationType(caracterizacion.tipo_caracterizacion_rango_term) === 'prosa'
+								? ladoDeProsa(props.rango, caracterizacion)
+								: null}
 						<tr class="border-t border-[color:var(--border)]">
 							<td class="px-2 py-2">
 								{etiquetaPorId(
 									caracterizacion.tipo_caracterizacion_rango_id,
 									caracterizacion.tipo_caracterizacion_rango_term
 								)}
+								{#if lado}
+									<span class="block text-xs text-[color:var(--muted-foreground)]">
+										{lado === 'antes' ? 'Antes de esta secuencia' : 'Después de esta secuencia'}
+									</span>
+								{/if}
 							</td>
 							<td class="px-2 py-2">{caracterizacion.v_ini}</td>
 							<td class="px-2 py-2">{caracterizacion.v_fin}</td>
@@ -522,9 +549,31 @@
 					/>
 				</label>
 
+				{#if terminoElegido === 'prosa' && (fronteraAnterior || fronteraSiguiente)}
+					<div class="flex flex-wrap gap-2">
+						{#if fronteraAnterior}
+							<Button
+								variant="secondary"
+								disabled={props.readOnly || guardando}
+								onclick={() => (form = { ...form, ...fronteraAnterior })}
+							>
+								Antes de esta secuencia
+							</Button>
+						{/if}
+						{#if fronteraSiguiente}
+							<Button
+								variant="secondary"
+								disabled={props.readOnly || guardando}
+								onclick={() => (form = { ...form, ...fronteraSiguiente })}
+							>
+								Después de esta secuencia
+							</Button>
+						{/if}
+					</div>
+				{/if}
 				<div class="grid gap-3 sm:grid-cols-2">
 					<label class="form-field">
-						<span class="form-label">V. ini *</span>
+						<span class="form-label">{terminoElegido === 'prosa' ? 'Verso anterior' : 'V. ini'} *</span>
 						<input
 							type="number"
 							bind:value={form.v_ini}
@@ -533,7 +582,7 @@
 						/>
 					</label>
 					<label class="form-field">
-						<span class="form-label">V. fin *</span>
+						<span class="form-label">{terminoElegido === 'prosa' ? 'Verso posterior' : 'V. fin'} *</span>
 						<input
 							type="number"
 							bind:value={form.v_fin}

@@ -2044,7 +2044,9 @@
 			bind:this={caracterizaciones}
 			obraId={props.obraId}
 			secuenciaId={editingId}
-			rango={{ v_ini: Number(form.v_ini) || 1, v_fin: Number(form.v_fin) || 1 }}
+			rango={orderedSecuencias[editingIndex] ?? { v_ini: 1, v_fin: 1 }}
+			finAnterior={prevSecuencia?.v_fin}
+			inicioSiguiente={nextSecuencia?.v_ini}
 			opciones={props.caracterizacionRangoOptions}
 			readOnly={props.readOnly}
 			onMetricaDirty={props.onMetricaDirty}
