@@ -221,6 +221,14 @@ migrado quedan en el rastro; el formulario no admite nuevas notas en ella.
 2621–2644 se migraron como «Predominantes» por indicación del IP. Este preguntará a Ana Vicente
 para que confirme o cambie la respuesta en el editor. No proceden de una respuesta del Excel.
 
+**A13 · Registrar la prosa entre secuencias.** La marca de prosa se localiza por el verso anterior
+y el posterior. El editor exige hoy que ambos pertenezcan a la misma secuencia. En *El caballero
+de Olmedo*, la lectura en prosa del final de la carta cae entre el v. 1727, que cierra la
+redondilla, y el v. 1728, que abre el romance. Adaptar el modelo, la validación, el editor y el
+aplicador para guardar una sola marca estructurada en esa frontera, con la numeración de la edición.
+Verificar que las marcas interiores existentes se conservan y que la ficha y los datos de análisis
+leen la marca entre secuencias una sola vez. Resolver y verificar antes de migrar la obra.
+
 ---
 
 ## B · El catálogo y su modelo
