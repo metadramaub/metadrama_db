@@ -283,24 +283,37 @@
 	 * inexistentes cuando rima en consonante. Lo declara el catálogo en `solo_si_tipo_rima_id` y lo
 	 * exige `guardar_anotacion_metrica`; aquí solo se obedece.
 	 */
-	const tiposDeRimaDichos = $derived(
-		tiposDeRimaAfirmados({
-			elecciones: draft.elecciones,
-			groups: props.catalog.domain.choiceGroups.filter(
-				(row: MetricCatalogDomainRow) => row.arquitectura_id === draft.arquitectura_id
-			),
-			options: props.catalog.domain.choiceOptions,
-			rhymePatterns: props.catalog.domain.rhymePatterns,
-			rhymeTypes: props.catalog.rhymeTypes ?? []
-		})
-	);
+	const contextoDeRima = $derived({
+		elecciones: draft.elecciones,
+		groups: props.catalog.domain.choiceGroups.filter(
+			(row: MetricCatalogDomainRow) => row.arquitectura_id === draft.arquitectura_id
+		),
+		options: props.catalog.domain.choiceOptions,
+		rhymePatterns: props.catalog.domain.rhymePatterns,
+		rhymeTypes: props.catalog.rhymeTypes ?? []
+	});
+	const tiposDeRimaDichos = $derived(tiposDeRimaAfirmados(contextoDeRima));
+	const condicionadaPorParte = (group: MetricCatalogDomainRow) =>
+		group.alcance === 'unidad' && Boolean(group.solo_si_tipo_rima_id && group.seccion_tratada_id);
+
+	function preguntaAplicaEnUnidad(group: MetricCatalogDomainRow, realizacionId: string | null) {
+		if (!condicionadaPorParte(group)) return preguntaAplica(group, tiposDeRimaDichos);
+		if (!realizacionId) return false;
+		return preguntaAplica(
+			group,
+			tiposDeRimaAfirmados({
+				...contextoDeRima,
+				parte: { seccionId: String(group.seccion_tratada_id), realizacionId }
+			})
+		);
+	}
 	const choiceGroupsForDraft = $derived(
 		props.catalog.domain.choiceGroups
 			.filter(
 				(row: MetricCatalogDomainRow) =>
 					row.arquitectura_id === draft.arquitectura_id &&
 					row.activo &&
-					preguntaAplica(row, tiposDeRimaDichos)
+					(condicionadaPorParte(row) || preguntaAplica(row, tiposDeRimaDichos))
 			)
 			.sort(
 				(a: MetricCatalogDomainRow, b: MetricCatalogDomainRow) =>
@@ -319,16 +332,17 @@
 		const condicionadas = props.catalog.domain.choiceGroups.filter(
 			(row: MetricCatalogDomainRow) =>
 				row.arquitectura_id === draft.arquitectura_id &&
-				row.solo_si_tipo_rima_id &&
-				!preguntaAplica(row, tiposDeRimaDichos)
+				row.activo &&
+				row.solo_si_tipo_rima_id
 		);
 		if (condicionadas.length === 0) return;
-		const huerfanas = new Set(
-			condicionadas.map((row: MetricCatalogDomainRow) => String(row.grupo_eleccion_id))
+		const porId = new Map<string, MetricCatalogDomainRow>(
+			condicionadas.map((row: MetricCatalogDomainRow) => [String(row.grupo_eleccion_id), row])
 		);
-		const quedan = draft.elecciones.filter(
-			(choice: MetricChoiceDraft) => !huerfanas.has(choice.grupo_eleccion_id)
-		);
+		const quedan = draft.elecciones.filter((choice: MetricChoiceDraft) => {
+			const group = porId.get(choice.grupo_eleccion_id);
+			return !group || preguntaAplicaEnUnidad(group, choice.realizacion_id);
+		});
 		if (quedan.length !== draft.elecciones.length) draft.elecciones = quedan;
 	});
 	const sequenceChoiceGroups = $derived(
@@ -1447,10 +1461,12 @@
 		}
 		for (const group of unitChoiceGroups) {
 			// Una pregunta sin sección se refiere a la unidad entera, no a una parte suya.
-			const applicableUnits = draft.unidades.filter((unit: MetricUnitDraft) =>
-				group.seccion_id
-					? String(group.seccion_id) === unit.seccion_id
-					: unit.realizacion_padre_id === null
+			const applicableUnits = draft.unidades.filter(
+				(unit: MetricUnitDraft) =>
+					preguntaAplicaEnUnidad(group, unit.realizacion_id) &&
+					(group.seccion_id
+						? String(group.seccion_id) === unit.seccion_id
+						: unit.realizacion_padre_id === null)
 			);
 			for (const unit of applicableUnits) {
 				if (group.dimension === 'metro' && disposicionesQuebrados.length > 1) {
@@ -1959,6 +1975,7 @@
 							varieties={varietiesForDraft}
 							unitPlan={unitPlanForDraft}
 							groups={unitChoiceGroups}
+							{preguntaAplicaEnUnidad}
 							options={choiceOptionsForDraft}
 							schemes={props.catalog.domain.rhymePatterns}
 							rejilla={normGrid}

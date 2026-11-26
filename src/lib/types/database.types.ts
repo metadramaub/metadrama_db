@@ -4652,10 +4652,17 @@ export type Database = {
         Returns: boolean
       }
       analisis_obra_publico_json: { Args: { p_obra_id: string }; Returns: Json }
-      anotacion_afirma_tipo_rima: {
-        Args: { p_anotacion: string; p_tipo: string }
-        Returns: boolean
-      }
+      anotacion_afirma_tipo_rima:
+        | { Args: { p_anotacion: string; p_tipo: string }; Returns: boolean }
+        | {
+            Args: {
+              p_anotacion: string
+              p_realizacion: string
+              p_seccion: string
+              p_tipo: string
+            }
+            Returns: boolean
+          }
       arquitectura_declara_norma: {
         Args: { p_arquitectura_id: string }
         Returns: boolean

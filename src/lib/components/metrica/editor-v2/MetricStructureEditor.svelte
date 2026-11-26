@@ -95,6 +95,7 @@
 		 * estructura no ve, porque él recorre las realizaciones de cada una.
 		 */
 		globalQuestions?: Snippet;
+		preguntaAplicaEnUnidad?: GridRowContext['preguntaAplicaEnUnidad'];
 		/** Cómo se llama la unidad que define la forma: su nombre, no «Unidad». */
 		unitLabel?: string;
 		/**
@@ -190,6 +191,7 @@
 	const context = $derived<GridRowContext>({
 		sections: props.sections,
 		groups: props.groups,
+		preguntaAplicaEnUnidad: props.preguntaAplicaEnUnidad,
 		options: props.options,
 		schemes: props.schemes ?? [],
 		units: props.units,

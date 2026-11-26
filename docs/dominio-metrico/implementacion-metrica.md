@@ -512,6 +512,12 @@ identificador redundante de disposición. La rima se elige de manera independien
 se mide, `q` señala cada quebrado pendiente y el resto mantiene la medida de base. La pauta
 pendiente vive en el estado de edición y debe completarse antes de guardar.
 
+La migración `20261126130000` declara las posiciones de la copla real de base octosilábica para
+admitir el hexasílabo únicamente en el décimo verso, como en las cinco coplas de la glosa de
+*El caballero de Olmedo*, vv. 1113–1162. Conserva el tetrasílabo y el pentasílabo en las diez
+posiciones y el requisito de que quede al menos un octosílabo pleno. El editor deriva del esquema
+la medida disponible en cada posición.
+
 ### La elección
 
 Una **elección** es lo que el catálogo pregunta cuando la respuesta no se puede derivar y la
@@ -525,6 +531,15 @@ idéntico y no habría ninguna pregunta.
 
 Una elección **nunca es una desviación**: `abba` y `abab` son dos respuestas ordinarias a la
 misma pregunta.
+
+La migración `20261126140000` declara por separado la rima de las dos secciones de la
+seguidilla compuesta. La cuarteta conserva la medida de la simple y ofrece su propio repertorio
+de rima, con `-a-a` asonante y `abab` consonante. El bordón conserva la asonancia entre sus
+extremos. Cada esquema lleva su régimen y empieza a nombrar sus clases de rima dentro de su
+propia sección. La elección de la cuarteta se responde por unidad y señala la sección mediante
+`seccion_tratada_id`. La migración `20261126150000` usa esa misma referencia para las vocales:
+las del bordón se piden siempre y las de la cuarteta se piden cuando su propia rima es asonante.
+La condición se comprueba en la misma unidad, también cuando la respuesta de rima se escribe.
 
 **Y un esquema que el catálogo no recoge tampoco lo es.** La desviación es para un fallo evidente
 —un verso que no rima donde la forma exige que rime, una unidad a la que le faltan versos—, no para

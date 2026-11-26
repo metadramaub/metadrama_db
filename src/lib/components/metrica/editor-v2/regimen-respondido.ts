@@ -17,6 +17,7 @@ import type { MetricCatalogDomainRow } from '$lib/metrica/catalogo';
 
 type Eleccion = {
 	grupo_eleccion_id: string;
+	realizacion_id?: string | null;
 	opcion_eleccion_id: string | null;
 	valor_texto?: string | null;
 };
@@ -40,10 +41,14 @@ export function tiposDeRimaAfirmados(datos: {
 	options: MetricCatalogDomainRow[];
 	rhymePatterns: MetricCatalogDomainRow[];
 	rhymeTypes: TipoDeRima[];
+	parte?: { seccionId: string; realizacionId: string };
 }): Set<string> {
+	const parte = datos.parte;
 	const gruposDeRima = new Set(
 		datos.groups
-			.filter((group) => String(group.dimension) === 'rima')
+			.filter((group) =>
+				group.dimension === 'rima' && (!parte || group.seccion_tratada_id === parte.seccionId)
+			)
 			.map((group) => String(group.grupo_eleccion_id))
 	);
 	const tipoPorEsquema = new Map<string, string>();
@@ -59,6 +64,7 @@ export function tiposDeRimaAfirmados(datos: {
 	const afirmados = new Set<string>();
 	for (const eleccion of datos.elecciones) {
 		if (!gruposDeRima.has(String(eleccion.grupo_eleccion_id))) continue;
+		if (parte && eleccion.realizacion_id !== parte.realizacionId) continue;
 		if (eleccion.opcion_eleccion_id) {
 			const option = datos.options.find(
 				(row) => String(row.opcion_eleccion_id) === eleccion.opcion_eleccion_id

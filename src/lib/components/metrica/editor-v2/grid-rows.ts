@@ -45,6 +45,7 @@ import { cuelgaDeUnReparto, seReparteVersoAVerso } from './reparto-estancia';
 export type GridRowContext = {
 	sections: MetricCatalogDomainRow[];
 	groups: MetricCatalogDomainRow[];
+	preguntaAplicaEnUnidad?: (group: MetricCatalogDomainRow, realizacionId: string) => boolean;
 	options: MetricCatalogDomainRow[];
 	/** `esquemas_rima`. Hace falta para saber de qué sección habla una pregunta de la unidad. */
 	schemes: MetricCatalogDomainRow[];
@@ -261,11 +262,8 @@ export function controlledSectionForGroup(
  * De qué sección habla una pregunta que se guarda en la unidad.
  *
  * `seccion_id` dice dónde se responde, así que un grupo que la declare se pregunta tantas
- * veces como veces aparezca la sección. Cuando la respuesta es una sola pero describe una
- * sección concreta, el grupo la deja sin declarar y el sujeto lo ponen sus esquemas, con
- * `esquemas_rima.seccion_id`. Son los dos del soneto, y sin leerlo el editor los pintaba en
- * la unidad y dejaba debajo dos filas que repetían el nombre de la sección sin dejar tocar
- * nada.
+ * veces como veces aparezca la sección. Si el grupo declara `seccion_tratada_id`, la
+ * pregunta habla de esa sección aunque se responda una vez en la unidad.
  *
  * Devuelve nulo salvo que **todos** sus esquemas señalen la misma sección: media respuesta
  * no basta para mover una pregunta de sitio.
@@ -275,6 +273,7 @@ export function seccionSujetoDeGrupo(
 	group: MetricCatalogDomainRow
 ): string | null {
 	if (group.seccion_id) return null;
+	if (group.seccion_tratada_id) return String(group.seccion_tratada_id);
 	const opciones = context.options.filter(
 		(option) =>
 			String(option.grupo_eleccion_id) === String(group.grupo_eleccion_id) && option.activo
@@ -303,6 +302,7 @@ export function groupsForUnit(
 ): MetricCatalogDomainRow[] {
 	return context.groups.filter((group) => {
 		if (!seRespondeDentroDeLaUnidad(group.alcance)) return false;
+		if (context.preguntaAplicaEnUnidad?.(group, unit.realizacion_id) === false) return false;
 		// Si la respuesta hace aparecer una sección, visualmente pertenece a ese punto de la
 		// secuencia. Sigue guardándose en esta realización; solo cambia dónde se pregunta.
 		if (controlledSectionForGroup(context, group)) return false;
@@ -355,7 +355,9 @@ export function unitsForGroup(
 	context: GridRowContext,
 	group: MetricCatalogDomainRow
 ): MetricUnitDraft[] {
-	return targetUnitsForGroup(context.units, group, context.options);
+	return targetUnitsForGroup(context.units, group, context.options).filter(
+		(unit) => context.preguntaAplicaEnUnidad?.(group, unit.realizacion_id) !== false
+	);
 }
 
 /**
@@ -552,6 +554,7 @@ function walk(
 					.filter(
 						(group) =>
 							seRespondeDentroDeLaUnidad(group.alcance) &&
+							context.preguntaAplicaEnUnidad?.(group, unidad.realizacion_id) !== false &&
 							seccionSujetoDeGrupo(context, group) === targetSectionId
 					)
 					.map((group) => ({

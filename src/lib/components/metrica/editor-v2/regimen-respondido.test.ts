@@ -70,6 +70,30 @@ describe('los tipos de rima que afirma lo respondido', () => {
 	it('no lee las respuestas que no son de rima', () => {
 		expect([...afirmados([eleccion('g-vocales', 'o-vocal')])]).toEqual([]);
 	});
+
+	it('la asonancia de una cuarteta depende de la rima de esa sección en su unidad', () => {
+		const elecciones = [
+			{ ...eleccion('g-rima', 'o-consonante'), realizacion_id: 'primera' },
+			{ ...eleccion('g-rima', null, 'abab · asonante'), realizacion_id: 'segunda' },
+			{ ...eleccion('g-bordon', 'o-asonante'), realizacion_id: 'primera' }
+		];
+		const grupos = [
+			{ ...groups[0], seccion_tratada_id: 'cuarteta' },
+			{ ...groups[0], grupo_eleccion_id: 'g-bordon', seccion_tratada_id: 'bordon' }
+		];
+		const aplica = (realizacionId: string) =>
+			preguntaAplica(vocales, tiposDeRimaAfirmados({
+				elecciones,
+				groups: grupos,
+				options,
+				rhymePatterns,
+				rhymeTypes,
+				parte: { seccionId: 'cuarteta', realizacionId }
+			}));
+
+		expect(aplica('primera')).toBe(false);
+		expect(aplica('segunda')).toBe(true);
+	});
 });
 
 describe('cuándo aplica una pregunta condicionada', () => {
