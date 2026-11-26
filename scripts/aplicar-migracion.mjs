@@ -37,7 +37,8 @@ import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { query, tryQuery } from './lib/consulta-editorial.mjs';
+import { query } from './lib/consulta-editorial.mjs';
+import { tryQuery } from './lib/consulta.mjs';
 import { cargarCatalogo } from './lib/metrica/catalogo.mjs';
 import { cargarObras } from './lib/migracion/datos.mjs';
 import { planificarObra } from './lib/migracion/aplicador.mjs';
@@ -472,7 +473,9 @@ if (opciones.simular) {
 		console.log('Simulación: no se ha tocado la base.');
 		process.exit(0);
 	}
-	const ensayo = tryQuery(['begin;', ...sentenciasDeLaObra(), 'rollback;'].join('\n'));
+	const ensayo = tryQuery(
+		['begin;', ...sentenciasDeLaObra(), 'set constraints all immediate;', 'rollback;'].join('\n')
+	);
 	if (ensayo.error) {
 		console.error(`El ensayo falló y se deshizo entero: ${ensayo.error}`);
 		process.exit(1);
@@ -501,7 +504,7 @@ function sentenciasDeLaObra() {
 		throw new Error('Falta el responsable del traslado a comentarios públicos.');
 	return [
 		identidad,
-		// Bloquea los orígenes y verifica que nadie los haya cambiado desde la lectura.
+		// La transacción bloquea la tabla de obras, no la vista editorial con joins externos.
 		`select 1 from public.obras where obra_id = ${lit(obra.obra_id)}::uuid for update;`,
 		`select 1 from public.secuencias_metricas where obra_id = ${lit(obra.obra_id)}::uuid for update;`,
 		`select 1 from public.secuencias_caracterizaciones_rango r

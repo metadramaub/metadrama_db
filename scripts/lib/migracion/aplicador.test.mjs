@@ -16,7 +16,8 @@ import {
 	leerLaguna,
 	leerRango,
 	leerSilabas,
-	metroDeSilabas
+	metroDeSilabas,
+	planificarObra
 } from './aplicador.mjs';
 
 describe('leerRango', () => {
@@ -99,6 +100,68 @@ describe('confirma', () => {
 		expect(confirma({ respuesta: 'No es así (lo corrijo al lado)' })).toBe(false);
 		expect(confirma({ respuesta: 'creo que sí' })).toBeNull();
 		expect(confirma(undefined)).toBeNull();
+	});
+});
+
+describe('las respuestas de la copla real', () => {
+	const secciones = ['primera', 'segunda'].map((seccion_id) => ({
+		seccion_id,
+		seccion_padre_id: null,
+		repeticiones_min: 1,
+		repeticiones_max: 1,
+		versos_min: 5
+	}));
+	const grupos = [
+		{
+			grupo_eleccion_id: 'rima',
+			slug: 'rima_copla_completa',
+			dimension: 'rima',
+			selecciones_min: 0
+		},
+		{
+			grupo_eleccion_id: 'pie',
+			slug: 'posiciones_pie_quebrado',
+			dimension: 'metro',
+			selecciones_min: 0,
+			selecciones_max: 9,
+			opciones: [{ opcion_eleccion_id: 'hexasilabo-10', posicion_unidad: 10, metro_id: 'hex' }]
+		}
+	];
+	const catalogo = new Map([
+		['copla', { forma_id: 'copla-real', unidad_versos_min: 10, secciones, grupos }]
+	]);
+	const obra = {
+		secuencias: [
+			{ secuencia_id: 'glosa', arquitectura_propuesta_id: 'copla', v_ini: 1113, v_fin: 1132 }
+		],
+		fundibles: []
+	};
+	const metros = [{ metro_id: 'hex', silabas: 6 }];
+
+	it('aplica el esquema completo con una excepción y coloca los quebrados por verso', () => {
+		const respuestas = new Map([
+			['R|glosa|rima', { respuesta: 'ababa | cdcdc', detalle: '1113–1122: ababa | ccddc' }],
+			['R|glosa|pie', { respuesta: '«1122: 6; 1132: 6»' }]
+		]);
+		const { resultado, datos } = planificarObra(obra, respuestas, catalogo, metros).anotaciones[0];
+		expect(resultado).toBe('anotada');
+		const coplas = datos.unidades.filter((u) => !u.realizacion_padre_id);
+		expect(
+			coplas.map((u) =>
+				datos.elecciones
+					.filter((e) => e.realizacion_id === u.realizacion_id)
+					.map((e) => e.valor_texto ?? e.opcion_eleccion_id)
+			)
+		).toEqual([
+			['ababa | ccddc', 'hexasilabo-10'],
+			['ababa | cdcdc', 'hexasilabo-10']
+		]);
+	});
+
+	it('deja pendiente una copla sin rima en vez de planificar una anotación vacía', () => {
+		const [anotacion] = planificarObra(obra, new Map(), catalogo, metros).anotaciones;
+		expect(anotacion.resultado).toBe('pendiente');
+		expect(anotacion.motivos).toHaveLength(2);
 	});
 });
 

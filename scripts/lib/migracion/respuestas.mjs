@@ -20,7 +20,12 @@ const COLUMNAS = {
 		Comentario: 'comentario'
 	},
 	Confirmar: { '¿Correcto?': 'respuesta', Corrección: 'detalle', Comentario: 'comentario' },
-	Desviaciones: { Sílabas: 'silabas', '¿Correcto?': 'respuesta', Comentario: 'comentario' }
+	Desviaciones: {
+		Sílabas: 'silabas',
+		'Sílabas del verso': 'silabas',
+		'¿Correcto?': 'respuesta',
+		Comentario: 'comentario'
+	}
 };
 
 /** El texto de una celda, venga como venga: ExcelJS devuelve objetos para fórmulas y texto rico. */

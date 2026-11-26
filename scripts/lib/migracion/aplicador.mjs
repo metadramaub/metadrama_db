@@ -345,6 +345,14 @@ function eleccionesPorPosicion(pregunta, texto, realizacion, metros, pendientes,
  */
 function colocarRespuesta(pregunta, texto, realizacion, metros, pendientes, contexto, donde = '') {
 	const realizacionId = realizacion?.realizacion_id ?? null;
+	if (pregunta.slug === 'posiciones_pie_quebrado' && realizacion) {
+		const pares = leerQuebrados(texto);
+		if (!pares) {
+			pendientes.push(`${contexto}: no se leen los quebrados en «${texto}»${donde}.`);
+			return [];
+		}
+		return eleccionesDeQuebrados(pregunta, pares, realizacion, metros, pendientes, contexto);
+	}
 	if ((pregunta.opciones ?? []).some((o) => o.posicion_unidad != null)) {
 		return eleccionesPorPosicion(pregunta, texto, realizacion, metros, pendientes, contexto);
 	}
@@ -364,6 +372,43 @@ function colocarRespuesta(pregunta, texto, realizacion, metros, pendientes, cont
 			continue;
 		}
 		elecciones.push(eleccionDeOpcion(pregunta, opcion, realizacionId));
+	}
+	return elecciones;
+}
+
+/** Pares posición: sílabas, o verso: sílabas en una lista para todo el pasaje. */
+function leerQuebrados(texto) {
+	const pares = String(texto ?? '')
+		.trim()
+		.replace(/^«|»$/g, '')
+		.split(/[,;\n]/)
+		.map((par) => par.trim().match(/^(\d+)\s*:\s*(\d+)$/));
+	return pares.every(Boolean)
+		? pares.map(([, verso, silabas]) => [Number(verso), Number(silabas)])
+		: null;
+}
+
+function eleccionesDeQuebrados(pregunta, pares, unidad, metros, pendientes, contexto) {
+	const posiciones = new Set();
+	const elecciones = [];
+	for (const [posicion, silabas] of pares) {
+		const metro = metroDeSilabas(metros, silabas);
+		const opcion = pregunta.opciones.find(
+			(o) => Number(o.posicion_unidad) === posicion && o.metro_id === metro?.metro_id
+		);
+		if (posiciones.has(posicion) || !opcion || posicion > unidad.v_fin - unidad.v_ini + 1) {
+			pendientes.push(
+				`${contexto}: no se puede escoger el quebrado ${posicion}: ${silabas} en la estrofa ${unidad.v_ini}–${unidad.v_fin}.`
+			);
+			continue;
+		}
+		posiciones.add(posicion);
+		elecciones.push(eleccionDeOpcion(pregunta, opcion, unidad.realizacion_id));
+	}
+	if (elecciones.length > Number(pregunta.selecciones_max)) {
+		pendientes.push(
+			`${contexto}: demasiados quebrados en la estrofa ${unidad.v_ini}–${unidad.v_fin}.`
+		);
 	}
 	return elecciones;
 }
@@ -396,6 +441,39 @@ function eleccionesDeUnaRespuesta(pregunta, fila, unidades, metros, pendientes, 
 		if (opcional) avisos.push(aviso);
 		else pendientes.push(aviso);
 		return elecciones;
+	}
+
+	if (pregunta.slug === 'posiciones_pie_quebrado') {
+		const pares = leerQuebrados(fila.respuesta);
+		const sonVersos = pares?.some(
+			([verso]) => verso > Math.max(...destinos.map((u) => u.v_fin - u.v_ini + 1))
+		);
+		if (sonVersos) {
+			for (const [verso] of pares) {
+				if (!destinos.some((u) => u.v_ini <= verso && verso <= u.v_fin)) {
+					pendientes.push(
+						`${contexto}: el quebrado del verso ${verso} queda fuera de las estrofas.`
+					);
+				}
+			}
+			if (excepciones.length) {
+				pendientes.push(
+					`${contexto}: la lista de quebrados por verso ya fija las posiciones de cada estrofa.`
+				);
+			}
+			return destinos.flatMap((unidad) =>
+				eleccionesDeQuebrados(
+					pregunta,
+					pares
+						.filter(([v]) => unidad.v_ini <= v && v <= unidad.v_fin)
+						.map(([v, silabas]) => [v - unidad.v_ini + 1, silabas]),
+					unidad,
+					metros,
+					pendientes,
+					contexto
+				)
+			);
+		}
 	}
 
 	for (const unidad of destinos) {
@@ -444,7 +522,11 @@ export function desviacionesDe(partes, respuestas, metros, avisos, pendientes, r
 						throw new Error(`Ha cambiado la respuesta del Excel para ${donde}: ${campo}.`);
 					}
 				}
-				if (!['rectificacion', 'desviacion', 'comentario', 'mixta'].includes(resolucion.destino)) {
+				if (
+					!['rectificacion', 'desviacion', 'comentario', 'mixta', 'conservar'].includes(
+						resolucion.destino
+					)
+				) {
 					throw new Error(`Destino no implementado para ${donde}; requiere revisión.`);
 				}
 				if (resolucion.destino === 'rectificacion' && confirma(fila) !== false) {
@@ -454,28 +536,37 @@ export function desviacionesDe(partes, respuestas, metros, avisos, pendientes, r
 					throw new Error(`La respuesta negativa de ${donde} requiere otra resolución.`);
 				}
 			}
+			if (resolucion?.destino === 'conservar') {
+				conservadas.push(caracterizacion);
+				traslados.push({ origen: caracterizacion, resolucion });
+				continue;
+			}
 			const comentario = resolucion?.comentario_publico
 				? {
 						comentario_id: crypto.randomUUID(),
-						comentario: `**${
-							(resolucion.comentario_publico.v_ini ?? caracterizacion.v_ini) ===
-							(resolucion.comentario_publico.v_fin ?? caracterizacion.v_fin)
-								? `V. ${resolucion.comentario_publico.v_ini ?? caracterizacion.v_ini}.`
-								: `Vv. ${resolucion.comentario_publico.v_ini ?? caracterizacion.v_ini}–${resolucion.comentario_publico.v_fin ?? caracterizacion.v_fin}.`
-						}**\n\n${resolucion.comentario_publico.texto}`
+						comentario:
+							resolucion.comentario_publico.incluir_rango === false
+								? resolucion.comentario_publico.texto
+								: `**${
+										(resolucion.comentario_publico.v_ini ?? caracterizacion.v_ini) ===
+										(resolucion.comentario_publico.v_fin ?? caracterizacion.v_fin)
+											? `V. ${resolucion.comentario_publico.v_ini ?? caracterizacion.v_ini}.`
+											: `Vv. ${resolucion.comentario_publico.v_ini ?? caracterizacion.v_ini}–${resolucion.comentario_publico.v_fin ?? caracterizacion.v_fin}.`
+									}**\n\n${resolucion.comentario_publico.texto}`
 					}
 				: null;
 			if (['comentario', 'mixta'].includes(resolucion?.destino) && !comentario) {
 				throw new Error(`Falta el texto público aprobado para ${donde}.`);
 			}
 			if (resolucion?.destino === 'comentario') {
-				conservadas.push(caracterizacion);
+				const retirar = resolucion.retirar_caracterizacion === true;
+				if (!retirar) conservadas.push(caracterizacion);
 				traslados.push({
 					origen: caracterizacion,
 					resolucion,
 					comentario,
-					retirar_caracterizacion: false,
-					limpiar_observaciones: true
+					retirar_caracterizacion: retirar,
+					limpiar_observaciones: !retirar && Boolean(caracterizacion.observaciones?.trim())
 				});
 				continue;
 			}
@@ -676,6 +767,26 @@ function fusionesConfirmadas(obra, respuestas) {
 	});
 }
 
+/** La base acepta una respuesta completa o dos respuestas locales por copla. */
+function comprobarRimaDeCoplas(unidades, elecciones, pendientes) {
+	const rimas = elecciones.filter((e) => e.dimension === 'rima');
+	const cantidad = (unidad) =>
+		rimas.filter((e) => e.realizacion_id === unidad.realizacion_id).length;
+	for (const copla of unidades.filter((u) => !u.realizacion_padre_id)) {
+		const quintillas = unidades.filter((u) => u.realizacion_padre_id === copla.realizacion_id);
+		const completas = cantidad(copla);
+		const validas =
+			quintillas.length === 2 &&
+			((completas === 1 && quintillas.every((u) => cantidad(u) === 0)) ||
+				(completas === 0 && quintillas.every((u) => cantidad(u) === 1)));
+		if (!validas) {
+			pendientes.push(
+				`vv. ${copla.v_ini}–${copla.v_fin}: la copla real necesita una rima completa o una rima por quintilla.`
+			);
+		}
+	}
+}
+
 /** La decisión sobre un rango que no cuadra, convertida en corrección o en un motivo para parar. */
 function decidirSobreElRango(secuencia, respuestas, correcciones) {
 	const fila = respuestas.get(claveDecision(secuencia.secuencia_id));
@@ -713,7 +824,7 @@ function decidirSobreElRango(secuencia, respuestas, correcciones) {
 		return null;
 	}
 
-	return `${donde}: contesta «${fila.respuesta}», que se resuelve a mano.`;
+	return `${donde}: ${escrito || `contesta «${fila.respuesta}», que se resuelve a mano`}.`;
 }
 
 /**
@@ -881,6 +992,17 @@ export function planificarObra(
 		const respondidas = new Set(
 			partes.flatMap((parte) => (parte.respuestas ?? []).map((r) => r.grupo_eleccion_id))
 		);
+		const filaGeneral = (pregunta) =>
+			respuestas.get(claveRespuesta(secuencia.secuencia_id, pregunta.grupo_eleccion_id)) ??
+			respuestas.get(claveRespuestaPorNombre(secuencia.secuencia_id, pregunta.nombre));
+		const filaUnidad = (pregunta, unidad) =>
+			respuestas.get(
+				claveRespuestaUnidad(
+					secuencia.secuencia_id,
+					pregunta.grupo_eleccion_id,
+					unidadDe(unidades, unidad).v_ini
+				)
+			);
 		/**
 		 * Lo que hay que resolver de una pregunta, para poder hacerlo en dos vueltas.
 		 *
@@ -906,13 +1028,7 @@ export function planificarObra(
 			const porUnidad = destinosDe(pregunta, unidades)
 				.map((unidad) => ({
 					unidad,
-					fila: respuestas.get(
-						claveRespuestaUnidad(
-							secuencia.secuencia_id,
-							pregunta.grupo_eleccion_id,
-							unidadDe(unidades, unidad).v_ini
-						)
-					)
+					fila: filaUnidad(pregunta, unidad)
 				}))
 				.filter((entrada) => entrada.fila?.respuesta);
 
@@ -931,7 +1047,7 @@ export function planificarObra(
 					);
 				}
 				const sinContestar = destinosDe(pregunta, unidades).length - porUnidad.length;
-				if (sinContestar > 0) {
+				if (sinContestar > 0 && Number(pregunta.selecciones_min) >= 1) {
 					pendientes.push(
 						`${contexto}: «${pregunta.nombre}» se preguntaba estrofa a estrofa y quedan ${sinContestar} sin contestar.`
 					);
@@ -939,9 +1055,7 @@ export function planificarObra(
 				return;
 			}
 
-			const fila =
-				respuestas.get(claveRespuesta(secuencia.secuencia_id, pregunta.grupo_eleccion_id)) ??
-				respuestas.get(claveRespuestaPorNombre(secuencia.secuencia_id, pregunta.nombre));
+			const fila = filaGeneral(pregunta);
 			if (!fila?.respuesta) {
 				pendientes.push(`${contexto}: falta la respuesta a «${pregunta.nombre}».`);
 				return;
@@ -953,7 +1067,10 @@ export function planificarObra(
 
 		const aplicables = preguntas.filter(
 			(pregunta) =>
-				!respondidas.has(pregunta.grupo_eleccion_id) && Number(pregunta.selecciones_min) >= 1
+				!respondidas.has(pregunta.grupo_eleccion_id) &&
+				(Number(pregunta.selecciones_min) >= 1 ||
+					filaGeneral(pregunta)?.respuesta ||
+					destinosDe(pregunta, unidades).some((unidad) => filaUnidad(pregunta, unidad)?.respuesta))
 		);
 		for (const pregunta of aplicables.filter((p) => !p.solo_si_tipo_rima_id)) {
 			resolverPregunta(pregunta);
@@ -976,14 +1093,20 @@ export function planificarObra(
 			}
 			resolverPregunta(pregunta);
 		}
+		if (preguntas.some((p) => p.slug === 'rima_copla_completa')) {
+			comprobarRimaDeCoplas(unidades, elecciones, pendientes);
+		}
 
-		const finales = new Set(partes.flatMap((parte) =>
-			(parte.caracterizaciones ?? [])
-				.filter((marca) => Number(marca.v_ini) === vIni && Number(marca.v_fin) === vFin)
-				.map((marca) => DESTINO_CARACTERIZACION[marca.termino]?.final)
-				.filter(Boolean)
-		));
-		if (finales.size > 1) pendientes.push('Hay dos mayorías de final acentual para el mismo tramo.');
+		const finales = new Set(
+			partes.flatMap((parte) =>
+				(parte.caracterizaciones ?? [])
+					.filter((marca) => Number(marca.v_ini) === vIni && Number(marca.v_fin) === vFin)
+					.map((marca) => DESTINO_CARACTERIZACION[marca.termino]?.final)
+					.filter(Boolean)
+			)
+		);
+		if (finales.size > 1)
+			pendientes.push('Hay dos mayorías de final acentual para el mismo tramo.');
 		const finalPredominante = vFin > vIni ? [...finales][0] : undefined;
 
 		const { desviaciones, conservadas, traslados } = desviacionesDe(

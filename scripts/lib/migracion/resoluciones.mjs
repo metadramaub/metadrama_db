@@ -40,10 +40,10 @@ export function prepararResoluciones(obra, respuestas, resoluciones, catalogo) {
 		}
 		const grupos = Object.keys(cambio.elecciones ?? {});
 		s.respuestas = s.respuestas.filter((r) => !grupos.includes(r.grupo_eleccion_id));
-		for (const [grupo, respuesta] of Object.entries(cambio.elecciones ?? {})) {
+		for (const [grupo, eleccion] of Object.entries(cambio.elecciones ?? {})) {
 			efectivas.set(`R|${id}|${grupo}`, {
 				clave: `R|${id}|${grupo}`,
-				respuesta,
+				...(typeof eleccion === 'string' ? { respuesta: eleccion } : eleccion),
 				origen: 'resolucion_aprobada',
 				motivo: cambio.motivo
 			});

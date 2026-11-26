@@ -1,32 +1,888 @@
 {
-  "obra": "el-caballero-de-olmedo",
-  "fecha": "2026-11-26",
-  "respuestas_revisadas": [
-    {
-      "clave": "D|77a5e0a2-ad8c-4969-abaa-1d68b9ed1952",
-      "esperado": {
-        "respuesta": "No es así (lo corrijo al lado)",
-        "comentario": "Rango de versos: 1727-1728"
-      },
-      "usar": { "respuesta": "Es correcto" },
-      "motivo": "La respuesta valida la misma marca una vez corregidas sus referencias, según Desviaciones I41."
-    }
-  ],
-  "correcciones": [
-    {
-      "tipo": "caracterizacion",
-      "secuencia_id": "32c2791a-3096-4bcc-bfe9-5f66b6652ff3",
-      "id": "77a5e0a2-ad8c-4969-abaa-1d68b9ed1952",
-      "origen": {
-        "secuencia_id": "32c2791a-3096-4bcc-bfe9-5f66b6652ff3",
-        "tipo_caracterizacion_rango_id": "a2086ad5-59fc-438e-aaf3-784efa95a0be",
-        "v_ini": 1726,
-        "v_fin": 1727,
-        "observaciones": null
-      },
-      "v_ini": 1727,
-      "v_fin": 1728,
-      "descripcion": "Localizar el final en prosa de la carta entre los vv. 1727 y 1728, actualizando la marca asociada a la redondilla."
-    }
-  ]
+	"obra": "el-caballero-de-olmedo",
+	"fecha": "2026-11-26",
+	"respuestas_revisadas": [
+		{
+			"clave": "D|77a5e0a2-ad8c-4969-abaa-1d68b9ed1952",
+			"esperado": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Rango de versos: 1727-1728"
+			},
+			"usar": {
+				"respuesta": "Es correcto"
+			},
+			"motivo": "La respuesta valida la misma marca una vez corregidas sus referencias, según Desviaciones I41."
+		},
+		{
+			"clave": "L|9655e7f1-89de-4565-9c55-54d9faf77031",
+			"esperado": {
+				"respuesta": "El rango está mal (indico el correcto)",
+				"detalle": "Realmente, no se trata de una laguna. El octosílabo del romance cambia en el v. 886 por un heptasílabo y luego un pentasílabo, es la «media seguidilla» que también da problemas. Solución: contar esos dos versos que antes eran la «media seguidilla» como parte del romance y declararlos como irregularidad. En observación pública añadir: «Los dos versos con que concluye el romance preparan la mitad de la seguidilla de la que parte la escritura de la tragedia (cf. Rico, 1981, pp. 13-14). Puesto que la seguidilla era conocida y se reproduce completa en la Jornada III, es una herramienta de cohesión interna con la que la pieza adquiere el tono profético y prepara el  desenlace trágico»."
+			},
+			"usar": {
+				"respuesta": "Es otra cosa (lo explico al lado)",
+				"detalle": "Romance irregular de 99 versos sin laguna. Falta decidir cómo registrarlo en V2 junto a la cita de los vv. 886–887"
+			},
+			"motivo": "Se mantienen los límites del romance. El intervalo 13–14 de la respuesta corresponde a páginas de la edición."
+		},
+		{
+			"clave": "L|83d7757a-99ef-4653-9fe2-1bcd1cb649af",
+			"esperado": {
+				"respuesta": "Es otra cosa (lo explico al lado)",
+				"detalle": "Remito a la respuesta de arriba"
+			},
+			"usar": {
+				"detalle": "Cita de dos versos de seguidilla. Falta decidir cómo registrarla como secuencia independiente en V2"
+			},
+			"motivo": "La cita ocupa solo los vv. 886 y 887."
+		},
+		{
+			"clave": "R|a6e59887-ccc7-4e7f-99b3-a492f1359a4f|7d6da838-573a-4d7f-a38b-ddcff61173cc",
+			"esperado": {
+				"respuesta": "Tipología 1 · ababa",
+				"detalle": ""
+			},
+			"usar": {
+				"respuesta": ""
+			},
+			"motivo": "Cotejo de la glosa con la edición de Profeti. La segunda quintilla de la primera copla rima ccddc. Las cuatro restantes riman cdcdc."
+		},
+		{
+			"clave": "R|a6e59887-ccc7-4e7f-99b3-a492f1359a4f|73d6744a-81e5-478f-8b98-0444f007919a",
+			"esperado": {
+				"respuesta": "Tipología 1 · ababa",
+				"detalle": ""
+			},
+			"usar": {
+				"respuesta": ""
+			},
+			"motivo": "Cotejo de la glosa con la edición de Profeti. La segunda quintilla de la primera copla rima ccddc. Las cuatro restantes riman cdcdc."
+		},
+		{
+			"clave": "R|856f04c9-3fe6-4c2e-bd40-a961a1b3cab7|7d6da838-573a-4d7f-a38b-ddcff61173cc",
+			"esperado": {
+				"respuesta": "Tipología 1 · ababa",
+				"detalle": ""
+			},
+			"usar": {
+				"respuesta": ""
+			},
+			"motivo": "Los dos esquemas del Excel se reúnen con letras independientes según el cotejo de las cinco coplas."
+		},
+		{
+			"clave": "R|856f04c9-3fe6-4c2e-bd40-a961a1b3cab7|73d6744a-81e5-478f-8b98-0444f007919a",
+			"esperado": {
+				"respuesta": "Tipología 5 · aabba",
+				"detalle": ""
+			},
+			"usar": {
+				"respuesta": ""
+			},
+			"motivo": "Los dos esquemas del Excel se reúnen con letras independientes según el cotejo de las cinco coplas."
+		},
+		{
+			"clave": "R|233c1cc1-8d46-4486-b32d-3c9cb395e604|7d6da838-573a-4d7f-a38b-ddcff61173cc",
+			"esperado": {
+				"respuesta": "Tipología 6 · abbaa",
+				"detalle": ""
+			},
+			"usar": {
+				"respuesta": ""
+			},
+			"motivo": "Se conserva provisionalmente la copla real que figura en la ficha de Isa hasta resolver si se reúne con las dos espinelas anteriores."
+		},
+		{
+			"clave": "R|233c1cc1-8d46-4486-b32d-3c9cb395e604|73d6744a-81e5-478f-8b98-0444f007919a",
+			"esperado": {
+				"respuesta": "Tipología 5 · aabba",
+				"detalle": ""
+			},
+			"usar": {
+				"respuesta": ""
+			},
+			"motivo": "Se conserva provisionalmente la copla real que figura en la ficha de Isa hasta resolver si se reúne con las dos espinelas anteriores."
+		},
+		{
+			"clave": "R|e23df44e-9c58-48f5-9d24-14e15f52c7dc|674b3e2c-6409-48ee-81d2-555cc33e9389",
+			"esperado": {
+				"respuesta": "e-o",
+				"detalle": "Riman en asonante los versos 1 y 3 (-a-o); riman en asonante los versos 2 y 4 (-e-e); riman en asonante los versos 5 y 7 (-e-o). Es decir: «2386, 2388: a-o; 2387, 2389: e-e; 2390, 2391: e-o» Indico esta última como asonancia del conjunto como solución provisional, por ser la que se repite en el resto de las seguidillas."
+			},
+			"usar": {
+				"respuesta": ""
+			},
+			"motivo": "Cotejo de los finales con el texto. La cuarteta rima en consonante cruzada y el bordón es asonante e-o en los versos quinto y séptimo."
+		}
+	],
+	"correcciones": [
+		{
+			"tipo": "caracterizacion",
+			"secuencia_id": "32c2791a-3096-4bcc-bfe9-5f66b6652ff3",
+			"id": "77a5e0a2-ad8c-4969-abaa-1d68b9ed1952",
+			"origen": {
+				"secuencia_id": "32c2791a-3096-4bcc-bfe9-5f66b6652ff3",
+				"tipo_caracterizacion_rango_id": "a2086ad5-59fc-438e-aaf3-784efa95a0be",
+				"v_ini": 1726,
+				"v_fin": 1727,
+				"observaciones": null
+			},
+			"v_ini": 1727,
+			"v_fin": 1728,
+			"descripcion": "Localizar el final en prosa de la carta entre los vv. 1727 y 1728, actualizando la marca asociada a la redondilla."
+		}
+	],
+	"secuencias": {
+		"a6e59887-ccc7-4e7f-99b3-a492f1359a4f": {
+			"origen": {
+				"v_ini": 1113,
+				"v_fin": 1162,
+				"termino_legado": "copla_real_de_pie_quebrado"
+			},
+			"motivo": "Cotejo de la glosa con la edición de Profeti. La segunda quintilla de la primera copla rima ccddc. Las cuatro restantes riman cdcdc.",
+			"elecciones": {
+				"cb307942-67e6-493c-898e-40af6190b18c": {
+					"respuesta": "ababa | cdcdc",
+					"detalle": "1113–1122: ababa | ccddc"
+				}
+			}
+		},
+		"856f04c9-3fe6-4c2e-bd40-a961a1b3cab7": {
+			"origen": {
+				"v_ini": 2178,
+				"v_fin": 2227,
+				"termino_legado": "copla_real_sin_quebrado"
+			},
+			"motivo": "Los dos esquemas del Excel se reúnen con letras independientes según el cotejo de las cinco coplas.",
+			"elecciones": {
+				"cb307942-67e6-493c-898e-40af6190b18c": "ababa | ccddc"
+			}
+		},
+		"233c1cc1-8d46-4486-b32d-3c9cb395e604": {
+			"origen": {
+				"v_ini": 2364,
+				"v_fin": 2373,
+				"termino_legado": "copla_real_sin_quebrado"
+			},
+			"motivo": "Se conserva provisionalmente la copla real que figura en la ficha de Isa hasta resolver si se reúne con las dos espinelas anteriores.",
+			"elecciones": {
+				"cb307942-67e6-493c-898e-40af6190b18c": "abbaa | ccddc"
+			}
+		},
+		"e23df44e-9c58-48f5-9d24-14e15f52c7dc": {
+			"origen": {
+				"v_ini": 2386,
+				"v_fin": 2392,
+				"termino_legado": "seguidilla"
+			},
+			"motivo": "Cotejo de los finales con el texto. La cuarteta rima en consonante cruzada y el bordón es asonante e-o en los versos quinto y séptimo.",
+			"elecciones": {
+				"632c3cfb-2e83-4cf9-8b39-b1cb52e7c80e": "abab",
+				"bf670602-73d5-4d45-8eb3-0959db5c0ff9": "e-o"
+			}
+		}
+	},
+	"responsable": "fc61b25d-f171-4848-93d8-ea923501f7a7",
+	"caracterizaciones": {
+		"34b9d1bf-380e-4129-9f6e-48b6fee2c128": {
+			"origen": {
+				"secuencia_id": "22e31926-ee23-4709-a8f0-7855cf402514",
+				"termino": "hipometrico",
+				"v_ini": 121,
+				"v_fin": 121,
+				"observaciones": null
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"c2158c38-4ed4-4de7-835f-b67ba721ed37": {
+			"origen": {
+				"secuencia_id": "8b0e77d1-19b4-492a-a7b4-46380f9e0a9e",
+				"termino": "hipermetrico",
+				"v_ini": 215,
+				"v_fin": 215,
+				"observaciones": "«Y todos dicen, Leonor»"
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"bb5fc8c0-8eb5-4f7f-a0e8-d8fdc961fdb7": {
+			"origen": {
+				"secuencia_id": "8b0e77d1-19b4-492a-a7b4-46380f9e0a9e",
+				"termino": "hipermetrico",
+				"v_ini": 252,
+				"v_fin": 252,
+				"observaciones": "«¿Quieres tú que entre, Leonor?»"
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"0e8be6ba-196a-456f-ab81-d944c240ded5": {
+			"origen": {
+				"secuencia_id": "8b0e77d1-19b4-492a-a7b4-46380f9e0a9e",
+				"termino": "hipermetrico",
+				"v_ini": 272,
+				"v_fin": 272,
+				"observaciones": "«fue el ejemplo de lealtad»"
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"81483886-061b-4612-8b8b-436884319c7b": {
+			"origen": {
+				"secuencia_id": "8b0e77d1-19b4-492a-a7b4-46380f9e0a9e",
+				"termino": "hipometrico",
+				"v_ini": 276,
+				"v_fin": 276,
+				"observaciones": "«¿A quién no hizo mil bienes?»"
+			},
+			"excel": {
+				"respuesta": "Es correcto",
+				"comentario": "",
+				"silabas": "7"
+			},
+			"destino": "desviacion",
+			"motivo": "Isa confirma la medida en el Excel.",
+			"descripcion": "«¿A quién no hizo mil bienes?»"
+		},
+		"a6332da3-dfd9-43b0-b85f-8def48d6dba5": {
+			"origen": {
+				"secuencia_id": "e106a4c5-b393-4de3-8d1d-5f437991975e",
+				"termino": "patron_alternativo",
+				"v_ini": 478,
+				"v_fin": 480,
+				"observaciones": "Esta décima espinela incorpora una pausa sintáctica justo antes de este grupo de versos, que es el final de la misma."
+			},
+			"excel": {
+				"respuesta": "Es correcto",
+				"comentario": ""
+			},
+			"destino": "comentario",
+			"retirar_caracterizacion": true,
+			"motivo": "La nota describe una pausa sintáctica.",
+			"comentario_publico": {
+				"texto": "Esta décima espinela incorpora una pausa sintáctica justo antes de este grupo de versos, que es el final de la misma.",
+				"incluir_rango": false
+			}
+		},
+		"7c2901c5-96e6-44fd-b4a6-53ade9b5e280": {
+			"origen": {
+				"secuencia_id": "8ab554a2-c1fa-4cea-850a-9de9bd00e706",
+				"termino": "evocacion_metrica",
+				"v_ini": 503,
+				"v_fin": 516,
+				"observaciones": "Doña Inés lee el memorial que don Alonso le escribió, donde se le declara."
+			},
+			"excel": {
+				"respuesta": "Es correcto",
+				"comentario": ""
+			},
+			"destino": "conservar",
+			"motivo": "Isa confirma la evocación y su nota."
+		},
+		"eb9e46b1-2e32-4a59-aa25-7cecd273cd49": {
+			"origen": {
+				"secuencia_id": "43c95d57-6bad-433e-90df-ab92acbae004",
+				"termino": "hipermetrico",
+				"v_ini": 645,
+				"v_fin": 645,
+				"observaciones": "\"Favor fue de mi Leonor\""
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"4cebfb31-1b59-4f77-905f-3b64f4096055": {
+			"origen": {
+				"secuencia_id": "43c95d57-6bad-433e-90df-ab92acbae004",
+				"termino": "hipometrico",
+				"v_ini": 646,
+				"v_fin": 646,
+				"observaciones": "\"tal vez por aquí me habla\""
+			},
+			"excel": {
+				"respuesta": "Es correcto",
+				"comentario": "",
+				"silabas": "7"
+			},
+			"destino": "desviacion",
+			"motivo": "Isa confirma la medida en el Excel.",
+			"descripcion": "\"tal vez por aquí me habla\""
+		},
+		"84b2ba81-294d-45bc-a09d-3324a6efd64a": {
+			"origen": {
+				"secuencia_id": "df1e0910-ed8d-4e2f-8751-e48500f0d23f",
+				"termino": "hipermetrico",
+				"v_ini": 708,
+				"v_fin": 708,
+				"observaciones": "\"Leonor, el pie de marfil\""
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"3747b7dc-b5b6-40ad-9175-f5fac42153e5": {
+			"origen": {
+				"secuencia_id": "df1e0910-ed8d-4e2f-8751-e48500f0d23f",
+				"termino": "hipermetrico",
+				"v_ini": 743,
+				"v_fin": 743,
+				"observaciones": "\"¡Ay, Leonor! No sin razón\""
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"ddcf855d-724f-421a-acc8-069cd75fc64a": {
+			"origen": {
+				"secuencia_id": "9655e7f1-89de-4565-9c55-54d9faf77031",
+				"termino": "patron_alternativo",
+				"v_ini": 789,
+				"v_fin": 791,
+				"observaciones": "Además de la rima asonante propia del romance, riman el v. 789 y el v. 791, que son el tercero y el quinto del romance, respectivamente."
+			},
+			"excel": {
+				"respuesta": "Es correcto",
+				"comentario": ""
+			},
+			"destino": "desviacion",
+			"motivo": "Rima local adicional confirmada por Isa.",
+			"descripcion": "Además de la rima asonante propia del romance, riman el v. 789 y el v. 791, que son el tercero y el quinto del romance, respectivamente."
+		},
+		"89a1371d-07e6-4c3d-86c4-449a1d77d9f0": {
+			"origen": {
+				"secuencia_id": "9655e7f1-89de-4565-9c55-54d9faf77031",
+				"termino": "hipermetrico",
+				"v_ini": 800,
+				"v_fin": 800,
+				"observaciones": "«a las rejas de tu güerto»; en la edición que manejo está marcado con diéresis, pero si no se rompe el diptongo, es octosílabo y, por tanto, regular."
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Es regular. Eliminar mi nota."
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"e722eefe-716f-40e8-860d-63e8f8e3caa6": {
+			"origen": {
+				"secuencia_id": "9655e7f1-89de-4565-9c55-54d9faf77031",
+				"termino": "hipometrico",
+				"v_ini": 842,
+				"v_fin": 842,
+				"observaciones": "\"para él tienen sus padres\""
+			},
+			"excel": {
+				"respuesta": "Es correcto",
+				"comentario": "",
+				"silabas": "7"
+			},
+			"destino": "desviacion",
+			"motivo": "Isa confirma la medida en el Excel.",
+			"descripcion": "\"para él tienen sus padres\""
+		},
+		"b9ac4fbc-fec0-41a8-b5d4-fd9863ec4e4d": {
+			"origen": {
+				"secuencia_id": "9655e7f1-89de-4565-9c55-54d9faf77031",
+				"termino": "hipermetrico",
+				"v_ini": 878,
+				"v_fin": 878,
+				"observaciones": "\"Leonor, ¿no me das consejo?\""
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"cb68bb25-9278-4f56-9d5a-bf533c8bcbbf": {
+			"origen": {
+				"secuencia_id": "df4d4d5a-6347-4d0c-a377-8677a0c13748",
+				"termino": "hipometrico",
+				"v_ini": 961,
+				"v_fin": 961,
+				"observaciones": "\"a sacar de un ahorcado\""
+			},
+			"excel": {
+				"respuesta": "Es correcto",
+				"comentario": "",
+				"silabas": "7"
+			},
+			"destino": "desviacion",
+			"motivo": "Isa confirma la medida en el Excel.",
+			"descripcion": "\"a sacar de un ahorcado\""
+		},
+		"fc569342-4f8d-4b88-af0d-a64628279528": {
+			"origen": {
+				"secuencia_id": "df4d4d5a-6347-4d0c-a377-8677a0c13748",
+				"termino": "hipermetrico",
+				"v_ini": 965,
+				"v_fin": 965,
+				"observaciones": "\"y díjome el salteador\""
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"3a1e42d3-4fe8-4522-90f6-b25a82b69e1a": {
+			"origen": {
+				"secuencia_id": "df4d4d5a-6347-4d0c-a377-8677a0c13748",
+				"termino": "laguna",
+				"v_ini": 1018,
+				"v_fin": 1019,
+				"observaciones": null
+			},
+			"excel": {
+				"respuesta": "Es correcto",
+				"comentario": "Ya registrada en la edición de Rico."
+			},
+			"destino": "desviacion",
+			"motivo": "Isa confirma la laguna en la numeración vigente.",
+			"descripcion": "Ya registrada en la edición de Rico."
+		},
+		"1eb35e69-90b5-427e-850d-c80f41b3fa3c": {
+			"origen": {
+				"secuencia_id": "52b9869b-6bfa-4d5e-aa8f-fad40add4d12",
+				"termino": "hipermetrico",
+				"v_ini": 1041,
+				"v_fin": 1041,
+				"observaciones": "\"me voy de Leonor guardando\""
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"9a5f9e42-201f-42df-8b97-3b43749a013b": {
+			"origen": {
+				"secuencia_id": "fa6b18e9-b7f4-4a77-9ef6-fcbba0f96a9d",
+				"termino": "hipometrico",
+				"v_ini": 1098,
+				"v_fin": 1098,
+				"observaciones": "\"que a él le has hecho discreto\""
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"0259027d-8633-4d77-a1d1-0a65f33f2d28": {
+			"origen": {
+				"secuencia_id": "a584eec6-f215-407d-bbf6-ba13641653cc",
+				"termino": "evocacion_metrica",
+				"v_ini": 1104,
+				"v_fin": 1108,
+				"observaciones": "Tello recita el estribo que don Alonso compuso: «En el valle a Inés / la dejé riendo: / si la ves, Andrés, / dile cuál me ves / por ella muriendo»."
+			},
+			"excel": {
+				"respuesta": "Es correcto",
+				"comentario": ""
+			},
+			"destino": "conservar",
+			"motivo": "Isa confirma la evocación y su nota."
+		},
+		"8664537a-ef75-4421-b5bb-ebb46855b30d": {
+			"origen": {
+				"secuencia_id": "a91a6373-594c-4ff7-b0ec-bb39420bcb61",
+				"termino": "hipermetrico",
+				"v_ini": 1170,
+				"v_fin": 1170,
+				"observaciones": "\"INÉS: Escondeos. ALONSO: ¿Dónde? [*Ellos se entran, y sale DON PEDRO*.] PEDRO: Inés mía\"."
+			},
+			"excel": {
+				"respuesta": "Es correcto",
+				"comentario": "",
+				"silabas": "9"
+			},
+			"destino": "desviacion",
+			"motivo": "Isa confirma la medida en el Excel.",
+			"descripcion": "\"INÉS: Escondeos. ALONSO: ¿Dónde? [*Ellos se entran, y sale DON PEDRO*.] PEDRO: Inés mía\"."
+		},
+		"f440e87c-7d1f-4ee5-ab02-4aa7a0470c2b": {
+			"origen": {
+				"secuencia_id": "a91a6373-594c-4ff7-b0ec-bb39420bcb61",
+				"termino": "hipermetrico",
+				"v_ini": 1201,
+				"v_fin": 1201,
+				"observaciones": "\"Leonor te queda, que al fin\""
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"b7fae4ef-8989-4be6-98ca-44cf1631bd89": {
+			"origen": {
+				"secuencia_id": "a91a6373-594c-4ff7-b0ec-bb39420bcb61",
+				"termino": "hipermetrico",
+				"v_ini": 1202,
+				"v_fin": 1202,
+				"observaciones": "\"te dará nietos Leonor\""
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"76117fc0-8c02-491d-b962-169e73be28a5": {
+			"origen": {
+				"secuencia_id": "28f60b1f-79f7-4136-8594-47ea40d2f30f",
+				"termino": "hipometrico",
+				"v_ini": 1327,
+				"v_fin": 1327,
+				"observaciones": "«ALONSO: ¿Cómo? TELLO: Porque es de día»"
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"2ddf79ba-2c90-46ff-ad6d-1c081781cf3d": {
+			"origen": {
+				"secuencia_id": "b0a4d661-110b-4914-908c-be0dafdfc166",
+				"termino": "hipermetrico",
+				"v_ini": 1352,
+				"v_fin": 1352,
+				"observaciones": "\"alanceador galán y cortesano\""
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Verso regular"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"843764e2-2ae5-4e62-90d6-4ce78823df2f": {
+			"origen": {
+				"secuencia_id": "b0a4d661-110b-4914-908c-be0dafdfc166",
+				"termino": "patron_alternativo",
+				"v_ini": 1355,
+				"v_fin": 1366,
+				"observaciones": null
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "No hay desviación de rima. Eliminar"
+			},
+			"destino": "rectificacion",
+			"motivo": "Isa confirma la rima regular y pide retirar la marca."
+		},
+		"797ceb13-5288-4e02-b7b1-b9f72ff82feb": {
+			"origen": {
+				"secuencia_id": "b0a4d661-110b-4914-908c-be0dafdfc166",
+				"termino": "hipometrico",
+				"v_ini": 1371,
+				"v_fin": 1371,
+				"observaciones": "\"yo hago diferente mi conceto\""
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "11"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"c9109075-f6e2-4929-aa91-c59f76d99e2d": {
+			"origen": {
+				"secuencia_id": "7c3055a5-c847-45e2-9943-4e087adb6c0f",
+				"termino": "hipermetrico",
+				"v_ini": 1401,
+				"v_fin": 1401,
+				"observaciones": null
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"1b7848ce-4a8e-496b-afc8-1fdae214958f": {
+			"origen": {
+				"secuencia_id": "3376b77f-7fc0-480e-8e4f-3bea02d6ae4f",
+				"termino": "hipermetrico",
+				"v_ini": 1659,
+				"v_fin": 1659,
+				"observaciones": "\"partir el alma y dividir y la vida\""
+			},
+			"excel": {
+				"respuesta": "Es correcto",
+				"comentario": "",
+				"silabas": "11"
+			},
+			"destino": "desviacion",
+			"motivo": "Isa confirma la medida en el Excel.",
+			"descripcion": "\"partir el alma y dividir y la vida\""
+		},
+		"8ad020bd-ced8-4775-8a73-f4e25cc99af3": {
+			"origen": {
+				"secuencia_id": "32c2791a-3096-4bcc-bfe9-5f66b6652ff3",
+				"termino": "hipometrico",
+				"v_ini": 1673,
+				"v_fin": 1673,
+				"observaciones": "\"porque manjar tan süave\", hipométrico sin diéresis"
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Puesto que está indicada la diéresis, el verso es regular. Eliminar desviación.",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"a277e9a8-c984-4065-92aa-424d8b9823b6": {
+			"origen": {
+				"secuencia_id": "32c2791a-3096-4bcc-bfe9-5f66b6652ff3",
+				"termino": "hipometrico",
+				"v_ini": 1717,
+				"v_fin": 1717,
+				"observaciones": "\"que de ser amado eres\""
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"514ffd8a-b1b2-44fb-a769-f2fbbd2bbd8a": {
+			"origen": {
+				"secuencia_id": "0332059e-6fb9-457d-a62f-cf36295cf84a",
+				"termino": "patron_alternativo",
+				"v_ini": 1728,
+				"v_fin": 1730,
+				"observaciones": "Al inicio del romance, riman el primer verso y el tercero."
+			},
+			"excel": {
+				"respuesta": "Es correcto",
+				"comentario": "Riman en asonante «Acabóseme el papel […] / Poco dura el bien»"
+			},
+			"destino": "comentario",
+			"retirar_caracterizacion": true,
+			"motivo": "La asonancia señalada por Isa alcanza el final de una intervención dentro del verso.",
+			"comentario_publico": {
+				"texto": "Riman en asonante «Acabóseme el papel […] / Poco dura el bien»",
+				"incluir_rango": false
+			}
+		},
+		"00a4d225-e943-4d12-a29b-4bf872981278": {
+			"origen": {
+				"secuencia_id": "0332059e-6fb9-457d-a62f-cf36295cf84a",
+				"termino": "hipermetrico",
+				"v_ini": 1734,
+				"v_fin": 1734,
+				"observaciones": "\"poneos esa banda al cuello\""
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"38848a5b-f5fb-4874-a823-68512ed54821": {
+			"origen": {
+				"secuencia_id": "5fc45c3e-e995-49d2-82d0-b2529c95f4a6",
+				"termino": "hipometrico",
+				"v_ini": 1915,
+				"v_fin": 1915,
+				"observaciones": null
+			},
+			"excel": {
+				"respuesta": "Es correcto",
+				"comentario": "Nota: «ALONSO: Yo entro. TELLO: Guárdete el cielo»",
+				"silabas": "7"
+			},
+			"destino": "desviacion",
+			"motivo": "Isa confirma la medida en el Excel.",
+			"descripcion": "Nota: «ALONSO: Yo entro. TELLO: Guárdete el cielo»"
+		},
+		"c0dd10d6-ec8a-475b-8b4c-e44fab0485a0": {
+			"origen": {
+				"secuencia_id": "1b93b321-32d4-4f9d-b8f9-7a53a410df3d",
+				"termino": "hipermetrico",
+				"v_ini": 2167,
+				"v_fin": 2167,
+				"observaciones": null
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"21902848-25bf-4b6e-956b-3ce5193781ae": {
+			"origen": {
+				"secuencia_id": "be3cac59-c36f-4e52-bb79-ea64b04f3fc1",
+				"termino": "hipometrico",
+				"v_ini": 2234,
+				"v_fin": 2234,
+				"observaciones": null
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"42fca7da-b065-4549-8987-56abe3c30a38": {
+			"origen": {
+				"secuencia_id": "be3cac59-c36f-4e52-bb79-ea64b04f3fc1",
+				"termino": "hipermetrico",
+				"v_ini": 2244,
+				"v_fin": 2244,
+				"observaciones": null
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"6262b530-0cf8-47d7-9aa7-98a42fdcd2f3": {
+			"origen": {
+				"secuencia_id": "e23df44e-9c58-48f5-9d24-14e15f52c7dc",
+				"termino": "cantado",
+				"v_ini": 2386,
+				"v_fin": 2392,
+				"observaciones": null
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "No está acotado el canto, pero, por coherencia con el pasaje anterior en que se reproduce, se entiende que sí. Aunque, por prudencia, de declararlo cantado, sí que añadiría observación: no se acota el pasaje como cantado, pero interpreto que sí por coherencia con la seguidilla anterior."
+			},
+			"destino": "comentario",
+			"motivo": "Se conserva la caracterización cantado y se publica el criterio de Isa.",
+			"comentario_publico": {
+				"texto": "No está acotado el canto, pero, por coherencia con el pasaje anterior en que se reproduce, se entiende que sí. Aunque, por prudencia, de declararlo cantado, sí que añadiría observación: no se acota el pasaje como cantado, pero interpreto que sí por coherencia con la seguidilla anterior.",
+				"incluir_rango": false
+			}
+		},
+		"e4c9c17b-c1a2-4967-b68e-8fa1ba517a65": {
+			"origen": {
+				"secuencia_id": "025ae392-939e-4d21-8fb6-df7a710abfc5",
+				"termino": "hipermetrico",
+				"v_ini": 2517,
+				"v_fin": 2517,
+				"observaciones": null
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"c95f3843-3b66-455b-8745-be4d7769a25f": {
+			"origen": {
+				"secuencia_id": "025ae392-939e-4d21-8fb6-df7a710abfc5",
+				"termino": "hipermetrico",
+				"v_ini": 2574,
+				"v_fin": 2574,
+				"observaciones": null
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"1a724af0-ea3f-460f-b361-b507112d319e": {
+			"origen": {
+				"secuencia_id": "1b9a6a52-f86f-4aa9-9342-336709280f36",
+				"termino": "hipermetrico",
+				"v_ini": 2601,
+				"v_fin": 2601,
+				"observaciones": null
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		},
+		"bb8a7a6c-d5bb-49bf-a858-6cbf38b5c0a5": {
+			"origen": {
+				"secuencia_id": "1b9a6a52-f86f-4aa9-9342-336709280f36",
+				"termino": "hipermetrico",
+				"v_ini": 2620,
+				"v_fin": 2620,
+				"observaciones": null
+			},
+			"excel": {
+				"respuesta": "No es así (lo corrijo al lado)",
+				"comentario": "Regular",
+				"silabas": "8"
+			},
+			"destino": "rectificacion",
+			"motivo": "El Excel confirma que el verso es regular."
+		}
+	}
 }

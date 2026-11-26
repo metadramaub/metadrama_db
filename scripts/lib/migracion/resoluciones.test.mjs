@@ -107,6 +107,23 @@ describe('destino revisado de las notas históricas', () => {
 		});
 	});
 
+	it('traslada una observación literal sin prefijo y conserva la marca de canto', () => {
+		const canto = { ...origen, termino: 'cantado', observaciones: null };
+		const respuesta = { respuesta: 'No es así', comentario: 'Se entiende que continúa el canto.' };
+		const plan = resolver(
+			canto,
+			{
+				origen: canto,
+				excel: respuesta,
+				destino: 'comentario',
+				comentario_publico: { texto: respuesta.comentario, incluir_rango: false }
+			},
+			respuesta
+		);
+		expect(plan.traslados[0].comentario.comentario).toBe(respuesta.comentario);
+		expect(plan.conservadas).toEqual([canto]);
+	});
+
 	it('falla si el metro exacto revisado ya no está disponible', () => {
 		expect(() => resolver(origen, { ...resolucion, silabas: 11 })).toThrow('No existe el metro');
 	});

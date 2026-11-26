@@ -30,7 +30,7 @@ export function cargarCatalogo() {
 
 	const grupos = query(`
 		select
-			g.grupo_eleccion_id, g.arquitectura_id, g.nombre, g.dimension, g.alcance,
+			g.grupo_eleccion_id, g.arquitectura_id, g.slug, g.nombre, g.dimension, g.alcance,
 			g.seccion_id, g.seccion_tratada_id, g.selecciones_min, g.selecciones_max,
 			g.solo_si_tipo_rima_id,
 			sec.nombre as seccion_nombre, sec.repeticiones_min as seccion_repeticiones_min
@@ -44,7 +44,7 @@ export function cargarCatalogo() {
 	// condicionada —hoy las vocales de la asonancia— llega a hacerse.
 	const opciones = query(`
 		select
-			o.opcion_eleccion_id, o.grupo_eleccion_id, o.nombre, o.orden, o.posicion_unidad,
+			o.opcion_eleccion_id, o.grupo_eleccion_id, o.nombre, o.orden, o.posicion_unidad, o.metro_id,
 			er.tipo_rima_id
 		from public.opciones_eleccion_metrica o
 		left join public.esquemas_rima er on er.esquema_rima_id = o.esquema_rima_id

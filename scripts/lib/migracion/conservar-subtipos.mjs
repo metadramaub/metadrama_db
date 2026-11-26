@@ -37,10 +37,15 @@ export function conservarSubtipos(secuencias, previstos) {
 			 select * from jsonb_populate_recordset(null::public.secuencias_subtipos_estrofa, ${literal(finales)});`
 		],
 		despues: [
-			`insert into public.secuencias_subtipos_estrofa as t select * from subtipos_migracion
-			 on conflict (subtipo_secuencia_id) do update set
-			 secuencia_id = excluded.secuencia_id, v_ini = excluded.v_ini, v_fin = excluded.v_fin
-			 where (t.secuencia_id,t.v_ini,t.v_fin) is distinct from (excluded.secuencia_id,excluded.v_ini,excluded.v_fin);`,
+			// El disparador de inserción comprueba solapes antes de resolver un conflicto de ID.
+			`update public.secuencias_subtipos_estrofa t
+			 set secuencia_id = p.secuencia_id, v_ini = p.v_ini, v_fin = p.v_fin
+			 from subtipos_migracion p where p.subtipo_secuencia_id = t.subtipo_secuencia_id
+			 and (t.secuencia_id,t.v_ini,t.v_fin) is distinct from (p.secuencia_id,p.v_ini,p.v_fin);`,
+			`insert into public.secuencias_subtipos_estrofa
+			 select p.* from subtipos_migracion p where not exists (
+			  select 1 from public.secuencias_subtipos_estrofa t where t.subtipo_secuencia_id = p.subtipo_secuencia_id
+			 );`,
 			`do $subtipos$ begin
 			 if (select count(*) from public.secuencias_subtipos_estrofa where secuencia_id = any(${ids(finales.map((t) => t.secuencia_id))})) <> ${finales.length}
 			 or exists(select 1 from subtipos_migracion p left join public.secuencias_subtipos_estrofa t using(subtipo_secuencia_id)

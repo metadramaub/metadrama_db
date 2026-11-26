@@ -221,10 +221,12 @@ migrado quedan en el rastro; el formulario no admite nuevas notas en ella.
 2621–2644 se migraron como «Predominantes» por indicación del IP. Este preguntará a Ana Vicente
 para que confirme o cambie la respuesta en el editor. No proceden de una respuesta del Excel.
 
-**A13 · Desplegar la prosa entre secuencias antes de migrar *El caballero de Olmedo*.** El ajuste
-admite marcas desde cualquiera de las dos secuencias contiguas. La resolución de la obra corrige
-la marca existente, asociada a la redondilla, para situarla entre los vv. 1727 y 1728.
-→ [Método de registro y lectura](./metodologia-perfil-metrico.md#15-caracterizaciones-por-rango-secuencias_caracterizaciones_rango)
+**A13 · Resolver el final de la primera jornada de *El caballero de Olmedo*.** Los vv. 787–885
+forman un romance irregular de 99 versos sin laguna. Los vv. 886–887 forman una cita de dos
+versos de seguidilla. Falta acordar cómo admite V2 esas dos secuencias contiguas con sus
+longitudes reales. La simulación conserva los límites y deja pendientes los dos tramos.
+Queda también por confirmar si los vv. 2364–2373 se agrupan con las dos espinelas anteriores.
+El plan mantiene provisionalmente la copla real de la ficha editorial.
 
 ---
 

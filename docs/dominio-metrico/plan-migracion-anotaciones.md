@@ -98,10 +98,14 @@ Las relaciones son las que la base admite: `metro` acepta `menor_que_norma`, `ma
    Las correcciones en prosa que se hayan revisado pueden declarar una respuesta efectiva
    distinta, una arquitectura o elecciones concretas; se conservan aparte de las respuestas
    originales y se comprueba que estas no hayan cambiado.
+   Las elecciones revisadas pueden incorporar un esquema general con excepciones por estrofa.
+   El aplicador recoge también las respuestas opcionales que el editor haya rellenado, como la
+   posición y medida de un pie quebrado. Para cada copla real comprueba que se aporte un esquema
+   completo o la rima de sus dos quintillas.
 4. **Aplicar.** `npm run migracion:aplicar -- --obra <slug>` lee la vista y el Excel, y con
    `--simular` escribe un guion legible en `backups/migracion/` sin tocar la base; añadiendo
-   `--ensayar` ejecuta además la transacción entera **y la deshace**, que es lo único que dice si
-   `guardar_anotacion_metrica` va a aceptarla. Sin `--simular`: snapshot, las correcciones de las
+   `--ensayar` ejecuta además la transacción entera, comprueba las restricciones diferidas y
+   **la deshace**. Sin `--simular`: snapshot, las correcciones de las
    tablas legadas —renumeraciones, fusiones, rangos—, y una transacción por obra que llama a
    `guardar_anotacion_metrica` con la identidad del editor asignado, igual que `aplicar:guiones`.
    Deja constancia en `migracion_secuencias` (secuencia, anotación, término legado, respuestas,
